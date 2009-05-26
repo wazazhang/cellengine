@@ -5,10 +5,12 @@
  */
 public class Graphics
 {
+	public static System.Drawing.Font font = new System.Drawing.Font(System.Drawing.FontFamily.get_Families()[0], 8);
+
 	protected System.Drawing.Graphics dg;
+
 	protected System.Drawing.Pen pen = System.Drawing.Pens.get_Black();
 	protected System.Drawing.Brush brush = System.Drawing.Brushes.get_Black();
-	protected System.Drawing.Font font = new System.Drawing.Font(System.Drawing.FontFamily.get_Families()[0],8);
 	protected System.Drawing.Color color = System.Drawing.Color.get_Black();
 
 	/** 不翻转 */
@@ -150,6 +152,53 @@ public class Graphics
 		dg.DrawImage(img.dimg,
 			new System.Drawing.RectangleF(x , y , img.getWidth() , img.getHeight() ),
 			new System.Drawing.RectangleF(0, 0, img.getWidth() , img.getHeight() ),
+			System.Drawing.GraphicsUnit.Pixel
+			);
+
+		switch (transform)
+		{
+			case System.Drawing.RotateFlipType.RotateNoneFlipX://4
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipX);
+				break;
+			case System.Drawing.RotateFlipType.RotateNoneFlipY://6
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
+				break;
+			//case TRANS_180:
+			case System.Drawing.RotateFlipType.RotateNoneFlipXY://2
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipXY);
+				break;
+			case System.Drawing.RotateFlipType.Rotate90FlipNone://1
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
+				break;
+			case System.Drawing.RotateFlipType.Rotate270FlipNone://3
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipNone);
+				break;
+			case System.Drawing.RotateFlipType.Rotate90FlipX://5
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipX);
+				break;
+			case System.Drawing.RotateFlipType.Rotate270FlipX://7
+				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipX);
+				break;
+			default:
+		}
+		//img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipNone);
+
+	}
+
+
+	public void drawImage(
+		javax.microedition.lcdui.Image img,
+		int x, int y, int sx,int sy,int sw, int sh,
+		System.Drawing.RotateFlipType transform,
+		int anchor)
+	{
+		if (img.killed) return;
+		img.dimg.RotateFlip(transform);
+
+
+		dg.DrawImage(img.dimg,
+			new System.Drawing.Rectangle(x, y, sw, sh),
+			new System.Drawing.Rectangle(sx, sy, sw, sh),
 			System.Drawing.GraphicsUnit.Pixel
 			);
 
@@ -344,5 +393,25 @@ public class Graphics
 		pen = new System.Drawing.Pen(color);
 		brush = pen.get_Brush();
 	}
+	public void setColor(int alpha, int rgb)
+	{
+		int r = (rgb & 0xff0000) >> 16;
+		int g = (rgb & 0x00ff00) >> 8;
+		int b = (rgb & 0x0000ff) >> 0;
+		color = System.Drawing.Color.FromArgb(alpha, r, g, b);
+		pen = new System.Drawing.Pen(color);
+		brush = pen.get_Brush();
+	}
 
+	public void setDColor(System.Drawing.Color c)  {
+		color = c;
+		pen = new System.Drawing.Pen(color);
+		brush = pen.get_Brush();
+	}
+	public void setDColor(int alpha, System.Drawing.Color c)
+	{
+		color = System.Drawing.Color.FromArgb(alpha, c);
+		pen = new System.Drawing.Pen(color);
+		brush = pen.get_Brush();
+	}
 }

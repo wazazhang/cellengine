@@ -45,7 +45,7 @@
             this.panel1.Size = new System.Drawing.Size(300, 206);
             this.panel1.TabIndex = 1;
             // 
-            // pictureBox1
+            // MapRegion
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Fuchsia;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;

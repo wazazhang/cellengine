@@ -24,5 +24,13 @@ namespace CellGameEdit
             sb.Remove(0,sb.Length);
             sb.Append(this.richTextBox1.Text);
         }
+
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close(); 
+            }
+        }
     }
 }

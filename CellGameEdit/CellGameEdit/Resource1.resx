@@ -124,6 +124,9 @@
   <data name="Icon_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Icon_1.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="IconLord9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IconLord9.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Image1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\image1.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -342,6 +345,9 @@
   </data>
   <data name="Image9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\image9.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageMapClip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ImageMapClip.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TextCommandList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\TextCommandList.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>

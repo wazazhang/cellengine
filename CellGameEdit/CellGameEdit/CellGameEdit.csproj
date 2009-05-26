@@ -37,6 +37,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Windows.Forms" />
@@ -48,6 +49,12 @@
     </Compile>
     <Compile Include="AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config.cs" />
+    <Compile Include="Config.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Config.settings</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -85,6 +92,12 @@
     <Compile Include="EventEdit.Designer.cs">
       <DependentUpon>EventEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="PM\BufferdMiniMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PM\BufferdMiniMap.Designer.cs">
+      <DependentUpon>BufferdMiniMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="PM\CommandForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +112,18 @@
     </Compile>
     <Compile Include="PM\GameObject.cs" />
     <Compile Include="PM\IEditForm.cs" />
+    <Compile Include="PM\MapFormFunc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PM\MapFormFunc.Designer.cs">
+      <DependentUpon>MapFormFunc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PM\MapTerrains.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PM\MapTerrains.Designer.cs">
+      <DependentUpon>MapTerrains.cs</DependentUpon>
+    </Compile>
     <Compile Include="PM\ObjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +208,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>EventEdit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PM\BufferdMiniMap.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BufferdMiniMap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PM\CommandForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CommandForm.cs</DependentUpon>
@@ -190,6 +219,14 @@
     <EmbeddedResource Include="PM\DataGridConfig.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DataGridConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PM\MapFormFunc.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MapFormFunc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PM\MapTerrains.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MapTerrains.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PM\ObjectForm.resx">
       <SubType>Designer</SubType>
@@ -233,6 +270,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tools\FormEnumViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormEnumViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -251,6 +292,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\FormEnumViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\FormEnumViewer.Designer.cs">
+      <DependentUpon>FormEnumViewer.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +492,10 @@
     <None Include="Resources\Image60.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Config.Designer.cs</LastGenOutput>
+    </None>
     <None Include="PM\Config.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Config.Designer.cs</LastGenOutput>
@@ -462,7 +513,12 @@
     <Content Include="CellStudio.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\IconLord9.ico" />
     <Content Include="Resources\Icon_1.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\ImageMapClip.png" />
+    <Content Include="Resources\MainHelp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Image73.bmp" />

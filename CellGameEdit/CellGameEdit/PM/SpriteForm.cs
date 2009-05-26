@@ -18,6 +18,12 @@ namespace CellGameEdit.PM
     [Serializable]
     public partial class SpriteForm : Form, ISerializable ,IEditForm
     {
+
+        //static public const String VAR_FILE_NAME = "<VAR FILE NAME>";
+        //static public const String VAR_FILE_NAME = "<VAR FILE NAME>";
+
+
+
         public String id;
 
         public String superName;
@@ -33,7 +39,7 @@ namespace CellGameEdit.PM
         Image srcImage;
         System.Drawing.Rectangle srcRect;
 
-        int dstPanelSize = 1024;
+        int dstPanelSize = 2048;
         int masterScale = 1;
         int srcScale = 1;
 
@@ -101,9 +107,11 @@ namespace CellGameEdit.PM
                     super = (ImagesForm)info.GetValue("super", typeof(ImagesForm));
                     ChangeSuper(super);
                 }
-                else
+
+                if (super == null)
                 {
                     superName = (String)info.GetValue("SuperName", typeof(String));
+                    super = ProjectForm.getInstance().getImagesFormByName(superName);
                 }
                 
                 animCount = (int)info.GetValue("animCount", typeof(int));
@@ -151,10 +159,9 @@ namespace CellGameEdit.PM
                 {
                     info.AddValue("super", super);
                 }
-                else
-                {
-                    info.AddValue("SuperName",super.id);
-                }
+              
+                info.AddValue("SuperName",super.id);
+                
 
 
                 info.AddValue("animCount", animCount);
@@ -413,13 +420,13 @@ namespace CellGameEdit.PM
 
         //    sw.WriteLine("final static public CSprite createSprite_" + super.id + "_" + this.id + "(IImages tiles)");
         //    sw.WriteLine("{");
-        //    // animates
-        //    sw.WriteLine("    CAnimates animates = new CAnimates(" + AllFrame.getSubCount() + ",tiles);");
+        //    // OutputAnimates
+        //    sw.WriteLine("    CAnimates OutputAnimates = new CAnimates(" + AllFrame.getSubCount() + ",tiles);");
         //for (int i = 0; i < AllFrame.getSubCount(); i++)
-        //    sw.WriteLine("    animates.addPart(" + (int)AllFrame.SubX[i] + "," + (int)AllFrame.SubY[i] + "," + (int)AllFrame.SubIndex[i] + "," + flipTableJ2me[(int)(AllFrame.SubFlip[i])] + ");");
-        //    sw.WriteLine("    animates.setFrame(new int[" + animates.frameGetCount() + "][]);");
-        //for (int i = 0; i < animates.frameGetCount(); i++)
-        //    sw.WriteLine("    animates.setComboFrame(new int[]{" + Util.toTextArray((int[])(animates.frameGetFrame(i).ToArray(typeof(int)))) + "}," + i + ");");
+        //    sw.WriteLine("    OutputAnimates.addPart(" + (int)AllFrame.SubX[i] + "," + (int)AllFrame.SubY[i] + "," + (int)AllFrame.SubIndex[i] + "," + flipTableJ2me[(int)(AllFrame.SubFlip[i])] + ");");
+        //    sw.WriteLine("    OutputAnimates.setFrame(new int[" + OutputAnimates.frameGetCount() + "][]);");
+        //for (int i = 0; i < OutputAnimates.frameGetCount(); i++)
+        //    sw.WriteLine("    OutputAnimates.setComboFrame(new int[]{" + Util.toTextArray((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int)))) + "}," + i + ");");
         //    sw.WriteLine();
         //    // collides
         //    sw.WriteLine("    CCollides collides = new CCollides(" + AllFrame.getCDCount() + ");");
@@ -453,7 +460,7 @@ namespace CellGameEdit.PM
         //    sw.WriteLine();
         //    // spr new
         //    sw.WriteLine("    CSprite ret = new CSprite(");
-        //    sw.WriteLine("            animates, ");
+        //    sw.WriteLine("            OutputAnimates, ");
         //    sw.WriteLine("            collides, ");
         //    sw.WriteLine("            frameAnimate, ");
         //    sw.WriteLine("            frameCDMap, ");
@@ -482,7 +489,7 @@ namespace CellGameEdit.PM
 
                     bool fix = false;
 
-                    // animates part
+                    // OutputAnimates part
                     do
                     {
                         String[] senceParts = new string[AllFrame.getSubCount()];
@@ -511,7 +518,7 @@ namespace CellGameEdit.PM
                     } while (fix);
 
 
-                    // animates frame
+                    // OutputAnimates frame
                     do
                     {
                         String[] senceFrames = new string[animates.frameGetCount()];
@@ -721,6 +728,25 @@ namespace CellGameEdit.PM
 
         }
 
+        public System.Drawing.Rectangle getVisibleBounds(int anim, int frame) 
+        {
+            try
+            {
+
+                Frame curFrame = (Frame)((ArrayList)AnimTable[listView2.Items[anim]])[frame % GetFrameCount(anim)];
+
+                if (curFrame != null)
+                {
+                    return curFrame.getVisibleBounds();
+                }
+
+            }
+            catch (Exception err)
+            {
+            }
+
+            return new System.Drawing.Rectangle();
+        }
 
         public void Render(javax.microedition.lcdui.Graphics g,int x,int y,Boolean tag,int anim,int frame)
         {
@@ -732,7 +758,7 @@ namespace CellGameEdit.PM
 
                 if (curFrame != null)
                 {
-                    curFrame.render(g, srcTiles, x, y, 1);
+                    curFrame.render(g, srcTiles, x, y, 1, false);
 
                     if (tag)
                     {
@@ -775,15 +801,23 @@ namespace CellGameEdit.PM
         {
             return srcTiles.Count;
         }
-        private void srcRender(Graphics g, int index, int flip, int x, int y)
+        private void srcRender(Graphics g, int index, int flip, int x, int y, Boolean showimageborder)
         {
-            if (srcGetImage(index) != null && flip < Frame.flipTable.Length)
+            Image img = srcGetImage(index);
+            if (img != null && !img.killed && flip < Frame.flipTable.Length)
             {
-                g.drawImage(srcGetImage(index), x, y, Frame.flipTable[flip], 0, srcScale);
+                g.drawImage(img, x, y, Frame.flipTable[flip], 0, srcScale);
+
+                if (showimageborder)
+                {
+                    g.setColor(0x80, 0xff, 0xff, 0xff);
+                    g.drawRect(x, y, img.getWidth(), img.getHeight());
+                }
+
             }
 
         }
-        private void srcRenderAll(Graphics g, int x, int y, System.Drawing.Rectangle screen)
+        private void srcRenderAll(Graphics g, int x, int y, System.Drawing.Rectangle screen, Boolean showimageborder)
         {
             for (int i = 0; i < srcGetCount(); i++)
             {
@@ -795,7 +829,7 @@ namespace CellGameEdit.PM
                         srcGetImage(i).getHeight() * srcScale)
                     ))
                 {
-                    srcRender(g, i, 0, x + srcGetImage(i).x * srcScale, y + srcGetImage(i).y * srcScale);
+                    srcRender(g, i, 0, x + srcGetImage(i).x * srcScale, y + srcGetImage(i).y * srcScale, showimageborder);
                 }
             }
             
@@ -863,7 +897,8 @@ namespace CellGameEdit.PM
                     -pictureBox1.Location.Y,
                     (int)(panel1.Width * srcScale),
                     (int)(panel1.Height * srcScale)
-                )
+                ),
+                显示图片框ToolStripMenuItem.Checked
             );
 
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
@@ -1025,7 +1060,7 @@ namespace CellGameEdit.PM
             }
         }
 
-        Frame clipFrame = null ;
+        static Frame clipFrame = null ;
 
         private void dstCopySelectSub()
         {
@@ -1081,106 +1116,20 @@ namespace CellGameEdit.PM
         }
         private void dstPasteSelectSub()
         {
-            if (listView3.SelectedItems != null &&
-                listView3.SelectedItems.Count > 0 &&
-                framesGetCurFrame() != null)
+            try
             {
-                foreach (ListViewItem item in listView3.SelectedItems)
+                if (listView3.SelectedItems != null &&
+                    listView3.SelectedItems.Count > 0 &&
+                    framesGetCurFrame() != null)
                 {
-                    item.Selected = false;
-                    item.Focused = false;
+                    foreach (ListViewItem item in listView3.SelectedItems)
+                    {
+                        item.Selected = false;
+                        item.Focused = false;
+                    }
                 }
-            }
 
-            if (framesGetCurFrame() != null && clipFrame != null)
-            {
-                for (int i = 0; i < clipFrame.getSubCount();i++ )
-                {
-                    ListViewItem item = new ListViewItem(
-                        new string[] {
-                            ((int)clipFrame.SubIndex[i]).ToString("d"),
-                            ((int)clipFrame.SubX[i]).ToString("d"),
-                            ((int)clipFrame.SubY[i]).ToString("d"),
-                            Frame.flipTextTable[(int)clipFrame.SubFlip[i]]}
-                   );
-                    item.Checked = true;
-                    listView3.Items.Add(item);
-
-                    framesGetCurFrame().addSub(
-                        item,
-                        (int)clipFrame.SubIndex[i],
-                        (int)clipFrame.SubX[i],
-                        (int)clipFrame.SubY[i],
-                        (int)clipFrame.SubW[i],
-                        (int)clipFrame.SubH[i],
-                        (int)clipFrame.SubFlip[i]
-                        );
-                    item.Focused = true;
-                    item.Selected = true;
-                }
-            }
-        }
-        private void dstPasteSelectCD()
-        {
-            if (listView4.SelectedItems != null &&
-                listView4.SelectedItems.Count > 0 &&
-                framesGetCurFrame() != null)
-            {
-                foreach (ListViewItem item in listView4.SelectedItems)
-                {
-                    item.Selected = false;
-                    item.Focused = false;
-                }
-            }
-
-            if (framesGetCurFrame() != null && clipFrame != null)
-            {
-                for (int i = 0; i < clipFrame.getCDCount(); i++)
-                {
-                    ListViewItem item = new ListViewItem(
-                        new string[] {
-                            ((int)clipFrame.CDMask[i]).ToString("x"),
-                            ((int)clipFrame.CDX[i]).ToString("d"),
-                            ((int)clipFrame.CDY[i]).ToString("d"),
-                            ((int)clipFrame.CDW[i]).ToString("d"),
-                            ((int)clipFrame.CDH[i]).ToString("d"),
-                            Frame.CDtypeTextTable[((int)clipFrame.CDType[i])]}
-                    );
-                    item.Checked = true;
-                    listView4.Items.Add(item);
-
-                    framesGetCurFrame().addCD(
-                        item,
-                        (int)clipFrame.CDMask[i],
-                        (int)clipFrame.CDX[i],
-                        (int)clipFrame.CDY[i],
-                        (int)clipFrame.CDW[i],
-                        (int)clipFrame.CDH[i],
-                        (int)clipFrame.CDType[i]
-                        );
-                    item.Focused = true;
-                    item.Selected = true;
-                }
-            }
-        }
-        private void dstPasteSelectSubAll()
-        {
-            if (listView3.SelectedItems != null &&
-                listView3.SelectedItems.Count > 0 &&
-                framesGetCurFrame() != null)
-            {
-                foreach (ListViewItem item in listView3.SelectedItems)
-                {
-                    item.Selected = false;
-                    item.Focused = false;
-                }
-            }
-
-            for (int f = 0; f < animGetCurFrames().Count; f++)
-            {
-                Frame curFrame = (Frame)animGetCurFrames()[f];
-
-                if (curFrame != null && clipFrame != null)
+                if (framesGetCurFrame() != null && clipFrame != null)
                 {
                     for (int i = 0; i < clipFrame.getSubCount(); i++)
                     {
@@ -1192,7 +1141,9 @@ namespace CellGameEdit.PM
                             Frame.flipTextTable[(int)clipFrame.SubFlip[i]]}
                        );
                         item.Checked = true;
-                        curFrame.addSub(
+                        listView3.Items.Insert(0, item);
+
+                        framesGetCurFrame().insertSub(0,
                             item,
                             (int)clipFrame.SubIndex[i],
                             (int)clipFrame.SubX[i],
@@ -1206,26 +1157,25 @@ namespace CellGameEdit.PM
                     }
                 }
             }
-
+            catch (Exception err)
+            { }
         }
-        private void dstPasteSelectCDAll()
+        private void dstPasteSelectCD()
         {
-            if (listView4.SelectedItems != null &&
-                 listView4.SelectedItems.Count > 0 &&
-                 framesGetCurFrame() != null)
+            try
             {
-                foreach (ListViewItem item in listView4.SelectedItems)
+                if (listView4.SelectedItems != null &&
+                    listView4.SelectedItems.Count > 0 &&
+                    framesGetCurFrame() != null)
                 {
-                    item.Selected = false;
-                    item.Focused = false;
+                    foreach (ListViewItem item in listView4.SelectedItems)
+                    {
+                        item.Selected = false;
+                        item.Focused = false;
+                    }
                 }
-            }
 
-            for (int f = 0; f < animGetCurFrames().Count; f++)
-            {
-                Frame curFrame = (Frame)animGetCurFrames()[f];
-
-                if (curFrame != null && clipFrame != null)
+                if (framesGetCurFrame() != null && clipFrame != null)
                 {
                     for (int i = 0; i < clipFrame.getCDCount(); i++)
                     {
@@ -1239,7 +1189,10 @@ namespace CellGameEdit.PM
                             Frame.CDtypeTextTable[((int)clipFrame.CDType[i])]}
                         );
                         item.Checked = true;
-                        curFrame.addCD(
+                        listView4.Items.Insert(0, item);
+
+                        framesGetCurFrame().insertCD(
+                            0,
                             item,
                             (int)clipFrame.CDMask[i],
                             (int)clipFrame.CDX[i],
@@ -1253,6 +1206,109 @@ namespace CellGameEdit.PM
                     }
                 }
             }
+            catch (Exception err) { }
+        }
+        private void dstPasteSelectSubAll()
+        {
+            try
+            {
+                if (listView3.SelectedItems != null &&
+                    listView3.SelectedItems.Count > 0 &&
+                    framesGetCurFrame() != null)
+                {
+                    foreach (ListViewItem item in listView3.SelectedItems)
+                    {
+                        item.Selected = false;
+                        item.Focused = false;
+                    }
+                }
+
+                for (int f = 0; f < animGetCurFrames().Count; f++)
+                {
+                    Frame curFrame = (Frame)animGetCurFrames()[f];
+
+                    // if (curFrame == framesGetCurFrame()) continue;
+
+                    if (curFrame != null && clipFrame != null)
+                    {
+                        for (int i = 0; i < clipFrame.getSubCount(); i++)
+                        {
+                            ListViewItem item = new ListViewItem(
+                                new string[] {
+                            ((int)clipFrame.SubIndex[i]).ToString("d"),
+                            ((int)clipFrame.SubX[i]).ToString("d"),
+                            ((int)clipFrame.SubY[i]).ToString("d"),
+                            Frame.flipTextTable[(int)clipFrame.SubFlip[i]]}
+                           );
+                            item.Checked = true;
+                            curFrame.insertSub(0,
+                                item,
+                                (int)clipFrame.SubIndex[i],
+                                (int)clipFrame.SubX[i],
+                                (int)clipFrame.SubY[i],
+                                (int)clipFrame.SubW[i],
+                                (int)clipFrame.SubH[i],
+                                (int)clipFrame.SubFlip[i]
+                                );
+                            item.Focused = true;
+                            item.Selected = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception err) { }
+        }
+        private void dstPasteSelectCDAll()
+        {
+            try
+            {
+                if (listView4.SelectedItems != null &&
+                     listView4.SelectedItems.Count > 0 &&
+                     framesGetCurFrame() != null)
+                {
+                    foreach (ListViewItem item in listView4.SelectedItems)
+                    {
+                        item.Selected = false;
+                        item.Focused = false;
+                    }
+                }
+
+                for (int f = 0; f < animGetCurFrames().Count; f++)
+                {
+                    Frame curFrame = (Frame)animGetCurFrames()[f];
+
+                    // if (curFrame == framesGetCurFrame()) continue;
+
+                    if (curFrame != null && clipFrame != null)
+                    {
+                        for (int i = 0; i < clipFrame.getCDCount(); i++)
+                        {
+                            ListViewItem item = new ListViewItem(
+                                new string[] {
+                            ((int)clipFrame.CDMask[i]).ToString("x"),
+                            ((int)clipFrame.CDX[i]).ToString("d"),
+                            ((int)clipFrame.CDY[i]).ToString("d"),
+                            ((int)clipFrame.CDW[i]).ToString("d"),
+                            ((int)clipFrame.CDH[i]).ToString("d"),
+                            Frame.CDtypeTextTable[((int)clipFrame.CDType[i])]}
+                            );
+                            item.Checked = true;
+                            curFrame.insertCD(0,
+                                item,
+                                (int)clipFrame.CDMask[i],
+                                (int)clipFrame.CDX[i],
+                                (int)clipFrame.CDY[i],
+                                (int)clipFrame.CDW[i],
+                                (int)clipFrame.CDH[i],
+                                (int)clipFrame.CDType[i]
+                                );
+                            item.Focused = true;
+                            item.Selected = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception err) { }
         }
 
 
@@ -1267,9 +1323,11 @@ namespace CellGameEdit.PM
                     Frame.flipTextTable[0] }
                     );
                 item.Checked = true;
-                listView3.Items.Add(item);
+                //listView3.Items.Add(item);
+                listView3.Items.Insert(0, item);
 
-                framesGetCurFrame().addSub(
+                framesGetCurFrame().insertSub(
+                    0,
                     item,
                     srcIndex,
                     -srcImage.getWidth() / 2,
@@ -1455,7 +1513,7 @@ namespace CellGameEdit.PM
             dstRefersh();
         }
 
-        //sub
+        //sub pri
         private void button1_Click(object sender, EventArgs e)
         {
             if (dstGetCurSubIndexes().Length == 1 &&
@@ -1466,7 +1524,6 @@ namespace CellGameEdit.PM
             }
             dstRefersh();
 
-           
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -1475,10 +1532,60 @@ namespace CellGameEdit.PM
                 dstGetCurSubIndexes()[0] + 1 >= 0)
             {
                 framesGetCurFrame().exchangeSub(dstGetCurSubIndexes()[0], dstGetCurSubIndexes()[0] + 1);
-
             }
             dstRefersh();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                framesGetCurFrame().exchangeSub(dstGetCurSubIndexes()[0], 0);
+            }
+            catch (Exception err)
+            {
+            }
+            dstRefersh();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                framesGetCurFrame().exchangeSub(dstGetCurSubIndexes()[0], framesGetCurFrame().getSubCount() - 1);
+            }
+            catch (Exception err)
+            {
+            }
+            dstRefersh();
+        }
+
+        //cd pri
+
+        private void cdUP_Click(object sender, EventArgs e)
+        {
+            if (dstGetCurCDIndexes().Length == 1 &&
+                dstGetCurCDIndexes()[0] - 1 < framesGetCurFrame().getCDCount() &&
+                dstGetCurCDIndexes()[0] - 1 >= 0)
+            {
+                framesGetCurFrame().exchangeCD(dstGetCurCDIndexes()[0], dstGetCurCDIndexes()[0] - 1);
+            }
+            dstRefersh();
+        }
+
+        private void cdDown_Click(object sender, EventArgs e)
+        {
+            if (dstGetCurCDIndexes().Length == 1 &&
+                dstGetCurCDIndexes()[0] + 1 < framesGetCurFrame().getCDCount() &&
+                dstGetCurCDIndexes()[0] + 1 >= 0)
+            {
+                framesGetCurFrame().exchangeCD(dstGetCurCDIndexes()[0], dstGetCurCDIndexes()[0] + 1);
+            }
+            dstRefersh();
+        }
+
+        //
+
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if (dstGetCurSubIndexes().Length == 1)
@@ -1536,6 +1643,10 @@ namespace CellGameEdit.PM
             {
                 numericUpDown1.Value = (Decimal)((int)framesGetCurFrame().SubX[dstGetCurSubIndexes()[0]]);
                 numericUpDown3.Value = (Decimal)((int)framesGetCurFrame().SubY[dstGetCurSubIndexes()[0]]);
+
+                PartW.Text = "" + framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]];
+                PartH.Text = "" + framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]];
+
                 switch ((int)framesGetCurFrame().SubFlip[dstGetCurSubIndexes()[0]])
                 {
                     case 0: toolStripMenuItem10_Click(toolStripMenuItem10, null); break;
@@ -1548,7 +1659,11 @@ namespace CellGameEdit.PM
                     case 7: toolStripMenuItem10_Click(toolStripMenuItem17, null); break;
                 }
             }
-       
+
+            PartState.Text = "" + e.ItemIndex;
+
+         
+
             pictureBox2.Refresh();
             dstRefreshEnable = true;
             
@@ -1640,6 +1755,8 @@ namespace CellGameEdit.PM
                 }
             }
 
+            CDState.Text = "" + e.ItemIndex;
+
             pictureBox2.Refresh();
             dstRefreshEnable = true;
 
@@ -1686,7 +1803,8 @@ namespace CellGameEdit.PM
                   srcTiles,
                   pictureBox2.Width / 2,
                   pictureBox2.Height / 2,
-                  masterScale);
+                  masterScale,
+                    显示图片框ToolStripMenuItem.Checked);
 
                 if (toolStripButton26.Checked)
                 {
@@ -1721,7 +1839,15 @@ namespace CellGameEdit.PM
         {
             pictureBox2.Refresh();
         }
-       
+        private void 显示图片框ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox2.Refresh();
+            pictureBox1.Refresh();
+        }
+
+
+
+
         int rx;
         int ry;
         float px;
@@ -1885,6 +2011,28 @@ namespace CellGameEdit.PM
                     case Keys.Down: eY = 1; textBox1.Text += "DOWN"; break;
                     case Keys.Left: eX = -1; textBox1.Text += "LEFT"; break;
                     case Keys.Right: eX = 1; textBox1.Text += "RIGHT"; break;
+
+                    case Keys.PageUp:
+                        if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
+                        else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
+                        else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
+                        else if (toolStripMenuItem13.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
+                        else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
+                        else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
+                        else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
+                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
+                        break;
+
+                    case Keys.PageDown:
+                        if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
+                        else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
+                        else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
+                        else if (toolStripMenuItem13.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
+                        else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
+                        else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
+                        else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
+                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
+                        break;
                 }
 
                 try
@@ -1929,41 +2077,33 @@ namespace CellGameEdit.PM
 
         private void dstGridChange()
         {
-            pictureBox2.Width = pictureBox2.Height = dstPanelSize * masterScale;
-            //panel2.HorizontalScroll.Value = panel2.HorizontalScroll.Minimum + (panel2.HorizontalScroll.Maximum - panel2.HorizontalScroll.Minimum) / 2 + panel2.Width / 2;
-            //panel2.VerticalScroll.Value = panel2.VerticalScroll.Minimum + (panel2.VerticalScroll.Maximum - panel2.VerticalScroll.Minimum) / 2 + panel2.Height / 2;
-            try
-            {
-                panel2.HorizontalScroll.Value = panel2.HorizontalScroll.Maximum / 2 - panel2.Width / 2;
-                panel2.VerticalScroll.Value = panel2.VerticalScroll.Maximum / 2 - panel2.Height / 2;
 
-            }
-            catch (Exception err) { }
-            //panel2.HorizontalScroll.Value = -pictureBox2.Location.X * masterScale;
-            //panel2.VerticalScroll.Value = -pictureBox2.Location.Y * masterScale;
+            pictureBox2.Width = pictureBox2.Height = Math.Min(dstPanelSize * masterScale, 1024 * 4);
 
-            if (this.显示网格ToolStripMenuItem.Checked && masterScale > 1)
-            {
-                //javax.microedition.lcdui.Image bg = javax.microedition.lcdui.Image.createImage(masterScale, masterScale);
-                //bg.getGraphics().setColor(0x7f808080);
-                //bg.getGraphics().drawLine(0, 0, masterScale, 0);
-                //bg.getGraphics().drawLine(0, 0, 0, masterScale);
-                System.Drawing.Image bg = new System.Drawing.Bitmap(masterScale, masterScale);
-                System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0x80, 0x80, 0x80));
-                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bg);
-                g.DrawLine(pen, 0, 0, masterScale, 0);
-                g.DrawLine(pen, 0, 0, 0, masterScale);
+                try
+                {
+                    panel2.HorizontalScroll.Value = panel2.HorizontalScroll.Maximum / 2 - panel2.Width / 2;
+                    panel2.VerticalScroll.Value = panel2.VerticalScroll.Maximum / 2 - panel2.Height / 2;
+                }
+                catch (Exception err) { }
 
-                //for(){
-                //}
-                pictureBox2.BackgroundImage = bg;
-                pictureBox2.Refresh();
-            }
-            else
-            {
-                pictureBox2.BackgroundImage = null;
-                pictureBox2.Refresh();
-            }
+                if (this.显示网格ToolStripMenuItem.Checked && masterScale > 1)
+                {
+                    System.Drawing.Image bg = new System.Drawing.Bitmap(masterScale, masterScale);
+                    System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0x80, 0x80, 0x80));
+                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bg);
+                    g.DrawLine(pen, 0, 0, masterScale, 0);
+                    g.DrawLine(pen, 0, 0, 0, masterScale);
+
+                    pictureBox2.BackgroundImage = bg;
+                    pictureBox2.Refresh();
+                }
+                else
+                {
+                    pictureBox2.BackgroundImage = null;
+                    pictureBox2.Refresh();
+                }
+          
         }
         private void dstBoxFocus()
         {
@@ -2111,7 +2251,7 @@ namespace CellGameEdit.PM
                               srcTiles,
                               ViewW * i + ViewW / 2,
                               ViewH / 2,
-                              1);
+                              1,false);
 
                         if (toolStripButton26.Checked)
                         {
@@ -2125,9 +2265,9 @@ namespace CellGameEdit.PM
                         if (trackBar1.Value == i)
                         {
                             g.setColor(0x20, 0, 0, 0);
-                            g.fillRect(ViewW * i, 0, ViewW - 1, ViewH - 1);
+                            g.fillRect(ViewW * i, 0, ViewW , ViewH );
                             g.setColor(0xff, 0, 0, 0);
-                            g.drawRect(ViewW * i, 0, ViewW - 1, ViewH - 1);
+                            g.drawRect(ViewW * i + 1, 1, ViewW - 2, ViewH - 2);
                         }
                     }
                 }
@@ -2189,7 +2329,13 @@ namespace CellGameEdit.PM
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-           
+            toolStripStatusLabel1.Text = "";
+
+            if (animGetCurFrames() != null && framesGetCurFrame() != null)
+            {
+                toolStripStatusLabel1.Text += " 帧：" + (trackBar1.Value) + "/" + (trackBar1.Maximum + 1);
+            }
+            toolStripStatusLabel1.Text += " FPS=" + (((float)1000) / ((float)timer1.Interval));
         }
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
@@ -2436,6 +2582,8 @@ namespace CellGameEdit.PM
                     trackBar1.Maximum = Math.Max(animGetCurFrames().Count - 1, 0);
                     trackBar1.Value = 0;
                 }
+
+                AnimState.Text = "" + e.ItemIndex;
             }
             framesRefersh();
         }
@@ -2507,13 +2655,7 @@ namespace CellGameEdit.PM
             if (!this.Visible) return;
 
             timer1.Interval = (int)numericUpDown2.Value;
-            toolStripStatusLabel1.Text = "";
-
-            if (animGetCurFrames() != null && framesGetCurFrame() != null)
-            {
-                toolStripStatusLabel1.Text += " 帧：" + (trackBar1.Value + 1) + "/" + (trackBar1.Maximum + 1);
-            }
-            toolStripStatusLabel1.Text += " FPS=" + (((float)1000) / ((float)timer1.Interval));
+   
 
             if (toolStripButton6.Checked)
             {
@@ -2550,7 +2692,6 @@ namespace CellGameEdit.PM
         {
             this.id = this.Text;
         }
-
 
 
 
@@ -2825,6 +2966,19 @@ namespace CellGameEdit.PM
             SubFlip.Add(flip);
 
             SubSelected.Add(true);
+        }
+        public void insertSub(int index, ListViewItem key, int part, int x, int y, int w, int h, int flip)
+        {
+
+            SubTable.Insert(index, key);
+            SubIndex.Insert(index, part);
+            SubX.Insert(index, x);
+            SubY.Insert(index, y);
+            SubW.Insert(index, w);
+            SubH.Insert(index, h);
+            SubFlip.Insert(index, flip);
+
+            SubSelected.Insert(index, true);
 
         }
         public void delSub(int index)
@@ -2910,6 +3064,19 @@ namespace CellGameEdit.PM
             CDSelected.Add(true);
 
         }
+        public void insertCD(int index, ListViewItem key, int mask, int x, int y, int w, int h, int type)
+        {
+            CDTable.Insert(index, key);
+
+            CDMask.Insert(index, mask);
+            CDX.Insert(index, x);
+            CDY.Insert(index, y);
+            CDW.Insert(index, w);
+            CDH.Insert(index, h);
+            CDType.Insert(index, type);
+
+            CDSelected.Insert(index, true);
+        }
         public void delCD(int index)
         {
 
@@ -2925,10 +3092,65 @@ namespace CellGameEdit.PM
 
            
         }
+        public void exchangeCD(int src, int dst)
+        {
+            int mask = (int)CDMask[src];
+            int x = (int)CDX[src];
+            int y = (int)CDY[src];
+            int w = (int)CDW[src];
+            int h = (int)CDH[src];
+            int type = (int)CDType[src];
+
+            Boolean selected = (Boolean)CDSelected[src];
+            //ListViewItem item = (ListViewItem)SubTable[src];
+
+            CDMask[src] = CDMask[dst];
+            CDX[src] = CDX[dst];
+            CDY[src] = CDY[dst];
+            CDW[src] = CDW[dst];
+            CDH[src] = CDH[dst];
+            CDType[src] = CDType[dst];
+            //SubTable[src] = SubTable[dst];
+            CDSelected[src] = (Boolean)CDSelected[dst];
+
+            CDMask[dst] = mask;
+            CDX[dst] = x;
+            CDY[dst] = y;
+            CDW[dst] = w;
+            CDH[dst] = h;
+            CDType[dst] = type;
+            //SubTable[dst] = item;
+            CDSelected[dst] = selected;
+
+            ((ListViewItem)CDTable[src]).Selected = false;
+            ((ListViewItem)CDTable[src]).Focused = false;
+            ((ListViewItem)CDTable[dst]).Selected = true;
+            ((ListViewItem)CDTable[dst]).Focused = true;
+
+        }
 
         public float Scale = 1;
 
-        public void render(Graphics g,ArrayList tile,int x,int y,float scale)
+        public System.Drawing.Rectangle getVisibleBounds() 
+        {
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle();
+            
+            for (int i = SubIndex.Count - 1; i >= 0; i--)
+            {
+                rect.X = Math.Min(rect.X, (int)SubX[i]);
+                rect.Width = Math.Max(rect.Width, (int)SubX[i] + (int)SubW[i]);
+
+                rect.Y = Math.Min(rect.Y, (int)SubY[i]);
+                rect.Height = Math.Max(rect.Height, (int)SubY[i] + (int)SubH[i]);
+            }
+
+            rect.Width = rect.Width - rect.X;
+            rect.Height = rect.Height - rect.Y;
+
+            return rect;
+        }
+
+        public void render(Graphics g,ArrayList tile,int x,int y,float scale,Boolean showimageborder)
         {
             for (int i = SubIndex.Count - 1; i >=0 ;i-- )
             {
@@ -2960,6 +3182,17 @@ namespace CellGameEdit.PM
                        flipTable[(int)SubFlip[i]],
                        0,scale
                        );
+                }
+
+                if (showimageborder)
+                {
+                    g.setColor(0xff, 0xff, 0xff, 0xff);
+                    g.drawRect(
+                        (((int)SubX[i]) * scale + x),
+                        (((int)SubY[i]) * scale + y),
+                        (((int)SubW[i]) * scale - 1),
+                        (((int)SubH[i]) * scale - 1)
+                        );
                 }
                 if ( (Boolean)(SubSelected[i]) )
                 { 

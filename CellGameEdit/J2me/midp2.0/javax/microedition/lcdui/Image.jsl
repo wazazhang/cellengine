@@ -3,7 +3,6 @@ import java.io.IOException;
 
 public class Image
 {
-	
 
 	protected System.Drawing.Image dimg;
 	private boolean mutable = true;
@@ -15,6 +14,12 @@ public class Image
 	public boolean used = false;
 
 	public boolean killed = false;
+
+	private boolean hasColorKey = false;
+	private System.Drawing.Color ColorKey;
+
+	System.Drawing.Brush brush = null;
+
 
 	public Image(System.Drawing.Image DImage)
 	{
@@ -132,5 +137,40 @@ public class Image
 		return dimg;
 	}
 
+	public System.Drawing.Color getColorKey()
+	{
+		if (!hasColorKey)
+		{
+			hasColorKey = true;
+			try
+			{
+				System.Drawing.Bitmap bm = new System.Drawing.Bitmap(1, 1);
+				System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bm);
 
+				g.DrawImage(dimg,
+					new System.Drawing.Rectangle(0, 0, 1, 1),
+					new System.Drawing.Rectangle(dimg.get_Width() / 2, dimg.get_Height() / 2, 1, 1),
+					System.Drawing.GraphicsUnit.Pixel
+					);
+
+				ColorKey = bm.GetPixel(0, 0);
+
+				g = null;
+				bm = null;
+			}
+			catch (Exception err) { }
+		}
+
+		return ColorKey;
+	}
+
+
+	public System.Drawing.Brush getColorKeyBrush() 
+	{
+		if (brush == null)
+		{
+			brush = (new System.Drawing.Pen(getColorKey())).get_Brush();
+		}
+		return brush;
+	}
 }

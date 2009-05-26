@@ -8,6 +8,9 @@ namespace CellGameEdit.PM
 {
     class Util
     {
+        public static Encoding CurEncoding;
+
+
         public static string FormatNumberArray1D_h = "";
         public static string FormatNumberArray1D_t = ",";
 
@@ -20,7 +23,8 @@ namespace CellGameEdit.PM
         public static string FormatArray2D_h = "{";
         public static string FormatArray2D_t = "},";
 
-       
+        public static string FixedStringArray = "";
+
 
 
         public static string fixControlText(string str)
@@ -44,12 +48,12 @@ namespace CellGameEdit.PM
             {
                 FormatStringArray1D_h = "\"";
                 FormatStringArray1D_t = "\",";
-                Console.WriteLine("Set Array Format Error ! Set Default. ");
+                //Console.WriteLine("Set Array Format Error ! Set Default. ");
             }
 
             FormatStringArray1D_h = fixControlText(FormatStringArray1D_h);
             FormatStringArray1D_t = fixControlText(FormatStringArray1D_t);
-            Console.WriteLine("FormatStringArray1D : " + FormatStringArray1D_h + elementKey + FormatStringArray1D_t);
+            //Console.WriteLine("FormatStringArray1D : " + FormatStringArray1D_h + elementKey + FormatStringArray1D_t);
         }
         public static void setFormatNumberArray1D(String format, String elementKey)
         {
@@ -63,12 +67,12 @@ namespace CellGameEdit.PM
             {
                 FormatNumberArray1D_h = "";
                 FormatNumberArray1D_t = ",";
-                Console.WriteLine("Set Array Format Error ! Set Default. ");
+                //Console.WriteLine("Set Array Format Error ! Set Default. ");
             }
 
             FormatNumberArray1D_h = fixControlText(FormatNumberArray1D_h);
             FormatNumberArray1D_t = fixControlText(FormatNumberArray1D_t);
-            Console.WriteLine("FormatNumberArray1D : " + FormatNumberArray1D_h + elementKey + FormatNumberArray1D_t);
+            //Console.WriteLine("FormatNumberArray1D : " + FormatNumberArray1D_h + elementKey + FormatNumberArray1D_t);
         }
 
         public static void setFormatArray1D(String format, String elementKey)
@@ -83,12 +87,12 @@ namespace CellGameEdit.PM
             {
                 FormatArray1D_h = "";
                 FormatArray1D_t = ",";
-                Console.WriteLine("Set Array Format Error ! Set Default. ");
+                //Console.WriteLine("Set Array Format Error ! Set Default. ");
             }
 
             FormatArray1D_h = fixControlText(FormatArray1D_h);
             FormatArray1D_t = fixControlText(FormatArray1D_t);
-            Console.WriteLine("FormatArray1D : " + FormatArray1D_h + elementKey + FormatArray1D_t);
+            //Console.WriteLine("FormatArray1D : " + FormatArray1D_h + elementKey + FormatArray1D_t);
         }
         public static void setFormatArray2D(String format, String elementKey)
         {
@@ -102,13 +106,20 @@ namespace CellGameEdit.PM
             {
                 FormatArray2D_h = "{";
                 FormatArray2D_t = "},";
-                Console.WriteLine("Set Array Format Error ! Set Default. ");
+                //Console.WriteLine("Set Array Format Error ! Set Default. ");
             }
 
             FormatArray2D_h = fixControlText(FormatArray2D_h);
             FormatArray2D_t = fixControlText(FormatArray2D_t);
-            Console.WriteLine("FormatArray2D : " + FormatArray2D_h + elementKey + FormatArray2D_t);
+            //Console.WriteLine("FormatArray2D : " + FormatArray2D_h + elementKey + FormatArray2D_t);
         }
+
+
+        public static void setFixedStringArray(string format)
+        {
+            FixedStringArray = format.Trim(); ;
+        }
+
 
 
         public static int checkWildcard(String wildcard, String str)
@@ -184,6 +195,7 @@ namespace CellGameEdit.PM
         //    return ret;
         //}
 
+
         public static String toArray1D<T>(ref T[] array)
         {
             String ret = "";
@@ -209,9 +221,10 @@ namespace CellGameEdit.PM
             for (int i = 0; i < array.Length; i++)
             {
                 string e = array[i].ToString();
+
                 if (isNumberString(e))
                 {
-                    ret += FormatNumberArray1D_h + e + FormatNumberArray1D_t;
+                    ret += FormatNumberArray1D_h + string2Number(e) + FormatNumberArray1D_t;
                 }
                 else
                 {
@@ -236,7 +249,17 @@ namespace CellGameEdit.PM
             String ret = "";
             for (int i = 0; i < array.Length; i++)
             {
-                ret += FormatStringArray1D_h + array[i].ToString() + FormatStringArray1D_t;
+                String e = array[i].ToString();
+                if(FixedStringArray==null || FixedStringArray.Length==0)
+                {
+                    ret += FormatStringArray1D_h + e + FormatStringArray1D_t;
+                }
+                else
+                {
+                    int size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
+                    ret += size + FixedStringArray + FormatStringArray1D_h + e + FormatStringArray1D_t;
+                }
+               
             }
             return ret;
         }
@@ -250,29 +273,65 @@ namespace CellGameEdit.PM
             return ret;
         }
 
-        public static String toSmartArray1D<T>(ref T[] array)
+        public static String toSmartArray1D<T>(ref T[] array, Type[] types)
         {
             String ret = "";
             for (int i = 0; i < array.Length; i++)
             {
                 string e = array[i].ToString();
-                if (isNumberString(e))
+
+                if (types != null && types[i] != null)
                 {
-                    ret += FormatNumberArray1D_h + array[i].ToString() + FormatNumberArray1D_t;
+                    if (types[i] == typeof(String))
+                    {
+                        if (FixedStringArray == null || FixedStringArray.Length == 0)
+                        {
+                            ret += FormatStringArray1D_h + e + FormatStringArray1D_t;
+                        }
+                        else
+                        {
+                            int size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
+                            ret += size + FixedStringArray + FormatStringArray1D_h + e + FormatStringArray1D_t;
+                        }
+                    }
+                    else if (types[i] == typeof(Decimal))
+                    {
+                        ret += FormatNumberArray1D_h + string2Number(e) + FormatNumberArray1D_t;
+                    }
+                    else
+                    {
+                        ret += FormatArray1D_h + e + FormatArray1D_t;
+                    }
                 }
                 else
                 {
-                    ret += FormatStringArray1D_h + array[i].ToString() + FormatStringArray1D_t;
+                    if (isNumberString(e))
+                    {
+                        ret += FormatNumberArray1D_h + string2Number(e) + FormatNumberArray1D_t;
+                    }
+                    else
+                    {
+                        if (FixedStringArray == null || FixedStringArray.Length == 0)
+                        {
+                            ret += FormatStringArray1D_h + e + FormatStringArray1D_t;
+                        }
+                        else
+                        {
+                            int size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
+                            ret += size + FixedStringArray + FormatStringArray1D_h + e + FormatStringArray1D_t;
+                        }
+                    }
                 }
+              
             }
             return ret;
         }
-        public static String toSmartArray2D<T>(ref T[][] array)
+        public static String toSmartArray2D<T>(ref T[][] array, Type[][] types)
         {
             String ret = "";
             for (int i = 0; i < array.Length; i++)
             {
-                ret += FormatArray2D_h + toSmartArray1D<T>(ref array[i]) + FormatArray2D_t;
+                ret += FormatArray2D_h + toSmartArray1D<T>(ref array[i], types==null?null:types[i]) + FormatArray2D_t;
             }
             return ret;
         }
@@ -280,7 +339,19 @@ namespace CellGameEdit.PM
         public static Boolean isNumberString(String str)
         {
             Decimal a = 0;
-            return Decimal.TryParse(str, out a);
+            if (Decimal.TryParse(str, System.Globalization.NumberStyles.Integer, null, out a))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static Decimal string2Number(String str)
+        {
+            Decimal a = 0;
+            Decimal.TryParse(str,System.Globalization.NumberStyles.Integer,null,out a);
+            return a;
         }
 
         public static String[] toStringMultiLine(string src)
@@ -421,6 +492,63 @@ namespace CellGameEdit.PM
 
         }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------
+
+        public static string fillVar(string script, string[] commands, string[] vars)
+        {
+            String ret = script;
+
+            for (int i = 0; i < commands.Length; i++)
+            {
+                ret = ret.Replace(commands[i], vars[i]);
+                Console.WriteLine("Var : " + commands[i] + " -> " + vars[i]);
+            }
+
+            return ret;
+        }
+
+        public interface CallFunctionParser
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="args">args</param>
+            /// <returns>function return value</returns>
+            string parse(string function_name, string[] args);
+        }
+
+        //  eg <CALL GET CELL><COLUMN,ROW> 
+        // callFunction("<CALL GET CELL><0,1>", "GET CELL", parser) 
+        public static string callFunction(string src, string function_name, CallFunctionParser parser)
+        {
+            String function = "<CALL " + function_name + ">";
+
+            while(true)
+            {
+                int i = src.IndexOf(function);
+
+                if (i >= 0)
+                {
+                    String arg = getTopTrunk(src.Substring(i + function.Length), "<", ">");
+                    String[] args = null;
+                    if (arg != null)
+                    {
+                        args = arg.Substring(1, arg.Length - 2).Split(',');
+                        if (args.Length == 0)
+                        {
+                            args = null;
+                        }
+                        
+                    }
+                    src = src.Replace(function + arg, parser.parse(function_name, args));
+                }
+                else break;
+
+            }
+
+            return src;
+        }
+
 
 //---------------------------------------------------------------------------------------------------------------------------------------------
         //得到指令 <command> value
@@ -440,13 +568,44 @@ namespace CellGameEdit.PM
                             break; 
                         }
                     }
-                    string ret = script.Substring(start,end-start);
+                    string ret = script.Substring(start, end - start + 1);
 
                     return ret.Trim();
                 }
             }
             catch (Exception err) {}
             return "";
+        }
+
+        //得到指令 <command> value
+        public static string[] getCommandScripts(string script, string command)
+        {
+            string[] ret;
+
+            try
+            {
+                if (script.Contains(command))
+                {
+                    int start = script.IndexOf(command) + command.Length;
+                    int end = start;
+
+                    for (int i = start; i < script.Length; i++)
+                    {
+                        if (script[i] == '\n')
+                        {
+                            end = i;
+                            break;
+                        }
+                    }
+                    string cmds = script.Substring(start, end - start + 1);
+                    cmds = cmds.Trim();
+                    ret = cmds.Split(new char[] { ' ','\t','\n' },StringSplitOptions.RemoveEmptyEntries);
+
+                    return ret;
+                }
+            }
+            catch (Exception err) { }
+            return null;
         }
 
         //删除包含 #<start> #<end> 内的内容
@@ -554,7 +713,82 @@ namespace CellGameEdit.PM
             }
         }
 
-        
+        //测试name是否是Ignore
+        public static bool testIgnore(String key,String src, String name, ref string outIgnore)
+        {
+            String[] ignores = Util.getCommandScripts(src, key);
+
+            if (ignores != null)
+            {
+                try
+                {
+                    for (int ig = 0; ig < ignores.Length; ig++)
+                    {
+                        if(ignores[ig] == name || Util.checkWildcard(ignores[ig], name) == 0)
+                        {
+                            outIgnore = ignores[ig];
+                            Console.WriteLine("Ignore : " + key + " : " + outIgnore + " --> " + name);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                catch (Exception err)
+                {
+                    Console.Write("Error : " + err.Message);
+                }
+            }
+
+            return false;
+        }
+
+        //测试name是否是Keep
+        public static bool testKeep(String key, String src, String name, ref string outKeep)
+        {
+            String[] keeps = Util.getCommandScripts(src, key);
+
+            if (keeps != null)
+            {
+                try
+                {
+                    for (int ig = 0; ig < keeps.Length; ig++)
+                    {
+                        if (keeps[ig] == name || Util.checkWildcard(keeps[ig], name) == 0)
+                        {
+                            outKeep = keeps[ig];
+                            Console.WriteLine("Keep : " + key + " : " + outKeep + " --> " + name);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                catch (Exception err)
+                {
+                    Console.Write("Error : " + err.Message);
+                }
+            }
+
+            return true;
+        }
+
+        //删除含有指令的行
+        public static string removeCommandLine(string src, string command)
+        {
+            int index = src.IndexOf(command);
+
+            while (index >= 0)
+            {
+                int end = src.IndexOf('\n', index + command.Length);
+
+                src = src.Remove(index, end >= 0 ? src.Length - end - 1 : src.Length - index);
+
+                index = src.IndexOf(command);
+            }
+
+            return src;
+        }
+
+
 //---------------------------------------------------------------------------------------------------------------------------------------------
 // function script 
        
@@ -667,6 +901,12 @@ namespace CellGameEdit.PM
                 if(args.Length==3 && funcTrunk.Contains(FUNC_SUB_STRING))
                 {
                     ret = args[0].Substring(Int32.Parse(args[1]), Int32.Parse(args[2]));
+                    output = ret;
+                    return true;
+                }
+                if (args.Length == 2 && funcTrunk.Contains(FUNC_SUB_STRING))
+                {
+                    ret = args[0].Substring(Int32.Parse(args[1]));
                     output = ret;
                     return true;
                 }
@@ -949,5 +1189,51 @@ namespace CellGameEdit.PM
 
         }
 
+
+        //得到c1 c2 包含的字符串， 56(32)44 = 32
+        public static string getIncludeString(string src, string c1, string c2)
+        {
+            try
+            {
+                int p1 = src.IndexOf(c1) + c1.Length;
+                int p2 = src.IndexOf(c2);
+                return src.Substring(p1, p2 - p1);
+            }
+            catch (Exception err)
+            {
+                return "";
+            }
+        }
+
+
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+
+        /// math
+
+        public static int getDirect(int s)
+        {
+            return s == 0 ? 0 : s > 0 ? 1 : -1;
+        }
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+

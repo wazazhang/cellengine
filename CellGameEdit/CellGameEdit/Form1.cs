@@ -50,13 +50,18 @@ namespace CellGameEdit
            
             stream.Close();
 
-            
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
            timer1.Start();
+
+           CfgOutputEncoding.Checked = Config.Default.IsOutEncodingInfo;
+           ProjectForm.IsOutEncodingInfo = CfgOutputEncoding.Checked;
+
+           javax.microedition.lcdui.Graphics.font = Config.Default.GraphicsFont;
+
+
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -65,6 +70,18 @@ namespace CellGameEdit
             {
                 prjForm.MdiParent = this;
                 prjForm.Show();
+            }
+        }
+
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (prjForm != null)
+            {
+                if (outputThread != null)
+                {
+                    EndOutputProjectScript();
+                }
             }
         }
 
@@ -614,6 +631,37 @@ namespace CellGameEdit
 
 
         }
+
+        private void CfgOutputEncoding_CheckedChanged(object sender, EventArgs e)
+        {
+            ProjectForm.IsOutEncodingInfo = CfgOutputEncoding.Checked;
+
+            Config.Default.IsOutEncodingInfo = CfgOutputEncoding.Checked;
+
+            Config.Default.Save();
+        }
+
+        private void 枚举查看器ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tools.FormEnumViewer form = new CellGameEdit.Tools.FormEnumViewer();
+            form.Show();
+        }
+
+        private void 改变渲染字体ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.Font = javax.microedition.lcdui.Graphics.font;
+
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                javax.microedition.lcdui.Graphics.font = fd.Font;
+                Config.Default.GraphicsFont = fd.Font;
+
+                Config.Default.Save();
+            }
+        }
+
+
 
 
 

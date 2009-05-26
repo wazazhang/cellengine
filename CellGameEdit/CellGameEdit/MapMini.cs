@@ -56,9 +56,9 @@ namespace CellGameEdit.PM
                 pictureBox1.Height = (int)(map.Height * scale);
                 //int x = 0;
                 //int y = 0;
-                //if (pictureBox1.Width < panel1.Width) x = (panel1.Width - pictureBox1.Width) / 2;
-                //if (pictureBox1.Height < panel1.Height) y = (panel1.Height - pictureBox1.Height) / 2;
-                //pictureBox1.Location = new Point(x, y);
+                //if (MapRegion.Width < panel1.Width) x = (panel1.Width - MapRegion.Width) / 2;
+                //if (MapRegion.Height < panel1.Height) y = (panel1.Height - MapRegion.Height) / 2;
+                //MapRegion.Location = new Point(x, y);
                 pictureBox1.Refresh();
             }
             if(e.KeyCode == Keys.Subtract)
@@ -70,9 +70,9 @@ namespace CellGameEdit.PM
                 pictureBox1.Height = (int)(map.Height * scale);
                 //int x = 0;
                 //int y = 0;
-                //if (pictureBox1.Width < panel1.Width) x = (panel1.Width - pictureBox1.Width) / 2;
-                //if (pictureBox1.Height < panel1.Height) y = (panel1.Height - pictureBox1.Height) / 2;
-                //pictureBox1.Location = new Point(x, y);
+                //if (MapRegion.Width < panel1.Width) x = (panel1.Width - MapRegion.Width) / 2;
+                //if (MapRegion.Height < panel1.Height) y = (panel1.Height - MapRegion.Height) / 2;
+                //MapRegion.Location = new Point(x, y);
                 pictureBox1.Refresh();
             }
             

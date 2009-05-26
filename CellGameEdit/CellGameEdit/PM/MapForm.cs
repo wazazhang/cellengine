@@ -18,29 +18,32 @@ namespace CellGameEdit.PM
     public partial class MapForm : Form , ISerializable ,IEditForm
     {
 
+        public BufferdMiniMap MiniView;
+
         public String id;
         public String superName;
         public ImagesForm super;
 
         public int CellW;
         public int CellH;
-        
+
+        int KeyX = 0;
+        int KeyY = 0;
+
 
         int[][] MatrixTile;
         int[][] MatrixAnim;
-
         int[][] MatrixFlip;
         int[][] MatrixTag;
-
-        
 
         //Hashtable AnimTable;
         Hashtable AnimIndexTable;
         Hashtable AnimFlipTable;
         ArrayList Tiles;
+        ArrayList TileKeys;
 
-        int XCount;
-        int YCount;
+        public int XCount;
+        public int YCount;
 
         #region fliptable
         static public System.Drawing.RotateFlipType[] flipTable = new System.Drawing.RotateFlipType[]
@@ -82,11 +85,15 @@ namespace CellGameEdit.PM
         int srcIndexR = 0;
         System.Drawing.Rectangle srcRectR;
 
+        System.Drawing.Rectangle MapLoc = new System.Drawing.Rectangle(0,0,100,100);
+
         Boolean dstIsDown = false;
         int dstPX = 0;
         int dstPY = 0;
         int dstQX = 0;
         int dstQY = 0;
+        int dstBX = 0;
+        int dstBY = 0;
         System.Drawing.Rectangle dstRect;
 
         public static ImagesForm clipSuper;
@@ -100,10 +107,10 @@ namespace CellGameEdit.PM
         int curTime =0;
         int curFrame = -1;
 
-
         public MapForm(String name,int cellw,int cellh,ImagesForm images)
         {
             InitializeComponent();
+            mapTerrains1.init(this) ;
 
             id = name; this.Text = id;
             super = images;
@@ -117,6 +124,8 @@ namespace CellGameEdit.PM
             dstRect = new System.Drawing.Rectangle(0, 0, 0, 0);
 
             Tiles = super.dstImages;
+            TileKeys = super.dstDataKeys;
+
             for (int i = 0; i < getTileCount(); i++)
             {
                 if (getTileImage(i)!=null)
@@ -154,8 +163,8 @@ namespace CellGameEdit.PM
                 //    MatrixAnim[i][j] = 0;
                 //}
             }
-            pictureBox2.Width = CellW * XCount;
-            pictureBox2.Height = CellH * YCount;
+            MapLoc.Width = CellW * XCount;
+            MapLoc.Height = CellH * YCount;
             numericUpDown2.Value = XCount;
             numericUpDown3.Value = YCount;
             
@@ -203,6 +212,8 @@ namespace CellGameEdit.PM
             try
             {
                 InitializeComponent();
+                mapTerrains1.init(this);
+
                 id = (String)info.GetValue("id", typeof(String));
                 this.Text = id;
 
@@ -210,9 +221,11 @@ namespace CellGameEdit.PM
                 {
                     super = (ImagesForm)info.GetValue("super", typeof(ImagesForm));
                 }
-                else
+
+                if (super == null)
                 {
                     superName = (String)info.GetValue("SuperName", typeof(String));
+                    super = ProjectForm.getInstance().getImagesFormByName(superName);
                 }
                 
                 CellW = (int)info.GetValue("CellW", typeof(int));
@@ -225,6 +238,7 @@ namespace CellGameEdit.PM
                 dstRect = new System.Drawing.Rectangle(0, 0, 0, 0);
 
                 Tiles = super.dstImages;
+                TileKeys = super.dstDataKeys;
                 for (int i = 0; i < getTileCount(); i++)
                 {
                     if (getTileImage(i) != null)
@@ -262,8 +276,8 @@ namespace CellGameEdit.PM
                 XCount = MatrixTile[0].Length;
                 YCount = MatrixTile.Length;
 
-                pictureBox2.Width = CellW * XCount;
-                pictureBox2.Height = CellH * YCount;
+                MapLoc.Width = CellW * XCount;
+                MapLoc.Height = CellH * YCount;
                 numericUpDown2.Value = XCount;
                 numericUpDown3.Value = YCount;
 
@@ -302,9 +316,18 @@ namespace CellGameEdit.PM
 
                 animCount = (int)info.GetValue("animCount", typeof(int));
 
- 
-
                 trackBar1.Maximum = 0;
+
+
+
+                try
+                {
+                    this.IsTerrain.Checked = (Boolean)info.GetValue("IsTerrain", typeof(Boolean));
+                }
+                catch (Exception err) { }
+
+
+                
             }
             catch (Exception err)
             {
@@ -324,11 +347,8 @@ namespace CellGameEdit.PM
                 {
                     info.AddValue("super", super);
                 }
-                else
-                {
-                    info.AddValue("SuperName", super.id);
-                }
 
+                info.AddValue("SuperName", super.id);
 
                 info.AddValue("CellW",CellW);
                 info.AddValue("CellH",CellH);
@@ -356,6 +376,10 @@ namespace CellGameEdit.PM
                 //Console.WriteLine("NCount=" + AnimTable.Count);
 
                 info.AddValue("animCount", animCount);
+
+                info.AddValue("IsTerrain", IsTerrain.Checked);
+
+
             }
             catch (Exception err)
             {
@@ -431,8 +455,8 @@ namespace CellGameEdit.PM
             XCount = MatrixTile[0].Length;
             YCount = MatrixTile.Length;
 
-            pictureBox2.Width = CellW * XCount;
-            pictureBox2.Height = CellH * YCount;
+            MapLoc.Width = CellW * XCount;
+            MapLoc.Height = CellH * YCount;
             numericUpDown2.Value = XCount;
             numericUpDown3.Value = YCount;
 
@@ -440,51 +464,52 @@ namespace CellGameEdit.PM
         }
 
 
-        int[][] tileMatrix;
-        int[][] flagMatrix;
-        Animates animates;
+        int[][] OutputTileMatrix;
+        int[][] OutputFlagMatrix;
+
+        Animates OutputAnimates;
 
         public void initOutput(){
             //init
-            tileMatrix = new int[YCount][];
-            flagMatrix = new int[YCount][];
+            OutputTileMatrix = new int[YCount][];
+            OutputFlagMatrix = new int[YCount][];
             for (int y = 0; y < YCount; y++)
             {
-                tileMatrix[y] = new int[XCount];
-                flagMatrix[y] = new int[XCount];
+                OutputTileMatrix[y] = new int[XCount];
+                OutputFlagMatrix[y] = new int[XCount];
                 for (int x = 0; x < XCount; x++)
                 {
-                    tileMatrix[y][x] = 0;
-                    flagMatrix[y][x] = (int)MatrixTag[y][x];
+                    OutputTileMatrix[y][x] = 0;
+                    OutputFlagMatrix[y][x] = (int)MatrixTag[y][x];
                 }
 
             }
 
             // subs
-            animates = new Animates();
+            OutputAnimates = new Animates();
 
             for (int y = 0; y < YCount; y++)
             {
                 for (int x = 0; x < XCount; x++)
                 {
-                    int indexSub = animates.subIndexOf(MatrixTile[y][x], MatrixFlip[y][x]);
+                    int indexSub = OutputAnimates.subIndexOf(MatrixTile[y][x], MatrixFlip[y][x]);
                     if (indexSub < 0)
                     {
-                        animates.subAdd(MatrixTile[y][x], MatrixFlip[y][x]);
-                        indexSub = animates.subGetCount() - 1;
+                        OutputAnimates.subAdd(MatrixTile[y][x], MatrixFlip[y][x]);
+                        indexSub = OutputAnimates.subGetCount() - 1;
                     }
 
                     ArrayList frame = new ArrayList();
                     frame.Add(indexSub);
 
-                    int indexFrame = animates.frameIndexOf(frame);
+                    int indexFrame = OutputAnimates.frameIndexOf(frame);
                     if (indexFrame < 0)
                     {
-                        animates.frameAdd(frame);
-                        indexFrame = animates.frameGetCount() - 1;
+                        OutputAnimates.frameAdd(frame);
+                        indexFrame = OutputAnimates.frameGetCount() - 1;
                     }
 
-                    tileMatrix[y][x] = (int)indexFrame;
+                    OutputTileMatrix[y][x] = (int)indexFrame;
 
                 }
             }
@@ -500,34 +525,34 @@ namespace CellGameEdit.PM
 
                         for (int i = 0; i < getFrame(anim).Count; i++)
                         {
-                            int indexSub = animates.subIndexOf((int)(getFrame(anim)[i]), (int)(getFrameFlip(anim)[i]));
+                            int indexSub = OutputAnimates.subIndexOf((int)(getFrame(anim)[i]), (int)(getFrameFlip(anim)[i]));
                             if (indexSub < 0)
                             {
-                                animates.subAdd((int)(getFrame(anim)[i]), (int)(getFrameFlip(anim)[i]));
-                                indexSub = animates.subGetCount() - 1;
+                                OutputAnimates.subAdd((int)(getFrame(anim)[i]), (int)(getFrameFlip(anim)[i]));
+                                indexSub = OutputAnimates.subGetCount() - 1;
                             }
                             frame.Add(indexSub);
                         }
 
-                        int indexFrame = animates.frameIndexOf(frame);
+                        int indexFrame = OutputAnimates.frameIndexOf(frame);
                         if (indexFrame < 0)
                         {
-                            animates.frameAdd(frame);
-                            indexFrame = animates.frameGetCount() - 1;
+                            OutputAnimates.frameAdd(frame);
+                            indexFrame = OutputAnimates.frameGetCount() - 1;
                         }
 
 
                         // 和JAVA端相反
                         if (MatrixAnim[y][x] < 0)//多层
                         {
-                            tileMatrix[y][x] = indexFrame;
+                            OutputTileMatrix[y][x] = indexFrame;
                         }
                         else
                         {
-                            tileMatrix[y][x] = -indexFrame;
+                            OutputTileMatrix[y][x] = -indexFrame;
                         }
 
-                        //Console.WriteLine(" tileMatrix = " + tileMatrix[y][x].ToString("d"));
+                        //Console.WriteLine(" OutputTileMatrix = " + OutputTileMatrix[y][x].ToString("d"));
 
                     }
                 }
@@ -543,13 +568,13 @@ namespace CellGameEdit.PM
         //    sw.WriteLine();
         //    sw.WriteLine("final static public CMap createMap_" + super.id + "_" + this.id + "(IImages tiles,boolean isAnimate,boolean isCyc)");
         //    sw.WriteLine("{");
-        //    // animates
-        //    sw.WriteLine("    CAnimates animates = new CAnimates("+animates.subGetCount()+",tiles);");
-        //for (int i = 0; i < animates.subGetCount(); i++)  
-        //    sw.WriteLine("    animates.addPart(0,0," + animates.SubPart[i] + "," + flipTableJ2me[(int)(animates.SubFlip[i])] + ");");
-        //    sw.WriteLine("    animates.setFrame(new int[" + animates.frameGetCount() + "][]);");
-        //for (int i = 0; i < animates.frameGetCount(); i++)
-        //    sw.WriteLine("    animates.setComboFrame(new int[]{"+Util.toTextArray((int[])(animates.frameGetFrame(i).ToArray(typeof(int))))+"},"+i+");");
+        //    // OutputAnimates
+        //    sw.WriteLine("    CAnimates OutputAnimates = new CAnimates("+OutputAnimates.subGetCount()+",tiles);");
+        //for (int i = 0; i < OutputAnimates.subGetCount(); i++)  
+        //    sw.WriteLine("    OutputAnimates.addPart(0,0," + OutputAnimates.SubPart[i] + "," + flipTableJ2me[(int)(OutputAnimates.SubFlip[i])] + ");");
+        //    sw.WriteLine("    OutputAnimates.setFrame(new int[" + OutputAnimates.frameGetCount() + "][]);");
+        //for (int i = 0; i < OutputAnimates.frameGetCount(); i++)
+        //    sw.WriteLine("    OutputAnimates.setComboFrame(new int[]{"+Util.toTextArray((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))))+"},"+i+");");
         //    sw.WriteLine();
         //    // collides
         //    sw.WriteLine("    CCollides collides = new CCollides(8);");
@@ -563,22 +588,22 @@ namespace CellGameEdit.PM
         //    sw.WriteLine("    collides.addCDLine(0x00000040, " + (CellW-1) + ", " + 0 + ", " + 0 + "," + (CellH-1) + ");");
         //    sw.WriteLine();
         //    // map matrix
-        //    sw.WriteLine("    short[][] tileMatrix = new short[][]{");
+        //    sw.WriteLine("    short[][] OutputTileMatrix = new short[][]{");
         //for (int i = 0; i < YCount; i++)
-        //    sw.WriteLine("        {"+ Util.toTextArray(tileMatrix[i]) +"},");
+        //    sw.WriteLine("        {"+ Util.toTextArray(OutputTileMatrix[i]) +"},");
         //    sw.WriteLine("    };");
-        //    sw.WriteLine("    short[][] flagMatrix = new short[][]{");
+        //    sw.WriteLine("    short[][] OutputFlagMatrix = new short[][]{");
         //for (int i = 0; i < YCount; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(flagMatrix[i]) + "},");
+        //    sw.WriteLine("        {" + Util.toTextArray(OutputFlagMatrix[i]) + "},");
         //    sw.WriteLine("    };");
         //    sw.WriteLine();
         //    // map new
         //    sw.WriteLine("    CMap ret = new CMap(");
-        //    sw.WriteLine("            animates, ");
+        //    sw.WriteLine("            OutputAnimates, ");
         //    sw.WriteLine("            collides, ");
         //    sw.WriteLine("            " + CellW + ", " + CellH + ", ");
-        //    sw.WriteLine("            tileMatrix, ");
-        //    sw.WriteLine("            flagMatrix, ");
+        //    sw.WriteLine("            OutputTileMatrix, ");
+        //    sw.WriteLine("            OutputFlagMatrix, ");
         //    sw.WriteLine("            isAnimate,isCyc ");
         //    sw.WriteLine("            );");
         //    sw.WriteLine();
@@ -600,14 +625,14 @@ namespace CellGameEdit.PM
 
                     bool fix = false;
 
-                    // animates part
+                    // OutputAnimates part
                     do
                     {
-                        String[] senceParts = new string[animates.subGetCount()];
-                        for (int i = 0; i < animates.subGetCount(); i++)
+                        String[] senceParts = new string[OutputAnimates.subGetCount()];
+                        for (int i = 0; i < OutputAnimates.subGetCount(); i++)
                         {
-                            string TILE = animates.SubPart[i].ToString();
-                            string TRANS = flipTableJ2me[(int)(animates.SubFlip[i])].ToString();
+                            string TILE = OutputAnimates.SubPart[i].ToString();
+                            string TRANS = flipTableJ2me[(int)(OutputAnimates.SubFlip[i])].ToString();
 
                             senceParts[i] = Util.replaceKeywordsScript(map, "#<SCENE PART>", "#<END SCENE PART>",
                                 new string[] { "<INDEX>", "<TILE>", "<TRANS>" },
@@ -627,19 +652,19 @@ namespace CellGameEdit.PM
                     } while (fix);
 
 
-                    // animates frame
+                    // OutputAnimates frame
                     do
                     {
-                        String[] senceFrames = new string[animates.frameGetCount()];
-                        for (int i = 0; i < animates.frameGetCount(); i++)
+                        String[] senceFrames = new string[OutputAnimates.frameGetCount()];
+                        for (int i = 0; i < OutputAnimates.frameGetCount(); i++)
                         {
-                            //string DATA = Util.toTextArray((int[])(animates.frameGetFrame(i).ToArray(typeof(int))));
-                            int[] frames = ((int[])(animates.frameGetFrame(i).ToArray(typeof(int))));
+                            //string DATA = Util.toTextArray((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))));
+                            int[] frames = ((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))));
                             string DATA = Util.toNumberArray1D<int>(ref frames);
 
                             senceFrames[i] = Util.replaceKeywordsScript(map, "#<SCENE FRAME>", "#<END SCENE FRAME>",
                                 new string[] { "<INDEX>", "<DATA SIZE>", "<DATA>" },
-                                new string[] { i.ToString(), animates.frameGetFrame(i).Count.ToString(), DATA }
+                                new string[] { i.ToString(), OutputAnimates.frameGetFrame(i).Count.ToString(), DATA }
                                 );
                         }
                         string temp = Util.replaceSubTrunksScript(map, "#<SCENE FRAME>", "#<END SCENE FRAME>", senceFrames);
@@ -705,15 +730,15 @@ namespace CellGameEdit.PM
                     // tile matrix
                     //String senceMatrix = "";
                     //for (int i = 0; i < YCount; i++)
-                    //    senceMatrix += "{" + Util.toTextArray(tileMatrix[i]) + "},\r\n";
-                    String senceMatrix = Util.toNumberArray2D<int>(ref tileMatrix);
+                    //    senceMatrix += "{" + Util.toTextArray(OutputTileMatrix[i]) + "},\r\n";
+                    String senceMatrix = Util.toNumberArray2D<int>(ref OutputTileMatrix);
 
                     // cd matrix
                     //String cdMatrix = "";
                     //for (int i = 0; i < YCount; i++)
-                    //    cdMatrix += "{" + Util.toTextArray(flagMatrix[i]) + "},\r\n";
+                    //    cdMatrix += "{" + Util.toTextArray(OutputFlagMatrix[i]) + "},\r\n";
 
-                    String cdMatrix = Util.toNumberArray2D<int>(ref flagMatrix);
+                    String cdMatrix = Util.toNumberArray2D<int>(ref OutputFlagMatrix);
 
                     map = Util.replaceKeywordsScript(map, "#<MAP>", "#<END MAP>",
                         new string[] { 
@@ -740,8 +765,8 @@ namespace CellGameEdit.PM
                     YCount.ToString(),
                     senceMatrix,
                     cdMatrix,
-                    animates.subGetCount().ToString(),
-                    animates.frameGetCount().ToString(),
+                    OutputAnimates.subGetCount().ToString(),
+                    OutputAnimates.frameGetCount().ToString(),
                     "8"}
                         );
 
@@ -755,7 +780,8 @@ namespace CellGameEdit.PM
 
         private void MapForm_Load(object sender, EventArgs e)
         {
-            //timer1.Start();
+            timer1.Start();
+            refreshAnimateList();
         }
         private void MapForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -775,12 +801,24 @@ namespace CellGameEdit.PM
         }
 
 
+        public Boolean isTerrain() { return this.IsTerrain.Checked; }
 
-
+        public Image getTileImage(int x, int y) {
+            return (((Image)(Tiles[MatrixTile[y][x]])));
+        }
         public Image getTileImage(int index)
         {
             return (((Image)(Tiles[index])));
         }
+        public String getTileKey(int x, int y)
+        {
+            return (((String)(TileKeys[MatrixTile[y][x]])));
+        }
+        public String getTileKey(int index)
+        {
+            return (((String)(TileKeys[index])));
+        }
+
         public int getTileCount()
         {
             return Tiles.Count;
@@ -794,6 +832,8 @@ namespace CellGameEdit.PM
         {
             return this.YCount * this.CellH;
         }
+
+        
 
         public int getTileID(int x,int y)
         {
@@ -834,9 +874,10 @@ namespace CellGameEdit.PM
             }
             catch (Exception err)
             {
-                return -1;
+                return 0;
             }
         }
+        
 
         private void addAnimate()
         {
@@ -914,6 +955,7 @@ namespace CellGameEdit.PM
             }
         }
 
+       
         private void addFrame(int pos, int index, int flip)
         {
             if (listView1.SelectedItems != null && listView1.SelectedItems.Count > 0)
@@ -977,7 +1019,7 @@ namespace CellGameEdit.PM
             {
                 for (int x = dstRect.X; x < dstRect.X + dstRect.Width; x+=CellW)
                 {
-                    putAnimate(index,x/CellW,y/CellH);
+                    putAnimate(index,x/CellW,y/CellH,IsMultiLayer.Checked);
                 }
             }
         }
@@ -1035,14 +1077,61 @@ namespace CellGameEdit.PM
             }
             
         }
-        private void paseDst()
+        private void clipDst()
         {
-            if (clipSuper != this.super) return;
-
             int sbx = dstRect.X / CellW;
             int sby = dstRect.Y / CellH;
             int xcount = dstRect.Width / CellW;
             int ycount = dstRect.Height / CellH;
+
+            if (xcount <= 0 || ycount <= 0) return;
+
+            clipSuper = this.super;
+            dstClipTile = new int[ycount][];
+            dstClipTag = new int[ycount][];
+            dstClipAnim = new int[ycount][];
+            dstClipFlip = new int[ycount][];
+            for (int by = 0; by < ycount; by++)
+            {
+                dstClipTile[by] = new int[xcount];
+                dstClipTag[by] = new int[xcount];
+                dstClipAnim[by] = new int[xcount];
+                dstClipFlip[by] = new int[xcount];
+                for (int bx = 0; bx < xcount; bx++)
+                {
+                    if (sby + by < MatrixTile.Length && sbx + bx < MatrixTile[by].Length)
+                    {
+                        dstClipTile[by][bx] = MatrixTile[sby + by][sbx + bx];
+                        dstClipTag[by][bx] = MatrixTag[sby + by][sbx + bx];
+                        dstClipAnim[by][bx] = MatrixAnim[sby + by][sbx + bx];
+                        dstClipFlip[by][bx] = MatrixFlip[sby + by][sbx + bx];
+
+                        putTile(srcIndexR, sbx + bx, sby + by);
+                        putFlip(flipIndex, sbx + bx, sby + by);
+                        putTag(0, sbx + bx, sby + by);
+                        putAnimate(0, sbx + bx, sby + by, false);
+                    }
+                }
+            }
+
+        }
+        private void paseDst()
+        {
+            if (clipSuper != this.super) return;
+
+            
+            int sbx = dstRect.X / CellW;
+            int sby = dstRect.Y / CellH;
+            //int xcount = dstRect.Width / CellW;
+            //int ycount = dstRect.Height / CellH;
+            int xcount = dstRect.Width / CellW;
+            int ycount = dstRect.Height / CellH;
+
+            if (dstClipTile!=null)
+            {
+                xcount = Math.Max(xcount, dstClipTile[0].Length);
+                ycount = Math.Max(ycount, dstClipTile.Length);
+            }
 
             if (xcount <= 0 || ycount <= 0) return;
 
@@ -1059,34 +1148,69 @@ namespace CellGameEdit.PM
                     putTag(
                         dstClipTag[by % dstClipTag.Length][bx % dstClipTag[by % dstClipTag.Length].Length], 
                         sbx + bx, sby + by);
+
+                    int anim =  dstClipAnim[by % dstClipAnim.Length][bx % dstClipAnim[by % dstClipAnim.Length].Length];
                     putAnimate(
-                        dstClipAnim[by % dstClipAnim.Length][bx % dstClipAnim[by % dstClipAnim.Length].Length], 
-                        sbx + bx, sby + by);
+                        anim, 
+                        sbx + bx, sby + by,
+                        anim<0);
                 }
             }
         }
+        private void clearDst()
+        {
+            int sbx = dstRect.X / CellW;
+            int sby = dstRect.Y / CellH;
+            int xcount = dstRect.Width / CellW;
+            int ycount = dstRect.Height / CellH;
 
-        private void putTile(int index, int bx, int by)
+            if (xcount <= 0 || ycount <= 0) return;
+
+            for (int by = 0; by < ycount; by++)
+            {
+                for (int bx = 0; bx < xcount; bx++)
+                {
+                    if (sby + by < MatrixTile.Length && sbx + bx < MatrixTile[by].Length)
+                    {
+                        putTile(srcIndexR, sbx + bx, sby + by);
+                        putFlip(flipIndex, sbx + bx, sby + by);
+                        putTag(0, sbx + bx, sby + by);
+                        putAnimate(0, sbx + bx, sby + by, false);
+                    }
+                }
+            }
+
+        }
+
+
+        public void putTile(int index, int bx, int by)
         {
             if (index < getTileCount() && by < MatrixTile.Length && bx < MatrixTile[by].Length)
             {
                 MatrixTile[by][bx] = index;
+
+                if (MiniView != null)
+                {
+                    MiniView.rebuff(bx,by,getTileImage(bx,by));
+                }
             }
         }
-        private void putTag(int tag, int bx, int by)
+        public void putTag(int tag, int bx, int by)
         {
             if (by < MatrixTag.Length && bx < MatrixTag[by].Length)
             {
                 MatrixTag[by][bx] = tag;
             }
         }
-        private void putAnimate(int index, int bx, int by)
-        {
+        public void putAnimate(int index, int bx, int by, Boolean multiLayer)
+        {   
             if (by < MatrixAnim.Length && bx < MatrixAnim[by].Length)
             {
+                index = Math.Abs(index);
+
                 if (index > 0 && index < listView1.Items.Count)
                 {
-                    if (toolStripButton22.Checked)//duo ceng
+                    if (multiLayer)//duo ceng
                     {
                         MatrixAnim[by][bx] = -index;
                     }
@@ -1102,23 +1226,66 @@ namespace CellGameEdit.PM
                 
             }
         }
-        private void putFlip(int flip, int bx, int by)
+        public void putFlip(int flip, int bx, int by)
         {
             if (flip < 8 && by < MatrixFlip.Length && bx < MatrixFlip[by].Length)
             {
                 MatrixFlip[by][bx] = flip;
             }
         }
+        
 
- 
-        private void renderTile(Graphics g, int index, int flip, int x, int y)
+
+        private void renderSrcTile(Graphics g, int index, int flip, int x, int y)
         {
-            if (getTileImage(index) != null && flip<flipTable.Length)
+            Image img = getTileImage(index);
+            if (img != null && flip < flipTable.Length)
             {
-                g.drawImage(getTileImage(index), x, y, flipTable[flip],0);
+                g.drawImage(img, x, y, flipTable[flip], 0);
             }
             
         }
+        private void renderDstTile(Graphics g, int index, int flip, int x, int y)
+        {
+            Image img = getTileImage(index);
+
+            if (img != null && flip < flipTable.Length)
+            {
+                if (D45.Checked)
+                {
+                    g.drawImage(img, x, y, flipTable[flip], 0);
+                }
+                else
+                {
+                    g.drawImage(img, x, y, KeyX, KeyY, CellW, CellH, flipTable[flip], 0);
+                }
+            }
+        }
+        private void renderDstKeyAndTile(Graphics g, bool key, bool tile, int index, int x, int y)
+        {
+            if (key)
+            {
+                String str = getTileKey(index);
+                if (str != null)
+                {
+                    g.setColor(0xff, 0, 0, 0);
+                    g.drawString(str, x + 1, y + 1, 0);
+                    g.setColor(ImagesForm.ColorKey.ToArgb());
+                    g.drawString(str, x, y, 0);
+                }
+            }
+            if (tile)
+            {
+                y = y + CellH / 2;
+                String str = index.ToString();
+                g.setColor(0xff, 0, 0, 0);
+                g.drawString(str, x + 1, y + 1, 0);
+                g.setColor(ImagesForm.ColorTileID.ToArgb());
+                g.drawString(str, x, y, 0);
+            }
+        }
+
+
         private void renderTag(Graphics g, int type, int x, int y)
         {
             g.setColor(0xff, 0, 0, 0);
@@ -1177,7 +1344,7 @@ namespace CellGameEdit.PM
             }
 
         }
-        private void renderAnimate(Graphics g, int anim, int frame, int x, int y)
+        private void renderAnimate(Graphics g, int anim, int frame, int x, int y, Boolean tag)
         {
             try
             {
@@ -1189,19 +1356,32 @@ namespace CellGameEdit.PM
                     ArrayList flips = (ArrayList)(AnimFlipTable[listView1.Items[anim]]);
                     if (animate.Count <= 0) return;
                     if (flips.Count <= 0) return;
-                    renderTile(g,
-                        (int)(animate[frame % animate.Count]),
-                        (int)(flips[frame % flips.Count]),
+
+                    int tid = (int)(animate[frame % animate.Count]);
+                    int tif = (int)(flips[frame % flips.Count]);
+
+                    renderDstTile(g,
+                        tid,
+                        tif,
                         x, y);
+
+                    
+                    renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked ,tid, x, y);
+                    
+
+                    if (tag)
+                    {
+                        g.setColor(0x00, 0x00, 0xff);
+                        g.drawRect(x, y, CellW - 1, CellH - 1);
+                    }
                 }
             }
             catch (Exception err)
             {
-
             }
                
         }
-        private void renderCombo(Graphics g, int anim, int x, int y)
+        private void renderCombo(Graphics g, int anim, int x, int y, Boolean tag)
         {
             if (listView1.Items.Count <= 0) return;
 
@@ -1209,15 +1389,100 @@ namespace CellGameEdit.PM
             ArrayList flips = (ArrayList)(AnimFlipTable[listView1.Items[anim]]);
             if (animate.Count <= 0) return;
             if (flips.Count <= 0) return;
-            for (int frame =  animate.Count - 1; frame >= 0; frame--)
+            for (int frame = animate.Count - 1; frame >= 0; frame--)
             {
-                renderTile(g,
-                  (int)(animate[frame % animate.Count]),
-                  (int)(flips[frame % flips.Count]),
+                int tid = (int)(animate[frame % animate.Count]);
+                int tif = (int)(flips[frame % flips.Count]);
+                renderDstTile(g,
+                  tid,
+                  tif,
                   x, y);
+                if (frame==0){
+                    renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked, tid, x, y);
+                }
             }
-           
+            if (tag)
+            {
+                g.setColor(0x00, 0xff, 0xff);
+                g.drawRect(x, y, CellW - 1, CellH - 1);
+            }
         }
+
+
+        private System.Drawing.Image getAnimateImage(int anim, int frame)
+        {
+            try
+            {
+                if (listView1.Items.Count <= 0) return null;
+
+                if (anim >= 0 && anim < listView1.Items.Count)
+                {
+                    ArrayList animate = (ArrayList)(AnimIndexTable[listView1.Items[anim]]);
+                    if (animate.Count <= 0) return null;
+                    return getTileImage((int)(animate[frame % animate.Count])).dimg;
+                }
+            }
+            catch (Exception err)
+            {
+            }
+            return null;
+        }
+
+        private System.Drawing.RotateFlipType getAnimateFlip(int anim, int frame)
+        {
+            try
+            {
+                if (listView1.Items.Count <= 0) return 0;
+
+                if (anim >= 0 && anim < listView1.Items.Count)
+                {
+                    ArrayList flips = (ArrayList)(AnimFlipTable[listView1.Items[anim]]);
+                    if (flips.Count <= 0) return 0;
+                    return flipTable[(int)(flips[frame % flips.Count])];
+                }
+            }
+            catch (Exception err)
+            {
+            }
+            return 0;
+        }
+
+        private void refreshAnimateList()
+        {
+            try
+            {
+                //listView1.TileSize = new System.Drawing.Size(CellW + 1, CellH + 1);
+               
+
+                imageList1.ImageSize = new System.Drawing.Size(CellW, CellH);
+                imageList1.Images.Clear();
+               
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    item.Text = item.Index.ToString();
+
+                    System.Drawing.Image icon = getAnimateImage(item.Index, 0);
+
+                    icon = new System.Drawing.Bitmap(icon);
+                    icon.RotateFlip(getAnimateFlip(item.Index, 0));
+
+                    if (icon != null)
+                    {
+                        imageList1.Images.Add(icon);
+                        item.ImageIndex = imageList1.Images.Count - 1;
+                    }
+
+                    switch (listView1.View)
+                    {
+                        case View.Tile:
+                            break;
+                    }
+
+                }
+            }
+            catch (Exception err) { }
+        }
+
 
         private void renderSrc(Graphics g, int x, int y, System.Drawing.Rectangle screen)
         {
@@ -1231,25 +1496,30 @@ namespace CellGameEdit.PM
                         getTileImage(i).getHeight()+1)
                     ))
                 {
-                    renderTile(g,i,0, x + getTileImage(i).x, y + getTileImage(i).y);
+                    renderSrcTile(g,i,0, x + getTileImage(i).x, y + getTileImage(i).y);
                 }
             }
             if (srcIndex < getTileCount())
             {
                 if (getTileImage(srcIndex) != null)
                 {
-                    renderTile(g, srcIndex, flipIndex, x + getTileImage(srcIndex).x, y + getTileImage(srcIndex).y);
+                    renderSrcTile(g, srcIndex, flipIndex, x + getTileImage(srcIndex).x, y + getTileImage(srcIndex).y);
                 }
             }
             if (srcIndexR < getTileCount())
             {
                 if (getTileImage(srcIndexR) != null)
                 {
-                    renderTile(g, srcIndexR, flipIndex, x + getTileImage(srcIndexR).x, y + getTileImage(srcIndexR).y);
+                    renderSrcTile(g, srcIndexR, flipIndex, x + getTileImage(srcIndexR).x, y + getTileImage(srcIndexR).y);
                 }
             }
         }
-        private void renderDst(Graphics g, int x, int y, System.Drawing.Rectangle screen, Boolean grid, Boolean tag, Boolean anim,int timer)
+        private void renderDst(Graphics g, int x, int y, System.Drawing.Rectangle screen, 
+            Boolean grid, 
+            Boolean tag, 
+            Boolean tagAnim,
+            Boolean anim,
+            int timer)
         {
             int sx = (screen.X >= 0) ? (screen.X / CellW) : 0;
             int sy = (screen.Y >= 0) ? (screen.Y / CellH) : 0;
@@ -1262,22 +1532,32 @@ namespace CellGameEdit.PM
             {
                 for (int bx = sx; bx < sx + sw && bx < XCount; bx++)
                 {
+                    int drawx = x + bx * CellW;
+                    int drawy = y + by * CellH;
+
                     if (MatrixAnim[by][bx] > 0 && MatrixAnim[by][bx] < listView1.Items.Count)
                     {
-                        renderAnimate(g, MatrixAnim[by][bx], anim ? timer : 0, x + bx * CellW, y + by * CellH);
+                        renderAnimate(g, MatrixAnim[by][bx], anim ? timer : 0, drawx, drawy, tagAnim);
                     }
                     else if (MatrixAnim[by][bx] < 0 && Math.Abs(MatrixAnim[by][bx]) < listView1.Items.Count)
                     {
-                        renderCombo(g, Math.Abs(MatrixAnim[by][bx]), x + bx * CellW, y + by * CellH);
+                        renderCombo(g, Math.Abs(MatrixAnim[by][bx]), drawx, drawy, tagAnim);
                     }
                     else if (MatrixTile[by][bx] >= 0 && MatrixTile[by][bx] < getTileCount())
                     {
-                        renderTile(g,MatrixTile[by][bx],MatrixFlip[by][bx],x + bx * CellW,y + by * CellH);
-                        
+                        renderDstTile(g,MatrixTile[by][bx],MatrixFlip[by][bx],drawx, drawy);
+                        renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked, MatrixTile[by][bx], drawx, drawy);
                     }
+
+                    if (tag && MatrixAnim[by][bx] != 0)
+                    {
+                        g.setColor(0, 0, 0xff);
+                        g.drawRect(drawx, drawy, CellW, CellH);
+                    }
+
                     if (tag && MatrixTag[by][bx] != 0)
                     {
-                        renderTag(g, MatrixTag[by][bx], x + bx * CellW, y + by * CellH);
+                        renderTag(g, MatrixTag[by][bx], drawx, drawy);
                     }
                 }
             }
@@ -1307,7 +1587,7 @@ namespace CellGameEdit.PM
 
         public void Render(Graphics g, int x, int y, System.Drawing.Rectangle screen, Boolean grid, Boolean tag, Boolean anim,int timer)
         {
-            renderDst(g, x, y, screen, grid, tag, anim,timer);
+            renderDst(g, x, y, screen, grid, tag, false, anim, timer);
         }
 
         // src
@@ -1408,6 +1688,7 @@ namespace CellGameEdit.PM
                         }
                     }
                 }
+                textBox1.Focus();
         }
         private void toolStripMenuItem10_Click(object sender, EventArgs e)
         {
@@ -1477,17 +1758,23 @@ namespace CellGameEdit.PM
                 MatrixAnim = matrixAnim;
                 MatrixFlip = matrixFlip;
 
-                pictureBox2.Width = CellW * XCount;
-                pictureBox2.Height = CellH * YCount;
+                MapLoc.Width = CellW * XCount;
+                MapLoc.Height = CellH * YCount;
             }
+
+            refreshMap();
         }
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        private void numericUpDown2_Enter_1(object sender, EventArgs e)
         {
-            dstChangeMapSize((int)numericUpDown2.Value,YCount);
+            numericUpDown2.Value = XCount;
         }
-        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        private void numericUpDown3_Enter_1(object sender, EventArgs e)
         {
-            dstChangeMapSize(XCount, (int)numericUpDown3.Value);
+            numericUpDown3.Value = YCount;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dstChangeMapSize((int)numericUpDown2.Value, (int)numericUpDown3.Value);
         }
 
         private void dstChageCellSize(int cellw,int cellh)
@@ -1503,10 +1790,10 @@ namespace CellGameEdit.PM
             pictureBox4.Width = CellW;
             pictureBox4.Height = CellH;
 
-            pictureBox2.Width = CellW * XCount;
-            pictureBox2.Height = CellH * YCount;
+            MapLoc.Width = CellW * XCount;
+            MapLoc.Height = CellH * YCount;
 
-            pictureBox2.Refresh();
+            refreshMap();
         }
         private void numericUpDown4_ValueChanged(object sender, EventArgs e)
         {
@@ -1527,15 +1814,15 @@ namespace CellGameEdit.PM
                 dstRect.Width = 0;
                 dstRect.Height = 0;
 
-                    if (!sender.Equals(toolStripButton8)) toolStripButton8.Checked = false;
-                    if (!sender.Equals(toolStripButton9)) toolStripButton9.Checked = false;
-                    if (!sender.Equals(toolStripButton10)) toolStripButton10.Checked = false;
-                    if (!sender.Equals(toolStripButton17)) toolStripButton17.Checked = false;
+                    if (!sender.Equals(toolSelecter)) toolSelecter.Checked = false;
+                    if (!sender.Equals(toolTileBrush)) toolTileBrush.Checked = false;
+                    if (!sender.Equals(toolCDBrush)) toolCDBrush.Checked = false;
+                    if (!sender.Equals(toolAnimBrush)) toolAnimBrush.Checked = false;
 
                     ((ToolStripButton)sender).Checked = true;
 
                 //
-                    if (sender.Equals(toolStripButton8))
+                    if (sender.Equals(toolSelecter))
                     {
                         //toolStripDropDownButton2.Enabled = true;
                     }
@@ -1552,7 +1839,7 @@ namespace CellGameEdit.PM
                     //    toolStripDropDownButton1.Enabled = false;
                     //}
 
-                pictureBox2.Refresh();
+                refreshMap();
             }
             catch (Exception err)
             {
@@ -1593,7 +1880,7 @@ namespace CellGameEdit.PM
         }
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
-            pictureBox2.Refresh();
+            refreshMap();
         }
 
         private void 填充ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1617,271 +1904,37 @@ namespace CellGameEdit.PM
         {
             paseDst();
         }
-
-        private void pictureBox2_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = new Graphics(e.Graphics);
-
-
-
-            renderDst(g, 0, 0, 
-                new System.Drawing.Rectangle(
-                    - pictureBox2.Location.X,
-                    - pictureBox2.Location.Y,
-                    panel2.Width,
-                    panel2.Height
-                ),
-                toolStripButton11.Checked, 
-                toolStripButton12.Checked || toolStripButton10.Checked,
-                toolStripButton14.Checked,
-                curTime
-                );
-
-
-
-            System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0, 0, 0));
-            System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x40, 0xff, 0xff, 0xff)).Brush;
-
-
-            if (toolStripButton8.Checked)
-            {
-                e.Graphics.FillRectangle(brush, dstRect);
-                e.Graphics.DrawRectangle(pen, dstRect.X, dstRect.Y, dstRect.Width - 1, dstRect.Height - 1);
-            }
-
-            if (toolStripButton9.Checked)
-            {
-                //renderTile(g, srcIndex, flipIndex, dstQX / CellW * CellW, dstQY / CellH * CellH);
-
-                System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0));
-                //e.Graphics.FillRectangle(brush, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW, CellH);
-                int x = dstQX / CellW * CellW;
-                int y = dstQY / CellH * CellH;
-                int w = CellW*2;
-                int h = CellH*2;
-                if (D45.Checked)
-                {
-                    e.Graphics.DrawLine(lpen, x, y + CellH, x + CellW, y);//         /
-                    e.Graphics.DrawLine(lpen, x + CellW, y, x + w, y + CellH);//       \
-                    e.Graphics.DrawLine(lpen, x, y + CellH, x + CellW, y + h);//     \
-                    e.Graphics.DrawLine(lpen, x + CellW, y + h, x + w, y + CellH);//   /
-                }
-                else
-                {
-                    e.Graphics.DrawRectangle(lpen, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW - 1, CellH - 1);
-                }
-                
-            }
-            if (toolStripButton10.Checked)
-            {
-                //renderTag(g,tagIndex,dstQX / CellW * CellW, dstQY / CellH * CellH);
-
-                System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0xff, 0, 0));
-                //e.Graphics.FillRectangle(brush, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW, CellH);
-                e.Graphics.DrawRectangle(lpen, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW - 1, CellH - 1);
-            }
-            if (toolStripButton17.Checked)
-            {
-
-                //if (curAnimate >= 0)
-                //{
-                //    if (toolStripButton22.Checked)
-                //    {
-                //        renderCombo(g, curAnimate, dstQX / CellW * CellW, dstQY / CellH * CellH);
-                //    }
-                //    else
-                //    {
-                //        renderAnimate(g, curAnimate, 0, dstQX / CellW * CellW, dstQY / CellH * CellH);
-                //    }
-                //}
-                System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0xff));
-                //e.Graphics.FillRectangle(brush, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW, CellH);
-                //e.Graphics.DrawRectangle(lpen, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW - 1, CellH - 1);
-
-                int x = dstQX / CellW * CellW;
-                int y = dstQY / CellH * CellH;
-                int w = CellW * 2;
-                int h = CellH * 2;
-                if (D45.Checked)
-                {
-                    e.Graphics.DrawLine(lpen, x, y + CellH, x + CellW, y);//         /
-                    e.Graphics.DrawLine(lpen, x + CellW, y, x + w, y + CellH);//       \
-                    e.Graphics.DrawLine(lpen, x, y + CellH, x + CellW, y + h);//     \
-                    e.Graphics.DrawLine(lpen, x + CellW, y + h, x + w, y + CellH);//   /
-                }
-                else
-                {
-                    e.Graphics.DrawRectangle(lpen, dstQX / CellW * CellW, dstQY / CellH * CellH, CellW - 1, CellH - 1);
-                }
-            }
-
-           // Console.WriteLine(""+pictureBox2.Location.Y);
-        }
-
-        private void pictureBox2_MouseLeave(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "地图";
-        }
-        private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
-        {
-            dstQX = e.X < 0 ? 0 : (e.X > pictureBox2.Width - 1 ? pictureBox2.Width - 1 : e.X);
-            dstQY = e.Y < 0 ? 0 : (e.Y > pictureBox2.Height - 1 ? pictureBox2.Height - 1 : e.Y);
-
-            toolStripStatusLabel1.Text =
-                           "格:" + dstQX / CellW + "," + dstQY / CellH
-                       ;
-            if (toolStripButton8.Checked)
-            {
-                if (dstIsDown)
-                {
-                    int l = Math.Min(dstPX, dstQX) / CellW;
-                    int r = Math.Max(dstPX, dstQX) / CellW;
-                    int t = Math.Min(dstPY, dstQY) / CellH;
-                    int b = Math.Max(dstPY, dstQY) / CellH;
-
-                    dstRect.X = l * CellW;
-                    dstRect.Y = t * CellH;
-                    dstRect.Width = (r - l + 1) * CellW;
-                    dstRect.Height = (b - t + 1) * CellH;
-
-                    toolStripStatusLabel1.Text += " 选择:" + (r - l + 1) + "x" + (b - t + 1) + "格";
-                }
-            }
-
-            if (e.Button == MouseButtons.Left)
-            {
-               
-                if (toolStripButton9.Checked)
-                {
-                    putTile(srcIndex, dstQX / CellW, dstQY / CellH);
-                    putFlip(flipIndex, dstQX / CellW, dstQY / CellH);
-                }
-                if (toolStripButton10.Checked)
-                {
-                    putTag(tagIndex, dstQX / CellW, dstQY / CellH);
-                }
-                if (toolStripButton17.Checked)
-                {
-                    putAnimate(curAnimate, dstQX / CellW, dstQY / CellH);
-                }
-            }
-            if (e.Button == MouseButtons.Right)
-            {
-                if (toolStripButton9.Checked)
-                {
-                    putTile(srcIndexR, dstQX / CellW, dstQY / CellH);
-                    putFlip(flipIndex, dstQX / CellW, dstQY / CellH);
-                }
-                if (toolStripButton10.Checked)
-                {
-                    putTag(0, e.X / CellW, e.Y / CellH);
-                }
-                if (toolStripButton17.Checked)
-                {
-                    putAnimate(0, e.X / CellW, e.Y / CellH);
-                }
-            }
-            pictureBox2.Refresh();
-        }
-        private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
-            {
-                dstPX = e.X;
-                dstPY = e.Y;
-                dstQX = e.X;
-                dstQY = e.Y;
-                dstIsDown = true;
-            }
-
-            if (e.Button == MouseButtons.Left)
-            {
-                if (toolStripButton8.Checked)
-                {
-                    dstRect.X = dstPX / CellW * CellW;
-                    dstRect.Y = dstPY / CellH * CellH;
-                    dstRect.Width = 0;
-                    dstRect.Height = 0;
-                }
-
-                if (toolStripButton9.Checked)
-                {
-                    putTile(srcIndex, dstPX / CellW, dstPY / CellH);
-                    putFlip(flipIndex, dstPX / CellW, dstPY / CellH);
-                }
-                if (toolStripButton10.Checked)
-                {
-                    putTag(tagIndex, dstPX / CellW, dstPY / CellH);
-                }
-                if (toolStripButton17.Checked)
-                {
-                    putAnimate(curAnimate, dstPX / CellW, dstPY / CellH);
-                }
-            }
-            if (e.Button == MouseButtons.Right)
-            {
-                if (toolStripButton8.Checked)
-                {
-                    if (dstRect.Contains(e.Location))
-                    {
-                        try
-                        {
-                            contextMenuStrip1.Opacity = 0.5;
-                            contextMenuStrip1.Show(pictureBox2,e.Location);
-                        }
-                        catch (Exception err)
-                        {
-                            Console.WriteLine(err.StackTrace + "  at  " +err.Message);
-                        }
-                    }
-                }
-                if (toolStripButton9.Checked)
-                {
-                    putTile(srcIndexR, dstPX / CellW, dstPY / CellH);
-                    putFlip(flipIndex, dstPX / CellW, dstPY / CellH);
-                }
-                if (toolStripButton10.Checked)
-                {
-                    putTag(0, e.X / CellW, e.Y / CellH);
-                }
-                if (toolStripButton17.Checked)
-                {
-                    putAnimate(0, e.X / CellW, e.Y / CellH);
-                }
-
-            }
-            
-            pictureBox2.Refresh();
-        }
-        private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (dstIsDown)
-            {
-                dstQX = e.X;
-                dstQY = e.Y;
-                dstIsDown = false;
-            }
-            pictureBox2.Refresh();
-        }
-        //minimap
+  //minimap
         private void toolStripButton23_Click(object sender, EventArgs e)
         {
-            System.Drawing.Image image = new System.Drawing.Bitmap(getWidth(),getHeight());
-            System.Drawing.Graphics dg = System.Drawing.Graphics.FromImage(image);
-            Render(new Graphics(dg), 0, 0, new System.Drawing.Rectangle(0, 0, getWidth(), getHeight()), false, false, false, 0);
+            try
+            {
+                System.Drawing.Image image = new System.Drawing.Bitmap(getWidth(), getHeight());
+                System.Drawing.Graphics dg = System.Drawing.Graphics.FromImage(image);
+                Render(new Graphics(dg), 0, 0, new System.Drawing.Rectangle(0, 0, getWidth(), getHeight()), false, false, false, 0);
 
-            MapMini mini = new MapMini(image);
-            mini.Show();
+                MapMini mini = new MapMini(image);
+                mini.Show();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.StackTrace);
+            }
         }
 
         //animate
         private void toolStripButton15_Click(object sender, EventArgs e)
         {
             addAnimate();
+            refreshAnimateList(); 
         }
         private void toolStripButton16_Click(object sender, EventArgs e)
         {
-            delAnimate();
+            if (MessageBox.Show("删除后，动画顺序将重新调整！", "确定要删除？", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                delAnimate();
+                refreshAnimateList();
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -1898,26 +1951,21 @@ namespace CellGameEdit.PM
                 {
                     trackBar1.Value = trackBar1.Minimum;
                 }
+                
+                pictureBox4.Width = trackBar1.Maximum * CellW + CellW;
+
+                timer1.Interval = (int)numericUpDown1.Value;
+
             }
-            if (getFrame(curAnimate) != null)
-            {
-                curFrame = trackBar1.Value;
-            }
-            
+
             if (toolStripButton14.Checked)
             {
-                pictureBox2.Refresh();
+                refreshMap();
+
+                timer1.Interval = (int)numericUpDown1.Value;
+
             }
-            pictureBox3.Refresh();
 
-            pictureBox4.Width = trackBar1.Maximum * CellW + CellW;
-            //pictureBox4.Width = trackBar1.Maximum * CellW + CellW;
-
-            timer1.Interval = (int)numericUpDown1.Value;
-
-            toolStripStatusLabel2.Text = 
-                " 帧：" + (trackBar1.Value + 1) + "/" + (trackBar1.Maximum + 1) +
-                " FPS="+(((float)1000)/((float)timer1.Interval));
 
             curTime++;
         }
@@ -1936,48 +1984,71 @@ namespace CellGameEdit.PM
 
                 trackBar1.Maximum = getFrame(curAnimate).Count - 1;
                 trackBar1.Value = 0;
+
+                pictureBox4.Width = getFrame(curAnimate).Count * CellW;
+                trackBar1_ValueChanged(sender, e);
             }
-            pictureBox4.Refresh();
-            
+
         }
+        private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+
+        }
+
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (getFrame(curAnimate) != null)
+            try
             {
-                addFrame(curFrame,srcIndex,flipIndex);
-                curFrame = getFrame(curAnimate).Count - 1;
+                if (getFrame(curAnimate) != null)
+                {
+                    addFrame(curFrame, srcIndex, flipIndex);
 
-                trackBar1.Maximum = getFrame(curAnimate).Count - 1;
-                trackBar1.Value = trackBar1.Maximum;
+                    curFrame = Math.Max(curFrame + 1, 0);
+
+                    trackBar1.Maximum = getFrame(curAnimate).Count - 1;
+                    trackBar1.Value = curFrame;
+
+                    pictureBox4.Width = getFrame(curAnimate).Count * CellW;
+                   
+                }
             }
-           
+            catch (Exception err) { }
         }
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (getFrame(curAnimate) != null)
+            try
             {
-                delFrame(curFrame);
-                curFrame = Math.Min(curFrame, getFrame(curAnimate).Count - 1);
-                trackBar1.Maximum = getFrame(curAnimate).Count - 1;
-                trackBar1.Value = trackBar1.Maximum;
+                if (getFrame(curAnimate) != null)
+                {
+                    delFrame(curFrame);
+
+                    curFrame = Math.Min(curFrame, getFrame(curAnimate).Count - 1);
+
+                    trackBar1.Maximum = getFrame(curAnimate).Count - 1;
+                    trackBar1.Value = curFrame;
+
+                    pictureBox4.Width = getFrame(curAnimate).Count * CellW;
+                 
+                }
             }
+            catch (Exception err) { }
         }
         
         private void pictureBox3_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = new Graphics(e.Graphics);
-            if (toolStripButton22.Checked)
+            if (IsMultiLayer.Checked)
             {
                 if (curAnimate >= 0)
                 {
-                    renderCombo(g, curAnimate, 0, 0);
+                    renderCombo(g, curAnimate, 0, 0, false);
                 }
             }
             else
             {
                 if (curAnimate >= 0 && curFrame >= 0)
                 {
-                    renderAnimate(g, curAnimate, curFrame, 0, 0);
+                    renderAnimate(g, curAnimate, curFrame, 0, 0, false);
                 }
             }
 
@@ -2009,14 +2080,14 @@ namespace CellGameEdit.PM
         }
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            if (toolStripButton5.Checked)
-            {
-                timer1.Start();
-            }
-            else
-            {
-                timer1.Stop();
-            }
+            //if (toolStripButton5.Checked)
+            //{
+            //    timer1.Start();
+            //}
+            //else
+            //{
+            //    timer1.Stop();
+            //}
         }
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
@@ -2043,8 +2114,9 @@ namespace CellGameEdit.PM
 
         private void toolStripButton19_Click(object sender, EventArgs e)
         {
-            if(trackBar1.Value>trackBar1.Minimum){
-                exchangeFrame(trackBar1.Value, trackBar1.Value-1);
+            if (trackBar1.Value > trackBar1.Minimum)
+            {
+                exchangeFrame(trackBar1.Value, trackBar1.Value - 1);
                 trackBar1.Value = trackBar1.Value - 1;
             }
         }
@@ -2063,6 +2135,7 @@ namespace CellGameEdit.PM
             {
                 exchangeAnimate(curAnimate, curAnimate-1);
             }
+            refreshAnimateList(); 
         }
         private void toolStripButton21_Click(object sender, EventArgs e)
         {
@@ -2070,15 +2143,25 @@ namespace CellGameEdit.PM
             {
                 exchangeAnimate(curAnimate, curAnimate + 1);
             }
+            refreshAnimateList(); 
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            
+            curFrame = trackBar1.Value;
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
+            curFrame = trackBar1.Value;
+
             pictureBox4.Refresh();
+            pictureBox3.Refresh();
+
+            toolStripStatusLabel2.Text =
+                " 帧：" + (trackBar1.Value ) + "/" + (trackBar1.Maximum + 1 ) +
+                " FPS=" + (((float)1000) / ((float)timer1.Interval));
+
+
         }
 
         private void pictureBox4_Paint(object sender, PaintEventArgs e)
@@ -2087,7 +2170,7 @@ namespace CellGameEdit.PM
 
             for (int i = trackBar1.Minimum; i <= trackBar1.Maximum; i++)
             {
-                renderAnimate(g, curAnimate, i, CellW * i, 0);
+                renderAnimate(g, curAnimate, i, CellW * i, 0, false);
 
                 if (trackBar1.Value == i)
                 {
@@ -2116,19 +2199,1875 @@ namespace CellGameEdit.PM
         }
 
 
+        //adjust flip
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            switch (e.KeyCode)
+            {
+                case Keys.PageUp:
+                    if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
+                    else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
+                    else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
+                    else if (toolStripMenuItem13.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
+                    else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
+                    else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
+                    else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
+                    else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
+                    break;
+
+                case Keys.PageDown: 
+                    if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
+                    else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
+                    else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
+                    else if (toolStripMenuItem13.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
+                    else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
+                    else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
+                    else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
+                    else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
+                    break;
+            }
+            switch (e.KeyCode)
+            {
+                case Keys.PageUp:
+                case Keys.PageDown:
+                    refreshMap();
+                    break;
+            }
+
+
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                dstPX = 0;
+                dstPY = 0;
+                dstQX = getWidth();
+                dstQY = getHeight();
+            
+                dstBX = 0;
+                dstBY = 0;
+
+
+                dstRect.X = 0;
+                dstRect.Y = 0;
+                dstRect.Width = getWidth();
+                dstRect.Height = getHeight();
+
+                refreshMap();
+            }
+            else if (e.Control && e.KeyCode == Keys.X) 
+            {
+                clipDst(); 
+                refreshMap();
+            }
+            else if (e.Control && e.KeyCode == Keys.C)
+            {
+                copyDst(); 
+                refreshMap();
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                paseDst(); 
+                refreshMap();
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                clearDst();
+                refreshMap();
+            }
+        }
+
+        private void CellKeyPixelX_ValueChanged(object sender, EventArgs e)
+        {
+            KeyX = (int)CellKeyPixelX.Value;
+
+            refreshMap();
+        }
+
+        private void CellKeyPixelY_ValueChanged(object sender, EventArgs e)
+        {
+            KeyY = (int)CellKeyPixelY.Value;
+
+            refreshMap();
+        }
+
+        private void 统计相同的地块ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int dy = dstRect.Y / CellW;
+                int dx = dstRect.X / CellH;
+
+                int curTile = getTileID(dx, dy);
+                int curFlip = getTileFlip(dx, dy);
+                int curFlag = getTagID(dx, dy);
+                int curAnim = getAnimateID(dx, dy);
+
+                long tileCount = 0;
+                long flagCount = 0;
+                long animCount = 0;
+
+                for (int x = 0; x < XCount; x++)
+                {
+                    for (int y = 0; y < YCount; y++)
+                    {
+                        if (getTileID(x, y) == curTile && getTileFlip(x, y) == curFlip)
+                        {
+                            tileCount++;
+                        }
+
+                        if (getTagID(x, y) == curFlag)
+                        {
+                            flagCount++;
+                        }
+
+                        if (getAnimateID(x, y) == curAnim)
+                        {
+                            animCount++;
+                        }
+
+                    }
+                }
+
+                MessageBox.Show(
+                    "相同的 地块 : " + tileCount + "\n" +
+                    "相同的 判定 : " + flagCount + "\n" +
+                    "相同的 动画 : " + animCount + "\n"
+                    );
+
+
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.StackTrace);
+            }
 
 
 
 
+        }
+
+        private void 详细ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.Details;
+            listViewAnim.Text = "详细";
+            refreshAnimateList();
+        }
+
+        private void 列表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.List;
+            listViewAnim.Text = "列表";
+            refreshAnimateList();
+        }
+
+        private void 大图标ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.LargeIcon;
+            listViewAnim.Text = "大图标";
+            refreshAnimateList();
+        }
+
+        private void 小图标ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.SmallIcon;
+            listViewAnim.Text = "小图标";
+            refreshAnimateList();
+        }
+
+        private void 平铺ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.Tile;
+            listViewAnim.Text = "平铺";
+            refreshAnimateList();
+            //listView1.TileSize = new System.Drawing.Size(CellW, CellH);
+        }
+
+        private void toolStripButton3_Click_1(object sender, EventArgs e)
+        {
+            refreshAnimateList();
+        }
+
+        private void toolStripButton4_Click_1(object sender, EventArgs e)
+        {
+            try {
+                BufferdMiniMap bf = new BufferdMiniMap(this);
+                bf.Show();
+            }
+            catch (Exception err) { }
+        }
+
+
+        private void btnSaveMiniMap_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Drawing.Bitmap minimap = new System.Drawing.Bitmap(
+                    XCount, YCount//,
+                    //System.Drawing.Imaging.PixelFormat.Format16bppArgb1555
+                    );
+                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(minimap);
+
+                for (int x = 0; x < XCount; x++)
+                {
+                    for (int y = 0; y < YCount; y++)
+                    {
+                        javax.microedition.lcdui.Image img = getTileImage(x, y);
+
+                        if (img != null)
+                        {
+                            g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
+                        }
+                    }
+                }
+                
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.InitialDirectory = ProjectForm.workSpace;
+                sfd.Filter = "bmp图片(*.bmp)|*.bmp";
+                sfd.FileName = this.id + ".bmp";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    minimap.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                }
+
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+
+        //public Panel getViewPanel() { return panel2; }
+
+        public System.Drawing.Size getMapSize()
+        {
+            return MapLoc.Size;
+        }
+
+        public System.Drawing.Rectangle getMapViewRectangle()
+        {
+            return new System.Drawing.Rectangle(
+                hScrollBar1.Value,
+                vScrollBar1.Value, 
+                panel2.Width, 
+                panel2.Height);
+        }
+
+
+        public void setMapViewLoc(int x, int y)
+        {
+            hScrollBar1.Value = x;
+            vScrollBar1.Value = y;
+            MapLoc.X = -x;
+            MapLoc.Y = -y;
+        }
+
+        private void panel2_Scroll(object sender, ScrollEventArgs e)
+        {
+            if(MiniView!=null){
+                MiniView.relocation(this);
+            }
+        }
+        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+        private void hScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            MapLoc.X = -hScrollBar1.Value;
+            refreshMap();
+        }
+        private void vScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            MapLoc.Y = -vScrollBar1.Value;
+            refreshMap();
+        }
+
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+            hScrollBar1.Maximum = MapLoc.Width;
+            hScrollBar1.Minimum = 0;
+            hScrollBar1.LargeChange = panel2.Width;
+
+            vScrollBar1.Maximum = MapLoc.Height;
+            vScrollBar1.Minimum = 0;
+            vScrollBar1.LargeChange = panel2.Height;
+        }
+        private void panel2_Resize(object sender, EventArgs e)
+        {
+            hScrollBar1.Maximum = MapLoc.Width;
+            hScrollBar1.Minimum = 0;
+            hScrollBar1.LargeChange = panel2.Width;
+
+            vScrollBar1.Maximum = MapLoc.Height;
+            vScrollBar1.Minimum = 0;
+            vScrollBar1.LargeChange = panel2.Height;
+
+        }
+
+
+
+        private void isShowKey_Click(object sender, EventArgs e)
+        {
+            refreshMap();
+        }
+
+        private void isShowTileID_Click(object sender, EventArgs e)
+        {
+            refreshMap();
+        }
+
+        #region Dest Map 
+        
+        public void refreshMap()
+        {
+            hScrollBar1.Maximum = MapLoc.Width;
+            hScrollBar1.Minimum = 0;
+            hScrollBar1.LargeChange = panel2.Width;
+
+            vScrollBar1.Maximum = MapLoc.Height;
+            vScrollBar1.Minimum = 0;
+            vScrollBar1.LargeChange = panel2.Height;
+
+            /*MapRegion.Location = new System.Drawing.Point(
+                hScrollBar1.Value,
+                vScrollBar1.Value
+                );*/
+
+            /*MapRegion.Location = new System.Drawing.Point(
+                -MapLoc.Location.X,
+                -MapLoc.Location.Y
+                );*/
+
+            MapRegion.Size = new System.Drawing.Size(
+                panel2.Width,
+                panel2.Height
+                );
+            MapRegion.Refresh();
+
+        }
+
+        private void MapLoc_Paint(object sender, PaintEventArgs e)
+        {
+            refreshMap();
+        }
+
+        private void renderMapSelecter(Graphics g, PaintEventArgs e, System.Drawing.Rectangle viewRect)
+        {
+
+            System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0, 0, 0));
+            System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x40, 0xff, 0xff, 0xff)).Brush;
+
+            int px = -viewRect.X;
+            int py = -viewRect.Y;
+
+            int bx = dstQX / CellW * CellW + px;
+            int by = dstQY / CellH * CellH + py;
+            int bw = CellW - 1;
+            int bh = CellH - 1;
+
+            if (tabControl1.SelectedTab == tabPageTerrain)
+            {
+                mapTerrains1.renderSelectRegion(e.Graphics, bx, by, dstBX, dstBY, this);
+
+                e.Graphics.DrawRectangle(System.Drawing.Pens.White, bx, by, bw, bh);
+
+            }
+            else if (tabControl1.SelectedTab == tabPageTile)
+            {
+                if (toolSelecter.Checked)
+                {
+                    e.Graphics.FillRectangle(
+                        brush,
+                        px + dstRect.X,
+                        py + dstRect.Y,
+                        dstRect.Width - 1,
+                        dstRect.Height - 1
+                        );
+                    e.Graphics.DrawRectangle(
+                        pen,
+                        px + dstRect.X,
+                        py + dstRect.Y,
+                        dstRect.Width - 1,
+                        dstRect.Height - 1
+                        );
+                }
+
+                if (toolTileBrush.Checked)
+                {
+                    System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0));
+
+                    renderDstTile(g, srcIndex, flipIndex, bx, by);
+
+                    if (D45.Checked)
+                    {
+                        int x = dstQX / CellW * CellW;
+                        int y = dstQY / CellH * CellH;
+                        int w = CellW * 2;
+                        int h = CellH * 2;
+
+                        e.Graphics.DrawLine(lpen, px + x + 0x000, py + y + CellH, px + x + CellW, py + y + 0x000);//         /
+                        e.Graphics.DrawLine(lpen, px + x + CellW, py + y + 0x000, px + x + w + 0, py + y + CellH);//       \
+                        e.Graphics.DrawLine(lpen, px + x + 0x000, py + y + CellH, px + x + CellW, py + y + h + 0);//     \
+                        e.Graphics.DrawLine(lpen, px + x + CellW, py + y + h + 0, px + x + w + 0, py + y + CellH);//   /
+                    }
+                    else
+                    {
+                        e.Graphics.DrawRectangle(lpen, bx, by, bw, bh);
+                    }
+
+                }
+                if (toolCDBrush.Checked)
+                {
+                    System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0xff, 0, 0));
+                    e.Graphics.DrawRectangle(lpen, bx, by, bw, bh);
+                }
+                if (toolAnimBrush.Checked)
+                {
+                    System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0xff));
+
+                    int x = dstQX / CellW * CellW;
+                    int y = dstQY / CellH * CellH;
+                    int w = CellW * 2;
+                    int h = CellH * 2;
+                    if (D45.Checked)
+                    {
+                        e.Graphics.DrawLine(lpen, px + x + 0x000, py + y + CellH, px + x + CellW, py + y + 0x000);//         /
+                        e.Graphics.DrawLine(lpen, px + x + CellW, py + y + 0x000, px + x + w + 0, py + y + CellH);//       \
+                        e.Graphics.DrawLine(lpen, px + x + 0x000, py + y + CellH, px + x + CellW, py + y + h + 0);//     \
+                        e.Graphics.DrawLine(lpen, px + x + CellW, py + y + h + 0, px + x + w + 0, py + y + CellH);//   /
+                    }
+                    else
+                    {
+                        e.Graphics.DrawRectangle(lpen, bx, by, bw, bh);
+                    }
+                }
+            }
+
+            
+
+        }
+
+        private void pictureBox2_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = new Graphics(e.Graphics);
+
+            try
+            {
+                System.Drawing.Rectangle viewRect = getMapViewRectangle();
+
+                renderDst(g,
+                    -viewRect.X,
+                    -viewRect.Y,
+                    viewRect,
+                    toolStripButton11.Checked,
+                    toolStripButton12.Checked || toolCDBrush.Checked,
+                    toolAnimBrush.Checked,
+                    toolStripButton14.Checked,
+                    curTime
+                    );
+
+                renderMapSelecter(g, e, viewRect);
+            }
+            catch (Exception err)
+            {
+            }
+
+
+            // Console.WriteLine(""+pictureBox2.Location.Y);
+        }
+        private void pictureBox2_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "地图";
+        }
+        private void pictureBox2_MouseMove(object sender, MouseEventArgs ed)
+        {
+            System.Drawing.Rectangle viewRect = getMapViewRectangle();
+
+            int wx = ed.X + viewRect.X;
+            int wy = ed.Y + viewRect.Y;
+
+
+            dstQX = wx < 0 ? 0 : (wx > MapLoc.Width - 1 ? MapLoc.Width - 1 : wx);
+            dstQY = wy < 0 ? 0 : (wy > MapLoc.Height - 1 ? MapLoc.Height - 1 : wy);
+
+            dstBX = dstQX / CellW;
+            dstBY = dstQY / CellH;
+
+
+            toolStripStatusLabel1.Text = "格:" + dstBX + "," + dstBY;
+
+         
+            if (tabControl1.SelectedTab == tabPageTerrain)
+            {
+                if (ed.Button == MouseButtons.Left)
+                {
+                    mapTerrains1.putSelectRegion(this, dstBX, dstBY);
+                } 
+                else if (ed.Button == MouseButtons.Right)
+                {
+                    //mapTerrains1.clearSelectRegion(this, srcIndexR, flipIndex, dstBX, dstBY);
+                    putTile(srcIndexR, dstBX, dstBY);
+                    putFlip(flipIndex, dstBX, dstBY);
+                    putTag(0, dstBX, dstBY);
+                    putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+                }
+            }
+            else
+            {
+                if (toolSelecter.Checked)
+                {
+                    if (dstIsDown)
+                    {
+                        int l = Math.Min(dstPX, dstQX) / CellW;
+                        int r = Math.Max(dstPX, dstQX) / CellW;
+                        int t = Math.Min(dstPY, dstQY) / CellH;
+                        int b = Math.Max(dstPY, dstQY) / CellH;
+
+                        dstRect.X = l * CellW;
+                        dstRect.Y = t * CellH;
+                        dstRect.Width = (r - l + 1) * CellW;
+                        dstRect.Height = (b - t + 1) * CellH;
+
+                        toolStripStatusLabel1.Text += " 选择:" + (r - l + 1) + "x" + (b - t + 1) + "格";
+                    }
+                }
+
+                if (ed.Button == MouseButtons.Left)
+                {
+
+                    if (toolTileBrush.Checked)
+                    {
+                        putTile(srcIndex, dstBX, dstBY);
+                        putFlip(flipIndex, dstBX, dstBY);
+                    }
+                    if (toolCDBrush.Checked)
+                    {
+                        putTag(tagIndex, dstBX, dstBY);
+                    }
+                    if (toolAnimBrush.Checked)
+                    {
+                        putAnimate(curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
+                    }
+
+
+                }
+                if (ed.Button == MouseButtons.Right)
+                {
+                    if (toolTileBrush.Checked)
+                    {
+                        putTile(srcIndexR, dstBX, dstBY);
+                        putFlip(flipIndex, dstBX, dstBY);
+                    }
+                    if (toolCDBrush.Checked)
+                    {
+                        putTag(0, dstBX, dstBY);
+                    }
+                    if (toolAnimBrush.Checked)
+                    {
+                        putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+                    }
+                }
+
+            }
+
+            refreshMap();
+        }
+        private void pictureBox2_MouseDown(object sender, MouseEventArgs ed)
+        {
+            System.Drawing.Rectangle viewRect = getMapViewRectangle();
+
+            int wx = ed.X + viewRect.X;
+            int wy = ed.Y + viewRect.Y;
+
+           
+
+            if (ed.Button == MouseButtons.Left || ed.Button == MouseButtons.Right)
+            {
+                dstPX = wx;
+                dstPY = wy;
+                dstQX = wx;
+                dstQY = wy;
+                dstIsDown = true;
+
+                dstBX = dstQX / CellW;
+                dstBY = dstQY / CellH;
+            }
+
+            if (tabControl1.SelectedTab == tabPageTerrain)
+            {
+                if (ed.Button == MouseButtons.Left)
+                {
+                    mapTerrains1.putSelectRegion(this, dstBX, dstBY);
+                }
+                else if (ed.Button == MouseButtons.Right)
+                {
+                    //mapTerrains1.clearSelectRegion(this, srcIndexR, flipIndex, dstBX, dstBY);
+                    putTile(srcIndexR, dstBX, dstBY);
+                    putFlip(flipIndex, dstBX, dstBY);
+                    putTag(0, dstBX, dstBY);
+                    putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+                }
+            }
+            else
+            {
+                if (ed.Button == MouseButtons.Left)
+                {
+                    if (toolSelecter.Checked)
+                    {
+                        dstRect.X = dstPX / CellW * CellW;
+                        dstRect.Y = dstPY / CellH * CellH;
+                        dstRect.Width = 0;
+                        dstRect.Height = 0;
+                    }
+
+                    if (toolTileBrush.Checked)
+                    {
+                        putTile(srcIndex, dstBX, dstBY);
+                        putFlip(flipIndex, dstBX, dstBY);
+                    }
+                    if (toolCDBrush.Checked)
+                    {
+                        putTag(tagIndex, dstBX, dstBY);
+                    }
+                    if (toolAnimBrush.Checked)
+                    {
+                        putAnimate(curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
+                    }
+                }
+                if (ed.Button == MouseButtons.Right)
+                {
+                    if (toolSelecter.Checked)
+                    {
+                        if (dstRect.Contains(wx, wy))
+                        {
+                            try
+                            {
+                                contextMenuStrip1.Opacity = 0.5;
+                                contextMenuStrip1.Show(MapRegion, ed.Location);
+                            }
+                            catch (Exception err)
+                            {
+                                Console.WriteLine(err.StackTrace + "  at  " + err.Message);
+                            }
+                        }
+                    }
+                    if (toolTileBrush.Checked)
+                    {
+                        putTile(srcIndexR, dstBX, dstBY);
+                        putFlip(flipIndex, dstBX, dstBY);
+                    }
+                    if (toolCDBrush.Checked)
+                    {
+                        putTag(0, dstBX, dstBY);
+                    }
+                    if (toolAnimBrush.Checked)
+                    {
+                        putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+                    }
+
+                }
+            }
+            refreshMap();
+
+            textBox1.Focus();
+        }
+        private void pictureBox2_MouseUp(object sender, MouseEventArgs ed)
+        {
+            System.Drawing.Rectangle viewRect = getMapViewRectangle();
+
+
+            int wx = ed.X + viewRect.X;
+            int wy = ed.Y + viewRect.Y;
+
+            if (dstIsDown)
+            {
+                dstQX = wx;
+                dstQY = wy;
+                dstIsDown = false;
+            }
+            refreshMap();
+        }
+
+        #endregion
+
+
+
+        #region Script
+
+        //
+
+        abstract class IScriptOP
+        {
+            public class MapBlock
+            {
+                public int X;
+                public int Y;
+                public int TileID;
+                public int AnimID;
+
+                public MapBlock(int x, int y, int tileID, int animID)
+                {
+                    X = x;
+                    Y = y;
+                    TileID = tileID;
+                    AnimID = animID;
+                }
+            }
+
+            //
+            public const int sc_TypeTile = 0;
+            public const int sc_TypeAnim = 1;
+            public const int sc_TypeLayer = 2;
+
+            static public int sc_getTileType(String str)
+            {
+                str = str.Trim().ToLower();
+                if (str.Equals("tile")) return sc_TypeTile;
+                if (str.Equals("anim")) return sc_TypeAnim;
+                if (str.Equals("layer")) return sc_TypeLayer;
+                return -1;
+            }
+
+            static public String sc_putTileType(int dstType)
+            {
+                if (dstType == sc_TypeTile) return "tile";
+                if (dstType == sc_TypeAnim) return "anim";
+                if (dstType == sc_TypeLayer) return "layer";
+                return "";
+            }
+
+            static public String[] sc_getArgs(String str)
+            {
+                int args = str.IndexOf("(") + 1;
+                int arge = str.LastIndexOf(")") - 1;
+                int argl = arge - args + 1;
+                String arg = str.Substring(args, argl);
+                String[] ret = sc_split(arg);
+                for (int i = 0; i < ret.Length; i++ )
+                {
+                    ret[i] = ret[i].Trim();
+                }
+                return ret;
+            }
+
+            static String[] sc_split(String str)
+            {
+                String[] ret;
+
+                // split group
+                while (true) 
+                {
+                    int gi = str.IndexOf("{");
+
+                    if (gi<0)
+                    {
+                        ret = str.Split(new char[] { ',' });
+                        break;
+                    }
+                    else
+                    {
+                        int ge = str.IndexOf("}", gi);
+                        int gn = ge - gi + 1;
+                        String sub = str.Substring(gi, gn);
+                        String newsub = sub.Replace(',', '?');
+                        newsub = newsub.Replace('{', ' ');
+                        newsub = newsub.Replace('}', ' ');
+                        str = str.Replace(sub, newsub);
+                    }
+                }
+
+                for (int i = 0; i < ret.Length; i++ )
+                {
+                    ret[i] = ret[i].Replace('?', ',');
+                }
+
+                return ret;
+            }
+
+            static public int[] sc_getGroupArg(String str)
+            {
+                int[] SrcGroup;
+
+                if (str.Contains("~"))
+                {
+                    String[] ss = str.Split(new char[] { '~' });
+                    int min = int.Parse(ss[0].Trim());
+                    int max = int.Parse(ss[1].Trim());
+                    min = Math.Min(min, max);
+                    max = Math.Max(min, max);
+                    int len = max - min + 1;
+
+                    SrcGroup = new int[len];
+                    for (int i = 0; i < len; i++)
+                    {
+                        SrcGroup[i] = min + i;
+                    }
+                }
+                else
+                {
+                    String[] ss = str.Split(new char[] { ',' });
+                    SrcGroup = new int[ss.Length];
+                    for (int i = 0; i < ss.Length; i++)
+                    {
+                        SrcGroup[i] = int.Parse(ss[i].Trim());
+                    }
+                }
+
+                return SrcGroup;
+            }
+
+            static public String sc_putGroupArg(int[] group)
+            {
+                String ret = "{";
+                for (int i = 0; i < group.Length; i++ )
+                {
+                    if (i == group.Length - 1)
+                    {
+                        ret += group[i];
+                    }
+                    else
+                    {
+                        ret += group[i] + ",";
+                    }
+                }
+                ret += "}";
+
+                return ret;
+            }
+
+
+            static public int sc_indexOfGroup(int[] group, int value) 
+            {
+                for (int i = 0; i < group.Length; i++ )
+                {
+                    if (group[i] == value)
+                    {
+                        return i;
+                    }
+                }
+
+                return -1;
+            }
+
+            static public MapBlock[] sc_randomMapBlocks(ArrayList list)
+            {
+                MapBlock[] ret = new MapBlock[list.Count];
+                list.CopyTo(ret);
+
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    int dst = Math.Abs(sc_Random.Next() % ret.Length);
+
+                    MapBlock temp = ret[i];
+                    ret[i] = ret[dst];
+                    ret[dst] = temp;
+                }
+
+                return ret;
+            }
+
+
+            static public MapBlock sc_getFillableMapBlock(IScriptOP op, int srcType, int[] srcGroup, int x, int y )
+            {
+                int srcIndex = -1;
+
+                switch (srcType)
+                {
+                    case sc_TypeTile:
+                        srcIndex = sc_indexOfGroup(srcGroup, op.CurMap.getTileID(x, y));
+                        if (srcIndex >= 0 && op.CurMap.getAnimateID(x, y) == 0)
+                        {
+                            MapBlock block = new MapBlock(x, y, srcGroup[srcIndex], -1);
+                            return block;
+                        }
+                        break;
+                    case sc_TypeAnim:
+                        srcIndex = sc_indexOfGroup(srcGroup, op.CurMap.getAnimateID(x, y));
+                        if (srcIndex >= 0)
+                        {
+                            MapBlock block = new MapBlock(x, y, -1, srcGroup[srcIndex]);
+                            return block;
+                        }
+                        break;
+                    case sc_TypeLayer:
+                        srcIndex = sc_indexOfGroup(srcGroup, -op.CurMap.getAnimateID(x, y));
+                        if (srcIndex >= 0)
+                        {
+                            MapBlock block = new MapBlock(x, y, -1, srcGroup[srcIndex]);
+                            return block;
+                        }
+                        break;
+                }
+
+                return null;
+            }
+
+
+            static public void sc_FillDstBlocks(IScriptOP op, MapBlock[] blocks, int dstType, int[] dstGroup, int dstCount)
+            {
+                for (int i = 0; i < dstCount && i < blocks.Length; i++)
+                {
+                    int dst = dstGroup[i % dstGroup.Length];
+
+                    switch (dstType)
+                    { 
+                        case sc_TypeTile:
+                            op.CurMap.putTile(dst, blocks[i].X, blocks[i].Y);
+                            break;
+                        case sc_TypeAnim:
+                            op.CurMap.putAnimate(dst, blocks[i].X, blocks[i].Y, false);
+                            break;
+                        case sc_TypeLayer:
+                            op.CurMap.putAnimate(dst, blocks[i].X, blocks[i].Y, true);
+                            break;
+                    }
+                }
+
+            }
+
+            // gobal
+
+
+            static public Random sc_Random = new Random();
+
+            static public int sc_RegionX = 0, sc_RegionY = 0, sc_RegionW, sc_RegionH;
+            static public String sc_RegionShape = "rect";
+
+            //
+
+
+            //
+
+            protected MapForm CurMap;
+
+            public IScriptOP(MapForm mapform)
+            {
+                CurMap = mapform;
+            }
+
+            //
+
+
+            abstract public String getFuncKey();
+
+            abstract public void doScript();
+
+            abstract protected String[] getArgs();
+
+            abstract protected void setArgs(String[] args);
+
+            abstract public String getCommet();
+
+            //
+           
+            public String createScript()
+            {
+                String ret = getCommet() + "\n" + getFuncKey() + "(";
+                String[] args = getArgs();
+                for (int i = 0; i < args.Length; i++ )
+                {
+                    if (i == args.Length - 1)
+                    {
+                        ret += args[i];
+                    }
+                    else
+                    {
+                        ret += args[i] + ", ";
+                    }
+                }
+                ret += ");\n";
+                return ret;
+            }
+
+            public Boolean tryDoScript(String line) 
+            { 
+                line = line.Trim();
+
+                int func = line.IndexOf(getFuncKey());
+
+                if (func>=0)
+                {
+                    line = line.Substring(func + getFuncKey().Length).Trim();
+
+                    if (line.StartsWith("("))
+                    {
+                        if (line.EndsWith(")"))
+                        {
+                            String[] sargs = sc_getArgs(line);
+                            setArgs(sargs);
+                            String[] dargs = getArgs();
+
+                            if (sargs.Length == dargs.Length)
+                            {
+                                doScript();
+                                return true;
+                            }
+                            else
+                            {
+                                throw new Exception("function\"" + getFuncKey() + "\" not support " + sargs.Length + " args!");
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("function ( ) not Match!");
+                        }
+                    }
+                }
+                return false;
+            }
+
+
+        }
+
+        //
+        //--------------------------------------------------------------------------------------------------------
+
+        class ScriptSetRandomSeed : IScriptOP
+        {
+            //
+            private int seed;
+
+            public ScriptSetRandomSeed(MapForm map, int s)
+                : base(map)
+            {
+                seed = s;
+            }
+            public ScriptSetRandomSeed(MapForm map)
+                : base(map)
+            { 
+            }
+
+            override public String getCommet()
+            {
+                return "/// 设置当前随机数种子";
+            }
+            override public String getFuncKey()
+            {
+                return "SetRandomSeed";
+            }
+
+
+            override public void doScript() 
+            {
+                sc_Random = new Random(seed);
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { seed.ToString() };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                seed = int.Parse(args[0].Trim());
+            }
+        }
+
+
+        class ScriptSetRegion : IScriptOP
+        {
+           
+
+            //
+            private int x,y,w,h;
+            private String shape;
+
+            public ScriptSetRegion(MapForm map, int x, int y, int w, int h, String shape)
+                : base(map)
+            {
+                CurMap = map;
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.shape = shape;
+            }
+            public ScriptSetRegion(MapForm map)
+                : base(map)
+            { 
+            }
+
+            override public String getCommet()
+            {
+                return "/// 设置当前脚本影响到的区域";
+            }
+            override public String getFuncKey()
+            {
+                return "SetRegion";
+            }
+
+            override public void doScript()
+            {
+                sc_RegionX = x;
+                sc_RegionY = y;
+                sc_RegionW = w;
+                sc_RegionH = h;
+                sc_RegionShape = shape;
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { x.ToString(), y.ToString(), w.ToString(), h.ToString(), shape };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                x = int.Parse(args[0].Trim());
+                y = int.Parse(args[1].Trim());
+                w = int.Parse(args[2].Trim());
+                h = int.Parse(args[3].Trim());
+                shape = args[4].Trim();
+            }
+        }
+
+
+        class ScriptReplace : IScriptOP
+        {
+            int SrcType;
+            int Src; 
+            int DstType; 
+            int Dst;
+
+            public ScriptReplace(MapForm map, int srcType, int src, int dstType, int dst)
+                : base(map)
+            {
+                this.SrcType = srcType;
+                this.Src = src;
+                this.DstType = dstType;
+                this.Dst = dst;
+            }
+            public ScriptReplace(MapForm map)
+                : base(map)
+            { 
+            }
+
+            override public String getCommet()
+            {
+                return "/// 替换指定的tile或anim成为新的tile或anim";
+            }
+            override public String getFuncKey()
+            {
+                return "Replace";
+            }
+
+            override public void doScript()
+            {
+                Boolean isSrcTile = SrcType == sc_TypeTile;
+                Boolean isSrcAnim = SrcType == sc_TypeAnim || SrcType == sc_TypeLayer;
+
+                Boolean isDstTile = DstType == sc_TypeTile;
+                Boolean isDstAnim = DstType == sc_TypeAnim;
+                Boolean isDstLayer = DstType == sc_TypeLayer;
+
+                int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.XCount);
+                int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.YCount);
+                for (int x = sc_RegionX; x < sw; x++)
+                {
+                    for (int y = sc_RegionY; y < sh; y++)
+                    {
+                        if ((isSrcTile && CurMap.getTileID(x, y) == Src) ||
+                            (isSrcAnim && CurMap.getAnimateID(x, y) == Src))
+                        {
+                            if (isDstTile)
+                            {
+                                CurMap.putTile(Dst, x, y);
+                            }
+                            else if (isDstAnim)
+                            {
+                                CurMap.putAnimate(Dst, x, y, false);
+                            }
+                            else if (isDstLayer)
+                            {
+                                CurMap.putAnimate(Dst, x, y, true);
+                            }
+                        }
+                    }
+                }
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { 
+                    sc_putTileType(SrcType), 
+                    Src.ToString(), 
+                    sc_putTileType(DstType),
+                    Dst.ToString()
+                };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                SrcType = sc_getTileType(args[0]);
+                Src = int.Parse(args[1].Trim());
+                DstType = sc_getTileType(args[2]);
+                Dst = int.Parse(args[3].Trim());
+            }
+        }
+
+
+        class ScriptFill : IScriptOP
+        {
+
+            int SrcType;
+            int[] SrcGroup;
+            int DstType;
+            int[] DstGroup;
+            int DstCount;
+
+            public ScriptFill(MapForm map, int srcType, int[] srcGroup, int dstType, int[] dstGroup, int dstCount)
+                : base(map)
+            {
+                SrcType = srcType;
+                SrcGroup = srcGroup;
+                DstType = dstType;
+                DstGroup = dstGroup;
+                DstCount = dstCount;
+            }
+            public ScriptFill(MapForm map)
+                : base(map)
+            {
+            }
+            override public String getCommet()
+            {
+                return "/// 填充指定的tile或anim，为新的tile或anim";
+            }
+            override public String getFuncKey()
+            {
+                return "Fill";
+            }
+
+            override public void doScript()
+            {
+                ArrayList srcBlocks = new ArrayList();
+                {
+                    int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.XCount);
+                    int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.YCount);
+                    for (int x = sc_RegionX; x < sw; x++)
+                    {
+                        for (int y = sc_RegionY; y < sh; y++)
+                        {
+                            MapBlock block = sc_getFillableMapBlock(this, SrcType, SrcGroup, x, y);
+                            if (block != null) srcBlocks.Add(block);
+                        }
+                    }
+                }
+
+                MapBlock[] blocks = sc_randomMapBlocks(srcBlocks);
+
+                sc_FillDstBlocks(this, blocks, DstType, DstGroup, DstCount);
+
+
+
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { 
+                    sc_putTileType(SrcType),
+                    sc_putGroupArg(SrcGroup),
+                    sc_putTileType(DstType),
+                    sc_putGroupArg(DstGroup),
+                    DstCount.ToString()
+                };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                SrcType = sc_getTileType(args[0]);
+                SrcGroup = sc_getGroupArg(args[1]);              
+                DstType = sc_getTileType(args[2]);
+                DstGroup = sc_getGroupArg(args[3]);
+                DstCount = int.Parse(args[4].Trim());
+            }
+        }
+
+
+
+        class ScriptFillGrid : IScriptOP
+        {
+            int GridW;
+            int GridH;
+
+            int SubX;
+            int SubY;
+            int SubW;
+            int SubH;
+
+            int SrcType;
+            int[] SrcGroup;
+            int DstType;
+            int[] DstGroup;
+            int DstCount;
+
+            public ScriptFillGrid(MapForm map, 
+                int gridW, int gridH, 
+                int subX,int subY, int subW, int subH,
+                int srcType, int[] srcGroup, 
+                int dstType, int[] dstGroup, 
+                int dstCount)
+                : base(map)
+            {
+                GridW = gridW;
+                GridH = gridH;
+
+                SubX = subX;
+                SubY = subY;
+                SubW = subW;
+                SubH = subH;
+
+                SrcType = srcType;
+                SrcGroup = srcGroup;
+                DstType = dstType;
+                DstGroup = dstGroup;
+                DstCount = dstCount;
+            }
+            public ScriptFillGrid(MapForm map)
+                : base(map)
+            {
+            }
+            override public String getCommet()
+            {
+                return "/// 在指定的网格范围内，填充指定的tile或anim，为新的tile或anim";
+            }
+            override public String getFuncKey()
+            {
+                return "FillGrid";
+            }
+
+            override public void doScript()
+            {
+                System.Drawing.Rectangle gridRegion = new System.Drawing.Rectangle(
+                       SubX, SubY, SubW, SubH
+                       );
+
+                int rw = (sc_RegionW) / GridW;
+                int rh = (sc_RegionH) / GridH;
+                for (int rx = 0; rx < rw; rx++)
+                {
+                    for (int ry = 0; ry < rh; ry++)
+                    {
+                        ArrayList srcBlocks = new ArrayList();
+                        {
+                            int sx = sc_RegionX + rx * GridW + SubX;
+                            int sy = sc_RegionY + ry * GridH + SubY;
+                            int sw = Math.Min(sx + SubW, CurMap.XCount);
+                            int sh = Math.Min(sy + SubH, CurMap.YCount);
+
+                            for (int x = sx; x < sw; x++)
+                            {
+                                for (int y = sy; y < sh; y++)
+                                {
+                                   // if (gridRegion.Contains(x % GridW, y % GridH))
+                                    {
+                                        MapBlock block = sc_getFillableMapBlock(this, SrcType, SrcGroup, x, y);
+                                        if (block != null) srcBlocks.Add(block);
+                                    }
+                                }
+                            }
+                        }
+
+                        MapBlock[] blocks = sc_randomMapBlocks(srcBlocks);
+
+                        sc_FillDstBlocks(this, blocks, DstType, DstGroup, DstCount);
+
+                    }
+                }
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { 
+                    GridW.ToString(),
+                    GridH.ToString(),
+                    SubX.ToString(),
+                    SubY.ToString(),
+                    SubW.ToString(),
+                    SubH.ToString(),
+                    sc_putTileType(SrcType),
+                    sc_putGroupArg(SrcGroup),
+                    sc_putTileType(DstType),
+                    sc_putGroupArg(DstGroup),
+                    DstCount.ToString()
+                };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                GridW = int.Parse(args[0].Trim());
+                GridH = int.Parse(args[1].Trim());
+                SubX = int.Parse(args[2].Trim());
+                SubY = int.Parse(args[3].Trim());
+                SubW = int.Parse(args[4].Trim());
+                SubH = int.Parse(args[5].Trim());
+                SrcType = sc_getTileType(args[6]);
+                SrcGroup = sc_getGroupArg(args[7]);
+                DstType = sc_getTileType(args[8]);
+                DstGroup = sc_getGroupArg(args[9]);
+                DstCount = int.Parse(args[10].Trim());
+            }
+        }
+
+
+
+        class ScriptSpawn : IScriptOP
+        {
+            int KeyType;
+            int[] KeyGroup;
+            int X;
+            int Y;
+            int W;
+            int H;
+            String Shape = "rect";
+
+            int SrcType;
+            int[] SrcGroup;
+            int DstType;
+            int[] DstGroup;
+            int DstCount;
+
+            public ScriptSpawn(MapForm map,
+                int keyType, int[] keyGroup,
+                int x, int y, int w, int h, String shape,
+                int srcType, int[] srcGroup,
+                int dstType, int[] dstGroup,
+                int dstCount)
+                : base(map)
+            {
+                KeyType = keyType;
+                KeyGroup = keyGroup;
+                X = x;
+                Y = y;
+                W = w;
+                H = h;
+                Shape = shape;
+
+                SrcType = srcType;
+                SrcGroup = srcGroup;
+                DstType = dstType;
+                DstGroup = dstGroup;
+                DstCount = dstCount;
+            }
+            public ScriptSpawn(MapForm map)
+                : base(map)
+            {
+
+            }
+
+            override public String getCommet()
+            {
+                return "/// 在指定的tile或anim周围生成若干个tile或anim";
+            }
+            override public String getFuncKey()
+            {
+                return "Spawn";
+            }
+
+            override public void doScript()
+            {
+
+                ArrayList keyBlocks = new ArrayList();
+
+                {
+                    int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.XCount);
+                    int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.YCount);
+                    for (int x = sc_RegionX; x < sw; x++)
+                    {
+                        for (int y = sc_RegionY; y < sh; y++)
+                        {
+                            MapBlock block = sc_getFillableMapBlock(this, KeyType, KeyGroup, x, y);
+                            if (block != null) keyBlocks.Add(block);
+                        }
+                    }
+                }
+
+                foreach (MapBlock block in keyBlocks)
+                {
+                    ArrayList srcBlocks = new ArrayList(DstCount);
+
+                    int sx = Math.Max(block.X + X, 0);
+                    int sy = Math.Max(block.Y + Y, 0);
+                    int sw = Math.Min(sx + W, CurMap.XCount);
+                    int sh = Math.Min(sy + H, CurMap.YCount);
+                    for (int x = sx; x < sw; x++)
+                    {
+                        for (int y = sy; y < sh; y++)
+                        {
+                            MapBlock b = sc_getFillableMapBlock(this, SrcType, SrcGroup, x, y);
+                            if (b != null) srcBlocks.Add(b);
+                        }
+                    }
+
+                    MapBlock[] blocks = sc_randomMapBlocks(srcBlocks);
+
+                    sc_FillDstBlocks(this, blocks, DstType, DstGroup, DstCount);
+
+                }
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { 
+                    sc_putTileType(KeyType),
+                    sc_putGroupArg(KeyGroup),
+                    X.ToString(),
+                    Y.ToString(),
+                    W.ToString(),
+                    H.ToString(),
+                    Shape,
+                    sc_putTileType(SrcType),
+                    sc_putGroupArg(SrcGroup),
+                    sc_putTileType(DstType),
+                    sc_putGroupArg(DstGroup),
+                    DstCount.ToString()
+                };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                KeyType = sc_getTileType(args[0]);
+                KeyGroup = sc_getGroupArg(args[1]);
+                X = int.Parse(args[2].Trim());
+                Y = int.Parse(args[3].Trim());
+                W = int.Parse(args[4].Trim());
+                H = int.Parse(args[5].Trim());
+                Shape = args[6];
+                SrcType = sc_getTileType(args[7]);
+                SrcGroup = sc_getGroupArg(args[8]);
+                DstType = sc_getTileType(args[9]);
+                DstGroup = sc_getGroupArg(args[10]);
+                DstCount = int.Parse(args[11].Trim());
+            }
+        }
+
+
+
+        class ScriptCopy : IScriptOP
+        {
+            int SX, SY, SW, SH;
+            int DX, DY, DW, DH;
+
+            int SrcType;
+            int[] SrcGroup;
+
+            public ScriptCopy(MapForm map, 
+                int sx, int sy, int sw, int sh,
+                int dx, int dy, int dw, int dh,
+                int srcType, int[] srcGroup)
+                : base(map)
+            {
+                SX = sx;
+                SY = sy;
+                SW = sw;
+                SH = sh;
+
+                DX = dx;
+                DY = dy;
+                DW = dw;
+                DH = dh;
+
+                SrcType = srcType;
+                SrcGroup = srcGroup;
+            }
+            public ScriptCopy(MapForm map)
+                : base(map)
+            {
+            }
+            override public String getCommet()
+            {
+                return "/// Copy and parse";
+            }
+            override public String getFuncKey()
+            {
+                return "Copy";
+            }
+
+            override public void doScript()
+            {
+                Boolean isSrcTile = SrcType == sc_TypeTile;
+                Boolean isSrcAnim = SrcType == sc_TypeAnim || SrcType == sc_TypeLayer;
+
+                {
+                    int sw = Math.Min(SX + SW, CurMap.XCount);
+                    int sh = Math.Min(SY + SH, CurMap.YCount);
+
+                    int[][] clipTile = new int[SW][];
+                    int[][] clipFlip = new int[SW][];
+                    int[][] clipAnim = new int[SW][];
+
+                    for (int x = SX, fx = 0; x < sw; x++, fx++)
+                    {
+                        clipTile[fx] = new int[SH];
+                        clipFlip[fx] = new int[SH];
+                        clipAnim[fx] = new int[SH];
+
+                        for (int y = SY, fy=0; y < sh; y++, fy++)
+                        { 
+                            clipTile[fx][fy] = CurMap.getTileID(x, y);
+                            clipFlip[fx][fy] = CurMap.getTileFlip(x, y);
+                            clipAnim[fx][fy] = CurMap.getAnimateID(x, y);
+                        }
+                    }
+
+                    int dw = Math.Min(DX + DW, CurMap.XCount);
+                    int dh = Math.Min(DY + DH, CurMap.YCount);
+
+                    for (int x = DX, fx = 0; x < dw; x++, fx++)
+                    {
+                        for (int y = DY, fy = 0; y < dh; y++, fy++)
+                        {
+                            int srcIndex = -1;
+
+                            if (isSrcTile)
+                            {
+                                srcIndex = sc_indexOfGroup(SrcGroup, CurMap.getTileID(x, y));
+                            }
+                            else if (isSrcAnim)
+                            {
+                                srcIndex = sc_indexOfGroup(SrcGroup, CurMap.getAnimateID(x, y));
+                            }
+
+                            if (srcIndex >= 0)
+                            {
+                                fx = fx % clipTile.Length;
+                                fy = fy % clipTile[fx].Length;
+
+                                CurMap.putTile(clipTile[fx][fy], x, y);
+                                CurMap.putFlip(clipFlip[fx][fy], x, y);
+                                CurMap.putAnimate(clipAnim[fx][fy], x, y, clipAnim[fx][fy] < 0);
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+            override protected String[] getArgs()
+            {
+                return new String[] { 
+                    SX.ToString(),
+                    SY.ToString(),
+                    SW.ToString(),
+                    SH.ToString(),
+                    DX.ToString(),
+                    DY.ToString(),
+                    DW.ToString(),
+                    DH.ToString(),
+                    sc_putTileType(SrcType),
+                    sc_putGroupArg(SrcGroup),
+                };
+            }
+
+            override protected void setArgs(String[] args)
+            {
+                SX = int.Parse(args[0]);
+                SY = int.Parse(args[1]);
+                SW = int.Parse(args[2]);
+                SH = int.Parse(args[3]);
+                DX = int.Parse(args[4]);
+                DY = int.Parse(args[5]);
+                DW = int.Parse(args[6]);
+                DH = int.Parse(args[7]);
+                SrcType = sc_getTileType(args[8]);
+                SrcGroup = sc_getGroupArg(args[9]);
+            }
+        }
+
+
+
+    //--------------------------------------------------------------------------------------------------------
   
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="script"></param>
+        /// <returns></returns>
+        public String scriptRun(String script)
+        {
+            // remove rem
+            while (true)
+            {
+                int gi = script.IndexOf("//");
+
+                if (gi >= 0)
+                {
+                    int ge = script.IndexOf("\n", gi);
+                    int gn = ge - gi + 1;
+                    script = script.Remove(gi, gn);
+                }
+                else { break; }
+            }
 
 
-   
-   
+            String res = "";
+            String line = "";
+            int i = 0;
+
+            try
+            {
+                String[] lines = script.Split(new char[] { ';' });
+
+                for (i = 0; i < lines.Length; i++)
+                {
+                    line = lines[i];
+
+                    if (new ScriptSetRandomSeed(this).tryDoScript(lines[i]))
+                    { }
+                    else if (new ScriptSetRegion(this).tryDoScript(lines[i]))
+                    { }
+                    else if (new ScriptReplace(this).tryDoScript(lines[i]))
+                    { }
+                    else if (new ScriptFill(this).tryDoScript(lines[i]))
+                    { }
+                    else if (new ScriptFillGrid(this).tryDoScript(lines[i]))
+                    { }
+                    else if (new ScriptSpawn(this).tryDoScript(lines[i]))
+                    { }
+                    else if (new ScriptCopy(this).tryDoScript(lines[i]))
+                    { }
+                }
+
+                res = "Run script succeed !";
+            }
+            catch (Exception err) 
+            { 
+                res = 
+                    "Error at func:" + i + "\n" + 
+                    line + "\n\n" +
+                    err.Message + "\n" + err.StackTrace; 
+            }
+           
+            refreshMap();
+
+            return res;
+        }
+
+        #endregion
 
 
-     
+        private void BtnFunc_Click(object sender, EventArgs e)
+        {
+                MapFormFunc mf = new MapFormFunc(this);
+                mf.Show(this);
+        }
+
+        private void 替换ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (toolSelecter.Checked)
+            {
+                int sbx = dstRect.X / CellW;
+                int sby = dstRect.Y / CellH;
+                int xcount = dstRect.Width / CellW;
+                int ycount = dstRect.Height / CellH;
+
+                MapFormFunc mf = new MapFormFunc(this,
+                    new ScriptSetRegion(this, sbx, sby, xcount, ycount, "rect").createScript() +
+                    new ScriptReplace(this, 0, 0, 0, 0).createScript()
+                    );
+                mf.Show(this);
+            }
+
+           
+        }
+
+        private void 填充ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (toolSelecter.Checked)
+            {
+                int sbx = dstRect.X / CellW;
+                int sby = dstRect.Y / CellH;
+                int xcount = dstRect.Width / CellW;
+                int ycount = dstRect.Height / CellH;
+
+                MapFormFunc mf = new MapFormFunc(this,
+                    new ScriptSetRandomSeed(this, IScriptOP.sc_Random.Next()).createScript() +
+                    new ScriptSetRegion(this, sbx, sby, xcount, ycount, "rect").createScript() +
+                    new ScriptFill(this, 0, new int[] { 0, }, 0, new int[] { 0 }, 0).createScript()
+                    );
+                mf.Show(this);
+            }
+        }
+
+        private void 生成ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (toolSelecter.Checked)
+            {
+                int sbx = dstRect.X / CellW;
+                int sby = dstRect.Y / CellH;
+                int xcount = dstRect.Width / CellW;
+                int ycount = dstRect.Height / CellH;
+
+                MapFormFunc mf = new MapFormFunc(this,
+                    new ScriptSetRandomSeed(this, IScriptOP.sc_Random.Next()).createScript() +
+                    new ScriptSetRegion(this, sbx, sby, xcount, ycount, "rect").createScript() +
+                    new ScriptSpawn(this,
+                    0, new int[] { 0, },
+                    -2, -2, 4, 4, "rect",
+                    0, new int[] { 0, },
+                    0, new int[] { 0 }, 0).createScript()
+                    );
+                mf.Show(this);
+            }
+        }
+
+        private void 网格填充ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (toolSelecter.Checked)
+            {
+                int sbx = dstRect.X / CellW;
+                int sby = dstRect.Y / CellH;
+                int xcount = dstRect.Width / CellW;
+                int ycount = dstRect.Height / CellH;
+
+                MapFormFunc mf = new MapFormFunc(this,
+                   new ScriptSetRandomSeed(this, IScriptOP.sc_Random.Next()).createScript() +
+                   new ScriptSetRegion(this, sbx, sby, xcount, ycount, "rect").createScript() +
+                   new ScriptFillGrid(this, 
+                   5, 5, 
+                   1, 1, 4, 4, 
+                   0, new int[] { 0, }, 
+                   0, new int[] { 0 }, 0).createScript()
+                   );
+                mf.Show(this);
+            }
+        }
+
+        private void 复制填充ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (toolSelecter.Checked)
+            {
+                int sbx = dstRect.X / CellW;
+                int sby = dstRect.Y / CellH;
+                int xcount = dstRect.Width / CellW;
+                int ycount = dstRect.Height / CellH;
+
+                MapFormFunc mf = new MapFormFunc(this,
+                   new ScriptCopy(this, 
+                   sbx, sby, xcount, ycount, 
+                   0, 0, XCount, YCount,
+                   0, new int[] { 0 }).createScript()
+                 );
+                mf.Show(this);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
     }
 

@@ -22,11 +22,24 @@ namespace CellGameEdit.PM
     [Serializable]
     public partial class ProjectForm : Form , ISerializable
     {
+        private static ProjectForm curInstance;
+        static public ProjectForm getInstance()
+        {
+            return curInstance;
+        }
+
 
         static public String workSpace = "";
         static public String workName = "";
 
+        static public String getEnumsDir()
+        {
+            return workSpace + @"\enums";
+        }
+
         static public Boolean IsCopy = false;/*此状态不序列化子对象*/
+
+        static public Boolean IsOutEncodingInfo = true;
 
         TreeNode nodeReses;
         TreeNode nodeLevels;
@@ -40,6 +53,8 @@ namespace CellGameEdit.PM
         // new 
         public ProjectForm()
         {
+            curInstance = this;
+
             InitializeComponent();
 
            // formGroup = new ArrayList();
@@ -78,6 +93,8 @@ namespace CellGameEdit.PM
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected ProjectForm(SerializationInfo info, StreamingContext context)
         {
+            curInstance = this;
+
             InitializeComponent();
 
             try
@@ -152,7 +169,18 @@ namespace CellGameEdit.PM
         
         private void ProjectForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("是否要关闭工程？", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.OK)
+            foreach (Form f in Application.OpenForms)
+            {
+                f.TopMost = false;
+            }
+
+            if (MessageBox.Show(
+                "是否要关闭工程？", 
+                "警告", 
+                MessageBoxButtons.OKCancel, 
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2
+                ) != DialogResult.OK)
             {
                 e.Cancel = true;
             }
@@ -266,6 +294,10 @@ namespace CellGameEdit.PM
                     {
                         Encoding encoding = Util.GetEncoding(fileName);
 
+                        Util.CurEncoding = encoding;
+
+                        Console.WriteLine("Encoding : " + encoding.EncodingName);
+
                         StreamReader sr = new StreamReader(fileName, encoding);
                         string script = sr.ReadToEnd();
                         sr.Close();
@@ -273,8 +305,24 @@ namespace CellGameEdit.PM
 
                         string ret = new string(new char[] { '\r', '\n' });
 
+                        // var
+                        script = Util.fillVar(script,
+                            new String[] { 
+                                "<VAR FILE NAME>",
+                                "<VAR PATH NAME>",
+                            },
+                            new String[] { 
+                                Path.GetFileNameWithoutExtension(workName),
+                                Path.GetDirectoryName(workName),
+                            }
+                            );
+                        
+
+
+
                         // build command
                         OutputName = Util.getCommandScript(script, "<OUTPUT>");
+                        //OutputName = Path.GetFullPath(OutputName);
                         try
                         {
                             if (System.IO.Path.IsPathRooted(OutputName))
@@ -295,6 +343,7 @@ namespace CellGameEdit.PM
                             System.IO.Directory.CreateDirectory(OutputDir);
                         }
                         OutputName = OutputDir + "\\" + System.IO.Path.GetFileName(OutputName);
+                        OutputName = Path.GetFullPath(OutputName);
 
                         // out image
                         OutputDirImage = Util.getCommandScript(script, "<IMAGE OUTPUT>");
@@ -336,14 +385,20 @@ namespace CellGameEdit.PM
                         Util.setFormatArray1D(Util.getCommandScript(script, "<FORMAT ARRAY 1D>"), "<>");
                         Util.setFormatArray2D(Util.getCommandScript(script, "<FORMAT ARRAY 2D>"), "<>");
 
+                        Util.setFixedStringArray(Util.getCommandScript(script, "<FIXED STRING ARRAY>"));
+
                         script = fillScriptNode(script);
 
                         script = Util.replaceFuncScript(script);
 
                         // complete
-                        script = script.Insert(0, "/* Email : wazazhang@gmail.com */" + ret);
-                        script = script.Insert(0, "/* Cell Game Editor by WAZA Zhang */" + ret);
-                        script = script.Insert(0, "/* Encoding : " + encoding.EncodingName + " */" + ret);
+                        if (IsOutEncodingInfo)
+                        {
+                            script = script.Insert(0, "/* Email : wazazhang@gmail.com */" + ret);
+                            script = script.Insert(0, "/* Cell Game Editor by WAZA Zhang */" + ret);
+                            script = script.Insert(0, "/* Encoding : " + encoding.EncodingName + " */" + ret);
+                        }
+                       
 
                         Console.WriteLine("");
                         Console.WriteLine(script);
@@ -354,7 +409,7 @@ namespace CellGameEdit.PM
                             encoding
                             );
 
-                        Console.WriteLine(ret + "Output --> : " + script.Length + " (Chars)");
+                        Console.WriteLine(ret + "Output --> " + OutputName + " --> " + script.Length + "(Chars)");
                         Console.WriteLine("");
                     }
                     else
@@ -384,60 +439,55 @@ namespace CellGameEdit.PM
             {
                 for (int i = 0; i < forms.Count; i++)
                 {
-                    String ignore = Util.getCommandScript(sub,"<IGNORE>");
 
-                    if (ignore != "")
+                    IEditForm form = ((IEditForm)forms[i]);
+
+                    String ignoreKey = null;
+                    if (Util.testIgnore("<IGNORE>", sub, form.getID(), ref ignoreKey) == true)
                     {
-                        
-                        try
-                        {
-                            IEditForm form = ((IEditForm)forms[i]);
-                            if (Util.checkWildcard(ignore, form.getID()) == 0)
-                            {
-                                Console.Write("Ignore : " + ignore);
-                                Console.Write(" : " + form.GetType().ToString() + " : " + form.getID());
-                                Console.WriteLine("");
-                                continue;
-                            }
-                        }
-                        catch (Exception err)
-                        {
-                            Console.Write("Error : " + err.Message);
-                        }
-                        
+                        continue;
+                    }
+
+                    String keepKey = null;
+                    if (Util.testKeep("<KEEP>", sub, form.getID(), ref keepKey) == false)
+                    {
+                        continue;
                     }
                    
-                        
+
+
                     StringWriter output = new StringWriter();
                     //
                     if (forms[i].GetType().Equals(typeof(ImagesForm)))
                     {
                         ((ImagesForm)forms[i]).OutputCustom(i, sub, output, OutputDirImage, ImageType,ImageTile,ImageTileData,ImageGroup,ImageGroupData);
-                        Console.WriteLine("Output Images : " + ((ImagesForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
+                        //Console.WriteLine("Output Images : " + ((ImagesForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
                     }
                     if (forms[i].GetType().Equals(typeof(MapForm)))
                     {
                         ((MapForm)forms[i]).OutputCustom(i, sub, output);
-                        Console.WriteLine("Output Map : " + ((MapForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
+                        //Console.WriteLine("Output Map : " + ((MapForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
                     }
                     if (forms[i].GetType().Equals(typeof(SpriteForm)))
                     {
                         ((SpriteForm)forms[i]).OutputCustom(i, sub, output);
-                        Console.WriteLine("Output Sprite : " + ((SpriteForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
+                        //Console.WriteLine("Output Sprite : " + ((SpriteForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
                     }
                     if (forms[i].GetType().Equals(typeof(WorldForm)))
                     {
                         ((WorldForm)forms[i]).OutputCustom(i, sub, output);
-                        Console.WriteLine("Output World : " + ((WorldForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
+                        //Console.WriteLine("Output World : " + ((WorldForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
                     }
                     //
                     if (forms[i].GetType().Equals(typeof(CommandForm)))
                     {
                         ((CommandForm)forms[i]).OutputCustom(i, sub, output);
-                        Console.WriteLine("Output Command : " + ((CommandForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
+                        //Console.WriteLine("Output Command : " + ((CommandForm)forms[i]).id + " -> " + output.ToString().Length + "(Chars)");
                     }
+
                     scripts.Add(output.ToString());
 
+                    Console.WriteLine("Output : " + form.GetType().ToString() + " : " + form.getID() + " -> " + output.ToString().Length + "(Chars)");
                 }
             }
             catch (Exception err) { MessageBox.Show(err.StackTrace + "  at  " +err.Message); }
@@ -737,6 +787,30 @@ namespace CellGameEdit.PM
         }
 
 
+        public ArrayList getMaps(ImagesForm images) 
+        {
+            ArrayList list = new ArrayList();
+
+            foreach (TreeNode node in nodeReses.Nodes)
+            {
+                foreach (TreeNode subnode in node.Nodes)
+                {
+                    Form frm = getForm(subnode);
+
+                    if (frm.GetType().Equals(typeof(MapForm))) 
+                    {
+                        MapForm map = (MapForm)frm;
+
+                        if (map.super == images)
+                        {
+                            list.Add(map);
+                        }
+                    }
+                }
+            }
+
+            return list;
+        }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -1192,7 +1266,20 @@ namespace CellGameEdit.PM
         }
 
 #endregion
-
+        public ImagesForm getImagesFormByName(string name)
+        {
+            foreach (TreeNode node in formTable.Keys)
+            {
+                if (node.Text.Equals(name))
+                {
+                    if (formTable[node].GetType().Equals(typeof(ImagesForm)))
+                    {
+                        return (ImagesForm)formTable[node];
+                    }
+                }
+            }
+            return null;
+        }
 
         private void copySub(TreeNode super,TreeNode superCopy)
         {
@@ -1212,9 +1299,11 @@ namespace CellGameEdit.PM
                         // clone form
                        
                         SoapFormatter formatter = new SoapFormatter();
+                        
                         MemoryStream stream = new MemoryStream();
                         stream.Seek(0, SeekOrigin.Begin);
                         formatter.Serialize(stream, formTable[super]);
+                        
                         stream.Seek(0, SeekOrigin.Begin);
                         Form form = (Form)formatter.Deserialize(stream);
                         stream.Close();
