@@ -3295,7 +3295,7 @@ namespace CellGameEdit.PM
 
             override public String getCommet()
             {
-                return "/// 设置当前脚本影响到的区域";
+                return "/// 设置当前脚本影响到的区域，即脚本的有效范围";
             }
             override public String getFuncKey()
             {
@@ -3349,7 +3349,12 @@ namespace CellGameEdit.PM
 
             override public String getCommet()
             {
-                return "/// 替换指定的tile或anim成为新的tile或anim";
+                return
+                    "/// 替换指定的tile或anim成为新的tile或anim \n" +
+                    "/// SrcType - 被替换的类型(tile或anim或layer); ps: (anim和layer编号是一样的，只是渲染方式不同，anim为正，layer为负)\n" +
+                    "/// Src     - 被替换的tile编号或anim编号\n" +
+                    "/// DstType - 要替换的类型\n" +
+                    "/// Dst     - 要替换的tile编号或anim编号";
             }
             override public String getFuncKey()
             {
@@ -3435,7 +3440,14 @@ namespace CellGameEdit.PM
             }
             override public String getCommet()
             {
-                return "/// 填充指定的tile或anim，为新的tile或anim";
+                return 
+                    "/// 随机填充指定的tile或anim，为新的tile或anim \n" +
+                    "/// SrcType  - 原地图中可被填充的类型(tile或anim或layer)\n" +
+                    "/// SrcGroup - 原地图中可被填充的tile编号或anim编号组合{n,n...,n}\n" +
+                    "/// DstType  - 要填充的类型\n" +
+                    "/// DstGroup - 要填充的tile编号或anim编号组合\n" +
+                    "/// DstCount - 要最大填充多少个" 
+                    ;
             }
             override public String getFuncKey()
             {
@@ -3533,7 +3545,20 @@ namespace CellGameEdit.PM
             }
             override public String getCommet()
             {
-                return "/// 在指定的网格范围内，填充指定的tile或anim，为新的tile或anim";
+                return
+                    "/// 在指定的网格范围内，随机填充指定范围内的tile或anim，为新的tile或anim \n" +
+                    "/// GridW    - 原网格尺寸\n" +
+                    "/// GridH    - \n" +
+                    "/// SubX     - 在该网格尺寸中的矩形范围\n" +
+                    "/// SubY     - \n" +
+                    "/// SubW     - \n" +
+                    "/// SubH     - \n" +
+                    "/// SrcType  - 原地图中可被填充的类型(tile或anim或layer)\n" +
+                    "/// SrcGroup - 原地图中可被填充的tile编号或anim编号组合{n,n...,n}\n" +
+                    "/// DstType  - 要填充的类型\n" +
+                    "/// DstGroup - 要填充的tile编号或anim编号组合\n" +
+                    "/// DstCount - 要最大填充多少个"
+                ;
             }
             override public String getFuncKey()
             {
@@ -3661,7 +3686,21 @@ namespace CellGameEdit.PM
 
             override public String getCommet()
             {
-                return "/// 在指定的tile或anim周围生成若干个tile或anim";
+                return
+                    "/// 在指定的tile或anim周围随机生成若干个tile或anim \n" +
+                    "/// KeyType  - 周围生成的参考点类型(tile或anim或layer)\n" +
+                    "/// KeyGroup - 周围生成的参考点的tile编号或anim编号组合{n,n...,n}\n" +
+                    "/// X        - 基于参考点的范围 eg:(-2,-2,4,4)即围绕该点周围2个半径范围内生成\n" +
+                    "/// Y        - \n" +
+                    "/// W        - \n" +
+                    "/// H        - \n" + 
+                    "/// Shape    - 当前只能指定 rect 范围\n" +
+                    "/// SrcType  - 原地图中可被填充的类型(tile或anim或layer)\n" +
+                    "/// SrcGroup - 原地图中可被填充的tile编号或anim编号组合{n,n...,n}\n" +
+                    "/// DstType  - 要填充的类型\n" +
+                    "/// DstGroup - 要填充的tile编号或anim编号组合\n" +
+                    "/// DstCount - 要最大填充多少个"
+                    ;
             }
             override public String getFuncKey()
             {
@@ -3780,7 +3819,13 @@ namespace CellGameEdit.PM
             }
             override public String getCommet()
             {
-                return "/// Copy and parse";
+                return 
+                    "/// 将制定范围的地图数据复制到另一范围\n" +
+                    "/// SX, SY, SW, SH - 被复制的范围\n" +
+                    "/// DX, DY, DW, DH - 复制到的范围\n" +
+                    "/// SrcType  - 原地图中可被填充的类型(tile或anim或layer)\n" +
+                    "/// SrcGroup - 原地图中可被填充的tile编号或anim编号组合{n,n...,n}"
+                    ;
             }
             override public String getFuncKey()
             {
