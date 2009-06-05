@@ -1,6 +1,6 @@
-https://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/dotnetfx.exe
-https://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/instmsia.exe
-https://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/langpack.exe
-https://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/WindowsInstaller-KB893803-v2-x86.exe
-https://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/VJSharpRDP/vjredist.exe
-https://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/VJSharpRDP/vjredist-LP.exe
+http://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/dotnetfx.exe
+http://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/instmsia.exe
+http://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/langpack.exe
+http://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/dotnetfx/WindowsInstaller-KB893803-v2-x86.exe
+http://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/VJSharpRDP/vjredist.exe
+http://cellengine.googlecode.com/svn/trunk/CellGameEdit/CellGameEditor Setup/Release/VJSharpRDP/vjredist-LP.exe
