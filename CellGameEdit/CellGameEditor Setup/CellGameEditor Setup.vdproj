@@ -15,18 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0B6C25F30BCC97AF6DA37EE070E4B5DF"
-        "OwnerKey" = "8:_23BC0C53B1B368EDFAD908AC45FF1726"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0B6C25F30BCC97AF6DA37EE070E4B5DF"
-        "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1CE07D0ABA3F40369A3D83473B4E03C7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -39,7 +27,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_23BC0C53B1B368EDFAD908AC45FF1726"
+        "MsmKey" = "8:_34920173F9D0C73AEDB36D55B89B91CE"
+        "OwnerKey" = "8:_5B9A270437E827E906C4F15334A9979C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_34920173F9D0C73AEDB36D55B89B91CE"
         "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -51,20 +45,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3E18051F7DBD491486E8C2865A75176C"
-        "OwnerKey" = "8:_0B6C25F30BCC97AF6DA37EE070E4B5DF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3E18051F7DBD491486E8C2865A75176C"
+        "MsmKey" = "8:_5B9A270437E827E906C4F15334A9979C"
         "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3E18051F7DBD491486E8C2865A75176C"
-        "OwnerKey" = "8:_23BC0C53B1B368EDFAD908AC45FF1726"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -87,19 +69,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_906FB1E42C874764A8F1054A900027EA"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_850FBB82345A47118FAC66AAABAD3881"
+        "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_850FBB82345A47118FAC66AAABAD3881"
+        "OwnerKey" = "8:_34920173F9D0C73AEDB36D55B89B91CE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_850FBB82345A47118FAC66AAABAD3881"
+        "OwnerKey" = "8:_5B9A270437E827E906C4F15334A9979C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_A12C6107140342789E5AADB7EAD4D447"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A789CB852C4649A2B4EC6E337FC82C1E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -112,12 +100,6 @@
         "Entry"
         {
         "MsmKey" = "8:_B45A48E56F1C4710BFC2ACF48BF3B561"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B6E695D62511443C8807B9BA433E35B2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -141,12 +123,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E8646F46AEDE482C97B2B5DD678AB247"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "MsmSig" = "8:_UNDEFINED"
@@ -154,19 +130,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_23BC0C53B1B368EDFAD908AC45FF1726"
+        "OwnerKey" = "8:_5B9A270437E827E906C4F15334A9979C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0B6C25F30BCC97AF6DA37EE070E4B5DF"
+        "OwnerKey" = "8:_34920173F9D0C73AEDB36D55B89B91CE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3E18051F7DBD491486E8C2865A75176C"
+        "OwnerKey" = "8:_850FBB82345A47118FAC66AAABAD3881"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -274,37 +250,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0B6C25F30BCC97AF6DA37EE070E4B5DF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:J2me, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_0B6C25F30BCC97AF6DA37EE070E4B5DF"
-                    {
-                    "Name" = "8:J2me.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:J2me.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1CE07D0ABA3F40369A3D83473B4E03C7"
             {
             "SourcePath" = "8:..\\ScriptExample\\SetOutput.txt.conf"
@@ -345,20 +290,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_23BC0C53B1B368EDFAD908AC45FF1726"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_34920173F9D0C73AEDB36D55B89B91CE"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:J2me, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_23BC0C53B1B368EDFAD908AC45FF1726"
+                    "_34920173F9D0C73AEDB36D55B89B91CE"
                     {
-                    "Name" = "8:CellLib.dll"
+                    "Name" = "8:J2me.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:CellLib.dll"
+            "SourcePath" = "8:J2me.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
@@ -394,6 +339,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5B9A270437E827E906C4F15334A9979C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_5B9A270437E827E906C4F15334A9979C"
+                    {
+                    "Name" = "8:CellLib.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellLib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_63445CE40F044F089EB92A82D35EF158"
@@ -436,50 +412,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_906FB1E42C874764A8F1054A900027EA"
-            {
-            "SourcePath" = "8:..\\doc\\视频\\编辑场景\\编辑场景.swf"
-            "TargetName" = "8:编辑场景.swf"
-            "Tag" = "8:"
-            "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12C6107140342789E5AADB7EAD4D447"
             {
             "SourcePath" = "8:..\\doc\\编辑器使用简介.xls"
             "TargetName" = "8:编辑器使用简介.xls"
-            "Tag" = "8:"
-            "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A789CB852C4649A2B4EC6E337FC82C1E"
-            {
-            "SourcePath" = "8:..\\doc\\视频\\动画编辑\\动画编辑.swf"
-            "TargetName" = "8:动画编辑.swf"
             "Tag" = "8:"
             "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
             "Condition" = "8:"
@@ -522,26 +458,6 @@
             "TargetName" = "8:md6.jar"
             "Tag" = "8:"
             "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B6E695D62511443C8807B9BA433E35B2"
-            {
-            "SourcePath" = "8:..\\doc\\视频\\地图编辑\\地图编辑.swf"
-            "TargetName" = "8:地图编辑.swf"
-            "Tag" = "8:"
-            "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -602,26 +518,6 @@
             "TargetName" = "8:CsvOutput.txt.csv"
             "Tag" = "8:"
             "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E8646F46AEDE482C97B2B5DD678AB247"
-            {
-            "SourcePath" = "8:..\\doc\\视频\\创建资源\\创建资源.swf"
-            "TargetName" = "8:创建资源.swf"
-            "Tag" = "8:"
-            "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -950,62 +846,6 @@
             "Folder" = "8:_8316322C405241499990365980E4741B"
             "WorkingFolder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
             "Icon" = "8:_70BA54391A194B2385F85D2824EEFD9F"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7B50F1AE2DDF42BC94C3F3E77EF59779"
-            {
-            "Name" = "8:编辑场景"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_906FB1E42C874764A8F1054A900027EA"
-            "Folder" = "8:_A93B9972EF20406D8AEB4D10C028708F"
-            "WorkingFolder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9E61EC2BF93F4B488A2D7DB24645CE4B"
-            {
-            "Name" = "8:动画编辑"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_A789CB852C4649A2B4EC6E337FC82C1E"
-            "Folder" = "8:_A93B9972EF20406D8AEB4D10C028708F"
-            "WorkingFolder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C5FC3104ABDB4213A010EEE179445669"
-            {
-            "Name" = "8:创建资源"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_E8646F46AEDE482C97B2B5DD678AB247"
-            "Folder" = "8:_A93B9972EF20406D8AEB4D10C028708F"
-            "WorkingFolder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EB6A454B28D64F8C928929D1671A2AD1"
-            {
-            "Name" = "8:地图编辑"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_B6E695D62511443C8807B9BA433E35B2"
-            "Folder" = "8:_A93B9972EF20406D8AEB4D10C028708F"
-            "WorkingFolder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -1404,7 +1244,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_3E18051F7DBD491486E8C2865A75176C"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_850FBB82345A47118FAC66AAABAD3881"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
