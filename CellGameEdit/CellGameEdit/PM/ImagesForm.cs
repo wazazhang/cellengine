@@ -355,6 +355,11 @@ namespace CellGameEdit.PM
             }
         }
 
+        public void changeImage()
+        {
+            is_change_image = true;
+        }
+
         public void DelAllImages()
         {
            

@@ -858,6 +858,8 @@ namespace CellGameEdit.PM
                         if (getForm(e.Node).GetType().Equals(typeof(ImagesForm)))
                         {
                             ((ImagesForm)getForm(e.Node)).id = name;
+                            ((ImagesForm)getForm(e.Node)).changeImage();
+                            Console.WriteLine("change image : " + ((ImagesForm)getForm(e.Node)).id);
                         }
                         if (getForm(e.Node).GetType().Equals(typeof(SpriteForm)))
                         {
@@ -1310,6 +1312,8 @@ namespace CellGameEdit.PM
 
                         if (formTable[super].GetType().Equals(typeof(ImagesForm)))
                         {
+                            ((ImagesForm)form).changeImage();
+                            Console.WriteLine("change image : " + ((ImagesForm)form).id);
                         }
                         if (formTable[super].GetType().Equals(typeof(MapForm)))
                         {
