@@ -1,4 +1,4 @@
-; <OUTPUT>     		.\[out]\<VAR FILE NAME>.csv
+﻿; <OUTPUT>     		.\[out]\<VAR FILE NAME>.csv
 ; <FORMAT STRING ARRAY 1D>    "<>",
 
 #<RESOURCE>
