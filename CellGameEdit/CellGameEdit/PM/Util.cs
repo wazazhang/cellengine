@@ -23,9 +23,9 @@ namespace CellGameEdit.PM
         public static string FormatArray2D_h = "{";
         public static string FormatArray2D_t = "},";
 
-        public static string FixedStringArray = "";
-
-
+        public static bool FixedStringArray = false;
+        public static string FixedStringArraySplit = "";
+        public static bool FixedStringArrayByte = true;
 
         public static string fixControlText(string str)
         {
@@ -117,9 +117,40 @@ namespace CellGameEdit.PM
 
         public static void setFixedStringArray(string format)
         {
-            FixedStringArray = format.Trim(); ;
+            try
+            {
+                format = format.Trim();
+
+                if (format.Length > 0)
+                {
+                    if (format.StartsWith("byte"))
+                    {
+                        FixedStringArraySplit = format.Substring(4);
+                        FixedStringArrayByte = true;
+                        Console.WriteLine("FixedStringArray byte : " + format);
+                    }
+                    else if (format.StartsWith("char"))
+                    {
+                        FixedStringArraySplit = format.Substring(4);
+                        FixedStringArrayByte = false;
+                        Console.WriteLine("FixedStringArray char : " + format);
+                    }
+                    else
+                    {
+                        FixedStringArraySplit = format;
+                        Console.WriteLine("FixedStringArray : " + format);
+                    }
+
+                    FixedStringArray = true;
+                }
+            }
+            catch (Exception err) 
+            {
+                FixedStringArray = false;
+            }
         }
 
+        //---------------------------------------------------------------------------------------------------------------------------------------------
 
 
         public static int checkWildcard(String wildcard, String str)
@@ -173,6 +204,7 @@ namespace CellGameEdit.PM
             }
         }
 
+        //---------------------------------------------------------------------------------------------------------------------------------------------
 
 
         //public static String toTextArray(short[] array)
@@ -250,16 +282,26 @@ namespace CellGameEdit.PM
             for (int i = 0; i < array.Length; i++)
             {
                 String e = array[i].ToString();
-                if(FixedStringArray==null || FixedStringArray.Length==0)
+                if (FixedStringArray == false)
                 {
                     ret += FormatStringArray1D_h + e + FormatStringArray1D_t;
                 }
                 else
                 {
-                    int size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
-                    ret += size + FixedStringArray + FormatStringArray1D_h + e + FormatStringArray1D_t;
+                    int size = 0;
+                    if (FixedStringArrayByte)
+                    {
+                        size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
+                    }
+                    else
+                    {
+                        size = e.Length;
+                    }
+
+                    ret += size + FixedStringArraySplit + FormatStringArray1D_h + e + FormatStringArray1D_t;
+
                 }
-               
+
             }
             return ret;
         }
@@ -284,14 +326,23 @@ namespace CellGameEdit.PM
                 {
                     if (types[i] == typeof(String))
                     {
-                        if (FixedStringArray == null || FixedStringArray.Length == 0)
+                        if (FixedStringArray == false)
                         {
                             ret += FormatStringArray1D_h + e + FormatStringArray1D_t;
                         }
                         else
                         {
-                            int size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
-                            ret += size + FixedStringArray + FormatStringArray1D_h + e + FormatStringArray1D_t;
+                            int size = 0;
+                            if (FixedStringArrayByte)
+                            {
+                                size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
+                            }
+                            else 
+                            {
+                                size = e.Length;
+                            }
+
+                            ret += size + FixedStringArraySplit + FormatStringArray1D_h + e + FormatStringArray1D_t;
                         }
                     }
                     else if (types[i] == typeof(Decimal))
@@ -311,14 +362,23 @@ namespace CellGameEdit.PM
                     }
                     else
                     {
-                        if (FixedStringArray == null || FixedStringArray.Length == 0)
+                        if (FixedStringArray == false)
                         {
                             ret += FormatStringArray1D_h + e + FormatStringArray1D_t;
                         }
                         else
                         {
-                            int size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
-                            ret += size + FixedStringArray + FormatStringArray1D_h + e + FormatStringArray1D_t;
+                            int size = 0;
+                            if (FixedStringArrayByte)
+                            {
+                                size = CurEncoding.GetEncoder().GetByteCount(e.ToCharArray(), 0, e.Length, true);
+                            }
+                            else
+                            {
+                                size = e.Length;
+                            }
+
+                            ret += size + FixedStringArraySplit + FormatStringArray1D_h + e + FormatStringArray1D_t;
                         }
                     }
                 }
