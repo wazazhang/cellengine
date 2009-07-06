@@ -73,17 +73,25 @@ namespace CellGameEdit.PM
         };
         #endregion
 
+        //---------------------------------------------------------
         int flipIndex = 0;
-
         int tagIndex = 0;
-
-        //Image srcImage;
-
         int srcIndex = 0;
-        System.Drawing.Rectangle srcRect;
-
         int srcIndexR = 0;
+
+        System.Drawing.Rectangle srcRect;
         System.Drawing.Rectangle srcRectR;
+        //----------------------------------------------------------
+        int srcPX = 0;
+        int srcPY = 0;
+        int srcQX = 0;
+        int srcQY = 0;
+        System.Drawing.Rectangle srcRects;
+        ArrayList srcTilesIndexBrush;
+        ArrayList srcTilesOXBrush;
+        ArrayList srcTilesOYBrush;
+
+        //----------------------------------------------------------
 
         System.Drawing.Rectangle MapLoc = new System.Drawing.Rectangle(0,0,100,100);
 
@@ -1233,8 +1241,21 @@ namespace CellGameEdit.PM
                 MatrixFlip[by][bx] = flip;
             }
         }
-        
 
+        private void fillSrcTiles(int bx, int by)
+        {
+            if (srcRects != null && srcTilesIndexBrush != null)
+            {
+                for (int i = srcTilesIndexBrush.Count - 1; i >= 0; --i)
+                {
+                    int index = (int)srcTilesIndexBrush[i];
+                    int ox = (int)srcTilesOXBrush[i];
+                    int oy = (int)srcTilesOYBrush[i];
+
+                    putTile(index, bx + ox, by + oy);
+                }
+            }
+        }
 
         private void renderSrcTile(Graphics g, int index, int flip, int x, int y)
         {
@@ -1285,6 +1306,20 @@ namespace CellGameEdit.PM
             }
         }
 
+        private void renderSrcTiles(Graphics g, int x, int y)
+        {
+            if (srcRects != null && srcTilesIndexBrush != null)
+            {
+                for (int i = srcTilesIndexBrush.Count - 1; i >= 0; --i)
+                {
+                    int index = (int)srcTilesIndexBrush[i];
+                    int ox = (int)srcTilesOXBrush[i] * CellW;
+                    int oy = (int)srcTilesOYBrush[i] * CellH;
+
+                    renderSrcTile(g, index, 0, x + ox, y + oy);
+                }
+            }
+        }
 
         private void renderTag(Graphics g, int type, int x, int y)
         {
@@ -1591,6 +1626,8 @@ namespace CellGameEdit.PM
         }
 
         // src
+        #region src tiles
+
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             for (int i = getTileCount() - 1; i >= 0; i--)
@@ -1622,20 +1659,45 @@ namespace CellGameEdit.PM
                 )
             );
 
-            System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff,0,0,0));
-            System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
-            e.Graphics.FillRectangle(brush, srcRect);
-            e.Graphics.DrawRectangle(pen, srcRect.X, srcRect.Y, srcRect.Width - 1, srcRect.Height - 1);
 
-            System.Drawing.Pen penR = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0xff, 0xff, 0xff));
-            System.Drawing.Brush brushR = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0x80, 0x80, 0x80)).Brush;
-            e.Graphics.FillRectangle(brushR, srcRectR);
-            e.Graphics.DrawRectangle(penR, srcRectR.X, srcRectR.Y, srcRectR.Width - 1, srcRectR.Height - 1);
+
+            if (toolTilesBrush.Checked)
+            {
+                System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0));
+                System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
+                e.Graphics.FillRectangle(brush, srcRects);
+                e.Graphics.DrawRectangle(pen, srcRects.X, srcRects.Y, srcRects.Width, srcRects.Height);
+            }
+            else if (toolTileBrush.Checked || toolAnimBrush.Checked || toolSelecter.Checked)
+            {
+
+                System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0));
+                System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
+                e.Graphics.FillRectangle(brush, srcRect);
+                e.Graphics.DrawRectangle(pen, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+
+                System.Drawing.Pen penR = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0xff, 0xff, 0xff));
+                System.Drawing.Brush brushR = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0x80, 0x80, 0x80)).Brush;
+                e.Graphics.FillRectangle(brushR, srcRectR);
+                e.Graphics.DrawRectangle(penR, srcRectR.X, srcRectR.Y, srcRectR.Width, srcRectR.Height);
+            }
 
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-           
+            if (toolTilesBrush.Checked)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    srcPX = e.X / CellW * CellW;
+                    srcPY = e.Y / CellH * CellW;
+
+                    srcRects = new System.Drawing.Rectangle(srcPX, srcPY, CellW, CellH);
+                }
+                pictureBox1.Refresh();
+            }
+            else if (toolTileBrush.Checked || toolAnimBrush.Checked || toolSelecter.Checked) 
+            {
                 System.Drawing.Rectangle dst = new System.Drawing.Rectangle(0, 0, 1, 1);
                 for (int i = 0; i < getTileCount(); i++)
                 {
@@ -1689,7 +1751,60 @@ namespace CellGameEdit.PM
                     }
                 }
                 textBox1.Focus();
+            }
         }
+       
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (toolTilesBrush.Checked)
+            {
+                if (srcRects!=null && e.Button==MouseButtons.Left)
+                {
+                    srcQX = e.X / CellW * CellW;
+                    srcQY = e.Y / CellH * CellW;
+
+                    srcRects.X = Math.Min(srcPX, srcQX);
+                    srcRects.Y = Math.Min(srcPY, srcQY);
+                    srcRects.Width  = Math.Abs(srcPX - srcQX) + CellW;
+                    srcRects.Height = Math.Abs(srcPY - srcQY) + CellW;
+
+                    pictureBox1.Refresh();
+                }
+            }
+        }
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (toolTilesBrush.Checked)
+            {
+                if (srcRects != null && e.Button == MouseButtons.Left)
+                {
+                    srcTilesIndexBrush = new ArrayList();
+                    srcTilesOXBrush = new ArrayList();
+                    srcTilesOYBrush = new ArrayList();
+
+                    for (int i = 0; i < getTileCount(); i++)
+                    {
+                        Image tile = getTileImage(i);
+
+                        if (tile != null && tile.killed == false)
+                        {
+                            if (srcRects.IntersectsWith(new System.Drawing.Rectangle(tile.x, tile.y, tile.getWidth(), tile.getHeight())))
+                            {
+                                int ox = (tile.x - srcRects.X) / CellW;
+                                int oy = (tile.y - srcRects.Y) / CellH;
+
+                                srcTilesIndexBrush.Add(i);
+                                srcTilesOXBrush.Add(ox);
+                                srcTilesOYBrush.Add(oy);
+                            }
+                        }
+                    }
+
+                    pictureBox1.Refresh();
+                }
+            }
+        }
+
         private void toolStripMenuItem10_Click(object sender, EventArgs e)
         {
             try
@@ -1722,7 +1837,9 @@ namespace CellGameEdit.PM
             {
             }
         }
-        
+
+        #endregion
+
         //property
         private void dstChangeMapSize(int xcount, int ycount)
         {
@@ -1814,30 +1931,12 @@ namespace CellGameEdit.PM
                 dstRect.Width = 0;
                 dstRect.Height = 0;
 
-                    if (!sender.Equals(toolSelecter)) toolSelecter.Checked = false;
-                    if (!sender.Equals(toolTileBrush)) toolTileBrush.Checked = false;
-                    if (!sender.Equals(toolCDBrush)) toolCDBrush.Checked = false;
-                    if (!sender.Equals(toolAnimBrush)) toolAnimBrush.Checked = false;
-
-                    ((ToolStripButton)sender).Checked = true;
-
-                //
-                    if (sender.Equals(toolSelecter))
-                    {
-                        //toolStripDropDownButton2.Enabled = true;
-                    }
-                    else
-                    {
-                        //toolStripDropDownButton2.Enabled = false;
-                    }
-                    //if (sender.Equals(toolStripButton10))
-                    //{
-                    //    toolStripDropDownButton1.Enabled = true;
-                    //}
-                    //else
-                    //{
-                    //    toolStripDropDownButton1.Enabled = false;
-                    //}
+                if (!sender.Equals(toolSelecter)) toolSelecter.Checked = false;
+                if (!sender.Equals(toolTileBrush)) toolTileBrush.Checked = false;
+                if (!sender.Equals(toolTilesBrush)) toolTilesBrush.Checked = false;
+                if (!sender.Equals(toolCDBrush)) toolCDBrush.Checked = false;
+                if (!sender.Equals(toolAnimBrush)) toolAnimBrush.Checked = false;
+                ((ToolStripButton)sender).Checked = true;
 
                 refreshMap();
             }
@@ -2597,8 +2696,7 @@ namespace CellGameEdit.PM
                         dstRect.Height - 1
                         );
                 }
-
-                if (toolTileBrush.Checked)
+                else if (toolTileBrush.Checked)
                 {
                     System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0));
 
@@ -2620,14 +2718,17 @@ namespace CellGameEdit.PM
                     {
                         e.Graphics.DrawRectangle(lpen, bx, by, bw, bh);
                     }
-
                 }
-                if (toolCDBrush.Checked)
+                else if (toolTilesBrush.Checked)
+                {
+                    renderSrcTiles(g, bx, by);
+                }
+                else if (toolCDBrush.Checked)
                 {
                     System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0xff, 0, 0));
                     e.Graphics.DrawRectangle(lpen, bx, by, bw, bh);
                 }
-                if (toolAnimBrush.Checked)
+                else if (toolAnimBrush.Checked)
                 {
                     System.Drawing.Pen lpen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0, 0, 0xff));
 
@@ -2737,8 +2838,7 @@ namespace CellGameEdit.PM
                         toolStripStatusLabel1.Text += " 选择:" + (r - l + 1) + "x" + (b - t + 1) + "格";
                     }
                 }
-
-                if (ed.Button == MouseButtons.Left)
+                else if (ed.Button == MouseButtons.Left)
                 {
 
                     if (toolTileBrush.Checked)
@@ -2746,29 +2846,33 @@ namespace CellGameEdit.PM
                         putTile(srcIndex, dstBX, dstBY);
                         putFlip(flipIndex, dstBX, dstBY);
                     }
-                    if (toolCDBrush.Checked)
+                    else if (toolTilesBrush.Checked)
+                    {
+                        fillSrcTiles(dstBX, dstBY);
+                    }
+                    else if (toolCDBrush.Checked)
                     {
                         putTag(tagIndex, dstBX, dstBY);
                     }
-                    if (toolAnimBrush.Checked)
+                    else if (toolAnimBrush.Checked)
                     {
                         putAnimate(curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
                     }
-
+                    
 
                 }
-                if (ed.Button == MouseButtons.Right)
+                else if (ed.Button == MouseButtons.Right)
                 {
                     if (toolTileBrush.Checked)
                     {
                         putTile(srcIndexR, dstBX, dstBY);
                         putFlip(flipIndex, dstBX, dstBY);
                     }
-                    if (toolCDBrush.Checked)
+                    else if (toolCDBrush.Checked)
                     {
                         putTag(0, dstBX, dstBY);
                     }
-                    if (toolAnimBrush.Checked)
+                    else if (toolAnimBrush.Checked)
                     {
                         putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
                     }
@@ -2825,22 +2929,25 @@ namespace CellGameEdit.PM
                         dstRect.Width = 0;
                         dstRect.Height = 0;
                     }
-
-                    if (toolTileBrush.Checked)
+                    else if (toolTileBrush.Checked)
                     {
                         putTile(srcIndex, dstBX, dstBY);
                         putFlip(flipIndex, dstBX, dstBY);
                     }
-                    if (toolCDBrush.Checked)
+                    else if (toolTilesBrush.Checked)
+                    {
+                        fillSrcTiles(dstBX, dstBY);
+                    }
+                    else if (toolCDBrush.Checked)
                     {
                         putTag(tagIndex, dstBX, dstBY);
                     }
-                    if (toolAnimBrush.Checked)
+                    else if (toolAnimBrush.Checked)
                     {
                         putAnimate(curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
                     }
                 }
-                if (ed.Button == MouseButtons.Right)
+                else if (ed.Button == MouseButtons.Right)
                 {
                     if (toolSelecter.Checked)
                     {
@@ -2857,16 +2964,16 @@ namespace CellGameEdit.PM
                             }
                         }
                     }
-                    if (toolTileBrush.Checked)
+                    else if (toolTileBrush.Checked)
                     {
                         putTile(srcIndexR, dstBX, dstBY);
                         putFlip(flipIndex, dstBX, dstBY);
                     }
-                    if (toolCDBrush.Checked)
+                    else if (toolCDBrush.Checked)
                     {
                         putTag(0, dstBX, dstBY);
                     }
-                    if (toolAnimBrush.Checked)
+                    else if (toolAnimBrush.Checked)
                     {
                         putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
                     }
@@ -4102,6 +4209,8 @@ namespace CellGameEdit.PM
                 mf.Show(this);
             }
         }
+
+      
 
 
 

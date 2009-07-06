@@ -145,6 +145,9 @@
   <data name="Image14" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Image14.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Image141" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Image141.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Image15" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Image15.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

@@ -123,6 +123,7 @@
             this.复制填充ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolTileBrush = new System.Windows.Forms.ToolStripButton();
+            this.toolTilesBrush = new System.Windows.Forms.ToolStripButton();
             this.toolAnimBrush = new System.Windows.Forms.ToolStripButton();
             this.toolCDBrush = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -146,6 +147,7 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.BtnFunc = new System.Windows.Forms.ToolStripButton();
+            this.btnSaveMiniMap = new System.Windows.Forms.ToolStripButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,7 +159,6 @@
             this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripSeparator();
             this.统计相同的地块ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnSaveMiniMap = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -278,7 +279,9 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // toolStrip1
             // 
@@ -1048,9 +1051,9 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(667, 508);
             this.panel2.TabIndex = 1;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             this.panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panel2_Scroll);
             this.panel2.Resize += new System.EventHandler(this.panel2_Resize);
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // vScrollBar1
             // 
@@ -1082,8 +1085,8 @@
             this.MapRegion.TabIndex = 0;
             this.MapRegion.TabStop = false;
             this.MapRegion.MouseLeave += new System.EventHandler(this.pictureBox2_MouseLeave);
-            this.MapRegion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
             this.MapRegion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDown);
+            this.MapRegion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
             this.MapRegion.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
             this.MapRegion.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseUp);
             // 
@@ -1113,6 +1116,7 @@
             this.DropRegionFunc,
             this.toolStripSeparator3,
             this.toolTileBrush,
+            this.toolTilesBrush,
             this.toolAnimBrush,
             this.toolCDBrush,
             this.toolStripDropDownButton1,
@@ -1238,6 +1242,19 @@
             this.toolTileBrush.Size = new System.Drawing.Size(23, 22);
             this.toolTileBrush.Text = "地表工具";
             this.toolTileBrush.Click += new System.EventHandler(this.toolStriptoolStripButton_Clicked);
+            // 
+            // toolTilesBrush
+            // 
+            this.toolTilesBrush.CheckOnClick = true;
+            this.toolTilesBrush.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolTilesBrush.Image = global::CellGameEdit.Resource1.Image141;
+            this.toolTilesBrush.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolTilesBrush.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolTilesBrush.Name = "toolTilesBrush";
+            this.toolTilesBrush.Size = new System.Drawing.Size(23, 22);
+            this.toolTilesBrush.Text = "地表刷子";
+            this.toolTilesBrush.ToolTipText = "范围填充";
+            this.toolTilesBrush.Click += new System.EventHandler(this.toolStriptoolStripButton_Clicked);
             // 
             // toolAnimBrush
             // 
@@ -1478,6 +1495,16 @@
             this.BtnFunc.Text = "Func";
             this.BtnFunc.Click += new System.EventHandler(this.BtnFunc_Click);
             // 
+            // btnSaveMiniMap
+            // 
+            this.btnSaveMiniMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnSaveMiniMap.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveMiniMap.Image")));
+            this.btnSaveMiniMap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSaveMiniMap.Name = "btnSaveMiniMap";
+            this.btnSaveMiniMap.Size = new System.Drawing.Size(69, 22);
+            this.btnSaveMiniMap.Text = "导出小地图";
+            this.btnSaveMiniMap.Click += new System.EventHandler(this.btnSaveMiniMap_Click);
+            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -1553,16 +1580,6 @@
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnSaveMiniMap
-            // 
-            this.btnSaveMiniMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnSaveMiniMap.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveMiniMap.Image")));
-            this.btnSaveMiniMap.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSaveMiniMap.Name = "btnSaveMiniMap";
-            this.btnSaveMiniMap.Size = new System.Drawing.Size(69, 22);
-            this.btnSaveMiniMap.Text = "导出小地图";
-            this.btnSaveMiniMap.Click += new System.EventHandler(this.btnSaveMiniMap_Click);
-            // 
             // MapForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1573,10 +1590,10 @@
             this.Name = "MapForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "MapForm";
-            this.Load += new System.EventHandler(this.MapForm_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MapForm_FormClosed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapForm_FormClosing);
             this.TextChanged += new System.EventHandler(this.MapForm_TextChanged);
+            this.Load += new System.EventHandler(this.MapForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1757,5 +1774,6 @@
         private System.Windows.Forms.ToolStripMenuItem 复制填充ToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton isShowTileID;
         private System.Windows.Forms.ToolStripButton btnSaveMiniMap;
+        public System.Windows.Forms.ToolStripButton toolTilesBrush;
     }
 }
