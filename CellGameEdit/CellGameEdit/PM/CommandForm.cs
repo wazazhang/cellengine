@@ -309,47 +309,48 @@ namespace CellGameEdit.PM
 
         private String outputSubTable(int index, String script)
         {
-          
+
             int ColumnsCount = getTable(index).Columns.Count;
             int RowsCount = getTable(index).Rows.Count - 1;
 
             //
             String[][] cell_matrix_c_r = new string[ColumnsCount][];
             Type[][] type_matrix_c_r = new Type[ColumnsCount][];
-
-            for (int c = 0; c < ColumnsCount; c++)
             {
-                cell_matrix_c_r[c] = new string[RowsCount];
-                type_matrix_c_r[c] = new Type[RowsCount];
-
-                Type ctype = getColumn(index, c).ValueType;
-
-                for (int r = 0; r < RowsCount; r++)
+                for (int c = 0; c < ColumnsCount; c++)
                 {
-                    getCell(index, r, c).ValueType = ctype;
+                    cell_matrix_c_r[c] = new string[RowsCount];
+                    type_matrix_c_r[c] = new Type[RowsCount];
 
-                    cell_matrix_c_r[c][r] = getCellText(index, r, c);
-                    type_matrix_c_r[c][r] = getCell(index, r, c).ValueType;
+                    Type ctype = getColumn(index, c).ValueType;
+
+                    for (int r = 0; r < RowsCount; r++)
+                    {
+                        getCell(index, r, c).ValueType = ctype;
+
+                        cell_matrix_c_r[c][r] = getCellText(index, r, c);
+                        type_matrix_c_r[c][r] = getCell(index, r, c).ValueType;
+                    }
                 }
             }
 
             //
             String[][] cell_matrix_r_c = new string[RowsCount][];
             Type[][] type_matrix_r_c = new Type[RowsCount][];
-
-            for (int r = 0; r < RowsCount; r++)
             {
-                cell_matrix_r_c[r] = new string[ColumnsCount];
-                type_matrix_r_c[r] = new Type[ColumnsCount];
-
-                for (int c = 0; c < ColumnsCount; c++)
+                for (int r = 0; r < RowsCount; r++)
                 {
-                    cell_matrix_r_c[r][c] = getCellText(index, r, c);
-                    type_matrix_r_c[r][c] = getCell(index, r, c).ValueType;
+                    cell_matrix_r_c[r] = new string[ColumnsCount];
+                    type_matrix_r_c[r] = new Type[ColumnsCount];
+
+                    for (int c = 0; c < ColumnsCount; c++)
+                    {
+                        cell_matrix_r_c[r][c] = getCellText(index, r, c);
+                        type_matrix_r_c[r][c] = getCell(index, r, c).ValueType;
+                    }
                 }
+
             }
-
-
 
 
 
@@ -444,7 +445,7 @@ namespace CellGameEdit.PM
 
                             if (keep_c >= 0 && c != keep_c)
                             {
-                                cells[i] = "";  continue;
+                                cells[i] = ""; continue;
                             }
                             if (keep_r >= 0 && r != keep_r)
                             {
@@ -549,7 +550,7 @@ namespace CellGameEdit.PM
                         {
                             columns[c] = ""; continue;
                         }
-                       
+
                         string ARRAY = Util.toArray1D(ref cell_matrix_c_r[c]);
                         string ARRAY_NUM = Util.toNumberArray1D(ref cell_matrix_c_r[c]);
                         string ARRAY_STR = Util.toStringArray1D(ref cell_matrix_c_r[c]);
