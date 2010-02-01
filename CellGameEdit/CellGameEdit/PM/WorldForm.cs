@@ -879,6 +879,38 @@ namespace CellGameEdit.PM
 
         }
 
+        private void btnSceneTerrain_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
+        // 调整填充地形大小
+        private void fixTerrainBushSize(int value) { 
+            TerrainFillSize += value;
+            TerrainFillSize = Math.Max(1, TerrainFillSize);
+        }
+
+        private void btnSceneTerrainColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog colord = new ColorDialog();
+            colord.Color = btnSceneTerrainColor.BackColor;
+            if (colord.ShowDialog() == DialogResult.OK)
+            {
+                btnSceneTerrainColor.BackColor = colord.Color;
+            }
+        }
+
+
+        private void btnSceneTerrainUp_Click(object sender, EventArgs e)
+        {
+            fixTerrainBushSize(1);
+        }
+
+        private void btnSceneTerrainDown_Click(object sender, EventArgs e)
+        {
+            fixTerrainBushSize(-1);
+        }
+
+
         // picturebox1 dst level
 
         int last_mouse_down_x = 0;
@@ -1710,11 +1742,10 @@ namespace CellGameEdit.PM
 
                     // 调整填充地形大小
                 case Keys.PageUp:
-                    TerrainFillSize += 1;
+                    fixTerrainBushSize(1);
                     break;
                 case Keys.PageDown:
-                    TerrainFillSize -= 1;
-                    TerrainFillSize = Math.Max(1, TerrainFillSize);
+                    fixTerrainBushSize(-1);
                     break;
             }
 
@@ -2552,21 +2583,6 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
-
-        private void btnSceneTerrain_Click(object sender, EventArgs e)
-        {
-            pictureBox1.Refresh();
-        }
-
-        private void btnSceneTerrainColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog colord = new ColorDialog();
-            colord.Color = btnSceneTerrainColor.BackColor;
-            if (colord.ShowDialog() == DialogResult.OK) 
-            {
-                btnSceneTerrainColor.BackColor = colord.Color;
-            }
-        }
 
 
         class ObjectsViewSorter : IComparer
