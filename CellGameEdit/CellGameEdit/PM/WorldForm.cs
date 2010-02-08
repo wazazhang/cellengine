@@ -711,6 +711,8 @@ namespace CellGameEdit.PM
 
                 listView1.Items.Add(item);
                 UnitList.Add(item, unit);
+                item.Selected = true;
+                item.EnsureVisible();
 
                 pictureBox1.Width = Math.Max(unit.x + unit.Bounds.Right, pictureBox1.Width);
                 pictureBox1.Height = Math.Max(unit.y + unit.Bounds.Bottom, pictureBox1.Height);
@@ -741,11 +743,15 @@ namespace CellGameEdit.PM
 
                 listView1.Items.Add(item);
                 UnitList.Add(item, unit);
-
-                
+                item.Selected = true;
+                item.EnsureVisible();
             }
 
+            listView1.Refresh();
             pictureBox1.Refresh();
+
+            
+            
             //Console.WriteLine("drag");
         }
         private void listView1_DragEnter(object sender, DragEventArgs e)
