@@ -11,7 +11,6 @@
 //#<COMMAND>
 //#<END COMMAND>
 
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,12 +19,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Vector;
 
-import com.cell.CIO;
 
 public class SetOutputTxt 
 {
@@ -420,9 +415,14 @@ public class SetOutputTxt
 				}
 //				----------------------------------------------------------------
 //				links
-				while (TS.getInt(in)>=0) {
-					bb_wps.putShort(TS.getShort(in));
-					bb_wps.putShort(TS.getShort(in));
+				while (true) {
+					short begin	= TS.getShort(in);
+					if (begin < 0) {
+						break;
+					}
+					short end	= TS.getShort(in);
+					bb_wps.putShort(begin);
+					bb_wps.putShort(end);
 				}
 				bb_wps.putShort((short)-1);
 			} catch (Exception e) {
