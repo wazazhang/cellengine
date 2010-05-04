@@ -107,6 +107,7 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSceneTerrain = new System.Windows.Forms.ToolStripButton();
             this.btnSceneTerrainColor = new System.Windows.Forms.ToolStripButton();
+            this.btnShowTerrain = new System.Windows.Forms.ToolStripButton();
             this.btnSceneTerrainUp = new System.Windows.Forms.ToolStripButton();
             this.btnSceneTerrainDown = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -693,6 +694,7 @@
             this.toolStripSeparator6,
             this.btnSceneTerrain,
             this.btnSceneTerrainColor,
+            this.btnShowTerrain,
             this.btnSceneTerrainUp,
             this.btnSceneTerrainDown,
             this.toolStripSeparator7});
@@ -1009,6 +1011,18 @@
             this.btnSceneTerrainColor.Text = "选择地形刷颜色";
             this.btnSceneTerrainColor.Click += new System.EventHandler(this.btnSceneTerrainColor_Click);
             // 
+            // btnShowTerrain
+            // 
+            this.btnShowTerrain.CheckOnClick = true;
+            this.btnShowTerrain.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnShowTerrain.Image = global::CellGameEdit.Resource1.Image26;
+            this.btnShowTerrain.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnShowTerrain.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowTerrain.Name = "btnShowTerrain";
+            this.btnShowTerrain.Size = new System.Drawing.Size(23, 22);
+            this.btnShowTerrain.Text = "显示地形颜色";
+            this.btnShowTerrain.Click += new System.EventHandler(this.btnShowTerrain_Click);
+            // 
             // btnSceneTerrainUp
             // 
             this.btnSceneTerrainUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1307,5 +1321,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton btnSceneTerrainUp;
         private System.Windows.Forms.ToolStripButton btnSceneTerrainDown;
+        private System.Windows.Forms.ToolStripButton btnShowTerrain;
     }
 }

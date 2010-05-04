@@ -925,7 +925,11 @@ namespace CellGameEdit.PM
         int selectedRegionPX;
         int selectedRegionPY;
 
-        
+        /// <summary>
+        /// 主画板更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             javax.microedition.lcdui.Graphics g = new javax.microedition.lcdui.Graphics(e.Graphics);
@@ -937,13 +941,15 @@ namespace CellGameEdit.PM
             drawRegions(g);
 
             // draw terrain
-            if (btnSceneTerrain.Checked)
+            if (btnSceneTerrain.Checked || btnShowTerrain.Checked)
             {
                 if (TerrainMatrix != null)
                 {
-                    for (int x = 0; x < TerrainMatrix.Length; x++)
+                    Rectangle tbounds = getCameraBoundsTerrian();
+
+                    for (int x = tbounds.Left; x < tbounds.Right; x++)
                     {
-                        for (int y = 0; y < TerrainMatrix[x].Length; y++)
+                        for (int y = tbounds.Top; y < tbounds.Bottom; y++)
                         {
                             if (TerrainMatrix[x][y] != 0)
                             {
@@ -953,8 +959,6 @@ namespace CellGameEdit.PM
                         }
                     }
                 }
-
-
             }
 
             // draw net grid
@@ -1960,6 +1964,73 @@ namespace CellGameEdit.PM
 
         }
 
+
+//      -----------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// 获得摄像机区域
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle getCameraBounds()
+        {
+            return new System.Drawing.Rectangle(
+                                        -pictureBox1.Location.X,
+                                        -pictureBox1.Location.Y,
+                                        panel1.Width,
+                                        panel1.Height
+                                   );
+        }
+
+        /// <summary>
+        /// 获得包含在可视区域内的地块区域
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle getCameraBoundsTerrian()
+        {
+            System.Drawing.Rectangle camera = getCameraBounds();
+
+            Size tsize = getTerrainSize();
+
+            int sx = Math.Min(Math.Max(0, camera.X / CellW), tsize.Width-1); 
+            int sy = Math.Min(Math.Max(0, camera.Y / CellW), tsize.Height-1);
+            int sw = camera.Width / CellW + 1;
+            int sh = camera.Height / CellH + 1;
+            int dx = Math.Min(sx + sw, tsize.Width-1);
+            int dy = Math.Min(sy + sh, tsize.Height-1);
+
+            return new Rectangle(sx, sy, dx-sx, dy-sy);
+        }
+
+        /// <summary>
+        /// 得到场景大小
+        /// </summary>
+        /// <returns></returns>
+        public Size getWorldSize()
+        {
+            return new Size(pictureBox1.Width, pictureBox1.Height);
+        }
+
+        /// <summary>
+        /// 得到地块长宽数量 
+        /// </summary>
+        /// <returns></returns>
+        public Size getTerrainSize()
+        {
+            int xdiv = pictureBox1.Width % CellW == 0 ? 0 : 1;
+            int ydiv = pictureBox1.Height % CellH == 0 ? 0 : 1;
+
+            int xcount = pictureBox1.Width / CellW + xdiv;
+            int ycount = pictureBox1.Height / CellH + ydiv;
+
+            xcount = Math.Max(xcount, 1);
+            ycount = Math.Max(ycount, 1);
+
+            return new Size(xcount, ycount);
+        }
+
+//      -----------------------------------------------------------------------------------------
+ 
+
 #region menuWorld
         // add way point command
         private void 路点ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2540,7 +2611,10 @@ namespace CellGameEdit.PM
             }
         }
 
-        
+        private void btnShowTerrain_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
 
 
         // delete all waypoints
@@ -2613,6 +2687,8 @@ namespace CellGameEdit.PM
                 return 0;
             }
         }
+
+       
 
    
 
