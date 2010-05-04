@@ -11,8 +11,6 @@ using System.Security.Permissions;
 
 using javax.microedition.lcdui;
 
-
-
 namespace CellGameEdit.PM
 {
 
@@ -20,8 +18,8 @@ namespace CellGameEdit.PM
     [Serializable]
     public partial class ImagesForm : Form, ISerializable , IEditForm
     {
-        public static System.Drawing.Color ColorKey = System.Drawing.Color.FromArgb(0xff,0xff,0xff,0);
-        public static System.Drawing.Color ColorTileID = System.Drawing.Color.FromArgb(0xff, 0, 0xff, 0);
+        //public static System.Drawing.Color ColorKey = System.Drawing.Color.FromArgb(0xff,0xff,0xff,0);
+        //public static System.Drawing.Color ColorTileID = System.Drawing.Color.FromArgb(0xff, 0, 0xff, 0);
 
         public String id;
 
@@ -79,6 +77,9 @@ namespace CellGameEdit.PM
             dstRect = new System.Drawing.Rectangle(0, 0, 1, 1);
 
             is_change_image = true;
+
+            pictureBox1.BackColor = toolStripButton10.BackColor;
+            pictureBox2.BackColor = toolStripButton10.BackColor;
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected ImagesForm(SerializationInfo info, StreamingContext context)
@@ -131,6 +132,19 @@ namespace CellGameEdit.PM
                     outStreamLen = (ArrayList)info.GetValue("outStreamLen", typeof(ArrayList));
                 }
                 catch (Exception err) { }
+
+
+                try
+                {
+                    toolStripButton10.BackColor = (System.Drawing.Color)info.GetValue("BackColor", typeof(System.Drawing.Color));
+                    BtnSelectKeyColor.BackColor = (System.Drawing.Color)info.GetValue("TileKeyColor", typeof(System.Drawing.Color));
+                    BtnSelectTileIDColor.BackColor = (System.Drawing.Color)info.GetValue("TileIDColor", typeof(System.Drawing.Color));
+                }
+                catch (Exception err) { }
+                pictureBox1.BackColor = toolStripButton10.BackColor;
+                pictureBox2.BackColor = toolStripButton10.BackColor;
+
+
 
                 System.IO.FileStream images_fs = null;
 
@@ -346,6 +360,10 @@ namespace CellGameEdit.PM
                 info.AddValue("outStreamLen", outStreamLen);
 
                 info.AddValue("dstDataKeys", dstDataKeys);
+
+                info.AddValue("BackColor", toolStripButton10.BackColor);
+                info.AddValue("TileKeyColor", BtnSelectKeyColor.BackColor);
+                info.AddValue("TileIDColor", BtnSelectTileIDColor.BackColor);
 
                 is_change_image = false;
             }
@@ -1038,7 +1056,7 @@ namespace CellGameEdit.PM
                         int ty = y + getDstImage(i).y * dstSize;
                         g.setColor(0xff, 0, 0, 0);
                         g.drawString((String)dstDataKeys[i], tx + 1, ty + 1, 0);
-                        g.setColor(ImagesForm.ColorKey.ToArgb());
+                        g.setColor(getColorKey().ToArgb());
                         g.drawString((String)dstDataKeys[i], tx, ty, 0);
                     }
                     if (chkIsShowTileID.Checked)
@@ -1047,7 +1065,7 @@ namespace CellGameEdit.PM
                         int ty = y + (getDstImage(i).y + getDstImage(i).getHeight() - (int)Graphics.font.GetHeight()) * dstSize;
                         g.setColor(0xff, 0, 0, 0);
                         g.drawString(i.ToString(), tx + 1, ty + 1, 0);
-                        g.setColor(ImagesForm.ColorTileID.ToArgb());
+                        g.setColor(getColorTileID().ToArgb());
                         g.drawString(i.ToString(), tx, ty, 0);
                     }
                     if (multiSelect.Checked)
@@ -1064,6 +1082,15 @@ namespace CellGameEdit.PM
             }
         }
 
+        public System.Drawing.Color getColorKey() 
+        {
+            return BtnSelectKeyColor.BackColor;
+        }
+
+        public System.Drawing.Color getColorTileID()
+        {
+            return BtnSelectTileIDColor.BackColor;
+        }
 
         // src edit
         private void toolStripTextBox1_Leave(object sender, EventArgs e)
@@ -1770,6 +1797,8 @@ namespace CellGameEdit.PM
             if (MyDialog.ShowDialog() == DialogResult.OK)
             {
                 pictureBox2.BackColor = MyDialog.Color;
+                pictureBox1.BackColor = MyDialog.Color;
+                toolStripButton10.BackColor = MyDialog.Color;
             }
         }
         private void BtnSelectKeyColor_Click(object sender, EventArgs e)
@@ -1777,10 +1806,10 @@ namespace CellGameEdit.PM
             ColorDialog MyDialog = new ColorDialog();
             MyDialog.AllowFullOpen = true;
             MyDialog.ShowHelp = true;
-            MyDialog.Color = ColorKey;
+            MyDialog.Color = BtnSelectKeyColor.BackColor;
             if (MyDialog.ShowDialog() == DialogResult.OK)
             {
-               ColorKey = MyDialog.Color;
+                BtnSelectKeyColor.BackColor = MyDialog.Color;
             }
         }
         private void BtnSelectTileIDColor_Click(object sender, EventArgs e)
@@ -1788,10 +1817,10 @@ namespace CellGameEdit.PM
             ColorDialog MyDialog = new ColorDialog();
             MyDialog.AllowFullOpen = true;
             MyDialog.ShowHelp = true;
-            MyDialog.Color = ColorTileID;
+            MyDialog.Color = BtnSelectTileIDColor.BackColor;
             if (MyDialog.ShowDialog() == DialogResult.OK)
             {
-                ColorTileID = MyDialog.Color;
+                BtnSelectTileIDColor.BackColor = MyDialog.Color;
             }
         }
 

@@ -1291,7 +1291,7 @@ namespace CellGameEdit.PM
                 {
                     g.setColor(0xff, 0, 0, 0);
                     g.drawString(str, x + 1, y + 1, 0);
-                    g.setColor(ImagesForm.ColorKey.ToArgb());
+                    g.setColor(super.getColorKey().ToArgb());
                     g.drawString(str, x, y, 0);
                 }
             }
@@ -1301,7 +1301,7 @@ namespace CellGameEdit.PM
                 String str = index.ToString();
                 g.setColor(0xff, 0, 0, 0);
                 g.drawString(str, x + 1, y + 1, 0);
-                g.setColor(ImagesForm.ColorTileID.ToArgb());
+                g.setColor(super.getColorTileID().ToArgb());
                 g.drawString(str, x, y, 0);
             }
         }

@@ -81,11 +81,11 @@
             this.BtnSelectTileIDColor = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
+            this.btnUpAllImage = new System.Windows.Forms.ToolStripButton();
+            this.btnLeftAllImage = new System.Windows.Forms.ToolStripButton();
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnUpAllImage = new System.Windows.Forms.ToolStripButton();
-            this.btnLeftAllImage = new System.Windows.Forms.ToolStripButton();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -588,7 +588,8 @@
             // 
             // toolStripButton10
             // 
-            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton10.BackColor = System.Drawing.Color.Magenta;
+            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.toolStripButton10.Image = global::CellGameEdit.Resource1.Image53;
             this.toolStripButton10.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -599,7 +600,8 @@
             // 
             // BtnSelectKeyColor
             // 
-            this.BtnSelectKeyColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnSelectKeyColor.BackColor = System.Drawing.Color.Yellow;
+            this.BtnSelectKeyColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.BtnSelectKeyColor.Image = global::CellGameEdit.Resource1.Image53;
             this.BtnSelectKeyColor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.BtnSelectKeyColor.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -610,7 +612,8 @@
             // 
             // BtnSelectTileIDColor
             // 
-            this.BtnSelectTileIDColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnSelectTileIDColor.BackColor = System.Drawing.Color.Blue;
+            this.BtnSelectTileIDColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.BtnSelectTileIDColor.Image = global::CellGameEdit.Resource1.Image53;
             this.BtnSelectTileIDColor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.BtnSelectTileIDColor.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -641,6 +644,28 @@
             this.toolStripButton11.Text = "缩小";
             this.toolStripButton11.Click += new System.EventHandler(this.toolStripButton11_Click);
             // 
+            // btnUpAllImage
+            // 
+            this.btnUpAllImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUpAllImage.Image = global::CellGameEdit.Resource1.Image34;
+            this.btnUpAllImage.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnUpAllImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUpAllImage.Name = "btnUpAllImage";
+            this.btnUpAllImage.Size = new System.Drawing.Size(23, 22);
+            this.btnUpAllImage.Text = "向上对齐";
+            this.btnUpAllImage.Click += new System.EventHandler(this.btnUpAllImage_Click);
+            // 
+            // btnLeftAllImage
+            // 
+            this.btnLeftAllImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLeftAllImage.Image = global::CellGameEdit.Resource1.Image32;
+            this.btnLeftAllImage.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnLeftAllImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLeftAllImage.Name = "btnLeftAllImage";
+            this.btnLeftAllImage.Size = new System.Drawing.Size(23, 22);
+            this.btnLeftAllImage.Text = "向左对齐";
+            this.btnLeftAllImage.Click += new System.EventHandler(this.btnLeftAllImage_Click);
+            // 
             // clipMenu
             // 
             this.clipMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -663,28 +688,6 @@
             this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
-            // 
-            // btnUpAllImage
-            // 
-            this.btnUpAllImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnUpAllImage.Image = global::CellGameEdit.Resource1.Image34;
-            this.btnUpAllImage.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnUpAllImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUpAllImage.Name = "btnUpAllImage";
-            this.btnUpAllImage.Size = new System.Drawing.Size(23, 22);
-            this.btnUpAllImage.Text = "向上对齐";
-            this.btnUpAllImage.Click += new System.EventHandler(this.btnUpAllImage_Click);
-            // 
-            // btnLeftAllImage
-            // 
-            this.btnLeftAllImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLeftAllImage.Image = global::CellGameEdit.Resource1.Image32;
-            this.btnLeftAllImage.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnLeftAllImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLeftAllImage.Name = "btnLeftAllImage";
-            this.btnLeftAllImage.Size = new System.Drawing.Size(23, 22);
-            this.btnLeftAllImage.Text = "向左对齐";
-            this.btnLeftAllImage.Click += new System.EventHandler(this.btnLeftAllImage_Click);
             // 
             // ImagesForm
             // 

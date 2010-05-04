@@ -179,22 +179,17 @@ namespace CellGameEdit.PM
                 numericUpDown3.Value = pictureBox1.Width;
                 numericUpDown4.Value = pictureBox1.Height;
 
-                try
-                {
+                try {
                     Data.Append((String)info.GetValue("Data", typeof(String)));
-                }
-                catch (Exception err)
-                {
-                }
+                }  catch (Exception err){ }
 
-                try 
-                {
+                try {
                     TerrainMatrix = (int[][])info.GetValue("TerrainMatrix", typeof(int[][]));
-                }
-                catch (Exception err)
-                {
-                    resetTerrainSize();
-                }
+                } catch (Exception err) { }
+
+                try {
+                    pictureBox1.BackColor = (Color)info.GetValue("BackColor", typeof(Color));
+                } catch (Exception err) { }
 
             }
             catch (Exception err)
@@ -283,6 +278,8 @@ namespace CellGameEdit.PM
                 info.AddValue("Data", this.Data.ToString());
 
                 info.AddValue("TerrainMatrix", TerrainMatrix);
+
+                info.AddValue("BackColor", pictureBox1.BackColor);
             }
             catch (Exception err)
             {
@@ -2574,21 +2571,25 @@ namespace CellGameEdit.PM
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             CellW = (int)numericUpDown1.Value;
+            resetTerrainSize();
             pictureBox1.Refresh();
         }
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             CellH = (int)numericUpDown2.Value;
+            resetTerrainSize();
             pictureBox1.Refresh();
         }
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
         {
             pictureBox1.Width = (int)numericUpDown3.Value;
+            resetTerrainSize();
             pictureBox1.Refresh();
         }
         private void numericUpDown4_ValueChanged(object sender, EventArgs e)
         {
             pictureBox1.Height = (int)numericUpDown4.Value;
+            resetTerrainSize();
             pictureBox1.Refresh();
         }
 
