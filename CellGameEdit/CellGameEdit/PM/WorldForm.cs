@@ -202,6 +202,8 @@ namespace CellGameEdit.PM
         {
             Console.WriteLine("Serializ World : " + id);
 
+            resetTerrainSize();
+
             testDelUnit();
 
             try

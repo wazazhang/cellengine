@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellTools", "CellTools\Cell
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumViewer", "EnumViewer\EnumViewer.csproj", "{A5310502-EBFA-42AD-8E1A-039EE525DDF9}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CellGameEditor SetupNoScript", "CellGameEditor SetupNoScript\CellGameEditor SetupNoScript.vdproj", "{F93330ED-7B49-4136-8B3C-A37EAA081531}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cellsetresource", "CellSetResourceCPP\cellsetresource.vcproj", "{D29C1201-D232-47D0-9B81-CD7AD7A3D586}"
 EndProject
 Global
@@ -100,16 +98,6 @@ Global
 		{A5310502-EBFA-42AD-8E1A-039EE525DDF9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A5310502-EBFA-42AD-8E1A-039EE525DDF9}.Release|Win32.ActiveCfg = Release|Any CPU
 		{A5310502-EBFA-42AD-8E1A-039EE525DDF9}.Release|x86.ActiveCfg = Release|Any CPU
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Debug|Any CPU.ActiveCfg = Debug
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Debug|Win32.ActiveCfg = Debug
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Debug|Win32.Build.0 = Debug
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Debug|x86.ActiveCfg = Debug
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Release|Any CPU.ActiveCfg = Release
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Release|Mixed Platforms.ActiveCfg = Release
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Release|Win32.ActiveCfg = Release
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Release|Win32.Build.0 = Release
-		{F93330ED-7B49-4136-8B3C-A37EAA081531}.Release|x86.ActiveCfg = Release
 		{D29C1201-D232-47D0-9B81-CD7AD7A3D586}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{D29C1201-D232-47D0-9B81-CD7AD7A3D586}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{D29C1201-D232-47D0-9B81-CD7AD7A3D586}.Debug|Mixed Platforms.Build.0 = Debug|Win32
