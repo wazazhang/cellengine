@@ -1991,14 +1991,14 @@ namespace CellGameEdit.PM
 
             Size tsize = getTerrainSize();
 
-            int sx = Math.Min(Math.Max(0, camera.X / CellW), tsize.Width-1); 
-            int sy = Math.Min(Math.Max(0, camera.Y / CellW), tsize.Height-1);
+            int sx = Math.Min(Math.Max(0, camera.X / CellW), tsize.Width - 1);
+            int sy = Math.Min(Math.Max(0, camera.Y / CellW), tsize.Height - 1);
             int sw = camera.Width / CellW + 1;
             int sh = camera.Height / CellH + 1;
-            int dx = Math.Min(sx + sw, tsize.Width-1);
-            int dy = Math.Min(sy + sh, tsize.Height-1);
+            int dx = Math.Min(sx + sw, tsize.Width - 1);
+            int dy = Math.Min(sy + sh, tsize.Height - 1);
 
-            return new Rectangle(sx, sy, dx-sx, dy-sy);
+            return new Rectangle(sx, sy, dx - sx + 1, dy - sy + 1);
         }
 
         /// <summary>
