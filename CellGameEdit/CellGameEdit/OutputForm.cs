@@ -52,6 +52,7 @@ namespace CellGameEdit
             this.Text = FileName;
 
             ProjectForm.IsOutEncodingInfo = Config.Default.IsOutEncodingInfo;
+
         }
 
 

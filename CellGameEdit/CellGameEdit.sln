@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumViewer", "EnumViewer\En
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cellsetresource", "CellSetResourceCPP\cellsetresource.vcproj", "{D29C1201-D232-47D0-9B81-CD7AD7A3D586}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellGameOutput", "CellGameOutput\CellGameOutput.csproj", "{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,18 @@ Global
 		{D29C1201-D232-47D0-9B81-CD7AD7A3D586}.Release|Win32.ActiveCfg = Release|Win32
 		{D29C1201-D232-47D0-9B81-CD7AD7A3D586}.Release|Win32.Build.0 = Release|Win32
 		{D29C1201-D232-47D0-9B81-CD7AD7A3D586}.Release|x86.ActiveCfg = Release|Win32
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Release|Win32.ActiveCfg = Release|Any CPU
+		{99F0BE10-B41B-455F-9C2F-A54B3B5C6179}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

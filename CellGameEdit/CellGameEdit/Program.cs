@@ -34,12 +34,12 @@ namespace CellGameEdit
                             Console.Out.WriteLine("Load script file : " + scripts[i - 1]);
                         }
 
-                        //Application.EnableVisualStyles();
-                        //Application.SetCompatibleTextRenderingDefault(false);
-                        //Application.Run(new OutputForm(filePath, scripts));
-         
-                        new OutputConsole(filePath, scripts);
+                        Application.EnableVisualStyles();
+                        Application.SetCompatibleTextRenderingDefault(false);
+                        Application.Run(new OutputForm(filePath, scripts));
 
+                        
+                        
                     }
                     catch (Exception err)
                     {
@@ -58,7 +58,6 @@ namespace CellGameEdit
                     {
                         MessageBox.Show(err.Message + "\n" + err.StackTrace + "  at  " + err.Message);
                     }
-
                 }
             }
             else
