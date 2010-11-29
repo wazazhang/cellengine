@@ -349,6 +349,8 @@ namespace CellGameEdit.PM
 
         public void OutputCustom(int index, String script, System.IO.StringWriter output)
         {
+            resetTerrainSize();
+
             lock (this)
             {
                 try

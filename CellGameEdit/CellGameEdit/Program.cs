@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using CellGameEdit.PM;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Threading;
 
@@ -32,9 +34,11 @@ namespace CellGameEdit
                             Console.Out.WriteLine("Load script file : " + scripts[i - 1]);
                         }
 
-                        Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
-                        Application.Run(new OutputForm(filePath, scripts));
+                        //Application.EnableVisualStyles();
+                        //Application.SetCompatibleTextRenderingDefault(false);
+                        //Application.Run(new OutputForm(filePath, scripts));
+         
+                        new OutputConsole(filePath, scripts);
 
                     }
                     catch (Exception err)

@@ -86,6 +86,7 @@
     <Compile Include="HelpForm.Designer.cs">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OutputConsole.cs" />
     <Compile Include="OutputForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -554,14 +555,14 @@
     <None Include="Resources\Image71.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="script\" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="script\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

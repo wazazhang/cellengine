@@ -18,8 +18,6 @@ namespace CellGameEdit
 {
     public partial class Form1 : Form 
     {
-        
-
         private ProjectForm prjForm;
 
         public Form1()
