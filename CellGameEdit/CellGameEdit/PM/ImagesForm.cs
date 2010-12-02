@@ -150,12 +150,17 @@ namespace CellGameEdit.PM
 
                 if (outStreamLen != null)
                 {
+                    String dir1 = ProjectForm.workSpace + "\\tiles\\" + this.id + ".tiles";
+                    String dir2 = ProjectForm.workSpace + "\\" + this.id + ".tiles";
 
-                    String dir = "\\tiles\\" + this.id;
-
-                    images_fs = new System.IO.FileStream(
-                        ProjectForm.workSpace + dir + ".tiles",
-                        System.IO.FileMode.Open);
+                    if (System.IO.File.Exists(dir2))
+                    {
+                        images_fs = new System.IO.FileStream(dir2, System.IO.FileMode.Open);
+                    }
+                    else if (System.IO.File.Exists(dir1))
+                    {
+                        images_fs = new System.IO.FileStream(dir1, System.IO.FileMode.Open);
+                    }
                 }
 
 
@@ -265,9 +270,14 @@ namespace CellGameEdit.PM
                 ArrayList outK = new ArrayList();
                 
 
-                String dir =  "\\tiles\\" + this.id;
-                System.IO.Directory.CreateDirectory(ProjectForm.workSpace + "\\tiles");
+                //String dir =  "\\tiles\\" + this.id;
+                //System.IO.Directory.CreateDirectory(ProjectForm.workSpace + "\\tiles");
                 //System.IO.Directory.CreateDirectory(ProjectForm.workSpace + dir);
+                String tiles_file_name = ProjectForm.workSpace + "\\" + this.id + ".tiles";
+                if (!System.IO.File.Exists(tiles_file_name)) 
+                {
+                    is_change_image = true;
+                }
 
                 // first put all image to stream
                 if (is_change_image)
@@ -275,14 +285,14 @@ namespace CellGameEdit.PM
                     outStreamLen = new ArrayList();
 
                     System.IO.FileStream fs = new System.IO.FileStream(
-                                 ProjectForm.workSpace + dir + ".tiles",
+                               tiles_file_name,
                                  System.IO.FileMode.Create);
 
                     for (int i = 0; i < dstImages.Count; i++)
                     {
                         try
                         {
-                            String name = dir + "\\" + i.ToString() + ".tile";
+                           // String name = dir + "\\" + i.ToString() + ".tile";
 
                             Image img = getDstImage(i);
 
@@ -324,7 +334,7 @@ namespace CellGameEdit.PM
                     {
                         Image img = getDstImage(i);
 
-                        String name = dir + "\\" + i.ToString() + ".tile";
+                        String name = i.ToString() + ".tile";
 
                         if (img != null)
                         {

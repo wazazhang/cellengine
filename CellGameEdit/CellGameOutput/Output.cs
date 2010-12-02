@@ -39,6 +39,7 @@ namespace CellGameOutput
 
                     ProjectForm.workSpace = dir;
                     ProjectForm.workName = FileName;
+                    ProjectForm.is_console = true;
                     SoapFormatter formatter = new SoapFormatter();
                     Stream stream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
@@ -49,25 +50,36 @@ namespace CellGameOutput
 
                     stream.Close();
 
+
+
                     if (project != null)
                     {
-                        for (int i = 0; i < Scripts.Length; i++)
+                        try
                         {
-                            String script = Scripts[i];
-
-                            if (!File.Exists(script))
+                            for (int i = 0; i < Scripts.Length; i++)
                             {
-                                script = Application.StartupPath + @"\script\" + script;
-                            }
+                                String script = Scripts[i];
 
-                            Console.WriteLine("Output Script File : " + script);
+                                if (!File.Exists(script))
+                                {
+                                    script = Application.StartupPath + @"\script\" + script;
+                                }
 
-                            try
-                            {
-                                project.OutputCustom(script);
+                                Console.WriteLine("Output Script File : " + script);
+
+                                try
+                                {
+                                    project.OutputCustom(script);
+                                }
+                                catch (Exception err) { Console.WriteLine(err.Message); }
                             }
-                            catch (Exception err) { Console.WriteLine(err.Message); }
                         }
+                        finally
+                        {
+                            project.Close();
+                            project.Dispose();
+                        }
+
                     }
 
                 }

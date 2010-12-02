@@ -27,7 +27,7 @@ namespace CellGameEdit.PM
         {
             return curInstance;
         }
-
+        static public Boolean is_console = false;
 
         static public String workSpace = "";
         static public String workName = "";
@@ -174,17 +174,22 @@ namespace CellGameEdit.PM
                 f.TopMost = false;
             }
 
-            if (MessageBox.Show(
-                "是否要关闭工程？", 
-                "警告", 
-                MessageBoxButtons.OKCancel, 
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2
-                ) != DialogResult.OK)
+            if (!is_console) 
             {
-                e.Cancel = true;
+                if (MessageBox.Show(
+                    "是否要关闭工程？",
+                    "警告",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2
+                    ) != DialogResult.OK)
+                {
+                    e.Cancel = true;
+                }
             }
+
         }
+
         private void ProjectForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             foreach (TreeNode key in formTable.Keys)
@@ -345,6 +350,8 @@ namespace CellGameEdit.PM
                         OutputName = OutputDir + "\\" + System.IO.Path.GetFileName(OutputName);
                         OutputName = Path.GetFullPath(OutputName);
 
+                        Console.WriteLine("OutputName : " + OutputName);
+
                         // out image
                         OutputDirImage = Util.getCommandScript(script, "<IMAGE OUTPUT>");
                         if (OutputDirImage == "") OutputDirImage = null;
@@ -499,9 +506,13 @@ namespace CellGameEdit.PM
 
         public string fillScriptNode(string src)
         {
+
+            
+
             string script = src.Substring(0, src.Length);
 
 #region build resource trunk
+            Console.WriteLine("build resource trunk");
             try
             {
                 string resource = Util.getTopTrunk(script, "#<RESOURCE>", "#<END RESOURCE>");
@@ -532,6 +543,7 @@ namespace CellGameEdit.PM
 #endregion
 
 #region build world trunk
+            Console.WriteLine("build world trunk");
             try
             {
                 string level = Util.getTopTrunk(script, "#<LEVEL>", "#<END LEVEL>");
@@ -556,6 +568,7 @@ namespace CellGameEdit.PM
 #endregion
 
 #region build command trunk
+            Console.WriteLine("build command trunk");
             try
             {
                 string command = Util.getTopTrunk(script, "#<COMMAND>", "#<END COMMAND>");
