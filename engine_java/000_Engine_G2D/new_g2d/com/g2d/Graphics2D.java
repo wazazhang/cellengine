@@ -12,7 +12,6 @@ import com.g2d.geom.Polygon;
 import com.g2d.geom.Rectangle;
 import com.g2d.geom.Rectangle2D;
 import com.g2d.geom.Shape;
-import com.g2d.java2d.impl.AwtImage;
 
 public abstract class Graphics2D implements IGraphics
 {
