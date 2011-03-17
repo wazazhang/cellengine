@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0+" codebase="http://javaweb.sfbay.sun.com/~campbelc/PhotoCube"
+                  href="PhotoCube.jnlp">
+  <information>
+    <title>PhotoCube</title>
+
+    <vendor>Chris Campbell</vendor>
+    <homepage href="http://weblogs.java.net/blog/campbell" />
+
+    <description>A silly demo of Swing, Java2D, and JOGL mixed in the same window.</description>
+    <icon kind="splash" href="splash.png" />
+
+    <offline-allowed />
+  </information>
+
+  <resources>
+    <j2se version="1.6+" />
+    <jar href="dist/PhotoCube.jar" />
+    <jar href="dist/lib/TimingFramework.jar" />
+    <extension name="jogl" href="http://download.java.net/media/jogl/builds/archive/jsr-231-webstart-current/jogl.jnlp" />
+    <property name="sun.java2d.opengl" value="true" />
+  </resources>
+
+  <application-desc main-class="photocube.Main" />
+</jnlp>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0+" codebase="http://www.java.net/download/javadesktop/blogs/campbell/2007.01.23"
+                  href="BezierAnim3D.jnlp">
+  <information>
+    <title>BezierAnim3D</title>
+
+    <vendor>Chris Campbell</vendor>
+    <homepage href="http://weblogs.java.net/blog/campbell" />
+
+    <description>A demo of JOGL's new TextRenderer and TextureRenderer utilities.</description>
+
+    <offline-allowed />
+  </information>
+
+  <resources>
+    <j2se version="1.5+" />
+    <jar href="dist/BezierAnim3D.jar" />
+    <jar href="dist/lib/TimingFramework-0.53.jar" />
+    <extension name="jogl" href="http://download.java.net/media/jogl/builds/archive/jsr-231-webstart-next/jogl.jnlp" />
+  </resources>
+
+  <application-desc main-class="bezieranim3d.BezierAnim3D" />
+</jnlp>
