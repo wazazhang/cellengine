@@ -116,10 +116,6 @@ public class AwtCanvasAdapter extends CommonCanvasAdapter
 				
 				currentStage.onUpdate(this, getStageWidth(), getStageHeight());
 				currentStage.onRender(this, awt_g);
-
-				if (!isFocusOwner()) {
-					currentStage.renderLostFocus(awt_g);
-				}
 			}
 		} finally {
 			g2d.dispose();

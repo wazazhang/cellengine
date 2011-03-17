@@ -23,8 +23,6 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 {	 
 	private GL 					gl;
 
-	private CommonAnimateCursor	defaultCursor;
-
 	public GLCanvasAdapter(Component comp, int stage_width, int stage_height) 
 	{
 		super(comp, stage_width, stage_height);
@@ -104,18 +102,6 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 
 //	--------------------------------------------------------------------------------------------------------
 
-	@Override
-	public Font getDefaultFont() {return null;}
-	
-	@Override
-	public void setDefaultCursor(AnimateCursor cursor) {
-		defaultCursor = (CommonAnimateCursor)cursor;
-	}
-	
-	@Override
-	public void setDefaultFont(Font font) {}
-	
-	
 	/**
 	 * 设置场景象素大小
 	 * @param width
@@ -138,31 +124,12 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 	@Override
 	protected void updateStage(java.awt.Graphics2D g, Stage currentStage)
 	{
-		CommonAnimateCursor nextCursor = null;
-		
-		synchronized (this)
+		if (currentStage != null)
 		{
-			if (currentStage != null)
-			{
-				GLGraphics2D gl_g2d = new GLGraphics2D.GLGraphicsScreen(gl, g);
-				
-				currentStage.onUpdate(this, getStageWidth(), getStageHeight());
-				currentStage.onRender(this, gl_g2d);
-
-				nextCursor = (CommonAnimateCursor)currentStage.getCursor();
-				
-				if (!isFocusOwner()) {
-					currentStage.renderLostFocus(gl_g2d);
-				}
-			}
-		}
-		
-		if (nextCursor != null) {
-			getComponent().setCursor(nextCursor.update());
-		} else if (defaultCursor != null) {
-			getComponent().setCursor(defaultCursor.update());
-		} else {
-			getComponent().setCursor(Cursor.getDefaultCursor());
+			GLGraphics2D gl_g2d = new GLGraphics2D.GLGraphicsScreen(gl, g);
+			
+			currentStage.onUpdate(this, getStageWidth(), getStageHeight());
+			currentStage.onRender(this, gl_g2d);
 		}
 	}
 	

@@ -227,8 +227,22 @@ public abstract class Stage extends DisplayObjectContainer
 		{
 			renderTransition(g);
 		} 
+		
+		if (!canvas.isFocusOwner()) {
+			renderLostFocus(g);
+		}
 	}
 
+	@Override
+	final void onUpdate(DisplayObjectContainer parent) {
+		super.onUpdate(parent);
+	}
+
+	@Override
+	final void onRender(Graphics2D g) {
+		super.onRender(g);
+	}
+	
 	private void renderTransition(Graphics2D g) {
 		current_transition.render(g, local_bounds);
 	}
