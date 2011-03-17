@@ -86,7 +86,7 @@ public class GLImage implements com.g2d.BufferedImage
 		
 	}
 	
-	void draw(GL gl, float dx, float dy, float dw, float dh, float sx, float sy, float sw, float sh)
+	void draw(GL gl, float dx, float dy, float dw, float dh, float sx, float sy, float sw, float sh, float blend_alpha)
 	{
 		float cw = dw / sw;
 		float ch = dw / sw;
@@ -94,9 +94,9 @@ public class GLImage implements com.g2d.BufferedImage
 		{
 			gl.glEnable(GL.GL_TEXTURE_2D);
 			gl.glBindTexture(GL.GL_TEXTURE_2D, gl_texture[0]);
-			gl.glColor4f(1, 1, 1, 1);
 			gl.glBegin(GL.GL_QUADS);
 			{
+				gl.glColor4f(1, 1, 1, blend_alpha);
 				gl.glTexCoord2f(0f, 0f); gl.glVertex2f(  0,  0);
 				gl.glTexCoord2f(cw, 0f); gl.glVertex2f( dw,  0);
 				gl.glTexCoord2f(cw, ch); gl.glVertex2f( dw, dh);

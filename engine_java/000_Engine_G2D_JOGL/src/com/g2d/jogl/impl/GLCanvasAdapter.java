@@ -65,10 +65,10 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 //		gl.glBlendFunc(GL.GL_ONE_MINUS_SRC_COLOR, GL.GL_ONE_MINUS_SRC_ALPHA);
 //		gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_SRC_COLOR);
 //		gl.glBlendFunc(GL.GL_ONE, GL.GL_SRC_ALPHA);
-		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE); // 滤色ALPHA混白
+//		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE); // 滤色ALPHA混白
 //		gl.glBlendFunc(GL.GL_ONE , GL.GL_ZERO ); // 源色将覆盖目标色。
 //		gl.glBlendFunc(GL.GL_ZERO , GL.GL_ONE ); // 目标色将覆盖源色。 
-//		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); // 是最常使用的。
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); // 是最常使用的。
 //		gl.glBlendFunc(GL.GL_SRC_ALPHA_SATURATE, GL.GL_ONE);
 
     	gl.glEnable(GL.GL_BLEND);
@@ -76,8 +76,11 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 //		gl.glDepthMask(false); 
         
 		update((Graphics2D)getComponent().getGraphics());
+        
+        
 	}
 
+	
 	@Override
 	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) 
 	{
@@ -126,10 +129,14 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 	{
 		if (currentStage != null)
 		{
+			g.setClip(0,0, getStageWidth(), getStageHeight());
 			GLGraphics2D gl_g2d = new GLGraphics2D.GLGraphicsScreen(gl, g);
-			
-			currentStage.onUpdate(this, getStageWidth(), getStageHeight());
-			currentStage.onRender(this, gl_g2d);
+			try {
+				currentStage.onUpdate(this, getStageWidth(), getStageHeight());
+				currentStage.onRender(this, gl_g2d);
+			} finally {
+				gl_g2d.dispose();
+			}
 		}
 	}
 	
