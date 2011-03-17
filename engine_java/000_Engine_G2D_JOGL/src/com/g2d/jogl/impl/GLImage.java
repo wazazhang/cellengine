@@ -13,6 +13,7 @@ import com.cell.CIO;
 import com.cell.gfx.IGraphics;
 import com.cell.gfx.IImage;
 import com.cell.gfx.IPalette;
+import com.g2d.java2d.CommonPalette;
 
 public class GLImage implements com.g2d.BufferedImage
 {
@@ -193,10 +194,6 @@ public class GLImage implements com.g2d.BufferedImage
 		m_image.getRGB(x, y, width, height, rgbData, offset, scanlength);
 	}
 
-	public int setMode(int mode) {
-		return mode;
-	}
-	
 	public int getColorModel()
 	{
 		if (m_src_index_color_model != null) {
@@ -245,7 +242,7 @@ public class GLImage implements com.g2d.BufferedImage
 						transparent_color_index = i;
 				}
 				
-				return new GLPalette(data, (short)size, (short)transparent_color_index);
+				return new CommonPalette(data, (short)size, (short)transparent_color_index);
 			}	
 		}
 		return null;

@@ -9,6 +9,7 @@ import com.g2d.Graphics2D;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Stage;
 
+import com.g2d.java2d.impl.test.TestShape;
 import com.g2d.jogl.SimpleFrame;
 import com.g2d.jogl.impl.GLEngine;
 
@@ -18,7 +19,7 @@ public class Test extends Stage
 	@Override
 	public void inited(Canvas root, Object[] args)
 	{
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10; i++) {
 			addChild(new TestShape());
 		}		
 	}

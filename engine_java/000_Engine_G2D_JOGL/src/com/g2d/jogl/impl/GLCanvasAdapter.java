@@ -16,13 +16,14 @@ import javax.media.opengl.glu.GLU;
 import com.g2d.AnimateCursor;
 import com.g2d.Font;
 import com.g2d.display.Stage;
+import com.g2d.java2d.CommonAnimateCursor;
 import com.sun.opengl.util.GLUT;
 
-public class GLCanvasAdapter extends com.g2d.java2d.CanvasAdapter implements GLEventListener
+public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implements GLEventListener
 {	 
 	private GL 					gl;
 
-	private GLAnimateCursor		defaultCursor;
+	private CommonAnimateCursor	defaultCursor;
 
 	public GLCanvasAdapter(Component comp, int stage_width, int stage_height) 
 	{
@@ -108,7 +109,7 @@ public class GLCanvasAdapter extends com.g2d.java2d.CanvasAdapter implements GLE
 	
 	@Override
 	public void setDefaultCursor(AnimateCursor cursor) {
-		defaultCursor = (GLAnimateCursor)cursor;
+		defaultCursor = (CommonAnimateCursor)cursor;
 	}
 	
 	@Override
@@ -137,28 +138,22 @@ public class GLCanvasAdapter extends com.g2d.java2d.CanvasAdapter implements GLE
 	@Override
 	protected void updateStage(java.awt.Graphics2D g, Stage currentStage)
 	{
-		GLAnimateCursor nextCursor = null;
+		CommonAnimateCursor nextCursor = null;
 		
 		synchronized (this)
 		{
-			try
+			if (currentStage != null)
 			{
-				if (currentStage!=null)
-				{
-					GLGraphics2D gl_g2d = new GLGraphics2D.GLGraphicsScreen(gl, GLEngine.getEngine().getAwtG());
-					
-					currentStage.onUpdate(this, getStageWidth(), getStageHeight());
-					currentStage.onRender(gl_g2d);
-
-					nextCursor = (GLAnimateCursor)currentStage.getCursor();
-					
-					if (!isFocusOwner()) {
-						currentStage.renderLostFocus(gl_g2d);
-					}
-				}
-
-			} finally {
+				GLGraphics2D gl_g2d = new GLGraphics2D.GLGraphicsScreen(gl, g);
 				
+				currentStage.onUpdate(this, getStageWidth(), getStageHeight());
+				currentStage.onRender(this, gl_g2d);
+
+				nextCursor = (CommonAnimateCursor)currentStage.getCursor();
+				
+				if (!isFocusOwner()) {
+					currentStage.renderLostFocus(gl_g2d);
+				}
 			}
 		}
 		

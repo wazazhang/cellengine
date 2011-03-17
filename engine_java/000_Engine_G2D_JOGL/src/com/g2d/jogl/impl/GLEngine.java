@@ -37,6 +37,8 @@ import com.g2d.Engine;
 import com.g2d.Font;
 import com.g2d.Image;
 
+import com.g2d.java2d.CommonAnimateCursor;
+import com.g2d.java2d.CommonPalette;
 import com.g2d.text.MultiTextLayout;
 import com.g2d.text.TextLayout;
 import com.sun.opengl.util.GLUT;
@@ -57,11 +59,8 @@ public class GLEngine extends Engine
 	private java.awt.GraphicsEnvironment 		awt_ge;
 	private java.awt.GraphicsDevice 			awt_gd;
 	private java.awt.GraphicsConfiguration		awt_gc;
-	private java.awt.image.BufferedImage 		awt_gc_buff;
-	private java.awt.Graphics2D					awt_gc_buff_g;
 
-    
-	private HashMap<String, GLAnimateCursor>	system_cursor;
+	private HashMap<String, CommonAnimateCursor>	system_cursor;
 	
 	public GLEngine() 
 	{
@@ -70,11 +69,19 @@ public class GLEngine extends Engine
 	
 	public GLEngine(java.awt.GraphicsEnvironment awt_ge) 
 	{
+		this(awt_ge, 
+				awt_ge.getDefaultScreenDevice(), 
+				awt_ge.getDefaultScreenDevice().getDefaultConfiguration());
+	}
+	
+	public GLEngine(
+			java.awt.GraphicsEnvironment awt_ge,
+			java.awt.GraphicsDevice gd,
+			java.awt.GraphicsConfiguration gc) 
+	{
 		this.awt_ge				= awt_ge;
-		this.awt_gd				= awt_ge.getDefaultScreenDevice();
-		this.awt_gc				= awt_gd.getDefaultConfiguration();
-		this.awt_gc_buff		= awt_gc.createCompatibleImage(10, 10);
-		this.awt_gc_buff_g		= awt_gc_buff.createGraphics();
+		this.awt_gd				= gd;
+		this.awt_gc				= gc;
 		
 		capabilities 	= new GLCapabilities();
 		
@@ -88,21 +95,21 @@ public class GLEngine extends Engine
 	    glu 			= new GLU();
         glut 			= new GLUT();
         
-        this.system_cursor	= new HashMap<String, GLAnimateCursor>();
+        this.system_cursor	= new HashMap<String, CommonAnimateCursor>();
 		{
-		system_cursor.put("RESIZE_CURSOR_NW", 	new GLAnimateCursor((Cursor.NW_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_N", 	new GLAnimateCursor((Cursor.N_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_NE", 	new GLAnimateCursor((Cursor.NE_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_NW", 	new CommonAnimateCursor((Cursor.NW_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_N", 	new CommonAnimateCursor((Cursor.N_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_NE", 	new CommonAnimateCursor((Cursor.NE_RESIZE_CURSOR)));
 
-		system_cursor.put("RESIZE_CURSOR_W", 	new GLAnimateCursor((Cursor.W_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_E", 	new GLAnimateCursor((Cursor.E_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_W", 	new CommonAnimateCursor((Cursor.W_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_E", 	new CommonAnimateCursor((Cursor.E_RESIZE_CURSOR)));
 		
-		system_cursor.put("RESIZE_CURSOR_SW", 	new GLAnimateCursor((Cursor.SW_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_S", 	new GLAnimateCursor((Cursor.S_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_SE", 	new GLAnimateCursor((Cursor.SE_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_SW", 	new CommonAnimateCursor((Cursor.SW_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_S", 	new CommonAnimateCursor((Cursor.S_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_SE", 	new CommonAnimateCursor((Cursor.SE_RESIZE_CURSOR)));
 		
-		system_cursor.put("HAND_CURSOR", 		new GLAnimateCursor((Cursor.HAND_CURSOR)));
-		system_cursor.put("TEXT_CURSOR", 		new GLAnimateCursor((Cursor.TEXT_CURSOR)));
+		system_cursor.put("HAND_CURSOR", 		new CommonAnimateCursor((Cursor.HAND_CURSOR)));
+		system_cursor.put("TEXT_CURSOR", 		new CommonAnimateCursor((Cursor.TEXT_CURSOR)));
 		}
 	    instance		 = this;
 	}
@@ -126,7 +133,6 @@ public class GLEngine extends Engine
 	public GraphicsEnvironment		getAwtGE() {return awt_ge;}
 	public GraphicsDevice			getAwtGD() {return awt_gd;}
 	public GraphicsConfiguration	getAwtGC() {return awt_gc;}
-	public java.awt.Graphics2D		getAwtG()  {return awt_gc_buff_g;}
 
 	@Override
 	public BufferedImage createImage(InputStream is) throws IOException {
@@ -148,12 +154,12 @@ public class GLEngine extends Engine
 	
 	@Override
 	public IPalette createPalette(InputStream is) throws IOException {
-		return new GLPalette(is);
+		return new CommonPalette(is);
 	}
 	@Override
 	public IPalette createPalette(byte[] data, short colorCount,
 			short transparentColorIndex) {
-		return new GLPalette(data, colorCount, transparentColorIndex);
+		return new CommonPalette(data, colorCount, transparentColorIndex);
 	}
 
 //	---------------------------------------------------------------------------------------------
@@ -204,7 +210,7 @@ public class GLEngine extends Engine
 					new Point(spot_x, spot_y), 
 					"g2d_" + name + "_i");
 		}
-		GLAnimateCursor ret = new GLAnimateCursor(cursors);
+		CommonAnimateCursor ret = new CommonAnimateCursor(cursors);
 		system_cursor.put(name, ret);
 		return ret;
 	}
