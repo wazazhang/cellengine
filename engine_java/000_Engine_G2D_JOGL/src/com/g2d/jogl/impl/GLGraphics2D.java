@@ -46,9 +46,10 @@ abstract class GLGraphics2D extends Graphics2D
 	private Font									cur_font;
 	private int										cur_font_h;
 	private GLComposite								cur_composite;
-		
+	private java.awt.Rectangle						cur_clip;
+	
 	private Stack<GLComposite> 						stack_comp 		= new Stack<GLComposite>();
-	private Stack<java.awt.Shape> 					stack_clip 		= new Stack<java.awt.Shape>();
+	private Stack<java.awt.Rectangle> 				stack_clip 		= new Stack<java.awt.Rectangle>();
 	private Stack<java.awt.geom.AffineTransform> 	stack_trans		= new Stack<java.awt.geom.AffineTransform>();
 	
 	private Stack<java.awt.Stroke> 					stack_stroke	= new Stack<java.awt.Stroke>();
@@ -73,37 +74,40 @@ abstract class GLGraphics2D extends Graphics2D
 
 		_clip(awt_g2d.getClipBounds());
 		
-//		// test
-//		pushClip();
-//		{
-//			setAlpha(.5f);
-//
-//			setColor(Color.GREEN);
-//	//		rotate(.1);
-//			translate(20, 20);
-//			{
-//				test_draw(10, 10);
-//	//			System.out.println(
-//	//					getClipX() + "," + getClipY() + "," + 
-//	//					getClipWidth() + "," + getClipHeight()) ;
-//			}
-//			setColor(Color.RED);
-//			translate(20, 20);
-//			{
-//				test_draw(10, 10);
-//				test_draw(20, 20);
-//			}
-//			setColor(Color.YELLOW);
-//			translate(10, 10);
-//			scale(2, 2);
-//			{
-//				test_draw(10, 10);
-//	//			System.out.println(
-//	//					getClipX() + "," + getClipY() + "," + 
-//	//					getClipWidth() + "," + getClipHeight()) ;
-//			}
-//		}
-//		popClip();
+		// test
+		pushTransform();
+		pushClip();
+		{
+			setAlpha(.5f);
+
+			setColor(Color.GREEN);
+			{
+				rotate(.1);
+				translate(20, 20);
+				test_draw(10, 10);
+	//			System.out.println(
+	//					getClipX() + "," + getClipY() + "," + 
+	//					getClipWidth() + "," + getClipHeight()) ;
+			}
+			setColor(Color.RED);
+			{
+				translate(20, 20);
+				test_draw(10, 10);
+				test_draw(20, 20);
+			}
+			setColor(Color.YELLOW);
+			{
+				translate(100, 100);
+				scale(2, 2);
+				rotate(.1);
+				test_draw(10, 10);
+//				System.out.println(
+//						getClipX() + "," + getClipY() + "," + 
+//						getClipWidth() + "," + getClipHeight()) ;
+			}
+		}
+		popClip();
+		popTransform();
 	}
 	
 	private void test_draw(int x, int y)
@@ -215,56 +219,39 @@ abstract class GLGraphics2D extends Graphics2D
 //	clip
 //	-------------------------------------------------------------------------------------------------------------------------
 
-
 	final public int getClipX() {
-		java.awt.Rectangle b = awt_g2d.getClipBounds();
-		if (b != null)
-			return b.x;
-		return 0;
+		return cur_clip.x;
 	}
-
 	final public int getClipY() {
-		java.awt.Rectangle b = awt_g2d.getClipBounds();
-		if (b != null)
-			return b.y;
-		return 0;
+		return cur_clip.y;
 	}
-
 	final public int getClipHeight() {
-		java.awt.Rectangle b = awt_g2d.getClipBounds();
-		if (b != null)
-			return b.height;
-		return 0;
+		return cur_clip.height;
 	}
-
 	final public int getClipWidth() {
-		java.awt.Rectangle b = awt_g2d.getClipBounds();
-		if (b != null)
-			return b.width;
-		return 0;
+		return cur_clip.width;
 	}
 
 	final public void clipRect(int x, int y, int width, int height) {
-		awt_g2d.clipRect(x, y, width, height);
-		_clip(awt_g2d.getClipBounds());
+		cur_clip = cur_clip.intersection(new java.awt.Rectangle(x, y, width, height));
+		_clip(cur_clip);
 	}
 	
 	final public void setClip(int x, int y, int width, int height) {
-		awt_g2d.setClip(x, y, width, height);
-		_clip(awt_g2d.getClipBounds());
+		cur_clip = new java.awt.Rectangle(x, y, width, height);
+		_clip(cur_clip);
 	}
 	
 	@Override
 	public void pushClip() {
-		stack_clip.push(awt_g2d.getClip());
+		stack_clip.push(cur_clip);
 	}
 	
 	@Override
 	public void popClip() {
-		java.awt.Shape c = stack_clip.pop();
-		if (c != null) {
-			awt_g2d.setClip(c);
-			_clip(awt_g2d.getClipBounds());
+		cur_clip = stack_clip.pop();
+		if (cur_clip != null) {
+			_clip(cur_clip);
 		}
 	}
 
@@ -274,6 +261,8 @@ abstract class GLGraphics2D extends Graphics2D
 	
 	private void _clip(java.awt.Rectangle b) 
 	{
+		cur_clip = b;
+		
 		double[] e0 = { -1, 0, 0.0, b.x + b.width};
 		gl.glClipPlane(GL.GL_CLIP_PLANE0, e0, 0);
 		gl.glEnable(GL.GL_CLIP_PLANE0);
@@ -334,23 +323,23 @@ abstract class GLGraphics2D extends Graphics2D
 
 	public void translate(int x, int y) {
 		gl.glTranslatef(x, y, 0f);
-		awt_g2d.translate(x, y);
+//		awt_g2d.translate(x, y);
 	}
 	public void translate(double tx, double ty) {
 		gl.glTranslated(tx, ty, 0d);
-		awt_g2d.translate(tx, ty);
+//		awt_g2d.translate(tx, ty);
 	}
 	public void rotate(double theta) {
 		gl.glRotated(Math.toDegrees(theta), 0, 0, 1d);
-		awt_g2d.rotate(theta);
+//		awt_g2d.rotate(theta);
 	}
 	public void rotate(double theta, double x, double y) {
 		gl.glRotated(Math.toDegrees(theta), x, y, 1d);
-		awt_g2d.rotate(theta, x, y);
+//		awt_g2d.rotate(theta, x, y);
 	}
 	public void scale(double sx, double sy) {
 		gl.glScaled(sx, sy, 1);
-		awt_g2d.scale(sx, sy);
+//		awt_g2d.scale(sx, sy);
 	}
 	public void shear(double shx, double shy) {
 	
@@ -359,13 +348,13 @@ abstract class GLGraphics2D extends Graphics2D
 	@Override
 	public void pushTransform() {
 		gl.glPushMatrix();
-		stack_trans.push(awt_g2d.getTransform());
+//		stack_trans.push(awt_g2d.getTransform());
 	}
 	
 	@Override
 	public void popTransform() {
 		gl.glPopMatrix();
-		awt_g2d.setTransform(stack_trans.pop());
+//		awt_g2d.setTransform(stack_trans.pop());
 	}
 	
 	

@@ -71,7 +71,7 @@ public class TestShape extends Sprite
 				scale_y -= 0.1f;
 			}
 		}	
-//		rotate += 0.1f;
+		rotate += 0.1f;
 	}
 	
 	@Override
@@ -81,24 +81,24 @@ public class TestShape extends Sprite
 		
 		g.pushBlendMode();
 		g.setBlendMode(3, 0.75f);
-//		g.setColor(Color.GRAY);
-//		g.fillRect(
-//				local_bounds.x-100, 
-//				local_bounds.y, 
-//				local_bounds.width+200,
-//				local_bounds.height);
-//		g.setClip(
-//				local_bounds.x-100, 
-//				local_bounds.y, 
-//				local_bounds.width+200,
-//				local_bounds.height);
+		g.setColor(Color.GRAY);
+		g.fillRect(
+				local_bounds.x-100, 
+				local_bounds.y, 
+				local_bounds.width+200,
+				local_bounds.height);
+		g.setClip(
+				local_bounds.x-100, 
+				local_bounds.y, 
+				local_bounds.width+200,
+				local_bounds.height);
 		g.drawImage(image, local_bounds.x, local_bounds.y);
 		g.popBlendMode();
-//		
-//		g.setColor(Color.GREEN);
-//		g.fillRect(0, 0, 32, 32);
-//		g.setColor(Color.YELLOW);
-//		g.draw(local_bounds);
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(0, 0, 32, 32);
+		g.setColor(Color.YELLOW);
+		g.draw(local_bounds);
 	}
 	
 	public class Copper extends Sprite 

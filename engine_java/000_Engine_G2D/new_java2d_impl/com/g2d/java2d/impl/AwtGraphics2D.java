@@ -233,30 +233,30 @@ public class AwtGraphics2D extends Graphics2D
 //	-------------------------------------------------------------------------------------------------------------------------
 
 	final public int getClipX() {
-		java.awt.Shape b = g2d.getClip();
+		java.awt.Rectangle b = g2d.getClipBounds();
 		if (b != null)
-			return b.getBounds().x;
+			return b.x;
 		return 0;
 	}
 
 	final public int getClipY() {
-		java.awt.Shape b = g2d.getClip();
+		java.awt.Rectangle b = g2d.getClipBounds();
 		if (b != null)
-			return b.getBounds().y;
+			return b.y;
 		return 0;
 	}
 
 	final public int getClipHeight() {
-		java.awt.Shape b = g2d.getClip();
+		java.awt.Rectangle b = g2d.getClipBounds();
 		if (b != null)
-			return b.getBounds().height;
+			return b.height;
 		return 0;
 	}
 
 	final public int getClipWidth() {
-		java.awt.Shape b = g2d.getClip();
+		java.awt.Rectangle b = g2d.getClipBounds();
 		if (b != null)
-			return b.getBounds().width;
+			return b.width;
 		return 0;
 	}
 

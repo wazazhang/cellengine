@@ -177,11 +177,13 @@ public abstract class Stage extends DisplayObjectContainer
 	final public void onRender(Canvas canvas, Graphics2D g)
 	{	
 		g.setFont(canvas.getDefaultFont());
-		
-		g.clip(local_bounds);
-		
-		super.onRender(g);
-		
+		g.pushClip();
+		try {
+			g.setClip(local_bounds);
+			super.onRender(g);
+		} finally {
+			g.popClip();
+		}
 		{
 			if (getRoot().isMouseDown(MouseEvent.BUTTON_LEFT)) {
 				if (mouse_picked_object instanceof UIObject) {

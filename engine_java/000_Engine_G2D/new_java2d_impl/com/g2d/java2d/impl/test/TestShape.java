@@ -83,7 +83,7 @@ public class TestShape extends Sprite
 //		g.popBlendMode();
 //		g.setColor(Color.GREEN);
 //		g.draw(local_bounds);
-//		System.out.println(g.getClipX() + "," + g.getClipY() + "," + g.getClipWidth() + "," + g.getClipHeight()) ;
+		System.out.println(g.getClipX() + "," + g.getClipY() + "," + g.getClipWidth() + "," + g.getClipHeight()) ;
 	}
 	
 	public class Copper extends Sprite 
