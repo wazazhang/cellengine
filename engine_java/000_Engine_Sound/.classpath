@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="openal"/>
+	<classpathentry excluding="com/jcraft/jogg/|com/jcraft/jorbis/" kind="src" path="ogg"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/JavaOpenAL/joal-1.1.2-windows-i586/joal-1.1.2-windows-i586/lib/gluegen-rt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="000_Engine_Core/lib/JavaOpenAL/joal-1.1.2-windows-i586/joal-1.1.2-windows-i586/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/JavaOpenAL/joal-1.1.2-windows-i586/joal-1.1.2-windows-i586/lib/joal.jar" sourcepath="/000_Engine_Core/lib/JavaOpenAL/joal-1.1.2-src">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="000_Engine_Core/lib/JavaOpenAL/joal-1.1.2-windows-i586/joal-1.1.2-windows-i586/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/soundspi/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/soundspi/jorbis-0.0.15.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
