@@ -1,0 +1,230 @@
+
+1. 消息类型
+	
+	PROTOCOL_SYSTEM_MESSAGE		= 0x01	// 系统消息
+	
+	PROTOCOL_SESSION_MESSAGE	= 0x30	// 普通通信消息-客户端和服务器
+		
+	PROTOCOL_CHANNEL_JOIN_S2C	= 0x50	// 频道消息-当前链接被加入到一个频道时通知客户端
+	
+	PROTOCOL_CHANNEL_LEAVE_S2C	= 0x51	// 频道消息-当前链接被移除频道时通知客户端
+		
+	PROTOCOL_CHANNEL_MESSAGE	= 0x52	// 频道消息-客户端和服务器以频道方式通信的消息，比如服务器向一个频道广播消息
+	
+
+2. 包结构
+
+	byte	MagicStart[4];		// [4] 包头，可以通过配置文件指定
+	
+	int 	Flags;			// [4] 包携带的标志，可以自定义
+	
+	short   Dummy;			// [2] 预留
+	
+	short	Size;			// [2] 整个包的字节大小(data.length + 4+4+2+2+8+4+2+2+4+2) 暂时用16位，可根据需要指定时间来统一调整
+	
+	long 	SesseionID;		// [8] 可以同时包含连接的IP地址和端口号以及所在的服务器端的频段号
+	
+	int PacketID = 0;		// [4] // 拆包合包用
+	short TotalPieces = 1;		// [2] // 拆包合包用
+	short PieceIndex = 0;		// [2] // 拆包合包用
+
+//	int PacketNumber = 0;	// c++
+//	short Type = 0;			// c++
+	
+	int	ChannelID;		// [4] 频道ID，仅PROTOCOL_CHANNEL_*类型的消息有效
+	short 	Protocol; 		// [2] 消息类型	
+	
+	
+	byte	data[?];		// [?] 数据流
+
+
+
+3. 解码
+
+	消息解码的java代码
+
+//		如果你能够解析一次，那就需要返回 true; 
+//		如果1个不够解析，设置解包状态，返回false，并等待下一次解析
+	    protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception 
+	    {
+    		//得到上次的状态
+	    	NetPackageProtocol protocol = (NetPackageProtocol)session.getAttribute(SessionAttributeKey.STATUS_DECODING_PROTOCOL);
+	    	
+	    	try
+        	{
+	    		// 如果上次无状态，则代表是首次解包
+	    		if (protocol == null)
+        		{
+	    			// 有足够的数据
+	    			if (in.remaining() >= NetPackageProtocol.HeadFixedHeaderSize)
+	    			{
+			            // 判断是否是有效的数据包头
+			            byte[] magicdata = new byte[NetPackageProtocol.MagicStart.length];
+			            in.get(magicdata);
+			            
+			            if (!arrayEqual(magicdata, NetPackageProtocol.MagicStart))
+			            {
+			            	 // 丢弃掉非法字节
+		            		_log.warn("bad head, drop data : " + CUtil.arrayToString(magicdata));
+		            		//返回true代表这次解包已完成,清空状态并准备下一次解包
+			            	return true;
+			            }
+			            
+			            // 生成新的状态
+			    		protocol = new NetPackageProtocol();
+			            session.setAttribute(SessionAttributeKey.STATUS_DECODING_PROTOCOL, protocol);
+			            protocol.Size				= in.getInt();
+	        			protocol.Protocol			= in.get();
+	        			protocol.ChannelID			= in.getInt();
+	    			}
+	    			else
+	    			{
+	    				// 没有足够的数据时,返回 false
+	    				// 返回false代表这次解包未完成,需要等待
+	    				return false;
+	    			}
+        		}
+	    		
+	    		// 继续解析上一个未完成的包内容
+	    		if (protocol != null)
+	    		{
+	    			// 如果有足够的数据
+	    			if (in.remaining() >= protocol.Size - NetPackageProtocol.HeadFixedHeaderSize) 
+	    			{
+	    				// 解出包包含的二进制消息
+	    				if (protocol.getMessageSize() > 0)
+	    				{
+	    					// system message
+	    					if (protocol.Protocol == NetPackageProtocol.PROTOCOL_SYSTEM_MESSAGE) {
+		    					protocol.Message = SystemMessages.deserialize(in.buf());
+	    					}else{
+		    					protocol.Message = MessageHeader.deserialize(Manager, in.buf());
+	    					}
+	    				}
+	    				
+	    				// 判断是否是有效的数据包尾,验证包的合法性
+    					byte[] magicdata = new byte[NetPackageProtocol.MagicEnd.length];
+    					in.get(magicdata);
+    					if (!arrayEqual(magicdata, NetPackageProtocol.MagicEnd)){
+    						 // 丢弃掉非法字节
+		            		_log.warn("bad end, drop data : " + CUtil.arrayToString(magicdata) + " : " + protocol);
+    					}
+
+	    				// 清空当前的解包状态
+	    				session.removeAttribute(SessionAttributeKey.STATUS_DECODING_PROTOCOL);
+	    				
+	    				// 告诉 Protocol Handler 有消息被接收到
+	    				out.write(protocol);
+	    				//System.out.println("decoded <- " + session.getRemoteAddress() + " : " + protocol);
+	    				
+	    				protocol = null;
+	    				
+	    				// 无论如何都返回true，因为当前解包已完成
+	    				return true;
+	    			} 
+	    			// 如果没有足够的数据
+	    			else
+	    			{
+	    				// 没有足够的数据时,返回 false
+	    				// 返回false代表这次解包未完成,需要等待
+	    				return false;
+	    			}
+	    		}
+        	
+	    		return false;
+        	}
+    		catch(Throwable err)
+    		{
+        		if (protocol != null) {
+        			_log.warn("drop and clean decode state !\n" + protocol.toString());
+        			session.removeAttribute(SessionAttributeKey.STATUS_DECODING_PROTOCOL);
+        		}
+        		//err.printStackTrace();
+        		_log.error(err.getMessage() + "\ndecode error  : " + session , err);
+        		
+        		// 当解包时发生错误，则
+        		// 返回true代表这次解包已完成,清空状态并准备下一次解包
+        		return true;
+        	}
+	    	
+    	}
+	}
+
+
+4. 编码
+
+	编码的java代码
+	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception 
+    	{
+    		try
+    		{
+    			NetPackageProtocol protocol = (NetPackageProtocol)message;
+    			protocol.Size = NetPackageProtocol.HeadFixedSize;
+    			
+    			IoBuffer buffer = IoBuffer.allocate(NetPackageProtocol.PACKAGE_DEFAULT_SIZE);
+    			buffer.setAutoExpand(true);
+    			int oldposition = buffer.position();
+    			{
+    				// 只需要按照顺序将字段写入二进制流
+	    			// fixed data region
+	    			buffer.put(NetPackageProtocol.MagicStart);
+	    			buffer.putInt(protocol.Size);
+	    			buffer.put(protocol.Protocol);
+	    			buffer.putInt(protocol.ChannelID);
+	
+					// 最后只需要注意将包的尺寸计算出来，并修改二进制流
+	    			// appends data region
+	    			if (protocol.Message != null) { 
+	    				int cur = buffer.position();
+	    				MessageHeader.serialize(protocol.Message, buffer.buf());
+	    				protocol.Size += buffer.position() - cur;
+		    			buffer.putInt(NetPackageProtocol.MagicStart.length, protocol.Size);
+	    			}
+	    			
+	    			// end 
+	    			buffer.put(NetPackageProtocol.MagicEnd);
+    			}
+    			TotalSentBytes += buffer.position() - oldposition;
+
+    			buffer.shrink();
+    			buffer.flip();
+    			out.write(buffer);
+    			
+    			//System.out.println("encoded -> " + session.getRemoteAddress() + " : " + protocol);
+    		    
+				protocol = null;
+        	}
+    		catch(Throwable err) 
+    		{
+    			_log.error(err.getMessage() + "\nencode error : " + session + " :\n" + message + "", err);
+        		//err.printStackTrace();
+        		
+        	}
+    	}
+
+
+
+5. 服务器与服务器通信
+
+	由于服务器与服务器之间不需要频道通信和系统消息，所以服务器与服务器间的通信使用 PROTOCOL_SESSION_MESSAGE 就可以了。
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

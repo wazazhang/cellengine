@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="com/gt/net/server/MessageTask.java|com/gt/net/server/Task.java|com/gt/net/server/TaskManager.java|com/gt/net/server/TaskManagerJavaConcurrent.java|com/gt/net/server/MessageRouter.java|com/gt/net/server/Manager.java|TestJavaUtil.java|TestObjectPool.java|com/net/proxy/|com/net/anno/" kind="src" path="src"/>
+	<classpathentry excluding="com/net/minaimpl/NetPackageProtocol.java|com/net/minaimpl/server/bridge/BridgeServerR2B.java|com/net/minaimpl/proxy/|com/net/minaimpl/server/proxy/BridgeServerR2B.java|com/net/minaimpl/server/proxy/|com/net/minaimpl/server/proxy/b2c/|com/net/minaimpl/server/proxy/r2b/|com/net/minaimpl/monitor/" kind="src" path="mina"/>
+	<classpathentry kind="src" path="flash"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-api-1.5.2.jar"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-simple-1.5.0.jar"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/mina-2.0.2/dist/mina-core-2.0.2.jar" sourcepath="/000_Engine_Core/lib/mina-2.0.2/src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
