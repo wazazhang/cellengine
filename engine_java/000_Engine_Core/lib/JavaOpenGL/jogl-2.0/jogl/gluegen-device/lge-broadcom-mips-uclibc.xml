@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="GlueGen-cpptasks" basedir=".">
+<target name="gluegen.cpptasks.configure.compiler" depends="setup.java.home.dir">
+<compiler id="compiler.cfg.linux.newt.broadcom_egl" name="gcc">
+<compilerarg value="-Wall" />
+<defineset>
+<define name="LINUX" />
+</defineset>
+</compiler>
+<linker id="linker.cfg.linux.newt.broadcom_egl" name="gcc">
+<linkerarg value="-L../../import/crossroots.lge-broadcom-mips-libs-1.0/nfsroot.lge-broadcom-mips-uclibc/lg/lib" />
+<syslibset dir="../../import/crossroots.lge-broadcom-mips-libs-1.0/nfsroot.lge-broadcom-mips-uclibc/lg/lib" libs="EGL"/>
+<syslibset dir="../../import/crossroots.lge-broadcom-mips-libs-1.0/nfsroot.lge-broadcom-mips-uclibc/lg/lib" libs="GLES_CM"/>
+</linker>
+</target>
+</project>

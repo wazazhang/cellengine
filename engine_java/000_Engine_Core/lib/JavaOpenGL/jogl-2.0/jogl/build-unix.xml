@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jogl-unix" default="build-jogl" basedir=".">
+
+    <description>Set properties and exec JOGL build on UNIX platforms</description>
+
+    <target name="build-jogl">
+        <ant antfile="build.xml" dir="${jogl.make.dir}" target="all" inheritAll="false">
+            <property name="rootrel.build" value="${jogl.build-desktop}"/>
+            <property name="antlr.jar" value="${antlr.jar}"/>
+            <property name="gluegen.user.properties.file" value="${gluegen.user.properties.file}"/>
+            <property name="user.properties.file" value="${user.properties.file}"/>
+            <property name="build.noarchives" value="true"/>
+            <property name="macosx64" value="true"/>
+        </ant>
+    </target>
+
+    <target name="build-jogl-cdc">
+        <ant antfile="build.xml" dir="${jogl.make.dir}" target="all" inheritAll="false">
+            <property name="rootrel.build" value="${jogl.build-cdc}"/>
+            <property name="antlr.jar" value="${antlr.jar}"/>
+            <property name="gluegen.user.properties.file" value="${gluegen.user.properties.file}"/>
+            <property name="user.properties.file" value="${user.properties.file}"/>
+            <property name="build.noarchives" value="true"/>
+        </ant>
+    </target>
+
+    <condition property="isLinuxDeviceBuild">
+        <and>
+            <istrue value="${build.jogl.device}"/>
+            <isset property="isLinux"/>
+        </and>
+    </condition>
+
+    <target name="build-jogl-cdc-device" if="isLinuxDeviceBuild">
+
+        <antcall target="lge-broadcom-mipsel-uclibc" />
+        
+        <antcall target="intel-ce3100-x86-glibc" />
+
+    </target>
+
+    <target name="lge-broadcom-mipsel-uclibc">
+        <!-- this patch is due to the broken Broadcom EGL impl. -->
+
+        <patch patchfile="tv-patch/JOGL-LGE.patch" strip="1" />
+
+        <exec executable="/bin/sh" dir="." failonerror="true">
+            <arg value="${jogl.home}/cross-compile.sh"/>
+            <arg value="${import.crosstools.lge-broadcom-mips-uclibc.bin}"/>
+            <arg value="build-cdc-device/lge-broadcom-mipsel-uclibc"/>
+            <arg value="${antlr.jar}"/>
+            <arg value="useBroadcomEGL"/>
+            <arg value="true"/>
+            <arg value="${jogl.home}"/>
+            <arg value="${jogl.home}/gluegen-device/lge-broadcom-mips-uclibc.xml"/>
+        </exec>
+
+        <patch patchfile="tv-patch/JOGL-LGE.patch" strip="1" reverse="yes" />
+    </target>
+
+    <target name="intel-ce3100-x86-glibc">
+        <exec executable="/bin/sh" dir="." failonerror="true">
+            <arg value="${jogl.home}/cross-compile.sh"/>
+            <arg value="${import.crosstools.intel-ce3100-x86-glibc.bin}"/>
+            <arg value="build-cdc-device/intel-ce3100-x86-glibc"/>
+            <arg value="${antlr.jar}"/>
+            <arg value="useIntelGDL"/>
+            <arg value="true"/>
+            <arg value="${jogl.home}"/>
+            <arg value="${jogl.home}/gluegen-device/intel-ce3100-x86-glibc.xml"/>
+        </exec>
+    </target>
+
+</project>

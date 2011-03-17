@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jogl" default="jfx-sdk" basedir=".">
+
+    <description>Builds JOGL and gluegen for JavaFX</description>
+
+    <import file="../build-defs.xml"/>
+
+    <target name="-init">
+        <property name="jogl.home" location="."/>
+        <property name="jogl.build-desktop" value="build-desktop"/>
+        <property name="jogl.build-cdc" value="build-cdc"/>
+        <property name="jogl.build-cdc-device" value="build-cdc-device"/>
+        <property name="jogl.build-desktop.dir" location="${jogl.home}/${jogl.build-desktop}"/>
+        <property name="jogl.build-cdc.dir" location="${jogl.home}/${jogl.build-cdc}"/>
+        <property name="jogl.build-cdc-device.dir" location="${jogl.home}/${jogl.build-cdc-device}"/>
+        <property name="jogl.build-jar.dir" location="${jogl.home}/build-jar-tmp"/>
+        <property name="jogl.make.dir" location="${jogl.home}/make"/>
+        <property name="gluegen.home" location="../gluegen"/>
+        <property name="gluegen.build-desktop.dir" location="${gluegen.home}/${jogl.build-desktop}"/>
+        <property name="gluegen.build-cdc.dir" location="${gluegen.home}/${jogl.build-cdc}"/>
+        <property name="gluegen.build-cdc-device.dir" location="${gluegen.home}/${jogl.build-cdc-device}"/>
+        <property name="gluegen.src.version.file" location="${gluegen.home}/gluegen-src-version-${import.gluegen-src.version}.txt"/>
+
+        <condition property="isLinuxOrSolaris">
+            <or>
+                <istrue value="${isLinux}"/>
+                <istrue value="${isSolaris}"/>
+            </or>
+        </condition>
+
+        <property name="antlr.jar" value="${import.antlr.jar}"/>
+        <property name="gluegen.user.properties.file" value="/dev/null"/>
+        <property name="user.properties.file" value="/dev/null"/>
+        <property name="win32.c.compiler" value="mingw"/>
+        <property name="mingw.home" location="C:/MinGW"/>
+    </target>
+
+    <target name="clean" depends="-init" description="Same as jfx-clean">
+        <!-- Clean manually, since the clean target in jogl/make is incomplete -->
+        <delete dir="${gluegen.home}" quiet="true"/>
+        <delete dir="${jogl.build-desktop.dir}" quiet="true"/>
+        <delete dir="${jogl.build-cdc.dir}" quiet="true"/>
+        <delete dir="${jogl.build-cdc-device.dir}" quiet="true"/>
+        <delete dir="${jogl.build-jar.dir}" quiet="true"/>
+        <delete dir="${jogl.home}/build" quiet="true"/>
+        <delete dir="${jogl.home}/build-temp" quiet="true"/>
+        <delete quiet="true">
+            <fileset dir="${jogl.make.dir}">
+                <include name="GnuCTreeParserTokenTypes.txt"/>
+                <include name="STDCTokenTypes.txt"/>
+                <include name="tempversion-cdc"/>
+            </fileset>
+            <fileset dir="${jogl.home}">
+                <include name="GnuCTreeParserTokenTypes.txt"/>
+                <include name="STDCTokenTypes.txt"/>
+            </fileset>
+        </delete>
+        <!-- clean cross-compile elements -->
+        <delete file="${user.home}/gluegen.compile.xml" />
+        <delete file="${jogl.home}/gluegen-device/gcc"/>
+    </target>
+
+    <target name="-prep-get-gluegen">
+        <condition property="gluegen.up.to.date">
+            <available file="${gluegen.src.version.file}" type="file"/>
+        </condition>
+    </target>
+
+    <target name="-get-gluegen" depends="-init,-prep-get-gluegen" unless="gluegen.up.to.date">
+        <delete dir="${gluegen.home}" quiet="true"/>
+        <copy todir="${gluegen.home}">
+            <fileset dir="${import.gluegen-src.top.dir}"/>
+        </copy>
+        <touch file="${gluegen.src.version.file}"/>
+    </target>
+
+    <target name="-init-platform-macosx" if="isMacOSX">
+        <property name="jogl.platform.build.file" value="build-unix.xml"/>
+    </target>
+
+    <target name="-init-platform-unix" if="isLinuxOrSolaris">
+        <property name="jogl.platform.build.file" value="build-unix.xml"/>
+    </target>
+
+    <target name="-init-platform-windows" if="isWindows">
+        <property name="jogl.platform.build.file" value="build-windows.xml"/>
+    </target>
+
+    <target name="-init-platform" depends="-init-platform-macosx,-init-platform-unix,-init-platform-windows">
+    </target>
+
+    <!-- TODO enable Solaris when build issues are fixed -->
+    <target name="-build-jogl" depends="-init-platform,-get-gluegen" unless="isSolaris">
+        <ant antfile="${jogl.platform.build.file}" target="build-jogl" inheritAll="true"/>
+        <ant antfile="${jogl.platform.build.file}" target="build-jogl-cdc" inheritAll="true"/>
+        <ant antfile="${jogl.platform.build.file}" target="build-jogl-cdc-device" inheritAll="true"/>
+    </target>
+    
+    <!-- ****************************************************************** -->
+
+    <!-- names of the binaries that will be delivered by the jogl repo -->
+    <patternset id="jogl.binaries.to.be.deleted">
+      <include name="*nativewindow*"/>
+      <include name="*newt*"/>
+      <include name="*jogl*"/>
+      <include name="*gluegen*"/>
+    </patternset>
+
+    <target name="-clean-sdk-files">
+      <delete quiet="true">
+        <fileset dir="${jfx.sdk.desktop.dir}">
+          <patternset refid="jogl.binaries.to.be.deleted"/>
+        </fileset>
+        <fileset dir="${jfx.sdk.dir}/lib/prism">
+          <patternset refid="jogl.binaries.to.be.deleted"/>
+        </fileset>
+      </delete>
+    </target>
+
+    <target name="-clean-deploy-files">
+      <delete quiet="true">
+        <fileset dir="${jfx.deployed.desktop.dir}">
+          <patternset refid="jogl.binaries.to.be.deleted"/>
+        </fileset>
+        <!-- TODO remove prism binaries too -->
+      </delete>
+    </target>
+
+    <!-- ****************************************************************** -->
+
+    <target name="unpack-jogl-jars-windows" if="isWindows">
+      <unjar dest="${jogl.build-jar.dir}/jogl-common">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.gl2.win.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/newt">
+        <fileset dir="${jogl.build-desktop.dir}/newt">
+          <include name="newt.win.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/jogl-prism">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.gl2.win.jar"/>
+        </fileset>
+      </unjar>
+    </target>
+
+    <target name="unpack-jogl-jars-macosx" if="isMacOSX">
+      <unjar dest="${jogl.build-jar.dir}/jogl-common">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.gl2.osx.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/newt">
+        <fileset dir="${jogl.build-desktop.dir}/newt">
+          <include name="newt.osx.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/jogl-prism">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.gl2.osx.jar"/>
+        </fileset>
+      </unjar>
+    </target>
+
+    <target name="unpack-jogl-jars-unix" if="isLinuxOrSolaris">
+      <unjar dest="${jogl.build-jar.dir}/jogl-common">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.gl2.x11.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/newt">
+        <fileset dir="${jogl.build-desktop.dir}/nativewindow">
+          <include name="nativewindow.x11.jar"/>
+        </fileset>
+        <fileset dir="${jogl.build-desktop.dir}/newt">
+          <include name="newt.x11.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/jogl-prism">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.gl2.x11.jar"/>
+        </fileset>
+      </unjar>
+    </target>
+
+    <target name="create-jogl-jars">
+      <delete dir="${jogl.build-jar.dir}" quiet="true"/>
+      <mkdir dir="${jogl.build-jar.dir}/jogl-common"/>
+      <mkdir dir="${jogl.build-jar.dir}/jogl-awt"/>
+      <mkdir dir="${jogl.build-jar.dir}/newt"/>
+      <mkdir dir="${jogl.build-jar.dir}/jogl-prism"/>
+      <unjar dest="${jogl.build-jar.dir}/jogl-common">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.core.jar"/>
+        </fileset>
+        <fileset dir="${jogl.build-desktop.dir}/nativewindow">
+          <include name="nativewindow.core.jar"/>
+        </fileset>
+        <fileset dir="${gluegen.build-desktop.dir}">
+          <include name="gluegen-rt.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/jogl-awt">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <include name="jogl.awt.jar"/>
+        </fileset>
+        <fileset dir="${jogl.build-desktop.dir}/nativewindow">
+          <include name="nativewindow.awt.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/newt">
+        <fileset dir="${jogl.build-desktop.dir}/newt">
+          <include name="newt.core.jar"/>
+        </fileset>
+        <fileset dir="${jogl.build-desktop.dir}/nativewindow">
+          <include name="nativewindow.core.jar"/>
+        </fileset>
+      </unjar>
+      <unjar dest="${jogl.build-jar.dir}/jogl-prism">
+        <fileset dir="${jogl.build-desktop.dir}/jogl">
+          <!--<include name="jogl.gles2.dbg.jar"/>-->
+          <!-- TODO consider removing if we stop relying on GLU tesselator -->
+          <include name="jogl.glu.tess.jar"/>
+        </fileset>
+        <fileset dir="${jogl.build-desktop.dir}/newt">
+          <include name="newt.ogl.jar"/>
+        </fileset>
+      </unjar>
+      <antcall target="unpack-jogl-jars-windows"/>
+      <antcall target="unpack-jogl-jars-macosx"/>
+      <antcall target="unpack-jogl-jars-unix"/>
+      <jar destfile="${jfx.sdk.desktop.dir}/jogl-common.jar" basedir="${jogl.build-jar.dir}/jogl-common"/>
+      <jar destfile="${jfx.sdk.desktop.dir}/jogl-awt.jar" basedir="${jogl.build-jar.dir}/jogl-awt"/>
+      <jar destfile="${jfx.sdk.dir}/lib/prism/newt.jar" basedir="${jogl.build-jar.dir}/newt"/>
+      <jar destfile="${jfx.sdk.dir}/lib/prism/jogl-prism.jar" basedir="${jogl.build-jar.dir}/jogl-prism"/>
+    </target>
+
+    <target name="copy-sdk-binaries-windows" if="isWindows">
+      <copy todir="${jfx.sdk.desktop.dir}">
+        <fileset dir="${jogl.build-desktop.dir}/lib">
+          <include name="nativewindow_jvm.dll"/>
+          <include name="nativewindow_awt.dll"/>
+          <include name="gluegen-rt.dll"/>
+          <include name="jogl_gl2.dll"/>
+        </fileset>
+      </copy>
+      <copy todir="${jfx.sdk.dir}/lib/prism" flatten="true">
+        <fileset dir="${jogl.build-desktop.dir}/lib">
+          <include name="newt.dll"/>
+        </fileset>
+      </copy>
+    </target>
+
+    <target name="copy-sdk-binaries-macosx" if="isMacOSX">
+      <copy todir="${jfx.sdk.desktop.dir}">
+        <fileset dir="${jogl.build-desktop.dir}/lib">
+          <include name="libnativewindow_jvm.jnilib"/>
+          <include name="libnativewindow_awt.jnilib"/>
+          <include name="libgluegen-rt.jnilib"/>
+          <include name="libjogl_gl2.jnilib"/>
+        </fileset>
+      </copy>
+      <copy todir="${jfx.sdk.dir}/lib/prism" flatten="true">
+        <fileset dir="${jogl.build-desktop.dir}/lib">
+          <include name="libnewt.jnilib"/>
+        </fileset>
+      </copy>
+    </target>
+
+    <target name="copy-sdk-binaries-unix" if="isLinuxOrSolaris">
+      <copy todir="${jfx.sdk.desktop.dir}">
+        <fileset dir="${jogl.build-desktop.dir}/lib">
+          <include name="libnativewindow_jvm.so"/>
+          <include name="libnativewindow_awt.so"/>
+          <include name="libgluegen-rt.so"/>
+          <include name="libjogl_gl2.so"/>
+        </fileset>
+      </copy>
+      <copy todir="${jfx.sdk.dir}/lib/prism" flatten="true">
+        <fileset dir="${jogl.build-desktop.dir}/lib">
+          <include name="libnativewindow_x11.so"/>
+          <include name="libnewt.so"/>
+        </fileset>
+      </copy>
+    </target>
+
+    <!-- TODO enable Solaris when build issues are fixed -->
+    <target name="copy-sdk-binaries" unless="isSolaris">
+      <mkdir dir="${jfx.sdk.desktop.dir}"/>
+      <mkdir dir="${jfx.sdk.dir}/lib/prism"/>
+      <antcall target="create-jogl-jars"/>
+      <antcall target="copy-sdk-binaries-windows"/>
+      <antcall target="copy-sdk-binaries-macosx"/>
+      <antcall target="copy-sdk-binaries-unix"/>
+    </target>
+
+    <target name="-copy-sdk-files" depends="copy-sdk-binaries"/>
+
+    <!-- ****************************************************************** -->
+
+    <macrodef name="jar-jogl-natives">
+      <attribute name="os" default="NOTSET"/>
+      <attribute name="arch" default="i586"/>
+      <attribute name="name" default="jogl"/>
+      <element name="inc" optional="false"/>
+      <sequential>
+        <jar destfile="${jogl.build-jar.dir}/jogl-natives/@{name}-natives-@{os}-@{arch}.jar"
+             basedir="${jogl.build-desktop.dir}/lib">
+          <inc/>
+        </jar>
+      </sequential>
+    </macrodef>
+
+    <target name="create-jogl-natives-jars">
+      <mkdir dir="${jogl.build-jar.dir}/jogl-natives"/>
+
+      <jar-jogl-natives os="windows">
+        <inc>
+          <include name="nativewindow_jvm.dll"/>
+          <include name="nativewindow_awt.dll"/>
+          <include name="jogl_gl2.dll"/>
+          <include name="gluegen-rt.dll"/>
+        </inc>
+      </jar-jogl-natives>
+
+      <jar-jogl-natives os="macosx" arch="universal">
+        <inc>
+          <include name="libnativewindow_jvm.jnilib"/>
+          <include name="libnativewindow_awt.jnilib"/>
+          <include name="libjogl_gl2.jnilib"/>
+          <include name="libgluegen-rt.jnilib"/>
+        </inc>
+      </jar-jogl-natives>
+
+      <jar-jogl-natives os="linux">
+        <inc>
+          <include name="libnativewindow_jvm.so"/>
+          <include name="libnativewindow_awt.so"/>
+          <include name="libjogl_gl2.so"/>
+          <include name="libgluegen-rt.so"/>
+        </inc>
+      </jar-jogl-natives>
+
+      <jar-jogl-natives os="solaris">
+        <inc>
+          <include name="libnativewindow_jvm.so"/>
+          <include name="libnativewindow_awt.so"/>
+          <include name="libjogl_gl2.so"/>
+          <include name="libgluegen-rt.so"/>
+        </inc>
+      </jar-jogl-natives>
+    </target>
+
+    <!-- TODO enable Solaris when build issues are fixed -->
+    <target name="-copy-deploy-files" unless="isSolaris">
+      <antcall target="create-jogl-natives-jars"/>
+      <copy todir="${jfx.deployed.desktop.dir}">
+        <fileset dir="${jfx.sdk.desktop.dir}">
+          <include name="jogl-common.jar"/>
+          <include name="jogl-awt.jar"/>
+        </fileset>
+        <fileset file="${jogl.build-jar.dir}/jogl-natives/jogl-natives-${platform}.jar"/>
+      </copy>
+      <!-- TODO copy jogl2 binaries for prism... -->
+      <!--
+      <copy todir="${jfx.deployed.dir}/prism">
+        <fileset file="${jogl.build-jar.dir}/jogl-natives/jogl-natives-${platform}.jar"/>
+      </copy>
+      -->
+    </target>
+
+    <!-- ****************************************************************** -->
+
+    <!-- Targets required by and used by the top repository build. -->
+    <target name="jfx-clean"     depends="clean" description="Clean all generated files"/>
+    <target name="jfx-sdk"       depends="-init,-init-platform,-build-jogl,-copy-sdk-files" description="Build sdk"/>
+    <target name="jfx-clean-sdk" depends="-init,-clean-sdk-files" description="Clean files from artifacts/sdk"/>
+    <target name="jfx-test" description="Smoke test -- not implemented"/>
+    <target name="jfx-full-test"/>
+    <target name="jfx-samples"/>
+    <target name="jfx-deploy" depends="-init,-copy-deploy-files" description="Build deployment files"/>
+    <target name="jfx-clean-deploy" depends="-init,-clean-deploy-files" description="Clean files from artifacts/deployed"/>
+    <target name="jfx-sdk-docs"/>
+
+</project>

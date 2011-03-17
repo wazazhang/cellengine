@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jogl-windows" default="build-jogl" basedir=".">
+
+  <description>Set properties and exec JOGL build on Windows platforms</description>
+
+  <import file="../build-defs.xml"/>
+
+  <target name="build-jogl">
+    <property name="rootrel.build" value="${jogl.build-desktop}"/>
+    <exec executable="cmd.exe" dir="." failonerror="true">
+      <arg value="/C"/>
+      <arg value="compile.cmd"/>
+      <arg value="${mingw.home}"/>
+      <arg value="${rootrel.build}"/>
+      <arg value="${antlr.jar}"/>
+      <arg value="${gluegen.user.properties.file}"/>
+      <arg value="${user.properties.file}"/>
+      <arg value="${win32.c.compiler}"/>
+    </exec>
+  </target>
+  
+  <target name="build-jogl-cdc">
+    <property name="rootrel.build" value="${jogl.build-cdc}"/>
+    <property name="user.properties.file" value="tv.properties"/>
+    <exec executable="cmd.exe" dir="." failonerror="true">
+      <arg value="/C"/>
+      <arg value="compile.cmd"/>
+      <arg value="${mingw.home}"/>
+      <arg value="${rootrel.build}"/>
+      <arg value="${antlr.jar}"/>
+      <arg value="${gluegen.user.properties.file}"/>
+      <arg value="${user.properties.file}"/>
+      <arg value="${win32.c.compiler}"/>
+    </exec>
+  </target>
+
+  <target name="build-jogl-cdc-device">
+  </target>
+</project>

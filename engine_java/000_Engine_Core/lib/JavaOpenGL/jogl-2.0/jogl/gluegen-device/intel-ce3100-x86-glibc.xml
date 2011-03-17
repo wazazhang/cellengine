@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="GlueGen-cpptasks" basedir=".">
+<target name="gluegen.cpptasks.configure.compiler" depends="setup.java.home.dir">
+<compiler id="compiler.cfg.linux.newt.intel_gdl" name="gcc">
+<compilerarg value="-Wall" />
+<defineset>
+<define name="LINUX" />
+</defineset>
+</compiler>
+<linker id="linker.cfg.linux.newt.intel_gdl" name="gcc">
+<linkerarg value="-L../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" />
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="gdl"/>
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="srv_um"/>
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="osal"/>
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="GLESv2"/>
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="IMGegl"/>
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="EGL"/>
+<syslibset dir="../../import/crossroots.intel-ce3100-x86-libs-1.0/nfsroot.intel-ce3110-x86-glibc/i686-linux-elf/lib" libs="GLES_CM"/>
+</linker>
+</target>
+</project>

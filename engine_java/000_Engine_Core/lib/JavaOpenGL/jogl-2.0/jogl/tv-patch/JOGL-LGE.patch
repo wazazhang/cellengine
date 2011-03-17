@@ -1,0 +1,23 @@
+diff --git a/src/jogl/classes/com/sun/opengl/impl/egl/EGLContext.java b/src/jogl/classes/com/sun/opengl/impl/egl/EGLContext.java
+index cc4dafa..8c896e9 100755
+--- a/src/jogl/classes/com/sun/opengl/impl/egl/EGLContext.java
++++ b/src/jogl/classes/com/sun/opengl/impl/egl/EGLContext.java
+@@ -99,12 +99,16 @@ public abstract class EGLContext extends GLContextImpl {
+         }
+         boolean created = false;
+         if (eglContext == 0) {
+-            create();
++            eglContext = EGL.eglGetCurrentContext(); // FIXME - Broadcom !
++            created = ( 0 != eglContext ) ;
++            System.err.println(getThreadName() + ": !!! Re-Use: Ctx: 0x"+Long.toHexString(eglContext));
++
++     /*     create();
+             if (DEBUG) {
+                 System.err.println(getThreadName() + ": !!! Created GL context 0x" +
+                                    Long.toHexString(eglContext) + " for " + getClass().getName());
+             }
+-            created = true;
++            created = true; */
+         }
+         if (EGL.eglGetCurrentContext() != eglContext) {
+             if (!EGL.eglMakeCurrent(drawable.getDisplay(),

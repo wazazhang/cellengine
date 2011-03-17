@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--  
+1.换行命令
+2.下拉列表
+3.指定文字大小
+4.控制文字颜色
+5.可自定义文字位置——居中，靠左，靠右
+6.对已有文字进行编辑
+7.指定按钮的类型
+8.指定图片的造型
+-->
+
+<!-- 定义窗口，参数包括：标题，坐标，尺寸， -->
+<form title = "FormLesson4 Title" x="10" y="10" width="500" height="500">
+	
+	<!--该窗口的标准属性(可选，如果不设置则为默认值) -->
+	<properties>
+		<property key="" value=""/>
+	</properties>
+	
+	<!--该窗口的扩展属性(可选)-->
+	<attributes>
+	
+		<!-- Lordol --><!-- 窗口的样式，对应界面编辑器里UserRectLayout的动画ID -->
+		<attribute key="userrect" value="5"/>
+		<!-- Lordol --><!-- 窗口的样式边距 -->
+		<attribute key="userrect_border" value="6"/>
+		<!-- Lordol --><!-- 窗口标题拦的样式，对应界面编辑器里UserRectLayout的动画ID -->
+		<attribute key="userrecttitle" value="6"/>
+		<attribute key="userrecttitle_border" value="2"/>
+		<!-- 其他 -->
+		<attribute key="data1" value="1"/>
+		<attribute key="data2" value="2"/>
+		<attribute key="data3" value="3"/>
+	</attributes>
+	
+	
+	
+	
+	
+	<!-- 定义单个控件 -->
+	<items>
+	
+		<!-- 标签栏 -->
+		<item type="com.cell.gui.LabelBar" 
+			id = "0" 
+			text = "标签栏" 
+			x="10" y="80" width="200" height="18" 
+			desc="">
+			
+			<!--标准属性(可选，如果不设置则为默认值) -->
+			<properties>
+				<!--是否能被聚焦(兼容所有类型控件)-->
+				<property key="canfocus" value="true"/>
+				<!--文本的颜色(兼容所有类型控件)-->
+				<property key="textcolor" value="ffffffff"/>
+				<!--文本是否居中(兼容所有单条文本控件，Button,CheckBox,)-->
+				<property key="textcenter" value="true"/>
+			</properties>
+			
+			<!--扩展属性(可选)-->
+			<attributes>
+				
+				<!-- Lordol --><!-- 控件的样式，对应界面编辑器里UserRectLayout的动画ID (兼容所有类型控件)-->
+				<attribute key="userrect" value="14"/>
+				<attribute key="userrect_border" value="2"/>
+				<!-- Lordol --><!-- 对应icons里的图片id -->
+				<attribute key="icon" value="2"/>
+				
+				<!-- 其他 -->
+				<attribute key="data1" value="i1"/>
+				<attribute key="data2" value="i2"/>
+				<attribute key="data3" value="i3"/>
+			</attributes>
+			
+		</item>
+	
+		<!--定义单个控件，参数包括：类型，id，文字，尺寸，提示文字-->
+		<item type="com.cell.gui.Button" 
+			id = "1" 
+			text = "按钮" 
+			x="2" y="0" width="100" height="18" 
+			desc="鼠标放上去后的提示文字">
+			
+			<properties>
+				<!--是否能被按下-->
+				<property key="pressonclick" value="false"/>
+				<!--是否能被按下为true的情况下，是否已被按下-->
+				<property key="pressed" value="false"/>
+				<!--是否能被按下为true的情况下，排斥的其他按钮，值为控件id的集合，即它被按下，其他的将被弹起-->
+				<property key="repels" value="1,2,3,4,5,6"/>
+			</properties>
+			
+			<!--扩展属性(可选)-->
+			<attributes>
+				<!-- Lordol --><!-- 按钮被按下后的样式，对应界面编辑器里UserRectLayout的动画ID (兼容所有类型控件)-->
+				<attribute key="userrectdown" value="13"></attribute>
+				<attribute key="userrectdown_border" value="2"/>
+			</attributes>
+			
+		</item>
+		
+		<!--构选框控件-->
+		<item type="com.cell.gui.CheckBox" 
+			id = "2" 
+			text = "钩选框" 
+			x="10" y="20" width="100" height="18" 
+			desc="">
+			
+			<properties>
+				<!--是否被钩选，默认true-->
+				<property key="checked" value="true"/>
+				<!--排斥的其他构选框，值为控件id的集合-->
+				<property key="repels" value="1,2,3,4,5,6"/>
+			</properties>
+			
+		</item>
+		
+		<!--下拉框控件-->
+		<item type="com.cell.gui.DropDownSelect" 
+			id = "3" 
+			text = "下拉框" 
+			x="10" y="40" width="200" height="18" 
+			desc="">
+			
+			<properties>
+				<!--下拉选项，无默认，一般需要指定-->
+				<property key="command" value="下拉选项1" desc="desc"/>
+				<property key="command" value="下拉选项2" desc="desc"/>
+				<property key="command" value="下拉选项3" desc="desc"/>
+			</properties>
+			
+		</item>
+		
+		<!--进度条控件-->
+		<item type="com.cell.gui.Guage" 
+			id = "4" 
+			text = "进度条" 
+			x="10" y="60" width="200" height="18" 
+			desc="">
+			
+			<properties>
+				<!--进度条颜色-->
+				<property key="guagecolor" value="ffff0000"/>
+				<property key="guagebackcolor" value="ff000000"/>
+			</properties>
+			
+		</item>
+		
+		<!-- 图片框 -->
+		<item type="com.cell.gui.ImageBox" 
+			id = "5" 
+			text = "" 
+			x="10" y="80" width="200" height="18" 
+			desc="">
+		</item>
+		
+		<!-- 高级文本框，不可编辑 -->
+		<item type="com.cell.gui.RichTextBox" 
+			id = "6" 
+			text = "ignored" 
+			x="210" y="2" width="250" height="90" 
+			desc="">
+			
+			<properties>
+				<!--支持颜色标签的文本-->
+				<property key="textscript" value="
+[color:ff00ff00]文本[color]
+#	此站点暂时不可用或者太忙。请稍后重试。
+#	如果您无法载入任何页面，请检查您计算机的网络连接。
+#	如果您的计算机受到防火墙或代理服务器的保护，请确认 [color:ff00ff00]Firefox[color]  被授权访问网页。
+"/>
+			</properties>
+			
+		</item>	
+		
+		<!-- 文本框，可编辑 -->
+		<item type="com.cell.gui.TextBox" 
+			id = "7" 
+			text = "文本" 
+			x="210" y="100" width="200" height="90" 
+			desc="">
+			<properties>
+				<!--是否可以被编辑-->
+				<property key="canedit" value="true"></property>
+			</properties>
+		</item>	
+		
+		<!-- 单行文本框，可编辑，一般用于接受用户输入 -->
+		<item type="com.cell.gui.TextBoxSingle" 
+			id = "8" 
+			text = "文本" 
+			x="10" y="100" width="100" height="20" 
+			desc="">
+		</item>	
+		
+		
+	</items>
+	
+	
+	
+	
+	<!-- 定义组合控件 -->
+	<groups>
+		<group type="com.cell.gui.GroupPageSelect" id="g1" x="0" y="300" width="400" height="200">
+			<pages>
+				<page head="page1">
+				
+					<item type="com.cell.gui.LabelBar" 
+						id = "ps0" 
+						text = "页标签栏1" 
+						x="0" y="0" width="100" height="20" 
+						desc="">
+					</item>
+					
+					<item type="com.cell.gui.LabelBar" 
+						id = "ps1" 
+						text = "页标签栏2" 
+						x="0" y="20" width="100" height="20" 
+						desc="">
+					</item>
+					
+				</page>
+				
+				<page head="page 2">
+				
+					<item type="com.cell.gui.Button" 
+						id = "ps2" 
+						text = "按钮1" 
+						x="0" y="0" width="100" height="20" 
+						desc="">
+					</item>
+					
+					<item type="com.cell.gui.Button" 
+						id = "ps3" 
+						text = "按钮2" 
+						x="0" y="20" width="100" height="20" 
+						desc="">
+					</item>
+					
+				</page>
+				
+			</pages>
+		</group>
+	</groups>
+
+	
+
+</form>
