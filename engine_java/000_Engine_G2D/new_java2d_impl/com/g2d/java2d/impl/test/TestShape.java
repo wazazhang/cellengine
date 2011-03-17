@@ -71,7 +71,7 @@ public class TestShape extends Sprite
 				scale_y -= 0.1f;
 			}
 		}	
-		rotate += 0.1f;
+//		rotate += 0.1f;
 	}
 	
 	@Override
@@ -83,6 +83,7 @@ public class TestShape extends Sprite
 //		g.popBlendMode();
 //		g.setColor(Color.GREEN);
 //		g.draw(local_bounds);
+//		System.out.println(g.getClipX() + "," + g.getClipY() + "," + g.getClipWidth() + "," + g.getClipHeight()) ;
 	}
 	
 	public class Copper extends Sprite 

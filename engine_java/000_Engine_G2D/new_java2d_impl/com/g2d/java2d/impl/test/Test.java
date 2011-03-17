@@ -52,8 +52,20 @@ public class Test extends Stage
 
 	@Override
 	public void render(Graphics2D g) {
+		
 		g.setColor(Color.BLACK);
 		g.fill(local_bounds);
+		
+		g.pushClip();
+		g.setClip(32, 32, 64, 64);
+		g.setColor(Color.RED);
+		g.fillRect(32, 32, getWidth() / 2, getHeight() / 2);
+		g.popClip();
+		
+		g.setColor(Color.YELLOW);
+		g.fillRect(16, 16, 16, 16);
+		
+		
 		g.setColor(Color.WHITE);
 		g.drawString("FPS="+getRoot().getFPS() + " childs=" + getChildCount(), 0, 0);
 		
