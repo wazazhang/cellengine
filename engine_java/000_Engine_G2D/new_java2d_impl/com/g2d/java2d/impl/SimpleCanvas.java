@@ -1,4 +1,4 @@
-package com.g2d.java2d;
+package com.g2d.java2d.impl;
 
 import java.awt.Canvas;
 import java.awt.Component;
@@ -8,31 +8,32 @@ import java.awt.Image;
 
 
 import com.g2d.display.Stage;
-import com.g2d.java2d.impl.AwtCanvas;
+import com.g2d.java2d.CommonCanvasAdapter;
 
 
 final public class SimpleCanvas extends Canvas implements Runnable
 {
-	final private AwtCanvas canvas;
+	private static final long serialVersionUID = 1L;
 	
-	private Thread 		task;
-	private boolean 	running = false;
+	final private AwtCanvasAdapter	adapter;
+	private Thread 					task;
+	private boolean 				running = false;
 	
 	public SimpleCanvas(int width, int height)
 	{
 		super.setSize(width, height);
 		
-		this.canvas = new AwtCanvas(this, width, height);
+		this.adapter = new AwtCanvasAdapter(this, width, height);
 	}
 	
 	public SimpleCanvas()
 	{
-		this.canvas = new AwtCanvas(this, getWidth(), getHeight());
+		this.adapter = new AwtCanvasAdapter(this, getWidth(), getHeight());
 	}
 	
 	
-	public AwtCanvas getCanvasAdapter() {
-		return canvas;
+	public AwtCanvasAdapter getCanvasAdapter() {
+		return adapter;
 	}
 	
 	public void run()
@@ -42,13 +43,13 @@ final public class SimpleCanvas extends Canvas implements Runnable
 			{
 				repaint();
 				try {
-					Thread.sleep(canvas.getFrameDelay());
+					Thread.sleep(adapter.getFrameDelay());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		} finally {
-			canvas.setStage(null);
+			adapter.setStage(null);
 		}
 	}
 	
@@ -56,9 +57,9 @@ final public class SimpleCanvas extends Canvas implements Runnable
 	{
 		Graphics2D g = (Graphics2D)dg;
 		
-		canvas.update(g);
+		adapter.update(g);
 
-		Image vm_buffer = canvas.getVMBuffer();
+		Image vm_buffer = adapter.getVMBuffer();
 		
 		if (vm_buffer != null) {
 			g.drawImage(vm_buffer, 0, 0, getWidth(), getHeight(), this);
@@ -68,7 +69,7 @@ final public class SimpleCanvas extends Canvas implements Runnable
 	public void paint(Graphics dg)
 	{
 		Graphics2D g = (Graphics2D)dg;
-		Image vm_buffer = canvas.getVMBuffer();
+		Image vm_buffer = adapter.getVMBuffer();
 		if (vm_buffer != null) {
 			g.drawImage(vm_buffer, 0, 0, getWidth(), getHeight(), this);
 		}
@@ -78,8 +79,8 @@ final public class SimpleCanvas extends Canvas implements Runnable
     
    synchronized public void start(int fps, Class<? extends Stage> main_class) {
     	if (task == null) {
-    		canvas.setFPS(fps);
-    		canvas.changeStage(main_class);
+    		adapter.setFPS(fps);
+    		adapter.changeStage(main_class);
     		task = new Thread(this, "paint");
     		running = true;
     		task.start();
@@ -105,7 +106,7 @@ final public class SimpleCanvas extends Canvas implements Runnable
     }
     
     public float getFPS() {
-    	return canvas.getFPS();
+    	return adapter.getFPS();
     }
     
 //	---------------------------------------------------------------------------------------------------------------

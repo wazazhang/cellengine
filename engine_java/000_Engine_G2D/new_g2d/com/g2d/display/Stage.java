@@ -174,9 +174,10 @@ public abstract class Stage extends DisplayObjectContainer
 //		DisplayObject.main_timer ++;
 	}
 	
-	@Override
-	final public void onRender(Graphics2D g)
-	{
+	final public void onRender(Canvas canvas, Graphics2D g)
+	{	
+		g.setFont(canvas.getDefaultFont());
+		
 		g.clip(local_bounds);
 		
 		super.onRender(g);

@@ -33,6 +33,8 @@ import com.g2d.Engine;
 import com.g2d.Font;
 import com.g2d.Graphics2D;
 import com.g2d.Image;
+import com.g2d.java2d.CommonAnimateCursor;
+import com.g2d.java2d.CommonPalette;
 import com.g2d.text.MultiTextLayout;
 import com.g2d.text.TextLayout;
 
@@ -60,7 +62,7 @@ public class AwtEngine extends Engine
 	private GraphicsDevice 						gd;
 	private GraphicsConfiguration				gc;
 //	private java.awt.Graphics2D					gc_buff_g;
-	private HashMap<String, AwtAnimateCursor>	system_cursor;
+	private HashMap<String, CommonAnimateCursor>	system_cursor;
 	
 	public AwtEngine() 
 	{
@@ -104,21 +106,21 @@ public class AwtEngine extends Engine
 		System.out.println("AWT - GraphicsDevice        : " + gd);
 		System.out.println("AWT - GraphicsConfiguration : " + gc);
 		
-		this.system_cursor	= new HashMap<String, AwtAnimateCursor>();
+		this.system_cursor	= new HashMap<String, CommonAnimateCursor>();
 		{
-		system_cursor.put("RESIZE_CURSOR_NW", 	new AwtAnimateCursor((Cursor.NW_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_N", 	new AwtAnimateCursor((Cursor.N_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_NE", 	new AwtAnimateCursor((Cursor.NE_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_NW", 	new CommonAnimateCursor((Cursor.NW_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_N", 	new CommonAnimateCursor((Cursor.N_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_NE", 	new CommonAnimateCursor((Cursor.NE_RESIZE_CURSOR)));
 
-		system_cursor.put("RESIZE_CURSOR_W", 	new AwtAnimateCursor((Cursor.W_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_E", 	new AwtAnimateCursor((Cursor.E_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_W", 	new CommonAnimateCursor((Cursor.W_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_E", 	new CommonAnimateCursor((Cursor.E_RESIZE_CURSOR)));
 		
-		system_cursor.put("RESIZE_CURSOR_SW", 	new AwtAnimateCursor((Cursor.SW_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_S", 	new AwtAnimateCursor((Cursor.S_RESIZE_CURSOR)));
-		system_cursor.put("RESIZE_CURSOR_SE", 	new AwtAnimateCursor((Cursor.SE_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_SW", 	new CommonAnimateCursor((Cursor.SW_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_S", 	new CommonAnimateCursor((Cursor.S_RESIZE_CURSOR)));
+		system_cursor.put("RESIZE_CURSOR_SE", 	new CommonAnimateCursor((Cursor.SE_RESIZE_CURSOR)));
 		
-		system_cursor.put("HAND_CURSOR", 		new AwtAnimateCursor((Cursor.HAND_CURSOR)));
-		system_cursor.put("TEXT_CURSOR", 		new AwtAnimateCursor((Cursor.TEXT_CURSOR)));
+		system_cursor.put("HAND_CURSOR", 		new CommonAnimateCursor((Cursor.HAND_CURSOR)));
+		system_cursor.put("TEXT_CURSOR", 		new CommonAnimateCursor((Cursor.TEXT_CURSOR)));
 		}
 		instance 			= this;
 	}
@@ -154,7 +156,7 @@ public class AwtEngine extends Engine
 					new Point(spot_x, spot_y), 
 					"g2d_" + name + "_" + i);
 		}
-		AwtAnimateCursor ret = new AwtAnimateCursor(cursors);
+		CommonAnimateCursor ret = new CommonAnimateCursor(cursors);
 		system_cursor.put(name, ret);
 		return ret;
 	}
@@ -169,12 +171,12 @@ public class AwtEngine extends Engine
 	
 	@Override
 	public IPalette createPalette(InputStream is) throws IOException{
-		return new AwtPalette(is);
+		return new CommonPalette(is);
 	}
 	
 	@Override
 	public IPalette createPalette(byte[] data, short colorCount, short transparentColorIndex) {
-		return new AwtPalette(data, colorCount, transparentColorIndex);
+		return new CommonPalette(data, colorCount, transparentColorIndex);
 	}
 	
 	public BufferedImage createImage(InputStream is) throws IOException{

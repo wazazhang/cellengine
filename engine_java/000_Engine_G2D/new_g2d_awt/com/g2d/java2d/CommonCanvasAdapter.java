@@ -39,7 +39,7 @@ import com.g2d.display.Stage;
 import com.g2d.display.event.Event;
 import com.g2d.display.event.TextInputer;
 
-public abstract class CanvasAdapter implements 
+public abstract class CommonCanvasAdapter implements 
 com.g2d.Canvas,
 KeyListener, 
 MouseListener, 
@@ -58,7 +58,6 @@ FocusListener
 	private Object[]					nextStageArgs;
 	private Stage						nextStage;
 	
-
 	transient private long 				prewUpdateTime			= 0;
 	private int 						framedelay				= 30;
 	private int							framedelay_unactive 	= 1000;
@@ -94,11 +93,15 @@ FocusListener
 	private HashMap<Integer, MouseWheelEvent> 	mousewheel_query	= new HashMap<Integer, MouseWheelEvent>();
 
 	private final int[] KEYCODES_4_TEMP = new int[]{};
-	
+
+	private com.g2d.Font				defaultFont;
+	private AnimateCursor				defaultCursor;
+	private AnimateCursor				nextCursor;
+
 //	--------------------------------------------------------------------------------------------------------------------------
 //	construction
 	
-	public CanvasAdapter(
+	public CommonCanvasAdapter(
 			Component comp, 
 			int stage_width, 
 			int stage_height)
@@ -132,6 +135,18 @@ FocusListener
 	
 	public boolean isFocusOwner() {
 		return component.isFocusOwner();
+	}
+
+	public void setDefaultCursor(AnimateCursor cursor) {
+		defaultCursor = cursor;
+	}
+	
+	public void setDefaultFont(com.g2d.Font font) {
+		defaultFont = font;
+	}
+
+	public com.g2d.Font getDefaultFont() {
+		return defaultFont;
 	}
 	
 //	--------------------------------------------------------------------------------------------------------------------------
@@ -296,8 +311,22 @@ FocusListener
 			
 			size_rate_x = getMouseSizeRateW(stageWidth);
 			size_rate_y = getMouseSizeRateH(stageHeight);
+
+			nextCursor = null;
 			
 			updateStage(g2d, currentStage);
+			
+			if (currentStage != null) {
+				nextCursor = currentStage.getCursor();
+			}
+			
+			if (nextCursor instanceof CommonAnimateCursor) {
+				getComponent().setCursor(((CommonAnimateCursor)nextCursor).update());
+			} else if (defaultCursor instanceof CommonAnimateCursor) {
+				getComponent().setCursor(((CommonAnimateCursor)defaultCursor).update());
+			} else {
+				getComponent().setCursor(Cursor.getDefaultCursor());
+			}
 			
 			tryChageStage();
 			

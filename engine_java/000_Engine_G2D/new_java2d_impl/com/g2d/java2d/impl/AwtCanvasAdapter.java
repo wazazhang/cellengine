@@ -12,20 +12,18 @@ import java.awt.image.VolatileImage;
 
 import com.g2d.AnimateCursor;
 import com.g2d.display.Stage;
-import com.g2d.java2d.CanvasAdapter;
+import com.g2d.java2d.CommonAnimateCursor;
+import com.g2d.java2d.CommonCanvasAdapter;
 
-public class AwtCanvas extends CanvasAdapter
+public class AwtCanvasAdapter extends CommonCanvasAdapter
 {	
-	private com.g2d.Font			defaultFont;
-	private AnimateCursor			defaultCursor;
-	private AnimateCursor			nextCursor;
 	
 	private VolatileImage			vm_buffer;
 	
 //	--------------------------------------------------------------------------------------------------------------------------
 //	construction
 	
-	public AwtCanvas(Component container, int stage_width, int stage_height)
+	public AwtCanvasAdapter(Component container, int stage_width, int stage_height)
 	{
 		super(container, stage_width, stage_height);
 		if (container.getFont() != null) {
@@ -39,18 +37,6 @@ public class AwtCanvas extends CanvasAdapter
 	
 	public Image getVMBuffer() {
 		return vm_buffer;
-	}
-	
-	public void setDefaultCursor(AnimateCursor cursor) {
-		defaultCursor = cursor;
-	}
-	
-	public void setDefaultFont(com.g2d.Font font) {
-		defaultFont = font;
-	}
-
-	public com.g2d.Font getDefaultFont() {
-		return defaultFont;
 	}
 	
 //	--------------------------------------------------------------------------------
@@ -112,7 +98,7 @@ public class AwtCanvas extends CanvasAdapter
 	@Override
 	protected void updateStage(java.awt.Graphics2D g, Stage currentStage)
 	{
-		GraphicsConfiguration gc = AwtEngine.getEngine().getGC();
+		GraphicsConfiguration gc = g.getDeviceConfiguration();
 		
 		if (vm_buffer == null) {
 			vm_buffer = create_vm_buffer(gc);
@@ -120,41 +106,25 @@ public class AwtCanvas extends CanvasAdapter
 			destory_vm_buffer();
 			vm_buffer = create_vm_buffer(gc);
 		}
-		
-		nextCursor = null;
-		
-		synchronized (this)
+
+		Graphics2D g2d = vm_buffer.createGraphics();
+		try
 		{
-			Graphics2D g2d = vm_buffer.createGraphics();
-			try
+			if (currentStage != null)
 			{
-				if (currentStage!=null)
-				{
-					AwtGraphics2D awt_g = new AwtGraphics2D(g2d);
-					awt_g.setFont(defaultFont);
-					
-					currentStage.onUpdate(this, getStageWidth(), getStageHeight());
-					currentStage.onRender(awt_g);
+				AwtGraphics2D awt_g = new AwtGraphics2D(g2d);
+				
+				currentStage.onUpdate(this, getStageWidth(), getStageHeight());
+				currentStage.onRender(this, awt_g);
 
-					nextCursor = currentStage.getCursor();
-					
-					if (!isFocusOwner()) {
-						currentStage.renderLostFocus(awt_g);
-					}
+				if (!isFocusOwner()) {
+					currentStage.renderLostFocus(awt_g);
 				}
-
-			} finally {
-				g2d.dispose();
 			}
+		} finally {
+			g2d.dispose();
 		}
-		
-		if (nextCursor instanceof AwtAnimateCursor) {
-			getComponent().setCursor(((AwtAnimateCursor)nextCursor).update());
-		} else if (defaultCursor instanceof AwtAnimateCursor) {
-			getComponent().setCursor(((AwtAnimateCursor)defaultCursor).update());
-		} else {
-			getComponent().setCursor(Cursor.getDefaultCursor());
-		}
+	
 	}
 	
 	

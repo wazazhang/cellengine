@@ -1,4 +1,4 @@
-package com.g2d.java2d;
+package com.g2d.java2d.impl;
 
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;

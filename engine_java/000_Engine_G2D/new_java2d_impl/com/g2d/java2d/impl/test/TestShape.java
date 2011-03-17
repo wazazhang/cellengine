@@ -1,3 +1,4 @@
+package com.g2d.java2d.impl.test;
 import com.cell.CUtil;
 import com.g2d.BufferedImage;
 import com.g2d.Color;
@@ -11,9 +12,8 @@ import com.g2d.display.event.MouseEvent;
 
 public class TestShape extends Sprite
 {
-	static BufferedImage image = Tools.readImage("/image.png");
-
-	static BufferedImage cp 	= Tools.readImage("/copper.png");
+	static BufferedImage image	= Tools.readImage("/com/g2d/java2d/impl/test/image.png");
+	static BufferedImage cp		= Tools.readImage("/com/g2d/java2d/impl/test/copper.png");
 	
 	double offset_x;
 	double offset_y;

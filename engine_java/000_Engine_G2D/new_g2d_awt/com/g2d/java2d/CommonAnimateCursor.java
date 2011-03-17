@@ -1,24 +1,24 @@
-package com.g2d.java2d.impl;
+package com.g2d.java2d;
 
 import java.awt.Cursor;
 
 import com.g2d.AnimateCursor;
 
-public class AwtAnimateCursor implements AnimateCursor
+public class CommonAnimateCursor implements AnimateCursor
 {
 	private Cursor[] 	list;
 	private int 		index;
 	
-	public AwtAnimateCursor(Cursor[] list) {
+	public CommonAnimateCursor(Cursor[] list) {
 		this.list = list;
 		this.index = 0;
 	}
 	
-	public AwtAnimateCursor(Cursor cursor) {
+	public CommonAnimateCursor(Cursor cursor) {
 		this(new Cursor[]{cursor});
 	}
 	
-	public AwtAnimateCursor(int type) {
+	public CommonAnimateCursor(int type) {
 		this(new Cursor[]{Cursor.getPredefinedCursor(type)});
 	}
 	

@@ -1,4 +1,4 @@
-package com.g2d.java2d.impl;
+package com.g2d.java2d;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import com.cell.CIO;
 import com.cell.gfx.IPalette;
 
 
-public class AwtPalette implements IPalette 
+public class CommonPalette implements IPalette 
 {
 	private byte[] data_;
 	
@@ -18,12 +18,12 @@ public class AwtPalette implements IPalette
 	private short transparent_color_index_;
 	
 	
-	protected AwtPalette(InputStream is) throws IOException
+	public CommonPalette(InputStream is) throws IOException
 	{
 		loadACT(CIO.readStream(is));
 	}
 	
-	protected AwtPalette(byte[] data, short color_count, short transparent_color_index)
+	public CommonPalette(byte[] data, short color_count, short transparent_color_index)
 	{
 		this.data_ = data;
 		this.color_count_ = color_count;
@@ -32,7 +32,7 @@ public class AwtPalette implements IPalette
 	
 	@Override
 	public IPalette clone() {
-		return new AwtPalette(
+		return new CommonPalette(
 				Arrays.copyOf(this.data_, this.data_.length), 
 				this.color_count_, 
 				this.transparent_color_index_);

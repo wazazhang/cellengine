@@ -1,3 +1,4 @@
+package com.g2d.java2d.impl.test;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
@@ -10,9 +11,9 @@ import com.g2d.Graphics2D;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Stage;
 import com.g2d.display.event.MouseEvent;
-import com.g2d.java2d.SimpleFrame;
 import com.g2d.java2d.SimpleStage;
 import com.g2d.java2d.impl.AwtEngine;
+import com.g2d.java2d.impl.SimpleFrame;
 
 
 public class Test extends Stage
