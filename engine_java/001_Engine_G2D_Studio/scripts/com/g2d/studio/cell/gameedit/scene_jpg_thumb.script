@@ -1,0 +1,20 @@
+// <OUTPUT>     		.\scene_jpg_thumb.conf
+// <IMAGE OUTPUT>		.\
+// <IMAGE TYPE>			jpg
+// <IMAGE TILE>			false
+// <IMAGE GROUP>		true
+// <FORMAT NUMBER ARRAY 1D>    <>$
+// <FORMAT STRING ARRAY 1D>    <>$
+// <FORMAT ARRAY 1D>           <>$
+// <FORMAT ARRAY 2D>           {<>}$
+
+#<RESOURCE>
+#<IMAGES>IMG=<NAME>@<IMAGES INDEX>
+#<END IMAGES>
+#<END RESOURCE>
+
+#<LEVEL>
+#<END LEVEL>
+
+#<COMMAND>
+#<END COMMAND>

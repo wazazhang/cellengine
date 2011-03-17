@@ -1,0 +1,20 @@
+// <OUTPUT>     		.\output\scene_jpg.conf
+// <IMAGE OUTPUT>		.\output\set\
+// <IMAGE TYPE>			jpg
+// <IMAGE TILE>			true
+// <IMAGE GROUP>		false
+// <FORMAT NUMBER ARRAY 1D>    <>$
+// <FORMAT STRING ARRAY 1D>    <>$
+// <FORMAT ARRAY 1D>           <>$
+// <FORMAT ARRAY 2D>           {<>}$
+
+#<RESOURCE>
+#<IMAGES>IMG=<NAME>@<IMAGES INDEX>
+#<END IMAGES>
+#<END RESOURCE>
+
+#<LEVEL>
+#<END LEVEL>
+
+#<COMMAND>
+#<END COMMAND>

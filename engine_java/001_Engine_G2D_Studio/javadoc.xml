@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" additionalparam=" -encoding UTF-8 -charset UTF-8 " author="true" classpath="lib/xstream-1.3.1/lib/xpp3_min-1.1.4c.jar;../000_Engine_Core/bin;../000_Engine_G2D/bin;../000_Engine_GA/lib/luajava-1.1-win32-lua51/luajava-1.1.jar;lib/xstream-1.3.1/lib/xstream-1.3.1.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.g2d.cell.game,com.g2d.display.ui,com.g2d.display.ui.xml,com.g2d.cell,com.ga.physical,com.ga,com.g2d.util,com.g2d.studio.scene,com.g2d.editor,com.ga.entity,com.g2d.studio.actor,com.g2d.studio,com.g2d.display,com.g2d.display.event,com.ga.io,com.g2d.editor.property,com.ga.test,com.g2d.display.ui.layout,com.g2d.display.particle,com.g2d.display.ui.event,com.ga.ai.event,com.g2d.studio.ui,com.ga.ai,com.g2d.annotation,com.ga.entity.event" source="1.5" sourcefiles="../000_Engine_G2D/g2d/com/g2d/Version.java,../000_Engine_G2D/g2d/com/g2d/Tools.java" sourcepath="../000_Engine_G2D/g2d;../000_Engine_GA/src;studio" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
