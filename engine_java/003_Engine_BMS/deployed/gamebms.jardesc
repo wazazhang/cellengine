@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="003_Engine_BMS/deployed/gamebms.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/003_Engine_BMS/deployed/gamebms.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms.game{Main.java[Main" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;skin"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.game.edit"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.nio.anno"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/res"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.util.zip"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms{BMSPlayerListener.java"/>
+        <javaElement handleIdentifier="=000_Engine_Sound/src"/>
+        <javaElement handleIdentifier="=000_Engine_Sound/ogg"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.particle"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms{IDefineSound.java"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.util"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms{IDefineImage.java"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.util.concurrent"/>
+        <file path="/003_Engine_BMS/src/game.properties"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/edit\/skin\/output"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.exception"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.game"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.musicgame"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms{BMSFile.java"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.script.objective"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.nio"/>
+        <javaElement handleIdentifier="=000_Engine_Sound/openal"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.sound"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.gfx"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.net.http"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.util.event"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.io"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.reflect"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms{BMSPlayer.java"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms.game"/>
+        <javaElement handleIdentifier="=000_Engine_Core/j2se"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.game.ai"/>
+        <javaElement handleIdentifier="=000_Engine_G2D/j2se"/>
+        <javaElement handleIdentifier="=000_Engine_G2D/g2d"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.script"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.security"/>
+        <javaElement handleIdentifier="=003_Engine_BMS/src&lt;com.cell.bms{IDefineNote.java"/>
+        <javaElement handleIdentifier="=000_Engine_Core/src&lt;com.cell.math"/>
+    </selectedElements>
+</jardesc>
