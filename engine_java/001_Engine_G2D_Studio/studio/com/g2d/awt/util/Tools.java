@@ -87,7 +87,7 @@ public class Tools
 //	--------------------------------------------------------------------------------
 
 	/**
-	 * {@link CanvasAdapter}.setDefaultFont(Font font)
+	 * {@link CommonCanvasAdapter}.setDefaultFont(Font font)
 	 * @param font
 	 */
 	static void setDefaultFont(Font font)

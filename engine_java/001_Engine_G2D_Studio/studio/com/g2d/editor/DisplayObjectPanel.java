@@ -15,7 +15,7 @@ import com.g2d.Canvas;
 import com.g2d.awt.util.*;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Stage;
-import com.g2d.java2d.SimpleCanvas;
+import com.g2d.java2d.impl.SimpleCanvas;
 
 public class DisplayObjectPanel extends JPanel implements ComponentListener, AncestorListener
 {

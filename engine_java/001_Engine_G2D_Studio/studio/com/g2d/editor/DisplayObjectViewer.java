@@ -11,7 +11,7 @@ import com.g2d.awt.util.AbstractFrame;
 import com.g2d.display.DisplayObject;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Stage;
-import com.g2d.java2d.SimpleCanvas;
+import com.g2d.java2d.impl.SimpleCanvas;
 
 public abstract class DisplayObjectViewer<D extends DisplayObject> extends AbstractFrame
 {
