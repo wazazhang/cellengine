@@ -85,6 +85,8 @@ public interface IImage {
 	 * @param palette
 	 */
 	public void setPalette(IPalette palette);
+	
+	public void dispose();
 }
 
 

@@ -332,5 +332,9 @@ class CImage implements IImage
 		}
 	}
 	
-	
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 }
