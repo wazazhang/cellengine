@@ -15,7 +15,7 @@ import com.g2d.font.GraphicAttribute;
 import com.g2d.font.TextAttribute;
 import com.g2d.geom.Rectangle;
 
-class GLFont implements com.g2d.Font
+public class GLFont implements com.g2d.Font
 {
 	final private java.awt.Font font;
 	

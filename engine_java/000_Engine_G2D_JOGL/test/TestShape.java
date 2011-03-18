@@ -71,13 +71,18 @@ public class TestShape extends Sprite
 				scale_y -= 0.1f;
 			}
 		}	
-		rotate += 0.1f;
+//		rotate += 0.1f;
 	}
 	
 	@Override
 	public void render(Graphics2D g) 
 	{
 //		g.setAlpha(0.75f);
+		g.clipRect(
+				local_bounds.x-100, 
+				local_bounds.y, 
+				local_bounds.width+200,
+				local_bounds.height);
 		
 		g.pushBlendMode();
 		g.setBlendMode(3, 0.75f);
@@ -87,11 +92,7 @@ public class TestShape extends Sprite
 				local_bounds.y, 
 				local_bounds.width+200,
 				local_bounds.height);
-		g.setClip(
-				local_bounds.x-100, 
-				local_bounds.y, 
-				local_bounds.width+200,
-				local_bounds.height);
+		
 		g.drawImage(image, local_bounds.x, local_bounds.y);
 		g.popBlendMode();
 		

@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -63,8 +66,18 @@ public class SimpleCanvas extends GLJPanel
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         try {
-            g.setColor(Color.WHITE);
-        	g.drawString("FPS=" + canvas.getFPS() + " childs=" + canvas.getStage().getChildCount(), 10, 10);
+    		BufferedImage buff = ((Graphics2D)g).getDeviceConfiguration().createCompatibleImage(
+    				200, 200,
+    				Transparency.TRANSLUCENT);
+    
+    		Graphics2D g2d = buff.createGraphics();
+    		try {
+	            g2d.setColor(Color.GREEN);
+	        	g2d.drawString("FPS=" + canvas.getFPS() + " childs=" + canvas.getStage().getChildCount(), 10, 10);
+    		} finally {
+    			g2d.dispose();
+    		}
+        	g.drawImage(buff, 0, 0, null);
         } catch (Exception err) {}
     }
     

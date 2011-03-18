@@ -49,11 +49,14 @@ public class Test extends Stage
 	@Override
 	public void render(Graphics2D g) {
 		
-		g.pushClip();
+//		g.pushClip();
 		g.setClip(32, 32, 200, 200);
 		g.setColor(Color.RED);
 		g.fillRect(32, 32, getWidth() / 2, getHeight() / 2);
-		g.popClip();
+//		g.popClip();
+		
+		g.setColor(Color.BLUE);
+		g.drawRect(32, 32, 200, 200);
 		
 		g.setColor(Color.YELLOW);
 		g.fillRect(16, 16, 16, 16);

@@ -12,6 +12,7 @@ import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
@@ -21,6 +22,7 @@ import com.cell.gfx.IGraphics;
 import com.cell.gfx.IImage;
 import com.cell.gfx.IGraphics.StringAttribute;
 import com.cell.gfx.IGraphics.StringLayer;
+import com.cell.math.TVector;
 import com.g2d.BasicStroke;
 import com.g2d.Color;
 import com.g2d.Composite;
@@ -36,24 +38,24 @@ import com.g2d.geom.Polygon;
 import com.g2d.geom.Rectangle;
 import com.g2d.geom.Rectangle2D;
 
-abstract class GLGraphics2D extends Graphics2D
+public abstract class GLGraphics2D extends Graphics2D
 {
-	final private GL 								gl;
-	final java.awt.Graphics2D						awt_g2d;
+	final private GL 							gl;
+	final java.awt.Graphics2D					awt_g2d;
 	
-	private Color									cur_color;
-	private float[] 								cur_color_4f;
-	private Font									cur_font;
-	private int										cur_font_h;
-	private GLComposite								cur_composite;
-	private java.awt.Rectangle						cur_clip;
+	private Color								cur_color;
+	private float[] 							cur_color_4f;
+	private Font								cur_font;
+	private int									cur_font_h;
+	private GLComposite							cur_composite;
+	private ClipState							cur_clip;
 	
-	private Stack<GLComposite> 						stack_comp 		= new Stack<GLComposite>();
-	private Stack<java.awt.Rectangle> 				stack_clip 		= new Stack<java.awt.Rectangle>();
-	private Stack<java.awt.geom.AffineTransform> 	stack_trans		= new Stack<java.awt.geom.AffineTransform>();
+	private Stack<GLComposite> 					stack_comp 			= new Stack<GLComposite>();
+	private Stack<ClipState> 					stack_clip 			= new Stack<ClipState>();
+	private Stack<float[]> 						stack_clip_trans	= new Stack<float[]>();
 	
-	private Stack<java.awt.Stroke> 					stack_stroke	= new Stack<java.awt.Stroke>();
-	private Stack<java.awt.Paint> 					stack_paint		= new Stack<java.awt.Paint>();
+	private Stack<java.awt.Stroke> 				stack_stroke		= new Stack<java.awt.Stroke>();
+	private Stack<java.awt.Paint> 				stack_paint			= new Stack<java.awt.Paint>();
 
 	GLGraphics2D(GL gl, java.awt.Graphics2D awt_g2d) 
 	{
@@ -70,57 +72,19 @@ abstract class GLGraphics2D extends Graphics2D
 				cur_color.getAlpha(),
 		};
 		
+    	gl.glEnable(GL.GL_BLEND);
+        gl.glDisable(GL.GL_DEPTH_TEST);		
+        
 		setAlpha(1f);
 
-		_clip(awt_g2d.getClipBounds());
-		
-		// test
-		pushTransform();
-		pushClip();
-		{
-			setAlpha(.5f);
-
-			setColor(Color.GREEN);
-			{
-				rotate(.1);
-				translate(20, 20);
-				test_draw(10, 10);
-			}
-			setColor(Color.RED);
-			{
-				translate(20, 20);
-				test_draw(10, 10);
-				test_draw(20, 20);
-			}
-			setColor(Color.YELLOW);
-			{
-				translate(100, 100);
-				scale(2, 2);
-				rotate(.1);
-				test_draw(10, 10);
-//				System.out.println(
-//						getClipX() + "," + getClipY() + "," + 
-//						getClipWidth() + "," + getClipHeight()) ;
-			}
-		}
-		popClip();
-		popTransform();
-	}
-	
-	private void test_draw(int x, int y)
-	{
-		setClip(x, y, 100, 100);
-		drawRect(x, y, 100, 100);
-		fillRect(x + 10, y + 10, 10, 10);
-		
-		fillRect(x - 20, y + 50, 200, 20);
-		fillRect(x + 50, y - 20, 20, 200);
+		this.cur_clip = new ClipState(awt_g2d.getClipBounds());
+		this.cur_clip.clip(gl);
 	}
 	
 	@Override
 	public void dispose()
 	{		
-		gl.glDisable(GL.GL_SCISSOR_TEST);
+//		gl.glDisable(GL.GL_SCISSOR_TEST);
 		gl.glDisable(GL.GL_CLIP_PLANE0);
 		gl.glDisable(GL.GL_CLIP_PLANE1);
 		gl.glDisable(GL.GL_CLIP_PLANE2);
@@ -180,6 +144,50 @@ abstract class GLGraphics2D extends Graphics2D
 	public boolean getFontAntialiasing() {
 		return false;
 	}
+	
+	private static class GLComposite implements Composite
+	{
+		final int 		sfactor;
+		final int 		dfactor;
+		final float 	alpha;
+		
+		public GLComposite(int blend, float alpha) {
+			switch (blend) {
+			// 滤色ALPHA混白
+			case Graphics2D.BLEND_MODE_SCREEN:
+				this.sfactor	= GL.GL_SRC_ALPHA;
+				this.dfactor	= GL.GL_ONE;
+				break;
+			// 是最常使用的。
+			default:
+				this.sfactor	= GL.GL_SRC_ALPHA;
+				this.dfactor	= GL.GL_ONE_MINUS_SRC_ALPHA;
+				break;
+			}
+			this.alpha		= alpha;
+		}
+		
+		public GLComposite(float alpha) {
+			this(Graphics2D.BLEND_MODE_NONE, alpha);
+		}
+		
+//		void changeComposite(GL gl)
+//		{
+//			gl.glBlendFunc(GL.GL_ONE_MINUS_SRC_COLOR, GL.GL_ONE_MINUS_SRC_ALPHA);
+//			gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_SRC_COLOR);
+//			gl.glBlendFunc(GL.GL_ONE, GL.GL_SRC_ALPHA);
+//			gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE); // 滤色ALPHA混白
+//			gl.glBlendFunc(GL.GL_ONE , GL.GL_ZERO ); // 源色将覆盖目标色。
+//			gl.glBlendFunc(GL.GL_ZERO , GL.GL_ONE ); // 目标色将覆盖源色。 
+//			gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); // 是最常使用的。
+//			gl.glBlendFunc(GL.GL_SRC_ALPHA_SATURATE, GL.GL_ONE);
+//			gl.glBlendFunc(sfactor, dfactor);
+//			gl.glColor4f(1f, 1f, 1f, alpha);
+//			gl.glEnable(GL.GL_ALPHA_TEST);
+//			gl.glAlphaFunc(GL.GL_GREATER, 0.5f);
+//		}
+		
+	}
 
 //	-------------------------------------------------------------------------------------------------------------------------
 //	paint
@@ -217,26 +225,26 @@ abstract class GLGraphics2D extends Graphics2D
 //	-------------------------------------------------------------------------------------------------------------------------
 
 	final public int getClipX() {
-		return cur_clip.x;
+		return (int)cur_clip.x1;
 	}
 	final public int getClipY() {
-		return cur_clip.y;
+		return (int)cur_clip.y1;
 	}
 	final public int getClipHeight() {
-		return cur_clip.height;
+		return cur_clip.getHeight();
 	}
 	final public int getClipWidth() {
-		return cur_clip.width;
+		return cur_clip.getWidth();
 	}
 
 	final public void clipRect(int x, int y, int width, int height) {
-		cur_clip = cur_clip.intersection(new java.awt.Rectangle(x, y, width, height));
-		_clip(cur_clip);
+		cur_clip = cur_clip.intersection(x, y, width, height);
+		cur_clip.clip(gl);
 	}
 	
 	final public void setClip(int x, int y, int width, int height) {
-		cur_clip = new java.awt.Rectangle(x, y, width, height);
-		_clip(cur_clip);
+		cur_clip = new ClipState(x, y, width, height);
+		cur_clip.clip(gl);
 	}
 	
 	@Override
@@ -248,36 +256,125 @@ abstract class GLGraphics2D extends Graphics2D
 	public void popClip() {
 		cur_clip = stack_clip.pop();
 		if (cur_clip != null) {
-			_clip(cur_clip);
+			if (cur_clip.d == stack_clip.size()) {
+				cur_clip.clip(gl);
+			}
 		}
 	}
 
 	public boolean hitClip(int x, int y, int width, int height){
 		return awt_g2d.hitClip(x, y, width, height);
 	}
-	
-	private void _clip(java.awt.Rectangle b) 
-	{
-		cur_clip = b;
-		
-		double[] e0 = { -1, 0, 0.0, b.x + b.width};
-		gl.glClipPlane(GL.GL_CLIP_PLANE0, e0, 0);
-		gl.glEnable(GL.GL_CLIP_PLANE0);
-		
-		double[] e1 = {  1, 0, 0.0, -b.x};
-		gl.glClipPlane(GL.GL_CLIP_PLANE1, e1, 0);
-		gl.glEnable(GL.GL_CLIP_PLANE1);
-		
-		double[] e2 = { 0, -1, 0.0, b.y + b.height};
-		gl.glClipPlane(GL.GL_CLIP_PLANE2, e2, 0);
-		gl.glEnable(GL.GL_CLIP_PLANE2);
-		
-		double[] e3 = { 0,  1, 0.0, -b.y};
-		gl.glClipPlane(GL.GL_CLIP_PLANE3, e3, 0);
-		gl.glEnable(GL.GL_CLIP_PLANE3);
 
-//		gl.glScissor(b.x, b.y, b.width, b.height);
+	
+	private class ClipState
+	{
+		float x1, y1, x2, y2;
+//		float tx1, ty1, tx2, ty2;
+
+		final int d = stack_clip.size();
+		
+		public ClipState(java.awt.Rectangle r) {
+			this(r.x, r.y, r.width, r.height);
+		}
+		
+		public ClipState(float x, float y, float width, float height) {
+			this.x1 = x;
+			this.y1 = y;
+			this.x2 = x + width;
+			this.y2 = y + height;
+		}
+		
+		public ClipState intersection(float x, float y, float width, float height) {
+			ClipState dst = new ClipState(x, y, width, height);
+			if (d == dst.d) {
+				dst.x1 = Math.max(this.x1, dst.x1);
+				dst.y1 = Math.max(this.y1, dst.y1);
+				dst.x2 = Math.min(this.x2, dst.x2);
+				dst.y2 = Math.min(this.y2, dst.y2);
+			} else {
+				// 不再同一个层次，还未做处理
+			}
+			return dst;
+		}
+		
+		public int getWidth() {
+			return (int)Math.abs(x2 - x1);
+		}
+		
+		public int getHeight() {
+			return (int)Math.abs(y2 - y1);
+		}
+		
+		private void clip(GL gl) 
+		{
+			// 前3参数为向量，最后参数为距离，这样可以确定由原点到目标的一个切割平面。
+			double[] e0 = { -1, 0, 0.0, x2};
+			gl.glClipPlane(GL.GL_CLIP_PLANE0, e0, 0);
+			gl.glEnable(GL.GL_CLIP_PLANE0);
+			
+			double[] e1 = {  1, 0, 0.0, -x1};
+			gl.glClipPlane(GL.GL_CLIP_PLANE1, e1, 0);
+			gl.glEnable(GL.GL_CLIP_PLANE1);
+			
+			double[] e2 = { 0, -1, 0.0, y2};
+			gl.glClipPlane(GL.GL_CLIP_PLANE2, e2, 0);
+			gl.glEnable(GL.GL_CLIP_PLANE2);
+			
+			double[] e3 = { 0,  1, 0.0, -y1};
+			gl.glClipPlane(GL.GL_CLIP_PLANE3, e3, 0);
+			gl.glEnable(GL.GL_CLIP_PLANE3);
+
+//			gl.glScissor(b.x, b.y, b.width, b.height);
+		}
+		
+//		void translate(double tx, double ty) {
+//			this.tx1 += (float)tx;
+//			this.ty1 += (float)ty;
+//			this.tx2 += (float)tx;
+//			this.ty2 += (float)ty;
+//		}
+//		void scale(double sx, double sy) {
+//			this.tx1 *= (float)sx;
+//			this.ty1 *= (float)sy;
+//			this.tx2 *= (float)sx;
+//			this.ty2 *= (float)sy;
+//		}
+//		void rotate(double theta)
+//		{
+//			float cos_v = (float)Math.cos(theta);
+//			float sin_v = (float)Math.sin(theta);
+//			this.tx1 = (tx1) * cos_v - (ty1) * sin_v;
+//			this.ty1 = (ty1) * cos_v + (tx1) * sin_v; 
+//			this.tx2 = (tx2) * cos_v - (ty2) * sin_v;
+//			this.ty2 = (ty2) * cos_v + (tx2) * sin_v; 
+//		}
+//		void rotate(double theta, double dx, double dy) 
+//		{
+//			float cos_v = (float)Math.cos(theta);
+//			float sin_v = (float)Math.sin(theta);
+//			this.tx1 = (float)(dx + (tx1 - dx) * cos_v - (ty1 - dy) * sin_v);
+//			this.ty1 = (float)(dy + (ty1 - dy) * cos_v + (tx1 - dx) * sin_v); 
+//			this.tx2 = (float)(dx + (tx2 - dx) * cos_v - (ty2 - dy) * sin_v);
+//			this.ty2 = (float)(dy + (ty2 - dy) * cos_v + (tx2 - dx) * sin_v); 
+//		}
+//		
+//		void shear(double shx, double shy) {
+//		
+//		}
+//		
+//		float[] to_trans() {
+//			return new float[]{tx1, ty1, tx2, ty2};
+//		}
+//		void from_trans(float[] trans) {
+//			this.tx1 = trans[0];
+//			this.ty1 = trans[1];
+//			this.tx2 = trans[2];
+//			this.ty2 = trans[3];
+//		}
 	}
+	
+	
 
 
 //	-------------------------------------------------------------------------------------------------------------------------
@@ -300,7 +397,6 @@ abstract class GLGraphics2D extends Graphics2D
 		gl.glScaled(sx, sy, 1);
 	}
 	public void shear(double shx, double shy) {
-	
 	}
 	
 	@Override
@@ -584,7 +680,7 @@ abstract class GLGraphics2D extends Graphics2D
 //	2 impl
 //	-------------------------------------------------------------------------------------------------------------------------
 
-	static class GLGraphicsPBuffer extends GLGraphics2D
+	static public class GLGraphicsPBuffer extends GLGraphics2D
 	{
 		public GLGraphicsPBuffer(GL gl, java.awt.Graphics2D g2d) {
 			super(gl, g2d);
@@ -596,7 +692,7 @@ abstract class GLGraphics2D extends Graphics2D
 		}
 	}
 	
-	static class GLGraphicsScreen extends GLGraphics2D
+	static public class GLGraphicsScreen extends GLGraphics2D
 	{
 		public GLGraphicsScreen(GL gl, java.awt.Graphics2D g2d) {
 			super(gl, g2d);

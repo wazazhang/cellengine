@@ -14,6 +14,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
 import com.g2d.AnimateCursor;
+import com.g2d.Color;
 import com.g2d.Font;
 import com.g2d.display.Stage;
 import com.g2d.java2d.CommonAnimateCursor;
@@ -68,11 +69,9 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 //		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE); // 滤色ALPHA混白
 //		gl.glBlendFunc(GL.GL_ONE , GL.GL_ZERO ); // 源色将覆盖目标色。
 //		gl.glBlendFunc(GL.GL_ZERO , GL.GL_ONE ); // 目标色将覆盖源色。 
-		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); // 是最常使用的。
+//		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); // 是最常使用的。
 //		gl.glBlendFunc(GL.GL_SRC_ALPHA_SATURATE, GL.GL_ONE);
 
-    	gl.glEnable(GL.GL_BLEND);
-        gl.glDisable(GL.GL_DEPTH_TEST);			
 //		gl.glDepthMask(false); 
         
 		update((Graphics2D)getComponent().getGraphics());
@@ -140,6 +139,53 @@ public class GLCanvasAdapter extends com.g2d.java2d.CommonCanvasAdapter implemen
 		}
 	}
 	
+	
+	private void test(GLGraphics2D gl_g2d)
+	{
+		gl_g2d.setClip(10, 10, 100, 100);
+		// test
+		gl_g2d.pushTransform();
+		gl_g2d.pushClip();
+		{
+			gl_g2d.setAlpha(.5f);
+	
+			gl_g2d.setColor(Color.GREEN);
+			{
+				
+				gl_g2d.rotate(.1);
+				gl_g2d.translate(20, 20);
+				
+				test_draw(gl_g2d, 10, 10);
+			}
+			gl_g2d.setColor(Color.RED);
+			{
+				gl_g2d.translate(20, 20);
+				test_draw(gl_g2d, 10, 10);
+				test_draw(gl_g2d, 20, 20);
+			}
+			gl_g2d.setColor(Color.YELLOW);
+			{
+				gl_g2d.translate(100, 100);
+				gl_g2d.scale(2, 2);
+				gl_g2d.rotate(.1);
+				test_draw(gl_g2d, 10, 10);
+//				System.out.println(
+//						getClipX() + "," + getClipY() + "," + 
+//						getClipWidth() + "," + getClipHeight()) ;
+			}
+		}
+		gl_g2d.popClip();
+		gl_g2d.popTransform();
+	}
+
+	private void test_draw(GLGraphics2D gl_g2d, int x, int y)
+	{
+		gl_g2d.drawRect(x, y, 100, 100);
+		gl_g2d.fillRect(x + 10, y + 10, 10, 10);
+		
+		gl_g2d.fillRect(x - 20, y + 50, 200, 20);
+		gl_g2d.fillRect(x + 50, y - 20, 20, 200);
+	}
 	
 }
 
