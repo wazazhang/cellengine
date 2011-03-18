@@ -86,13 +86,12 @@ public class MathVector
 	 * @param v
 	 * @param degree 弧度
 	 */
-	public static void rotate(Vector v, double degree){
-		double x = (v.getVectorX())
-				* Math.cos(degree) - (v.getVectorY())
-				* Math.sin(degree);
-		double y = (v.getVectorY())
-				* Math.cos(degree) + (v.getVectorX())
-				* Math.sin(degree); 
+	public static void rotate(Vector v, double degree)
+	{
+		double cos_v = Math.cos(degree);
+		double sin_v = Math.sin(degree);
+		double x = (v.getVectorX()) * cos_v - (v.getVectorY()) * sin_v;
+		double y = (v.getVectorY()) * cos_v + (v.getVectorX()) * sin_v; 
 		v.setVectorX(x);
 		v.setVectorY(y);
 	}
@@ -103,13 +102,14 @@ public class MathVector
 	 * @param p0
 	 * @param degree 弧度
 	 */
-	public static void rotate(Vector v, Vector p0, double degree) {
-		double x = p0.getVectorX() + (v.getVectorX() - p0.getVectorX())
-				* Math.cos(degree) - (v.getVectorY() - p0.getVectorY())
-				* Math.sin(degree);
-		double y = p0.getVectorY() + (v.getVectorY() - p0.getVectorY())
-				* Math.cos(degree) + (v.getVectorX() - p0.getVectorX())
-				* Math.sin(degree); 
+	public static void rotate(Vector v, Vector p0, double degree)
+	{
+		double dx = v.getVectorX() - p0.getVectorX();
+		double dy = v.getVectorY() - p0.getVectorY();
+		double cos_v = Math.cos(degree);
+		double sin_v = Math.sin(degree);
+		double x = p0.getVectorX() + dx * cos_v - dy * sin_v;
+		double y = p0.getVectorY() + dy * cos_v + dx * sin_v;
 		v.setVectorX(x);
 		v.setVectorY(y);
 	}
@@ -120,13 +120,13 @@ public class MathVector
 	 * @param p0
 	 * @param degree 弧度
 	 */
-	public static void rotate(Vector v, double dx, double dy, double degree) {
-		double x = dx + (v.getVectorX() - dx)
-				* Math.cos(degree) - (v.getVectorY() - dy)
-				* Math.sin(degree);
-		double y = dy + (v.getVectorY() - dy)
-				* Math.cos(degree) + (v.getVectorX() - dx)
-				* Math.sin(degree); 
+	public static void rotate(Vector v, double px, double py, double degree) {
+		double dx = v.getVectorX() - px;
+		double dy = v.getVectorY() - py;
+		double cos_v = Math.cos(degree);
+		double sin_v = Math.sin(degree);
+		double x = px + dx * cos_v - dy * sin_v;
+		double y = py + dy * cos_v + dx * sin_v;
 		v.setVectorX(x);
 		v.setVectorY(y);
 	}
