@@ -76,9 +76,11 @@ public abstract class GLGraphics2D extends Graphics2D
         gl.glDisable(GL.GL_DEPTH_TEST);		
         
 		setAlpha(1f);
-
-		this.cur_clip = new ClipState(awt_g2d.getClipBounds());
-		this.cur_clip.clip(gl);
+		
+		if (awt_g2d.getClipBounds() != null) {
+			this.cur_clip = new ClipState(awt_g2d.getClipBounds());
+			this.cur_clip.clip(gl);
+		}
 	}
 	
 	@Override

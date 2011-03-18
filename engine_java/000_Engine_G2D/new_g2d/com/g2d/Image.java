@@ -23,4 +23,6 @@ public interface Image extends IImage
 	public int[] 			getRGB(int startX, int startY, int w, int h, int[] rgbArray, int offset, int scansize);
 	
 	public BufferedImage	getScaledInstance(int w, int h);
+	
+	public void				dispose();
 }

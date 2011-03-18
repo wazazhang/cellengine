@@ -24,7 +24,6 @@ public class GLImage implements com.g2d.BufferedImage
 	/* OpenGL name for the sprite texture */
 	final private GL		gl;
 	private int[] 			gl_texture;
-	private ByteBuffer 		gl_pixels;
 	private int				w, h;
 	
 	GLImage(GL gl, Image src) 
@@ -70,8 +69,8 @@ public class GLImage implements com.g2d.BufferedImage
 	{
 		this.w = w;
 		this.h = h;
-		
-		this.gl_pixels = ByteBuffer.wrap(rgba);
+
+		ByteBuffer gl_pixels = ByteBuffer.wrap(rgba);
 		
 		this.gl_texture = new int[1];
 		
@@ -79,11 +78,11 @@ public class GLImage implements com.g2d.BufferedImage
 		
 		gl.glBindTexture(GL.GL_TEXTURE_2D, gl_texture[0]);
 		
+		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, w, h, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, gl_pixels);
+
 		gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);	// 线形滤波
 		gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);	// 线形滤波
 
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, w, h, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, gl_pixels);
-		
 	}
 	
 	void draw(GL gl, float dx, float dy, float dw, float dh, float sx, float sy, float sw, float sh, float blend_alpha)
@@ -108,23 +107,18 @@ public class GLImage implements com.g2d.BufferedImage
 		gl.glTranslatef(-dx, -dy, 0);
 	}
 	
-	public void despose() 
+	public void dispose() 
 	{
 		if (gl_texture != null) {
-			gl.glDeleteTextures(1, gl_texture, 0);
+//			System.out.println("glDeleteTextures : " + gl_texture[0]);
+			GLDisposePool.glDeleteTextures(gl, gl_texture);
 			gl_texture = null;
 		}
 	}
 	
 	@Override
 	protected void finalize() throws Throwable {
-		try {
-			if (m_image != null) {
-				m_image.flush();
-			}
-		} finally {
-			despose();
-		}
+		dispose();
 	}
 
 	public BufferedImage getSrc() {

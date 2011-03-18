@@ -131,10 +131,14 @@ public class AwtImage implements com.g2d.BufferedImage
 		IImage ret = subImage(0, 0, getWidth(), getHeight());
 		return ret;
 	}
-	
 	public BufferedImage getSrc() 
 	{
 		return m_image;
+	}
+
+	@Override
+	public void dispose() {
+		
 	}
 	
 	public IImage createBuffer(int width, int height) 

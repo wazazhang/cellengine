@@ -6,15 +6,16 @@ import com.g2d.Engine;
 import com.g2d.Graphics2D;
 import com.g2d.Tools;
 import com.g2d.display.DisplayObject;
+import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Sprite;
 import com.g2d.display.event.MouseEvent;
 
 
 public class TestShape extends Sprite
 {
-	static BufferedImage image	= Tools.readImage("/image.png");
+	BufferedImage image	= Tools.readImage("/image.png");
 
-	static BufferedImage cp 	= Tools.readImage("/copper.png");
+	BufferedImage cp 	= Tools.readImage("/copper.png");
 	
 	double offset_x;
 	double offset_y;
@@ -39,6 +40,13 @@ public class TestShape extends Sprite
 		addChild(new Copper( 0, 100));
 		
 		
+	}
+	
+	@Override
+	public void removed(DisplayObjectContainer parent) {
+		super.removed(parent);
+//		this.image.dispose();
+//		this.cp.dispose();
 	}
 	
 	@Override
