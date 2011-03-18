@@ -8,6 +8,7 @@ import java.awt.color.ColorSpace;
 
 import javax.imageio.ImageIO;
 import javax.media.opengl.*;
+import javax.media.opengl.glu.GLU;
 
 import com.cell.CIO;
 import com.cell.gfx.IGraphics;
@@ -36,9 +37,9 @@ public class GLImage implements com.g2d.BufferedImage
 	{
 		this.gl = gl;
 		this.m_image = GLEngine.createRaster(w, h);
-		DataBufferByte imgBuf = (DataBufferByte) m_image.getRaster().getDataBuffer();
-		byte[] rgba = imgBuf.getData();
-		init(rgba, m_image.getWidth(), m_image.getHeight());
+		DataBuffer imgBuf = m_image.getRaster().getDataBuffer();
+//		byte[] rgba = imgBuf.getData();
+		init(imgBuf, m_image.getWidth(), m_image.getHeight());
 	}
 	
 	BufferedImage createBuffer(Image src)
@@ -57,20 +58,18 @@ public class GLImage implements com.g2d.BufferedImage
 		g.drawImage(src, null, null);
 		g.dispose();
 		
-		DataBufferByte imgBuf = (DataBufferByte) m_image.getRaster().getDataBuffer();
-		byte[] rgba = imgBuf.getData();
+		DataBuffer imgBuf =  m_image.getRaster().getDataBuffer();
+//		byte[] rgba = imgBuf.getData();
 		
-		init(rgba, m_image.getWidth(), m_image.getHeight());
+		init(imgBuf, m_image.getWidth(), m_image.getHeight());
 		
 		return m_image;
 	}
 	
-	void init(byte[] rgba, int w, int h)
+	void init(DataBuffer rgba, int w, int h)
 	{
 		this.w = w;
 		this.h = h;
-
-		ByteBuffer gl_pixels = ByteBuffer.wrap(rgba);
 		
 		this.gl_texture = new int[1];
 		
@@ -78,10 +77,50 @@ public class GLImage implements com.g2d.BufferedImage
 		
 		gl.glBindTexture(GL.GL_TEXTURE_2D, gl_texture[0]);
 		
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, w, h, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, gl_pixels);
 
-		gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);	// 线形滤波
-		gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);	// 线形滤波
+		if (rgba instanceof DataBufferByte) 
+		{
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );	// 线形滤波
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR );	// 线形滤波
+
+			byte[] pixels = ((DataBufferByte)rgba).getData();
+			Buffer gl_pixels = ByteBuffer.wrap(pixels);
+//			gl.glTexImage2D(
+//					GL.GL_TEXTURE_2D, 0, 
+//					GL.GL_RGBA, w, h, 0,
+//					GL.GL_RGBA, 
+//					GL.GL_UNSIGNED_BYTE, 
+//					gl_pixels);
+			new GLU().gluBuild2DMipmaps(
+					GL.GL_TEXTURE_2D,
+					GL.GL_RGBA, w, h, 
+					GL.GL_RGBA,
+					GL.GL_UNSIGNED_BYTE, 
+					gl_pixels);
+		} 
+		else if (rgba instanceof DataBufferInt) 
+		{
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );	// 线形滤波
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR );	// 线形滤波
+
+			int[] pixels = ((DataBufferInt)rgba).getData();
+			Buffer gl_pixels = IntBuffer.wrap(pixels);
+//			gl.glTexImage2D(
+//					GL.GL_TEXTURE_2D, 0, 
+//					GL.GL_RGBA, w, h, 0, 
+//					GL.GL_RGBA, 
+//					GL.GL_UNSIGNED_INT_8_8_8_8, 
+//					gl_pixels);
+			new GLU().gluBuild2DMipmaps(
+					GL.GL_TEXTURE_2D,
+					GL.GL_RGBA, w, h, 
+					GL.GL_RGBA,
+					GL.GL_UNSIGNED_INT_8_8_8_8, 
+					gl_pixels);
+		} else {
+			
+		}
+		
 
 	}
 	

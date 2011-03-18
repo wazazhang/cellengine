@@ -233,10 +233,12 @@ public class GLEngine extends Engine
 	
 	static java.awt.image.BufferedImage createRaster(int w, int h)
 	{
-		java.awt.image.WritableRaster raster = java.awt.image.Raster.createInterleavedRaster(
+		java.awt.image.WritableRaster raster = 
+			java.awt.image.Raster.createInterleavedRaster(
 				DataBuffer.TYPE_BYTE, w, h, 4, null);
 		
-		java.awt.image.ComponentColorModel colorModel = new java.awt.image.ComponentColorModel(
+		java.awt.image.ComponentColorModel colorModel = 
+			new java.awt.image.ComponentColorModel(
 				ColorSpace.getInstance(ColorSpace.CS_sRGB), 
 				new int[] { 8, 8, 8, 8 }, 
 				true, false, 
@@ -245,6 +247,9 @@ public class GLEngine extends Engine
 		
 		return new java.awt.image.BufferedImage(
 				colorModel, raster, false, null);
+		
+//		return getEngine().awt_gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+		
 	}
 	
 

@@ -79,7 +79,7 @@ public class TestShape extends Sprite
 				scale_y -= 0.1f;
 			}
 		}	
-//		rotate += 0.1f;
+		rotate += 0.1f;
 	}
 	
 	@Override
