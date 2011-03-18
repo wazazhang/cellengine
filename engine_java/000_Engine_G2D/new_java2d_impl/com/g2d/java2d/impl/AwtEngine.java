@@ -155,7 +155,7 @@ public class AwtEngine extends Engine
 			return "Hardware AWT D3D";
 		
 		if (gc instanceof WGLGraphicsConfig)
-			return "Hareware AWT OpenGL";
+			return "Hardware AWT OpenGL";
 
 		if (gc instanceof Win32GraphicsConfig)
 			return "Software";

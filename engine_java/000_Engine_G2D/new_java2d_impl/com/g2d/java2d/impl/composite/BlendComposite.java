@@ -326,28 +326,43 @@ import com.cell.gfx.ColorUtilities;
      */
     public CompositeContext createContext(ColorModel srcColorModel,
                                           ColorModel dstColorModel,
-                                          RenderingHints hints) {
-        if (!checkComponentsOrder(srcColorModel) ||
-                !checkComponentsOrder(dstColorModel)) {
-            throw new RasterFormatException("Incompatible color models");
-        }
+                                          RenderingHints hints) 
+    {
+        if (!checkComponentsOrder(srcColorModel))
+        	throw new RasterFormatException("Incompatible source color models");
         
-        return new BlendingContext(this);
+//        if (!checkComponentsOrder(dstColorModel))
+        if (!(dstColorModel instanceof DirectColorModel))
+            throw new RasterFormatException("Incompatible dest color models");
+        
+        return new BlendingContext(this, srcColorModel, dstColorModel);
     }
 
-    private static final class BlendingContext implements CompositeContext {
+    private static final class BlendingContext implements CompositeContext 
+    {
         private final Blender blender;
         private final BlendComposite composite;
+        
+        private final ColorModel src_color_model_;
+        private final ColorModel dst_color_model_;
 
-        private BlendingContext(BlendComposite composite) {
+
+        private BlendingContext(BlendComposite composite, ColorModel src_color_model, ColorModel dst_color_model) 
+        {
             this.composite = composite;
             this.blender = Blender.getBlenderFor(composite);
+            
+            this.src_color_model_ = src_color_model;
+            this.dst_color_model_ = dst_color_model;
         }
 
-        public void dispose() {
+        public void dispose() 
+        {
         }
 
-        public void compose(Raster src, Raster dstIn, WritableRaster dstOut) {
+        @Override
+        public void compose(Raster src, Raster dstIn, WritableRaster dstOut)
+        {
            	int width = Math.min(src.getWidth(), dstIn.getWidth());
             int height = Math.min(src.getHeight(), dstIn.getHeight());
             
@@ -356,14 +371,23 @@ import com.cell.gfx.ColorUtilities;
             float alpha = composite.getAlpha();
           
             int[] srcPixels = new int[size];
-            int[] dstPixels = new int[size];
+            
+            Object dstPixels;
+            
+            int dst_transfer_type = dst_color_model_.getTransferType();
+            if (dst_transfer_type == DataBuffer.TYPE_USHORT)
+            	dstPixels = new short[size];
+            else if (dst_transfer_type == DataBuffer.TYPE_SHORT)
+            	dstPixels = new short[size];
+            else
+            	dstPixels = new int[size];
 
             src.getDataElements(0, 0, width, height, srcPixels);
             dstIn.getDataElements(0, 0, width, height, dstPixels);
             
             if (s_use_jni_blend_fnc_)
             {
-            	blend_cppImpl(srcPixels, dstPixels, width, height, alpha);
+//            	blend_cppImpl(srcPixels, dstPixels, width, height, alpha);
             }
             else
             {
@@ -371,33 +395,101 @@ import com.cell.gfx.ColorUtilities;
                 int[] srcPixel = new int[4];
                 int[] dstPixel = new int[4];
             	
-//	            for (int y = 0; y < height; y++) {
-//	            	for (int x = 0; x < width; x++) {            		
-//	            		int idx = y*width + x;
-	            for ( int idx=0; idx<size; ++idx ) {
-	            		// pixels are stored as INT_ARGB
-	            		// our arrays are [R, G, B, A]
-	            		int pixel = srcPixels[idx];
-	            		srcPixel[0] = (pixel >> 16) & 0xFF;
-	            		srcPixel[1] = (pixel >>  8) & 0xFF;
-	            		srcPixel[2] = (pixel      ) & 0xFF;
-	            		srcPixel[3] = (pixel >> 24) & 0xFF;
-	
-	            		pixel = dstPixels[idx];
-	            		dstPixel[0] = (pixel >> 16) & 0xFF;
-	            		dstPixel[1] = (pixel >>  8) & 0xFF;
-	            		dstPixel[2] = (pixel      ) & 0xFF;
-	            		dstPixel[3] = (pixel >> 24) & 0xFF;
-	
-	            		blender.blend(srcPixel, dstPixel, result);
-	
-	            		// mixes the result with the opacity
-	            		dstPixels[idx] = ((int) (dstPixel[3] + (result[3] - dstPixel[3]) * alpha) & 0xFF) << 24 |
-	            						((int) (dstPixel[0] + (result[0] - dstPixel[0]) * alpha) & 0xFF) << 16 |
-	            						((int) (dstPixel[1] + (result[1] - dstPixel[1]) * alpha) & 0xFF) <<  8 |
-	            						(int) (dstPixel[2] + (result[2] - dstPixel[2]) * alpha) & 0xFF;
-//	            	}
-	            }
+                if (dst_transfer_type == DataBuffer.TYPE_USHORT) // 如果目标像素类型是RGB565
+                {
+                	short[] dst_pixels = (short [])dstPixels; 
+
+                	for ( int idx=0; idx<size; ++idx ) 
+                	{
+                		// pixels are stored as INT_ARGB
+                		// our arrays are [R, G, B, A]
+                		int pixel = srcPixels[idx];
+                		srcPixel[0] = (pixel >> 16) & 0xFF;
+                		srcPixel[1] = (pixel >>  8) & 0xFF;
+                		srcPixel[2] = (pixel      ) & 0xFF;
+                		srcPixel[3] = (pixel >> 24) & 0xFF;
+
+                		pixel = dst_pixels[idx] & 0xFFFFFFFF;
+                		dstPixel[0] = ((pixel & 0xF800) >> 11) << 3;
+                		dstPixel[1] = ((pixel & 0x07E0) >>  5) << 2;
+                		dstPixel[2] = (pixel &  0x001F) <<  3;
+                		dstPixel[3] = 0;
+
+                		blender.blend(srcPixel, dstPixel, result);
+               		
+                		result[0] = ((int) (dstPixel[0] + (result[0] - dstPixel[0]) * alpha) & 0xFF);
+                		result[1] = ((int) (dstPixel[1] + (result[1] - dstPixel[1]) * alpha) & 0xFF);
+                		result[2] = ((int) (dstPixel[2] + (result[2] - dstPixel[2]) * alpha) & 0xFF);
+                		
+                		// mixes the result with the opacity
+                		dst_pixels[idx] = (short)( ( ((result[0] & 0x00F8) >> 3 << 11) 
+                									| ((result[1] & 0x00FC) >> 2 << 5) 
+                									| ((result[2] & 0x00F8) >> 3)) & 0xFFFF);
+                	}
+                }
+                else if (dst_transfer_type == DataBuffer.TYPE_SHORT) // 如果目标像素类型是RGB555
+                {
+                	short[] dst_pixels = (short [])dstPixels; 
+
+                	for ( int idx=0; idx<size; ++idx ) 
+                	{
+                		// pixels are stored as INT_ARGB
+                		// our arrays are [R, G, B, A]
+                		int pixel = srcPixels[idx];
+                		srcPixel[0] = (pixel >> 16) & 0xFF;
+                		srcPixel[1] = (pixel >>  8) & 0xFF;
+                		srcPixel[2] = (pixel      ) & 0xFF;
+                		srcPixel[3] = (pixel >> 24) & 0xFF;
+
+                		pixel = dst_pixels[idx] & 0xFFFFFFFF;
+                		dstPixel[0] = ((pixel & 0x7C00) >> 10) << 3;
+                		dstPixel[1] = ((pixel & 0x03E0) >>  5) << 3;
+                		dstPixel[2] = (pixel &  0x001F) <<  3;
+                		dstPixel[3] = 0;
+
+                		blender.blend(srcPixel, dstPixel, result);
+               		
+                		result[0] = ((int) (dstPixel[0] + (result[0] - dstPixel[0]) * alpha) & 0xFF);
+                		result[1] = ((int) (dstPixel[1] + (result[1] - dstPixel[1]) * alpha) & 0xFF);
+                		result[2] = ((int) (dstPixel[2] + (result[2] - dstPixel[2]) * alpha) & 0xFF);
+                		
+                		// mixes the result with the opacity
+                		dst_pixels[idx] = (short)( ( ((result[0] & 0x00F8) >> 3 << 10) 
+                									| ((result[1] & 0x00F8) >> 3 << 5)
+                									| ((result[2] & 0x00F8) >> 3)) & 0xFFFF);
+                	}               	
+                }
+                else  // 如果目标像素类型是ARGB8888
+                {
+                	int[] dst_pixels = (int [])dstPixels; 
+	//	            for (int y = 0; y < height; y++) {
+	//	            	for (int x = 0; x < width; x++) {            		
+	//	            		int idx = y*width + x;
+		            for ( int idx=0; idx<size; ++idx ) {
+		            		// pixels are stored as INT_ARGB
+		            		// our arrays are [R, G, B, A]
+		            		int pixel = srcPixels[idx];
+		            		srcPixel[0] = (pixel >> 16) & 0xFF;
+		            		srcPixel[1] = (pixel >>  8) & 0xFF;
+		            		srcPixel[2] = (pixel      ) & 0xFF;
+		            		srcPixel[3] = (pixel >> 24) & 0xFF;
+		
+		            		pixel = dst_pixels[idx];
+		            		dstPixel[0] = (pixel >> 16) & 0xFF;
+		            		dstPixel[1] = (pixel >>  8) & 0xFF;
+		            		dstPixel[2] = (pixel      ) & 0xFF;
+		            		dstPixel[3] = (pixel >> 24) & 0xFF;
+		
+		            		blender.blend(srcPixel, dstPixel, result);
+		
+		            		// mixes the result with the opacity
+		            		dst_pixels[idx] = ((int) (dstPixel[3] + (result[3] - dstPixel[3]) * alpha) & 0xFF) << 24 |
+		            						((int) (dstPixel[0] + (result[0] - dstPixel[0]) * alpha) & 0xFF) << 16 |
+		            						((int) (dstPixel[1] + (result[1] - dstPixel[1]) * alpha) & 0xFF) <<  8 |
+		            						(int) (dstPixel[2] + (result[2] - dstPixel[2]) * alpha) & 0xFF;
+	//	            	}
+		            }
+                }
             }
             
             dstOut.setDataElements(0, 0, width, height, dstPixels);
