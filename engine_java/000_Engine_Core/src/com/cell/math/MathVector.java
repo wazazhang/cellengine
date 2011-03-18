@@ -114,7 +114,22 @@ public class MathVector
 		v.setVectorY(y);
 	}
 	
-	
+	/**
+	 * 向量按照p0点旋转
+	 * @param v
+	 * @param p0
+	 * @param degree 弧度
+	 */
+	public static void rotate(Vector v, double dx, double dy, double degree) {
+		double x = dx + (v.getVectorX() - dx)
+				* Math.cos(degree) - (v.getVectorY() - dy)
+				* Math.sin(degree);
+		double y = dy + (v.getVectorY() - dy)
+				* Math.cos(degree) + (v.getVectorX() - dx)
+				* Math.sin(degree); 
+		v.setVectorX(x);
+		v.setVectorY(y);
+	}
 	/**
 	 * 得到速度和时间产生的距离
 	 * @param speed 速度 (单位距离/秒)
