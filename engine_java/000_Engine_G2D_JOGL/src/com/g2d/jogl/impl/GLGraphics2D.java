@@ -85,9 +85,6 @@ abstract class GLGraphics2D extends Graphics2D
 				rotate(.1);
 				translate(20, 20);
 				test_draw(10, 10);
-	//			System.out.println(
-	//					getClipX() + "," + getClipY() + "," + 
-	//					getClipWidth() + "," + getClipHeight()) ;
 			}
 			setColor(Color.RED);
 			{
@@ -283,63 +280,24 @@ abstract class GLGraphics2D extends Graphics2D
 	}
 
 
-//	private static class ClipState extends java.awt.Rectangle
-//	{
-//		private ClipState(int x, int y, int width, int height) 
-//		{
-//			super(x, y, width, height);
-//		}
-//		
-//		private ClipState(java.awt.geom.Rectangle2D r) 
-//		{
-//			super((int) (r.getX()), (int) (r.getY()), (int) (r.getWidth()), (int) (r.getHeight()));
-//		}
-//		
-//		private void clip(GL gl)
-//		{
-//			double[] e0 = { -1, 0, 0.0, x + width};
-//			gl.glClipPlane(GL.GL_CLIP_PLANE0, e0, 0);
-//			double[] e1 = {  1, 0, 0.0, x};
-//			gl.glClipPlane(GL.GL_CLIP_PLANE1, e1, 0);
-//			double[] e2 = { 0, -1, 0.0, y + height};
-//			gl.glClipPlane(GL.GL_CLIP_PLANE2, e2, 0);
-//			double[] e3 = { 0,  1, 0.0, y};
-//			gl.glClipPlane(GL.GL_CLIP_PLANE3, e3, 0);
-//
-//			gl.glEnable(GL.GL_CLIP_PLANE0);
-//			gl.glEnable(GL.GL_CLIP_PLANE1);
-//			gl.glEnable(GL.GL_CLIP_PLANE2);
-//			gl.glEnable(GL.GL_CLIP_PLANE3);
-//			
-//			
-//		}
-	
-	
-//	}
-
 //	-------------------------------------------------------------------------------------------------------------------------
 //	transform
 //	-------------------------------------------------------------------------------------------------------------------------
 
 	public void translate(int x, int y) {
 		gl.glTranslatef(x, y, 0f);
-//		awt_g2d.translate(x, y);
 	}
 	public void translate(double tx, double ty) {
 		gl.glTranslated(tx, ty, 0d);
-//		awt_g2d.translate(tx, ty);
 	}
 	public void rotate(double theta) {
 		gl.glRotated(Math.toDegrees(theta), 0, 0, 1d);
-//		awt_g2d.rotate(theta);
 	}
 	public void rotate(double theta, double x, double y) {
 		gl.glRotated(Math.toDegrees(theta), x, y, 1d);
-//		awt_g2d.rotate(theta, x, y);
 	}
 	public void scale(double sx, double sy) {
 		gl.glScaled(sx, sy, 1);
-//		awt_g2d.scale(sx, sy);
 	}
 	public void shear(double shx, double shy) {
 	
@@ -348,16 +306,12 @@ abstract class GLGraphics2D extends Graphics2D
 	@Override
 	public void pushTransform() {
 		gl.glPushMatrix();
-//		stack_trans.push(awt_g2d.getTransform());
 	}
 	
 	@Override
 	public void popTransform() {
 		gl.glPopMatrix();
-//		awt_g2d.setTransform(stack_trans.pop());
 	}
-	
-	
 	
 //	-------------------------------------------------------------------------------------------------------------------------
 //	base shape
