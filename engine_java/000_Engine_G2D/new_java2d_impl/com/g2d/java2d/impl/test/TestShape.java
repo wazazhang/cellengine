@@ -26,7 +26,6 @@ public class TestShape extends Sprite
 		
 		offset_x = CUtil.getRandom(-100, 100);
 		offset_y = CUtil.getRandom(-100, 100);
-		clip_local_bounds = false;
 		local_bounds.setBounds(
 				-image.getWidth()/2,
 				-image.getHeight()/2, 
@@ -77,13 +76,28 @@ public class TestShape extends Sprite
 	@Override
 	public void render(Graphics2D g) 
 	{
-//		g.pushBlendMode();
-//		g.setBlendMode(3);
+//		g.setAlpha(0.75f);
+		
+		g.pushBlendMode();
+		g.setBlendMode(3, 0.75f);
+		g.setColor(Color.GRAY);
+		g.fillRect(
+				local_bounds.x-100, 
+				local_bounds.y, 
+				local_bounds.width+200,
+				local_bounds.height);
+		g.clipRect(
+				local_bounds.x-100, 
+				local_bounds.y, 
+				local_bounds.width+200,
+				local_bounds.height);
 		g.drawImage(image, local_bounds.x, local_bounds.y);
-//		g.popBlendMode();
-//		g.setColor(Color.GREEN);
-//		g.draw(local_bounds);
-		System.out.println(g.getClipX() + "," + g.getClipY() + "," + g.getClipWidth() + "," + g.getClipHeight()) ;
+		g.popBlendMode();
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(0, 0, 32, 32);
+		g.setColor(Color.YELLOW);
+		g.draw(local_bounds);
 	}
 	
 	public class Copper extends Sprite 

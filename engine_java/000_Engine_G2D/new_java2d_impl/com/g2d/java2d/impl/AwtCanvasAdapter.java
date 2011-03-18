@@ -99,7 +99,6 @@ public class AwtCanvasAdapter extends CommonCanvasAdapter
 	protected void updateStage(java.awt.Graphics2D g, Stage currentStage)
 	{
 		GraphicsConfiguration gc = g.getDeviceConfiguration();
-		
 		if (vm_buffer == null) {
 			vm_buffer = create_vm_buffer(gc);
 		} else if (vm_buffer.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
@@ -113,6 +112,7 @@ public class AwtCanvasAdapter extends CommonCanvasAdapter
 			if (currentStage != null)
 			{
 				AwtGraphics2D awt_g = new AwtGraphics2D(g2d);
+				awt_g.setClip(0, 0, getStageWidth(), getStageHeight());
 				
 				currentStage.onUpdate(this, getStageWidth(), getStageHeight());
 				currentStage.onRender(this, awt_g);
