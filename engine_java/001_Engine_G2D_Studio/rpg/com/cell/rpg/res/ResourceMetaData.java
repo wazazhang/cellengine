@@ -1,34 +1,15 @@
 package com.cell.rpg.res;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Vector;
-import java.util.concurrent.atomic.AtomicReference;
 
-import com.cell.CIO;
-import com.cell.CObject;
-import com.cell.CUtil;
-import com.cell.gameedit.StreamTiles;
-import com.cell.gfx.IImage;
-import com.cell.gfx.game.CSprite;
-import com.cell.rpg.RPGObject;
-import com.cell.rpg.io.RPGObjectMap;
 import com.cell.rpg.item.ItemProperties;
 import com.cell.rpg.quest.Quest;
 import com.cell.rpg.quest.QuestGroup;
-import com.cell.rpg.quest.ability.QuestAccepter;
-import com.cell.rpg.quest.ability.QuestPublisher;
 import com.cell.rpg.res.ResourceSet.SceneSet;
 import com.cell.rpg.res.ResourceSet.SpriteSet;
 import com.cell.rpg.scene.Scene;
-import com.cell.rpg.scene.SceneUnit;
-import com.cell.rpg.scene.graph.SceneGraph;
 import com.cell.rpg.scene.instance.InstanceZone;
 import com.cell.rpg.template.TAvatar;
 import com.cell.rpg.template.TEffect;
@@ -38,12 +19,6 @@ import com.cell.rpg.template.TShopItem;
 import com.cell.rpg.template.TShopItemList;
 import com.cell.rpg.template.TSkill;
 import com.cell.rpg.template.TUnit;
-import com.cell.sound.ISound;
-import com.cell.util.concurrent.ThreadPoolService;
-import com.g2d.BufferedImage;
-import com.g2d.Tools;
-import com.g2d.cell.CellSetResource;
-import com.g2d.cell.CellSetResourceManager;
 
 
 public class ResourceMetaData implements Serializable
