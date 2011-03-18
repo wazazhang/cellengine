@@ -52,4 +52,9 @@ public abstract class Engine
 
 	abstract public MultiTextLayout		createMultiTextLayout();
 	
+	
+	abstract public String				getGraphicConfigurationName();
+	
 }
+
+

@@ -30,6 +30,7 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.glu.GLU;
 
+
 import com.cell.gfx.IPalette;
 import com.g2d.AnimateCursor;
 import com.g2d.BufferedImage;
@@ -133,6 +134,14 @@ public class GLEngine extends Engine
 	public GraphicsEnvironment		getAwtGE() {return awt_ge;}
 	public GraphicsDevice			getAwtGD() {return awt_gd;}
 	public GraphicsConfiguration	getAwtGC() {return awt_gc;}
+	
+	
+	@Override
+	public String getGraphicConfigurationName()
+	{	
+		return "Hardware OpenGL";
+	}	
+	
 
 	@Override
 	public BufferedImage createImage(InputStream is) throws IOException {
