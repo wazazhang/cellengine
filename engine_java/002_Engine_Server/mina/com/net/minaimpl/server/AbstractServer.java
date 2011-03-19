@@ -123,9 +123,11 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 		this.Acceptor.getSessionConfig().setWriterIdleTime(sessionWriteIdleTimeSeconds);
 		this.Acceptor.setHandler(this);
 		if (keepalive_interval_sec > 0) {
-		this.keep_alive = new KeepAlive(keepalive_interval_sec,
-				Math.min(sessionReadIdleTimeSeconds, sessionWriteIdleTimeSeconds));
-		this.Acceptor.getFilterChain().addLast("keep-alive", keep_alive); //心跳  
+			this.keep_alive = new KeepAlive(
+					Codec, 
+					keepalive_interval_sec,
+					Math.min(sessionReadIdleTimeSeconds, sessionWriteIdleTimeSeconds));
+			this.Acceptor.getFilterChain().addLast("keep-alive", keep_alive); //心跳  
 		}
 		this.Acceptor.getFilterChain().addLast("codec", 
 				new ProtocolCodecFilter(Codec));

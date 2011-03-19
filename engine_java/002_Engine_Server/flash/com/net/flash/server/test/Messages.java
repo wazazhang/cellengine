@@ -37,6 +37,32 @@ public class Messages
 		public double[] 	a_d6;
 	}
 	
+	public static class Echo2Request extends FlashMessage
+	{
+		public String message;		
+		public Echo2Request(String message) {
+			this.message = message;
+		}
+		public Echo2Request() {}
+		@Override
+		public String toString() {
+			return message+"";
+		}
+	}
+	
+	public static class Echo2Response extends FlashMessage
+	{
+		public String message;
+		public Echo2Response(String message) {
+			this.message = message;
+		}
+		public Echo2Response() {}
+		@Override
+		public String toString() {
+			return message+"";
+		}
+	}
+	
 	public static class EchoRequest extends FlashMessage
 	{
 		public String message;

@@ -16,6 +16,14 @@ public class MutualMessageCodecJava implements MutualMessageCodec
 			read_Data((com.net.flash.server.test.Messages.Data)msg, in);
 			return;
 		}
+		if (msg.getClass().equals(com.net.flash.server.test.Messages.Echo2Request.class)) {
+			read_Echo2Request((com.net.flash.server.test.Messages.Echo2Request)msg, in);
+			return;
+		}
+		if (msg.getClass().equals(com.net.flash.server.test.Messages.Echo2Response.class)) {
+			read_Echo2Response((com.net.flash.server.test.Messages.Echo2Response)msg, in);
+			return;
+		}
 		if (msg.getClass().equals(com.net.flash.server.test.Messages.EchoRequest.class)) {
 			read_EchoRequest((com.net.flash.server.test.Messages.EchoRequest)msg, in);
 			return;
@@ -31,6 +39,14 @@ public class MutualMessageCodecJava implements MutualMessageCodec
 	{
 		if (msg.getClass().equals(com.net.flash.server.test.Messages.Data.class)) {
 			write_Data((com.net.flash.server.test.Messages.Data)msg, out);
+			return;
+		}
+		if (msg.getClass().equals(com.net.flash.server.test.Messages.Echo2Request.class)) {
+			write_Echo2Request((com.net.flash.server.test.Messages.Echo2Request)msg, out);
+			return;
+		}
+		if (msg.getClass().equals(com.net.flash.server.test.Messages.Echo2Response.class)) {
+			write_Echo2Response((com.net.flash.server.test.Messages.Echo2Response)msg, out);
 			return;
 		}
 		if (msg.getClass().equals(com.net.flash.server.test.Messages.EchoRequest.class)) {
@@ -83,6 +99,28 @@ public class MutualMessageCodecJava implements MutualMessageCodec
 		out.writeIntArray(msg.a_d4);
 		out.writeLongArray(msg.a_d5);
 		out.writeDoubleArray(msg.a_d6);
+	}
+
+//	----------------------------------------------------------------------------------------------------
+//	com.net.flash.server.test.Messages.Echo2Request
+//	----------------------------------------------------------------------------------------------------
+	void com_net_flash_server_test_Messages_Echo2Request(){}
+	public void read_Echo2Request(com.net.flash.server.test.Messages.Echo2Request msg, NetDataInput in) throws IOException {
+		msg.message = in.readUTF();
+	}
+	public void write_Echo2Request(com.net.flash.server.test.Messages.Echo2Request msg, NetDataOutput out) throws IOException {
+		out.writeUTF(msg.message);
+	}
+
+//	----------------------------------------------------------------------------------------------------
+//	com.net.flash.server.test.Messages.Echo2Response
+//	----------------------------------------------------------------------------------------------------
+	void com_net_flash_server_test_Messages_Echo2Response(){}
+	public void read_Echo2Response(com.net.flash.server.test.Messages.Echo2Response msg, NetDataInput in) throws IOException {
+		msg.message = in.readUTF();
+	}
+	public void write_Echo2Response(com.net.flash.server.test.Messages.Echo2Response msg, NetDataOutput out) throws IOException {
+		out.writeUTF(msg.message);
 	}
 
 //	----------------------------------------------------------------------------------------------------

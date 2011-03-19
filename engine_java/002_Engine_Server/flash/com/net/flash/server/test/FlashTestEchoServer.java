@@ -46,6 +46,9 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 			if (message instanceof EchoRequest) {
 				session.sendResponse(protocol, new EchoResponse(message.toString()));
 			}
+			else if (message instanceof Echo2Request) {
+				session.sendResponse(protocol, new Echo2Response(message.toString()));
+			}
 		}
 	}
 	

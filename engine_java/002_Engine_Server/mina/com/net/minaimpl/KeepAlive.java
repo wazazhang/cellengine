@@ -16,21 +16,31 @@ public class KeepAlive extends KeepAliveFilter
 {
 	private static Logger log = LoggerFactory.getLogger(KeepAlive.class);
 
+	private MessageHeaderCodec codec;
 	private long SentMessageCount = 0;
 	private long ReceivedMessageCount = 0;
-
-	public KeepAlive(KeepAliveMessageFactory messageFactory, int interval_sec, int timeout_sec) {   
-        super(messageFactory,
-        		IdleStatus.BOTH_IDLE,
-        		new ExceptionHandler(), 
-        		interval_sec, timeout_sec);   
-    }   
+	
+//	public KeepAlive(
+//			MessageHeaderCodec codec,
+//			KeepAliveMessageFactory messageFactory, 
+//			int interval_sec, 
+//			int timeout_sec) {   
+//        super(messageFactory,
+//        		IdleStatus.BOTH_IDLE,
+//        		new ExceptionHandler(), 
+//        		interval_sec, timeout_sec);   
+//        this.codec = codec;
+//    }   
        
-    public KeepAlive(int interval_sec, int timeout_sec) {   
-        super(new KeepAliveMessageFactoryImpl(),
+    public KeepAlive(
+			MessageHeaderCodec codec,
+    		int interval_sec, 
+    		int timeout_sec) {   
+        super(new KeepAliveMessageFactoryImpl(codec.heart_beat_req, codec.heart_beat_rep),
         		IdleStatus.BOTH_IDLE, 
         		new ExceptionHandler(), 
         		interval_sec, timeout_sec);   
+        this.codec = codec;
         this.setForwardEvent(false); //此消息不会继续传递，不会被业务层看见   
     }
 
@@ -75,9 +85,11 @@ public class KeepAlive extends KeepAliveFilter
 	static class KeepAliveMessageFactoryImpl implements KeepAliveMessageFactory {
 		private final IoBuffer KAMSG_REQ;
 		private final IoBuffer KAMSG_REP;
-		public KeepAliveMessageFactoryImpl() {
-			KAMSG_REQ = IoBuffer.wrap(MessageHeaderCodec.heart_beat_req);
-			KAMSG_REP = IoBuffer.wrap(MessageHeaderCodec.heart_beat_rep);
+		public KeepAliveMessageFactoryImpl(int req, int rep) {
+			KAMSG_REQ = IoBuffer.allocate(4);
+			KAMSG_REP = IoBuffer.allocate(4);
+			KAMSG_REQ.putInt(req);
+			KAMSG_REP.putInt(rep);
 		}
 		public Object getRequest(IoSession session) {
 			return KAMSG_REQ.duplicate();

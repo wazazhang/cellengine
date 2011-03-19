@@ -87,9 +87,11 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 		Connector.getSessionConfig().setReaderIdleTime(read_idle_time_sec);
 		Connector.getSessionConfig().setWriterIdleTime(write_idle_time_sec);
 		if (keepalive_interval_sec > 0) {
-		keep_alive = new KeepAlive(keepalive_interval_sec,
-				Math.min(write_idle_time_sec, read_idle_time_sec));
-		Connector.getFilterChain().addLast("keep-alive", keep_alive); //心跳  
+			keep_alive = new KeepAlive(
+					Codec,
+					keepalive_interval_sec,
+					Math.min(write_idle_time_sec, read_idle_time_sec));
+			Connector.getFilterChain().addLast("keep-alive", keep_alive); //心跳  
 		}
 		Connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(Codec));
 		Connector.setHandler(this);

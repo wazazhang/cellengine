@@ -93,7 +93,7 @@ public abstract class ExternalizableFactory implements Comparator<Class<?>>
 				} catch (SecurityException e1) {
 					e1.printStackTrace();
 				} catch (NoSuchMethodException e1) {
-					System.err.println("ExternalizableMessage : " + e1.getMessage());
+					System.err.println("ExternalizableMessage : " + e1.getClass() + " : " + e1.getMessage());
 				}
 				index ++;
 			}
@@ -107,7 +107,7 @@ public abstract class ExternalizableFactory implements Comparator<Class<?>>
 					info += " (Mutual)";
 				}
 				info += " " + e.getValue().getCanonicalName();
-				System.out.println();
+				System.out.println(info);
 			}
 		}
 		return regist_types;

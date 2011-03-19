@@ -90,18 +90,17 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    			if (in.remaining() >= protocol_fixed_size)
 	    			{
 	    				// 判断是否是有效的数据包头
-	    				byte[] head = new byte[protocol_start.length];
-	    				in.get(head);
-	    				if (!Arrays.equals(head, protocol_start)) {
+	    				int head = in.getInt();
+						if (head != protocol_start) {
     						// 心跳包头，重置。
-	    					if (Arrays.equals(head, heart_beat_req)) {
+	    					if (head == heart_beat_req) {
 	    						return true;
 	    					}
-	    					if (Arrays.equals(head, heart_beat_rep)) {
+	    					if (head == heart_beat_rep) {
 	    						return true;
 	    					}
 	    					// 丢弃掉非法字节//返回true代表这次解包已完成,清空状态并准备下一次解包
-							throw new IOException("bad head, drop data : " + CUtil.toHex(head));
+							throw new IOException("bad head, drop data : " + Integer.toString(head, 16));
 	    				}
 	    				
 			            // 生成新的状态
@@ -226,7 +225,7 @@ public class NetPackageCodec extends MessageHeaderCodec
     			{
 	    			// fixed data region
     				{
-		    			buffer.put			(protocol_start);		// 4
+		    			buffer.putInt		(protocol_start);		// 4
 		    			buffer.putInt		(protocol_fixed_size);	// 4
     				}
     				
