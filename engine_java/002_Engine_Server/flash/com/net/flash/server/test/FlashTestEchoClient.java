@@ -55,7 +55,7 @@ public class FlashTestEchoClient extends NetService
 	{
 		if (cmd.startsWith("send")) 
 		{
-			String[] _number = cmd.split("\\s");
+			String[] _number = cmd.split("\\s", 2);
 			if (_number.length == 2) {
 				testSend(_number[1].trim());
 				return;
@@ -68,6 +68,10 @@ public class FlashTestEchoClient extends NetService
 				String host = host_port[1].trim();
 				Integer port = Integer.parseInt(host_port[2].trim());
 				connect(host, port, 10000L);
+				return;
+			}
+			if (host_port.length == 1) {
+				connect("127.0.0.1", 19820, 10000L);
 				return;
 			}
 		}
