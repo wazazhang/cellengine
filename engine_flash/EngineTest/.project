@@ -3,7 +3,6 @@
 	<name>EngineTest</name>
 	<comment></comment>
 	<projects>
-		<project>EngineNet</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

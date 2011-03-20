@@ -5,10 +5,38 @@
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			import com.net.client.test.NetService;
+			
+			import spark.events.TextOperationEvent;
+			
+			var client : NetService = new NetService();
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+			protected function textarea1_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function textinput1_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+		]]>
+	</fx:Script>
+
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<s:Button x="710" y="471" label="send"/>
-	<s:TextArea x="97" y="10" width="679" height="452"/>
-	<s:TextInput x="97" y="470" width="605"/>
+	<s:Button x="710" y="471" label="send" click="button1_clickHandler(event)"/>
+	<s:TextArea x="97" y="10" width="679" height="452" change="textarea1_changeHandler(event)"/>
+	<s:TextInput x="97" y="470" width="605" change="textinput1_changeHandler(event)"/>
 </s:Application>
