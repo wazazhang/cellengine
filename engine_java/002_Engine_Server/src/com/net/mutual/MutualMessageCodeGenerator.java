@@ -22,7 +22,7 @@ public interface MutualMessageCodeGenerator
 	public String genMutualMessageCodec(Map<Integer, Class<?>> regist_types);
 
 	
-	public static class MutualMessageCodeGeneratorJava
+	public static class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerator
 	{
 		String template = CIO.readAllText("com/net/mutual/MutualMessageCodecJava.txt");
 		
@@ -32,7 +32,7 @@ public interface MutualMessageCodeGenerator
 			}
 		}
 		
-		public String genCodec(Map<Integer, Class<?>> regist_types)
+		public String genMutualMessageCodec(Map<Integer, Class<?>> regist_types)
 		{
 			StringBuilder read_external		= new StringBuilder();
 			StringBuilder write_external	= new StringBuilder();
