@@ -11,6 +11,7 @@ import com.net.MessageHeader;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
 import com.net.flash.message.FlashMessage;
+import com.net.flash.message.FlashMessageCodeGenerator;
 import com.net.flash.message.FlashMessageFactory;
 import com.net.mutual.MutualMessageCodeGenerator.MutualMessageCodeGeneratorJava;
 
@@ -24,8 +25,9 @@ public class Messages
 		public short 		d2;
 		public char 		d3;
 		public int	 		d4;
-		public long	 		d5;
-		public double 		d6;
+//		public long	 		d5;
+		public float 		d5;
+//		public double 		d6;
 		
 		public String[]		a_message2;
 		public boolean[]	a_d0;
@@ -33,8 +35,9 @@ public class Messages
 		public short[] 		a_d2;
 		public char[] 		a_d3;
 		public int[]	 	a_d4;
-		public long[]	 	a_d5;
-		public double[] 	a_d6;
+//		public long[]	 	a_d5;
+		public float[]	 	a_d5;
+//		public double[] 	a_d6;
 	}
 	
 	public static class Echo2Request extends FlashMessage
@@ -97,11 +100,18 @@ public class Messages
 	{
 		CAppBridge.init();
 		FlashMessageFactory factory = new FlashMessageFactory(null, Messages.class);
-		MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(
-				CIO.readAllText("/com/net/flash/server/test/MutualMessageCodecJava.txt"));
-		CFile.writeText(new File("./flash/com/net/flash/server/test/MutualMessageCodecJava.java"), 
-				gen_java.genCodec(factory.getRegistTypes())
-		);
+		{
+			MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(
+					CIO.readAllText("/com/net/flash/server/test/MutualMessageCodecJava.txt"));
+			CFile.writeText(new File("./flash/com/net/flash/server/test/MutualMessageCodecJava.java"), 
+					gen_java.genMutualMessageCodec(factory.getRegistTypes())
+			);
+		}{
+			FlashMessageCodeGenerator gen_as = new FlashMessageCodeGenerator();
+			CFile.writeText(new File("./flash/com/net/flash/server/test/MutualMessageCodecAS.as"), 
+					gen_as.genMutualMessageCodec(factory.getRegistTypes())
+			);
+		}
 
 	}
 }

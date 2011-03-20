@@ -1,15 +1,28 @@
-package com.net.flash.server.test;
-
-import java.io.IOException;
-import com.net.mutual.MutualMessage;
-import com.net.mutual.MutualMessageCodec;
-import com.net.NetDataInput;
-import com.net.NetDataOutput;
-
-public class MutualMessageCodecJava implements MutualMessageCodec
+package com.net.client.test
 {
-	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
+	import com.net.client.MessageFactory;
+
+	public class FlashMessageCodec implements MessageFactory
 	{
+		public function FlashMessageCodec()
+		{
+		}
+		
+		/**获得此消息体的类型ID*/
+		public function	getType(message:Message) : int 
+		{
+//getType
+		}
+		
+		/**通过类型ID获得消息体*/
+		public function	createMessage(type : int) : Message
+		{
+//createMessage
+		}
+		
+		/**读取消息*/
+		public function	readExternal(msg : Message,  input : IDataInput) : void  
+		{
 		if (msg.getClass().equals(com.net.flash.server.test.Messages.Data.class)) {
 			read_Data((com.net.flash.server.test.Messages.Data)msg, in);
 			return;
@@ -31,10 +44,11 @@ public class MutualMessageCodecJava implements MutualMessageCodec
 			return;
 		}
 
-	}
-
-	public void writeExternal(MutualMessage msg, NetDataOutput out) throws IOException 
-	{
+		}
+		
+		/**写入消息*/
+		public function	writeExternal(msg : Message, output : IDataOutput) : void  
+		{
 		if (msg.getClass().equals(com.net.flash.server.test.Messages.Data.class)) {
 			write_Data((com.net.flash.server.test.Messages.Data)msg, out);
 			return;
@@ -56,8 +70,8 @@ public class MutualMessageCodecJava implements MutualMessageCodec
 			return;
 		}
 
-	}
-
+		}
+		
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.server.test.Messages.Data
 //	----------------------------------------------------------------------------------------------------
@@ -147,5 +161,8 @@ public class MutualMessageCodecJava implements MutualMessageCodec
 		out.writeExternalArray(msg.datas);
 	}
 
+
+
+	}
 
 }

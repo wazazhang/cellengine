@@ -1,8 +1,8 @@
 package com.net.flash.server.test;
 
 import java.io.IOException;
-import com.net.MutualMessage;
-import com.net.MutualMessageCodec;
+import com.net.mutual.MutualMessage;
+import com.net.mutual.MutualMessageCodec;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
 

@@ -1,0 +1,39 @@
+package com.net.client.test
+{
+	import com.net.client.MessageFactory;
+
+	public class FlashMessageCodec implements MessageFactory
+	{
+		public function FlashMessageCodec()
+		{
+		}
+		
+		/**获得此消息体的类型ID*/
+		public function	getType(message:Message) : int 
+		{
+//getType
+		}
+		
+		/**通过类型ID获得消息体*/
+		public function	createMessage(type : int) : Message
+		{
+//createMessage
+		}
+		
+		/**读取消息*/
+		public function	readExternal(msg : Message,  input : IDataInput) : void  
+		{
+//readExternal
+		}
+		
+		/**写入消息*/
+		public function	writeExternal(msg : Message, output : IDataOutput) : void  
+		{
+//writeExternal
+		}
+		
+//classes
+
+	}
+
+}
