@@ -1,5 +1,6 @@
 package com.net.mutual;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -8,6 +9,7 @@ import java.util.Map.Entry;
 
 import com.cell.CIO;
 import com.cell.CUtil;
+import com.cell.io.CFile;
 import com.cell.reflect.Fields;
 import com.cell.reflect.Parser;
 import com.net.ExternalizableFactory;
@@ -21,7 +23,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 {
 	private String template 		= CIO.readAllText("/com/net/mutual/MutualMessageCodecJava.txt");
 	
-	private String code_package		= "package com.net.mutual;";
+	private String code_package		= "com.net.mutual";
 	private String code_import		= "";
 	private String code_class_name	= "MutualMessageCodecJava";
 	
@@ -56,13 +58,13 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 		this.code_class_name	= code_class_name;
 	}
 	
-	public String genMutualMessageCodec(Map<Integer, Class<?>> regist_types)
+	public String genMutualMessageCodec(ExternalizableFactory factory)
 	{
 		StringBuilder read_external		= new StringBuilder();
 		StringBuilder write_external	= new StringBuilder();
 		StringBuilder classes			= new StringBuilder();
 
-		for (Entry<Integer, Class<?>> e : regist_types.entrySet()) 
+		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			String c_name = e.getValue().getCanonicalName();
 			String s_name = e.getValue().getSimpleName();
@@ -95,7 +97,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 	 * @param msg
 	 * @param sb
 	 */
-	public void genMethod(Class<?> msg, StringBuilder sb)
+	protected void genMethod(Class<?> msg, StringBuilder sb)
 	{
 		String c_name = msg.getCanonicalName();
 		String s_name = msg.getSimpleName();
@@ -129,7 +131,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 	 * @param read
 	 * @param write
 	 */
-	public void genField(Class<?> msg, Field f, StringBuilder read, StringBuilder write)
+	protected void genField(Class<?> msg, Field f, StringBuilder read, StringBuilder write)
 	{
 		Class<?> 	f_type 		= f.getType();
 		String 		f_name 		= "msg." + f.getName();
@@ -232,5 +234,12 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 			write.append("		Unsupported type : " + f_name + " " + f_type.getName() + "\n");
 		}
 	}
-
+	
+	public void genCodeFile(ExternalizableFactory factory, File as_src_root) throws IOException
+	{
+		File output = new File(as_src_root, 
+				CUtil.replaceString(code_package+"." + code_class_name, ".", File.separator)+".java");
+		CFile.writeText(output, genMutualMessageCodec(factory));
+		System.out.println("genCodeFileJava : " + output.getCanonicalPath());
+	}
 }

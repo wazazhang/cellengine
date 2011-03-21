@@ -6,7 +6,8 @@ import com.net.mutual.MutualMessageCodec;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
 
-public class MutualMessageCodecJava implements MutualMessageCodec
+
+public class MessageCodecJava implements MutualMessageCodec
 {
 	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
 	{

@@ -24,6 +24,6 @@ public interface MutualMessageCodeGenerator
 	 * @param regist_types
 	 * @return
 	 */
-	public String genMutualMessageCodec(Map<Integer, Class<?>> regist_types);
+	public String genMutualMessageCodec(ExternalizableFactory factory);
 	
 }

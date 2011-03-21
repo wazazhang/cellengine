@@ -59,6 +59,10 @@ public abstract class ExternalizableFactory implements Comparator<Class<?>>
 		return map_type_id.get(message.getClass());
 	}
 	
+	public int getType(Class<?> msg_type) {
+		return map_type_id.get(msg_type);
+	}
+	
 	public MessageHeader createMessage(int type) throws InstantiationException, IllegalAccessException   {
 		Class<?> ext_type = map_id_type.get(type);
 		return (MessageHeader)ext_type.newInstance();

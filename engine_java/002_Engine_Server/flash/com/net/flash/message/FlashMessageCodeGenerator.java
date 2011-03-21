@@ -1,65 +1,102 @@
 package com.net.flash.message;
 
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import com.cell.CIO;
 import com.cell.CUtil;
+import com.cell.io.CFile;
+import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.mutual.MutualMessageCodeGenerator;
+import com.net.mutual.MutualMessageCodeGeneratorJava;
 
 public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 {
-	final String template ;
-	final String messages ;
+	private String codec_template	= CIO.readAllText("/com/net/flash/message/FlashMessageCodec.txt");
+	private String codec_class_name	= "FlashMessageCodec";
+	private String codec_package	= "com.net.flash.message";
+	private String codec_import		= "";
+	
+	private String message_template	= CIO.readAllText("/com/net/flash/message/FlashMessage.txt");
+	private String message_import	= "";
 	
 	public FlashMessageCodeGenerator() {
-		this(null, null);
+		this(null, null, null, null);
+	}
+	
+	public FlashMessageCodeGenerator(
+			String codec_package,
+			String codec_class_name,
+			String codec_import,
+			String message_import) {
+		this(null, codec_package, codec_class_name, codec_import, null, message_import);
 	}
 
-	public FlashMessageCodeGenerator(String template, String messages) 
+	public FlashMessageCodeGenerator(
+			String codec_template,
+			String codec_package,
+			String codec_class_name,
+			String codec_import,
+			String message_template,
+			String message_import) 
 	{
-		if (template != null) {
-			this.template = template;
-		} else {
-			this.template = CIO.readAllText("/com/net/flash/message/FlashMessageCodec.txt");
+		if (codec_template != null) {
+			this.codec_template = codec_template;
 		}
-		if (messages != null) {
-			this.messages = messages;
-		} else {
-			this.messages = CIO.readAllText("/com/net/flash/message/FlashMessages.txt");
+		if (codec_package != null) {
+			this.codec_package = codec_package;
+		}
+		if (codec_class_name != null) {
+			this.codec_class_name = codec_class_name;
+		}
+		if (codec_import != null) {
+			this.codec_import = codec_import;
+		}
+		if (message_template != null) {
+			this.message_template = message_template;
+		}
+		if (message_import != null) {
+			this.message_import = message_import;
 		}
 	}
 
-	public String genMutualMessageCodec(Map<Integer, Class<?>> regist_types)
+	public String genMutualMessageCodec(ExternalizableFactory factory)
 	{
 		StringBuilder read_external		= new StringBuilder();
 		StringBuilder write_external	= new StringBuilder();
 		StringBuilder classes			= new StringBuilder();
 
-		for (Entry<Integer, Class<?>> e : regist_types.entrySet()) 
+		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			String c_name = e.getValue().getCanonicalName();
 			String s_name = e.getValue().getSimpleName();
 			read_external.append(
 			"		if (msg is " + c_name + ") {\n" +
-			"			read_" + s_name + "((" + c_name + ")msg, in);\n" +
+			"			read_" + s_name + "(" + c_name + "(msg), input);\n" +
 			"			return;\n" +
 			"		}\n");
 			write_external.append(
 			"		if (msg is " + c_name + ") {\n" +
-			"			write_" + s_name + "((" + c_name + ")msg, out);\n" +
+			"			write_" + s_name + "(" + c_name + "(msg), output);\n" +
 			"			return;\n" +
 			"		}\n");
-			genMethod(e.getValue(), classes);
+			genCodecMethod(factory, e.getValue(), classes);
 		}
 		
-		String ret = this.template;
-		ret = CUtil.replaceString(ret, "//readExternal",  read_external.toString());
-		ret = CUtil.replaceString(ret, "//writeExternal", write_external.toString());
-		ret = CUtil.replaceString(ret, "//classes",       classes.toString());
+		String ret = this.codec_template;
+		ret = CUtil.replaceString(ret, "//package", 		codec_package);
+		ret = CUtil.replaceString(ret, "//import", 			codec_import);
+		ret = CUtil.replaceString(ret, "//className", 		codec_class_name);	
+		ret = CUtil.replaceString(ret, "//readExternal",	read_external.toString());
+		ret = CUtil.replaceString(ret, "//writeExternal",	write_external.toString());
+		ret = CUtil.replaceString(ret, "//classes",			classes.toString());
 		return ret;
 	}
 		
@@ -68,7 +105,7 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 	 * @param msg
 	 * @param sb
 	 */
-	public void genMethod(Class<?> msg, StringBuilder sb)
+	protected void genCodecMethod(ExternalizableFactory factory, Class<?> msg, StringBuilder sb)
 	{
 		String c_name = msg.getCanonicalName();
 		String s_name = msg.getSimpleName();
@@ -79,18 +116,18 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		for (Field f : msg.getFields()) {
 			int modifiers = f.getModifiers();
 			if (!Modifier.isStatic(modifiers)) {
-				genField(msg, f, read, write);
+				genCodecField(factory, msg, f, read, write);
 			}
 		}
 		
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	void " + m_name + "(){}\n");
-		sb.append("	public void read_" + s_name + "(" + c_name + " msg, NetDataInput in) throws IOException {\n");
+		sb.append("	function " + m_name + "() : void {}\n");
+		sb.append("	public function read_" + s_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
 		sb.append(read);
 		sb.append("	}\n");
-		sb.append("	public void write_" + s_name + "(" + c_name + " msg, NetDataOutput out) throws IOException {\n");
+		sb.append("	public function write_" + s_name + "(msg : " + c_name + ", output : NetDataOutput) : void {\n");
 		sb.append(write);
 		sb.append("	}\n\n");
 	}
@@ -102,102 +139,102 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 	 * @param read
 	 * @param write
 	 */
-	public void genField(Class<?> msg, Field f, StringBuilder read, StringBuilder write)
+	protected void genCodecField(ExternalizableFactory factory, Class<?> msg, Field f, StringBuilder read, StringBuilder write)
 	{
 		Class<?> 	f_type 		= f.getType();
 		String 		f_name 		= "msg." + f.getName();
 	
 		// boolean -----------------------------------------------
 		if (f_type.equals(boolean.class)) {
-			read.append("		" + f_name + " = in.readBoolean();\n");
-			write.append("		out.writeBoolean(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readBoolean();\n");
+			write.append("		output.writeBoolean(" + f_name + ");\n");
 		}
 		else if (f_type.equals(boolean[].class)) {
-			read.append("		" + f_name + " = in.readBooleanArray();\n");
-			write.append("		out.writeBooleanArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readBooleanArray();\n");
+			write.append("		output.writeBooleanArray(" + f_name + ");\n");
 		}
 		// byte -----------------------------------------------
 		else if (f_type.equals(byte.class)) {
-			read.append("		" + f_name + " = in.readByte();\n");
-			write.append("		out.writeByte(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readByte();\n");
+			write.append("		output.writeByte(" + f_name + ");\n");
 		}
 		else if (f_type.equals(byte[].class)) {
-			read.append("		" + f_name + " = in.readByteArray();\n");
-			write.append("		out.writeByteArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readByteArray();\n");
+			write.append("		output.writeByteArray(" + f_name + ");\n");
 		}
 		// short -----------------------------------------------
 		else if (f_type.equals(short.class)) {
-			read.append("		" + f_name + " = in.readShort();\n");
-			write.append("		out.writeShort(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readShort();\n");
+			write.append("		output.writeShort(" + f_name + ");\n");
 		}
 		else if (f_type.equals(short[].class)) {
-			read.append("		" + f_name + " = in.readShortArray();\n");
-			write.append("		out.writeShortArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readShortArray();\n");
+			write.append("		output.writeShortArray(" + f_name + ");\n");
 		}
 		// char -----------------------------------------------
 		else if (f_type.equals(char.class)) {
-			read.append("		" + f_name + " = in.readChar();\n");
-			write.append("		out.writeChar(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readChar();\n");
+			write.append("		output.writeChar(" + f_name + ");\n");
 		}
 		else if (f_type.equals(char[].class)) {
-			read.append("		" + f_name + " = in.readCharArray();\n");
-			write.append("		out.writeCharArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readCharArray();\n");
+			write.append("		output.writeCharArray(" + f_name + ");\n");
 		}
 		// int -----------------------------------------------
 		else if (f_type.equals(int.class)) {
-			read.append("		" + f_name + " = in.readInt();\n");
-			write.append("		out.writeInt(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readInt();\n");
+			write.append("		output.writeInt(" + f_name + ");\n");
 		}
 		else if (f_type.equals(int[].class)) {
-			read.append("		" + f_name + " = in.readIntArray();\n");
-			write.append("		out.writeIntArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readIntArray();\n");
+			write.append("		output.writeIntArray(" + f_name + ");\n");
 		}
 		// long -----------------------------------------------
-		else if (f_type.equals(long.class)) {
-			read.append("		" + f_name + " = in.readLong();\n");
-			write.append("		out.writeLong(" + f_name + ");\n");
-		}
-		else if (f_type.equals(long[].class)) {
-			read.append("		" + f_name + " = in.readLongArray();\n");
-			write.append("		out.writeLongArray(" + f_name + ");\n");
-		}
+//		else if (f_type.equals(long.class)) {
+//			read.append("		" + f_name + " = input.readLong();\n");
+//			write.append("		output.writeLong(" + f_name + ");\n");
+//		}
+//		else if (f_type.equals(long[].class)) {
+//			read.append("		" + f_name + " = input.readLongArray();\n");
+//			write.append("		output.writeLongArray(" + f_name + ");\n");
+//		}
 		// float -----------------------------------------------
 		else if (f_type.equals(float.class)) {
-			read.append("		" + f_name + " = in.readFloat();\n");
-			write.append("		out.writeFloat(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readFloat();\n");
+			write.append("		output.writeFloat(" + f_name + ");\n");
 		}
 		else if (f_type.equals(float[].class)) {
-			read.append("		" + f_name + " = in.readFloatArray();\n");
-			write.append("		out.writeFloatArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readFloatArray();\n");
+			write.append("		output.writeFloatArray(" + f_name + ");\n");
 		}
 		// double -----------------------------------------------
-		else if (f_type.equals(double.class)) {
-			read.append("		" + f_name + " = in.readDouble();\n");
-			write.append("		out.writeDouble(" + f_name + ");\n");
-		}	
-		else if (f_type.equals(double[].class)) {
-			read.append("		" + f_name + " = in.readDoubleArray();\n");
-			write.append("		out.writeDoubleArray(" + f_name + ");\n");
-		}
+//		else if (f_type.equals(double.class)) {
+//			read.append("		" + f_name + " = input.readDouble();\n");
+//			write.append("		output.writeDouble(" + f_name + ");\n");
+//		}	
+//		else if (f_type.equals(double[].class)) {
+//			read.append("		" + f_name + " = input.readDoubleArray();\n");
+//			write.append("		output.writeDoubleArray(" + f_name + ");\n");
+//		}
 		// String -----------------------------------------------
 		else if (f_type.equals(String.class)) {
-			read.append("		" + f_name + " = in.readUTF();\n");
-			write.append("		out.writeUTF(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readUTF();\n");
+			write.append("		output.writeUTF(" + f_name + ");\n");
 		}	
 		else if (f_type.equals(String[].class)) {
-			read.append("		" + f_name + " = in.readUTFArray();\n");
-			write.append("		out.writeUTFArray(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readUTFArray();\n");
+			write.append("		output.writeUTFArray(" + f_name + ");\n");
 		}	
 		// ExternalizableMessage -----------------------------------------------
 		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
-			read.append("		" + f_name + " = in.readExternal(" + 
-					f_type.getCanonicalName() + ".class);\n");
-			write.append("		out.writeExternal(" + f_name + ");\n");
+			int type = factory.getType(f_type);
+			read.append("		" + f_name + " = input.readExternal(" + type + ") as " + f_type.getCanonicalName() + ";\n");
+			write.append("		output.writeExternal(" + f_name + ");\n");
 		} 
 		else if (f_type.isArray()) {
-			read.append("		" + f_name + " = in.readExternalArray(" + 
-					f_type.getComponentType().getCanonicalName() + ".class);\n");
-			write.append("		out.writeExternalArray(" + f_name + ");\n");
+			int type = factory.getType(f_type.getComponentType());
+			read.append("		" + f_name + " = input.readExternalArray(" + type + ");\n");
+			write.append("		output.writeExternalArray(" + f_name + ");\n");
 		} 
 		// Error -----------------------------------------------
 		else {
@@ -206,4 +243,107 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		}
 	}
 	
+//	------------------------------------------------------------------------------------------------------------------
+	
+	public TreeMap<Class<?>, String> genMutualMessages(ExternalizableFactory factory)
+	{
+		TreeMap<Class<?>, String> ret = new TreeMap<Class<?>, String>(factory);
+		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) {
+			ret.put(e.getValue(), genMsgClass(factory, e.getValue(), e.getKey()));
+		}
+		return ret;
+	}
+	
+	protected String genMsgClass(ExternalizableFactory factory, Class<?> msg, int msg_type) 
+	{
+		String c_name = msg.getCanonicalName();
+		String s_name = msg.getSimpleName();
+		String o_package = c_name.substring(0, c_name.length() - s_name.length() - 1);
+		
+		StringBuilder body = new StringBuilder();
+		for (Field f : msg.getFields()) {
+			int modifiers = f.getModifiers();
+			if (!Modifier.isStatic(modifiers)) {
+				body.append(genMsgField(factory, f) + "\n");
+			}
+		}
+		
+		String ret = this.message_template;
+		ret = CUtil.replaceString(ret, "//package", 		o_package);
+		ret = CUtil.replaceString(ret, "//import", 			message_import);
+		ret = CUtil.replaceString(ret, "//classType", 		msg_type+"");
+		ret = CUtil.replaceString(ret, "//className", 		s_name);
+		ret = CUtil.replaceString(ret, "//classFullName", 	c_name);
+		ret = CUtil.replaceString(ret, "//class",			body.toString());
+		return ret;
+	}
+	
+	
+	protected String genMsgField(ExternalizableFactory factory, Field f) 
+	{
+		Class<?> 	f_type 		= f.getType();
+		String 		f_name 		= f.getName();
+	
+		// boolean -----------------------------------------------
+		if (f_type.equals(boolean.class)) {
+			return "		public var " + f.getName() + " :  Boolean;";
+		}
+		// byte -----------------------------------------------
+		else if (f_type.equals(byte.class)) {
+			return "		public var " + f.getName() + " :  int;";
+		}
+		// short -----------------------------------------------
+		else if (f_type.equals(short.class)) {
+			return "		public var " + f.getName() + " :  int;";
+		}
+		// char -----------------------------------------------
+		else if (f_type.equals(char.class)) {
+			return "		public var " + f.getName() + " :  int;";
+		}
+		// int -----------------------------------------------
+		else if (f_type.equals(int.class)) {
+			return "		public var " + f.getName() + " :  int;";
+		}
+		// long -----------------------------------------------
+//		else if (f_type.equals(long.class)) {
+//		}
+		// float -----------------------------------------------
+		else if (f_type.equals(float.class)) {
+			return "		public var " + f.getName() + " :  Number;";
+		}
+		// double -----------------------------------------------
+//		else if (f_type.equals(double.class)) {
+//		}	
+		// String -----------------------------------------------
+		else if (f_type.equals(String.class)) {
+			return "		public var " + f.getName() + " :  String;";
+		}
+		// ExternalizableMessage -----------------------------------------------
+		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
+			return "		public var " + f.getName() + " :  " + f_type.getCanonicalName()+";";
+		} 
+		else if (f_type.isArray()) {
+			return "		public var " + f.getName() + " :  Array;";
+		} 
+		// Error -----------------------------------------------
+		else {
+			return "		Unsupported type : " + f_name + " " + f_type.getName();
+		}
+	}
+	
+//	------------------------------------------------------------------------------------------------------------------
+	
+	public void genCodeFile(ExternalizableFactory factory, File as_src_root) throws IOException
+	{
+		File codec_output = new File(as_src_root, 
+				CUtil.replaceString(codec_package+"." + codec_class_name, ".", File.separator)+".as");
+		CFile.writeText(codec_output, genMutualMessageCodec(factory));
+		System.out.println("genCodeFileAS :   Codec : " + codec_output.getCanonicalPath());
+		for (Entry<Class<?>, String> e : genMutualMessages(factory).entrySet()) {
+			File msg_output = new File(as_src_root, 
+				CUtil.replaceString(e.getKey().getCanonicalName(), ".", File.separator)+".as");
+			CFile.writeText(msg_output, e.getValue());
+			System.out.println("genCodeFileAS : Message : " + msg_output.getCanonicalPath());
+		}
+	}
 }

@@ -13,7 +13,7 @@ import com.net.NetDataOutput;
 import com.net.flash.message.FlashMessage;
 import com.net.flash.message.FlashMessageCodeGenerator;
 import com.net.flash.message.FlashMessageFactory;
-import com.net.mutual.MutualMessageCodeGenerator.MutualMessageCodeGeneratorJava;
+import com.net.mutual.MutualMessageCodeGeneratorJava;
 
 public class Messages 
 {
@@ -96,21 +96,27 @@ public class Messages
 		}
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		CAppBridge.init();
 		FlashMessageFactory factory = new FlashMessageFactory(null, Messages.class);
 		{
 			MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(
-					CIO.readAllText("/com/net/flash/test/MutualMessageCodecJava.txt"));
-			CFile.writeText(new File("./flash/com/net/flash/test/MutualMessageCodecJava.java"), 
-					gen_java.genMutualMessageCodec(factory.getRegistTypes())
-			);
+					"com.net.flash.test",
+					"",
+					"MessageCodecJava"
+					);
+			gen_java.genCodeFile(factory, 
+					new File("./flash"));
 		}{
-			FlashMessageCodeGenerator gen_as = new FlashMessageCodeGenerator();
-			CFile.writeText(new File("./flash/com/net/flash/test/MutualMessageCodecAS.as"), 
-					gen_as.genMutualMessageCodec(factory.getRegistTypes())
-			);
+			FlashMessageCodeGenerator gen_as = new FlashMessageCodeGenerator(
+					"com.net.flash.test",
+					"MessageCodec",
+					"\timport com.net.flash.test.Messages.*;",
+					""
+					);
+			gen_as.genCodeFile(factory, 
+					new File("D:\\Projects\\CellGameEdit\\engine_flash\\EngineTest\\src"));
 		}
 
 	}

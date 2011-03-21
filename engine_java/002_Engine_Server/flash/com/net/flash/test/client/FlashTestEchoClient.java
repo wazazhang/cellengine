@@ -18,8 +18,8 @@ import com.net.client.service.BasicNetService;
 import com.net.client.service.NetService;
 import com.net.client.service.WaitingListener;
 import com.net.flash.message.FlashMessageFactory;
+import com.net.flash.test.MessageCodecJava;
 import com.net.flash.test.Messages;
-import com.net.flash.test.MutualMessageCodecJava;
 import com.net.flash.test.Messages.*;
 import com.net.minaimpl.client.ServerSessionImpl;
 import com.net.minaimpl.server.ServerImpl;
@@ -32,7 +32,7 @@ public class FlashTestEchoClient extends NetService
 	FlashTestEchoClient() {
 		super(new ServerSessionImpl(
 				CObject.getAppBridge().getClassLoader(),
-				new FlashMessageFactory(new MutualMessageCodecJava(), Messages.class)));
+				new FlashMessageFactory(new MessageCodecJava(), Messages.class)));
 	}
 	
 	void run()

@@ -1,0 +1,13 @@
+package //package
+{
+	import com.net.client.Message;
+	import com.net.client.MessageFactory;
+//import
+	/**
+	 * Java Class [//classType] [//classFullName]
+	 */
+	public class //className extends Message
+	{
+//class	
+	}
+}

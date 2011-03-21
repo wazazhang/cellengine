@@ -14,8 +14,8 @@ import com.net.NetDataInput;
 import com.net.NetDataOutput;
 import com.net.Protocol;
 import com.net.flash.message.FlashMessageFactory;
+import com.net.flash.test.MessageCodecJava;
 import com.net.flash.test.Messages;
-import com.net.flash.test.MutualMessageCodecJava;
 import com.net.flash.test.Messages.*;
 import com.net.minaimpl.server.ServerImpl;
 import com.net.server.ClientSession;
@@ -58,7 +58,7 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 	{
 		try {
 			CAppBridge.init();
-			FlashMessageFactory factory = new FlashMessageFactory(new MutualMessageCodecJava(), Messages.class);
+			FlashMessageFactory factory = new FlashMessageFactory(new MessageCodecJava(), Messages.class);
 			FlashTestEchoServer server = new FlashTestEchoServer(factory);
 			int port = 19820;
 			if (args.length > 0) {
