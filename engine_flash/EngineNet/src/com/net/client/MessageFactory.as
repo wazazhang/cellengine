@@ -1,7 +1,5 @@
 package com.net.client
 {
-	import flash.utils.IDataInput;
-	import flash.utils.IDataOutput;
 
 	public interface MessageFactory
 	{
@@ -13,10 +11,10 @@ package com.net.client
 		function	createMessage(type:int) : Message;
 
 		/**读取消息*/
-		function	readExternal(msg : Message,  input : IDataInput) : void;
+		function	readExternal(msg : Message,  input : NetDataInput) : void;
 		
 		/**写入消息*/
-		function	writeExternal(msg : Message, output : IDataOutput) : void;
+		function	writeExternal(msg : Message, output : NetDataOutput) : void;
 		
 	}
 	
