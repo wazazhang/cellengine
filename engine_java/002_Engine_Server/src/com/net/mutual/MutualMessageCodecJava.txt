@@ -1,12 +1,13 @@
-package com.net.flash.server.test;
+//package
 
 import java.io.IOException;
 import com.net.mutual.MutualMessage;
 import com.net.mutual.MutualMessageCodec;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
+//import
 
-public class MutualMessageCodecJava implements MutualMessageCodec
+public class //className implements MutualMessageCodec
 {
 	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
 	{
