@@ -210,10 +210,6 @@ public class GLImage implements com.g2d.BufferedImage
 		}
 	}
 
-	public IGraphics getIGraphics() {
-		return createGraphics();
-	}
-
 	public int getHeight() {
 		return h;
 	}
