@@ -8,16 +8,19 @@ package com.net.client
 		function		getRemoteAddress() : String;
 		
 
-		
 		function		isConnected() : Boolean;
 		
-		function 		disconnect( force : Boolean) : Boolean;
+		function 		disconnect() : void;
 		
-		function 		send( message : Message):Boolean;
+		function 		send(message : Message): void;
 		
-		function 		sendRequest( pnum: int, message : Message):Boolean;
+		function 		sendRequest(pnum: int, message : Message) : void;
 		
-		function 		connect( host : String,  port : int,  timeout : int,  listener : ServerSessionListener) :Boolean;
+		function 		connect(
+							host : String, 
+							port : int,  
+							timeout : int, 
+							listener : ServerSessionListener) : void;
 		
 		
 		

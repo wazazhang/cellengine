@@ -6,6 +6,11 @@
     <classEntry path="com.net.client.ServerSessionListener"/>
     <classEntry path="com.net.client.ServerSession"/>
     <classEntry path="com.net.client.minaimpl.ProtocolImpl"/>
+    <classEntry path="com.net.client.Client"/>
+    <classEntry path="com.net.client.ClientResponseListener"/>
+    <classEntry path="com.net.client.ClientNotifyListener"/>
+    <classEntry path="com.cell.util.Map"/>
+    <classEntry path="com.cell.util.Reference"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -71,12 +71,15 @@ package com.net.client.minaimpl
 
 		}
 		
-		public function connect(host : String,  port : int, timeout:int, listener : ServerSessionListener) : Boolean
+		public function connect(
+			host 		: String,  
+			port 		: int, 
+			timeout 	: int, 
+			listener 	: ServerSessionListener) : void
 		{
 			this.serveraddr = host + ":" + port;		
 			this.listener = listener;
 			this.connector.connect(host, port);
-			return true;
 		}
 		
 		
@@ -95,30 +98,36 @@ package com.net.client.minaimpl
 			return this.connector.connected;
 		}
 		
-		public function disconnect(force: Boolean) : Boolean
+		public function disconnect() : void
 		{
 			this.connector.close();
-			return true;
 		}
 		
-		public function send(message: Message) : Boolean
+		public function send(message: Message) : void
 		{
 			var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
 			protocol.setMessage(message);
+			protocol.setPacketNumber(0);
+			sendImpl(protocol);
+		}
+		
+		public function sendRequest(pnum: int, message : Message) : void
+		{
+			var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
+			protocol.setMessage(message);
+			protocol.setPacketNumber(pnum);
+			sendImpl(protocol);
+		}
+		
+		private function sendImpl(protocol : ProtocolImpl) : void
+		{
 			protocol.setSessionID(0,0);
-			protocol.setPacketNumber(1);
 			protocol.setProtocol(Protocol.PROTOCOL_SESSION_MESSAGE);
 			protocol.setChannelID(0);
 			protocol.setChannelSessionID(0,0);
 			var stream  : ByteArray = encode(protocol);
 			connector.writeBytes(stream);
 			connector.flush();
-			return true;
-		}
-		
-		public function sendRequest( pnum: int, message : Message) : Boolean
-		{
-			return send(message);
 		}
 		
 //		---------------------------------------------------------------------------------------------------------
@@ -152,7 +161,7 @@ package com.net.client.minaimpl
 		
 		private function closeHandler(event:Event):void {
 			trace("closeHandler: " + event);
-			this.listener.disconnected(this, true, event.toString());
+			this.listener.disconnected(this, event.toString());
 		}
 		
 		private function connectHandler(event:Event):void {
@@ -162,14 +171,14 @@ package com.net.client.minaimpl
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
 			trace("ioErrorHandler: " + event);
-			this.disconnect(true);
-			this.listener.disconnected(this, false, event.toString());
+			this.disconnect();
+//			this.listener.disconnected(this, false, event.toString());
 		}
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
 			trace("securityErrorHandler: " + event);
-			this.disconnect(true);
-			this.listener.disconnected(this, false, event.toString());
+			this.disconnect();
+//			this.listener.disconnected(this, false, event.toString());
 		}
 		
 		private function socketDataHandler(event:ProgressEvent):void 
@@ -446,7 +455,7 @@ package com.net.client.minaimpl
 		
 		function sentMessage(decoded : Protocol) : void
 		{
-			
+			this.listener.sentMessage(this, decoded, decoded.getMessage());
 		}
 		
 	}
