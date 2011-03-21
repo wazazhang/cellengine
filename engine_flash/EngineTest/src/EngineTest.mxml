@@ -8,7 +8,7 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.net.client.test.NetService;
+			import com.net.flash.test.NetService;
 			
 			import spark.events.TextOperationEvent;
 			
