@@ -9,37 +9,48 @@ package com.net.flash.test
 
 	public class MessageCodec implements MessageFactory
 	{
-		public function	getType(message : Message) : int 
+		public function	getType(msg : Message) : int 
 		{
-//getType
+			
+			if (msg is com.net.flash.test.Messages.Data) return 1;
+			if (msg is com.net.flash.test.Messages.Echo2Request) return 2;
+			if (msg is com.net.flash.test.Messages.Echo2Response) return 3;
+			if (msg is com.net.flash.test.Messages.EchoRequest) return 4;
+			if (msg is com.net.flash.test.Messages.EchoResponse) return 5;
+
+			return -1;
 		}
 		
 		public function	createMessage(type : int) : Message
 		{
-//createMessage
+			switch(type)
+			{
+			case 1 : return new com.net.flash.test.Messages.Data;
+			case 2 : return new com.net.flash.test.Messages.Echo2Request;
+			case 3 : return new com.net.flash.test.Messages.Echo2Response;
+			case 4 : return new com.net.flash.test.Messages.EchoRequest;
+			case 5 : return new com.net.flash.test.Messages.EchoResponse;
+
+			}
+			return null;
 		}
 		
 		public function	readExternal(msg : Message,  input : NetDataInput) : void  
 		{
 		if (msg is com.net.flash.test.Messages.Data) {
-			read_Data(com.net.flash.test.Messages.Data(msg), input);
-			return;
+			r_com_net_flash_test_Messages_Data(com.net.flash.test.Messages.Data(msg), input); return;
 		}
 		if (msg is com.net.flash.test.Messages.Echo2Request) {
-			read_Echo2Request(com.net.flash.test.Messages.Echo2Request(msg), input);
-			return;
+			r_com_net_flash_test_Messages_Echo2Request(com.net.flash.test.Messages.Echo2Request(msg), input); return;
 		}
 		if (msg is com.net.flash.test.Messages.Echo2Response) {
-			read_Echo2Response(com.net.flash.test.Messages.Echo2Response(msg), input);
-			return;
+			r_com_net_flash_test_Messages_Echo2Response(com.net.flash.test.Messages.Echo2Response(msg), input); return;
 		}
 		if (msg is com.net.flash.test.Messages.EchoRequest) {
-			read_EchoRequest(com.net.flash.test.Messages.EchoRequest(msg), input);
-			return;
+			r_com_net_flash_test_Messages_EchoRequest(com.net.flash.test.Messages.EchoRequest(msg), input); return;
 		}
 		if (msg is com.net.flash.test.Messages.EchoResponse) {
-			read_EchoResponse(com.net.flash.test.Messages.EchoResponse(msg), input);
-			return;
+			r_com_net_flash_test_Messages_EchoResponse(com.net.flash.test.Messages.EchoResponse(msg), input); return;
 		}
 
 		}
@@ -47,24 +58,19 @@ package com.net.flash.test
 		public function	writeExternal(msg : Message, output : NetDataOutput) : void  
 		{
 		if (msg is com.net.flash.test.Messages.Data) {
-			write_Data(com.net.flash.test.Messages.Data(msg), output);
-			return;
+			w_com_net_flash_test_Messages_Data(com.net.flash.test.Messages.Data(msg), output); return;
 		}
 		if (msg is com.net.flash.test.Messages.Echo2Request) {
-			write_Echo2Request(com.net.flash.test.Messages.Echo2Request(msg), output);
-			return;
+			w_com_net_flash_test_Messages_Echo2Request(com.net.flash.test.Messages.Echo2Request(msg), output); return;
 		}
 		if (msg is com.net.flash.test.Messages.Echo2Response) {
-			write_Echo2Response(com.net.flash.test.Messages.Echo2Response(msg), output);
-			return;
+			w_com_net_flash_test_Messages_Echo2Response(com.net.flash.test.Messages.Echo2Response(msg), output); return;
 		}
 		if (msg is com.net.flash.test.Messages.EchoRequest) {
-			write_EchoRequest(com.net.flash.test.Messages.EchoRequest(msg), output);
-			return;
+			w_com_net_flash_test_Messages_EchoRequest(com.net.flash.test.Messages.EchoRequest(msg), output); return;
 		}
 		if (msg is com.net.flash.test.Messages.EchoResponse) {
-			write_EchoResponse(com.net.flash.test.Messages.EchoResponse(msg), output);
-			return;
+			w_com_net_flash_test_Messages_EchoResponse(com.net.flash.test.Messages.EchoResponse(msg), output); return;
 		}
 
 		}
@@ -72,8 +78,8 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.Data
 //	----------------------------------------------------------------------------------------------------
-	function com_net_flash_test_Messages_Data() : void {}
-	public function read_Data(msg : com.net.flash.test.Messages.Data, input : NetDataInput) : void {
+	public function new_com_net_flash_test_Messages_Data() : com.net.flash.test.Messages.Data {return new com.net.flash.test.Messages.Data();}
+	private function r_com_net_flash_test_Messages_Data(msg : com.net.flash.test.Messages.Data, input : NetDataInput) : void {
 		msg.message2 = input.readUTF();
 		msg.d0 = input.readBoolean();
 		msg.d1 = input.readByte();
@@ -89,7 +95,7 @@ package com.net.flash.test
 		msg.a_d4 = input.readIntArray();
 		msg.a_d5 = input.readFloatArray();
 	}
-	public function write_Data(msg : com.net.flash.test.Messages.Data, output : NetDataOutput) : void {
+	private function w_com_net_flash_test_Messages_Data(msg : com.net.flash.test.Messages.Data, output : NetDataOutput) : void {
 		output.writeUTF(msg.message2);
 		output.writeBoolean(msg.d0);
 		output.writeByte(msg.d1);
@@ -109,35 +115,35 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.Echo2Request
 //	----------------------------------------------------------------------------------------------------
-	function com_net_flash_test_Messages_Echo2Request() : void {}
-	public function read_Echo2Request(msg : com.net.flash.test.Messages.Echo2Request, input : NetDataInput) : void {
+	public function new_com_net_flash_test_Messages_Echo2Request() : com.net.flash.test.Messages.Echo2Request {return new com.net.flash.test.Messages.Echo2Request();}
+	private function r_com_net_flash_test_Messages_Echo2Request(msg : com.net.flash.test.Messages.Echo2Request, input : NetDataInput) : void {
 		msg.message = input.readUTF();
 	}
-	public function write_Echo2Request(msg : com.net.flash.test.Messages.Echo2Request, output : NetDataOutput) : void {
+	private function w_com_net_flash_test_Messages_Echo2Request(msg : com.net.flash.test.Messages.Echo2Request, output : NetDataOutput) : void {
 		output.writeUTF(msg.message);
 	}
 
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.Echo2Response
 //	----------------------------------------------------------------------------------------------------
-	function com_net_flash_test_Messages_Echo2Response() : void {}
-	public function read_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, input : NetDataInput) : void {
+	public function new_com_net_flash_test_Messages_Echo2Response() : com.net.flash.test.Messages.Echo2Response {return new com.net.flash.test.Messages.Echo2Response();}
+	private function r_com_net_flash_test_Messages_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, input : NetDataInput) : void {
 		msg.message = input.readUTF();
 	}
-	public function write_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, output : NetDataOutput) : void {
+	private function w_com_net_flash_test_Messages_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, output : NetDataOutput) : void {
 		output.writeUTF(msg.message);
 	}
 
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.EchoRequest
 //	----------------------------------------------------------------------------------------------------
-	function com_net_flash_test_Messages_EchoRequest() : void {}
-	public function read_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, input : NetDataInput) : void {
+	public function new_com_net_flash_test_Messages_EchoRequest() : com.net.flash.test.Messages.EchoRequest {return new com.net.flash.test.Messages.EchoRequest();}
+	private function r_com_net_flash_test_Messages_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, input : NetDataInput) : void {
 		msg.message = input.readUTF();
 		msg.data = input.readExternal(1) as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray(1);
 	}
-	public function write_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
+	private function w_com_net_flash_test_Messages_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
 		output.writeUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
@@ -146,13 +152,13 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.EchoResponse
 //	----------------------------------------------------------------------------------------------------
-	function com_net_flash_test_Messages_EchoResponse() : void {}
-	public function read_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, input : NetDataInput) : void {
+	public function new_com_net_flash_test_Messages_EchoResponse() : com.net.flash.test.Messages.EchoResponse {return new com.net.flash.test.Messages.EchoResponse();}
+	private function r_com_net_flash_test_Messages_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, input : NetDataInput) : void {
 		msg.message = input.readUTF();
 		msg.data = input.readExternal(1) as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray(1);
 	}
-	public function write_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, output : NetDataOutput) : void {
+	private function w_com_net_flash_test_Messages_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, output : NetDataOutput) : void {
 		output.writeUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
