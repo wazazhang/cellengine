@@ -7,6 +7,9 @@ import com.net.NetDataInput;
 import com.net.NetDataOutput;
 //import
 
+/**
+ * 此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。
+ */
 public class //className implements MutualMessageCodec
 {
 	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
