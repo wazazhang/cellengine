@@ -6,7 +6,7 @@ package com.net.flash.test
 	import com.net.client.NetDataOutput;
 	
 	import com.net.flash.test.Messages.*;
-
+	/**此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。*/
 	public class MessageCodec implements MessageFactory
 	{
 		public function	getType(msg : Message) : int 
