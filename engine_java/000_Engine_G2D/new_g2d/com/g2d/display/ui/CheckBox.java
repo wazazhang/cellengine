@@ -47,12 +47,14 @@ public class CheckBox extends UIComponent
 			Graphics2D g2d = (Graphics2D)check_image.createGraphics();
 			g2d.setColor(Color.GREEN);
 			g2d.fillRect(0, 0, 10, 10);
+			g2d.dispose();
 		}
 		{
 			uncheck_image = Tools.createImage(10, 10);
 			Graphics2D g2d = (Graphics2D)check_image.createGraphics();
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, 10, 10);
+			g2d.dispose();
 		}
 	}
 

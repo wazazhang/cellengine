@@ -37,6 +37,7 @@ public class Guage extends UIComponent
 		Graphics2D g2d = strip_fore.createGraphics();
 		g2d.setColor(Color.GREEN);
 		g2d.fillRect(0, 0, 100, 10);
+		g2d.dispose();
 	}
 	
 	public Guage(int w, int h)

@@ -50,6 +50,7 @@ public class TextLayer
 			Graphics2D bg = buffer.createGraphics();
 			bg.setColor(color);
 			this.layout.drawText(bg, 0, 0, 0, 0, buffer.getWidth(), buffer.getHeight(), 0, 0, 0, 0);
+			bg.dispose();
 		} catch (Exception err) {
 			err.printStackTrace();
 		}
@@ -74,6 +75,7 @@ public class TextLayer
 		Tools.toAlpha(buffer, border_color.getAlpha()/255f, border_color.getARGB());
 		
 		bg.drawImage(old_buffer, 1, 1);
+		bg.dispose();
 	}
 	
 	public void setShwdow(Color border_color, int shadow_x, int shadow_y) 
@@ -91,6 +93,7 @@ public class TextLayer
 			bg.drawImage(old_buffer, sx, sy);
 			Tools.toAlpha(buffer, border_color.getAlpha(), border_color.getARGB());
 			bg.drawImage(old_buffer, gx, gy);
+			bg.dispose();
 		}
 		
 	}
