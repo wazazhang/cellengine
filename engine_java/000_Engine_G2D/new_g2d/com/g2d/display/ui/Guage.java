@@ -34,7 +34,7 @@ public class Guage extends UIComponent
 		is_show_percent	= true;
 		
 		strip_fore = Tools.createImage(100, 10);
-		Graphics2D g2d = strip_fore.getGraphics();
+		Graphics2D g2d = strip_fore.createGraphics();
 		g2d.setColor(Color.GREEN);
 		g2d.fillRect(0, 0, 100, 10);
 	}

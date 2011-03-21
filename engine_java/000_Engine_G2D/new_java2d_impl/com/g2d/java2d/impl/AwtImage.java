@@ -332,12 +332,7 @@ public class AwtImage implements com.g2d.BufferedImage
 	public com.g2d.Graphics2D createGraphics() {
 		return new AwtGraphics2D((Graphics2D)m_image.createGraphics());
 	}
-	
-	@Override
-	public com.g2d.Graphics2D getGraphics() {
-		return new AwtGraphics2D((Graphics2D)m_image.getGraphics());
-	}
-	
+		
 	@Override
 	public int[] getRGB(int startX, int startY, int w, int h, int[] rgbArray, int offset, int scansize) {
 		return m_image.getRGB(startX, startY, w, h, rgbArray, offset, scansize);

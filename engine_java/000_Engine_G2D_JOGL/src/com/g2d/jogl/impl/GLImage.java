@@ -329,16 +329,10 @@ public class GLImage implements com.g2d.BufferedImage
 	
 //	---------------------------------------------------------------------------------------------------------------------------------
 	
-	@Override
 	public com.g2d.Graphics2D createGraphics() {
 		return new GLGraphics2D.GLGraphicsPBuffer(
 				gl, 
 				(Graphics2D)m_image.getGraphics());
-	}
-	
-	@Override
-	public com.g2d.Graphics2D getGraphics() {
-		return createGraphics();
 	}
 	
 	@Override

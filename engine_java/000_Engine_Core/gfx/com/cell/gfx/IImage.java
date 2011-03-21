@@ -44,7 +44,7 @@ public interface IImage {
 	public IImage subImage(int x, int y, int width, int height);
 	
 	//Creates a new Graphics object that renders to this image. 
-	public IGraphics getIGraphics() ;
+	public IGraphics createGraphics() ;
 	
 	//Obtains ARGB pixel data from the specified region of this image and stores it in the provided array of integers. 
 	public void getRGB(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height) ;

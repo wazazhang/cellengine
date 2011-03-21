@@ -10,8 +10,6 @@ public interface Image extends IImage
 	
 	public Graphics2D 		createGraphics();
 
-	public Graphics2D 		getGraphics();
-	
 	public int 				getRGB(int x, int y);
 	
 	public void 			setRGB(int x, int y, int argb);

@@ -1426,7 +1426,7 @@ class AwtMultiTextLayout extends MultiTextLayout
 				if (shadow_buffer == null) {
 					this.shadow_buffer = new AwtImage(width, height);
 					try {
-						AwtGraphics2D g2d = (AwtGraphics2D)shadow_buffer.getGraphics();
+						AwtGraphics2D g2d = (AwtGraphics2D)shadow_buffer.createGraphics();
 						g2d.setColor(Color.BLACK);
 //						g2d.fillRect(0, 0, width, height);
 						text_layout.draw(g2d.g2d, offsetx, offsety);

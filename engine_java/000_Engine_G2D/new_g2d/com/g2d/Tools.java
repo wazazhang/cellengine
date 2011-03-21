@@ -265,7 +265,7 @@ public class Tools
 		try
 		{
 			BufferedImage dst = createImage(width, height);
-			IGraphics g = dst.getIGraphics();
+			IGraphics g = dst.createGraphics();
 			for (IImage img : args) {
 				g.drawImage(img, 0, 0, width, height, 0);
 			}

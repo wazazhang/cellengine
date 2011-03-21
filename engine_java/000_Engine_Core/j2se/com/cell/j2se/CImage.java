@@ -206,7 +206,7 @@ class CImage implements IImage
 		return null;
 	}
 	
-	public IGraphics getIGraphics() 
+	public IGraphics createGraphics() 
 	{
 		return new CGraphics((Graphics2D)m_image.getGraphics());
 	}

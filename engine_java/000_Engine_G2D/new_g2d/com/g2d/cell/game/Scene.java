@@ -98,7 +98,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 				return null;
 			} else {
 				BufferedImage buffer = Tools.createImage((int) width, (int) height);
-				Graphics2D g2d = (Graphics2D) buffer.getGraphics();
+				Graphics2D g2d = (Graphics2D) buffer.createGraphics();
 				double scalew = width / getWidth();
 				double scaleh = height / getHeight();
 				g2d.scale(scalew, scaleh);
@@ -118,7 +118,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 				return null;
 			} else {
 				BufferedImage buffer = Tools.createImage((int) width, (int) height);
-				Graphics2D g2d = (Graphics2D) buffer.getGraphics();
+				Graphics2D g2d = (Graphics2D) buffer.createGraphics();
 				for (int i = set_world.Sprs.size() - 1; i >= 0; --i) {
 					WorldSet.SpriteObject wspr = set_world.Sprs.elementAt(i);
 					CSprite csprite = set_resource.getSprite(wspr.SprID);

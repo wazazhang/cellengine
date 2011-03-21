@@ -1428,7 +1428,7 @@ class GLMultiTextLayout extends MultiTextLayout
 				if (shadow_buffer == null) {
 					this.shadow_buffer = new GLImage(GLEngine.getEngine().getGL(), width, height);
 					try {
-						GLGraphics2D g2d = (GLGraphics2D)shadow_buffer.getGraphics();
+						GLGraphics2D g2d = (GLGraphics2D)shadow_buffer.createGraphics();
 						g2d.setColor(Color.BLACK);
 //						g2d.fillRect(0, 0, width, height);
 						text_layout.draw(g2d.awt_g2d, offsetx, offsety);

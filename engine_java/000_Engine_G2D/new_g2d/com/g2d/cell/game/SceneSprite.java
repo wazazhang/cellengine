@@ -146,7 +146,7 @@ public class SceneSprite extends MoveableUnit implements LoadSpriteListener
 	public BufferedImage getSnapshot(int width, int height)
 	{
 		BufferedImage ret = Tools.createImage(width, height);
-		Graphics2D g = (Graphics2D)ret.getGraphics();
+		Graphics2D g = (Graphics2D)ret.createGraphics();
 		if (csprite!=null)
 		{
 			float rx = ((float)width)  / getWidth();

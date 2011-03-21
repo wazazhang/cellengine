@@ -149,7 +149,7 @@ public class CCamera extends CUnit {
 //			BackBuffer.createBuffer(BufW, BufH);
 			
 //			println("Create BackBuffer : " + BufW + " x " + BufH);
-			bg = BackBuffer.getIGraphics();
+			bg = BackBuffer.createGraphics();
 			bg.setColor(BackColor);
 			bg.fillRect(0, 0, BufW, BufH);
 
