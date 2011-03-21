@@ -70,13 +70,11 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 			String s_name = e.getValue().getSimpleName();
 			read_external.append(
 			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
-			"			read_" + s_name + "((" + c_name + ")msg, in);\n" +
-			"			return;\n" +
+			"			_r((" + c_name + ")msg, in); return;\n" +
 			"		}\n");
 			write_external.append(
 			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
-			"			write_" + s_name + "((" + c_name + ")msg, out);\n" +
-			"			return;\n" +
+			"			_w((" + c_name + ")msg, out); return;\n" +
 			"		}\n");
 			genMethod(e.getValue(), classes);
 		}
@@ -115,11 +113,11 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	void " + m_name + "(){}\n");
-		sb.append("	public void read_" + s_name + "(" + c_name + " msg, NetDataInput in) throws IOException {\n");
+		sb.append("	public " + c_name + " new_" + m_name + "(){return new " + c_name + "();}\n");
+		sb.append("	private void _r(" + c_name + " msg, NetDataInput in) throws IOException {\n");
 		sb.append(read);
 		sb.append("	}\n");
-		sb.append("	public void write_" + s_name + "(" + c_name + " msg, NetDataOutput out) throws IOException {\n");
+		sb.append("	private void _w(" + c_name + " msg, NetDataOutput out) throws IOException {\n");
 		sb.append(write);
 		sb.append("	}\n\n");
 	}

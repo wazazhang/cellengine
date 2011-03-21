@@ -72,28 +72,37 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		StringBuilder read_external		= new StringBuilder();
 		StringBuilder write_external	= new StringBuilder();
 		StringBuilder classes			= new StringBuilder();
-
+		StringBuilder get_type			= new StringBuilder();
+		StringBuilder new_msg			= new StringBuilder();
+		
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			String c_name = e.getValue().getCanonicalName();
 			String s_name = e.getValue().getSimpleName();
+			String m_name = c_name.replace('.', '_');
+			int    s_type = e.getKey();
+			
 			read_external.append(
 			"		if (msg is " + c_name + ") {\n" +
-			"			read_" + s_name + "(" + c_name + "(msg), input);\n" +
-			"			return;\n" +
+			"			r_" + m_name + "(" + c_name + "(msg), input); return;\n" +
 			"		}\n");
 			write_external.append(
 			"		if (msg is " + c_name + ") {\n" +
-			"			write_" + s_name + "(" + c_name + "(msg), output);\n" +
-			"			return;\n" +
+			"			w_" + m_name + "(" + c_name + "(msg), output); return;\n" +
 			"		}\n");
 			genCodecMethod(factory, e.getValue(), classes);
+			get_type.append(
+			"			if (msg is " + c_name + ") return " + s_type + ";\n");
+			new_msg.append(
+			"			case " + s_type + " : return new " + c_name + ";\n");
 		}
 		
 		String ret = this.codec_template;
 		ret = CUtil.replaceString(ret, "//package", 		codec_package);
 		ret = CUtil.replaceString(ret, "//import", 			codec_import);
 		ret = CUtil.replaceString(ret, "//className", 		codec_class_name);	
+		ret = CUtil.replaceString(ret, "//getType", 		get_type.toString());
+		ret = CUtil.replaceString(ret, "//createMessage", 	new_msg.toString());	
 		ret = CUtil.replaceString(ret, "//readExternal",	read_external.toString());
 		ret = CUtil.replaceString(ret, "//writeExternal",	write_external.toString());
 		ret = CUtil.replaceString(ret, "//classes",			classes.toString());
@@ -123,11 +132,11 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	function " + m_name + "() : void {}\n");
-		sb.append("	public function read_" + s_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
+		sb.append("	public function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
+		sb.append("	private function r_" + m_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
 		sb.append(read);
 		sb.append("	}\n");
-		sb.append("	public function write_" + s_name + "(msg : " + c_name + ", output : NetDataOutput) : void {\n");
+		sb.append("	private function w_" + m_name + "(msg : " + c_name + ", output : NetDataOutput) : void {\n");
 		sb.append(write);
 		sb.append("	}\n\n");
 	}

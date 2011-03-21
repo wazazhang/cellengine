@@ -9,14 +9,20 @@ package //package
 
 	public class //className implements MessageFactory
 	{
-		public function	getType(message : Message) : int 
+		public function	getType(msg : Message) : int 
 		{
+			
 //getType
+			return -1;
 		}
 		
 		public function	createMessage(type : int) : Message
 		{
+			switch(type)
+			{
 //createMessage
+			}
+			return null;
 		}
 		
 		public function	readExternal(msg : Message,  input : NetDataInput) : void  
