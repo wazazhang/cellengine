@@ -1,4 +1,4 @@
-package com.net.flash.server.test;
+package com.net.flash.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -102,13 +102,13 @@ public class Messages
 		FlashMessageFactory factory = new FlashMessageFactory(null, Messages.class);
 		{
 			MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(
-					CIO.readAllText("/com/net/flash/server/test/MutualMessageCodecJava.txt"));
-			CFile.writeText(new File("./flash/com/net/flash/server/test/MutualMessageCodecJava.java"), 
+					CIO.readAllText("/com/net/flash/test/MutualMessageCodecJava.txt"));
+			CFile.writeText(new File("./flash/com/net/flash/test/MutualMessageCodecJava.java"), 
 					gen_java.genMutualMessageCodec(factory.getRegistTypes())
 			);
 		}{
 			FlashMessageCodeGenerator gen_as = new FlashMessageCodeGenerator();
-			CFile.writeText(new File("./flash/com/net/flash/server/test/MutualMessageCodecAS.as"), 
+			CFile.writeText(new File("./flash/com/net/flash/test/MutualMessageCodecAS.as"), 
 					gen_as.genMutualMessageCodec(factory.getRegistTypes())
 			);
 		}

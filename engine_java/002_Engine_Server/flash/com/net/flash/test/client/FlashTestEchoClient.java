@@ -1,4 +1,4 @@
-package com.net.flash.server.test;
+package com.net.flash.test.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,9 @@ import com.net.client.service.BasicNetService;
 import com.net.client.service.NetService;
 import com.net.client.service.WaitingListener;
 import com.net.flash.message.FlashMessageFactory;
-import com.net.flash.server.test.Messages.*;
+import com.net.flash.test.Messages;
+import com.net.flash.test.MutualMessageCodecJava;
+import com.net.flash.test.Messages.*;
 import com.net.minaimpl.client.ServerSessionImpl;
 import com.net.minaimpl.server.ServerImpl;
 import com.net.server.ClientSession;

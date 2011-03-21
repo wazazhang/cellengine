@@ -1,4 +1,4 @@
-package com.net.flash.server.test;
+package com.net.flash.test;
 
 import java.io.IOException;
 import com.net.mutual.MutualMessage;
