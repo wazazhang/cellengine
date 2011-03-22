@@ -237,13 +237,11 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		}	
 		// ExternalizableMessage -----------------------------------------------
 		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
-			int type = factory.getType(f_type);
-			read.append("		" + f_name + " = input.readExternal(" + type + ") as " + f_type.getCanonicalName() + ";\n");
+			read.append("		" + f_name + " = input.readExternal() as " + f_type.getCanonicalName() + ";\n");
 			write.append("		output.writeExternal(" + f_name + ");\n");
 		} 
 		else if (f_type.isArray()) {
-			int type = factory.getType(f_type.getComponentType());
-			read.append("		" + f_name + " = input.readExternalArray(" + type + ");\n");
+			read.append("		" + f_name + " = input.readExternalArray();\n");
 			write.append("		output.writeExternalArray(" + f_name + ");\n");
 		} 
 		// Error -----------------------------------------------
