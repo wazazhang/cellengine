@@ -2,13 +2,13 @@ package com.net.client
 {
 	import com.cell.util.Reference;
 	
-	class ClientRequest extends Reference
+	internal class ClientRequest extends Reference
 	{
-		var request 		: Message;
-		var package_num		: int;
-		var listener 		: ClientResponseListener;
-		var drop_timeout	: int;
-		var sent_time		: Date;
+		internal var request 		: Message;
+		internal var package_num		: int;
+		internal var listener 		: ClientResponseListener;
+		internal var drop_timeout	: int;
+		internal var sent_time		: Date;
 		
 		function ClientRequest(
 			message 		: Message, 
@@ -22,28 +22,29 @@ package com.net.client
 			this.drop_timeout	= drop_timeout;
 		}
 		
-		function getPacketNumber()
+		internal function getPacketNumber() : int
 		{
 			return this.package_num;
 		}
 		
-		function send (client : Client) 
+		internal function send (client : Client) : void
 		{
 			client.getSession().sendRequest(package_num, this.request);
 			this.sent_time = new Date();
 		}
 		
-		function messageResponsed(client : Client, protocol : Protocol) 
+		internal function messageResponsed(client : Client, protocol : Protocol) : void 
 		{
 			this.set(protocol.getMessage());
 			this.listener.response(client, request, protocol.getMessage());
 		}
 		
-		function timeout(client : Client) {
+		internal function timeout(client : Client) : void
+		{
 			this.listener.timeout(client, request);
 		}
 		
-		function isDrop() : Boolean {
+		internal function isDrop() : Boolean {
 			return (new Date().time - this.sent_time.time) > drop_timeout;
 		}
 	}

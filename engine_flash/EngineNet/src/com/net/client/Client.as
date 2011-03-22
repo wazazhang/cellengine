@@ -32,13 +32,13 @@ package com.net.client
 			return session.isConnected();
 		}
 		
-		public function 	connect(
+		public function connect(
 			host 		: String, 
 			port 		: int, 
 			listener 	: ServerSessionListener,  
 			timeout 	: int = 10000) : void
 		{
-			session.connect(host, port, this, timeout);
+			getSession().connect(host, port, this, timeout);
 		}
 		
 		/**
