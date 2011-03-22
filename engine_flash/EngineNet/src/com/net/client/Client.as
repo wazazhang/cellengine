@@ -38,9 +38,9 @@ package com.net.client
 		public function connect(
 			host 		: String, 
 			port 		: int,
-			timeout		: int = 60000) : void
+			timeout		: int = 60000) : Boolean
 		{
-			getSession().connect(host, port, this);
+			return getSession().connect(host, port, this);
 		}
 		
 		/**
@@ -55,9 +55,9 @@ package com.net.client
 		 * 直接发送，不监听回馈 
 		 * @param msg
 		 */
-		public function send(msg : Message) : void
+		public function send(msg : Message) : Boolean
 		{
-			getSession().send(msg);
+			return getSession().send(msg);
 		}
 		
 		/**
@@ -74,16 +74,20 @@ package com.net.client
 			timeout_listener	: Function = null,
 			timeout 			: int = 10000) : Reference
 		{
-			var request : ClientRequest  = new ClientRequest(
-				message, 
-				package_index++, 
-				timeout,
-				response_listener, 
-				timeout_listener
+			if (isConnected()) {
+				var request : ClientRequest  = new ClientRequest(
+					message, 
+					package_index++, 
+					timeout,
+					response_listener, 
+					timeout_listener
 				);
-			request_listeners[request.getPacketNumber()]= request;
-			request.send(this);
-			return request;
+				request_listeners[request.getPacketNumber()]= request;
+				request.send(this);
+				return request;
+			} else {
+				return null;
+			}
 		}
 		
 		/**

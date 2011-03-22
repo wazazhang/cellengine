@@ -13,14 +13,14 @@ package com.net.client
 		
 		function 		disconnect() : void;
 		
-		function 		send(message : Message): void;
+		function 		send(message : Message): Boolean;
 		
-		function 		sendRequest(pnum: int, message : Message) : void;
+		function 		sendRequest(pnum: int, message : Message) : Boolean;
 		
 		function 		connect(
 							host 		: String, 
 							port 		: int, 
-							listener 	: ServerSessionListener) : void;
+							listener 	: ServerSessionListener) : Boolean;
 		
 		
 		function  		getSentMessageCount(): int ;

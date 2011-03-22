@@ -73,11 +73,12 @@ package com.net.client.minaimpl
 		public function connect(
 			host 		: String, 
 			port 		: int, 
-			listener 	: ServerSessionListener) : void
+			listener 	: ServerSessionListener) : Boolean
 		{
 			this.serveraddr = host + ":" + port;		
 			this.listener = listener;
 			this.connector.connect(host, port);
+			return this.connector.connected;
 		}
 		
 		
@@ -104,20 +105,30 @@ package com.net.client.minaimpl
 			}
 		}
 		
-		public function send(message: Message) : void
+		public function send(message: Message) : Boolean
 		{
-			var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
-			protocol.setMessage(message);
-			protocol.setPacketNumber(0);
-			sendImpl(protocol);
+			if (this.connector.connected) {
+				var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
+				protocol.setMessage(message);
+				protocol.setPacketNumber(0);
+				sendImpl(protocol);
+				return true;
+			} else {
+				return false;
+			}
 		}
 		
-		public function sendRequest(pnum: int, message : Message) : void
+		public function sendRequest(pnum: int, message : Message) : Boolean
 		{
-			var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
-			protocol.setMessage(message);
-			protocol.setPacketNumber(pnum);
-			sendImpl(protocol);
+			if (this.connector.connected) {
+				var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
+				protocol.setMessage(message);
+				protocol.setPacketNumber(pnum);
+				sendImpl(protocol);
+				return true;
+			} else {
+				return false;
+			}	
 		}
 		
 		private function sendImpl(protocol : ProtocolImpl) : void
@@ -405,7 +416,7 @@ package com.net.client.minaimpl
 							break;
 						}
 						
-						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_UNKNOW);			// 1
+						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE);	// 1
 						
 						buffer.writeInt		(message_factory.getType(protocol.getMessage()));	// ext 4
 						message_factory		.writeExternal(protocol.getMessage(), buffer);
