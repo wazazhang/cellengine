@@ -184,9 +184,10 @@ package com.net.client
 			trace("receivedMessage : " + protocol);	
 			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
 			if (request != null) {
+				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
+					protocol.getChannelID(), request.request, protocol.getMessage());
 				request.set(protocol.getMessage());
-				request.response.call(new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
-					protocol.getChannelID(), request.request, protocol.getMessage()));
+				request.response.call(request.response, event);
 			} else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
 					protocol.getChannelID(), null, protocol.getMessage()));

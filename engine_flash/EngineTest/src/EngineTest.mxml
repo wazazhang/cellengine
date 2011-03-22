@@ -13,52 +13,87 @@
 			import com.net.client.ServerSessionListener;
 			import com.net.client.minaimpl.ServerSessionImpl;
 			import com.net.flash.test.MessageCodec;
+			import com.net.flash.test.Messages.Echo2Request;
+			import com.net.flash.test.Messages.Echo2Response;
 			import com.net.flash.test.TestClient;
+			
+			import mx.events.FlexEvent;
 			
 			import spark.events.TextOperationEvent;
 			
 			var client : TestClient = new TestClient();
 			
-			protected function button1_clickHandler(event:MouseEvent):void
+			//-------------------------------------------------------------------------------------------------
+			//UI事件
+			protected function btn_connect_addedHandler(event:Event):void
 			{
-				// TODO Auto-generated method stub
-			}
-
-			protected function textarea1_changeHandler(event:TextOperationEvent):void
-			{
-				// TODO Auto-generated method stub
-			}
-
-
-			protected function textinput1_changeHandler(event:TextOperationEvent):void
-			{
-				// TODO Auto-generated method stub
-			}
-
-
-			protected function button2_clickHandler(event:MouseEvent) : void
-			{
-				// connect
-				client.connect(txt_host.text, new int(txt_port.text), null);
+				client.addEventListener(ClientEvent.CONNECTED, 		client_connected);
+				client.addEventListener(ClientEvent.DISCONNECTED,	client_disconnected);
 			}
 			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				if (!client.isConnected()) {
+					txt_messages.appendText("connecting...\n");
+					client.connect(txt_host.text, new int(txt_port.text));
+				}
+				
+			}
+			
+			protected function btn_disconnect_clickHandler(event:MouseEvent):void
+			{
+				client.disconnect();
+			}
+			
+			protected function btn_send_clickHandler(event:MouseEvent):void
+			{
+				client.sendRequest(new Echo2Request(txt_send.text), client_response);
+			}
+			
+			//-------------------------------------------------------------------------------------------------
+			//网络事件
 			protected function client_connected(event:ClientEvent) : void
 			{
-				txt_messages.appendText("connected !");
+				txt_messages.appendText("connected !\n");
 			}
+			protected function client_disconnected(event:ClientEvent) : void
+			{
+				txt_messages.appendText("disconnected !\n");
+			}
+			protected function client_response(event:ClientEvent)
+			{
+				if (event.getResponse() is Echo2Response) {
+					var response : Echo2Response = event.getResponse() as Echo2Response;
+					txt_messages.appendText("response : " + response.message + "\n");
+				}
+			}
+			//-------------------------------------------------------------------------------------------------
+
+
 			
+
+
+			
+
+
+
+
+
+		
+
 		]]>	
 	</fx:Script>
 
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<s:Button x="399" y="393" label="send" click="button1_clickHandler(event)" id="btn_send"/>
-	<s:TextArea x="10" y="39" width="459" height="345" change="textarea1_changeHandler(event)" id="txt_messages"/>
-	<s:TextInput x="10" y="392" width="381" change="textinput1_changeHandler(event)" id="txt_send"/>
-	<s:Button x="10" y="10" label="链接" click="button2_clickHandler(event)" id="btn_connect"/>
-	<s:TextInput x="157" y="10" text="127.0.0.1" id="txt_host"/>
-	<s:TextInput x="341" y="10" text="19820" id="txt_port"/>
+	<s:Button x="399" y="393" label="send" id="btn_send" click="btn_send_clickHandler(event)"/>
+	<s:TextArea x="10" y="39" width="459" height="345" id="txt_messages"/>
+	<s:TextInput x="10" y="392" width="381" id="txt_send"/>
+	<s:Button x="10" y="10" label="链接" click="button2_clickHandler(event)" id="btn_connect" added="btn_connect_addedHandler(event)"/>
+	<s:TextInput x="157" y="10" text="127.0.0.1" id="txt_host" width="101"/>
+	<s:TextInput x="306" y="9" text="19820" id="txt_port" width="81"/>
 	<s:Label x="88" y="10" text="地址" width="61" height="21" verticalAlign="middle" textAlign="center"/>
-	<s:Label x="293" y="10" text="端口" width="40" height="21" verticalAlign="middle" textAlign="center"/>
+	<s:Label x="266" y="10" text="端口" width="40" height="21" verticalAlign="middle" textAlign="center"/>
+	<s:Button x="399" y="10" label="断开" id="btn_disconnect" click="btn_disconnect_clickHandler(event)"/>
 </s:Application>

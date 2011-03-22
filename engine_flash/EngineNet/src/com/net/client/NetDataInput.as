@@ -104,8 +104,8 @@ package com.net.client
 			return super.readShort();
 		}
 		
-		public function readJavaUTF() {
-			return super.readUTFBytes(super.readShort());
+		public function readJavaUTF() : String {
+			return super.readUTF();
 		}
 	}
 }

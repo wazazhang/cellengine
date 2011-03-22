@@ -13,6 +13,15 @@ package com.net.flash.test.Messages
 		public var message :  String;
 		public var data :  com.net.flash.test.Messages.Data;
 		public var datas :  Array;
-	
+
+		public function EchoResponse(
+			message :  String = null,
+			data :  com.net.flash.test.Messages.Data = null,
+			datas :  Array = null) 
+		{
+			this.message = message;
+			this.data = data;
+			this.datas = datas;
+		}
 	}
 }

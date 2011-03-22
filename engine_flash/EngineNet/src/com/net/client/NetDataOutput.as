@@ -88,7 +88,7 @@ package com.net.client
 		
 		public function writeJavaUTF(data : String) : void
 		{
-			super.writeUTFBytes(data);
+			super.writeUTF(data);
 		}
 	}
 }

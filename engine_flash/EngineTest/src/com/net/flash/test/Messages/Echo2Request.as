@@ -11,6 +11,11 @@ package com.net.flash.test.Messages
 	public class Echo2Request extends Message
 	{
 		public var message :  String;
-	
+
+		public function Echo2Request(
+			message :  String = null) 
+		{
+			this.message = message;
+		}
 	}
 }

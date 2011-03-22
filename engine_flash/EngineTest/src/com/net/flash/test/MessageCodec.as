@@ -6,12 +6,14 @@ package com.net.flash.test
 	import com.net.client.NetDataOutput;
 	
 	import com.net.flash.test.Messages.*;
-	/**此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。*/
+
+	/**
+	 * 此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。
+	 */
 	public class MessageCodec implements MessageFactory
 	{
 		public function	getType(msg : Message) : int 
 		{
-			
 			if (msg is com.net.flash.test.Messages.Data) return 1;
 			if (msg is com.net.flash.test.Messages.Echo2Request) return 2;
 			if (msg is com.net.flash.test.Messages.Echo2Response) return 3;
@@ -80,7 +82,7 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 	public function new_com_net_flash_test_Messages_Data() : com.net.flash.test.Messages.Data {return new com.net.flash.test.Messages.Data();}
 	private function r_com_net_flash_test_Messages_Data(msg : com.net.flash.test.Messages.Data, input : NetDataInput) : void {
-		msg.message2 = input.readUTF();
+		msg.message2 = input.readJavaUTF();
 		msg.d0 = input.readBoolean();
 		msg.d1 = input.readByte();
 		msg.d2 = input.readShort();
@@ -96,7 +98,7 @@ package com.net.flash.test
 		msg.a_d5 = input.readFloatArray();
 	}
 	private function w_com_net_flash_test_Messages_Data(msg : com.net.flash.test.Messages.Data, output : NetDataOutput) : void {
-		output.writeUTF(msg.message2);
+		output.writeJavaUTF(msg.message2);
 		output.writeBoolean(msg.d0);
 		output.writeByte(msg.d1);
 		output.writeShort(msg.d2);
@@ -117,10 +119,10 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 	public function new_com_net_flash_test_Messages_Echo2Request() : com.net.flash.test.Messages.Echo2Request {return new com.net.flash.test.Messages.Echo2Request();}
 	private function r_com_net_flash_test_Messages_Echo2Request(msg : com.net.flash.test.Messages.Echo2Request, input : NetDataInput) : void {
-		msg.message = input.readUTF();
+		msg.message = input.readJavaUTF();
 	}
 	private function w_com_net_flash_test_Messages_Echo2Request(msg : com.net.flash.test.Messages.Echo2Request, output : NetDataOutput) : void {
-		output.writeUTF(msg.message);
+		output.writeJavaUTF(msg.message);
 	}
 
 //	----------------------------------------------------------------------------------------------------
@@ -128,10 +130,10 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 	public function new_com_net_flash_test_Messages_Echo2Response() : com.net.flash.test.Messages.Echo2Response {return new com.net.flash.test.Messages.Echo2Response();}
 	private function r_com_net_flash_test_Messages_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, input : NetDataInput) : void {
-		msg.message = input.readUTF();
+		msg.message = input.readJavaUTF();
 	}
 	private function w_com_net_flash_test_Messages_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, output : NetDataOutput) : void {
-		output.writeUTF(msg.message);
+		output.writeJavaUTF(msg.message);
 	}
 
 //	----------------------------------------------------------------------------------------------------
@@ -139,12 +141,12 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 	public function new_com_net_flash_test_Messages_EchoRequest() : com.net.flash.test.Messages.EchoRequest {return new com.net.flash.test.Messages.EchoRequest();}
 	private function r_com_net_flash_test_Messages_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, input : NetDataInput) : void {
-		msg.message = input.readUTF();
+		msg.message = input.readJavaUTF();
 		msg.data = input.readExternal(1) as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray(1);
 	}
 	private function w_com_net_flash_test_Messages_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
-		output.writeUTF(msg.message);
+		output.writeJavaUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
 	}
@@ -154,12 +156,12 @@ package com.net.flash.test
 //	----------------------------------------------------------------------------------------------------
 	public function new_com_net_flash_test_Messages_EchoResponse() : com.net.flash.test.Messages.EchoResponse {return new com.net.flash.test.Messages.EchoResponse();}
 	private function r_com_net_flash_test_Messages_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, input : NetDataInput) : void {
-		msg.message = input.readUTF();
+		msg.message = input.readJavaUTF();
 		msg.data = input.readExternal(1) as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray(1);
 	}
 	private function w_com_net_flash_test_Messages_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, output : NetDataOutput) : void {
-		output.writeUTF(msg.message);
+		output.writeJavaUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
 	}
