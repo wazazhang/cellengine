@@ -8,11 +8,13 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.net.flash.test.NetService;
+			import com.net.client.ServerSession;
+			import com.net.client.minaimpl.ServerSessionImpl;
+			import com.net.flash.test.MessageCodec;
 			
 			import spark.events.TextOperationEvent;
 			
-			var client : NetService = new NetService();
+			var session : ServerSession = new ServerSessionImpl(new MessageCodec());
 			
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
