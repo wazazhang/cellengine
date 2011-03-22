@@ -35,7 +35,7 @@ public class NetDataOutputImpl implements NetDataOutput
 	synchronized
 	public void writeExternal(ExternalizableMessage data) throws IOException {
 		if (data != null) {
-			buffer.putInt(1);
+			buffer.putInt(factory.getType(data.getClass()));
 			data.writeExternal(this);
 		} else {
 			buffer.putInt(0);

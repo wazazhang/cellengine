@@ -15,7 +15,7 @@ package //package
 		public function	getType(msg : Message) : int 
 		{
 //getType
-			return -1;
+			return 0;
 		}
 		
 		public function	createMessage(type : int) : Message

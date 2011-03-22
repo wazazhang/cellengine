@@ -38,11 +38,11 @@ public class NetDataInputImpl implements NetDataInput
 	}
 	
 	synchronized
-	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> type) throws IOException {
-		int size = buffer.getInt();
-		if (size > 0) {
+	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
+		int type = buffer.getInt();
+		if (type > 0) {
 			try {
-				T data = type.newInstance();
+				T data = cls.newInstance();
 				data.readExternal(this);
 				return data;
 			} catch (Exception e) {
