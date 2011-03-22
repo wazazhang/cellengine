@@ -27,20 +27,23 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 	public FlashTestEchoServer(FlashMessageFactory factory) {
 		super(CIO.getAppBridge().getClassLoader(), factory, 10, 600, 600, 0);
 	}
+
+	public void open(int port) throws IOException {
+		super.open(port, this);
+	}
 	
 	@Override
 	public ClientSessionListener connected(ClientSession session) {
+		log.info("connected " + session.getRemoteAddress());
 		return new EchoClientSession();
-	}
-	
-	public void open(int port) throws IOException {
-		super.open(port, this);
 	}
 	
 	class EchoClientSession implements ClientSessionListener
 	{
 		@Override
-		public void disconnected(ClientSession session) {}
+		public void disconnected(ClientSession session) {
+			log.info("disconnected " + session.getRemoteAddress());
+		}
 		@Override
 		public void sentMessage(ClientSession session, Protocol protocol, MessageHeader message) {}
 		@Override

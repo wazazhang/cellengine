@@ -10,6 +10,12 @@ package //package
 	 */
 	public class //className extends Message
 	{
-//class	
+//fields
+
+		public function //className(
+//args) 
+		{
+//initFields
+		}
 	}
 }
