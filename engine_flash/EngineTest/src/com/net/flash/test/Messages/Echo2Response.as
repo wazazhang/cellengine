@@ -10,7 +10,7 @@ package com.net.flash.test.Messages
 	 */
 	public class Echo2Response extends Message
 	{
-		/** Java type is java.lang.String[]*/
+		/** Java type is java.lang.String */
 		public var message :  String;
 
 		public function Echo2Response(
