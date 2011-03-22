@@ -39,16 +39,6 @@ package com.net.client
 			this.sent_time = new Date();
 		}
 		
-		internal function messageTimeout(client : Client) : void
-		{
-			client.dispatchEvent(new ClientEvent(
-				ClientEvent.REQUEST_TIMEOUT, 
-				client, 
-				-1,
-				request,
-				null));
-		}
-		
 		internal function isDrop() : Boolean {
 			return (new Date().time - this.sent_time.time) > drop_timeout;
 		}
