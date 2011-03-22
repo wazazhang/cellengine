@@ -11,6 +11,7 @@
     <classEntry path="com.net.client.ClientNotifyListener"/>
     <classEntry path="com.cell.util.Map"/>
     <classEntry path="com.cell.util.Reference"/>
+    <classEntry path="com.net.client.ClientRequest"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -18,23 +18,22 @@ package com.net.client.minaimpl
 	public class ServerSessionImpl implements com.net.client.ServerSession
 	{
 		/** 当前远程地址*/
-		private var serveraddr 			: String; 
+		private var 	serveraddr 			: String; 
 		
 		/** SOCKET套接字*/
-		private var connector 				: Socket;
+		private var 	connector 			: Socket;
 		
 		/** 服务器监听器*/
-		private var listener 				: ServerSessionListener;
+		private var 	listener 			: ServerSessionListener;
 		
 		/** 消息类型管理器*/
-		private var message_factory		: MessageFactory;
+		private var 	message_factory		: MessageFactory;
 		
 		/** 未解析完的数据*/
-		private var undecoded_buffer		: NetDataInput;
+		private var 	undecoded_buffer	: NetDataInput;
 		
 		/** 未解析完的包*/
-		private var uncomplete_package		: ProtocolImpl;
-		
+		private var 	uncomplete_package	: ProtocolImpl;
 		
 //		----------------------------------------------------------------------------
 
@@ -432,30 +431,32 @@ package com.net.client.minaimpl
 			// 判断是否是联盟消息，协议消息等
 			switch (decoded.getProtocol()) {
 				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:{
+					this.listener.joinedChannel(decoded.getChannelID(), this);
 					break;
 				}
 				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:{
+					this.listener.leftChannel(decoded.getChannelID(), this);
 					break;
 				}
 				case Protocol.PROTOCOL_CHANNEL_MESSAGE:{
-					this.listener.receivedMessage(this, decoded, decoded.getMessage());
+					this.listener.receivedMessage(this, decoded);
 					break;
 				}
-				case Protocol.PROTOCOL_SESSION_MESSAGE:
-					this.listener.receivedMessage(this, decoded, decoded.getMessage());
+				case Protocol.PROTOCOL_SESSION_MESSAGE:{
+					this.listener.receivedMessage(this, decoded);
 					break;
-				default:
+				}
+				default:{
 					if (decoded.getMessage() != null) {
-						this.listener.receivedMessage(this, decoded, decoded.getMessage());
+						this.listener.receivedMessage(this, decoded);
 					}
+				}
 			}
-			
 		}
-		
 		
 		function sentMessage(decoded : Protocol) : void
 		{
-			this.listener.sentMessage(this, decoded, decoded.getMessage());
+			this.listener.sentMessage(this, decoded);
 		}
 		
 	}

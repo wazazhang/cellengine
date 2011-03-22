@@ -1,5 +1,6 @@
 package com.net.client
 {
+	import flash.events.IEventDispatcher;
 	
 	public interface ServerSession
 	{
