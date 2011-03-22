@@ -8,13 +8,16 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.net.client.ClientEvent;
 			import com.net.client.ServerSession;
+			import com.net.client.ServerSessionListener;
 			import com.net.client.minaimpl.ServerSessionImpl;
 			import com.net.flash.test.MessageCodec;
+			import com.net.flash.test.TestClient;
 			
 			import spark.events.TextOperationEvent;
 			
-			var session : ServerSession = new ServerSessionImpl(new MessageCodec());
+			var client : TestClient = new TestClient();
 			
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
@@ -33,24 +36,29 @@
 			}
 
 
-			protected function button2_clickHandler(event:MouseEvent):void
+			protected function button2_clickHandler(event:MouseEvent) : void
 			{
 				// connect
-				
+				client.connect(txt_host.text, new int(txt_port.text), null);
 			}
-
-		]]>
+			
+			protected function client_connected(event:ClientEvent) : void
+			{
+				txt_messages.appendText("connected !");
+			}
+			
+		]]>	
 	</fx:Script>
 
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<s:Button x="399" y="393" label="send" click="button1_clickHandler(event)"/>
-	<s:TextArea x="10" y="39" width="459" height="345" change="textarea1_changeHandler(event)"/>
-	<s:TextInput x="10" y="392" width="381" change="textinput1_changeHandler(event)"/>
-	<s:Button x="10" y="10" label="链接" click="button2_clickHandler(event)"/>
-	<s:TextInput x="157" y="10" text="127.0.0.1"/>
-	<s:TextInput x="341" y="10" text="19820"/>
+	<s:Button x="399" y="393" label="send" click="button1_clickHandler(event)" id="btn_send"/>
+	<s:TextArea x="10" y="39" width="459" height="345" change="textarea1_changeHandler(event)" id="txt_messages"/>
+	<s:TextInput x="10" y="392" width="381" change="textinput1_changeHandler(event)" id="txt_send"/>
+	<s:Button x="10" y="10" label="链接" click="button2_clickHandler(event)" id="btn_connect"/>
+	<s:TextInput x="157" y="10" text="127.0.0.1" id="txt_host"/>
+	<s:TextInput x="341" y="10" text="19820" id="txt_port"/>
 	<s:Label x="88" y="10" text="地址" width="61" height="21" verticalAlign="middle" textAlign="center"/>
 	<s:Label x="293" y="10" text="端口" width="40" height="21" verticalAlign="middle" textAlign="center"/>
 </s:Application>
