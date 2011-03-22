@@ -77,7 +77,7 @@ package com.net.client
 			var count : int = super.readInt();
 			var ret : Array = new Array(count);
 			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readUTF();
+				ret[i] = this.readJavaUTF();
 			}
 			return ret;
 		}
@@ -104,5 +104,8 @@ package com.net.client
 			return super.readShort();
 		}
 		
+		public function readJavaUTF() {
+			return super.readUTFBytes(super.readShort());
+		}
 	}
 }

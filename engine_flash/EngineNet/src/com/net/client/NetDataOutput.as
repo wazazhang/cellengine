@@ -63,7 +63,7 @@ package com.net.client
 		{
 			super.writeInt(array.length);
 			for each (var d : String in array) {
-				super.writeUTF(d);
+				this.writeJavaUTF(d);
 			}
 		}
 		
@@ -79,14 +79,16 @@ package com.net.client
 		public function writeExternal(data : Message) : void
 		{
 			factory.writeExternal(data, this);
-			
 		}
 		
 		public function writeChar(data : int) : void
 		{
 			super.writeShort(data);
-			
 		}
 		
+		public function writeJavaUTF(data : String) : void
+		{
+			super.writeUTFBytes(data);
+		}
 	}
 }
