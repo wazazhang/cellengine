@@ -30,7 +30,12 @@ package com.net.client
 			this.client 	= client;
 			this.message	= message;
 		}
-	
+		
+		override public function clone() : Event {  
+			return new ClientEvent(this.type, this.client, this.message, this.channel_id);  
+		}
+		
+		
 		public function getMessage() : Message
 		{
 			return message;
@@ -45,6 +50,6 @@ package com.net.client
 		{
 			return this.client;
 		}
-
+		
 	}
 }

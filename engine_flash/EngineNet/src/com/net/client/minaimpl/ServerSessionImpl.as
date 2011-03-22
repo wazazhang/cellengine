@@ -73,8 +73,7 @@ package com.net.client.minaimpl
 		public function connect(
 			host 		: String, 
 			port 		: int, 
-			listener 	: ServerSessionListener,  
-			timeout 	: int = 10000) : void
+			listener 	: ServerSessionListener) : void
 		{
 			this.serveraddr = host + ":" + port;		
 			this.listener = listener;
@@ -99,7 +98,10 @@ package com.net.client.minaimpl
 		
 		public function disconnect() : void
 		{
-			this.connector.close();
+			if (this.connector.connected) {
+				this.connector.close();
+				this.listener.disconnected(this, "user close");
+			}
 		}
 		
 		public function send(message: Message) : void

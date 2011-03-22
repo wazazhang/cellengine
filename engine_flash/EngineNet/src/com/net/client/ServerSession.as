@@ -20,8 +20,7 @@ package com.net.client
 		function 		connect(
 							host 		: String, 
 							port 		: int, 
-							listener 	: ServerSessionListener,  
-							timeout 	: int = 10000) : void;
+							listener 	: ServerSessionListener) : void;
 		
 		
 		function  		getSentMessageCount(): int ;

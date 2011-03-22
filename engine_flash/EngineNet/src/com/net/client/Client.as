@@ -4,7 +4,10 @@ package com.net.client
 	
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
-
+	
+	//告诉系统，需要注册哪里事件  
+	[Event(name=ClientEvent.CONNECTED, 		type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.DISCONNECTED,	type="com.net.client.ClientEvent")]  
 	public class Client extends EventDispatcher implements ServerSessionListener
 	{
 		private var package_index 			: int = 0;
@@ -34,11 +37,9 @@ package com.net.client
 		
 		public function connect(
 			host 		: String, 
-			port 		: int, 
-			listener 	: ServerSessionListener,  
-			timeout 	: int = 10000) : void
+			port 		: int) : void
 		{
-			getSession().connect(host, port, this, timeout);
+			getSession().connect(host, port, this);
 		}
 		
 		/**
@@ -156,13 +157,17 @@ package com.net.client
 		final public function connected(session : ServerSession) : void
 		{
 			trace("connected : " + session);
-			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this));
+			if (dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this))) {
+				trace("can not dispatchEvent");
+			}
 		}
 		
 		final public function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
-			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this));
+			if (dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this))) {
+				trace("can not dispatchEvent");
+			}
 		}
 		
 		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
