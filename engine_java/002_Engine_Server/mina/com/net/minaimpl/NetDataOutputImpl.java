@@ -80,7 +80,7 @@ public class NetDataOutputImpl implements NetDataOutput
 	public void writeUTF(String s) throws IOException {
 		if (s != null) {			
 			byte[] data = s.getBytes(CUtil.getEncoding());
-			buffer.putInt(data.length);
+			buffer.putShort((short)data.length);
 			buffer.put(data);
 		} else {
 			buffer.putInt(0);

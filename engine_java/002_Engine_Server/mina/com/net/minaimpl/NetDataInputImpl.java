@@ -89,7 +89,7 @@ public class NetDataInputImpl implements NetDataInput
 
 	synchronized
 	public String readUTF() throws IOException {
-		int size = buffer.getInt();
+		int size = buffer.getShort();
 		if (size >= 0) {		
 			byte[] data = new byte[size];
 			buffer.get(data);

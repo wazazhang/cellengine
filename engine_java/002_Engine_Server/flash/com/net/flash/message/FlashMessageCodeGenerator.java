@@ -228,8 +228,8 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 //		}
 		// String -----------------------------------------------
 		else if (f_type.equals(String.class)) {
-			read.append("		" + f_name + " = input.readUTF();\n");
-			write.append("		output.writeUTF(" + f_name + ");\n");
+			read.append("		" + f_name + " = input.readJavaUTF();\n");
+			write.append("		output.writeJavaUTF(" + f_name + ");\n");
 		}	
 		else if (f_type.equals(String[].class)) {
 			read.append("		" + f_name + " = input.readUTFArray();\n");
