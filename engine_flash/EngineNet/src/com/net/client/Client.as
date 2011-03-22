@@ -5,7 +5,7 @@ package com.net.client
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 
-	public class Client implements ServerSessionListener
+	public class Client extends EventDispatcher implements ServerSessionListener
 	{
 		private var package_index 			: int = 0;
 		
@@ -15,16 +15,36 @@ package com.net.client
 		/**key is message type, value is ClientNotifyListener*/
 		private var notify_listeners		: Dictionary = new Dictionary();
 
+		private var session					: ServerSession;
 		
-		function getSession() : ServerSession 
+		public function Client(session : ServerSession)
 		{
-			return null;
+			this.session = session;
+		}
+		
+		public function getSession() : ServerSession 
+		{
+			return session;
+		}
+		
+		public function isConnected() : Boolean
+		{
+			return session.isConnected();
+		}
+		
+		public function 	connect(
+			host 		: String, 
+			port 		: int, 
+			listener 	: ServerSessionListener,  
+			timeout 	: int = 10000) : void
+		{
+			session.connect(host, port, this, timeout);
 		}
 		
 		/**
 		 * 断开链接
 		 */
-		public function close() : void
+		public function disconnect() : void
 		{
 			getSession().disconnect();
 		}
@@ -33,7 +53,7 @@ package com.net.client
 		 * 直接发送，不监听回馈 
 		 * @param msg
 		 */
-		public function send(msg : Message) 
+		public function send(msg : Message) : void
 		{
 			getSession().send(msg);
 		}
@@ -133,36 +153,41 @@ package com.net.client
 		
 //	----------------------------------------------------------------------------------------------------------------------------
 
-		public function connected(session : ServerSession) : void
+		final public function connected(session : ServerSession) : void
 		{
 			trace("connected : " + session);
+			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this));
 		}
 		
-		public function disconnected(session : ServerSession, reason:String) : void
+		final public function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
+			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this));
 		}
 		
-		public function sentMessage(session : ServerSession, protocol : Protocol) : void
+		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			trace("sentMessage : " + protocol);
+			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, protocol.getMessage()));
 		}
 		
-		public function receivedMessage(session : ServerSession, protocol : Protocol) : void
+		final public function receivedMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			trace("receivedMessage : " + protocol);	
 			doReceivedMessage(protocol);
+			dispatchEvent(new ClientEvent(ClientEvent.RECEIVED_MESSAGE, this, protocol.getMessage()));
 		}
-		
-		
-		public function joinedChannel(channel_id : int, session : ServerSession)  : void
+
+		final public function joinedChannel(channel_id : int, session : ServerSession)  : void
 		{
 			trace("joinedChannel : " + channel_id);
+			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, null, channel_id));
 		}
 		
-		public function leftChannel(channel_id : int, session : ServerSession) : void
+		final public function leftChannel(channel_id : int, session : ServerSession) : void
 		{
 			trace("leftChannel : " + channel_id);
+			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, null, channel_id));
 		}
 
 		

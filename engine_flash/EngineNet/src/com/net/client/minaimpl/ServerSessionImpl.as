@@ -71,10 +71,10 @@ package com.net.client.minaimpl
 		}
 		
 		public function connect(
-			host 		: String,  
+			host 		: String, 
 			port 		: int, 
-			timeout 	: int, 
-			listener 	: ServerSessionListener) : void
+			listener 	: ServerSessionListener,  
+			timeout 	: int = 10000) : void
 		{
 			this.serveraddr = host + ":" + port;		
 			this.listener = listener;
@@ -159,23 +159,23 @@ package com.net.client.minaimpl
 		
 		
 		private function closeHandler(event:Event):void {
-			trace("closeHandler: " + event);
+//			trace("closeHandler: " + event);
 			this.listener.disconnected(this, event.toString());
 		}
 		
 		private function connectHandler(event:Event):void {
-			trace("connectHandler: " + event);
+//			trace("connectHandler: " + event);
 			this.listener.connected(this);
 		}
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
-			trace("ioErrorHandler: " + event);
+//			trace("ioErrorHandler: " + event);
 			this.disconnect();
 //			this.listener.disconnected(this, false, event.toString());
 		}
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
-			trace("securityErrorHandler: " + event);
+//			trace("securityErrorHandler: " + event);
 			this.disconnect();
 //			this.listener.disconnected(this, false, event.toString());
 		}

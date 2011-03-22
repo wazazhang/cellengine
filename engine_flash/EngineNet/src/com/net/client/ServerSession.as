@@ -18,13 +18,10 @@ package com.net.client
 		function 		sendRequest(pnum: int, message : Message) : void;
 		
 		function 		connect(
-							host : String, 
-							port : int,  
-							timeout : int, 
-							listener : ServerSessionListener) : void;
-		
-		
-		
+							host 		: String, 
+							port 		: int, 
+							listener 	: ServerSessionListener,  
+							timeout 	: int = 10000) : void;
 		
 		
 		function  		getSentMessageCount(): int ;
