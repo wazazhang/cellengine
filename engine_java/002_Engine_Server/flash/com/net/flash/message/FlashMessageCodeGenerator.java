@@ -283,10 +283,10 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		for (Field f : fields) {
 			if (f.getType().isArray()) {
 			d_fields.append(
-			"		/** Java type is " + f.getType().getComponentType().getCanonicalName() + "[]*/\n");
+			"		/** Java type is " + f.getType().getComponentType().getCanonicalName() + "[] */\n");
 			} else {
 			d_fields.append(
-			"		/** Java type is " + f.getType().getCanonicalName() + "[]*/\n");
+			"		/** Java type is " + f.getType().getCanonicalName() + " */\n");
 			}
 			d_fields.append(
 			"		public var " + genMsgField(factory, f) + ";");
