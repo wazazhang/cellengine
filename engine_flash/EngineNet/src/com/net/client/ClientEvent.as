@@ -12,42 +12,53 @@ package com.net.client
 			
 		public static const LEFT_CHANNEL		:String = "onLeftChannel"; 
 			
-		public static const RECEIVED_MESSAGE	:String = "onReceivedMessage"; 
-			
 		public static const SENT_MESSAGE		:String = "onSentMessage"; 
 		
+		public static const MESSAGE_NOTIFY		:String = "onMessageNotify"; 
+		
+		public static const MESSAGE_RESPONSE	:String = "onMessageResponse"; 
+		
+		public static const REQUEST_TIMEOUT		:String = "onRequestTimeout"; 
+		
 		private var client 		: Client;
+		private var request		: Message;
 		private var message		: Message;
 		private var channel_id	: int;
 		
 		public function ClientEvent(
 			evt 		: String, 
 			client 		: Client,
-			message		: Message = null,
-			channel_id	: int = -1) 
+			channel_id	: int,
+			request		: Message,
+			message		: Message) 
 		{
 			super(evt);
 			this.client 	= client;
 			this.message	= message;
+			this.request	= request;
 		}
 		
 		override public function clone() : Event {  
-			return new ClientEvent(this.type, this.client, this.message, this.channel_id);  
+			return new ClientEvent(this.type, this.client, this.channel_id, this.request, this.message);  
 		}
 		
+		public function getRequest() : Message {
+			return request;
+		}
 		
-		public function getMessage() : Message
-		{
+		public function getResponse() : Message {
+			return message;
+		}
+		
+		public function getNotify() : Message {
 			return message;
 		}
 	
-		public function getChannelID() : int
-		{
+		public function getChannelID() : int {
 			return channel_id;
 		}
 		
-		public function getClient() : Client
-		{
+		public function getClient() : Client {
 			return this.client;
 		}
 		

@@ -5,21 +5,27 @@ package com.net.client
 	internal class ClientRequest extends Reference
 	{
 		internal var request 		: Message;
-		internal var package_num		: int;
-		internal var listener 		: ClientResponseListener;
+		internal var package_num	: int;
 		internal var drop_timeout	: int;
+		
+		internal var response 		: Function;
+		internal var timeout 		: Function;
+		
 		internal var sent_time		: Date;
 		
 		function ClientRequest(
 			message 		: Message, 
-			drop_timeout 	: int, 
 			package_num		: int,
-			listener 		: ClientResponseListener)
-		{
+			drop_timeout 	: int, 
+			response 		: Function,
+			timeout 		: Function
+		){
 			this.request 		= message;
 			this.package_num 	= package_num;
-			this.listener 		= listener;
 			this.drop_timeout	= drop_timeout;
+			
+			this.response 		= response;
+			this.timeout 		= timeout;
 		}
 		
 		internal function getPacketNumber() : int
@@ -27,21 +33,20 @@ package com.net.client
 			return this.package_num;
 		}
 		
-		internal function send (client : Client) : void
+		internal function send(client : Client) : void
 		{
 			client.getSession().sendRequest(package_num, this.request);
 			this.sent_time = new Date();
 		}
 		
-		internal function messageResponsed(client : Client, protocol : Protocol) : void 
+		internal function messageTimeout(client : Client) : void
 		{
-			this.set(protocol.getMessage());
-			this.listener.response(client, request, protocol.getMessage());
-		}
-		
-		internal function timeout(client : Client) : void
-		{
-			this.listener.timeout(client, request);
+			client.dispatchEvent(new ClientEvent(
+				ClientEvent.REQUEST_TIMEOUT, 
+				client, 
+				-1,
+				request,
+				null));
 		}
 		
 		internal function isDrop() : Boolean {

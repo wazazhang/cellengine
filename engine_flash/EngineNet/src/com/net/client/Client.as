@@ -37,7 +37,8 @@ package com.net.client
 		
 		public function connect(
 			host 		: String, 
-			port 		: int) : void
+			port 		: int,
+			timeout		: int = 60000) : void
 		{
 			getSession().connect(host, port, this);
 		}
@@ -61,15 +62,25 @@ package com.net.client
 		
 		/**
 		 * 发送并监听返回
-		 * @param <T>
-		 * @param message
-		 * @param timeout
-		 * @param listeners
+		 * @param message 			发送的消息
+		 * @param response_listener	消息接收监听器
+		 * @param timeout_listener	消息超时监听器
+		 * @param timeout			消息发送后的超时时间
 		 * @return
 		 */
-		public function sendRequest(message : Message, listener : ClientResponseListener, timeout : int = 10000) : Reference
+		public function sendRequest(
+			message 			: Message, 
+			response_listener 	: Function, 
+			timeout_listener	: Function = null,
+			timeout 			: int = 10000) : Reference
 		{
-			var request : ClientRequest  = new ClientRequest(message, timeout, package_index++, listener);
+			var request : ClientRequest  = new ClientRequest(
+				message, 
+				package_index++, 
+				timeout,
+				response_listener, 
+				timeout_listener
+				);
 			request_listeners[request.getPacketNumber()]= request;
 			request.send(this);
 			return request;
@@ -90,17 +101,19 @@ package com.net.client
 		 * 添加一个用于主动监听服务器端的消息的监听器
 		 * @param listener
 		 */
-		public function addNotifyListener(listener : ClientNotifyListener) : void
+		public function addNotifyListener(listener : Function) : void
 		{
 			this.notify_listeners[listener] = listener;
+			this.addEventListener(ClientEvent.MESSAGE_NOTIFY, listener);
 		}
 		
 		/**
 		 * 删除一个用于主动监听服务器端的消息的监听器
 		 * @param listener
 		 */
-		public function removeNotifyListener(listener : ClientNotifyListener) : void
+		public function removeNotifyListener(listener : Function) : void
 		{
+			this.removeEventListener(ClientEvent.MESSAGE_NOTIFY, listener);
 			delete notify_listeners[listener];
 		}
 		
@@ -110,7 +123,8 @@ package com.net.client
 		 */
 		public function clearNotifyListeners() : void
 		{
-			for each (var listener : Object in notify_listeners) { 
+			for each (var listener : Function in notify_listeners) { 
+				this.removeEventListener(ClientEvent.MESSAGE_NOTIFY, listener);
 				delete notify_listeners[listener];
 			}
 		}
@@ -140,59 +154,53 @@ package com.net.client
 //		
 //	----------------------------------------------------------------------------------------------------------------------------
 		
-		private function doReceivedMessage(protocol : Protocol) : void
-		{
-			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
-			if (request != null) {
-				request.messageResponsed(this, protocol);
-			} else {
-				for each (var listener : ClientNotifyListener in notify_listeners) { 
-					listener.notify(this, protocol.getMessage());
-				}
-			}
-		}
-		
-//	----------------------------------------------------------------------------------------------------------------------------
-
 		final public function connected(session : ServerSession) : void
 		{
 			trace("connected : " + session);
-			if (dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this))) {
-				trace("can not dispatchEvent");
-			}
+			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this, 
+				-1, null, null));
 		}
 		
 		final public function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
-			if (dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this))) {
-				trace("can not dispatchEvent");
-			}
+			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this, 
+				-1, null, null));
 		}
 		
 		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			trace("sentMessage : " + protocol);
-			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, protocol.getMessage()));
+			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, 
+				protocol.getChannelID(), protocol.getMessage(), null));
 		}
 		
 		final public function receivedMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			trace("receivedMessage : " + protocol);	
-			doReceivedMessage(protocol);
-			dispatchEvent(new ClientEvent(ClientEvent.RECEIVED_MESSAGE, this, protocol.getMessage()));
+			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
+			if (request != null) {
+				request.set(protocol);
+				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
+					protocol.getChannelID(), request.request, protocol.getMessage()));
+			} else {
+				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
+					protocol.getChannelID(), null, protocol.getMessage()));
+			}
 		}
 
 		final public function joinedChannel(channel_id : int, session : ServerSession)  : void
 		{
 			trace("joinedChannel : " + channel_id);
-			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, null, channel_id));
+			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, 
+				channel_id, null, null));
 		}
 		
 		final public function leftChannel(channel_id : int, session : ServerSession) : void
 		{
 			trace("leftChannel : " + channel_id);
-			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, null, channel_id));
+			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, 
+				channel_id, null, null));
 		}
 
 		
