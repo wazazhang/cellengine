@@ -49,10 +49,10 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 		@Override
 		public void receivedMessage(ClientSession session, Protocol protocol, MessageHeader message) {
 			if (message instanceof EchoRequest) {
-				session.sendResponse(protocol, new EchoResponse(message.toString()));
+				session.sendResponse(protocol, new EchoResponse(message.toString() + " ok"));
 			}
 			else if (message instanceof Echo2Request) {
-				session.sendResponse(protocol, new Echo2Response(message.toString()));
+				session.sendResponse(protocol, new Echo2Response(message.toString() + " ok"));
 			}
 		}
 	}
