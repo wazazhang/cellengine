@@ -13,72 +13,109 @@ package com.net.client
 		
 		public function writeBooleanArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : Boolean in array) {
-				super.writeBoolean(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : Boolean in array) {
+					super.writeBoolean(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeCharArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : int in array) {
-				super.writeShort(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : int in array) {
+					super.writeShort(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeByteArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : int in array) {
-				super.writeByte(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : int in array) {
+					super.writeByte(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeShortArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : int in array) {
-				super.writeShort(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : int in array) {
+					super.writeShort(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeIntArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : int in array) {
-				super.writeInt(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : int in array) {
+					super.writeInt(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeFloatArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : Number in array) {
-				super.writeFloat(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : Number in array) {
+					super.writeFloat(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeUTFArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : String in array) {
-				this.writeJavaUTF(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : String in array) {
+					this.writeJavaUTF(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		public function writeExternalArray(array : Array) : void
 		{
-			super.writeInt(array.length);
-			for each (var d : Message in array) {
-				this.writeExternal(d);
+			if (array != null) {
+				super.writeInt(array.length);
+				for each (var d : Message in array) {
+					this.writeExternal(d);
+				}
+			} else {
+				super.writeInt(0);
 			}
 		}
 		
 		
 		public function writeExternal(data : Message) : void
 		{
-			factory.writeExternal(data, this);
+			if (data != null) {
+				super.writeInt(factory.getType(data));
+				factory.writeExternal(data, this);
+			} else {
+				super.writeInt(0);
+			}
 		}
 		
 		public function writeChar(data : int) : void
@@ -88,7 +125,11 @@ package com.net.client
 		
 		public function writeJavaUTF(data : String) : void
 		{
-			super.writeUTF(data);
+			if (data != null) {
+				super.writeUTF(data);
+			} else {
+				super.writeShort(0);
+			}
 		}
 	}
 }

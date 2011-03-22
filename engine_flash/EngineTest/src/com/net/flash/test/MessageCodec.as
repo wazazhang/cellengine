@@ -20,7 +20,7 @@ package com.net.flash.test
 			if (msg is com.net.flash.test.Messages.EchoRequest) return 4;
 			if (msg is com.net.flash.test.Messages.EchoResponse) return 5;
 
-			return -1;
+			return 0;
 		}
 		
 		public function	createMessage(type : int) : Message
@@ -142,8 +142,8 @@ package com.net.flash.test
 	public function new_com_net_flash_test_Messages_EchoRequest() : com.net.flash.test.Messages.EchoRequest {return new com.net.flash.test.Messages.EchoRequest();}
 	private function r_com_net_flash_test_Messages_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, input : NetDataInput) : void {
 		msg.message = input.readJavaUTF();
-		msg.data = input.readExternal(1) as com.net.flash.test.Messages.Data;
-		msg.datas = input.readExternalArray(1);
+		msg.data = input.readExternal() as com.net.flash.test.Messages.Data;
+		msg.datas = input.readExternalArray();
 	}
 	private function w_com_net_flash_test_Messages_EchoRequest(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message);
@@ -157,8 +157,8 @@ package com.net.flash.test
 	public function new_com_net_flash_test_Messages_EchoResponse() : com.net.flash.test.Messages.EchoResponse {return new com.net.flash.test.Messages.EchoResponse();}
 	private function r_com_net_flash_test_Messages_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, input : NetDataInput) : void {
 		msg.message = input.readJavaUTF();
-		msg.data = input.readExternal(1) as com.net.flash.test.Messages.Data;
-		msg.datas = input.readExternalArray(1);
+		msg.data = input.readExternal() as com.net.flash.test.Messages.Data;
+		msg.datas = input.readExternalArray();
 	}
 	private function w_com_net_flash_test_Messages_EchoResponse(msg : com.net.flash.test.Messages.EchoResponse, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message);

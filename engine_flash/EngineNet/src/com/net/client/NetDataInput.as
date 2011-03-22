@@ -82,21 +82,26 @@ package com.net.client
 			return ret;
 		}
 	
-		public function readExternalArray(type : int) : Array
+		public function readExternalArray() : Array
 		{
 			var count : int = super.readInt();
 			var ret : Array = new Array(count);
 			for (var i : int = 0; i<count; i++) {
-				ret[i] = this.readExternal(type);
+				ret[i] = this.readExternal();
 			}
 			return ret;
 		}
 		
-		public function readExternal(type : int) : Message
+		public function readExternal() : Message
 		{
-			var ret : Message = factory.createMessage(type);
-			factory.readExternal(ret, this);
-			return ret;
+			var type : int = super.readInt();
+			if (type > 0) {
+				var ret : Message = factory.createMessage(type);
+				factory.readExternal(ret, this);
+				return ret;
+			} else {
+				return null;
+			}
 		}
 				
 		public function readChar() : int

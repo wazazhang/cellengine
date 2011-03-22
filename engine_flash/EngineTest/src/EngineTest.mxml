@@ -13,8 +13,11 @@
 			import com.net.client.ServerSessionListener;
 			import com.net.client.minaimpl.ServerSessionImpl;
 			import com.net.flash.test.MessageCodec;
+			import com.net.flash.test.Messages.Data;
 			import com.net.flash.test.Messages.Echo2Request;
 			import com.net.flash.test.Messages.Echo2Response;
+			import com.net.flash.test.Messages.EchoRequest;
+			import com.net.flash.test.Messages.EchoResponse;
 			import com.net.flash.test.TestClient;
 			
 			import mx.events.FlexEvent;
@@ -47,7 +50,7 @@
 			
 			protected function btn_send_clickHandler(event:MouseEvent):void
 			{
-				client.sendRequest(new Echo2Request(txt_send.text), client_response);
+				client.sendRequest(new EchoRequest(txt_send.text, new Data(), new Array()), client_response);
 			}
 			
 			//-------------------------------------------------------------------------------------------------
@@ -62,9 +65,13 @@
 			}
 			protected function client_response(event:ClientEvent)
 			{
-				if (event.getResponse() is Echo2Response) {
-					var response : Echo2Response = event.getResponse() as Echo2Response;
-					txt_messages.appendText("response : " + response.message + "\n");
+				if (event.getResponse() is EchoResponse) {
+					var response1 : EchoResponse = event.getResponse() as EchoResponse;
+					txt_messages.appendText("response : " + response1.message + "\n");
+				}
+				else if (event.getResponse() is Echo2Response) {
+					var response2 : Echo2Response = event.getResponse() as Echo2Response;
+					txt_messages.appendText("response : " + response2.message + "\n");
 				}
 			}
 			//-------------------------------------------------------------------------------------------------
