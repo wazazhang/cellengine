@@ -50,7 +50,10 @@
 			
 			protected function btn_send_clickHandler(event:MouseEvent):void
 			{
-				client.sendRequest(new EchoRequest(txt_send.text, new Data(), new Array()), client_response);
+				client.sendRequest(new EchoRequest(txt_send.text, 
+					new Data("tdadf", true, 0, 1, 2, 3, 4, ["1", "2", "3"], [1,2,3]), 
+					[1,2,3]), 
+					client_response);
 			}
 			
 			//-------------------------------------------------------------------------------------------------

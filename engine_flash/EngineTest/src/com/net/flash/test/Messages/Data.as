@@ -10,19 +10,33 @@ package com.net.flash.test.Messages
 	 */
 	public class Data extends Message
 	{
+		/** Java type is java.lang.String[]*/
 		public var message2 :  String;
+		/** Java type is boolean[]*/
 		public var d0 :  Boolean;
+		/** Java type is byte[]*/
 		public var d1 :  int;
+		/** Java type is short[]*/
 		public var d2 :  int;
+		/** Java type is char[]*/
 		public var d3 :  int;
+		/** Java type is int[]*/
 		public var d4 :  int;
+		/** Java type is float[]*/
 		public var d5 :  Number;
+		/** Java type is java.lang.String[]*/
 		public var a_message2 :  Array;
+		/** Java type is boolean[]*/
 		public var a_d0 :  Array;
+		/** Java type is byte[]*/
 		public var a_d1 :  Array;
+		/** Java type is short[]*/
 		public var a_d2 :  Array;
+		/** Java type is char[]*/
 		public var a_d3 :  Array;
+		/** Java type is int[]*/
 		public var a_d4 :  Array;
+		/** Java type is float[]*/
 		public var a_d5 :  Array;
 
 		public function Data(

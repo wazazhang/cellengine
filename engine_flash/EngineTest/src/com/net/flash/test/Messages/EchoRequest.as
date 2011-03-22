@@ -10,8 +10,11 @@ package com.net.flash.test.Messages
 	 */
 	public class EchoRequest extends Message
 	{
+		/** Java type is java.lang.String[]*/
 		public var message :  String;
+		/** Java type is com.net.flash.test.Messages.Data[]*/
 		public var data :  com.net.flash.test.Messages.Data;
+		/** Java type is com.net.flash.test.Messages.Data[]*/
 		public var datas :  Array;
 
 		public function EchoRequest(
