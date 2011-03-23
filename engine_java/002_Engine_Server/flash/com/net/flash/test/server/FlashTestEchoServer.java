@@ -50,7 +50,7 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 		public EchoClientSession(ClientSession session) {
 			this.session = session;
 			// 每10秒向客户端发送个消息
-			this.task = services.scheduleAtFixedRate(this, 10000, 10000);
+			this.task = services.scheduleAtFixedRate(this, 1000, 10000);
 		}
 		@Override
 		public void disconnected(ClientSession session) {

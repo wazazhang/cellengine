@@ -285,7 +285,7 @@ public class NetPackageCodec extends MessageHeaderCodec
     			
     			buffer.flip();
     			out.write(buffer);
-    			
+//    			System.out.println(buffer.getHexDump());
     			//System.out.println("encoded -> " + session.getRemoteAddress() + " : " + protocol);
 				SentMessageCount ++;
         	}
