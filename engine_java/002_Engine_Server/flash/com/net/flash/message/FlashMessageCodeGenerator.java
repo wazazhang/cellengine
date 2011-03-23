@@ -80,8 +80,8 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		{
 			String c_name = e.getValue().getCanonicalName();
 			String s_name = e.getValue().getSimpleName();
-			String m_name = c_name.replace('.', '_');
 			int    s_type = e.getKey();
+			String m_name = s_name + "_" + s_type;
 			
 			read_external.append(
 			"		if (msg is " + c_name + ") {\n" +
@@ -91,7 +91,7 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 			"		if (msg is " + c_name + ") {\n" +
 			"			w_" + m_name + "(" + c_name + "(msg), output); return;\n" +
 			"		}\n");
-			genCodecMethod(factory, e.getValue(), classes);
+			genCodecMethod(factory, e.getValue(), s_type, classes);
 			get_type.append(
 			"			if (msg is " + c_name + ") return " + s_type + ";\n");
 			new_msg.append(
@@ -115,11 +115,11 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 	 * @param msg
 	 * @param sb
 	 */
-	protected void genCodecMethod(ExternalizableFactory factory, Class<?> msg, StringBuilder sb)
+	protected void genCodecMethod(ExternalizableFactory factory, Class<?> msg, int msg_type, StringBuilder sb)
 	{
 		String c_name = msg.getCanonicalName();
 		String s_name = msg.getSimpleName();
-		String m_name = c_name.replace('.', '_');
+		String m_name = s_name + "_" + msg_type;
 		
 		StringBuilder read = new StringBuilder();
 		StringBuilder write = new StringBuilder();
@@ -133,7 +133,7 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	public function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
+		sb.append("	function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
 		sb.append("	private function r_" + m_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
 		sb.append(read);
 		sb.append("	}\n");
