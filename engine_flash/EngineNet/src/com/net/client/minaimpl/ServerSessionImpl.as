@@ -250,7 +250,7 @@ package com.net.client.minaimpl
 				if (buf.bytesAvailable>0) {
 					// 把未解析完的数据存入状态
 					this.undecoded_buffer = new NetDataInput(message_factory);
-					this.undecoded_buffer.writeBytes(buf, buf.position, buf.length - buf.position);
+					this.undecoded_buffer.writeBytes(buf, buf.position, buf.bytesAvailable);
 				} else {
 					// 如果无数据可以解析，则清空状态
 					this.undecoded_buffer = null;

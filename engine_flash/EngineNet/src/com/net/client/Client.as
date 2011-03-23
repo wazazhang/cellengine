@@ -10,7 +10,7 @@ package com.net.client
 	[Event(name=ClientEvent.DISCONNECTED,	type="com.net.client.ClientEvent")]  
 	public class Client extends EventDispatcher implements ServerSessionListener
 	{
-		private var package_index 			: int = 0;
+		private var package_index 			: int = 1;
 		
 		/**key is package num, value is ClientResponseListener*/
 		private var request_listeners		: Dictionary = new Dictionary();
@@ -133,14 +133,6 @@ package com.net.client
 			}
 		}
 		
-		/**
-		 * 立刻清理所有未响应的请求和囤积的未知消息
-		 */
-		public function cleanRequestAndNotify() : void
-		{
-			clearRequests();
-			clearNotifyListeners();
-		}
 		
 //	----------------------------------------------------------------------------------------------------------------------------
 //		
@@ -183,6 +175,7 @@ package com.net.client
 		{
 			trace("receivedMessage : " + protocol);	
 			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
+			delete request_listeners[protocol.getPacketNumber()];
 			if (request != null) {
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
 					protocol.getChannelID(), request.request, protocol.getMessage());
