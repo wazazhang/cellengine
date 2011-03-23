@@ -42,6 +42,19 @@ public class Messages
 //		public double[] 	a_d6;
 	}
 	
+	public static class EchoNotify extends FlashMessage
+	{
+		public String message;		
+		public EchoNotify(String message) {
+			this.message = message;
+		}
+		public EchoNotify() {}
+		@Override
+		public String toString() {
+			return message+"";
+		}
+	}
+	
 	public static class Echo2Request extends FlashMessage
 	{
 		public String message;		

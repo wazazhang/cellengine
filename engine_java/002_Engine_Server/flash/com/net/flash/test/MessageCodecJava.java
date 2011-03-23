@@ -23,6 +23,9 @@ public class MessageCodecJava implements MutualMessageCodec
 		if (msg.getClass().equals(com.net.flash.test.Messages.Echo2Response.class)) {
 			_r((com.net.flash.test.Messages.Echo2Response)msg, in); return;
 		}
+		if (msg.getClass().equals(com.net.flash.test.Messages.EchoNotify.class)) {
+			_r((com.net.flash.test.Messages.EchoNotify)msg, in); return;
+		}
 		if (msg.getClass().equals(com.net.flash.test.Messages.EchoRequest.class)) {
 			_r((com.net.flash.test.Messages.EchoRequest)msg, in); return;
 		}
@@ -42,6 +45,9 @@ public class MessageCodecJava implements MutualMessageCodec
 		}
 		if (msg.getClass().equals(com.net.flash.test.Messages.Echo2Response.class)) {
 			_w((com.net.flash.test.Messages.Echo2Response)msg, out); return;
+		}
+		if (msg.getClass().equals(com.net.flash.test.Messages.EchoNotify.class)) {
+			_w((com.net.flash.test.Messages.EchoNotify)msg, out); return;
 		}
 		if (msg.getClass().equals(com.net.flash.test.Messages.EchoRequest.class)) {
 			_w((com.net.flash.test.Messages.EchoRequest)msg, out); return;
@@ -108,6 +114,17 @@ public class MessageCodecJava implements MutualMessageCodec
 		msg.message = in.readUTF();
 	}
 	private void _w(com.net.flash.test.Messages.Echo2Response msg, NetDataOutput out) throws IOException {
+		out.writeUTF(msg.message);
+	}
+
+//	----------------------------------------------------------------------------------------------------
+//	com.net.flash.test.Messages.EchoNotify
+//	----------------------------------------------------------------------------------------------------
+	public com.net.flash.test.Messages.EchoNotify new_com_net_flash_test_Messages_EchoNotify(){return new com.net.flash.test.Messages.EchoNotify();}
+	private void _r(com.net.flash.test.Messages.EchoNotify msg, NetDataInput in) throws IOException {
+		msg.message = in.readUTF();
+	}
+	private void _w(com.net.flash.test.Messages.EchoNotify msg, NetDataOutput out) throws IOException {
 		out.writeUTF(msg.message);
 	}
 
