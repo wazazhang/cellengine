@@ -54,9 +54,10 @@
 			protected function btn_send_clickHandler(event:MouseEvent):void
 			{
 				// 发送一个随意的消息
-				client.sendRequest(new EchoRequest(txt_send.text, 
+				client.sendRequest(new EchoRequest(
+					txt_send.text, 
 					new Data("tdadf", true, 0, 1, 2, 3, 4, ["1", "2", "3"], [1,2,3]), 
-					[1,2,3]), 
+					[null]), 
 					client_response);
 			}
 			

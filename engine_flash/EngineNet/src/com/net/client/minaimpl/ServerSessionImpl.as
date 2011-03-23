@@ -139,8 +139,11 @@ package com.net.client.minaimpl
 			protocol.setChannelID(0);
 			protocol.setChannelSessionID(0,0);
 			var stream  : ByteArray = encode(protocol);
-			connector.writeBytes(stream);
-			connector.flush();
+			if (stream != null) {
+				stream.position = 0;
+				connector.writeBytes(stream, 0, stream.length);
+				connector.flush();
+			}
 		}
 		
 //		---------------------------------------------------------------------------------------------------------
