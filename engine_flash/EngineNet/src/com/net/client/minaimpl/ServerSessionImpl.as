@@ -333,7 +333,7 @@ package com.net.client.minaimpl
 						case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 						case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-							protocol.setChannelID			(buffer.readUTF());		// utf
+							protocol.setChannelID			(buffer.readInt());		// utf
 							protocol.setChannelSessionID	(buffer.readInt(), 
 															 buffer.readInt());		// 8
 							break;
@@ -416,7 +416,7 @@ package com.net.client.minaimpl
 						case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 						case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-							buffer.writeUTF	(protocol.getChannelID());		// utf
+							buffer.writeInt	(protocol.getChannelID());		// utf
 							buffer.writeInt	(0);							// 8
 							buffer.writeInt	(0);
 							break;

@@ -23,12 +23,12 @@ package com.net.client
 		private var client 		: Client;
 		private var request		: Message;
 		private var message		: Message;
-		private var channel_id	: String;
+		private var channel_id	: int;
 		
 		public function ClientEvent(
 			evt 		: String, 
 			client 		: Client,
-			channel_id	: String,
+			channel_id	: int,
 			request		: Message,
 			message		: Message) 
 		{
@@ -54,7 +54,7 @@ package com.net.client
 			return message;
 		}
 	
-		public function getChannelID() : String {
+		public function getChannelID() : int {
 			return channel_id;
 		}
 		
