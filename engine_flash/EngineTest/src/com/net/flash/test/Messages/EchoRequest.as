@@ -10,13 +10,17 @@ package com.net.flash.test.Messages
 	 */
 	public class EchoRequest extends Message
 	{
-		/** Java type is java.lang.String */
+		/** Java type is : <font color=#0000ff>java.lang.String</font> */
 		public var message :  String;
-		/** Java type is com.net.flash.test.Messages.Data */
+		/** Java type is : <font color=#0000ff>com.net.flash.test.Messages.Data</font> */
 		public var data :  com.net.flash.test.Messages.Data;
-		/** Java type is com.net.flash.test.Messages.Data[] */
+		/** Java type is : <font color=#0000ff>com.net.flash.test.Messages.Data[]</font> */
 		public var datas :  Array;
 
+		/**
+		 * @param message as <font color=#0000ff>java.lang.String</font>
+		 * @param data as <font color=#0000ff>com.net.flash.test.Messages.Data</font>
+		 * @param datas as <font color=#0000ff>com.net.flash.test.Messages.Data[]</font>		 */
 		public function EchoRequest(
 			message :  String = null,
 			data :  com.net.flash.test.Messages.Data = null,

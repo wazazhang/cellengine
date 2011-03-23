@@ -10,9 +10,11 @@ package com.net.flash.test.Messages
 	 */
 	public class Echo2Request extends Message
 	{
-		/** Java type is java.lang.String */
+		/** Java type is : <font color=#0000ff>java.lang.String</font> */
 		public var message :  String;
 
+		/**
+		 * @param message as <font color=#0000ff>java.lang.String</font>		 */
 		public function Echo2Request(
 			message :  String = null) 
 		{

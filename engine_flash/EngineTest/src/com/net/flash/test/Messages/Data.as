@@ -10,35 +10,50 @@ package com.net.flash.test.Messages
 	 */
 	public class Data extends Message
 	{
-		/** Java type is java.lang.String */
+		/** Java type is : <font color=#0000ff>java.lang.String</font> */
 		public var message2 :  String;
-		/** Java type is boolean */
+		/** Java type is : <font color=#0000ff>boolean</font> */
 		public var d0 :  Boolean;
-		/** Java type is byte */
+		/** Java type is : <font color=#0000ff>byte</font> */
 		public var d1 :  int;
-		/** Java type is short */
+		/** Java type is : <font color=#0000ff>short</font> */
 		public var d2 :  int;
-		/** Java type is char */
+		/** Java type is : <font color=#0000ff>char</font> */
 		public var d3 :  int;
-		/** Java type is int */
+		/** Java type is : <font color=#0000ff>int</font> */
 		public var d4 :  int;
-		/** Java type is float */
+		/** Java type is : <font color=#0000ff>float</font> */
 		public var d5 :  Number;
-		/** Java type is java.lang.String[] */
+		/** Java type is : <font color=#0000ff>java.lang.String[]</font> */
 		public var a_message2 :  Array;
-		/** Java type is boolean[] */
+		/** Java type is : <font color=#0000ff>boolean[]</font> */
 		public var a_d0 :  Array;
-		/** Java type is byte[] */
+		/** Java type is : <font color=#0000ff>byte[]</font> */
 		public var a_d1 :  Array;
-		/** Java type is short[] */
+		/** Java type is : <font color=#0000ff>short[]</font> */
 		public var a_d2 :  Array;
-		/** Java type is char[] */
+		/** Java type is : <font color=#0000ff>char[]</font> */
 		public var a_d3 :  Array;
-		/** Java type is int[] */
+		/** Java type is : <font color=#0000ff>int[]</font> */
 		public var a_d4 :  Array;
-		/** Java type is float[] */
+		/** Java type is : <font color=#0000ff>float[]</font> */
 		public var a_d5 :  Array;
 
+		/**
+		 * @param message2 as <font color=#0000ff>java.lang.String</font>
+		 * @param d0 as <font color=#0000ff>boolean</font>
+		 * @param d1 as <font color=#0000ff>byte</font>
+		 * @param d2 as <font color=#0000ff>short</font>
+		 * @param d3 as <font color=#0000ff>char</font>
+		 * @param d4 as <font color=#0000ff>int</font>
+		 * @param d5 as <font color=#0000ff>float</font>
+		 * @param a_message2 as <font color=#0000ff>java.lang.String[]</font>
+		 * @param a_d0 as <font color=#0000ff>boolean[]</font>
+		 * @param a_d1 as <font color=#0000ff>byte[]</font>
+		 * @param a_d2 as <font color=#0000ff>short[]</font>
+		 * @param a_d3 as <font color=#0000ff>char[]</font>
+		 * @param a_d4 as <font color=#0000ff>int[]</font>
+		 * @param a_d5 as <font color=#0000ff>float[]</font>		 */
 		public function Data(
 			message2 :  String = null,
 			d0 :  Boolean = false,
