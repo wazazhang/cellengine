@@ -268,9 +268,10 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		String s_name = msg.getSimpleName();
 		String o_package = c_name.substring(0, c_name.length() - s_name.length() - 1);
 		
-		StringBuilder d_fields = new StringBuilder();
-		StringBuilder d_args = new StringBuilder();		
-		StringBuilder d_init = new StringBuilder();	
+		StringBuilder d_fields 		= new StringBuilder();
+		StringBuilder d_init_args	= new StringBuilder();		
+		StringBuilder d_init_fields = new StringBuilder();	
+		StringBuilder d_init_commet	= new StringBuilder();	
 		
 		ArrayList<Field> fields = new ArrayList<Field>();
 		for (Field f : msg.getFields()) {
@@ -280,27 +281,32 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 			}
 		}
 		int i = 0;
+		d_init_commet.append("		/**\n");
 		for (Field f : fields) {
+			String field_type_comment = f.getType().getCanonicalName();
 			if (f.getType().isArray()) {
-			d_fields.append(
-			"		/** Java type is " + f.getType().getComponentType().getCanonicalName() + "[] */\n");
-			} else {
-			d_fields.append(
-			"		/** Java type is " + f.getType().getCanonicalName() + " */\n");
+				field_type_comment = f.getType().getComponentType().getCanonicalName() + "[]";
 			}
 			d_fields.append(
+			"		/** Java type is : <font color=#0000ff>" + field_type_comment + "</font> */\n");
+			
+			d_fields.append(
 			"		public var " + genMsgField(factory, f) + ";");
-			d_args.append(
+			d_init_commet.append(
+			"		 * @param " + f.getName() + " as <font color=#0000ff>" + field_type_comment + "</font>");
+			d_init_args.append(
 			"			" + genMsgField(factory, f) + " = " + genMsgFieldValue(f));
-			d_init.append(
+			d_init_fields.append(
 			"			this." + f.getName() + " = " + f.getName()+";");
 			if (i < fields.size() - 1) {
 				d_fields.append("\n");
-				d_args.append(",\n");
-				d_init.append("\n");
+				d_init_commet.append("\n");
+				d_init_args.append(",\n");
+				d_init_fields.append("\n");
 			}
 			i++;
 		}
+		d_init_commet.append("		 */");
 		
 		
 		String ret = this.message_template;
@@ -309,8 +315,9 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		ret = CUtil.replaceString(ret, "//classType", 		msg_type+"");
 		ret = CUtil.replaceString(ret, "//className", 		s_name);
 		ret = CUtil.replaceString(ret, "//classFullName", 	c_name);
-		ret = CUtil.replaceString(ret, "//args",			d_args.toString());
-		ret = CUtil.replaceString(ret, "//initFields",		d_init.toString());
+		ret = CUtil.replaceString(ret, "//initComment",		d_init_commet.toString());
+		ret = CUtil.replaceString(ret, "//initArgs",		d_init_args.toString());
+		ret = CUtil.replaceString(ret, "//initFields",		d_init_fields.toString());
 		ret = CUtil.replaceString(ret, "//fields",			d_fields.toString());
 		return ret;
 	}

@@ -12,8 +12,9 @@ package //package
 	{
 //fields
 
+//initComment
 		public function //className(
-//args) 
+//initArgs) 
 		{
 //initFields
 		}
