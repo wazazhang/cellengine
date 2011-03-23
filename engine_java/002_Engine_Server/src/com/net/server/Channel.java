@@ -8,7 +8,7 @@ import com.net.Protocol;
 
 public interface Channel 
 {
-	public int 						getID();
+	public String					getID();
 	
 	public Iterator<ClientSession> 	getSessions();
 	

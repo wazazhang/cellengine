@@ -6,22 +6,22 @@ import com.net.client.ServerSession;
 
 class ClientChannelImpl implements ClientChannel 
 {
-	final private ServerSessionImpl	Session;
-	final private int				ID;
-	
-	public ClientChannelImpl(ServerSessionImpl session, int id) {
+	final private ServerSessionImpl Session;
+	final private String ID;
+
+	public ClientChannelImpl(ServerSessionImpl session, String id) {
 		Session = session;
-		ID 		= id;
+		ID = id;
 	}
-	
-	public int getID() {
+
+	public String getID() {
 		return ID;
 	}
-	
+
 	public void send(MessageHeader message) {
 		Session.sendChannel(message, this);
 	}
-	
+
 	public ServerSession getSession() {
 		return Session;
 	}

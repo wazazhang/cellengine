@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 public interface ChannelManager 
 {
-	public Channel createChannel(int id, ChannelListener listener);
+	public Channel createChannel(String id, ChannelListener listener);
 	
-	public Channel removeChannel(int id);
+	public Channel removeChannel(String id);
 	
-	public Channel getChannel(int id);
+	public Channel getChannel(String id);
 	
 	public Iterator<Channel> getChannels();
 }

@@ -31,13 +31,13 @@ public class NetDataInputImpl implements NetDataInput
 	}
 //	-----------------------------------------------------------------------------------------------
 
-	synchronized
+	
 	public int skipBytes(int n) throws IOException {
 		buffer.skip(n);
 		return n;
 	}
 	
-	synchronized
+	
 	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
 		int type = buffer.getInt();
 		if (type > 0) {
@@ -52,7 +52,7 @@ public class NetDataInputImpl implements NetDataInput
 		return null;
 	}
 
-	synchronized
+	
 	public <T extends ExternalizableMessage> T[] readExternalArray(Class<T> type) throws IOException {
 		T[] ret = CUtil.newArray(type, buffer.getInt());
 		for (int i = 0; i < ret.length; i++) {
@@ -61,7 +61,7 @@ public class NetDataInputImpl implements NetDataInput
 		return ret;
 	}
 	
-	synchronized
+	
 	public <T> T readObject(Class<T> type) throws IOException {
 		int size = buffer.getInt();
 		if (size > 0) {
@@ -78,7 +78,7 @@ public class NetDataInputImpl implements NetDataInput
 	}
 	
 	@Override
-	synchronized
+	
 	public <T> T[] readObjectArray(Class<T> type) throws IOException {
 		T[] ret = CUtil.newArray(type, buffer.getInt());
 		for (int i = 0; i < ret.length; i++) {
@@ -87,8 +87,18 @@ public class NetDataInputImpl implements NetDataInput
 		return ret;
 	}
 
-	synchronized
+	
 	public String readUTF() throws IOException {
+		int size = buffer.getShort();
+		if (size >= 0) {		
+			byte[] data = new byte[size];
+			buffer.get(data);
+			return new String(data, CUtil.getEncoding());
+		}
+		return null;
+	}
+	
+	static public String readUTF(IoBuffer buffer) throws IOException {
 		int size = buffer.getShort();
 		if (size >= 0) {		
 			byte[] data = new byte[size];
@@ -109,89 +119,89 @@ public class NetDataInputImpl implements NetDataInput
 	
 //	-----------------------------------------------------------------------------------------------
 	
-	synchronized
+	
 	public boolean readBoolean() throws IOException {
 		return buffer.get()!=0;
 	}
-	synchronized
+	
 	public byte readByte() throws IOException {
 		return buffer.get();
 	}
-	synchronized
+	
 	public char readChar() throws IOException {
 		return buffer.getChar();
 	}
-	synchronized
+	
 	public double readDouble() throws IOException {
 		return buffer.getDouble();
 	}
-	synchronized
+	
 	public float readFloat() throws IOException {
 		return buffer.getFloat();
 	}
-	synchronized
+	
 	public void readFully(byte[] b, int off, int len) throws IOException {
 		buffer.get(b, off, len);
 	}
-	synchronized
+	
 	public void readFully(byte[] b) throws IOException {
 		buffer.get(b);
 	}
-	synchronized
+	
 	public int readInt() throws IOException {
 		return buffer.getInt();
 	}
-	synchronized
+	
 	public String readLine() throws IOException {
 		throw new NotImplementedException();
 	}
-	synchronized
+	
 	public long readLong() throws IOException {
 		return buffer.getLong();
 	}
-	synchronized
+	
 	public short readShort() throws IOException {
 		return buffer.getShort();
 	}
-	synchronized
+	
 	public int readUnsignedByte() throws IOException {
 		return buffer.getUnsigned();
 	}
-	synchronized
+	
 	public int readUnsignedShort() throws IOException {
 		return buffer.getUnsignedShort();
 	}
 
 //	--------------------------------------------------------------------------------------------------------------
-	synchronized
+	
 	public boolean[] readBooleanArray() throws IOException {
 		return ExternalizableUtil.readBooleanArray(this);
 	}
-	synchronized
+	
 	public char[] readCharArray() throws IOException {
 		return ExternalizableUtil.readCharArray(this);
 	}
-	synchronized
+	
 	public byte[] readByteArray() throws IOException {
 		return ExternalizableUtil.readByteArray(this);
 	}
-	synchronized
+	
 	public short[] readShortArray() throws IOException {
 		return ExternalizableUtil.readShortArray(this);
 	}
-	synchronized
+	
 	public int[] readIntArray() throws IOException {
 		return ExternalizableUtil.readIntArray(this);
 	}
-	synchronized
+	
 	public long[] readLongArray() throws IOException {
 		return ExternalizableUtil.readLongArray(this);
 	}
-	synchronized
+	
 	public float[] readFloatArray() throws IOException {
 		return ExternalizableUtil.readFloatArray(this);
 	}
-	synchronized
+	
 	public double[] readDoubleArray() throws IOException {
 		return ExternalizableUtil.readDoubleArray(this);
 	}

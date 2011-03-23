@@ -10,7 +10,7 @@ import com.net.server.Server;
 
 public class ChannelManagerImpl implements ChannelManager
 {
-	final private ConcurrentHashMap<Integer, Channel> Channels = new ConcurrentHashMap<Integer, Channel>(1000);
+	final private ConcurrentHashMap<String, Channel> Channels = new ConcurrentHashMap<String, Channel>(10);
 	
 	final AbstractServer server;
 	
@@ -18,7 +18,7 @@ public class ChannelManagerImpl implements ChannelManager
 		this.server = server;
 	}
 	
-	public Channel createChannel(int id, ChannelListener listener) {
+	public Channel createChannel(String id, ChannelListener listener) {
 		ChannelImpl channel = new ChannelImpl(listener, id, server, this);
 		Channel ret = Channels.putIfAbsent(id, channel);
 		if (ret == null) {
@@ -27,7 +27,7 @@ public class ChannelManagerImpl implements ChannelManager
 		return null;
 	}
 	
-	public Channel getChannel(int id) {
+	public Channel getChannel(String id) {
 		return Channels.get(id);
 	}
 	
@@ -36,7 +36,7 @@ public class ChannelManagerImpl implements ChannelManager
 	}
 	
 	@Override
-	public Channel removeChannel(int id) {
+	public Channel removeChannel(String id) {
 		return Channels.remove(id);
 	}
 }

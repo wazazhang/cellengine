@@ -19,7 +19,7 @@ public class ChannelImpl implements Channel
 {
 	final ChannelListener 		Listener;
 	
-	final int 					ID;
+	final String				ID;
 	
 	final AbstractServer		server;
 	
@@ -28,7 +28,7 @@ public class ChannelImpl implements Channel
 	
 	final ChannelManagerImpl	channel_manager;;
 	
-	ChannelImpl(ChannelListener listener, int id, AbstractServer server, ChannelManagerImpl cm) {
+	ChannelImpl(ChannelListener listener, String id, AbstractServer server, ChannelManagerImpl cm) {
 		this.Listener			= listener;
 		this.ID 				= id;
 		this.server 			= server;
@@ -40,7 +40,7 @@ public class ChannelImpl implements Channel
 		channel_manager.removeChannel(getID());
 	}
 	
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 	
@@ -100,7 +100,7 @@ public class ChannelImpl implements Channel
 		int  count = 0;
 		for (Iterator<ClientSessionImpl> it = sessions.values().iterator(); it.hasNext(); ) {
 			ClientSessionImpl session = it.next();
-			server.write(session.Session, message, Protocol.PROTOCOL_CHANNEL_MESSAGE, getID(), sender_id, packnum);
+			server.write(session.Session, message, Protocol.PROTOCOL_CHANNEL_MESSAGE, ID, sender_id, packnum);
 		}
 		return count;
 	}
