@@ -16,6 +16,7 @@
 			import com.net.flash.test.Messages.Data;
 			import com.net.flash.test.Messages.Echo2Request;
 			import com.net.flash.test.Messages.Echo2Response;
+			import com.net.flash.test.Messages.EchoNotify;
 			import com.net.flash.test.Messages.EchoRequest;
 			import com.net.flash.test.Messages.EchoResponse;
 			import com.net.flash.test.TestClient;
@@ -30,8 +31,11 @@
 			//UI事件
 			protected function btn_connect_addedHandler(event:Event):void
 			{
+				// 监听客户端连接情况
 				client.addEventListener(ClientEvent.CONNECTED, 		client_connected);
 				client.addEventListener(ClientEvent.DISCONNECTED,	client_disconnected);
+				// 监听服务器主动发送过来的通知
+				client.addNotifyListener(client_notify);
 			}
 			
 			protected function button2_clickHandler(event:MouseEvent):void
@@ -40,7 +44,6 @@
 					txt_messages.appendText("connecting...\n");
 					client.connect(txt_host.text, new int(txt_port.text));
 				}
-				
 			}
 			
 			protected function btn_disconnect_clickHandler(event:MouseEvent):void
@@ -50,6 +53,7 @@
 			
 			protected function btn_send_clickHandler(event:MouseEvent):void
 			{
+				// 发送一个随意的消息
 				client.sendRequest(new EchoRequest(txt_send.text, 
 					new Data("tdadf", true, 0, 1, 2, 3, 4, ["1", "2", "3"], [1,2,3]), 
 					[1,2,3]), 
@@ -66,6 +70,7 @@
 			{
 				txt_messages.appendText("disconnected !\n");
 			}
+			// 监听回馈消息
 			protected function client_response(event:ClientEvent)
 			{
 				if (event.getResponse() is EchoResponse) {
@@ -75,6 +80,14 @@
 				else if (event.getResponse() is Echo2Response) {
 					var response2 : Echo2Response = event.getResponse() as Echo2Response;
 					txt_messages.appendText("response : " + response2.message + "\n");
+				}
+			}
+			// 监听通知消息
+			protected function client_notify(event:ClientEvent)
+			{
+				if (event.getResponse() is EchoNotify) {
+					var notify : EchoNotify = event.getNotify() as EchoNotify;
+					txt_messages.appendText("notify : " + notify.message + "\n");
 				}
 			}
 			//-------------------------------------------------------------------------------------------------

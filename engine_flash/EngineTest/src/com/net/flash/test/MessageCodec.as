@@ -17,8 +17,9 @@ package com.net.flash.test
 			if (msg is com.net.flash.test.Messages.Data) return 1;
 			if (msg is com.net.flash.test.Messages.Echo2Request) return 2;
 			if (msg is com.net.flash.test.Messages.Echo2Response) return 3;
-			if (msg is com.net.flash.test.Messages.EchoRequest) return 4;
-			if (msg is com.net.flash.test.Messages.EchoResponse) return 5;
+			if (msg is com.net.flash.test.Messages.EchoNotify) return 4;
+			if (msg is com.net.flash.test.Messages.EchoRequest) return 5;
+			if (msg is com.net.flash.test.Messages.EchoResponse) return 6;
 
 			return 0;
 		}
@@ -30,8 +31,9 @@ package com.net.flash.test
 			case 1 : return new com.net.flash.test.Messages.Data;
 			case 2 : return new com.net.flash.test.Messages.Echo2Request;
 			case 3 : return new com.net.flash.test.Messages.Echo2Response;
-			case 4 : return new com.net.flash.test.Messages.EchoRequest;
-			case 5 : return new com.net.flash.test.Messages.EchoResponse;
+			case 4 : return new com.net.flash.test.Messages.EchoNotify;
+			case 5 : return new com.net.flash.test.Messages.EchoRequest;
+			case 6 : return new com.net.flash.test.Messages.EchoResponse;
 
 			}
 			return null;
@@ -47,6 +49,9 @@ package com.net.flash.test
 		}
 		if (msg is com.net.flash.test.Messages.Echo2Response) {
 			r_com_net_flash_test_Messages_Echo2Response(com.net.flash.test.Messages.Echo2Response(msg), input); return;
+		}
+		if (msg is com.net.flash.test.Messages.EchoNotify) {
+			r_com_net_flash_test_Messages_EchoNotify(com.net.flash.test.Messages.EchoNotify(msg), input); return;
 		}
 		if (msg is com.net.flash.test.Messages.EchoRequest) {
 			r_com_net_flash_test_Messages_EchoRequest(com.net.flash.test.Messages.EchoRequest(msg), input); return;
@@ -67,6 +72,9 @@ package com.net.flash.test
 		}
 		if (msg is com.net.flash.test.Messages.Echo2Response) {
 			w_com_net_flash_test_Messages_Echo2Response(com.net.flash.test.Messages.Echo2Response(msg), output); return;
+		}
+		if (msg is com.net.flash.test.Messages.EchoNotify) {
+			w_com_net_flash_test_Messages_EchoNotify(com.net.flash.test.Messages.EchoNotify(msg), output); return;
 		}
 		if (msg is com.net.flash.test.Messages.EchoRequest) {
 			w_com_net_flash_test_Messages_EchoRequest(com.net.flash.test.Messages.EchoRequest(msg), output); return;
@@ -133,6 +141,17 @@ package com.net.flash.test
 		msg.message = input.readJavaUTF();
 	}
 	private function w_com_net_flash_test_Messages_Echo2Response(msg : com.net.flash.test.Messages.Echo2Response, output : NetDataOutput) : void {
+		output.writeJavaUTF(msg.message);
+	}
+
+//	----------------------------------------------------------------------------------------------------
+//	com.net.flash.test.Messages.EchoNotify
+//	----------------------------------------------------------------------------------------------------
+	public function new_com_net_flash_test_Messages_EchoNotify() : com.net.flash.test.Messages.EchoNotify {return new com.net.flash.test.Messages.EchoNotify();}
+	private function r_com_net_flash_test_Messages_EchoNotify(msg : com.net.flash.test.Messages.EchoNotify, input : NetDataInput) : void {
+		msg.message = input.readJavaUTF();
+	}
+	private function w_com_net_flash_test_Messages_EchoNotify(msg : com.net.flash.test.Messages.EchoNotify, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message);
 	}
 
