@@ -1,5 +1,6 @@
 package com.net.client.minaimpl
 {	
+	import com.cell.util.Util;
 	import com.net.client.Message;
 	import com.net.client.MessageFactory;
 	import com.net.client.NetDataInput;
@@ -202,10 +203,11 @@ package com.net.client.minaimpl
 				var avaliable : int = this.connector.bytesAvailable;
 				var buf : NetDataInput = new NetDataInput(message_factory);
 				this.connector.readBytes(buf, 0, avaliable);
-				
+
 				// 如果有未解析完的数据，则将新数据插入到后面
 				if (this.undecoded_buffer!=null) {
-					this.undecoded_buffer.writeBytes(buf, 0, buf.bytesAvailable);
+					buf.position = 0;
+					this.undecoded_buffer.writeBytes(buf, 0, buf.length);
 					buf = undecoded_buffer;
 				}
 				
@@ -373,6 +375,7 @@ package com.net.client.minaimpl
 			catch(err : Error)
 			{
 				trace("decode error  : " + err + "\n" + err.getStackTrace());
+				trace("HexDump : " + Util.dumpHex(buffer));
 				if (protocol != null) {
 					trace("drop and clean decode state !\n");
 					this.uncomplete_package = null;
