@@ -14,7 +14,7 @@ package com.net.client
 		protected var		protocol 			: int ;
 		protected var  		session_id 			: Number;
 		protected var		packet_number 		: int;
-		protected var 		channel_id 			: int;
+		protected var 		channel_id 			: String;
 		protected var 		channel_session_id 	: Number;
 		protected var 		sent_time 			: Date;
 		protected var 		received_time 		: Date;
@@ -38,7 +38,7 @@ package com.net.client
 		
 		/**频道ID<br>
 		 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-		public function 		getChannelID() : int {
+		public function 		getChannelID() : String {
 			return this.channel_id;
 		}
 		

@@ -154,14 +154,14 @@ package com.net.client
 		{
 			trace("connected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this, 
-				-1, null, null));
+				null, null, null));
 		}
 		
 		final public function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this, 
-				-1, null, null));
+				null, null, null));
 		}
 		
 		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
@@ -187,14 +187,14 @@ package com.net.client
 			}
 		}
 
-		final public function joinedChannel(channel_id : int, session : ServerSession)  : void
+		final public function joinedChannel(channel_id : String, session : ServerSession)  : void
 		{
 			trace("joinedChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, 
 				channel_id, null, null));
 		}
 		
-		final public function leftChannel(channel_id : int, session : ServerSession) : void
+		final public function leftChannel(channel_id : String, session : ServerSession) : void
 		{
 			trace("leftChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, 

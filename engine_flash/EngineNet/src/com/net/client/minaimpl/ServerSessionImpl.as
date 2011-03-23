@@ -136,7 +136,7 @@ package com.net.client.minaimpl
 		{
 			protocol.setSessionID(0,0);
 			protocol.setProtocol(Protocol.PROTOCOL_SESSION_MESSAGE);
-			protocol.setChannelID(0);
+			protocol.setChannelID(null);
 			protocol.setChannelSessionID(0,0);
 			var stream  : ByteArray = encode(protocol);
 			if (stream != null) {
@@ -333,7 +333,7 @@ package com.net.client.minaimpl
 						case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 						case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-							protocol.setChannelID			(buffer.readInt());		// 4
+							protocol.setChannelID			(buffer.readUTF());		// utf
 							protocol.setChannelSessionID	(buffer.readInt(), 
 															 buffer.readInt());		// 8
 							break;
@@ -416,7 +416,7 @@ package com.net.client.minaimpl
 						case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 						case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-							buffer.writeInt	(protocol.getChannelID());		// 4
+							buffer.writeUTF	(protocol.getChannelID());		// utf
 							buffer.writeInt	(0);							// 8
 							buffer.writeInt	(0);
 							break;

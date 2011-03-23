@@ -31,7 +31,7 @@ package com.net.client.minaimpl
 		function setPacketNumber(packet_number : int) : void {
 			this.packet_number = packet_number;
 		}
-		function setChannelID(channel_id : int) : void {
+		function setChannelID(channel_id : String) : void {
 			this.channel_id = channel_id;
 		}
 		function setChannelSessionID(s1 : int, s2 : int) : void {
