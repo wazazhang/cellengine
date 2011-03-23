@@ -5,7 +5,7 @@ import com.net.MessageHeader;
 
 public interface ClientChannel {
 
-	public String	getID();
+	public int	getID();
 	
 	public void		send(MessageHeader message);
 	

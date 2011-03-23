@@ -27,7 +27,7 @@ public interface Protocol
 
 	/**频道ID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	public String	getChannelID();
+	public int		getChannelID();
 	
 	/**频道发送者的SessionID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/

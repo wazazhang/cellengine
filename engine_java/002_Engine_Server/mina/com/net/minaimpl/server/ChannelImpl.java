@@ -19,7 +19,7 @@ public class ChannelImpl implements Channel
 {
 	final ChannelListener 		Listener;
 	
-	final String				ID;
+	final int				ID;
 	
 	final AbstractServer		server;
 	
@@ -28,7 +28,7 @@ public class ChannelImpl implements Channel
 	
 	final ChannelManagerImpl	channel_manager;;
 	
-	ChannelImpl(ChannelListener listener, String id, AbstractServer server, ChannelManagerImpl cm) {
+	ChannelImpl(ChannelListener listener, int id, AbstractServer server, ChannelManagerImpl cm) {
 		this.Listener			= listener;
 		this.ID 				= id;
 		this.server 			= server;
@@ -40,7 +40,7 @@ public class ChannelImpl implements Channel
 		channel_manager.removeChannel(getID());
 	}
 	
-	public String getID() {
+	public int getID() {
 		return ID;
 	}
 	

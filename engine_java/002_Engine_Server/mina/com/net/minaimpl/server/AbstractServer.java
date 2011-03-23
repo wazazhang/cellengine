@@ -239,7 +239,7 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			IoSession 		session, 
 			MessageHeader 	message,
 			byte			protocol, 
-			String			channel_id, 
+			int				channel_id, 
 			long			channel_sender_id,
 			int				packnumber)
 	{

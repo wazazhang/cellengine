@@ -139,8 +139,8 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-	    					p.ChannelID = NetDataInputImpl.readUTF(in);	// utf
-	    					p.ChannelSesseionID = in.getLong();			// 8
+	    					p.ChannelID 			= in.getInt();		// 4
+	    					p.ChannelSesseionID 	= in.getLong();		// 8
 	    					obj_size -= 12;
 	    					break;
 	    				}
@@ -240,8 +240,8 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-	    					NetDataOutputImpl.writeUTF(p.ChannelID, buffer);// utf
-							buffer.putLong(p.ChannelSesseionID);	// 8
+	    					buffer.putInt	(p.ChannelID);			// 4
+							buffer.putLong	(p.ChannelSesseionID);	// 8
 							break;
 						}
 						

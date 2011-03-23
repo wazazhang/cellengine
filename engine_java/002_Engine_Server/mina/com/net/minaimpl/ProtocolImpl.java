@@ -35,7 +35,7 @@ public class ProtocolImpl implements com.net.Protocol
 	
 	/**频道ID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	public String				ChannelID;
+	public int					ChannelID;
 	
 	/**频道发送者的SessionID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
@@ -68,7 +68,7 @@ public class ProtocolImpl implements com.net.Protocol
 	}
 
 	@Override
-	public String getChannelID() {
+	public int getChannelID() {
 		return ChannelID;
 	}
 

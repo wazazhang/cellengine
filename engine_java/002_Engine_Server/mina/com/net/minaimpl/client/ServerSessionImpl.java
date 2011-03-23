@@ -37,7 +37,7 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 
 	final AtomicReference<IoSession> session_ref = new AtomicReference<IoSession>(null);
 
-	ConcurrentHashMap<String, ClientChannelImpl> channels = new ConcurrentHashMap<String, ClientChannelImpl>();
+	ConcurrentHashMap<Integer, ClientChannelImpl> channels = new ConcurrentHashMap<Integer, ClientChannelImpl>();
 
 	IoConnector 			Connector;
 	NetPackageCodec 		Codec;

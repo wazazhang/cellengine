@@ -7,14 +7,14 @@ import com.net.client.ServerSession;
 class ClientChannelImpl implements ClientChannel 
 {
 	final private ServerSessionImpl Session;
-	final private String ID;
+	final private int ID;
 
-	public ClientChannelImpl(ServerSessionImpl session, String id) {
+	public ClientChannelImpl(ServerSessionImpl session, int id) {
 		Session = session;
 		ID = id;
 	}
 
-	public String getID() {
+	public int getID() {
 		return ID;
 	}
 
