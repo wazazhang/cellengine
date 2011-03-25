@@ -41,8 +41,8 @@ public class WaitingListenerProxy<
 	 * 反馈给客户端。
 	 * @param response
 	 */
-	public void sendToClient(REQ request, RSP response) {
-		src_client.sendResponse(src_protocol, response);
+	public void sendToClient(ClientSession client, REQ request, RSP response) {
+		client.sendResponse(src_protocol, response);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class WaitingListenerProxy<
 	 * @param response
 	 */
 	final public void response(BasicNetService remote, REQ request, RSP response){
-		sendToClient(request, response);
+		sendToClient(src_client, request, response);
 	}
 	
 	public void timeout(BasicNetService remote, REQ request, long send_time){}
