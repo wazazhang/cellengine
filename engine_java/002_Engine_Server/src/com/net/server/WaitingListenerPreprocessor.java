@@ -11,7 +11,7 @@ import com.net.client.service.BasicNetService;
  * @param <REQ>
  * @param <RSP>
  */
-public class WaitingListenerPreprocessor<
+abstract public class WaitingListenerPreprocessor<
 		REQ extends MessageHeader, 
 		RSP extends MessageHeader> extends WaitingListenerProxy<REQ, RSP>
 {
@@ -42,9 +42,7 @@ public class WaitingListenerPreprocessor<
 	 * @param request
 	 * @return
 	 */
-	protected RSP preprocessingMessage(REQ request) {
-		return null;
-	}
+	abstract protected RSP preprocessingMessage(REQ request) ;
 
 	/**
 	 * 对服务器传回的数据在本机的影响做处理
@@ -52,9 +50,7 @@ public class WaitingListenerPreprocessor<
 	 * @param response
 	 * @return 是否反馈给客户端
 	 */
-	protected boolean endprocessingMessage(REQ request, RSP response) {
-		return true;
-	}
+	abstract protected boolean endprocessingMessage(REQ request, RSP response) ;
 	
 	
 }
