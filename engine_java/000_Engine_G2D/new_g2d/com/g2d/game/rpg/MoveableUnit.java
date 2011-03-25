@@ -10,6 +10,7 @@ import com.g2d.Color;
 import com.g2d.display.DisplayObject;
 import com.g2d.display.DisplayShape;
 import com.g2d.geom.Line;
+import com.g2d.geom.Point;
 
 
 public abstract class MoveableUnit extends Unit
@@ -27,7 +28,7 @@ public abstract class MoveableUnit extends Unit
 	protected double 	move_target_x = 0, 
 						move_target_y = 0;
 
-	transient WayPoint 	path;
+	protected WayPoint 	path;
 	
 //	------------------------------------------------------------------------------------------------------------------------------------
 
@@ -107,6 +108,12 @@ public abstract class MoveableUnit extends Unit
 			}
 		}
 
+		TVector target_point = findTheNearMoveableCell(targetX, targetY);
+		if (target_point != null) {
+			targetX = target_point.x;
+			targetY = target_point.y;
+		}
+		
 		int sx = getOwnerWorld().localToGridX((int)x);
 		int sy = getOwnerWorld().localToGridY((int)y);
 		int dx = getOwnerWorld().localToGridX((int)targetX);
@@ -174,6 +181,38 @@ public abstract class MoveableUnit extends Unit
 			} 
 		}
 	}
+	
+
+	/**
+	 * 找到离目标点最近的一个空格
+	 * @param targetX
+	 * @param targetY
+	 * @return 返回空表示目标点不是阻挡或无法移动
+	 */
+	public TVector findTheNearMoveableCell(double targetX, double targetY)
+	{
+		int dx = getOwnerWorld().localToGridX((int)targetX);
+		int dy = getOwnerWorld().localToGridY((int)targetY);
+		
+		if (getOwnerWorld().getFlag(dx, dy)) 
+		{
+			double delta = Math.min(getOwnerWorld().getCellW(), getOwnerWorld().getCellH());
+			TVector vector = new TVector(targetX, targetY);
+			while (true) {
+				boolean arrive = MathVector.moveTo(vector, x, y, delta);
+				int cx = getOwnerWorld().localToGridX((int)(vector.x));
+				int cy = getOwnerWorld().localToGridY((int)(vector.y));
+				if (!getOwnerWorld().getFlag(cx, cy)) {
+					return vector;
+				}
+				if (arrive) {
+					break;
+				}
+			}
+		}
+		return null;
+	}
+	
 	
 	
 	public void setLocation(double x, double y) 
