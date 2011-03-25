@@ -35,8 +35,11 @@ public class NetDataOutputImpl implements NetDataOutput
 	
 	public void writeExternal(ExternalizableMessage data) throws IOException {
 		if (data != null) {
-			buffer.putInt(factory.getType(data.getClass()));
-			data.writeExternal(this);
+			int msg_type = factory.getType(data.getClass());
+			buffer.putInt(msg_type);
+			if (msg_type != 0) {
+				data.writeExternal(this);
+			}
 		} else {
 			buffer.putInt(0);
 		}
@@ -80,10 +83,12 @@ public class NetDataOutputImpl implements NetDataOutput
 	public void writeUTF(String s) throws IOException {
 		if (s != null) {			
 			byte[] data = s.getBytes(CUtil.getEncoding());
-			buffer.putShort((short)data.length);
-			buffer.put(data);
+			buffer.putShort((short) data.length);
+			if (data.length > 0) {
+				buffer.put(data);
+			}
 		} else {
-			buffer.putInt(0);
+			buffer.putShort((short)0);
 		}
 	}
 
@@ -91,9 +96,11 @@ public class NetDataOutputImpl implements NetDataOutput
 		if (s != null) {			
 			byte[] data = s.getBytes(CUtil.getEncoding());
 			buffer.putShort((short)data.length);
-			buffer.put(data);
+			if (data.length > 0) {
+				buffer.put(data);
+			}
 		} else {
-			buffer.putInt(0);
+			buffer.putShort((short)0);
 		}
 	}
 

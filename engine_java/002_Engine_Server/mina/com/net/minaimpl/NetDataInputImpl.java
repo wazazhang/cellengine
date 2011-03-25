@@ -40,7 +40,7 @@ public class NetDataInputImpl implements NetDataInput
 	
 	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
 		int type = buffer.getInt();
-		if (type > 0) {
+		if (type != 0) {
 			try {
 				T data = cls.newInstance();
 				data.readExternal(this);
@@ -90,9 +90,9 @@ public class NetDataInputImpl implements NetDataInput
 	
 	public String readUTF() throws IOException {
 		int size = buffer.getShort();
-		if (size >= 0) {		
+		if (size > 0) {		
 			byte[] data = new byte[size];
-			buffer.get(data);
+			buffer.get(data, 0, size);
 			return new String(data, CUtil.getEncoding());
 		}
 		return null;
@@ -100,9 +100,9 @@ public class NetDataInputImpl implements NetDataInput
 	
 	static public String readUTF(IoBuffer buffer) throws IOException {
 		int size = buffer.getShort();
-		if (size >= 0) {		
+		if (size > 0) {		
 			byte[] data = new byte[size];
-			buffer.get(data);
+			buffer.get(data, 0, size);
 			return new String(data, CUtil.getEncoding());
 		}
 		return null;
