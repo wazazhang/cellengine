@@ -46,7 +46,7 @@ public class InstanceZonesTreeView extends ObjectTreeViewDynamic<InstanceZoneNod
 				InstanceZoneNode node = (InstanceZoneNode)value;
 				StringBuffer sb = new StringBuffer();
 				sb.append("<html><body><p>");
-				sb.append("<font color=\"#0000ff\"> [" + node.getData().player_count  + "人]</font> ");
+				sb.append("<font color=\"#0000ff\"> [" + node.getData().player_count_max  + "人]</font> ");
 				sb.append(node.getData().getName());
 				sb.append("(<font color=\"#ff0000\">" + node.getData().getIntID()  + "</font>" + ")");
 				sb.append("</p></body></html>");

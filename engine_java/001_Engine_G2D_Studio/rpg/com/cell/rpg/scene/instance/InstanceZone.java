@@ -31,10 +31,13 @@ public class InstanceZone extends RPGObject implements NamedObject, TriggersPack
 //	-------------------------------------------------------------------------------
 	
 	@Property("进入此副本的最大人数")
-	public int player_count 	= 10;
+	public int player_count_max = 10;
 
 	@Property("进入此副本的最低玩家等级")
-	public int player_level 	= 10;
+	public int player_level_min = 10;
+	
+	@Property("进入此副本的最高玩家等级")
+	public int player_level_max	= 100;
 	
 	@PropertyAdapter(PropertyType.TIME_TASK)
 	@Property({"副本的刷新时间(任务)", "系统自动重置，该副本持续有效一定时间"})

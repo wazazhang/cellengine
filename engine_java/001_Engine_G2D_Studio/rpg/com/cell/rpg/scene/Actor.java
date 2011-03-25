@@ -1,5 +1,6 @@
 package com.cell.rpg.scene;
 
+
 import com.cell.rpg.instance.zones.ability.InstanceZoneMonster;
 import com.cell.rpg.instance.zones.ability.InstanceZoneUnitKillAction;
 import com.cell.rpg.instance.zones.ability.InstanceZoneUnitVisible;
@@ -18,6 +19,8 @@ import com.cell.rpg.scene.ability.ActorSkillTrainer;
 import com.cell.rpg.scene.ability.ActorTalk;
 import com.cell.rpg.scene.ability.ActorTransportCraft;
 import com.g2d.annotation.Property;
+
+
 
 public class Actor extends SceneSprite
 {
