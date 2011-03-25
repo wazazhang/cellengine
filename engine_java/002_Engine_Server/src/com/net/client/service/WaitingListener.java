@@ -4,6 +4,11 @@ import com.net.MessageHeader;
 
 public interface WaitingListener<REQ extends MessageHeader, RSP extends MessageHeader>
 {
+	/**
+	 * @param service
+	 * @param request
+	 * @param response
+	 */
 	public void response(BasicNetService service, REQ request, RSP response);
 	
 	/**
