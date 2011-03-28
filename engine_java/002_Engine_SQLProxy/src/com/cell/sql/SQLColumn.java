@@ -88,21 +88,25 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 	{
 		StringBuilder ret = new StringBuilder();
 		
-		if (getAnno().size()>0) {
+		SQLField anno = getAnno();
+		
+		if (anno.size()>0) {
 			ret.append(" (" + getAnno().size() +")");
 		}
 		
-		if (getAnno().not_null()) {
+		if (anno.not_null()) {
 			ret.append(" NOT NULL");
+		} else {
+			ret.append(" NULL");
 		}
 		
-		if (getAnno().auto_increment()) {
+		if (anno.auto_increment()) {
 			ret.append(" AUTO_INCREMENT");
 		}
 		
-		String default_value = getAnno().default_value();
+		String default_value = anno.default_value();
 		if (default_value != null && !default_value.isEmpty()) {
-			ret.append(" DEFAULT '" + getAnno().default_value() + "'");
+			ret.append(" DEFAULT '" + anno.default_value() + "'");
 		}
 		
 		return ret.toString();
