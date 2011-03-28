@@ -100,7 +100,8 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    						return true;
 	    					}
 	    					// 丢弃掉非法字节//返回true代表这次解包已完成,清空状态并准备下一次解包
-							throw new IOException("bad head, drop data : " + Integer.toString(head, 16));
+							throw new IOException("bad head, drop data : " + 
+									Long.toString(0xff00000000L | head, 16).substring(2));
 	    				}
 	    				
 			            // 生成新的状态
