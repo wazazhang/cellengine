@@ -88,8 +88,8 @@ public class KeepAlive extends KeepAliveFilter
 		public KeepAliveMessageFactoryImpl(int req, int rep) {
 			KAMSG_REQ = IoBuffer.allocate(4);
 			KAMSG_REP = IoBuffer.allocate(4);
-			KAMSG_REQ.putInt(req);
-			KAMSG_REP.putInt(rep);
+			KAMSG_REQ.putInt(req).flip().rewind();
+			KAMSG_REP.putInt(rep).flip().rewind();
 		}
 		public Object getRequest(IoSession session) {
 			return KAMSG_REQ.duplicate();
