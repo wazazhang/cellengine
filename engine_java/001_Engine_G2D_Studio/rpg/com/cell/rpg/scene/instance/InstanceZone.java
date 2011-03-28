@@ -1,9 +1,7 @@
 package com.cell.rpg.scene.instance;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +17,9 @@ import com.cell.rpg.scene.TriggersPackage;
 import com.cell.util.DateUtil.TimeObject;
 import com.cell.util.task.CronExpression;
 import com.g2d.annotation.Property;
+
+
+
 
 
 @Property("副本")
@@ -55,8 +56,11 @@ public class InstanceZone extends RPGObject implements NamedObject, TriggersPack
 	@Property({"玩家重置时间", "比如在一小时内可进入2次"})
 	public TimeObject		reset_clean_time 	= new TimeObject();
 
-	@Property({"玩家在重置时间内可重置多少次", "比如在一小时内可进入2次"})
-	public int				reset_count		 	= 2;
+	@Property({"玩家在重置时间内可进入多少次（完成一次算进入一次），该次数可以被道具所改变", "比如在一小时内可进入2次"})
+	public int				enter_count		 	= 	2;
+	
+	@Property({"玩家在重置时间内可进入的最大次数（完成一次算进入一次），该次数不受道具影响", "比如在一小时内可进入4次"})
+	public int				enter_count_max		=	enter_count + 2;
 	
 //	-------------------------------------------------------------------------------
 	
@@ -77,8 +81,10 @@ public class InstanceZone extends RPGObject implements NamedObject, TriggersPack
 	
 //	-------------------------------------------------------------------------------
 	
-	public InstanceZone(int id) {
+	public InstanceZone(int id) 
+	{
 		super(id+"");
+
 		this.id = id;
 		this.flush_time_task.day_of_month.setValue(true);
 		this.flush_time_task.day_of_week.setValue(true);
@@ -91,8 +97,10 @@ public class InstanceZone extends RPGObject implements NamedObject, TriggersPack
 	}
 	
 	@Override
-	protected void init_transient() {
+	protected void init_transient() 
+	{
 		super.init_transient();
+
 		if (triggers_package == null) {
 			triggers_package = new Triggers();
 		}
@@ -118,52 +126,63 @@ public class InstanceZone extends RPGObject implements NamedObject, TriggersPack
 		}
 		if (reset_clean_time == null) {
 			this.reset_clean_time = new TimeObject(1, TimeUnit.HOURS);
-			this.reset_count = 2;
+			this.enter_count = 2;
+			this.enter_count_max = this.enter_count + 2;
 		}
 		
 	}
 	
-	public Data getData() {
+	public Data getData() 
+	{
 		return data_map;
 	}
 	
-	public int getIntID() {
+	public int getIntID() 
+	{
 		return id;
 	}
 	
-	public void setName(String name) {
+	public void setName(String name) 
+	{
 		this.name = name;
 	}
 	
 	@Override
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 	
 	@Override
-	public Class<?>[] getSubAbilityTypes() {
+	public Class<?>[] getSubAbilityTypes() 
+	{
 		return new Class<?>[]{};
 	}
 
 //	-------------------------------------------------------------------------------
 	
-	public void setDiscussion(String discussion) {
+	public void setDiscussion(String discussion) 
+	{
 		this.discussion = discussion;
 	}
 
-	public String getDiscussion() {
+	public String getDiscussion() 
+	{
 		return discussion;
 	}
 	
-	public Triggers getTriggersPackage() {
+	public Triggers getTriggersPackage() 
+	{
 		return triggers_package;
 	}
 
-	public TriggerGenerator getBindedTriggers() {
+	public TriggerGenerator getBindedTriggers() 
+	{
 		return binded_triggers;
 	}
 
-	public HashMap<Integer, BindedScene> getScenes() {
+	public HashMap<Integer, BindedScene> getScenes() 
+	{
 		return scenes;
 	}
 
@@ -195,9 +214,14 @@ public class InstanceZone extends RPGObject implements NamedObject, TriggersPack
 		
 		public int 			edit_y = 0;
 		
-		public BindedScene(Scene scene) {
+		public BindedScene(Scene scene) 
+		{
 			this.scene_id = scene.getIntID();
 		}
 	}
-	
+
 }
+
+
+
+
