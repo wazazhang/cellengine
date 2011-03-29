@@ -83,13 +83,12 @@ public class Menu extends Window implements MouseListener
 	public void mouseUp(MouseEvent e) {
 		if (e.source.enable) {
 			this.close();
-			onClickMenuItem((MenuItem)e.source);
+			onClickMenuItem(e, (MenuItem)e.source);
 		}
 	}
 	
-	protected void onClickMenuItem(MenuItem item)
+	protected void onClickMenuItem(MouseEvent e, MenuItem item)
 	{
-
 		System.out.println(item);
 	}
 

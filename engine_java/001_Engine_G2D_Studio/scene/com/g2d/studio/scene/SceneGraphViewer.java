@@ -445,7 +445,7 @@ public class SceneGraphViewer extends AbstractDialog
 				}
 				
 				@Override
-				protected void onClickMenuItem(MenuItem item) {
+				protected void onClickMenuItem(MouseEvent e, MenuItem item) {
 					if (item == START) {
 						path_start = SceneFrame.this.node;
 						clearAStar();

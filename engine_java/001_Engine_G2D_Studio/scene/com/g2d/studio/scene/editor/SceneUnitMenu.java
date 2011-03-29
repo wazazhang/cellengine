@@ -2,6 +2,7 @@ package com.g2d.studio.scene.editor;
 
 import javax.swing.JOptionPane;
 
+import com.g2d.display.event.MouseEvent;
 import com.g2d.display.ui.Menu;
 import com.g2d.editor.DisplayObjectEditor;
 import com.g2d.studio.scene.units.SceneUnitTag;
@@ -28,7 +29,7 @@ public class SceneUnitMenu extends Menu
 	}
 	
 	@Override
-	protected void onClickMenuItem(MenuItem item) {
+	protected void onClickMenuItem(MouseEvent e, MenuItem item) {
 		if (item == item_rename) {
 			String new_name = JOptionPane.showInputDialog("input name", unit.getGameUnit().getID());
 			if (new_name!=null) {
