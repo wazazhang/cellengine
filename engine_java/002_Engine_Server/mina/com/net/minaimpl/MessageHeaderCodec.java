@@ -12,7 +12,7 @@ public abstract class MessageHeaderCodec implements ProtocolCodecFactory
 	public static int			PACKAGE_DEFAULT_SIZE	= 2048;
 	
 	/**不能创建超过此容量的缓冲区，用于解码阶段。10M*/
-	public static int			PACKAGE_MAX_SIZE		= 10*1024*1024;
+	public static int			PACKAGE_MAX_SIZE		= 100*1024*1024;
 	
 	final public static byte[]	zerodata = new byte[0];
 	
