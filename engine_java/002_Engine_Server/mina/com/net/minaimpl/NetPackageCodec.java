@@ -103,9 +103,13 @@ public class NetPackageCodec extends MessageHeaderCodec
 							throw new IOException("bad head, drop data : " + 
 									Long.toString(0xff00000000L | head, 16).substring(2));
 	    				}
-	    				
 			            // 生成新的状态
 						protocol_size = new Integer(in.getInt());
+						if (protocol_size < 0 || protocol_size > PACKAGE_MAX_SIZE) {
+							// 禁止创建过大的缓冲区
+							throw new IOException("protocol size negative or overflow : " + 
+									protocol_size);
+						}
 						session.setAttribute(SessionAttributeKey.STATUS_DECODING_PROTOCOL, protocol_size);
 	    			}
 	    			else
