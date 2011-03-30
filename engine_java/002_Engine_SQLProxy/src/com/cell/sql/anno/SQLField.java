@@ -24,8 +24,8 @@ public @interface SQLField
 	/** 0 意味无限制，使用系统默认，有的必须限制，比如STRING类型。*/
 	int			size() 				default 0;
 
-	/**限定 NOT NULL, mysql默认为 NOT　NULL  */
-	boolean		not_null() 			default false;// 想清楚了在改。
+	/**限定 NOT NULL */
+	boolean		not_null() 			default false;//默认 NOT NULL, 一旦某个字段废弃，无法插入新数据。必须维护一次数据库才能解决。
 	
 	/**插入时自增*/
 	boolean		auto_increment()	default false;
