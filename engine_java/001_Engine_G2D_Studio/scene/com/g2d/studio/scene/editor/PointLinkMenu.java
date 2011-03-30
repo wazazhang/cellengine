@@ -1,5 +1,6 @@
 package com.g2d.studio.scene.editor;
 
+import com.g2d.display.event.MouseEvent;
 import com.g2d.display.ui.Menu;
 import com.g2d.studio.scene.units.ScenePoint;
 
@@ -22,7 +23,7 @@ public class PointLinkMenu extends Menu
 	}
 	
 
-	protected void onClickMenuItem(MenuItem item) {
+	protected void onClickMenuItem(MouseEvent e, MenuItem item) {
 		try{
 			synchronized(unit.getNextNodes()) {
 				synchronized(next.getNextNodes()) {
