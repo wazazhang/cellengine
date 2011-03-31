@@ -119,7 +119,7 @@ public class AvatarEditor extends AbstractFrame
 	
 		private void setAvatar(DAvatar avatar)
 		{
-			synchronized(lock)
+//			synchronized(lock)
 			{
 				this.current_avatar = avatar;
 				this.avatar_group.clear();
