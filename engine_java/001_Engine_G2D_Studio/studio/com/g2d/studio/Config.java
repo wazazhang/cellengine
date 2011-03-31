@@ -105,7 +105,8 @@ public class Config extends com.cell.util.Config
 
 	/**CellGameEdit 精灵导出脚本，多个，用空格隔开*/
 	public static String CELL_BUILD_SPRITE_OUTPUT = 
-		"output.properties";
+		"output_sprite_group.properties " +
+		"output_sprite_tile.properties";
 	
 	/**CellGameEdit 场景导出脚本，多个，用空格隔开*/
 	public static String CELL_BUILD_SCENE_OUTPUT = 
