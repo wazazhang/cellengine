@@ -83,9 +83,9 @@ public class CellStreamTiles extends StreamTiles
 					if (img.getClipW(i) > 0 && img.getClipH(i) > 0) {
 						byte[] idata = set.getOutput().loadRes(
 								img.getName() + "/" + i + "." + image_extentions, null);
-						Image src = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
+						images[i] = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
 						if (palette != null) {
-							src.setPalette(palette);
+							images[i].setPalette(palette);
 						}
 					}
 				}
