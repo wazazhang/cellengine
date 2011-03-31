@@ -48,10 +48,10 @@
  *********************************************************************************/
 function checkOutputExists(p, dir, cpj_file_name)
 {
-	var output_properties = java.io.File(dir, "output\\" + cpj_file_name.getName().replace(".cpj", ".properties"));
-	if (!output_properties.exists()) {
-		return false;
-	}
+//	var output_properties = java.io.File(dir, "output\\" + cpj_file_name.getName().replace(".cpj", ".properties"));
+//	if (!output_properties.exists()) {
+//		return false;
+//	}
 	var output_pak = java.io.File(dir, "..\\" + dir.getName()+".pak");
 	if (!output_pak.exists()) {
 		return false;
@@ -69,7 +69,7 @@ function output(p, dir, cpj_file_name)
 
 	convertImage	(p, dir, cpj_file_name);
 	
-	createDirOutput	(p, dir, cpj_file_name);
+//	createDirOutput	(p, dir, cpj_file_name);
 	
 	createPakOutput	(p, dir, cpj_file_name);
 	
@@ -100,7 +100,7 @@ function convertImage(p, dir, cpj_file_name)
 		{
 			var file = jpgs[i];
 			if (file.getName().endsWith(".jpg")) {
-				p.exec(convert + " " + file + " -strip -quality 50 " + file, 60000);
+				p.exec(convert + " " + file + " -strip -quality 95 " + file, 60000);
 			}
 		}
 	}
@@ -114,10 +114,10 @@ function convertImage(p, dir, cpj_file_name)
 			
 			if (file.getName().endsWith(".png"))
 			{
-				if (dir.getName().startsWith("actor_00")) 
+				if (dir.getName().startsWith("actor_000")) 
 				{
 					// actor_00* 开头的单位，PNG 8 像素
-					p.exec(convert + " " + file + " -strip -quality 95 PNG8:" + file, 60000);
+					//p.exec(convert + " " + file + " -strip -quality 90 PNG8:" + file, 60000);
 				} 
 				else 
 				{
@@ -174,11 +174,27 @@ function createPakOutput(p, dir, cpj_file_name)
 		p.getEntrys(".", "thumb.jpg", "", entrys);
 		p.getEntrys("output\\set\\jpg", ".jpg", "jpg/", entrys);
 		p.getImageMaskEntrys("output\\set\\png", ".png", "png/", entrys);
+		
+		com.cell.io.CFile.copy(java.io.File(dir, "output\\scene.properties"), java.io.File(dir, "scene.properties"));
 	}
 	else 
 	{
-//		p.getEntrys(".", "icon_\\w+.png", "", entrys);
-		p.getEntrys("output", ".png", "", entrys);
+		if (dir.getName().startsWith("actor_00")) {
+			p.getEntrys(".", "icon_\\w+.png", "", entrys);
+		}
+		{
+			// 输出整图，导致创建图片过慢。
+			//p.getEntrys("output", ".png", "", entrys);
+		}{
+			// 输出为碎图
+			var files = java.io.File(dir, "output").listFiles(); 
+			for (i in files) {
+				var file = files[i];
+				if (file.isDirectory()) {
+					p.getEntrys("output\\"+file.getName(), ".png", file.getName()+"/", entrys);
+				}
+			}
+		}
 	}
 	
 	p.pakEntrys(entrys, "..\\"+dir.getName()+".pak");
@@ -187,6 +203,9 @@ function createPakOutput(p, dir, cpj_file_name)
 /**清理临时文件*/
 function clean(p)
 {
+	
+	p.deleteIfExists("output");
+	
 	p.deleteIfExists("output\\set");
 	p.deleteIfExists("output\\jpg.png");
 	p.deleteIfExists("output\\png.png");
@@ -198,4 +217,5 @@ function clean(p)
 	p.deleteIfExists("scene_jpg_thumb.conf");
 	p.deleteIfExists("png.jpg");
 	p.deleteIfExists("jpg.jpg");
+	
 }
