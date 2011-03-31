@@ -93,7 +93,7 @@ public class EatBuilder extends Builder
 		}
 	}
 
-	private String[] copyScript(File cpj_file, HashMap<String, String> script_map) throws IOException
+	private String[] copyScript(PreBuilder pb, File cpj_file, HashMap<String, String> script_map) throws IOException
 	{
 		File script_dir = new File(cpj_file.getParent(), "_script");
 		if (!script_dir.exists()) {
@@ -101,9 +101,11 @@ public class EatBuilder extends Builder
 		}
 		ArrayList<String> output_files = new ArrayList<String>();
 		for (Entry<String, String> script : script_map.entrySet()) {
-			File script_file = new File(script_dir, script.getKey());
-			CFile.writeText(script_file, script.getValue(), "UTF-8");
-			output_files.add(script_file.getCanonicalPath());
+			if (pb.selectOuputProperties(script.getKey())) {
+				File script_file = new File(script_dir, script.getKey());
+				CFile.writeText(script_file, script.getValue(), "UTF-8");
+				output_files.add(script_file.getCanonicalPath());
+			}
 		}
 		return output_files.toArray(new String[output_files.size()]);
 	}
@@ -119,53 +121,33 @@ public class EatBuilder extends Builder
 	public void buildSprite(com.g2d.studio.io.File cpj_file, boolean ignore_on_exist)
 	{
 		File cpj_file_name = getLocalFile(cpj_file);
-		if (ignore_on_exist) {
-			if (checkOutputExists(cpj_file_name)) {
-				System.out.println("ignore : " + cpj_file_name);
-				return;
-			}
-		}
-		try {
-			System.out.print("build sprite : " + cpj_file.getPath());
-			String[] output_properties = copyScript(cpj_file_name, script_map_sprite);
-			Process process = CellGameEditWrap.openCellGameEdit(
-					Config.CELL_GAME_OUTPUT_CMD,
-					cpj_file_name, 
-					output_properties);
-			WaitProcessTask task = new WaitProcessTask(process, Config.CELL_BUILD_WAIT_TIMEOUT_MS);
-			task.start();
-			try {
-				process.waitFor();
-				Thread.yield();
-			} finally {
-				synchronized (task) {
-					task.notifyAll();
-				}
-			}
-			output(cpj_file_name, false);
-			System.out.println(" : done !");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		} finally {
-			saveBuildSpriteBat(cpj_file_name);
-		}
+		buildImpl(cpj_file_name, ignore_on_exist, script_map_sprite);
+		saveBuildSpriteBat(cpj_file_name);
 	}
 	
 	public void buildScene(com.g2d.studio.io.File cpj_file, boolean ignore_on_exist)
 	{
 		File cpj_file_name = getLocalFile(cpj_file);
-		if (ignore_on_exist) {
-			if (checkOutputExists(cpj_file_name)) {
-				System.out.println("ignore : " + cpj_file_name);
-				return;
-			}
+		buildImpl(cpj_file_name, ignore_on_exist, script_map_scene);
+		saveBuildSceneBat(cpj_file_name);
+	}
+	
+	public void buildImpl(
+			java.io.File cpj_file, 
+			boolean ignore_on_exist, 
+			HashMap<String, String> script_map)
+	{
+		PreBuilder pb = new PreBuilder(cpj_file);
+		if (ignore_on_exist && pb.checkOutputExists()) {
+			System.out.println("ignore : " + cpj_file);
+			return;
 		}
 		try {
-			System.out.print("build scene : " + cpj_file.getPath());
-			String[] output_properties = copyScript(cpj_file_name,	script_map_scene);
+			System.out.print("build " + cpj_file.getName() + " : " + cpj_file.getPath());
+			String[] output_properties = copyScript(pb, cpj_file, script_map);
 			Process process = CellGameEditWrap.openCellGameEdit(
 					Config.CELL_GAME_OUTPUT_CMD, 
-					cpj_file_name, 
+					cpj_file, 
 					output_properties
 					);	
 			WaitProcessTask task = new WaitProcessTask(process, Config.CELL_BUILD_WAIT_TIMEOUT_MS);
@@ -178,12 +160,50 @@ public class EatBuilder extends Builder
 					task.notifyAll();
 				}
 			}
-			output(cpj_file_name, true);
+			output(cpj_file, true);
 			System.out.println(" : done !");
 		} catch (Throwable e) {
 			e.printStackTrace();
-		} finally {
-			saveBuildSceneBat(cpj_file_name);
+		}
+	}
+	
+	class PreBuilder
+	{
+		BuildExternalScript script;
+		File dir;
+		BuildProcess bp;
+		java.io.File cpj_file;
+		
+		public PreBuilder(java.io.File cpj_file) {
+			try {
+				this.cpj_file = cpj_file.getCanonicalFile();
+				File scfile = new File(Config.getRoot() + "/" + 
+						Config.CELL_BUILD_OUTPUT_SCRIPT_FILE).getCanonicalFile();
+				if (scfile.exists()) {
+					script = external_script_manager.getInterface(
+							scfile.getCanonicalPath(), BuildExternalScript.class);
+					if (script != null) {
+						dir = cpj_file.getParentFile().getCanonicalFile();
+						bp = new BuildProcess(dir);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public boolean checkOutputExists() {
+			if (bp != null) {
+				return script.checkOutputExists(bp, dir, cpj_file);
+			}
+			return false;
+		}
+		
+		public boolean selectOuputProperties(String output_properties) {
+			if (bp != null) {
+				return script.selectOuputProperties(bp, dir, cpj_file, output_properties);
+			}
+			return true;
 		}
 	}
 	
@@ -225,30 +245,6 @@ public class EatBuilder extends Builder
 //	---------------------------------------------------------------------------------------------------------------------------
 //
 //	---------------------------------------------------------------------------------------------------------------------------
-
-	protected boolean checkOutputExists(File cpj_file_name) {
-		try {
-			File scfile = new File(
-					Config.getRoot() + "/" +
-					Config.CELL_BUILD_OUTPUT_SCRIPT_FILE).getCanonicalFile();
-			
-			if (scfile.exists()) 
-			{
-				BuildExternalScript script = external_script_manager.getInterface(
-						scfile.getCanonicalPath(), 
-						BuildExternalScript.class);
-				if (script != null)
-				{
-					File dir = cpj_file_name.getParentFile().getCanonicalFile();
-					BuildProcess bp = new BuildProcess(dir);
-					return script.checkOutputExists(bp, dir, cpj_file_name.getCanonicalFile());
-				}
-			}
-		} catch (Throwable ex) {
-			ex.printStackTrace();
-		}
-		return true;
-	}
 	
 	protected void output(File cpj_file_name, boolean is_scene) 
 	{
