@@ -15,6 +15,52 @@ public class CellStreamTiles extends StreamTiles
 	public CellStreamTiles(ImagesSet img, CellSetResource res) {
 		super(img, res);
 	}
+
+	/***
+	 * 是否单独输出每张图
+	 * @return
+	 */
+	public boolean isTile() {
+		String code = set.getOutput().getPropertiesCode();
+		Pattern pattern_tile = Pattern.compile("#<IMAGE TILE>\\s+\\w+");
+		Matcher matcher = pattern_tile.matcher(code);
+		if (matcher.find()) {
+			String group = code.substring(matcher.start(), matcher.end());
+			return group.endsWith("true");
+		}
+		return false;
+	}
+	
+	/**
+	 * 是否输出整图
+	 * @return
+	 */
+	public boolean isGroup() {
+		String code = set.getOutput().getPropertiesCode();
+		Pattern pattern_group = Pattern.compile("#<IMAGE GROUP>\\s+\\w+");
+		Matcher matcher = pattern_group.matcher(code);
+		if (matcher.find()) {
+			String group = code.substring(matcher.start(), matcher.end());
+			return group.endsWith("true");
+		}
+		return false;
+	}
+	
+	/**
+	 * 获得导出图片文件类型
+	 * @return
+	 */
+	public String getImageExtentions() {
+		String code = set.getOutput().getPropertiesCode();
+		Pattern pattern_tile = Pattern.compile("#<IMAGE TYPE>\\s+\\w+");
+		Matcher matcher = pattern_tile.matcher(code);
+		if (matcher.find()) {
+			String group = code.substring(matcher.start(), matcher.end());
+			String[] split = group.split("\\s");
+			return split[split.length-1];
+		}
+		return "png";
+	}
 	
 	@Override
 	protected void initImages()
