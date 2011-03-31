@@ -19,12 +19,12 @@ abstract public class StudioResource extends CellSetResource
 	}
 	
 	
-	final synchronized public boolean isLoadImages()
+	final public boolean isLoadImages()
 	{
 		return is_load_resource;
 	}
 	
-	final synchronized public void initAllStreamImages()
+	final public void initAllStreamImages()
 	{
 		if (!is_load_resource) {
 			is_load_resource = true;
@@ -39,7 +39,7 @@ abstract public class StudioResource extends CellSetResource
 		}
 	}
 	
-	final synchronized public void destoryAllStreamImages(){
+	final public void destoryAllStreamImages(){
 		if (is_load_resource) {
 			is_load_resource = false;
 			if (resource_manager!=null) {
