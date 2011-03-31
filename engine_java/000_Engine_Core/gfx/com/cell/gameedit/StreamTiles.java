@@ -176,23 +176,23 @@ public abstract class StreamTiles implements IImages, Runnable
 	@Override
 	public IImages deepClone() throws CloneNotSupportedException 
 	{	
-		synchronized (is_loaded) {
+//		synchronized (is_loaded) {
 			if (!isLoaded()) {
 				throw new CloneNotSupportedException("src images are not initialized !");
 			}
 			return new CloneTiles(this, true);
-		}
+//		}
 	}
 
 	@Override
 	public IImages clone() throws CloneNotSupportedException 
 	{
-		synchronized (is_loaded) {
+//		synchronized (is_loaded) {
 			if (!isLoaded()) {
 				throw new CloneNotSupportedException("src images are not initialized !");
 			}
 			return new CloneTiles(this, false);
-		}
+//		}
 	}
 	
 	static public class CloneTiles extends StreamTiles
