@@ -14,6 +14,9 @@ import com.cell.util.PropertyGroup;
  */
 public class OutputPropertiesDir extends OutputProperties
 {
+	final private PropertyGroup config;
+	final private String conf_code;
+	
 	final public String root;
 	final public String file_name;
 	
@@ -28,10 +31,19 @@ public class OutputPropertiesDir extends OutputProperties
 		if (conf_data == null) {
 			throw new FileNotFoundException(path);
 		}
-		String conf = new String(conf_data, CIO.ENCODING);
-		PropertyGroup config = new PropertyGroup(conf, "=");
+		this.conf_code = new String(conf_data, CIO.ENCODING);
+		this.config = new PropertyGroup(conf_code, "=");
 		
 		super.init(config);
+	}
+	
+	@Override
+	public String getPropertiesCode() {
+		return conf_code;
+	}
+	
+	public PropertyGroup getProperties() {
+		return config;
 	}
 	
 	@Override

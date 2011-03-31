@@ -18,6 +18,7 @@ import com.cell.gfx.game.CCD;
 import com.cell.gfx.game.CMap;
 import com.cell.gfx.game.CSprite;
 import com.cell.gfx.game.CWayPoint;
+import com.cell.util.PropertyGroup;
 
 
 /**
@@ -26,6 +27,10 @@ import com.cell.gfx.game.CWayPoint;
  */
 public interface Output
 {
+	public PropertyGroup getProperties();
+	
+	public String getPropertiesCode();
+	
 	/**
 	 * @param name child name
 	 * @return

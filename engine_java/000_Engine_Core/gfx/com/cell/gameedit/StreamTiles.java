@@ -3,6 +3,8 @@ package com.cell.gameedit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.cell.gameedit.object.ImagesSet;
 import com.cell.gfx.IGraphics;
@@ -34,7 +36,7 @@ public abstract class StreamTiles implements IImages, Runnable
 		this.images	= new IImage[img.getCount()];
 		this.img	= img;
 	}
-	
+
 	/**
 	 * 子类可以覆盖为自己的加载图片方法，注意，该方法已获得
 	 * CellSetResource， StreamTiles 的锁
