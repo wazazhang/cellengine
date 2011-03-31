@@ -450,6 +450,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 						break;
 					}
 					n++;
+					progress.setValue(n);
 				}
 				setTitle("总共用时: " + CObject.timesliceToStringHour(System.currentTimeMillis()-start_time));
 				terminate.setText("关闭");

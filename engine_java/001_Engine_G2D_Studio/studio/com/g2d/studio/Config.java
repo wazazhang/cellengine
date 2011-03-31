@@ -93,26 +93,26 @@ public class Config extends com.cell.util.Config
 	/**CellGameOutput可执行文件*/
 	public static String CELL_GAME_OUTPUT_CMD			= "CellGameOutput.exe";
 	
-	/**保存的导出精灵批处理<br>
-	 * {file}变量为cpj文件*/
-	public static String CELL_BUILD_SPRITE_CMD = 
-		"@java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"sprite\" \"project.g2d\"";
-	
-	/**保存的导出场景批处理<br>
-	 * {file}变量为cpj文件*/
-	public static String CELL_BUILD_SCENE_CMD = 
-		"@java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"scene\" \"project.g2d\"";	
-
-	/**CellGameEdit 精灵导出脚本，多个，用空格隔开*/
-	public static String CELL_BUILD_SPRITE_OUTPUT = 
-		"output_sprite_group.properties " +
-		"output_sprite_tile.properties";
-	
-	/**CellGameEdit 场景导出脚本，多个，用空格隔开*/
-	public static String CELL_BUILD_SCENE_OUTPUT = 
-		"output_scene_jpg.properties " +
-		"output_scene_png.properties " +
-		"output_scene_jpg_thumb.properties";
+//	/**保存的导出精灵批处理<br>
+//	 * {file}变量为cpj文件*/
+//	public static String CELL_BUILD_SPRITE_CMD = 
+//		"@java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"sprite\" \"project.g2d\"";
+//	
+//	/**保存的导出场景批处理<br>
+//	 * {file}变量为cpj文件*/
+//	public static String CELL_BUILD_SCENE_CMD = 
+//		"@java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"scene\" \"project.g2d\"";	
+//
+//	/**CellGameEdit 精灵导出脚本，多个，用空格隔开*/
+//	public static String CELL_BUILD_SPRITE_OUTPUT = 
+//		"output_sprite_group.properties " +
+//		"output_sprite_tile.properties";
+//	
+//	/**CellGameEdit 场景导出脚本，多个，用空格隔开*/
+//	public static String CELL_BUILD_SCENE_OUTPUT = 
+//		"output_scene_jpg.properties " +
+//		"output_scene_png.properties " +
+//		"output_scene_jpg_thumb.properties";
 
 	/** 原图创建缩略图的比率 */
 	public static Float	 CELL_BUILD_SCENE_THUMB_SCALE	= 0.1f;

@@ -24,10 +24,12 @@ import com.g2d.studio.Config;
 public class BuildProcess 
 {
 	final private File dir;
+	final private File g2d_root;
 	
-	public BuildProcess(File dir) throws IOException
+	public BuildProcess(File dir, File g2d_root) throws IOException
 	{
 		this.dir = dir.getCanonicalFile();
+		this.g2d_root = g2d_root.getCanonicalFile();
 	}
 
 	/**
@@ -36,6 +38,14 @@ public class BuildProcess
 	 */
 	public File getDir() {
 		return dir;
+	}
+	
+	/**
+	 * 得到G2D工程目录
+	 * @return
+	 */
+	public File getG2DRoot() {
+		return g2d_root;
 	}
 	
 	/**
