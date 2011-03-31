@@ -142,7 +142,7 @@ public class Studio extends AbstractFrame
 		RPGConfig.IS_EDIT_MODE = true;
 		RPGObjectMap.setPersistanceManagerDriver	(Config.PERSISTANCE_MANAGER);
 		SQMTypeManager.setTypeComparer				(Config.PERSISTANCE_SQL_TYPE);
-		Builder.setBuilder							(Config.BUILDER_CLASS);
+		Builder.setBuilder							(Config.BUILDER_CLASS, project_path.getPath());
 
 		try {
 			scene_script_manager = (SceneScriptManager)Class.forName(

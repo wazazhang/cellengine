@@ -64,17 +64,24 @@ import com.g2d.studio.io.file.FileIO;
 
 public class EatBuilder extends Builder
 {
-	final HashMap<String, String> script_map;
-
+	final HashMap<String, String> script_map_sprite  = new HashMap<String, String>(5);
+	final HashMap<String, String> script_map_scene   = new HashMap<String, String>(5);
+	
 	JSManager external_script_manager = new JSManager();
 	
-	public EatBuilder() 
+	public EatBuilder(String g2d_project_root) throws IOException
 	{
-		script_map = new HashMap<String, String>(5);
-		script_map.put("output.properties", 		CIO.readAllText("/com/g2d/studio/cell/gameedit/output.properties"));
-		script_map.put("scene_jpg.script",			CIO.readAllText("/com/g2d/studio/cell/gameedit/scene_jpg.script"));
-		script_map.put("scene_jpg_thumb.script",	CIO.readAllText("/com/g2d/studio/cell/gameedit/scene_jpg_thumb.script"));
-		script_map.put("scene_png.script",			CIO.readAllText("/com/g2d/studio/cell/gameedit/scene_png.script"));
+		java.io.File root = new java.io.File(g2d_project_root);
+//		script_map.put("output.properties", 		CIO.readAllText("/com/g2d/studio/cell/gameedit/output.properties"));
+//		script_map.put("scene_jpg.script",			CIO.readAllText("/com/g2d/studio/cell/gameedit/scene_jpg.script"));
+//		script_map.put("scene_jpg_thumb.script",	CIO.readAllText("/com/g2d/studio/cell/gameedit/scene_jpg_thumb.script"));
+//		script_map.put("scene_png.script",			CIO.readAllText("/com/g2d/studio/cell/gameedit/scene_png.script"));
+		for (String config : Config.CELL_BUILD_SPRITE_OUTPUT.split("\\s")) {
+			script_map_sprite.put(config, CFile.readText(new java.io.File(root, config)));
+		}
+		for (String config : Config.CELL_BUILD_SCENE_OUTPUT.split("\\s")) {
+			script_map_scene.put(config, CFile.readText(new java.io.File(root, config)));
+		}
 	}
 	
 	private java.io.File getLocalFile(com.g2d.studio.io.File cpj_file) {
@@ -86,15 +93,19 @@ public class EatBuilder extends Builder
 		}
 	}
 
-	private File copyScript(File cpj_file, String script_name)
+	private String[] copyScript(File cpj_file, HashMap<String, String> script_map) throws IOException
 	{
 		File script_dir = new File(cpj_file.getParent(), "_script");
 		if (!script_dir.exists()) {
 			script_dir.mkdirs();
 		}
-		File script_file = new File(script_dir, script_name);
-		CFile.writeText(script_file, script_map.get(script_name), "UTF-8");
-		return script_file;
+		ArrayList<String> output_files = new ArrayList<String>();
+		for (Entry<String, String> script : script_map.entrySet()) {
+			File script_file = new File(script_dir, script.getKey());
+			CFile.writeText(script_file, script.getValue(), "UTF-8");
+			output_files.add(script_file.getCanonicalPath());
+		}
+		return output_files.toArray(new String[output_files.size()]);
 	}
 
 	public void openCellGameEdit(com.g2d.studio.io.File cpj_file) 
@@ -116,9 +127,11 @@ public class EatBuilder extends Builder
 		}
 		try {
 			System.out.print("build sprite : " + cpj_file.getPath());
-			File output_properties = copyScript(cpj_file_name, "output.properties");
-			Process process = CellGameEditWrap.openCellGameEdit(Config.CELL_GAME_OUTPUT_CMD, cpj_file_name, 
-					output_properties.getPath());
+			String[] output_properties = copyScript(cpj_file_name, script_map_sprite);
+			Process process = CellGameEditWrap.openCellGameEdit(
+					Config.CELL_GAME_OUTPUT_CMD,
+					cpj_file_name, 
+					output_properties);
 			WaitProcessTask task = new WaitProcessTask(process, Config.CELL_BUILD_WAIT_TIMEOUT_MS);
 			task.start();
 			try {
@@ -149,15 +162,11 @@ public class EatBuilder extends Builder
 		}
 		try {
 			System.out.print("build scene : " + cpj_file.getPath());
-			File output_properties		= copyScript(cpj_file_name,	"output.properties");
-			File scene_jpg_script		= copyScript(cpj_file_name,	"scene_jpg.script");
-			File scene_jpg_thumb_script	= copyScript(cpj_file_name,	"scene_jpg_thumb.script");
-			File scene_png_script		= copyScript(cpj_file_name,	"scene_png.script");
-			Process process = CellGameEditWrap.openCellGameEdit(Config.CELL_GAME_OUTPUT_CMD, cpj_file_name, 
-					output_properties.getPath(), 
-					scene_jpg_script.getPath(),
-					scene_jpg_thumb_script.getPath(),
-					scene_png_script.getPath()
+			String[] output_properties = copyScript(cpj_file_name,	script_map_scene);
+			Process process = CellGameEditWrap.openCellGameEdit(
+					Config.CELL_GAME_OUTPUT_CMD, 
+					cpj_file_name, 
+					output_properties
 					);	
 			WaitProcessTask task = new WaitProcessTask(process, Config.CELL_BUILD_WAIT_TIMEOUT_MS);
 			task.start();
@@ -350,6 +359,8 @@ public class EatBuilder extends Builder
 	
 	static class OutputPack extends OutputProperties
 	{
+		String conf_code;
+		PropertyGroup config;
 		HashMap<String, byte[]> resources;
 		com.g2d.studio.io.File 	pak_file;
 		
@@ -370,12 +381,22 @@ public class EatBuilder extends Builder
 					e.getName();
 //					System.out.println("unpak : " + e.getName());
 				}
-				String conf = new String(conf_data, CIO.ENCODING);
-				PropertyGroup config = new PropertyGroup(conf, "=");
+				conf_code = new String(conf_data, CIO.ENCODING);
+				config = new PropertyGroup(conf_code, "=");
 				super.init(config);
 			} finally {
 				fis.close();
 			}
+		}
+		
+		@Override
+		public String getPropertiesCode() {
+			return conf_code;
+		}
+		
+		@Override
+		public PropertyGroup getProperties() {
+			return config;
 		}
 		
 		@Override
@@ -525,27 +546,34 @@ public class EatBuilder extends Builder
 //		System.out.close();
 		
 		String usage = "usage: 有2种方式运行导出脚本\n" +
+		
 				"1. 导出CPJ资源文件，必须在CPJ工程目录下执行，需要3个参数\n" +
 				"EatBuilder <cpj file> <cpj type> <g2d project file>\n" +
 				"	cpj file          : CPJ工程文件\n" +
 				"	cpj type          : scene 或 sprite\n" +
 				"	g2d project file  : G2D工程文件\n" +
 				"\n" +
+				
 				"2. 运行任意脚本，在任意的目录\n" +
 				"EatBuilder <js process script>\n" +
 				"	js process script : 要运行的JS脚本，必须实现\n" +
-				"	                    void build(BuildProcess p, File dir);\n";
+				"	                    void build(BuildProcess p, File dir);\n" +
+				"	g2d project file  : G2D工程文件\n" +
+				"\n";
+		
 		System.out.println(usage);
 //		System.out.println(System.getProperty("user.dir"));
 		
 		if (args.length > 0)
 		{
-			
-			EatBuilder builder = (EatBuilder)Builder.setBuilder(EatBuilder.class.getName());
-		
-			if (args.length == 1) 
+			if (args.length == 2) 
 			{
 				String arg_0 = args[0].toLowerCase().trim();
+				String arg_1 = args[1].toLowerCase().trim();
+				Config.load(arg_1);
+				EatBuilder builder = new EatBuilder(new File(arg_1).getParent());
+				Builder.setBuilder(builder);
+				
 				builder.buildCMD(arg_0);
 			}
 			else if (args.length == 3) 
@@ -554,6 +582,9 @@ public class EatBuilder extends Builder
 				String arg_1 = args[1].toLowerCase().trim();
 				String arg_2 = args[2].toLowerCase().trim();
 				Config.load(arg_2);
+				EatBuilder builder = new EatBuilder(new File(arg_2).getParent());
+				Builder.setBuilder(builder);
+				
 				FileIO io = new FileIO();
 				if (arg_1.equals("scene")) {
 					builder.buildScene(io.createFile(new File(arg_0).getCanonicalPath()), false);

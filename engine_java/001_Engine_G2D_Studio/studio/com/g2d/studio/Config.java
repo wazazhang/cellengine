@@ -2,6 +2,7 @@ package com.g2d.studio;
 
 import java.awt.Font;
 
+import com.cell.CIO;
 import com.cell.util.anno.ConfigField;
 import com.cell.util.anno.ConfigType;
 
@@ -101,6 +102,16 @@ public class Config extends com.cell.util.Config
 	 * {file}变量为cpj文件*/
 	public static String CELL_BUILD_SCENE_CMD = 
 		"@java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"scene\" \"project.g2d\"";	
+
+	/**CellGameEdit 精灵导出脚本，多个，用空格隔开*/
+	public static String CELL_BUILD_SPRITE_OUTPUT = 
+		"output.properties";
+	
+	/**CellGameEdit 场景导出脚本，多个，用空格隔开*/
+	public static String CELL_BUILD_SCENE_OUTPUT = 
+		"output_scene_jpg.properties " +
+		"output_scene_png.properties " +
+		"output_scene_jpg_thumb.properties";
 
 	/** 原图创建缩略图的比率 */
 	public static Float	 CELL_BUILD_SCENE_THUMB_SCALE	= 0.1f;

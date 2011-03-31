@@ -49,13 +49,18 @@ public abstract class Builder
 	
 	private static Builder instance;
 	
-	public static Builder setBuilder(String builder_class_name) {
+	public static Builder setBuilder(String builder_class_name, String g2d_root) {
 		try {
 			Class<?> type = Class.forName(builder_class_name);
-			instance = (Builder)type.newInstance();
+			instance = (Builder)type.getConstructor(g2d_root.getClass()).newInstance(g2d_root);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return instance;
+	}
+	
+	public static Builder setBuilder(Builder builder) {
+		instance = builder;
 		return instance;
 	}
 	
