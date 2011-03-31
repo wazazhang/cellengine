@@ -91,7 +91,7 @@ abstract public class SetResource
 	
 //	-------------------------------------------------------------------------------------------------------------------------------
 
-	synchronized
+	
 	final public StreamTiles getImages(ImagesSet img) 
 	{
 		StreamTiles stuff = resource_manager.get("IMG_" + img.Index, StreamTiles.class);
@@ -123,7 +123,7 @@ abstract public class SetResource
 	}
 	
 	
-	synchronized
+	
 	final public StreamTiles getImages(String key){
 		ImagesSet img = ImgTable.get(key);
 		return getImages(img);
@@ -132,13 +132,13 @@ abstract public class SetResource
 	
 //	-------------------------------------------------------------------------------------------------------------------------------
 	
-	synchronized
+	
 	final public CSprite getSprite(SpriteSet spr){
 		IImages tiles = getImages(spr.ImagesName);
 		return getSprite(spr, tiles);
 	}
 	
-	synchronized
+	
 	final public CSprite getSprite(SpriteSet spr, IImages tiles)
 	{
 		CSprite cspr = resource_manager.get("SPR_"+spr.Index, CSprite.class);
@@ -150,19 +150,19 @@ abstract public class SetResource
 		return new CSprite(cspr);
 	}
 	
-	synchronized
+	
 	final public CSprite getSprite(String key){
 		SpriteSet spr = SprTable.get(key);
 		return getSprite(spr);
 	}
 	
-	synchronized
+	
 	final public CSprite getSprite(String key, IImages images){
 		SpriteSet spr = SprTable.get(key);
 		return getSprite(spr, images);
 	}
 
-	synchronized 
+	 
 	final public AtomicReference<CSprite> getSpriteAsync(String key, LoadSpriteListener ... listener)
 	{
 		SpriteSet spr = SprTable.get(key);
@@ -202,7 +202,7 @@ abstract public class SetResource
 //	--------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//
-	synchronized
+	
 	final public CWayPoint[] getWorldWayPoints(String key)
 	{
 		CWayPoint[] points = resource_manager.get("WPS_"+key, CWayPoint[].class);
@@ -215,7 +215,7 @@ abstract public class SetResource
 		return points;
 	}
 	
-	synchronized
+	
 	final public CCD[] getWorldRegions(String key)
 	{
 		CCD[] regions = resource_manager.get("WRS_"+key, CCD[].class);
@@ -281,7 +281,7 @@ abstract public class SetResource
 //	--------------------------------------------------------------------------------------------------------------------------------------------------
 //	utils
 //	--------------------------------------------------------------------------------------------------------------------------------------------------
-	synchronized
+	
 	final public void initAllResource(SetLoading progress)
 	{
 		// images 
@@ -332,7 +332,7 @@ abstract public class SetResource
 		}
 	}
 	
-	synchronized
+	
 	final public boolean isStreamingImages(String images_name) {
 		ImagesSet img = ImgTable.get(images_name);
 		if (img!=null) {
