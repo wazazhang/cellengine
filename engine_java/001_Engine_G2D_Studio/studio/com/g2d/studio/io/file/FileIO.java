@@ -118,5 +118,13 @@ public class FileIO implements IO
 			return files.toArray(new File[files.size()]);
 		}
 		
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof FileImpl) {
+				return ((FileImpl) obj).file.equals(this.file);
+			}
+			return false;
+		}
+		
     }
 }
