@@ -45,11 +45,11 @@ public class NetDataInputImpl implements NetDataInput
 			return null;
 		} else if (count < 0) { // 表示成员还是个数组
 			for (int i = 0; i < count; i++) {
-				readAnyArray(type);
+				readAnyArray(type.getComponentType());
 			}
 		} else if (count > 0) { // 表示成员是个通常对象
 			for (int i = 0; i < count; i++) {
-				readAny(type);
+				readAny(type.getComponentType());
 			}
 		}
 		return null;
