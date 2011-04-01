@@ -3,6 +3,7 @@ package com.net.minaimpl;
 import java.io.DataInput;
 import java.io.Externalizable;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
@@ -29,12 +30,80 @@ public class NetDataInputImpl implements NetDataInput
 	public ExternalizableFactory getFactory() {
 		return factory;
 	}
-//	-----------------------------------------------------------------------------------------------
-
 	
 	public int skipBytes(int n) throws IOException {
 		buffer.skip(n);
 		return n;
+	}
+	
+//	-----------------------------------------------------------------------------------------------
+
+	@Override
+	public Object readAnyArray(Class<?> type) throws IOException {
+		int count = buffer.getInt();
+		if (count == 0) {
+			return null;
+		} else if (count < 0) { // 表示成员还是个数组
+			for (int i = 0; i < count; i++) {
+				readAnyArray(type);
+			}
+		} else if (count > 0) { // 表示成员是个通常对象
+			for (int i = 0; i < count; i++) {
+				readAny(type);
+			}
+		}
+		return null;
+	}
+	
+	
+	@Override
+	public Object readAny(Class<?> component_type) throws IOException {
+		if (component_type.isAssignableFrom(ExternalizableMessage.class)) {
+			return readAnyExternal(component_type);
+		}
+		else if (component_type.equals(byte.class)) {
+			return readByte();
+		}
+		else if (component_type.equals(boolean.class)) {
+			return readBoolean();
+		}
+		else if (component_type.equals(char.class)) {
+			return readChar();
+		}
+		else if (component_type.equals(short.class)) {
+			return readShort();
+		}
+		else if (component_type.equals(int.class)) {
+			return readInt();
+		}
+		else if (component_type.equals(long.class)) {
+			return readLong();
+		}
+		else if (component_type.equals(float.class)) {
+			return readFloat();
+		}
+		else if (component_type.equals(double.class)) {
+			return readDouble();
+		}
+		else {
+			return readObject(component_type);
+		}
+	}
+	
+//	-----------------------------------------------------------------------------------------------
+
+	public ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
+		int type = buffer.getInt();
+		if (type != 0) {
+			try {
+				ExternalizableMessage data = (ExternalizableMessage)cls.newInstance();
+				data.readExternal(this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
 	}
 	
 	
@@ -52,7 +121,6 @@ public class NetDataInputImpl implements NetDataInput
 		return null;
 	}
 
-	
 	public <T extends ExternalizableMessage> T[] readExternalArray(Class<T> type) throws IOException {
 		T[] ret = CUtil.newArray(type, buffer.getInt());
 		for (int i = 0; i < ret.length; i++) {
@@ -205,6 +273,7 @@ public class NetDataInputImpl implements NetDataInput
 	public double[] readDoubleArray() throws IOException {
 		return ExternalizableUtil.readDoubleArray(this);
 	}
+	
 //	--------------------------------------------------------------------------------------------------------------
 
 	

@@ -2,6 +2,7 @@ package com.net;
 
 import java.io.DataOutput;
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 public interface NetDataOutput extends DataOutput
 {
@@ -26,13 +27,18 @@ public interface NetDataOutput extends DataOutput
 	
 	
 	public void writeObject(Object data) throws IOException;
-	
 	public void writeObjectArray(Object[] data) throws IOException;
 	
-	public<T extends ExternalizableMessage> void writeExternal(T data) throws IOException;
 	
+	public<T extends ExternalizableMessage> void writeExternal(T data) throws IOException;
 	public<T extends ExternalizableMessage> void writeExternalArray(T[] data) throws IOException;
 	
+
+	public void writeAny(Object data) throws IOException;
+	public void writeAnyArray(Object data) throws IOException;
+
 	
 	public ExternalizableFactory getFactory();
+	
+	
 }

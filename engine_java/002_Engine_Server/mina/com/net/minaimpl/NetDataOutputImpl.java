@@ -3,6 +3,7 @@ package com.net.minaimpl;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.ObjectOutput;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
@@ -12,6 +13,7 @@ import org.apache.mina.core.buffer.IoBuffer;
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
+import com.cell.reflect.Parser;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataOutput;
@@ -32,6 +34,71 @@ public class NetDataOutputImpl implements NetDataOutput
 
 //	-----------------------------------------------------------------------------------------------------------
 //	
+	public void writeAnyArray(Object array) throws IOException {
+		int count = Array.getLength(array);
+		if (count > 0) {
+			Class<?> component_type = array.getClass().getComponentType();
+			if (component_type.isArray()) {
+				buffer.putInt(-count); 	// 表示成员还是个数组
+				for (int i = 0; i < count; i++) {
+					writeAnyArray(Array.get(array, i));
+				}
+			} else {
+				buffer.putInt(count);	// 表示成员是个通常对象
+				for (int i = 0; i < count; i++) {
+					writeAny(Array.get(array, i));
+				}
+			}
+		} else {
+			buffer.putInt(0);
+		}
+	}
+	
+	public void writeAny(Object obj) throws IOException {
+		Class<?> component_type = obj.getClass();
+		if (ExternalizableMessage.class.isInstance(obj)) {
+			writeExternal((ExternalizableMessage)obj);
+		}
+		else if (component_type.equals(byte.class)) {
+			writeByte((Byte)obj);
+		}
+		else if (component_type.equals(boolean.class)) {
+			writeBoolean((Boolean)obj);
+		}
+		else if (component_type.equals(char.class)) {
+			writeChar((Character)obj);
+		}
+		else if (component_type.equals(short.class)) {
+			writeShort((Short)obj);
+		}
+		else if (component_type.equals(int.class)) {
+			writeInt((Integer)obj);
+		}
+		else if (component_type.equals(long.class)) {
+			writeLong((Long)obj);
+		}
+		else if (component_type.equals(float.class)) {
+			writeFloat((Float)obj);
+		}
+		else if (component_type.equals(double.class)) {
+			writeDouble((Double)obj);
+		}
+		else {
+			writeObject(obj);
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		Boolean[][][] tt = new Boolean[1][2][3];
+		System.out.println(tt.getClass().getCanonicalName());
+//		boolean b = (Boolean)true;
+//		Array.newInstance(componentType, dimensions);
+		System.out.println(tt.getClass().newInstance());
+	}
+
+//	-----------------------------------------------------------------------------------------------------------
+//	
+	
 	
 	public void writeExternal(ExternalizableMessage data) throws IOException {
 		if (data != null) {
