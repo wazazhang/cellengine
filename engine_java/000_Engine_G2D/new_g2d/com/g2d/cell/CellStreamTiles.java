@@ -63,47 +63,43 @@ public class CellStreamTiles extends StreamTiles
 	}
 	
 	@Override
-	protected void initImages()
+	protected void initImages() throws Throwable
 	{
-		try {
-			String image_extentions = getImageExtentions();
-			// 导出图片格式为整图
-			if (isGroup()) {
-				System.out.println("initImages group : " + img.getName());
-				byte[] idata = set.getOutput().loadRes(
-						img.getName() + "." + image_extentions, null);
-				Image src = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
-				IPalette palette = this.getPalette();
-				if (palette != null) {
-					src.setPalette(palette);
+		String image_extentions = getImageExtentions();
+		// 导出图片格式为整图
+		if (isGroup()) {
+//			System.out.println("initImages group : " + img.getName());
+			byte[] idata = set.getOutput().loadRes(
+					img.getName() + "." + image_extentions, null);
+			Image src = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
+			IPalette palette = this.getPalette();
+			if (palette != null) {
+				src.setPalette(palette);
+			}
+			for (int i = 0; i < images.length; i++) {
+				if (img.getClipW(i) > 0 && img.getClipH(i) > 0) {
+					images[i] = src.subImage(
+							img.getClipX(i), 
+							img.getClipY(i), 
+							img.getClipW(i), 
+							img.getClipH(i));
 				}
-				for (int i = 0; i < images.length; i++) {
-					if (img.getClipW(i) > 0 && img.getClipH(i) > 0) {
-						images[i] = src.subImage(
-								img.getClipX(i), 
-								img.getClipY(i), 
-								img.getClipW(i), 
-								img.getClipH(i));
+			}
+		}
+		// 导出图片格式为碎图
+		else if (isTile()) {
+//			System.out.println("initImages tiles : " + img.getName());
+			IPalette palette = this.getPalette();
+			for (int i = 0; i < images.length; i++) {
+				if (img.getClipW(i) > 0 && img.getClipH(i) > 0) {
+					byte[] idata = set.getOutput().loadRes(
+							img.getName() + "/" + i + "." + image_extentions, null);
+					images[i] = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
+					if (palette != null) {
+						images[i].setPalette(palette);
 					}
 				}
 			}
-			// 导出图片格式为碎图
-			else if (isTile()) {
-				System.out.println("initImages tiles : " + img.getName());
-				IPalette palette = this.getPalette();
-				for (int i = 0; i < images.length; i++) {
-					if (img.getClipW(i) > 0 && img.getClipH(i) > 0) {
-						byte[] idata = set.getOutput().loadRes(
-								img.getName() + "/" + i + "." + image_extentions, null);
-						images[i] = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
-						if (palette != null) {
-							images[i].setPalette(palette);
-						}
-					}
-				}
-			}
-		} catch (Throwable ex) {
-			ex.printStackTrace();
 		}
 	}
 }

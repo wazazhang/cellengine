@@ -306,8 +306,8 @@ public class AwtEngine extends Engine
 		if (image instanceof AwtImage) {
 			return ((AwtImage)image).getSrc();
 		}
-		
-		throw new NotImplementedException("can not unwrap image!");
+		return null;
+//		throw new NotImplementedException("can not unwrap image!");
 	}
 	
 
@@ -321,7 +321,8 @@ public class AwtEngine extends Engine
 		if (Engine.getEngine() instanceof AwtEngine) {
 			return new AwtImage(img);
 		}
-		throw new NotImplementedException("can not wrap image, no g2d engine implements!");
+		return null;
+//		throw new NotImplementedException("can not wrap image, no g2d engine implements!");
 	}
 	
 	static public com.g2d.Font wrap(java.awt.Font font) 

@@ -41,7 +41,7 @@ public abstract class StreamTiles implements IImages, Runnable
 	 * 子类可以覆盖为自己的加载图片方法，注意，该方法已获得
 	 * CellSetResource， StreamTiles 的锁
 	 */
-	abstract protected void initImages();
+	abstract protected void initImages() throws Throwable;
 
 	public boolean isLoaded() {
 		return is_loaded.get();
@@ -57,13 +57,14 @@ public abstract class StreamTiles implements IImages, Runnable
 			return;
 		}
 		try {
-			if (!is_loaded.get()) {
-				synchronized (images) {
+			synchronized (images) {
+				if (!is_loaded.get()) {
 					initImages();
 					is_loaded.set(true);
 				}
 			}
 		} catch (Throwable e) {
+			System.err.println(img.getName() + " : " + set.toString());
 			e.printStackTrace();
 		} finally {
 			is_loading.set(false);

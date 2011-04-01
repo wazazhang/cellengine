@@ -328,7 +328,9 @@ public class EatBuilder extends Builder
 		try {
 			Output out = getOutputFile(cpj_file);
 			if (out != null) {
-				return new EatResource(out, cpj_file.getPath());
+				EatResource ret = new EatResource(out, cpj_file.getPath());
+				System.out.println("create " + ret);
+				return ret;
 			}
 		} catch (Exception err) {
 			err.printStackTrace();
@@ -371,6 +373,11 @@ public class EatBuilder extends Builder
 		protected StreamTiles getStreamImage(ImagesSet img) throws IOException {
 			StreamTiles tiles = new OutputDirTiles(img, this);
 			return tiles;
+		}
+		
+		@Override
+		public String toString() {
+			return "EatResource : " + getPath();
 		}
 	}
 	
@@ -423,16 +430,18 @@ public class EatBuilder extends Builder
 		
 		@Override
 		public byte[] loadRes(String name, AtomicReference<Float> percent) {
-			if (resources == null) {
-				initPakFiles();
+			synchronized (this) {
+				if (resources == null) {
+					resources = initPakFiles();
+				}
 			}
 			name = name.replaceAll("\\\\", "/");
 			return resources.get(name);
 		}
 		
-		private void initPakFiles()
+		private HashMap<String, byte[]> initPakFiles()
 		{
-			resources = new HashMap<String, byte[]>();
+			HashMap<String, byte[]> resources = new HashMap<String, byte[]>();
 			try {
 				InputStream fis = pak_file.getInputStream();
 				try {
@@ -451,6 +460,7 @@ public class EatBuilder extends Builder
 			} catch (Exception err) {
 				err.printStackTrace();
 			}
+			return resources;
 		}
 	}
 
@@ -466,30 +476,29 @@ public class EatBuilder extends Builder
 		}
 		
 		@Override
-		protected void initImages() 
+		protected void initImages() throws Throwable 
 		{
-			try {
-				// 根据tile的类型来判断读取何种图片
-				if (img.Name.equals("png") || img.Name.equals("jpg")) {
-					if (set.getOutput() instanceof OutputPack) {
-						if (loadPakImages()) {
-							return;
-						}
-					} else {
-						if (loadZipImages()) {
-							return;
-						}
+			System.out.println("initImages : " + img.getName() + " : " + set.toString());
+			
+			// 根据tile的类型来判断读取何种图片
+			if (img.Name.equals("png") || img.Name.equals("jpg")) {
+				if (set.getOutput() instanceof OutputPack) {
+					if (loadPakImages()) {
+						return;
+					}
+				} else {
+					if (loadZipImages()) {
+						return;
 					}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-			
-			try {
-				super.initImages();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			super.initImages();
+		}
+		
+		@Override
+		public void unloadAllImages() {
+			super.unloadAllImages();
+			System.out.println("unloadAllImages : " + img.getName() + " : " + set.toString());
 		}
 		
 		@Override
@@ -501,19 +510,23 @@ public class EatBuilder extends Builder
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
 					try {
 						if (is_png_mask) {
-							images[i] = com.g2d.Tools.decodeImageMask(
-									set.getOutput().loadRes(img.Name+"/"+i+".png", null), 0);
+							byte[] idata = set.getOutput().loadRes(img.Name+"/"+i+".png", null);
+//							if (idata != null) {
+								images[i] = com.g2d.Tools.decodeImageMask(idata, 0);
+//							}
 						} else {
-							images[i] = Engine.getEngine().createImage(new ByteArrayInputStream(
-									set.getOutput().loadRes(img.Name+"/"+i+"."+img.Name, null)));
+							byte[] idata = set.getOutput().loadRes(img.Name+"/"+i+"."+img.Name, null);
+//							if (idata != null) {
+								images[i] = Engine.getEngine().createImage(new ByteArrayInputStream(idata));
+//							}
 						}
-//						images[i].setMode(this.getMode());
 						IPalette palette = this.getPalette();
-						if (palette != null)
-							images[i].setPalette(palette);						
+						if (palette != null && images[i] != null) {
+							images[i].setPalette(palette);		
+						}
 					} catch (Exception err) {
-//						err.printStackTrace();
 						System.err.println("loadPakImages \""+img.Name+"\" tile error : " + i);
+						err.printStackTrace();
 					}
 				}
 			}
@@ -529,18 +542,20 @@ public class EatBuilder extends Builder
 					if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
 						ByteArrayInputStream idata = files.get(i+"."+img.Name);
 						try { 
-							if (is_png_mask) {
-								images[i] = com.g2d.Tools.decodeImageMask(CIO.readStream(idata), 0);
-							} else {
-								images[i] = Engine.getEngine().createImage(idata);
+							if (idata != null) {
+								if (is_png_mask) {
+									images[i] = com.g2d.Tools.decodeImageMask(CIO.readStream(idata), 0);
+								} else {
+									images[i] = Engine.getEngine().createImage(idata);
+								}
 							}
-//							images[i].setMode(this.getMode());
 							IPalette palette = this.getPalette();
-							if (palette != null)
-								images[i].setPalette(palette);							
+							if (palette != null && images[i] != null) {
+								images[i].setPalette(palette);		
+							}
 						} catch (Exception err) {
-//							err.printStackTrace();
 							System.err.println("loadZipImages \""+img.Name+"\" tile error : " + i);
+							err.printStackTrace();
 						}
 					}
 				}

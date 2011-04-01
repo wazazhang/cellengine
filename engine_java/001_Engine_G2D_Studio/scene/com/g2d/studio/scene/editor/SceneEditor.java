@@ -895,14 +895,18 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 			// draw bg
 			if (snapshot == null || snapshot.getWidth() != getWidth() || snapshot.getHeight() != getHeight()){
 				snapshot = Tools.unwrap(scene_container.getWorld().createMiniMap(getWidth(), getHeight()));
-				java.awt.Graphics2D mg = (java.awt.Graphics2D)snapshot.getGraphics();
-				Tools.setAlpha(mg, 0.3f);
-				mg.setColor(java.awt.Color.BLACK);
-				mg.fillRect(0, 0, getWidth(), getHeight());
-				mg.dispose();
+				if (snapshot != null) {
+					java.awt.Graphics2D mg = (java.awt.Graphics2D)snapshot.getGraphics();
+					Tools.setAlpha(mg, 0.3f);
+					mg.setColor(java.awt.Color.BLACK);
+					mg.fillRect(0, 0, getWidth(), getHeight());
+					mg.dispose();
+				}
 //				System.out.println("create snapshot !");
 			}
-			g.drawImage(snapshot, 0, 0, this);
+			if (snapshot != null) {
+				g.drawImage(snapshot, 0, 0, this);
+			}
 			// draw units
 			{
 				for (SceneUnitTag<?> u : scene_container.getWorld().getChildsSubClass(SceneUnitTag.class)) {
