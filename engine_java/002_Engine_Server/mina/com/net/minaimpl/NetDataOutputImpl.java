@@ -35,28 +35,31 @@ public class NetDataOutputImpl implements NetDataOutput
 //	-----------------------------------------------------------------------------------------------------------
 //	
 	public void writeAnyArray(Object array) throws IOException {
-		int count = Array.getLength(array);
-		if (count > 0) {
-			Class<?> component_type = array.getClass().getComponentType();
-			if (component_type.isArray()) {
-				buffer.putInt(-count); 	// 表示成员还是个数组
-				for (int i = 0; i < count; i++) {
-					writeAnyArray(Array.get(array, i));
+		if (array != null) {
+			int count = Array.getLength(array);
+			if (count > 0) {
+				Class<?> component_type = array.getClass().getComponentType();
+				if (component_type.isArray()) {
+					buffer.putInt(-count); 	// 表示成员还是个数组
+					for (int i = 0; i < count; i++) {
+						writeAnyArray(Array.get(array, i));
+					}
+				} else {
+					buffer.putInt(count);	// 表示成员是个通常对象
+					for (int i = 0; i < count; i++) {
+						writeAny(Array.get(array, i), component_type);
+					}
 				}
 			} else {
-				buffer.putInt(count);	// 表示成员是个通常对象
-				for (int i = 0; i < count; i++) {
-					writeAny(Array.get(array, i));
-				}
+				buffer.putInt(0);
 			}
 		} else {
 			buffer.putInt(0);
 		}
 	}
 	
-	public void writeAny(Object obj) throws IOException {
-		Class<?> component_type = obj.getClass();
-		if (ExternalizableMessage.class.isInstance(obj)) {
+	public void writeAny(Object obj, Class<?> component_type) throws IOException {
+		if (ExternalizableMessage.class.isAssignableFrom(component_type)) {
 			writeExternal((ExternalizableMessage)obj);
 		}
 		else if (component_type.equals(byte.class)) {

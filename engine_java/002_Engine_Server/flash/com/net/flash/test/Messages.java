@@ -85,7 +85,16 @@ public class Messages
 	{
 		public String message;
 		public Data data;
-		public Data[] datas;
+		public Data[] datas = new Data[]{new Data(), new Data(),};
+		public Data[][][] datas2 = new Data[][][] {
+				{ 
+					{ new Data(), new Data(), }, 
+					{ new Data(), new Data(), } 
+				}, {
+					{ new Data(), new Data(), new Data(), new Data(), },
+					{} 
+				}
+				};
 		public EchoRequest(String message) {
 			this.message = message;
 		}

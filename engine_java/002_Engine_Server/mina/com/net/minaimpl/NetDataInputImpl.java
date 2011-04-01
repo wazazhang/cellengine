@@ -58,7 +58,7 @@ public class NetDataInputImpl implements NetDataInput
 	
 	@Override
 	public Object readAny(Class<?> component_type) throws IOException {
-		if (component_type.isAssignableFrom(ExternalizableMessage.class)) {
+		if (ExternalizableMessage.class.isAssignableFrom(component_type)) {
 			return readAnyExternal(component_type);
 		}
 		else if (component_type.equals(byte.class)) {

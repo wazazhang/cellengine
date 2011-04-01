@@ -34,7 +34,7 @@ public interface NetDataOutput extends DataOutput
 	public<T extends ExternalizableMessage> void writeExternalArray(T[] data) throws IOException;
 	
 
-	public void writeAny(Object data) throws IOException;
+	public void writeAny(Object data, Class<?> component_type) throws IOException;
 	public void writeAnyArray(Object data) throws IOException;
 
 	
