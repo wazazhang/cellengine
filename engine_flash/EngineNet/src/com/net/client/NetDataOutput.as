@@ -131,5 +131,42 @@ package com.net.client
 				super.writeShort(0);
 			}
 		}
+		
+		
+		
+		public function writeAnyArray(array : Array) : void
+		{
+			if (array != null) {
+				var count : int = array.length;
+				if (count > 0) {
+					var component : Object = array[0];
+					if (component is Array) {
+						super.writeInt(-count); 	// 表示成员还是个数组
+						for (var i : int = 0; i < count; i++) {
+							writeAnyArray(array[i]);
+						}
+					} else {
+						super.writeInt(count);	// 表示成员是个通常对象
+						for (var i : int = 0; i < count; i++) {
+							writeAny(array[i]);
+						}
+					}
+				} else {
+					super.writeInt(0);
+				}
+			} else {
+				super.writeInt(0);
+			}
+		}
+		
+		public function writeAny(obj : Object) : void
+		{
+			var ext_type : int = factory.getType(obj as Message);
+			if (ext_type > 0) {
+				writeExternal(obj as Message);
+			}
+			// TODO 有问题，还未完全实现。
+		}
+		
 	}
 }
