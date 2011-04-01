@@ -140,7 +140,7 @@ public class Messages
 					""
 					);
 			gen_as.genCodeFile(factory, 
-					new File("D:\\Projects\\CellGameEdit\\engine_flash\\EngineTest\\src"));
+					new File(args[0]));
 		}
 		
 		
