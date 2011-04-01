@@ -10,64 +10,99 @@ public class ExternalizableUtil
 {
 	public static void writeBooleanArray(DataOutput out, boolean[] bools) throws IOException
 	{
-		out.writeInt(bools.length);
-		for (int i=0; i<bools.length; i++) {
-			out.writeBoolean(bools[i]);
+		if (bools != null) {
+			out.writeInt(bools.length);
+			for (int i=0; i<bools.length; i++) {
+				out.writeBoolean(bools[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
 	}
 	
 	public static void writeCharArray(DataOutput out, char[] chars) throws IOException
 	{
-		out.writeInt(chars.length);
-		for (int i=0; i<chars.length; i++) {
-			out.writeChar(chars[i]);
+		if (chars != null) {
+			out.writeInt(chars.length);
+			for (int i=0; i<chars.length; i++) {
+				out.writeChar(chars[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
 	}
 	
 	public static void writeByteArray(DataOutput out, byte[] bytes) throws IOException
 	{
-		out.writeInt(bytes.length);
-		out.write(bytes);
+		if (bytes != null) {
+			out.writeInt(bytes.length);
+			out.write(bytes);
+		} else {
+			out.writeInt(0);
+		}
 	}
 	
 	public static void writeShortArray(DataOutput out, short[] shorts) throws IOException
 	{
-		out.writeInt(shorts.length);
-		for (int i=0; i<shorts.length; i++) {
-			out.writeShort(shorts[i]);
+		if (shorts != null) {
+			out.writeInt(shorts.length);
+			for (int i=0; i<shorts.length; i++) {
+				out.writeShort(shorts[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
 	}
 	
 	public static void writeIntArray(DataOutput out, int[] ints) throws IOException
 	{
-		out.writeInt(ints.length);
-		for (int i=0; i<ints.length; i++) {
-			out.writeInt(ints[i]);
+		if (ints != null) {
+			out.writeInt(ints.length);
+			for (int i=0; i<ints.length; i++) {
+				out.writeInt(ints[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
 	}
 	
 	public static void writeLongArray(DataOutput out, long[] longs) throws IOException
 	{
-		out.writeInt(longs.length);
-		for (int i=0; i<longs.length; i++) {
-			out.writeLong(longs[i]);
+		if (longs != null) {
+			out.writeInt(longs.length);
+			for (int i=0; i<longs.length; i++) {
+				out.writeLong(longs[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
+		
 	}
 	
 	public static void writeFloatArray(DataOutput out, float[] floats) throws IOException
 	{
-		out.writeInt(floats.length);
-		for (int i=0; i<floats.length; i++) {
-			out.writeFloat(floats[i]);
+		if (floats != null) {
+			out.writeInt(floats.length);
+			for (int i=0; i<floats.length; i++) {
+				out.writeFloat(floats[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
+		
 	}
 	
 	public static void writeDoubleArray(DataOutput out, double[] doubles) throws IOException
 	{
-		out.writeInt(doubles.length);
-		for (int i=0; i<doubles.length; i++) {
-			out.writeDouble(doubles[i]);
+		if (doubles != null) {
+			out.writeInt(doubles.length);
+			for (int i=0; i<doubles.length; i++) {
+				out.writeDouble(doubles[i]);
+			}
+		} else {
+			out.writeInt(0);
 		}
+		
 	}
 	
 	

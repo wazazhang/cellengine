@@ -44,6 +44,7 @@ public class NetDataInputImpl implements NetDataInput
 		if (count == 0) {
 			return null;
 		} else if (count < 0) { // 表示成员还是个数组
+			count = -count;
 			for (int i = 0; i < count; i++) {
 				readAnyArray(type.getComponentType());
 			}
