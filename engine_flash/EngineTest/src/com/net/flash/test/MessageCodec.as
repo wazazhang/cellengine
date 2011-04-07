@@ -163,11 +163,13 @@ package com.net.flash.test
 		msg.message = input.readJavaUTF();
 		msg.data = input.readExternal() as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray();
+		msg.datas2 = input.readExternalArray();
 	}
 	private function w_EchoRequest_5(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
+		output.writeExternalArray(msg.datas2);
 	}
 
 //	----------------------------------------------------------------------------------------------------
