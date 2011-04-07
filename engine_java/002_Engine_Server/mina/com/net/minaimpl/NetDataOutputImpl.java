@@ -69,11 +69,15 @@ public class NetDataOutputImpl extends NetDataOutput
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Boolean[][][] tt = new Boolean[1][2][3];
+		Boolean[][][] tt = new Boolean[][][]{
+				{new Boolean[2],},
+				{new Boolean[3],},
+		};
 		System.out.println(tt.getClass().getCanonicalName());
 //		boolean b = (Boolean)true;
 //		Array.newInstance(componentType, dimensions);
 		System.out.println(tt.getClass().newInstance());
+		
 	}
 
 //	-----------------------------------------------------------------------------------------------------------
