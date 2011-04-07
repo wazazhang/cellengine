@@ -80,6 +80,7 @@ public abstract class NetDataOutput implements DataOutput
 			int count = Array.getLength(array);
 			if (count > 0) {
 				Class<?> component_type = array.getClass().getComponentType();
+				writeInt(NetDataTypes.getArrayCompomentType(component_type, getFactory()));
 				if (component_type.isArray()) {
 					writeInt(-count); 	// 表示成员还是个数组
 					for (int i = 0; i < count; i++) {

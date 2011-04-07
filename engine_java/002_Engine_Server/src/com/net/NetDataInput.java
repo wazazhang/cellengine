@@ -2,6 +2,7 @@ package com.net;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 import com.cell.CUtil;
 import com.cell.io.ExternalizableUtil;
@@ -71,29 +72,32 @@ public abstract class NetDataInput implements DataInput
 		int count = readInt();
 		if (count == 0) {
 			return null;
-		} else if (count < 0) { // 表示成员还是个数组
+		}
+		readInt(); // for other language tag
+		Class<?> component_type = type.getComponentType();
+		if (count < 0) { // 表示成员还是个数组
 			count = -count;
+			Object array = Array.newInstance(component_type, count);
 			for (int i = 0; i < count; i++) {
-				readAnyArray(type.getComponentType());
+				Array.set(array, i, readAnyArray(component_type));
 			}
+			return array;
 		} else if (count > 0) { // 表示成员是个通常对象
+			Object array = Array.newInstance(component_type, count);
 			for (int i = 0; i < count; i++) {
-				readAny(type.getComponentType());
+				Array.set(array, i, readAny(component_type));
 			}
+			return array;
 		}
 		return null;
 	}
 
 	
-	abstract public <T extends ExternalizableMessage> T
-	readExternal(Class<T> type) throws IOException;
+	abstract public <T extends ExternalizableMessage> T readExternal(Class<T> type) throws IOException;
 	
-	abstract public<T> T 
-	readObject(Class<T> type) throws IOException;
+	abstract public<T> T readObject(Class<T> type) throws IOException;
 	
-	abstract public Object 
-	readAny(Class<?> type) throws IOException;
-		
+	abstract public Object readAny(Class<?> type) throws IOException;
 
 	abstract public ExternalizableFactory getFactory();
 	
