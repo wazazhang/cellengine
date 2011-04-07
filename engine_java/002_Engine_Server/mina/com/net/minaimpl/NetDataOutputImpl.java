@@ -34,37 +34,68 @@ public class NetDataOutputImpl extends NetDataOutput
 
 //	-----------------------------------------------------------------------------------------------------------
 //	
+
+
+	@Override
+	public void writeAnyArray(Object array) throws IOException {
+		if (array != null) {
+			int count = Array.getLength(array);
+			if (count > 0) {
+				Class<?> component_type = array.getClass().getComponentType();
+				if (component_type.isArray()) {
+					writeInt(-count); 	// 表示成员还是个数组
+					for (int i = 0; i < count; i++) {
+						writeAnyArray(Array.get(array, i));
+					}
+				} else {
+					writeInt(count);	// 表示成员是个通常对象
+					byte component_data_type = NetDataTypes.getArrayCompomentType(component_type, factory);
+					for (int i = 0; i < count; i++) {
+						writeAny(component_data_type, Array.get(array, i));
+					}
+				}
+			} else {
+				writeInt(0);
+			}
+		} else {
+			writeInt(0);
+		}
+	}
 	
-	public void writeAny(Object obj, Class<?> component_type) throws IOException {
-		if (ExternalizableMessage.class.isAssignableFrom(component_type)) {
+	private void writeAny(byte component_data_type, Object obj) throws IOException 
+	{
+		switch (component_data_type) {
+		case NetDataTypes.TYPE_EXTERNALIZABLE:
 			writeExternal((ExternalizableMessage)obj);
-		}
-		else if (component_type.equals(byte.class)) {
-			writeByte((Byte)obj);
-		}
-		else if (component_type.equals(boolean.class)) {
+			break;
+		case NetDataTypes.TYPE_BOOLEAN:
 			writeBoolean((Boolean)obj);
-		}
-		else if (component_type.equals(char.class)) {
+			break;
+		case NetDataTypes.TYPE_BYTE:
+			writeByte((Byte)obj);
+			break;
+		case NetDataTypes.TYPE_CHAR: 
 			writeChar((Character)obj);
-		}
-		else if (component_type.equals(short.class)) {
+			break;
+		case NetDataTypes.TYPE_SHORT: 
 			writeShort((Short)obj);
-		}
-		else if (component_type.equals(int.class)) {
+			break;
+		case NetDataTypes.TYPE_INT: 
 			writeInt((Integer)obj);
-		}
-		else if (component_type.equals(long.class)) {
+			break;
+		case NetDataTypes.TYPE_LONG: 
 			writeLong((Long)obj);
-		}
-		else if (component_type.equals(float.class)) {
+			break;
+		case NetDataTypes.TYPE_FLOAT: 
 			writeFloat((Float)obj);
-		}
-		else if (component_type.equals(double.class)) {
+			break;
+		case NetDataTypes.TYPE_DOUBLE: 
 			writeDouble((Double)obj);
-		}
-		else {
+			break;
+		case NetDataTypes.TYPE_OBJECT: 
 			writeObject(obj);
+			break;
+		default:
 		}
 	}
 	

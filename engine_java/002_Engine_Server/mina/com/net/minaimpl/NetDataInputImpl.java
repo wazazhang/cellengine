@@ -38,45 +38,59 @@ public class NetDataInputImpl extends NetDataInput
 	
 //	-----------------------------------------------------------------------------------------------
 
+
+	public Object readAnyArray(Class<?> type) throws IOException {
+		int count = readInt();
+		if (count == 0) {
+			return null;
+		}
+		Class<?> component_type = type.getComponentType();
+		if (count < 0) { // 表示成员还是个数组
+			count = -count;
+			Object array = Array.newInstance(component_type, count);
+			for (int i = 0; i < count; i++) {
+				Array.set(array, i, readAnyArray(component_type));
+			}
+			return array;
+		} else if (count > 0) { // 表示成员是个通常对象
+			Object array = Array.newInstance(component_type, count);
+			byte component_data_type = buffer.get();
+			for (int i = 0; i < count; i++) {
+				Array.set(array, i, readAny(component_data_type, component_type));
+			}
+			return array;
+		}
+		return null;
+	}
 	
-	
-	@Override
-	public Object readAny(Class<?> component_type) throws IOException {
-		if (ExternalizableMessage.class.isAssignableFrom(component_type)) {
+	private Object readAny(byte component_data_type, Class<?> component_type) throws IOException {
+		switch (component_data_type) {
+		case NetDataTypes.TYPE_EXTERNALIZABLE:
 			return readAnyExternal(component_type);
-		}
-		else if (component_type.equals(byte.class)) {
-			return readByte();
-		}
-		else if (component_type.equals(boolean.class)) {
+		case NetDataTypes.TYPE_BOOLEAN:
 			return readBoolean();
-		}
-		else if (component_type.equals(char.class)) {
+		case NetDataTypes.TYPE_BYTE:
+			return readByte();
+		case NetDataTypes.TYPE_CHAR:
 			return readChar();
-		}
-		else if (component_type.equals(short.class)) {
+		case NetDataTypes.TYPE_SHORT:
 			return readShort();
-		}
-		else if (component_type.equals(int.class)) {
+		case NetDataTypes.TYPE_INT:
 			return readInt();
-		}
-		else if (component_type.equals(long.class)) {
+		case NetDataTypes.TYPE_LONG:
 			return readLong();
-		}
-		else if (component_type.equals(float.class)) {
+		case NetDataTypes.TYPE_FLOAT:
 			return readFloat();
-		}
-		else if (component_type.equals(double.class)) {
+		case NetDataTypes.TYPE_DOUBLE:
 			return readDouble();
-		}
-		else {
+		case NetDataTypes.TYPE_OBJECT:
 			return readObject(component_type);
+		default:
+			return null;
 		}
 	}
 	
-//	-----------------------------------------------------------------------------------------------
-
-	public ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
+	private ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
 		int type = buffer.getInt();
 		if (type != 0) {
 			try {
@@ -89,7 +103,9 @@ public class NetDataInputImpl extends NetDataInput
 		}
 		return null;
 	}
-	
+
+//	-----------------------------------------------------------------------------------------------
+
 	
 	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
 		int type = buffer.getInt();

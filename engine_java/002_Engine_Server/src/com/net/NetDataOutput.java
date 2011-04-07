@@ -75,39 +75,11 @@ public abstract class NetDataOutput implements DataOutput
 	}
 	
 
-	public void writeAnyArray(Object array) throws IOException {
-		if (array != null) {
-			int count = Array.getLength(array);
-			if (count > 0) {
-				Class<?> component_type = array.getClass().getComponentType();
-				writeInt(NetDataTypes.getArrayCompomentType(component_type, getFactory()));
-				if (component_type.isArray()) {
-					writeInt(-count); 	// 表示成员还是个数组
-					for (int i = 0; i < count; i++) {
-						writeAnyArray(Array.get(array, i));
-					}
-				} else {
-					writeInt(count);	// 表示成员是个通常对象
-					for (int i = 0; i < count; i++) {
-						writeAny(Array.get(array, i), component_type);
-					}
-				}
-			} else {
-				writeInt(0);
-			}
-		} else {
-			writeInt(0);
-		}
-	}
-	
 	abstract public void writeObject(Object data) throws IOException;
 	
-	
 	abstract public<T extends ExternalizableMessage> void writeExternal(T data) throws IOException;
-	
 
-	abstract public void writeAny(Object data, Class<?> component_type) throws IOException;
-
+	abstract public void writeAnyArray(Object array) throws IOException ;
 	
 	abstract public ExternalizableFactory getFactory();
 	
