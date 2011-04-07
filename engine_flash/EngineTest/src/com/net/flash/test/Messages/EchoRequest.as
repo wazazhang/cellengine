@@ -3,6 +3,8 @@ package com.net.flash.test.Messages
 	import com.net.client.Message;
 	import com.net.client.MessageFactory;
 	import com.net.client.NetDataTypes;
+	
+	import flash.sampler.getMemberNames;
 
 
 	/**
@@ -40,6 +42,8 @@ package com.net.flash.test.Messages
 			this.data = data;
 			this.datas = datas;
 			this.datas2 = datas2;
+			
+			
 		}
 	}
 }
