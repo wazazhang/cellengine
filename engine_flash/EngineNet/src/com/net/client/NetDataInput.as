@@ -112,5 +112,32 @@ package com.net.client
 		public function readJavaUTF() : String {
 			return super.readUTF();
 		}
+		
+		
+		public function readAnyArray(type : Object) : Message {
+			var count : int = super.readInt();
+			if (count == 0) {
+				return null;
+			} else if (count < 0) { // 表示成员还是个数组
+				count = -count;
+				for (var i : int = 0; i < count; i++) {
+					readAnyArray(type);
+				}
+			} else if (count > 0) { // 表示成员是个通常对象
+				for (var i : int = 0; i < count; i++) {
+					readAny(type);
+				}
+			}
+			return null;
+		}
+
+		public function readAny(type : Object) : Message
+		{
+			
+			
+			return null;
+		}
+
+		
 	}
 }
