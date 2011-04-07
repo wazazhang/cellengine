@@ -18,7 +18,7 @@ import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataOutput;
 
-public class NetDataOutputImpl implements NetDataOutput
+public class NetDataOutputImpl extends NetDataOutput
 {	
 	final IoBuffer buffer ;
 	final ExternalizableFactory factory;
@@ -34,29 +34,6 @@ public class NetDataOutputImpl implements NetDataOutput
 
 //	-----------------------------------------------------------------------------------------------------------
 //	
-	public void writeAnyArray(Object array) throws IOException {
-		if (array != null) {
-			int count = Array.getLength(array);
-			if (count > 0) {
-				Class<?> component_type = array.getClass().getComponentType();
-				if (component_type.isArray()) {
-					buffer.putInt(-count); 	// 表示成员还是个数组
-					for (int i = 0; i < count; i++) {
-						writeAnyArray(Array.get(array, i));
-					}
-				} else {
-					buffer.putInt(count);	// 表示成员是个通常对象
-					for (int i = 0; i < count; i++) {
-						writeAny(Array.get(array, i), component_type);
-					}
-				}
-			} else {
-				buffer.putInt(0);
-			}
-		} else {
-			buffer.putInt(0);
-		}
-	}
 	
 	public void writeAny(Object obj, Class<?> component_type) throws IOException {
 		if (ExternalizableMessage.class.isAssignableFrom(component_type)) {
@@ -116,16 +93,6 @@ public class NetDataOutputImpl implements NetDataOutput
 	}
 	
 	
-	public <T extends ExternalizableMessage> void writeExternalArray(T[] data) throws IOException {
-		if (data != null) {
-			buffer.putInt(data.length);
-			for (T d : data) {
-				writeExternal(d);
-			}
-		} else {
-			buffer.putInt(0);
-		}
-	}
 	
 	
 	public void writeObject(Object data) throws IOException {
@@ -137,18 +104,6 @@ public class NetDataOutputImpl implements NetDataOutput
 		}
 	}
 
-	@Override
-	public void writeObjectArray(Object[] data) throws IOException {
-		if (data != null) {
-			buffer.putInt(data.length);
-			for (Object d : data) {
-				writeObject(d);
-			}
-		} else {
-			buffer.putInt(0);
-		}
-	}
-	
 	
 	public void writeUTF(String s) throws IOException {
 		if (s != null) {			
@@ -174,17 +129,6 @@ public class NetDataOutputImpl implements NetDataOutput
 		}
 	}
 
-	@Override
-	public void writeUTFArray(String[] data) throws IOException {
-		if (data != null) {
-			buffer.putInt(data.length);
-			for (String d : data) {
-				writeUTF(d);
-			}
-		} else {
-			buffer.putInt(0);
-		}
-	}
 	
 //	-----------------------------------------------------------------------------------------------------------
 //	
@@ -245,39 +189,6 @@ public class NetDataOutputImpl implements NetDataOutput
 
 //	-----------------------------------------------------------------------------------------------------------
 //	
-	
-	public void writeBooleanArray(boolean[] bools) throws IOException {
-		ExternalizableUtil.writeBooleanArray(this, bools);
-	}
-	
-	public void writeCharArray(char[] chars) throws IOException {
-		ExternalizableUtil.writeCharArray(this, chars);
-	}
-	
-	public void writeByteArray(byte[] bytes) throws IOException {
-		ExternalizableUtil.writeByteArray(this, bytes);
-	}
-	
-	public void writeShortArray(short[] shorts) throws IOException {
-		ExternalizableUtil.writeShortArray(this, shorts);
-	}
-	
-	public void writeIntArray(int[] ints) throws IOException {
-		ExternalizableUtil.writeIntArray(this, ints);
-	}
-	
-	public void writeLongArray(long[] longs) throws IOException {
-		ExternalizableUtil.writeLongArray(this, longs);
-	}
-	
-	public void writeFloatArray(float[] floats) throws IOException {
-		ExternalizableUtil.writeFloatArray(this, floats);
-	}
-	
-	public void writeDoubleArray(double[] doubles) throws IOException {
-		ExternalizableUtil.writeDoubleArray(this, doubles);
-	}
-	
 	
 	
 }

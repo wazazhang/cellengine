@@ -16,7 +16,7 @@ import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataInput;
 
-public class NetDataInputImpl implements NetDataInput
+public class NetDataInputImpl extends NetDataInput
 {	
 	final IoBuffer buffer ;
 	final ExternalizableFactory factory;
@@ -38,23 +38,6 @@ public class NetDataInputImpl implements NetDataInput
 	
 //	-----------------------------------------------------------------------------------------------
 
-	@Override
-	public Object readAnyArray(Class<?> type) throws IOException {
-		int count = buffer.getInt();
-		if (count == 0) {
-			return null;
-		} else if (count < 0) { // 表示成员还是个数组
-			count = -count;
-			for (int i = 0; i < count; i++) {
-				readAnyArray(type.getComponentType());
-			}
-		} else if (count > 0) { // 表示成员是个通常对象
-			for (int i = 0; i < count; i++) {
-				readAny(type.getComponentType());
-			}
-		}
-		return null;
-	}
 	
 	
 	@Override
@@ -121,14 +104,6 @@ public class NetDataInputImpl implements NetDataInput
 		}
 		return null;
 	}
-
-	public <T extends ExternalizableMessage> T[] readExternalArray(Class<T> type) throws IOException {
-		T[] ret = CUtil.newArray(type, buffer.getInt());
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = readExternal(type);
-		}
-		return ret;
-	}
 	
 	
 	public <T> T readObject(Class<T> type) throws IOException {
@@ -146,15 +121,6 @@ public class NetDataInputImpl implements NetDataInput
 		return null;
 	}
 	
-	@Override
-	
-	public <T> T[] readObjectArray(Class<T> type) throws IOException {
-		T[] ret = CUtil.newArray(type, buffer.getInt());
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = readObject(type);
-		}
-		return ret;
-	}
 
 	
 	public String readUTF() throws IOException {
@@ -175,15 +141,6 @@ public class NetDataInputImpl implements NetDataInput
 			return new String(data, CUtil.getEncoding());
 		}
 		return null;
-	}
-	
-	@Override
-	public String[] readUTFArray() throws IOException {
-		String[] ret = new String[buffer.getInt()];
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = readUTF();
-		}
-		return ret;
 	}
 	
 //	-----------------------------------------------------------------------------------------------
@@ -242,38 +199,6 @@ public class NetDataInputImpl implements NetDataInput
 	}
 
 //	--------------------------------------------------------------------------------------------------------------
-	
-	public boolean[] readBooleanArray() throws IOException {
-		return ExternalizableUtil.readBooleanArray(this);
-	}
-	
-	public char[] readCharArray() throws IOException {
-		return ExternalizableUtil.readCharArray(this);
-	}
-	
-	public byte[] readByteArray() throws IOException {
-		return ExternalizableUtil.readByteArray(this);
-	}
-	
-	public short[] readShortArray() throws IOException {
-		return ExternalizableUtil.readShortArray(this);
-	}
-	
-	public int[] readIntArray() throws IOException {
-		return ExternalizableUtil.readIntArray(this);
-	}
-	
-	public long[] readLongArray() throws IOException {
-		return ExternalizableUtil.readLongArray(this);
-	}
-	
-	public float[] readFloatArray() throws IOException {
-		return ExternalizableUtil.readFloatArray(this);
-	}
-	
-	public double[] readDoubleArray() throws IOException {
-		return ExternalizableUtil.readDoubleArray(this);
-	}
 	
 //	--------------------------------------------------------------------------------------------------------------
 
