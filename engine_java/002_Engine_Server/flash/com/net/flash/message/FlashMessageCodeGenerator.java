@@ -15,6 +15,7 @@ import com.cell.CUtil;
 import com.cell.io.CFile;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
+import com.net.NetDataTypes;
 import com.net.mutual.MutualMessageCodeGenerator;
 import com.net.mutual.MutualMessageCodeGeneratorJava;
 
@@ -284,12 +285,15 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		d_init_commet.append("		/**\n");
 		for (Field f : fields) {
 			String field_type_comment = f.getType().getCanonicalName();
+			String field_leaf_name = NetDataTypes.toTypeName(
+					NetDataTypes.getArrayCompomentType(f.getType(), factory));
 			if (f.getType().isArray()) {
-				field_type_comment = f.getType().getComponentType().getCanonicalName() + "[]";
+				
 			}
 			d_fields.append(
 			"		/** Java type is : <font color=#0000ff>" + field_type_comment + "</font> */\n");
-			
+			d_fields.append(
+					"		[JavaType(name=\""+field_type_comment+"\", leaf_type=NetDataTypes."+field_leaf_name +")]\n");
 			d_fields.append(
 			"		public var " + genMsgField(factory, f) + ";");
 			d_init_commet.append(

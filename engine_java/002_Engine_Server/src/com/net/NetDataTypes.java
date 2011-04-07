@@ -1,9 +1,7 @@
-package com.net.minaimpl;
+package com.net;
 
 import java.lang.reflect.Array;
 
-import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
 
 
 
@@ -16,9 +14,39 @@ public class NetDataTypes
 	public final static byte TYPE_INT			= -5;
 	public final static byte TYPE_LONG			= -6;
 	public final static byte TYPE_FLOAT			= -7;
-	public final static byte TYPE_DOUBLE			= -8;
-	public final static byte TYPE_OBJECT			= -9;
-	public final static byte TYPE_EXTERNALIZABLE	= -10;
+	public final static byte TYPE_STRING		= -8;
+	public final static byte TYPE_DOUBLE			= -9;
+	public final static byte TYPE_OBJECT			= -10;
+	public final static byte TYPE_EXTERNALIZABLE	= -11;
+	
+	public static String toTypeName(byte type) {
+		switch (type) {
+		case NetDataTypes.TYPE_EXTERNALIZABLE:
+			return "TYPE_EXTERNALIZABLE";
+		case NetDataTypes.TYPE_BOOLEAN:
+			return "TYPE_BOOLEAN";
+		case NetDataTypes.TYPE_BYTE:
+			return "TYPE_BYTE";
+		case NetDataTypes.TYPE_CHAR:
+			return "TYPE_CHAR";
+		case NetDataTypes.TYPE_SHORT:
+			return "TYPE_SHORT";
+		case NetDataTypes.TYPE_INT:
+			return "TYPE_INT";
+		case NetDataTypes.TYPE_LONG:
+			return "TYPE_LONG";
+		case NetDataTypes.TYPE_FLOAT:
+			return "TYPE_FLOAT";
+		case NetDataTypes.TYPE_DOUBLE:
+			return "TYPE_DOUBLE";
+		case NetDataTypes.TYPE_STRING:
+			return "TYPE_STRING";
+		case NetDataTypes.TYPE_OBJECT:
+			return "TYPE_OBJECT";
+		default:
+			return null;
+		}
+	}
 	
 	public static byte getArrayCompomentType(Class<?> type, ExternalizableFactory factory) 
 	{
@@ -48,6 +76,9 @@ public class NetDataTypes
 		}
 		else if (type.equals(double.class)) {
 			return TYPE_DOUBLE;
+		}
+		else if (type.equals(String.class)) {
+			return TYPE_STRING;
 		}
 		else if (ExternalizableMessage.class.isAssignableFrom(type)) {
 			return TYPE_EXTERNALIZABLE;

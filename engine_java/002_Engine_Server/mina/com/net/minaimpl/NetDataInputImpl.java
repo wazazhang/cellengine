@@ -15,6 +15,7 @@ import com.cell.io.ExternalizableUtil;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataInput;
+import com.net.NetDataTypes;
 
 public class NetDataInputImpl extends NetDataInput
 {	
@@ -83,6 +84,8 @@ public class NetDataInputImpl extends NetDataInput
 			return readFloat();
 		case NetDataTypes.TYPE_DOUBLE:
 			return readDouble();
+		case NetDataTypes.TYPE_STRING: 
+			return readUTF();
 		case NetDataTypes.TYPE_OBJECT:
 			return readObject(component_type);
 		default:

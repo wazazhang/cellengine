@@ -17,6 +17,7 @@ import com.cell.reflect.Parser;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataOutput;
+import com.net.NetDataTypes;
 
 public class NetDataOutputImpl extends NetDataOutput
 {	
@@ -91,6 +92,9 @@ public class NetDataOutputImpl extends NetDataOutput
 			break;
 		case NetDataTypes.TYPE_DOUBLE: 
 			writeDouble((Double)obj);
+			break;
+		case NetDataTypes.TYPE_STRING: 
+			writeUTF((String)obj);
 			break;
 		case NetDataTypes.TYPE_OBJECT: 
 			writeObject(obj);
