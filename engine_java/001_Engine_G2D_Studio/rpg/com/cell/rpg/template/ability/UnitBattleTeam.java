@@ -4,6 +4,7 @@ import java.io.ObjectStreamException;
 
 import com.cell.rpg.ability.AbilitiesVector;
 import com.cell.rpg.ability.AbstractAbility;
+import com.cell.rpg.scene.ability.RegionSpawnNPC.NPCSpawn;
 import com.g2d.annotation.Property;
 
 
@@ -14,7 +15,12 @@ public class UnitBattleTeam extends AbstractAbility
 	private static final long serialVersionUID = 1L;
 
 	@Property("绑定的单位")
-	public AbilitiesVector	spawn_types = new SpawnTypes();
+	public AbilitiesVector	spawn_types = new AbilitiesVector(TeamNode.class){
+		private static final long serialVersionUID = 1L;
+		public String toString() {
+			return getAbilitiesCount() + "个单位";
+		}
+	};
 	
 	public UnitBattleTeam() {
 		this.spawn_types = new SpawnTypes();
