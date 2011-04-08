@@ -34,4 +34,6 @@ public interface File
     
     public void 			writeUTF(String data); 
 
+    
+    public void				delete();
 }

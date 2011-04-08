@@ -126,5 +126,9 @@ public class FileIO implements IO
 			return false;
 		}
 		
+		@Override
+		public void delete() {
+			file.delete();
+		}
     }
 }

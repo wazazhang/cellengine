@@ -220,6 +220,11 @@ public class FileHttp implements IO
 			return hr.getContent();
 		}
 		
+		@Override
+		public void delete() {
+			
+		}
+		
 //		<html><head><title>tstd - Revision 7990: /trunk/data/edit</title></head>
 //		<body>
 //		 <h2>tstd - Revision 7990: /trunk/data/edit</h2>
