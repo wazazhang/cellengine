@@ -14,12 +14,7 @@ public class UnitBattleTeam extends AbstractAbility
 	private static final long serialVersionUID = 1L;
 
 	@Property("绑定的单位")
-	public AbilitiesVector	spawn_types = new AbilitiesVector(TeamNode.class){
-		private static final long serialVersionUID = 1L;
-		public String toString() {
-			return getAbilitiesCount() + "个单位";
-		}
-	};
+	public AbilitiesVector	spawn_types = new SpawnTypes();
 	
 	public UnitBattleTeam() {
 		this.spawn_types = new SpawnTypes();

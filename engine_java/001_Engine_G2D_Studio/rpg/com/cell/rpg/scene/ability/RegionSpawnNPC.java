@@ -1,7 +1,11 @@
 package com.cell.rpg.scene.ability;
 
+import java.io.ObjectStreamException;
+
 import com.cell.rpg.ability.AbilitiesVector;
 import com.cell.rpg.ability.AbstractAbility;
+import com.cell.rpg.template.ability.UnitBattleTeam.SpawnTypes;
+import com.cell.rpg.template.ability.UnitBattleTeam.TeamNode;
 import com.g2d.annotation.Property;
 
 /**
@@ -38,6 +42,22 @@ public class RegionSpawnNPC extends AbstractAbility
 		}
 	};
 
+	public RegionSpawnNPC() {
+		this.spawn_types = new SpawnTypes();
+	}
+	
+	protected Object writeReplace() throws ObjectStreamException {
+		return this;
+	}
+	
+	protected Object readResolve() throws ObjectStreamException {
+		if (spawn_types instanceof SpawnTypes) {
+		} else {
+			spawn_types = new SpawnTypes(spawn_types);
+		}
+		return this;
+	}
+	
 	@Override
 	public boolean isMultiField() {
 		return false;
@@ -48,7 +68,22 @@ public class RegionSpawnNPC extends AbstractAbility
 		return super.toString() + " : " + unit_trig + " : max=" + spawn_unit_count + " : inerval=" + spawn_interval + " : types=" + spawn_types;
 	}
 	
-	
+	public static class SpawnTypes extends AbilitiesVector
+	{
+		private static final long serialVersionUID = 1L;
+		public SpawnTypes() {
+			super(TeamNode.class);
+		}
+		public SpawnTypes(AbilitiesVector vector) {
+			super(TeamNode.class);
+			for (AbstractAbility a : vector.getAbilities()) {
+				this.addAbility(a);
+			}
+		}
+		public String toString() {
+			return getAbilitiesCount() + "个单位";
+		}
+	}
 
 	/**
 	 * [区域能力] NPC产生区域单位类型 
