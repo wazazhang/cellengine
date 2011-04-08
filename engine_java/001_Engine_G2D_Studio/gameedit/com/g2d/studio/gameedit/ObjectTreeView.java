@@ -83,8 +83,8 @@ extends JSplitPane implements TreeSelectionListener, ChangeListener
 		return tree_root;
 	}
 
-	final public void saveAll() {
-		tree_root.saveAll();
+	final public void saveAll(IProgress progress) {
+		tree_root.saveAll(progress);
 		System.out.println(data_type.getSimpleName() + " : save all");
 	}
 	

@@ -17,6 +17,7 @@ import javax.swing.tree.DefaultTreeModel;
 import com.cell.gameedit.object.WorldSet;
 import com.g2d.awt.util.*;
 
+import com.g2d.studio.SaveProgressForm;
 import com.g2d.studio.Studio;
 import com.g2d.studio.StudioResource;
 import com.g2d.studio.Studio.ProgressForm;
@@ -268,7 +269,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 					tm.reload(CPJFile.this);
 				}catch (Exception err){}
 				try{
-					Studio.getInstance().getCPJResourceManager().saveAll();
+					Studio.getInstance().getCPJResourceManager().saveAll(null);
 				}catch (Exception err){err.printStackTrace();}
 				try{
 					Studio.getInstance().getObjectManager().resetAllResources();

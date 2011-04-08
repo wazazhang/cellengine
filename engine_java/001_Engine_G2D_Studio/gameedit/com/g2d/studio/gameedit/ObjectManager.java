@@ -22,6 +22,7 @@ import com.g2d.studio.gameedit.dynamic.DAvatar;
 import com.g2d.studio.gameedit.dynamic.DEffect;
 import com.g2d.studio.gameedit.dynamic.DItemList;
 import com.g2d.studio.gameedit.dynamic.DShopItemList;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.gameedit.entity.ObjectNode;
 import com.g2d.studio.gameedit.template.XLSItem;
 import com.g2d.studio.gameedit.template.XLSShopItem;
@@ -196,10 +197,10 @@ public class ObjectManager
 		
 	}
 	
-	public void saveAll() throws Throwable
+	public void saveAll(IProgress progress) throws Throwable
 	{
 		for (ObjectManagerTree<?,?> page : managers.values()) {
-			page.saveAll();
+			page.saveAll(progress);
 		}
 		System.out.println(getClass().getSimpleName() + " : save all");
 	}

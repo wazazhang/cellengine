@@ -9,6 +9,7 @@ import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormDynamic;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DWindowToolBar;
@@ -35,8 +36,8 @@ public class QuestGroupManager extends ManagerFormDynamic
 	}
 	
 	@Override
-	public void saveAll() throws Throwable {
-		quest_group_view.saveAll();
+	public void saveAll(IProgress progress) throws Throwable {
+		quest_group_view.saveAll(progress);
 	}
 	@Override
 	public void saveSingle() throws Throwable {

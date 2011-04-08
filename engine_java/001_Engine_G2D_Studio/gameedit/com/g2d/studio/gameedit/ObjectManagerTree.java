@@ -10,6 +10,7 @@ import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormDynamic;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.gameedit.entity.ObjectNode;
 import com.g2d.studio.swing.G2DWindowToolBar;
 
@@ -28,8 +29,8 @@ public class ObjectManagerTree<T extends ObjectNode<D>, D extends RPGObject> ext
 
 
 	@Override
-	public void saveAll() throws Throwable {
-		tree_view.saveAll();
+	public void saveAll(IProgress progress) throws Throwable {
+		tree_view.saveAll(progress);
 	}
 
 	@Override

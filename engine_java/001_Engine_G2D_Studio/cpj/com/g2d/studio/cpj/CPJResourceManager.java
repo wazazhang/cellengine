@@ -31,6 +31,7 @@ import com.g2d.studio.cpj.entity.CPJFile;
 import com.g2d.studio.cpj.entity.CPJObject;
 import com.g2d.studio.cpj.entity.CPJSprite;
 import com.g2d.studio.cpj.entity.CPJWorld;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DTree;
@@ -124,7 +125,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		
 		this.add(table, BorderLayout.CENTER);
 		
-		saveAll();
+		saveAll(null);
 	}
 	
 	public <T extends CPJObject<?>> CPJIndex<T> getNodeIndex(T node)
@@ -281,7 +282,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		return list.toString();
 	}
 	
-	public void saveAll()
+	public void saveAll(IProgress progress)
 	{
 		File save_dir = Studio.getInstance().project_save_path.getChildFile("resources");
 		

@@ -482,28 +482,30 @@ public class Studio extends AbstractFrame
 	
 	public void saveAll() 
 	{		
+		SaveProgressForm progress = new SaveProgressForm();
+		
 		try {
-			frame_sound_manager.saveAll();
-			frame_icon_manager.saveAll();
-			frame_cpj_resource_manager.saveAll();
-			frame_talk_manager.saveAll();
+			frame_sound_manager.saveAll(progress);
+			frame_icon_manager.saveAll(progress);
+			frame_cpj_resource_manager.saveAll(progress);
+			frame_talk_manager.saveAll(progress);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		
 		try {
-			frame_item_manager.saveAll();	
-			frame_object_manager.saveAll();
-			frame_quest_manager.saveAll();
-			frame_quest_group_manager.saveAll();
+			frame_item_manager.saveAll(progress);	
+			frame_object_manager.saveAll(progress);
+			frame_quest_manager.saveAll(progress);
+			frame_quest_group_manager.saveAll(progress);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		
-		scene_manager.saveAll();
+		scene_manager.saveAll(progress);
 	
 		try {
-			frame_instance_zone_manager.saveAll();
+			frame_instance_zone_manager.saveAll(progress);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

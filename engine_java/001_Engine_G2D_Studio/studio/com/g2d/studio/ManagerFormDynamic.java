@@ -49,7 +49,7 @@ public abstract class ManagerFormDynamic extends ManagerForm implements ActionLi
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource() == tool_bar.save) {
-				saveAll();
+				saveAll(new SaveProgressForm());
 			} else if (e.getSource() == tool_bar.save_s) {
 				saveSingle();
 			}

@@ -3,8 +3,10 @@ package com.g2d.studio;
 import java.awt.Image;
 
 import javax.swing.JFrame;
+import javax.swing.JProgressBar;
 
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.gameedit.entity.IProgress;
 
 import com.g2d.awt.util.*;
 
@@ -25,7 +27,7 @@ public abstract class ManagerForm extends JFrame
 		progress.startReadBlock("初始化 [" + title + "] ...");
 	}
 	
-	abstract public void saveAll() throws Throwable;
+	abstract public void saveAll(IProgress progress) throws Throwable;
 	
 	abstract public void saveSingle() throws Throwable;
 	

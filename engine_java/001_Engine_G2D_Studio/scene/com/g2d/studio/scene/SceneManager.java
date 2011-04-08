@@ -17,6 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -32,12 +33,14 @@ import com.cell.rpg.scene.graph.SceneGraph;
 import com.cell.util.IDFactoryInteger;
 import com.g2d.Tools;
 import com.g2d.studio.Config;
+import com.g2d.studio.SaveProgressForm;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.cpj.CPJResourceSelectDialog;
 import com.g2d.studio.cpj.CPJResourceType;
 import com.g2d.studio.cpj.entity.CPJWorld;
 import com.g2d.studio.gameedit.dynamic.IDynamicIDFactory;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.gameedit.entity.ObjectGroup;
 import com.g2d.studio.instancezone.InstanceZonesManager;
 import com.g2d.studio.io.File;
@@ -136,7 +139,7 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == tool_bar.save) {
-			saveAll();
+			saveAll(new SaveProgressForm());
 		}
 		else if (e.getSource() == tool_scene_graph) {
 			SceneGraphViewer sg = new SceneGraphViewer(this);
@@ -256,8 +259,14 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 		System.out.println("save scene list");
 	}
 
-	public void saveAll() 
+	public void saveAll(IProgress progress) 
 	{
+		for (File file : scene_dir.listFiles()) {
+			if (file.getName().endsWith(".xml")) {
+				file.delete();
+			}
+		}
+		
 		synchronized (scene_lock) {
 			saveSceneList();
 			for (SceneNode node : getAllScenes()) {

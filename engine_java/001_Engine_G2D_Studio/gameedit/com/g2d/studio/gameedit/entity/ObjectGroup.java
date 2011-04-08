@@ -53,7 +53,7 @@ public abstract class ObjectGroup<T extends ObjectNode<D>, D extends RPGObject> 
 		return false;
 	}
 	
-	public void saveAll()
+	public void saveAll(IProgress progress)
 	{
 		for (File e : list_file.getParentFile().listFiles()) {
 			if (e.getName().endsWith(_XML)) {
@@ -64,6 +64,10 @@ public abstract class ObjectGroup<T extends ObjectNode<D>, D extends RPGObject> 
 		saveListFile();
 		
 		Vector<T> nodes = G2DTree.getNodesSubClass(this, node_type);
+		if (progress != null) {
+			progress.setMaximum("", nodes.size());
+		}
+		int i = 0;
 		for (T node : nodes) {
 			try {
 				node.onSave();
@@ -75,6 +79,10 @@ public abstract class ObjectGroup<T extends ObjectNode<D>, D extends RPGObject> 
 				}
 			} catch (Exception err) {
 				err.printStackTrace();
+			}
+			i ++;
+			if (progress != null) {
+				progress.setValue("", i);
 			}
 		}
 	}

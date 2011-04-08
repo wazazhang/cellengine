@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.sound.SoundFile;
@@ -87,13 +88,13 @@ public abstract class ManagerFormList<T extends G2DListItem> extends ManagerForm
 		this.list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		this.add(new JScrollPane(list), BorderLayout.CENTER);
 		
-		saveAll();
+		saveAll(null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == tool_bar.save) {
-			saveAll();
+			saveAll(new SaveProgressForm());
 		}
 		else if (e.getSource() == btn_refresh) {
 			refresh();
@@ -137,7 +138,7 @@ public abstract class ManagerFormList<T extends G2DListItem> extends ManagerForm
 			this.files.removeAll(removed);
 			this.list.setListData(this.files);
 			this.list.repaint();
-			saveAll();
+			saveAll(new SaveProgressForm());
 		}
 	}
 	
@@ -163,11 +164,19 @@ public abstract class ManagerFormList<T extends G2DListItem> extends ManagerForm
 	}
 	
 	
-	public void saveAll() 
+	public void saveAll(IProgress progress) 
 	{
+		if (progress != null) {
+			progress.setMaximum(getTitle(), files.size());
+		}
 		StringBuffer sb = new StringBuffer();
+		int i = 0;
 		for (T icon : files) {
 			sb.append(getSaveListName(icon)+"\n");
+			i++;
+			if (progress != null) {
+				progress.setValue(getTitle(), i);
+			}
 		}
 		save_list_file.writeUTF(sb.toString());
 	}
