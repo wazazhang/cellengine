@@ -261,8 +261,6 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 
 	public void saveAll(IProgress progress) 
 	{
-		
-		
 		synchronized (scene_lock) {
 			saveSceneList();
 			for (File file : scene_dir.listFiles()) {
@@ -270,8 +268,17 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 					file.delete();
 				}
 			}
-			for (SceneNode node : getAllScenes()) {
+			Vector<SceneNode> nodes = getAllScenes();
+			if (progress != null) {
+				progress.setMaximum("", nodes.size());
+			}
+			int i = 0;
+			for (SceneNode node : nodes) {
 				saveScene(scene_dir, node);
+				i++;
+				if (progress != null) {
+					progress.setValue("", i);
+				}
 			}
 		}
 	}

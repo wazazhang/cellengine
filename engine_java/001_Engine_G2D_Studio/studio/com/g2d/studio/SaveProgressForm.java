@@ -24,13 +24,17 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	{
 		this.setLayout(new BorderLayout());
 		this.setIconImage(Res.icon_edit);
-		this.setSize(200, 40);
+		this.setSize(300, 60);
 		this.progress.setStringPainted(true);
-		this.add(progress, BorderLayout.SOUTH);	
+		this.add(progress, BorderLayout.CENTER);	
 		
 		AbstractFrame.setCenter(this);
 
-		this.setVisible(true);
+		new Thread(){
+			public void run() {
+				setVisible(true);
+			};
+		}.start();
 	}
 	
 	@Override
