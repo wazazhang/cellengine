@@ -1,8 +1,12 @@
 package com.g2d;
 
-public class Color
+import java.io.Serializable;
+
+public class Color implements Serializable
 {
-    public final static Color white     	= new Color(255, 255, 255);
+	private static final long serialVersionUID = 1L;
+	
+	public final static Color white     	= new Color(255, 255, 255);
     public final static Color WHITE			= white;
     public final static Color lightGray		= new Color(192, 192, 192);
     public final static Color LIGHT_GRAY 	= lightGray;
