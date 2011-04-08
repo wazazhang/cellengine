@@ -197,7 +197,7 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 				p.Protocol 		= ProtocolImpl.PROTOCOL_SESSION_MESSAGE;
 				p.message		= message;
 				p.PacketNumber	= pnum;
-				io_session.resumeWrite();
+//				io_session.resumeWrite();
 				WriteFuture future = io_session.write(p);
 				// Wait until the message is completely written out to the O/S
 				// buffer.

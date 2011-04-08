@@ -251,7 +251,7 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			p.message			= message;			
 			p.ChannelID			= channel_id;
 			p.ChannelSesseionID	= channel_sender_id;
-			session.resumeWrite();
+//			session.resumeWrite();
 			WriteFuture future = session.write(p);
 			
 //			// Wait until the message is completely written out to the O/S

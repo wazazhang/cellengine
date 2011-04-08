@@ -225,9 +225,9 @@ public class ServerImpl extends AbstractServer
 		p.Protocol	= Protocol.PROTOCOL_SESSION_MESSAGE;
 		p.message	= message;
 		Set<WriteFuture> futures = Acceptor.broadcast(p);
-		for (WriteFuture future : futures) {
-			future.awaitUninterruptibly();
-		}
+//		for (WriteFuture future : futures) {
+//			future.awaitUninterruptibly();
+//		}
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------------
