@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.mina.core.future.ConnectFuture;
+import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -196,7 +197,21 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 				p.Protocol 		= ProtocolImpl.PROTOCOL_SESSION_MESSAGE;
 				p.message		= message;
 				p.PacketNumber	= pnum;
-				io_session.write(p);
+				io_session.resumeWrite();
+				WriteFuture future = io_session.write(p);
+				// Wait until the message is completely written out to the O/S
+				// buffer.
+//				future.awaitUninterruptibly();
+//				if (future.isWritten()) {
+//					// The message has been written successfully.
+//					return true;
+//				} else {
+//					// The messsage couldn't be written out completely for some
+//					// reason.
+//					// (e.g. Connection is closed)
+//					return false;
+//				}
+				return false;
 			}
 			return true;
 		} else {

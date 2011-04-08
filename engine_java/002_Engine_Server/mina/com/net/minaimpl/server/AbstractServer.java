@@ -251,8 +251,22 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			p.message			= message;			
 			p.ChannelID			= channel_id;
 			p.ChannelSesseionID	= channel_sender_id;
+			session.resumeWrite();
 			WriteFuture future = session.write(p);
-			return true;
+			
+//			// Wait until the message is completely written out to the O/S
+//			// buffer.
+//			future.awaitUninterruptibly();
+//			if (future.isWritten()) {
+//				// The message has been written successfully.
+//				return true;
+//			} else {
+//				// The messsage couldn't be written out completely for some
+//				// reason.
+//				// (e.g. Connection is closed)
+//				return false;
+//			}
+			return false;
 		} else {
 			return false;
 		}

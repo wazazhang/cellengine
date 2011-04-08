@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.IoSession;
 
 import com.cell.CUtil;
@@ -222,7 +224,10 @@ public class ServerImpl extends AbstractServer
 		ProtocolImpl p = ProtocolPool.getInstance().createProtocol();
 		p.Protocol	= Protocol.PROTOCOL_SESSION_MESSAGE;
 		p.message	= message;
-		Acceptor.broadcast(p);
+		Set<WriteFuture> futures = Acceptor.broadcast(p);
+		for (WriteFuture future : futures) {
+			future.awaitUninterruptibly();
+		}
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------------
