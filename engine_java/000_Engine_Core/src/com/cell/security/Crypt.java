@@ -64,27 +64,25 @@ public class Crypt
 		return decrypt(hex2str(txt), crykey);
 	}
 	
-	static String hex2str(String hex) 
+	static String hex2str(String hex)
 	{
 	    String bindata = "";
-	    if (hex.length() % 2 != 0) {
-	    	hex = "0" + hex;
-	    }
-	    for(int i=0; i < hex.length(); i += 2) {
-	    	bindata += ((char)Integer.parseInt(hex.substring(i, i+2), 16));
+	    for(int i=0; i < hex.length(); i += 4) {
+	    	bindata += ((char)Integer.parseInt(hex.substring(i, i+4), 16));
 	    }
 	    return bindata;
 	}
 	
-	static String str2hex(String str) 
+	static String str2hex(String str)
 	{
-		 String hexdata = "";
-		 for(int i=0; i < str.length(); i += 1) {
-			 String hex = Integer.toHexString(str.charAt(i));
-			 if (hex.length()<2) hex = "0" + hex;
-			 hexdata += hex;
-		 }
-		 return hexdata;
+		String hexdata = "";
+		for (int i = 0; i < str.length(); i += 1) {
+			char[] append = new char[]{'0','0','0','0'};
+			String hex = Integer.toHexString(str.charAt(i));
+			System.arraycopy(hex.toCharArray(), 0, append, 4-hex.length(), hex.length());
+			hexdata += new String(append);
+		}
+		return hexdata;
 	}
 	
 	
