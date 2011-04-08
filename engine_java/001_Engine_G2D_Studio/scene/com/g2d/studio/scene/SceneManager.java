@@ -261,14 +261,15 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 
 	public void saveAll(IProgress progress) 
 	{
-		for (File file : scene_dir.listFiles()) {
-			if (file.getName().endsWith(".xml")) {
-				file.delete();
-			}
-		}
+		
 		
 		synchronized (scene_lock) {
 			saveSceneList();
+			for (File file : scene_dir.listFiles()) {
+				if (file.getName().endsWith(".xml")) {
+					file.delete();
+				}
+			}
 			for (SceneNode node : getAllScenes()) {
 				saveScene(scene_dir, node);
 			}

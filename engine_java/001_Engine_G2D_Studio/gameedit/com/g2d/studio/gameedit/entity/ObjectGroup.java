@@ -55,13 +55,13 @@ public abstract class ObjectGroup<T extends ObjectNode<D>, D extends RPGObject> 
 	
 	public void saveAll(IProgress progress)
 	{
+		saveListFile();
+		
 		for (File e : list_file.getParentFile().listFiles()) {
 			if (e.getName().endsWith(_XML)) {
 				e.delete();
 			}
 		}
-		
-		saveListFile();
 		
 		Vector<T> nodes = G2DTree.getNodesSubClass(this, node_type);
 		if (progress != null) {
