@@ -72,10 +72,10 @@ public class RegionSpawnNPC extends AbstractAbility
 	{
 		private static final long serialVersionUID = 1L;
 		public SpawnTypes() {
-			super(TeamNode.class);
+			super(NPCSpawn.class);
 		}
 		public SpawnTypes(AbilitiesVector vector) {
-			super(TeamNode.class);
+			super(NPCSpawn.class);
 			for (AbstractAbility a : vector.getAbilities()) {
 				this.addAbility(a);
 			}
