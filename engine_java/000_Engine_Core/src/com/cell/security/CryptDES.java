@@ -69,20 +69,20 @@ public class CryptDES
 		return key;
 	}
 
-//	/**
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		try {
-//			String test = "Hellow Word!";
-//			CryptDES des = new CryptDES("eeee");// 自定义密钥
-//			System.out.println("加密前的字符：" + test);
-//			System.out.println("加密后的字符：" + des.encrypt(test));
-//			System.out.println("解密后的字符：" + des.decrypt(des.encrypt(test)));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try {
+			String test = "Hellow Word!";
+			CryptDES des = new CryptDES("eeee");// 自定义密钥
+			System.out.println("加密前的字符：" + test);
+			System.out.println("加密后的字符：" + des.encrypt(test));
+			System.out.println("解密后的字符：" + des.decrypt(des.encrypt(test)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -3,6 +3,10 @@ package com.cell.security;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import com.cell.CIO;
 import com.cell.CObject;
@@ -25,8 +29,13 @@ public class Crypt
 		return tmp;
 	}
 
-	static public String encrypt(String txt, String crykey) 
+	static public String encrypt(String txt, String crykey)
 	{
+		try {
+			txt = new BASE64Encoder().encode(txt.getBytes(CObject.getEncoding()));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		//String	encrypt_key = "a500d08a7f6f5a26e0b9db61c70a83b9"; 
 		String	encrypt_key = MD5.getMD5((Math.abs(CObject.getRandom().nextInt() % 32000)) + "");
 		int 	ctr 		= 0;
@@ -52,6 +61,13 @@ public class Crypt
 				tmp += (char)(txt.charAt(i) ^ md5);
 			}
 		}
+		try {
+			tmp = new String(new BASE64Decoder().decodeBuffer(tmp), CObject.getEncoding());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return tmp;
 	}
 	
@@ -64,34 +80,40 @@ public class Crypt
 		return decrypt(hex2str(txt), crykey);
 	}
 	
-	static String hex2str(String hex)
+	static String hex2str(String hex) 
 	{
 	    String bindata = "";
-	    for(int i=0; i < hex.length(); i += 4) {
-	    	bindata += ((char)Integer.parseInt(hex.substring(i, i+4), 16));
+	    if (hex.length() % 2 != 0) {
+	    	hex = "0" + hex;
+	    }
+	    for(int i=0; i < hex.length(); i += 2) {
+	    	bindata += ((char)Integer.parseInt(hex.substring(i, i+2), 16));
 	    }
 	    return bindata;
 	}
 	
-	static String str2hex(String str)
+	static String str2hex(String str) 
 	{
-		String hexdata = "";
-		for (int i = 0; i < str.length(); i += 1) {
-			char[] append = new char[]{'0','0','0','0'};
-			String hex = Integer.toHexString(str.charAt(i));
-			System.arraycopy(hex.toCharArray(), 0, append, 4-hex.length(), hex.length());
-			hexdata += new String(append);
-		}
-		return hexdata;
+		 String hexdata = "";
+		 for(int i=0; i < str.length(); i += 1) {
+			 String hex = Integer.toHexString(str.charAt(i));
+			 if (hex.length()<2) hex = "0" + hex;
+			 hexdata += hex;
+		 }
+		 return hexdata;
 	}
 	
 	
 //	---------------------------------------------------------------------------------------------------------------------------------------
 	
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws UnsupportedEncodingException
 	{
 		System.out.println("input :");
+		
+		System.out.println(str2hex("中文"));
+		System.out.println("e4b8ade69687");
+		System.out.println(new BASE64Encoder().encode("中文".getBytes("UTF-8")));
 		
 		while (true)
 		{
