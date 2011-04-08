@@ -329,7 +329,7 @@ public class EatBuilder extends Builder
 			Output out = getOutputFile(cpj_file);
 			if (out != null) {
 				EatResource ret = new EatResource(out, cpj_file.getPath());
-				System.out.println("create " + ret);
+//				System.out.println("create " + ret);
 				return ret;
 			}
 		} catch (Exception err) {
