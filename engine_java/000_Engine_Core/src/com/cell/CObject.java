@@ -290,16 +290,16 @@ public class CObject {
 		} catch (Exception err) {
 			err.printStackTrace();
 		}
-		if (verbos) 
-		System.out.println("CObject : System initialized !\n"
-				+ "\tIStorage   = " + getStorage().getClass().getName() + "\n"
-				+ "\tIAppBridge = " + getAppBridge().getClass().getName()
-				+ "\n" +
-				// "\tIGfxBridge = " + AScreen.getGfxAdapter() + "\n" +
-				"\tLocale     = " + getCurLocale() + "\n" + "");
-
+		if (verbos) {
+			System.out.println("CObject : System initialized !\n"
+					+ "\tIStorage   = " + getStorage().getClass().getName() + "\n"
+					+ "\tIAppBridge = " + getAppBridge().getClass().getName()
+					+ "\n" +
+					// "\tIGfxBridge = " + AScreen.getGfxAdapter() + "\n" +
+					"\tLocale     = " + getCurLocale() + "\n" + "");
+		}
 	}
-
+	
 	public static String getEncoding() {
 		return ENCODING;
 	}

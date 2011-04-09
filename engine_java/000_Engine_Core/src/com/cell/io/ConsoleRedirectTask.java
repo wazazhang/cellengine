@@ -34,7 +34,7 @@ public class ConsoleRedirectTask extends Thread
         String line = null;
         while (true) {
             try {
-                line = reader.readLine();
+                line = reader.readLine()+"\r\n";
             } catch (IOException ioe) {
                 break;
             }
