@@ -15,44 +15,39 @@ import com.cell.CObject;
 
 public class ConsoleRedirectTask extends Thread
 {
-	private OutputStream fos;
-	
     private PipedInputStream pis = new PipedInputStream();
 
     private PipedOutputStream pos;
 
     private BufferedReader reader = new BufferedReader(new InputStreamReader(pis));
 
-    public ConsoleRedirectTask(OutputStream out) throws IOException {
+    public ConsoleRedirectTask() throws IOException {
+    	super.setDaemon(true);
         pos = new PipedOutputStream(pis);
-		fos = out;
-		System.setOut(new PrintStream(pos, true));
-		System.setErr(new PrintStream(pos, true));
     }
 
     public void run() {
         String line = null;
+		System.setOut(new PrintStream(pos, true));
+		System.setErr(new PrintStream(pos, true));
         while (true) {
             try {
-                line = reader.readLine()+"\r\n";
-            } catch (IOException ioe) {
+                line = reader.readLine();
+                if (line == null) {
+                    break;
+                } else {
+                	appendLine(line);
+                }
+            } catch (Exception ioe) {
                 break;
-            }
-            if (line == null) {
-                break;
-            } else {
-            	//这里处理截获的控制台输出
-            	try {
-					fos.write(line.getBytes(CObject.getEncoding()));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
             }
         }
     }
 
-	
+	/**
+	 * 这里处理截获的控制台输出
+	 */
+	public void appendLine(String line) throws Exception {
+	}
 
 }
