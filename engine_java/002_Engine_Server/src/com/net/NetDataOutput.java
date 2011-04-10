@@ -90,7 +90,6 @@ public abstract class NetDataOutput implements DataOutput
 					}
 				} else {
 					writeInt(count);	// 表示成员是个通常对象
-					writeByte(component_data_type);
 					for (int i = 0; i < count; i++) {
 						writeAny(component_data_type, Array.get(array, i));
 					}
