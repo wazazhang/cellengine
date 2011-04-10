@@ -222,9 +222,15 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 			write.append("		out.writeExternal(" + f_name + ");\n");
 		} 
 		else if (f_type.isArray()) {
-			read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
-					f_type.getCanonicalName() + ".class);\n");
-			write.append("		out.writeAnyArray(" + f_name + ");\n");
+			if (f_type.getComponentType().isArray()) {
+				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
+						f_type.getCanonicalName() + ".class);\n");
+				write.append("		out.writeAnyArray(" + f_name + ");\n");
+			} else {
+				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
+						f_type.getComponentType().getCanonicalName() + ".class);\n");
+				write.append("		out.writeExternalArray(" + f_name + ");\n");
+			}
 		} 
 		// Error -----------------------------------------------
 		else {

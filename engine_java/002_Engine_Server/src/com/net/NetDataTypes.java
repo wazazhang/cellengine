@@ -14,8 +14,9 @@ public class NetDataTypes
 	public final static byte TYPE_INT			= -5;
 	public final static byte TYPE_LONG			= -6;
 	public final static byte TYPE_FLOAT			= -7;
-	public final static byte TYPE_STRING		= -8;
-	public final static byte TYPE_DOUBLE			= -9;
+	public final static byte TYPE_DOUBLE		= -8;
+	
+	public final static byte TYPE_STRING			= -9;
 	public final static byte TYPE_OBJECT			= -10;
 	public final static byte TYPE_EXTERNALIZABLE	= -11;
 	

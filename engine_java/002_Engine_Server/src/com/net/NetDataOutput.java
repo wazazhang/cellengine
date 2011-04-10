@@ -75,12 +75,94 @@ public abstract class NetDataOutput implements DataOutput
 	}
 	
 
-	abstract public void writeObject(Object data) throws IOException;
-	
-	abstract public<T extends ExternalizableMessage> void writeExternal(T data) throws IOException;
+//	-----------------------------------------------------------------------------------------------------------
+//	
 
-	abstract public void writeAnyArray(Object array) throws IOException ;
+	public void writeAnyArray(Object array) throws IOException {
+		if (array != null) {
+			int count = Array.getLength(array);
+			if (count > 0) {
+				Class<?> component_type = array.getClass().getComponentType();
+				if (component_type.isArray()) {
+					writeInt(-count); 	// 表示成员还是个数组
+					for (int i = 0; i < count; i++) {
+						writeAnyArray(Array.get(array, i));
+					}
+				} else {
+					writeInt(count);	// 表示成员是个通常对象
+					byte component_data_type = NetDataTypes.getArrayCompomentType(component_type, getFactory());
+					for (int i = 0; i < count; i++) {
+						writeAny(component_data_type, Array.get(array, i));
+					}
+				}
+			} else {
+				writeInt(0);
+			}
+		} else {
+			writeInt(0);
+		}
+	}
 	
+	private void writeAny(byte component_data_type, Object obj) throws IOException 
+	{
+		switch (component_data_type) {
+		case NetDataTypes.TYPE_EXTERNALIZABLE:
+			writeExternal((ExternalizableMessage)obj);
+			break;
+		case NetDataTypes.TYPE_BOOLEAN:
+			writeBoolean((Boolean)obj);
+			break;
+		case NetDataTypes.TYPE_BYTE:
+			writeByte((Byte)obj);
+			break;
+		case NetDataTypes.TYPE_CHAR: 
+			writeChar((Character)obj);
+			break;
+		case NetDataTypes.TYPE_SHORT: 
+			writeShort((Short)obj);
+			break;
+		case NetDataTypes.TYPE_INT: 
+			writeInt((Integer)obj);
+			break;
+		case NetDataTypes.TYPE_LONG: 
+			writeLong((Long)obj);
+			break;
+		case NetDataTypes.TYPE_FLOAT: 
+			writeFloat((Float)obj);
+			break;
+		case NetDataTypes.TYPE_DOUBLE: 
+			writeDouble((Double)obj);
+			break;
+		case NetDataTypes.TYPE_STRING: 
+			writeUTF((String)obj);
+			break;
+		case NetDataTypes.TYPE_OBJECT: 
+			writeObject(obj);
+			break;
+		default:
+		}
+	}
+	
+//	-----------------------------------------------------------------------------------------------------------
+//	
+	
+	
+	public void writeExternal(ExternalizableMessage data) throws IOException {
+		if (data != null) {
+			int msg_type = getFactory().getType(data.getClass());
+			writeInt(msg_type);
+			if (msg_type != 0) {
+				data.writeExternal(this);
+			}
+		} else {
+			writeInt(0);
+		}
+	}
+	
+	
+
+	abstract public void writeObject(Object data) throws IOException;
+		
 	abstract public ExternalizableFactory getFactory();
 	
 	

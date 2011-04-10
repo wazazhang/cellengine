@@ -50,6 +50,20 @@ public abstract class NetDataInput implements DataInput
 		return ret;
 	}
 	
+
+	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
+		int type = readInt();
+		if (type != 0) {
+			try {
+				T data = cls.newInstance();
+				data.readExternal(this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
+	}
 	
 
 	public <T extends ExternalizableMessage> T[] readExternalArray(Class<T> type) throws IOException {
@@ -68,11 +82,84 @@ public abstract class NetDataInput implements DataInput
 		return ret;
 	}
 
+
+//	-----------------------------------------------------------------------------------------------
+
+
+	public Object readAnyArray(Class<?> type) throws IOException {
+		int count = readInt();
+		if (count == 0) {
+			return null;
+		}
+		Class<?> component_type = type.getComponentType();
+		if (count < 0) { // 表示成员还是个数组
+			count = -count;
+			Object array = Array.newInstance(component_type, count);
+			for (int i = 0; i < count; i++) {
+				Array.set(array, i, readAnyArray(component_type));
+			}
+			return array;
+		} else if (count > 0) { // 表示成员是个通常对象
+			Object array = Array.newInstance(component_type, count);
+			byte component_data_type = readByte();
+			for (int i = 0; i < count; i++) {
+				Array.set(array, i, readAny(component_data_type, component_type));
+			}
+			return array;
+		}
+		return null;
+	}
+	
+	private Object readAny(byte component_data_type, Class<?> component_type) throws IOException {
+		switch (component_data_type) {
+		case NetDataTypes.TYPE_EXTERNALIZABLE:
+			return readAnyExternal(component_type);
+		case NetDataTypes.TYPE_BOOLEAN:
+			return readBoolean();
+		case NetDataTypes.TYPE_BYTE:
+			return readByte();
+		case NetDataTypes.TYPE_CHAR:
+			return readChar();
+		case NetDataTypes.TYPE_SHORT:
+			return readShort();
+		case NetDataTypes.TYPE_INT:
+			return readInt();
+		case NetDataTypes.TYPE_LONG:
+			return readLong();
+		case NetDataTypes.TYPE_FLOAT:
+			return readFloat();
+		case NetDataTypes.TYPE_DOUBLE:
+			return readDouble();
+		case NetDataTypes.TYPE_STRING: 
+			return readUTF();
+		case NetDataTypes.TYPE_OBJECT:
+			return readObject(component_type);
+		default:
+			return null;
+		}
+	}
+	
+	private ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
+		int type = readInt();
+		if (type != 0) {
+			try {
+				ExternalizableMessage data = (ExternalizableMessage)cls.newInstance();
+				data.readExternal(this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
+	}
+
+//	-----------------------------------------------------------------------------------------------
+
+	
+	
+	
+	
 	abstract public<T> T readObject(Class<T> type) throws IOException;
-
-	abstract public <T extends ExternalizableMessage> T readExternal(Class<T> type) throws IOException;
-
-	abstract public Object readAnyArray(Class<?> type) throws IOException ;
 
 	abstract public ExternalizableFactory getFactory();
 	
