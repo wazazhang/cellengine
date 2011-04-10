@@ -1,7 +1,7 @@
 package com.net.client
 {
 	import flash.utils.ByteArray;
-
+	
 	public class NetDataOutput extends ByteArray
 	{
 		var factory : MessageFactory ;
@@ -134,38 +134,68 @@ package com.net.client
 		
 		
 		
-		public function writeAnyArray(array : Array) : void
-		{
+		
+		public function writeAnyArray(array : Array, component_data_type : int) : void {
 			if (array != null) {
 				var count : int = array.length;
 				if (count > 0) {
-					var component : Object = array[0];
-					if (component is Array) {
-						super.writeInt(-count); 	// 表示成员还是个数组
+					if (array[0] is Array) {
+						writeInt(-count); 	// 表示成员还是个数组
 						for (var i : int = 0; i < count; i++) {
-							writeAnyArray(array[i]);
+							writeAnyArray(array[i], component_data_type);
 						}
 					} else {
-						super.writeInt(count);	// 表示成员是个通常对象
+						writeInt(count);	// 表示成员是个通常对象
 						for (var i : int = 0; i < count; i++) {
-							writeAny(array[i]);
+							writeAny(component_data_type, array[i]);
 						}
 					}
 				} else {
-					super.writeInt(0);
+					writeInt(0);
 				}
 			} else {
-				super.writeInt(0);
+				writeInt(0);
 			}
 		}
-		
-		public function writeAny(obj : Object) : void
+
+		public function writeAny(component_data_type : int, obj : Object) : void
 		{
-			var ext_type : int = factory.getType(obj as Message);
-			if (ext_type > 0) {
-				writeExternal(obj as Message);
+			switch (component_data_type) {
+				case NetDataTypes.TYPE_EXTERNALIZABLE:
+					writeExternal(obj as Message);
+					break;
+				case NetDataTypes.TYPE_BOOLEAN:
+					writeBoolean(obj as Boolean);
+					break;
+				case NetDataTypes.TYPE_BYTE:
+					writeByte(obj as int);
+					break;
+				case NetDataTypes.TYPE_CHAR: 
+					writeChar(obj as int);
+					break;
+				case NetDataTypes.TYPE_SHORT: 
+					writeShort(obj as int);
+					break;
+				case NetDataTypes.TYPE_INT: 
+					writeInt(obj as int);
+					break;
+//				case NetDataTypes.TYPE_LONG: 
+//					writeLong(obj as int);
+//					break;
+				case NetDataTypes.TYPE_FLOAT: 
+					writeFloat(obj as Number);
+					break;
+//				case NetDataTypes.TYPE_DOUBLE: 
+//					writeDouble((Double)obj);
+//					break;
+				case NetDataTypes.TYPE_STRING: 
+					writeUTF(obj as String);
+					break;
+//				case NetDataTypes.TYPE_OBJECT: 
+//					writeObject(obj);
+//					break;
+				default:
 			}
-			// TODO 有问题，还未完全实现。
 		}
 		
 	}

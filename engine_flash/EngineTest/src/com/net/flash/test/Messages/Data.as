@@ -54,6 +54,9 @@ package com.net.flash.test.Messages
 		/** Java type is : <font color=#0000ff>float[]</font> */
 		[JavaType(name="float[]", leaf_type=NetDataTypes.TYPE_FLOAT)]
 		public var a_d5 :  Array;
+		/** Java type is : <font color=#0000ff>float[][]</font> */
+		[JavaType(name="float[][]", leaf_type=NetDataTypes.TYPE_FLOAT)]
+		public var b_d5 :  Array;
 
 		/**
 		 * @param message2 as <font color=#0000ff>java.lang.String</font>
@@ -69,7 +72,8 @@ package com.net.flash.test.Messages
 		 * @param a_d2 as <font color=#0000ff>short[]</font>
 		 * @param a_d3 as <font color=#0000ff>char[]</font>
 		 * @param a_d4 as <font color=#0000ff>int[]</font>
-		 * @param a_d5 as <font color=#0000ff>float[]</font>		 */
+		 * @param a_d5 as <font color=#0000ff>float[]</font>
+		 * @param b_d5 as <font color=#0000ff>float[][]</font>		 */
 		public function Data(
 			message2 :  String = null,
 			d0 :  Boolean = false,
@@ -84,7 +88,8 @@ package com.net.flash.test.Messages
 			a_d2 :  Array = null,
 			a_d3 :  Array = null,
 			a_d4 :  Array = null,
-			a_d5 :  Array = null) 
+			a_d5 :  Array = null,
+			b_d5 :  Array = null) 
 		{
 			this.message2 = message2;
 			this.d0 = d0;
@@ -100,6 +105,7 @@ package com.net.flash.test.Messages
 			this.a_d3 = a_d3;
 			this.a_d4 = a_d4;
 			this.a_d5 = a_d5;
+			this.b_d5 = b_d5;
 		}
 	}
 }

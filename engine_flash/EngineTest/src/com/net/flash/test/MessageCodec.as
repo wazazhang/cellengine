@@ -4,7 +4,7 @@ package com.net.flash.test
 	import com.net.client.Message;
 	import com.net.client.NetDataInput;
 	import com.net.client.NetDataOutput;
-	
+	import com.net.client.NetDataTypes;
 	import com.net.flash.test.Messages.*;
 
 	/**
@@ -104,6 +104,7 @@ package com.net.flash.test
 		msg.a_d3 = input.readCharArray();
 		msg.a_d4 = input.readIntArray();
 		msg.a_d5 = input.readFloatArray();
+		msg.b_d5 = input.readAnyArray(NetDataTypes.TYPE_FLOAT);
 	}
 	private function w_Data_1(msg : com.net.flash.test.Messages.Data, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message2);
@@ -120,6 +121,7 @@ package com.net.flash.test
 		output.writeCharArray(msg.a_d3);
 		output.writeIntArray(msg.a_d4);
 		output.writeFloatArray(msg.a_d5);
+		output.writeAnyArray(msg.b_d5, NetDataTypes.TYPE_FLOAT);
 	}
 
 //	----------------------------------------------------------------------------------------------------
@@ -163,13 +165,13 @@ package com.net.flash.test
 		msg.message = input.readJavaUTF();
 		msg.data = input.readExternal() as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray();
-		msg.datas2 = input.readExternalArray();
+		msg.datas2 = input.readAnyArray(NetDataTypes.TYPE_EXTERNALIZABLE);
 	}
 	private function w_EchoRequest_5(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
-		output.writeExternalArray(msg.datas2);
+		output.writeAnyArray(msg.datas2, NetDataTypes.TYPE_EXTERNALIZABLE);
 	}
 
 //	----------------------------------------------------------------------------------------------------

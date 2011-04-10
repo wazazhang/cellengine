@@ -114,7 +114,7 @@ package com.net.client
 		}
 		
 		
-		public function readAnyArray() : Array {
+		public function readAnyArray(component_data_type : int) : Array {
 			var count : int = readInt();
 			if (count == 0) {
 				return null;
@@ -123,12 +123,11 @@ package com.net.client
 				count = -count;
 				var array : Array = new Array(count);
 				for (var i : int = 0; i < count; i++) {
-					array[i] = readAnyArray();
+					array[i] = readAnyArray(component_data_type);
 				}
 				return array;
 			} else if (count > 0) { // 表示成员是个通常对象
 				var array : Array = new Array(count);
-				var component_data_type : int = readByte();
 				for (var i : int = 0; i < count; i++) {
 					array[i] = readAny(component_data_type);
 				}
