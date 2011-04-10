@@ -114,26 +114,58 @@ package com.net.client
 		}
 		
 		
-		public function readAnyArray(type : Object) : Message {
-			var count : int = super.readInt();
+		public function readAnyArray() : Array {
+			var count : int = readInt();
 			if (count == 0) {
 				return null;
-			} else if (count < 0) { // 表示成员还是个数组
+			}
+			if (count < 0) { // 表示成员还是个数组
 				count = -count;
+				var array : Array = new Array(count);
 				for (var i : int = 0; i < count; i++) {
-					readAnyArray(type);
+					array[i] = readAnyArray();
 				}
+				return array;
 			} else if (count > 0) { // 表示成员是个通常对象
+				var array : Array = new Array(count);
+				var component_data_type : int = readByte();
 				for (var i : int = 0; i < count; i++) {
-					readAny(type);
+					array[i] = readAny(component_data_type);
 				}
+				return array;
 			}
 			return null;
 		}
+		
 
-		public function readAny(type : Object) : Message
+		public function readAny(component_data_type : int) : Object
 		{
-			
+			switch (component_data_type) {
+				case NetDataTypes.TYPE_EXTERNALIZABLE:
+					return readExternal();
+				case NetDataTypes.TYPE_BOOLEAN:
+					return readBoolean();
+				case NetDataTypes.TYPE_BYTE:
+					return readByte();
+				case NetDataTypes.TYPE_CHAR:
+					return readChar();
+				case NetDataTypes.TYPE_SHORT:
+					return readShort();
+				case NetDataTypes.TYPE_INT:
+					return readInt();
+//				case NetDataTypes.TYPE_LONG:
+//					return readLong();
+				case NetDataTypes.TYPE_FLOAT:
+					return readFloat();
+				case NetDataTypes.TYPE_DOUBLE:
+					return readDouble();
+				case NetDataTypes.TYPE_STRING: 
+					return readUTF();
+//				case NetDataTypes.TYPE_OBJECT:
+//					return readObject(component_type);
+				default:
+					return null;
+			}
 			
 			return null;
 		}
