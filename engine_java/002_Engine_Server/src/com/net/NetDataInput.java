@@ -86,7 +86,7 @@ public abstract class NetDataInput implements DataInput
 //	-----------------------------------------------------------------------------------------------
 
 
-	public Object readAnyArray(Class<?> type) throws IOException {
+	public Object readAnyArray(Class<?> type, byte component_data_type) throws IOException {
 		int count = readInt();
 		if (count == 0) {
 			return null;
@@ -96,12 +96,11 @@ public abstract class NetDataInput implements DataInput
 			count = -count;
 			Object array = Array.newInstance(component_type, count);
 			for (int i = 0; i < count; i++) {
-				Array.set(array, i, readAnyArray(component_type));
+				Array.set(array, i, readAnyArray(component_type, component_data_type));
 			}
 			return array;
 		} else if (count > 0) { // 表示成员是个通常对象
 			Object array = Array.newInstance(component_type, count);
-			byte component_data_type = readByte();
 			for (int i = 0; i < count; i++) {
 				Array.set(array, i, readAny(component_data_type, component_type));
 			}

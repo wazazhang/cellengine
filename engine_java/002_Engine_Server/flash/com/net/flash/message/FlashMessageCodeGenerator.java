@@ -243,8 +243,11 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		} 
 		else if (f_type.isArray()) {
 			if (f_type.getComponentType().isArray()) {
-				read.append("		" + f_name + " = input.readAnyArray();\n");
-				write.append("		output.writeAnyArray(" + f_name + ");\n");
+				String leaf_type = NetDataTypes.toTypeName(NetDataTypes.getArrayCompomentType(f_type, factory));
+				read.append("		" + f_name + " = input.readAnyArray(" +
+						"NetDataTypes." + leaf_type + ");\n");
+				write.append("		output.writeAnyArray(" + f_name + ", " +
+						"NetDataTypes." + leaf_type + ");\n");
 			} else {
 				read.append("		" + f_name + " = input.readExternalArray();\n");
 				write.append("		output.writeExternalArray(" + f_name + ");\n");

@@ -5,6 +5,7 @@ import com.net.mutual.MutualMessage;
 import com.net.mutual.MutualMessageCodec;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
+import com.net.NetDataTypes;
 
 
 /**
@@ -77,6 +78,7 @@ public class MessageCodecJava implements MutualMessageCodec
 		msg.a_d3 = in.readCharArray();
 		msg.a_d4 = in.readIntArray();
 		msg.a_d5 = in.readFloatArray();
+		msg.b_d5 = (float[][])in.readAnyArray(float[][].class, NetDataTypes.TYPE_FLOAT);
 	}
 	private void _w(com.net.flash.test.Messages.Data msg, NetDataOutput out) throws IOException {
 		out.writeUTF(msg.message2);
@@ -93,6 +95,7 @@ public class MessageCodecJava implements MutualMessageCodec
 		out.writeCharArray(msg.a_d3);
 		out.writeIntArray(msg.a_d4);
 		out.writeFloatArray(msg.a_d5);
+		out.writeAnyArray(msg.b_d5, NetDataTypes.TYPE_FLOAT);
 	}
 
 //	----------------------------------------------------------------------------------------------------
@@ -136,13 +139,13 @@ public class MessageCodecJava implements MutualMessageCodec
 		msg.message = in.readUTF();
 		msg.data = in.readExternal(com.net.flash.test.Messages.Data.class);
 		msg.datas = (com.net.flash.test.Messages.Data[])in.readExternalArray(com.net.flash.test.Messages.Data.class);
-		msg.datas2 = (com.net.flash.test.Messages.Data[][][])in.readAnyArray(com.net.flash.test.Messages.Data[][][].class);
+		msg.datas2 = (com.net.flash.test.Messages.Data[][][])in.readAnyArray(com.net.flash.test.Messages.Data[][][].class, NetDataTypes.TYPE_EXTERNALIZABLE);
 	}
 	private void _w(com.net.flash.test.Messages.EchoRequest msg, NetDataOutput out) throws IOException {
 		out.writeUTF(msg.message);
 		out.writeExternal(msg.data);
 		out.writeExternalArray(msg.datas);
-		out.writeAnyArray(msg.datas2);
+		out.writeAnyArray(msg.datas2, NetDataTypes.TYPE_EXTERNALIZABLE);
 	}
 
 //	----------------------------------------------------------------------------------------------------

@@ -17,6 +17,7 @@ import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
+import com.net.NetDataTypes;
 
 
 public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerator
@@ -76,7 +77,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
 			"			_w((" + c_name + ")msg, out); return;\n" +
 			"		}\n");
-			genMethod(e.getValue(), classes);
+			genMethod(e.getValue(), classes, factory);
 		}
 		
 		String ret = this.template;
@@ -95,7 +96,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 	 * @param msg
 	 * @param sb
 	 */
-	protected void genMethod(Class<?> msg, StringBuilder sb)
+	protected void genMethod(Class<?> msg, StringBuilder sb, ExternalizableFactory factory)
 	{
 		String c_name = msg.getCanonicalName();
 		String s_name = msg.getSimpleName();
@@ -106,7 +107,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 		for (Field f : msg.getFields()) {
 			int modifiers = f.getModifiers();
 			if (!Modifier.isStatic(modifiers)) {
-				genField(msg, f, read, write);
+				genField(msg, f, read, write, factory);
 			}
 		}
 		
@@ -129,7 +130,7 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 	 * @param read
 	 * @param write
 	 */
-	protected void genField(Class<?> msg, Field f, StringBuilder read, StringBuilder write)
+	protected void genField(Class<?> msg, Field f, StringBuilder read, StringBuilder write, ExternalizableFactory factory)
 	{
 		Class<?> 	f_type 		= f.getType();
 		String 		f_name 		= "msg." + f.getName();
@@ -223,9 +224,12 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 		} 
 		else if (f_type.isArray()) {
 			if (f_type.getComponentType().isArray()) {
+				String leaf_type = NetDataTypes.toTypeName(NetDataTypes.getArrayCompomentType(f_type, factory));
 				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
-						f_type.getCanonicalName() + ".class);\n");
-				write.append("		out.writeAnyArray(" + f_name + ");\n");
+						f_type.getCanonicalName() + ".class, " +
+						"NetDataTypes." + leaf_type + ");\n");
+				write.append("		out.writeAnyArray(" + f_name + ", " +
+						"NetDataTypes." + leaf_type + ");\n");
 			} else {
 				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
 						f_type.getComponentType().getCanonicalName() + ".class);\n");

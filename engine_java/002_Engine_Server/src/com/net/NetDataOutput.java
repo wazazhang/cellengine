@@ -78,7 +78,7 @@ public abstract class NetDataOutput implements DataOutput
 //	-----------------------------------------------------------------------------------------------------------
 //	
 
-	public void writeAnyArray(Object array) throws IOException {
+	public void writeAnyArray(Object array, byte component_data_type) throws IOException {
 		if (array != null) {
 			int count = Array.getLength(array);
 			if (count > 0) {
@@ -86,11 +86,10 @@ public abstract class NetDataOutput implements DataOutput
 				if (component_type.isArray()) {
 					writeInt(-count); 	// 表示成员还是个数组
 					for (int i = 0; i < count; i++) {
-						writeAnyArray(Array.get(array, i));
+						writeAnyArray(Array.get(array, i), component_data_type);
 					}
 				} else {
 					writeInt(count);	// 表示成员是个通常对象
-					byte component_data_type = NetDataTypes.getArrayCompomentType(component_type, getFactory());
 					writeByte(component_data_type);
 					for (int i = 0; i < count; i++) {
 						writeAny(component_data_type, Array.get(array, i));

@@ -40,6 +40,8 @@ public class Messages
 //		public long[]	 	a_d5;
 		public float[]	 	a_d5;
 //		public double[] 	a_d6;
+
+		public float[][] 	b_d5;
 	}
 	
 	public static class EchoNotify extends FlashMessage
