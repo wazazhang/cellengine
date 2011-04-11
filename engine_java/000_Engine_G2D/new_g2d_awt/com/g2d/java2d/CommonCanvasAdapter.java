@@ -636,9 +636,17 @@ FocusListener
 		if (!isOnTextInput(e.getKeyCode())) {
 			keystate_down.put(e.getKeyCode(), e);
 		}
-		keystate.put(e.getKeyCode(), e);
-		poolEvent(new com.g2d.display.event.KeyEvent(
-				e, com.g2d.display.event.KeyEvent.EVENT_KEY_DOWN));
+		boolean poll = true;
+		if (keystate.containsKey(e.getKeyCode())) {
+			keystate_down.remove(e.getKeyCode());
+			poll = false;
+		} else {
+			keystate.put(e.getKeyCode(), e);
+		}
+		if (poll) {
+			poolEvent(new com.g2d.display.event.KeyEvent(
+					e, com.g2d.display.event.KeyEvent.EVENT_KEY_DOWN));
+		}
 	}
 	synchronized public void keyReleased(KeyEvent e) {
 		if (!isOnTextInput(e.getKeyCode())) {
