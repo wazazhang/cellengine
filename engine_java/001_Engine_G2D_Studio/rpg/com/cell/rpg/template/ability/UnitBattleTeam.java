@@ -4,6 +4,8 @@ import java.io.ObjectStreamException;
 
 import com.cell.rpg.ability.AbilitiesVector;
 import com.cell.rpg.ability.AbstractAbility;
+import com.cell.rpg.anno.PropertyAdapter;
+import com.cell.rpg.anno.PropertyType;
 import com.cell.rpg.scene.ability.RegionSpawnNPC.NPCSpawn;
 import com.g2d.annotation.Property;
 
@@ -21,6 +23,11 @@ public class UnitBattleTeam extends AbstractAbility
 			return getAbilitiesCount() + "个单位";
 		}
 	};
+	
+	@Property("队伍人数是否会因玩家发生变化")
+	public boolean is_variable_team = false;
+
+	
 	
 	public UnitBattleTeam() {
 		this.spawn_types = new SpawnTypes();
@@ -78,6 +85,16 @@ public class UnitBattleTeam extends AbstractAbility
 		@Property("战斗时处在第几列")
 		public	int			battle_column;
 		
+		@Property("出现机率100%")
+		public	Float		happen_percent;
+	
+		protected Object readResolve() throws ObjectStreamException {
+			if (happen_percent == null) {
+				happen_percent = 100.0f;
+			}
+			return this;
+		}
+
 		@Override
 		public boolean isMultiField() {
 			return true;
