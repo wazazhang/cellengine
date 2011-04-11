@@ -551,7 +551,7 @@ public class Studio extends AbstractFrame
 		}
 	}
 	
-	public static class ProgressForm extends JWindow implements IProgress
+	public static class ProgressForm extends JFrame implements IProgress
 	{
 		private static final long serialVersionUID = 1L;
 		private JProgressBar progress = new JProgressBar();
@@ -561,7 +561,10 @@ public class Studio extends AbstractFrame
 		
 		public ProgressForm()
 		{
+			this.setTitle(Config.TITLE);
 			this.setSize(Res.img_splash.getWidth(), Res.img_splash.getHeight()+40);
+			this.setResizable(false);
+
 //			this.setAlwaysOnTop(true);
 			AbstractFrame.setCenter(this);
 			
@@ -581,6 +584,13 @@ public class Studio extends AbstractFrame
 			this.add(lbl_title, BorderLayout.NORTH);
 			this.add(back, BorderLayout.CENTER);
 			this.add(progress, BorderLayout.SOUTH);	
+			
+			this.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					System.exit(1);
+				}
+			});
 		}
 		
 		public void startReadBlock(String title) {
