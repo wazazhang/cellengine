@@ -86,7 +86,7 @@ public class UnitBattleTeam extends AbstractAbility
 		public	int			battle_column;
 		
 		@Property("出现机率100%")
-		public	Float		happen_percent;
+		public	Float		happen_percent = 100.0f;
 	
 		protected Object readResolve() throws ObjectStreamException {
 			if (happen_percent == null) {
