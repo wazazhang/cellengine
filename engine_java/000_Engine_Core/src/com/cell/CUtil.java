@@ -2721,6 +2721,46 @@ public class CUtil extends CObject
 	{
 		return (E)getRandom(EnumSet.allOf(enums));
 	}
+	
+	/**
+	 * 将数组内元素位置打乱
+	 * @param <T>
+	 * @param array
+	 * @return
+	 */
+	public static <T> T randomArray(T array) {
+		if (array.getClass().isArray()) {
+			int count = Array.getLength(array);
+			for (int si = count - 1; si >= 0; --si) {
+				int di = getRandom(0, count-1);
+				Object s = Array.get(array, si);
+				Object d = Array.get(array, di);
+				Array.set(array, di, s);
+				Array.set(array, si, d);
+			}
+		}
+		return array;
+	}
+	
+	/**
+	 * 将List内元素位置打乱
+	 * @param <T>
+	 * @param array
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends List> T randomList(T list) {
+		int count = list.size();
+		for (int si = count - 1; si >= 0; --si) {
+			int di = getRandom(0, count-1);
+			Object s = list.get(si);
+			Object d = list.get(di);
+			list.set(di, s);
+			list.set(si, d);
+		}
+		return list;
+	}
+	
 	private static void RANDOM_END(){}
 //	--------------------------------------------------------------------------------------------------------------------------
 //	
