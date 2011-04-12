@@ -284,37 +284,43 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		
 		ArrayList<Field> fields = new ArrayList<Field>();
 		for (Field f : msg.getFields()) {
-			int modifiers = f.getModifiers();
-			if (!Modifier.isStatic(modifiers)) {
-				fields.add(f);
-			}
+			fields.add(f);
 		}
 		int i = 0;
 		d_init_commet.append("		/**\n");
 		for (Field f : fields) {
+			int modifiers = f.getModifiers();
 			String field_type_comment = f.getType().getCanonicalName();
 			String field_leaf_name = NetDataTypes.toTypeName(
 					NetDataTypes.getArrayCompomentType(f.getType(), factory));
-			if (f.getType().isArray()) {
-				
-			}
 			d_fields.append(
 			"		/** Java type is : <font color=#0000ff>" + field_type_comment + "</font> */\n");
 			d_fields.append(
-					"		[JavaType(name=\""+field_type_comment+"\", leaf_type=NetDataTypes."+field_leaf_name +")]\n");
-			d_fields.append(
-			"		public var " + genMsgField(factory, f) + ";");
-			d_init_commet.append(
-			"		 * @param " + f.getName() + " as <font color=#0000ff>" + field_type_comment + "</font>");
-			d_init_args.append(
-			"			" + genMsgField(factory, f) + " = " + genMsgFieldValue(f));
-			d_init_fields.append(
-			"			this." + f.getName() + " = " + f.getName()+";");
+			"		[JavaType(name=\""+field_type_comment+"\", leaf_type=NetDataTypes."+field_leaf_name +")]\n");
+			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+				Object value = null;
+				try {
+					value = f.get(null);
+				} catch (Exception e) {}
+				d_fields.append(
+						"		static public const " + genMsgField(factory, f) + " = " + value + ";");
+			} else {
+				d_fields.append(
+						"		public var " + genMsgField(factory, f) + ";");
+				d_init_commet.append(
+						"		 * @param " + f.getName() + " as <font color=#0000ff>" + field_type_comment + "</font>");
+				d_init_args.append(
+						"			" + genMsgField(factory, f) + " = " + genMsgFieldValue(f));
+				d_init_fields.append(
+						"			this." + f.getName() + " = " + f.getName()+";");
+				if (i < fields.size() - 1) {
+					d_init_args.append(",\n");
+					d_init_fields.append("\n");
+					d_init_commet.append("\n");
+				}
+			}
 			if (i < fields.size() - 1) {
 				d_fields.append("\n");
-				d_init_commet.append("\n");
-				d_init_args.append(",\n");
-				d_init_fields.append("\n");
 			}
 			i++;
 		}
