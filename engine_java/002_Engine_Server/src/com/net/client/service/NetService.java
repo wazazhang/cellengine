@@ -59,8 +59,8 @@ public class NetService extends BasicNetService
     		try {
     			ServerHost = host;
     			ServerPort = port;
-    			Session.connect(host, port, timeout, getSessionListener());
-    			return true;
+    			return Session.connect(host, port, timeout, getSessionListener());
+//    			return true;
     		} catch (Exception e) {
     			e.printStackTrace();
     			return false;
@@ -77,8 +77,8 @@ public class NetService extends BasicNetService
 	{
 		if (!Session.isConnected()) {
 			try {
-				Session.connect(ServerHost, ServerPort, timeout, getSessionListener());
-				return true;
+				return Session.connect(ServerHost, ServerPort, timeout, getSessionListener());
+//				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return false;
