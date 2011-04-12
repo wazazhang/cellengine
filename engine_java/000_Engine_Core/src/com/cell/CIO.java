@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
@@ -118,41 +120,64 @@ public class CIO extends CObject
 //	------------------------------------------------------------------------------------------------------------------------
 	
 	public static String stringDecode(byte[] data, String encoding) {
-		ByteBuffer bb = ByteBuffer.wrap(data);
-		try {
-			CharsetDecoder decoder = Charset.forName(encoding).newDecoder();  
-			CharBuffer cb = decoder.decode(bb);
-			try {
-				char[] ret = new char[cb.remaining()];
-				cb.get(ret);
-				return new String(ret);
-			} finally {
-				cb.clear();
-			}
-		} catch (Exception err) {
-			return null;
-		} finally {
-			bb.clear();
-		}
+		return readAllText(new ByteArrayInputStream(data), encoding);
+//		ByteBuffer bb = ByteBuffer.wrap(data);
+//		try {
+//			CharsetDecoder decoder = Charset.forName(encoding).newDecoder();  
+//			CharBuffer cb = decoder.decode(bb);
+//			try {
+//				char[] ret = new char[cb.remaining()];
+//				cb.get(ret);
+//				return new String(ret);
+//			} finally {
+//				cb.clear();
+//			}
+//		} catch (Exception err) {
+//			return null;
+//		} finally {
+//			bb.clear();
+//		}
+//		try {
+//			InputStreamReader isr = new InputStreamReader(new ByteArrayInputStream(data), encoding);
+//			StringBuilder sb = new StringBuilder();
+//			char[] buff = new char[DEFAULT_READ_BLOCK_SIZE/2];
+//			while (true) {
+//				int readed = isr.read(buff);
+//				if (readed >= 0) {
+//					sb.append(buff, 0, readed);
+//				} else {
+//					break;
+//				}
+//			}
+//			return sb.toString();
+//			
+//			return readAllText(new ByteArrayInputStream(data), encoding);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
 	}
 	
 	public static byte[] stringEncode(String src, String encoding) {
-		CharBuffer cb = CharBuffer.wrap(src);
-		try {
-			CharsetEncoder encoder = Charset.forName(encoding).newEncoder();  
-			ByteBuffer bb = encoder.encode(cb);
-			try {
-				byte[] ret = new byte[bb.remaining()];
-				bb.get(ret);
-				return ret;
-			} finally {
-				bb.clear();
-			}
-		} catch (Exception err) {
-			return null;
-		} finally {
-			cb.clear();
-		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(src.length()*2);
+		writeAllText(baos, src, encoding);
+		return baos.toByteArray();
+//		CharBuffer cb = CharBuffer.wrap(src);
+//		try {
+//			CharsetEncoder encoder = Charset.forName(encoding).newEncoder();  
+//			ByteBuffer bb = encoder.encode(cb);
+//			try {
+//				byte[] ret = new byte[bb.remaining()];
+//				bb.get(ret);
+//				return ret;
+//			} finally {
+//				bb.clear();
+//			}
+//		} catch (Exception err) {
+//			return null;
+//		} finally {
+//			cb.clear();
+//		}
 	}
 	
 	public static String readAllText(String file)
@@ -192,6 +217,28 @@ public class CIO extends CObject
 		return readAllText(is, CObject.getEncoding());
 	}
 	
+	public static String[] readAllLine(InputStream is) {
+		return readAllLine(is, CObject.getEncoding());
+	}
+	
+	public static String[] readAllLine(InputStream is, String encoding)
+	{
+		try {
+			String src = readAllText(is, encoding);
+			String[] ret = CUtil.splitString(src, "\n");
+			for (int i = ret.length - 1; i >= 0; i--) {
+				int ld = ret[i].lastIndexOf('\r');
+				if (ld >= 0) {
+					ret[i] = ret[i].substring(0, ld);
+				}
+			}
+			return ret;
+		} catch (Exception err) {
+			err.printStackTrace();
+			return new String[] { "" };
+		}
+	}
+
 	public static String readAllText(InputStream is, String encoding)
 	{
 		try {
@@ -217,25 +264,13 @@ public class CIO extends CObject
 		return null;
 	}
 
-	public static String[] readAllLine(InputStream is) {
-		return readAllLine(is, CObject.getEncoding());
-	}
-	
-	public static String[] readAllLine(InputStream is, String encoding)
+	public static void writeAllText(OutputStream os, String text, String encoding) 
 	{
 		try {
-			String src = readAllText(is, encoding);
-			String[] ret = CUtil.splitString(src, "\n");
-			for (int i = ret.length - 1; i >= 0; i--) {
-				int ld = ret[i].lastIndexOf('\r');
-				if (ld >= 0) {
-					ret[i] = ret[i].substring(0, ld);
-				}
-			}
-			return ret;
-		} catch (Exception err) {
-			err.printStackTrace();
-			return new String[] { "" };
+			OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
+			osw.write(text);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
