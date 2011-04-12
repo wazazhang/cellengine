@@ -1,11 +1,14 @@
 
 package com.cell;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -191,10 +194,26 @@ public class CIO extends CObject
 	
 	public static String readAllText(InputStream is, String encoding)
 	{
-		byte[] data = CIO.readStream(is);
-		if (data != null) {
-			return stringDecode(data, encoding);
+		try {
+			InputStreamReader isr = new InputStreamReader(is, encoding);
+			StringBuilder sb = new StringBuilder();
+			char[] buff = new char[DEFAULT_READ_BLOCK_SIZE/2];
+			while (true) {
+				int readed = isr.read(buff);
+				if (readed >= 0) {
+					sb.append(buff, 0, readed);
+				} else {
+					break;
+				}
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+//		byte[] data = CIO.readStream(is);
+//		if (data != null) {
+//			return stringDecode(data, encoding);
+//		}
 		return null;
 	}
 
