@@ -18,7 +18,7 @@ public class CFile
 	{
 		try{
 			FileInputStream fis = new FileInputStream(file);
-			return CIO.stringDecode(CIO.readStream(fis), encoding);
+			return CIO.readAllText(fis, encoding);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
