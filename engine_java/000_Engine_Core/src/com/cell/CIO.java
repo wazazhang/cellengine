@@ -269,6 +269,7 @@ public class CIO extends CObject
 		try {
 			OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
 			osw.write(text);
+			osw.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
