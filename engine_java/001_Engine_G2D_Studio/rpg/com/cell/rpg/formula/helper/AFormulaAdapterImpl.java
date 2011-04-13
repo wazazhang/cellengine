@@ -97,10 +97,25 @@ public abstract class AFormulaAdapterImpl implements IFormulaAdapter
 		return value.op.calculat(value.left.getValue(this), value.right.getValue(this));
 	}
 	
+	@Override
+	public Object invokeMethod(Object object, AbstractMethod value) throws Throwable {
+		if (value.method_info.getReturnSynthetic() != null) {
+			Method method	= value.getMethod();
+			// 先获得符合类型的值
+			Object ret		= method.invoke(object, value.getInvokeParams(this));
+			// 将得到的复合类型带入下次运算
+			return invokeMethod(ret, value.return_object_method);
+		} else {
+			// 没有下一个子函数的根函数
+			Method method = value.getMethod();
+			Object ret = method.invoke(object, value.getInvokeParams(this));
+			return ret;
+		}
+	}
+	
 	abstract protected Number calculateObjectProperty(ObjectProperty value) throws Throwable;
 
 	abstract protected Number calculateObjectMethod(ObjectMethod value) throws Throwable;
-	
 	
 	abstract protected ISystemMethodAdapter getSystemMethodAdapter();
 	
