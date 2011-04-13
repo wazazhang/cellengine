@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标注该方法可以被公式编辑器调用，该方法只能返回 Number 类型
+ * 标注该方法可以被公式编辑器调用
  * @author WAZA
  * @see Number
  */
