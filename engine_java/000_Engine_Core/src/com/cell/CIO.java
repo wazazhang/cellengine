@@ -159,9 +159,15 @@ public class CIO extends CObject
 	}
 	
 	public static byte[] stringEncode(String src, String encoding) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(src.length()*2);
-		writeAllText(baos, src, encoding);
-		return baos.toByteArray();
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream(src.length()*2);
+			writeAllText(baos, src, encoding);
+			baos.flush();
+			return baos.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 //		CharBuffer cb = CharBuffer.wrap(src);
 //		try {
 //			CharsetEncoder encoder = Charset.forName(encoding).newEncoder();  

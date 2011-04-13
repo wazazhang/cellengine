@@ -78,6 +78,7 @@ public class CFile
 			FileOutputStream fos = new FileOutputStream(file);
 			try {
 				fos.write(data);
+				fos.flush();
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
