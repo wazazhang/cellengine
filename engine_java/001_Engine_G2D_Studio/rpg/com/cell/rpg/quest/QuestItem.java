@@ -96,13 +96,15 @@ public class QuestItem extends RPGObject implements NamedObject
 					AwardBattle.class,
 					AwardAddUnitProperty.class,
 					AwardSetUnitProperty.class,
-
+					
 					AwardSummonNPC.class,
 					DropQuestNPC.class,
 					DropQuestServant.class,
 					
 					DropQuest.class,
 					AwardInstanceZoneValueSet.class,
+					
+					CallUnitMethod.class,
 				};
 		}
 	}
@@ -539,15 +541,13 @@ public class QuestItem extends RPGObject implements NamedObject
 		public AbstractValue		dst_value	= new Value(1);
 	}
 
-	@Property("[结果] 设置单位属性")
+	@Property("[结果] 调用单位函数")
 	final public static class CallUnitMethod extends Result
 	{
 		private static final long serialVersionUID = 1L;
-		@Property("原单位属性")
-		public TriggerUnitProperty	src_value	= new TriggerUnitProperty();
-
-		@Property("目标值")
-		public AbstractValue		dst_value	= new Value(1);
+		
+		@Property("原单位函数")
+		public TriggerUnitMethod	src_value	= new TriggerUnitMethod();
 	}
 	
 //	----------------------------------------------------------------------------

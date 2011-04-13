@@ -34,10 +34,11 @@ import com.g2d.studio.res.Res;
 
 public class ObjectManager
 {
-	final public 	String		objects_dir;
-	final public 	XLSColumns	player_xls_columns;
-	private			XLSColumns	unit_xls_columns;
-
+	final public String objects_dir;
+	private XLSColumns player_xls_columns;
+	private XLSColumns unit_xls_columns;
+	private XLSColumns pet_xls_columns;
+	
 	private			LinkedHashMap<Class<?>, ObjectManagerTree<?, ?>> 
 								managers = new LinkedHashMap<Class<?>, ObjectManagerTree<?,?>>();
 	
@@ -45,8 +46,9 @@ public class ObjectManager
 	
 	public ObjectManager(Studio studio) 
 	{
-		this.objects_dir 		= Studio.getInstance().project_save_path.getChildFile("objects").getPath();
-		this.player_xls_columns	= XLSColumns.getXLSColumns(studio.xls_tplayer.getInputStream());
+		this.objects_dir 			= Studio.getInstance().project_save_path.getChildFile("objects").getPath();
+		this.player_xls_columns		= XLSColumns.getXLSColumns(studio.xls_tplayer.getInputStream());
+		this.pet_xls_columns 		= XLSColumns.getXLSColumns(studio.xls_tpet.getInputStream());
 	}
 	
 	/**
@@ -157,6 +159,10 @@ public class ObjectManager
 		return unit_xls_columns;
 	}
 	
+	public XLSColumns getPetXLSColumns() {
+		return pet_xls_columns;
+	}
+	
 	public ObjectTreeView<?,?> getPage(Class<?> type) {
 		if (managers.containsKey(type)) {
 			return managers.get(type).tree_view;
@@ -234,6 +240,8 @@ public class ObjectManager
 		}
 		return node;
 	}
+	
+	
 	
 	
 	

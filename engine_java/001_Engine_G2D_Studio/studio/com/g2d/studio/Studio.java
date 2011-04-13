@@ -107,6 +107,7 @@ public class Studio extends AbstractFrame
 	
 	final public File				xls_tplayer;
 	final public File 				xls_tunit;
+	final public File				xls_tpet;
 	final public File 				xls_titem;
 	final public File 				xls_tshopitem;
 	final public File 				xls_tskill;
@@ -158,6 +159,7 @@ public class Studio extends AbstractFrame
 		
 		xls_tplayer			= getFile				(Config.XLS_TPLAYER);
 		xls_tunit			= getFile				(Config.XLS_TUNIT);
+		xls_tpet			= getFile				(Config.XLS_TPET);
 		xls_titem			= getFile				(Config.XLS_TITEM);
 		xls_tshopitem		= getFile				(Config.XLS_TSHOPITEM);
 		xls_tskill			= getFile				(Config.XLS_TSKILL);

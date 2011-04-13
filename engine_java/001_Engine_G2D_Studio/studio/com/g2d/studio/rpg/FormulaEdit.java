@@ -530,12 +530,14 @@ public class FormulaEdit extends AbstractDialog implements PropertyCellEdit<Abst
 		
 		XLSColumnSelectCellEdit combo_columns_player;
 		XLSColumnSelectCellEdit combo_columns_unit;
+		XLSColumnSelectCellEdit combo_columns_pet;
 		
 		public PanelUnitProperty(AbstractValue value) {
 			super(new BorderLayout());
 		
 			combo_columns_player	= new XLSColumnSelectCellEdit(Studio.getInstance().getObjectManager().getPlayerXLSColumns());
 			combo_columns_unit		= new XLSColumnSelectCellEdit(Studio.getInstance().getObjectManager().getUnitXLSColumns());
+			combo_columns_pet		= new XLSColumnSelectCellEdit(Studio.getInstance().getObjectManager().getPetXLSColumns());
 			
 			super.add(combo_unit_type, BorderLayout.NORTH);
 			
@@ -543,6 +545,7 @@ public class FormulaEdit extends AbstractDialog implements PropertyCellEdit<Abst
 				TriggerUnitProperty tup = (TriggerUnitProperty)value;
 				combo_columns_player.setSelectedItem(tup.filed_name);
 				combo_columns_unit.setSelectedItem(tup.filed_name);
+				combo_columns_pet.setSelectedItem(tup.filed_name);
 				combo_unit_type.setSelectedItem(tup.trigger_unit_type);
 			}
 			if (combo_unit_type.getValue()==null) {
@@ -561,6 +564,8 @@ public class FormulaEdit extends AbstractDialog implements PropertyCellEdit<Abst
 				break;
 			case PET_GROUP:
 			case ACTIVE_PET:
+				super.add(combo_columns_pet, BorderLayout.SOUTH);
+				break;
 			case TRIGGERING_NPC:
 				super.add(combo_columns_unit, BorderLayout.SOUTH);
 				break;
@@ -591,6 +596,8 @@ public class FormulaEdit extends AbstractDialog implements PropertyCellEdit<Abst
 				break;
 			case PET_GROUP:
 			case ACTIVE_PET:
+				tup.filed_name = combo_columns_pet.getValue();
+				break;
 			case TRIGGERING_NPC:
 				tup.filed_name = combo_columns_unit.getValue();
 				break;

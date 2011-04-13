@@ -100,11 +100,15 @@ public abstract class AbstractMethod extends AbstractValue
 		if ((method.getModifiers() & Modifier.PUBLIC) == 0) {
 			return false;
 		}
-		if (!Parser.isNumber(method.getReturnType())) {
-			if (method.getAnnotation(MethodSynthetic.class)==null) {
-				return false;
-			}
+		if ((method.getModifiers() & Modifier.STATIC) != 0) {
+			return false;
 		}
+//		if (!Parser.isNumber(method.getReturnType())) {
+//			if (method.getAnnotation(MethodSynthetic.class)==null) {
+//				return false;
+//			}
+//			return false;
+//		}
 		for (Class<?> parm : method.getParameterTypes()) {
 			if (!Parser.isNumber(parm)) {
 				return false;

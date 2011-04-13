@@ -31,6 +31,7 @@ public class Config extends com.cell.util.Config
 //	 XLS模板数据目录
 	public static String XLS_TPLAYER				= "xls/tplayer.xls";
 	public static String XLS_TUNIT					= "xls/tnpc.xls";
+	public static String XLS_TPET					= "xls/tservant.xls";
 	public static String XLS_TITEM					= "xls/titem.xls";
 	public static String XLS_TSHOPITEM				= "xls/tshopitem.xls";
 	public static String XLS_TSKILL					= "xls/tskill.xls";
