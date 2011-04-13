@@ -51,10 +51,7 @@ public class RegionSpawnNPC extends AbstractAbility
 	}
 	
 	protected Object readResolve() throws ObjectStreamException {
-		if (spawn_types instanceof SpawnTypes) {
-		} else {
-			spawn_types = new SpawnTypes(spawn_types);
-		}
+		spawn_types = new SpawnTypes(spawn_types);
 		return this;
 	}
 	
