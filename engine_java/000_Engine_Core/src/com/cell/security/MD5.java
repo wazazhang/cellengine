@@ -16,6 +16,7 @@ import javax.swing.tree.TreeNode;
 import com.cell.CIO;
 import com.cell.CObject;
 import com.cell.CUtil;
+import com.cell.util.FileFilters;
 import com.cell.util.StringFilters;
 import com.cell.util.Pair;
 
@@ -235,7 +236,7 @@ public class MD5
     		File dstFile, 
     		int CoverType,
     		int verbos,
-    		StringFilters filters, 
+    		FileFilters filters, 
     		Pair<AtomicInteger, AtomicInteger> ret, 
     		StringBuilder output) throws Exception
     {
@@ -288,7 +289,7 @@ public class MD5
     		File dstFile, 
     		int CoverType,
     		int verbos,
-    		StringFilters filters, 
+    		FileFilters filters, 
     		Pair<AtomicInteger, AtomicInteger> ret, 
     		StringBuilder output) throws Exception
     {
@@ -516,7 +517,7 @@ public class MD5
 		boolean	dstAppend			= false;
 		String	dstEncoding			= null;
 		
-		StringFilters filters			= null;
+		FileFilters filters			= null;
 		
 //		ArrayList<Pattern> filters_add = null;
 //		ArrayList<Pattern> filters_dec = null;
@@ -569,7 +570,7 @@ public class MD5
 			}
 			else if (args[i].toLowerCase().startsWith("-filter:")){
 				String fts = args[i].substring("-filter:".length()).trim();
-				filters = new StringFilters(fts);
+				filters = new FileFilters(fts);
 			}
 			
 		}

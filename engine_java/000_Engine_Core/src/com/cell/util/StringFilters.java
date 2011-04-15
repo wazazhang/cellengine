@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public class StringFilters 
 {
-	ArrayList<Pattern> filters_add = new ArrayList<Pattern>();
-	ArrayList<Pattern> filters_dec = new ArrayList<Pattern>();
+	protected ArrayList<Pattern> filters_add = new ArrayList<Pattern>();
+	protected ArrayList<Pattern> filters_dec = new ArrayList<Pattern>();
 	
 	/**
 	 * <pre>
@@ -61,12 +61,6 @@ public class StringFilters
 		}
     	return true;
     }
-	
-	public boolean accept(File file) 
-	{
-		String fname = file.getPath();
-		return accept(fname);
-	}
 	
 	public static String usage(String line_prefix)
 	{
