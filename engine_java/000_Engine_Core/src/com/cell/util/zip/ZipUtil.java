@@ -217,7 +217,7 @@ public class ZipUtil
 			"	-verbos 输出详细信息\n" +
 			"	-os     流的形式输出\n" +
 			"	[文件匹配正则表达式]\n" + 
-			StringFilters.usage("	");
+			FileFilters.usage("	");
 		System.out.println(usage);
 	}
 	
