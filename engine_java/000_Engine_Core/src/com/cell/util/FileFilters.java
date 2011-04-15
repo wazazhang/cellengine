@@ -74,4 +74,19 @@ public class FileFilters
 		line_prefix + "多项时用 ; 分隔。\n" +
 		line_prefix + "	比如:+.png;+.jpg;-.bmp，(只匹配.png和.jpg，并排除.bmp)";
 	}
+	
+	public static void main(String args[])
+	{
+		FileFilters ff = new FileFilters("-project_cn.g2d.save$/;+.list$;+gfx.\\w+.properties$");
+		
+		validate(new File("E:\\Work\\edit\\resource"));
+	}
+	
+	private static void validate(File file) {
+		if (file.isDirectory()) {
+			
+		} else {
+			
+		}
+	}
 }

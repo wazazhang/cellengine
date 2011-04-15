@@ -260,13 +260,13 @@ public class ZipUtil
 	static public void zipFiles(File src, StringFilters pattern, String root, LinkedHashMap<String, byte[]> entrys, boolean verbos) throws Exception
 	{
 		if (!src.isHidden()) {
-			if (src.isFile()) {
-				if (pattern.accept(src.getName())) {
+			if (pattern.accept(src.getName())) {
+				if (src.isFile()) {
 					pushFileEntry(src, root, entrys, verbos);
-				}
-			} else if(src.isDirectory()) {
-				for (File sub : src.listFiles()) {
-					zipFiles(sub, pattern, root, entrys, verbos);
+				} else if (src.isDirectory()) {
+					for (File sub : src.listFiles()) {
+						zipFiles(sub, pattern, root, entrys, verbos);
+					}
 				}
 			}
 		}

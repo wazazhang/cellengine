@@ -250,6 +250,10 @@ public class MD5
     	}
 		else if (srcFile.isDirectory()) 
 		{
+			if (filters != null && !filters.accept(srcFile)) {
+				ret.getValue().incrementAndGet();
+				return;
+			}
 			File[] files = srcFile.listFiles();
 			
 			for (int l=0; l<files.length; l++)
@@ -302,6 +306,11 @@ public class MD5
     	}
 		else if (srcDir.isDirectory()) 
 		{
+			if (filters != null && !filters.accept(srcDir)) {
+				ret.getValue().incrementAndGet();
+				return;
+			}
+			
 			File[] files = srcDir.listFiles();
 			
 			for (int l=0; l<files.length; l++)
