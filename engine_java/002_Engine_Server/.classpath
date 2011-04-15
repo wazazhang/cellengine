@@ -7,6 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-api-1.5.2.jar"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-simple-1.5.0.jar"/>
-	<classpathentry kind="lib" path="lib/mina/mina-core-2.0.3.jar"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/mina/2.0.3/mina-core-2.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
