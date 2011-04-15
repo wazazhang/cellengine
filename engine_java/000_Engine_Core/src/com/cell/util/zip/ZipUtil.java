@@ -191,12 +191,14 @@ public class ZipUtil
 				File out = new File(args[args.length-3]).getCanonicalFile();
 //				Pattern parttern = Pattern.compile(args[args.length-1]);
 				FileFilters pattern = new FileFilters(args[args.length-1]);
-				zipFiles(src, out, pattern, commands.containsKey("-verbos"));
+				if (commands.containsKey("-os")) {
+					zipFilesStream(
+							src, out, pattern, commands.containsKey("-verbos"));
+				} else {
+					zipFiles(
+							src, out, pattern, commands.containsKey("-verbos"));
+				}
 			} 
-			else if (args[0].equals("E")) 
-			{
-				printUsage();
-			}
 			else
 			{
 				printUsage();
@@ -212,7 +214,8 @@ public class ZipUtil
 	{
 		String usage = 
 			"A [-开关] <输出文件> <输入文件> [文件匹配正则表达式]\n" +
-			"	[开关] -R - 连同子文件夹\n" +
+			"	-verbos 输出详细信息\n" +
+			"	-os     流的形式输出\n" +
 			"	[文件匹配正则表达式]\n" + 
 			StringFilters.usage("	");
 		System.out.println(usage);
@@ -255,6 +258,34 @@ public class ZipUtil
 		}
 	}
 	
+	/**
+	 * 将src所有符合标准的文件都压缩到out
+	 * @param src
+	 * @param out
+	 * @param parttern
+	 * @throws Exception
+	 */
+	static public void zipFilesStream(File src, File out, FileFilters pattern, boolean verbos) throws Exception
+	{
+		src = src.getCanonicalFile();
+		out = out.getCanonicalFile();
+		
+		if (!src.isHidden()) {
+			String root = "";
+			if (src.isDirectory()) {
+				root = src.getCanonicalPath();
+			} else if (src.isFile()) {
+				root = src.getParentFile().getCanonicalPath();
+			}
+			out.createNewFile();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ZipOutputStream zos = new ZipOutputStream(baos);
+			zipFiles(src, pattern, root, zos, verbos);
+			zos.close();
+			CFile.writeData(out, baos.toByteArray());
+		}
+	}
+	
 	static public void zipFiles(File src, FileFilters pattern, String root, LinkedHashMap<String, byte[]> entrys, boolean verbos) throws Exception
 	{
 		if (!src.isHidden()) {
@@ -267,6 +298,39 @@ public class ZipUtil
 					}
 				}
 			}
+		}
+	}
+	
+	static public void zipFiles(File src, FileFilters pattern, String root, ZipOutputStream zos, boolean verbos) throws Exception
+	{
+		if (!src.isHidden()) {
+			if (pattern.accept(src)) {
+				if (src.isFile()) {
+					pushFileEntry(src, root, zos, verbos);
+				} else if (src.isDirectory()) {
+					for (File sub : src.listFiles()) {
+						zipFiles(sub, pattern, root, zos, verbos);
+					}
+				}
+			}
+		}
+	}
+	
+	static private void pushFileEntry(File src, String root, ZipOutputStream zos, boolean verbos) throws Exception
+	{
+		String name = src.getCanonicalPath();
+		name = CUtil.replaceString(name, root, "", 1);
+		name = name.replaceAll("\\\\", "/");
+		while (name.startsWith("/")) {
+			name = name.substring(1);
+		}
+		byte[] data = CFile.readData(src);
+		ZipEntry ze = new ZipEntry(name);
+		ze.setTime(0);
+		zos.putNextEntry(ze);
+		zos.write(data);
+		if (verbos) {
+			System.out.println("put : " + CUtil.snapStringRightSize(data.length + "(bytes)", 22, ' ') + " "+  name);
 		}
 	}
 	
