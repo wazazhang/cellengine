@@ -52,7 +52,15 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		this.table_name		= table_type.name();
 		this.table_columns	= getSQLColumns(cls);
 	}
-
+	
+	public SQLColumnAdapter(Class<R> cls, String table_name)
+	{
+		this.table_class	= cls;
+		this.table_type		= cls.getAnnotation(SQLTable.class);
+		this.table_name		= table_name;
+		this.table_columns	= getSQLColumns(cls);
+	}
+	
 	/**
 	 * 创建行实体
 	 * @return
