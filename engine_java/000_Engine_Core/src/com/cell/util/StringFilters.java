@@ -35,7 +35,7 @@ public class StringFilters
 			}
 		}
 	}
-	
+
 	/**
 	 * @param text
 	 * @return true 符合， false 排除
