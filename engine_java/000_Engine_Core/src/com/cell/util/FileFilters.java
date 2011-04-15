@@ -25,7 +25,7 @@ public class FileFilters
 		String[] fts = regex.trim().split(";");
 		for (int i=0; i<fts.length; i++) {
 			if (fts[i].endsWith("/")) {
-				dir_regex += fts[i];
+				dir_regex += fts[i].substring(0, fts[i].length()-1);
 				if (i < fts.length - 1) {
 					dir_regex += ";";
 				}
