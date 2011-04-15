@@ -4,6 +4,7 @@ import java.awt.Font;
 
 import com.cell.CIO;
 import com.cell.util.anno.ConfigField;
+import com.cell.util.anno.ConfigSeparator;
 import com.cell.util.anno.ConfigType;
 
 
@@ -14,8 +15,9 @@ public class Config extends com.cell.util.Config
 {
 	public static String TITLE						= "G2DStudio";
 
+	
 //	--------------------------------------------------------------------------------------------------------
-//	数据
+@ConfigSeparator("资源")
 //	--------------------------------------------------------------------------------------------------------
 	
 //	 角色，场景，特效资源目录
@@ -52,6 +54,9 @@ public class Config extends com.cell.util.Config
 	public static Integer DEFAULT_BACK_COLOR		= 0xffff00ff;
 	public static String  DEFAULT_FONT				= "宋体";
 	public static Integer DEFAULT_FONT_SIZE			= 12;
+	
+	@ConfigField("G2D存储目录")
+	public static String G2D_SAVE_NAME				= "project.g2d.save";
 	
 //	--------------------------------------------------------------------------------------------------------
 //	(插件类)

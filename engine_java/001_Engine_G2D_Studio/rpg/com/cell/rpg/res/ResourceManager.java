@@ -43,6 +43,7 @@ import com.g2d.BufferedImage;
 import com.g2d.Tools;
 import com.g2d.cell.CellSetResource;
 import com.g2d.cell.CellSetResourceManager;
+import com.g2d.studio.Config;
 
 
 /**
@@ -58,7 +59,7 @@ public abstract class ResourceManager extends CellSetResourceManager
 //	--------------------------------------------------------------------------------------------------------------------
 	
 	final public String res_root;
-		
+	
 	// icons , sounds, talks
 	protected LinkedHashMap<String, AtomicReference<BufferedImage>>	all_icons;
 	protected LinkedHashMap<String, AtomicReference<ISound>>		all_sounds;
@@ -193,10 +194,10 @@ public abstract class ResourceManager extends CellSetResourceManager
 
 	final protected void initAllSet(AtomicReference<Float> percent) throws Exception
 	{
-		meta_data.all_scene_set	= readSets("/project.g2d.save/resources/scene_list.list",	SceneSet.class,		percent, 0 , 4);
-		meta_data.all_actor_set	= readSets("/project.g2d.save/resources/actor_list.list",	SpriteSet.class,	percent, 1 , 4);
-		meta_data.all_avatar_set= readSets("/project.g2d.save/resources/avatar_list.list",	SpriteSet.class,	percent, 2 , 4);
-		meta_data.all_effect_set= readSets("/project.g2d.save/resources/effect_list.list",	SpriteSet.class,	percent, 3 , 4);
+		meta_data.all_scene_set	= readSets("/" + Config.G2D_SAVE_NAME + "/resources/scene_list.list",	SceneSet.class,		percent, 0 , 4);
+		meta_data.all_actor_set	= readSets("/" + Config.G2D_SAVE_NAME + "/resources/actor_list.list",	SpriteSet.class,	percent, 1 , 4);
+		meta_data.all_avatar_set= readSets("/" + Config.G2D_SAVE_NAME + "/resources/avatar_list.list",	SpriteSet.class,	percent, 2 , 4);
+		meta_data.all_effect_set= readSets("/" + Config.G2D_SAVE_NAME + "/resources/effect_list.list",	SpriteSet.class,	percent, 3 , 4);
 	}
 	
 	
@@ -343,7 +344,7 @@ public abstract class ResourceManager extends CellSetResourceManager
 	
 	final protected void initIcons()
 	{
-		meta_data.all_icons = readIcons("/project.g2d.save/icons/icon.list" );
+		meta_data.all_icons = readIcons("/" + Config.G2D_SAVE_NAME + "/icons/icon.list" );
 		this.all_icons = new LinkedHashMap<String, AtomicReference<BufferedImage>>();
 		for (String name : meta_data.all_icons) {
 			all_icons.put(name, new AtomicReference<BufferedImage>());
@@ -352,7 +353,7 @@ public abstract class ResourceManager extends CellSetResourceManager
 	
 	final protected void initSounds()
 	{
-		meta_data.all_sounds	= readSounds("/project.g2d.save/sounds/sound.list" );
+		meta_data.all_sounds	= readSounds("/" + Config.G2D_SAVE_NAME + "/sounds/sound.list" );
 		this.all_sounds = new LinkedHashMap<String, AtomicReference<ISound>>();
 		for (String name : meta_data.all_sounds) {
 			all_sounds.put(name, new AtomicReference<ISound>());
@@ -361,7 +362,7 @@ public abstract class ResourceManager extends CellSetResourceManager
 	
 	final protected void initNpcTalks() 
 	{
-		meta_data.all_npc_talks = readNpcTalks("/project.g2d.save/talks/talks.list" );
+		meta_data.all_npc_talks = readNpcTalks("/" + Config.G2D_SAVE_NAME + "/talks/talks.list" );
 		this.all_npc_talks = new LinkedHashMap<String, AtomicReference<String>>();
 		for (String name : meta_data.all_npc_talks) {
 			all_npc_talks.put(name, new AtomicReference<String>());
@@ -483,46 +484,46 @@ public abstract class ResourceManager extends CellSetResourceManager
 	public <T extends RPGObject>  String toListFile(Class<T> type) 
 	{
 		if (type.equals(ItemProperties.class)) {
-			return "/project.g2d.save/item_properties/item_properties.list";
+			return "/" + Config.G2D_SAVE_NAME + "/item_properties/item_properties.list";
 		}
 		else if (type.equals(Quest.class)) {
-			return "/project.g2d.save/quests/quest.list";					
+			return "/" + Config.G2D_SAVE_NAME + "/quests/quest.list";					
 		}
 		else if (type.equals(QuestGroup.class)) {
-			return "/project.g2d.save/questgroups/questgroups.list";					
+			return "/" + Config.G2D_SAVE_NAME + "/questgroups/questgroups.list";					
 		}
 		else if (type.equals(Scene.class)) {
-			return "/project.g2d.save/scenes/scene.list";					
+			return "/" + Config.G2D_SAVE_NAME + "/scenes/scene.list";					
 		}
 		else if (type.equals(InstanceZone.class)) {
-			return "/project.g2d.save/instance_zones/zones.list";					
+			return "/" + Config.G2D_SAVE_NAME + "/instance_zones/zones.list";					
 		}
 		else {
 			String type_name = type.getSimpleName().toLowerCase();
-			return "/project.g2d.save/objects/" + type_name + ".obj" + "/" + type_name + ".list";
+			return "/" + Config.G2D_SAVE_NAME + "/objects/" + type_name + ".obj" + "/" + type_name + ".list";
 		}
 	}
 	
 //	public <T extends RPGObject>  String toNameListFile(Class<T> type) 
 //	{
 //		if (type.equals(ItemProperties.class)) {
-//			return "/project.g2d.save/item_properties/name_item_properties.list";
+//			return "/" + Config.G2D_SAVE_NAME + "/item_properties/name_item_properties.list";
 //		}
 //		else if (type.equals(Quest.class)) {
-//			return "/project.g2d.save/quests/name_quest.list";					
+//			return "/" + Config.G2D_SAVE_NAME + "/quests/name_quest.list";					
 //		}
 //		else if (type.equals(QuestGroup.class)) {
-//			return "/project.g2d.save/questgroups/name_questgroups.list";					
+//			return "/" + Config.G2D_SAVE_NAME + "/questgroups/name_questgroups.list";					
 //		}
 //		else if (type.equals(Scene.class)) {
-//			return "/project.g2d.save/scenes/name_scene.list";					
+//			return "/" + Config.G2D_SAVE_NAME + "/scenes/name_scene.list";					
 //		}
 //		else if (type.equals(InstanceZone.class)) {
-//			return "/project.g2d.save/instance_zones/name_zones.list";					
+//			return "/" + Config.G2D_SAVE_NAME + "/instance_zones/name_zones.list";					
 //		}
 //		else {
 //			String type_name = type.getSimpleName().toLowerCase();
-//			return "/project.g2d.save/objects/" + type_name + ".obj" + "/name_" + type_name + ".list";
+//			return "/" + Config.G2D_SAVE_NAME + "/objects/" + type_name + ".obj" + "/name_" + type_name + ".list";
 //		}
 //	}
 //	
