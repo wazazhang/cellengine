@@ -3,6 +3,7 @@ package com.cell.util.zip;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -214,8 +215,8 @@ public class ZipUtil
 	{
 		String usage = 
 			"A [-开关] <输出文件> <输入文件> [文件匹配正则表达式]\n" +
-			"	-verbos 输出详细信息\n" +
-			"	-os     流的形式输出\n" +
+			"	-verbos 开关：输出详细信息\n" +
+			"	-os     开关：流的形式输出\n" +
 			"	[文件匹配正则表达式]\n" + 
 			FileFilters.usage("	");
 		System.out.println(usage);
@@ -278,11 +279,11 @@ public class ZipUtil
 				root = src.getParentFile().getCanonicalPath();
 			}
 			out.createNewFile();
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			FileOutputStream baos = new FileOutputStream(out);
 			ZipOutputStream zos = new ZipOutputStream(baos);
 			zipFiles(src, pattern, root, zos, verbos);
+			baos.flush();
 			zos.close();
-			CFile.writeData(out, baos.toByteArray());
 		}
 	}
 	
