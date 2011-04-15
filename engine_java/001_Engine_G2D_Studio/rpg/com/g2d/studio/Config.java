@@ -15,9 +15,8 @@ public class Config extends com.cell.util.Config
 {
 	public static String TITLE						= "G2DStudio";
 
-	
 //	--------------------------------------------------------------------------------------------------------
-@ConfigSeparator("资源")
+	@ConfigSeparator("资源")
 //	--------------------------------------------------------------------------------------------------------
 	
 //	 角色，场景，特效资源目录
@@ -29,6 +28,20 @@ public class Config extends com.cell.util.Config
 	public static String RES_EFFECT_ROOT			= "effect";
 	@ConfigField("场景资源子目录名")
 	public static String RES_SCENE_ROOT				= "scene";
+
+//	 声音和图像资源目录
+	@ConfigField("声音资源子目录名")
+	public static String RES_SOUND_ROOT				= "sound";
+	@ConfigField("图标资源子目录名")
+	public static String RES_ICON_ROOT				= "icons";
+	@ConfigField("对话资源子目录名")
+	public static String RES_TALK_ROOT				= "npctalk";
+
+	public static String SOUND_SUFFIX				= ".ogg";
+	public static String ICON_SUFFIX				= ".png";
+	public static String TALK_SUFFIX				= ".js";
+	/**NPC说话脚本例子*/
+	public static String TALK_EXAMPLE				= null;
 	
 //	 XLS模板数据目录
 	public static String XLS_TPLAYER				= "xls/tplayer.xls";
@@ -38,16 +51,12 @@ public class Config extends com.cell.util.Config
 	public static String XLS_TSHOPITEM				= "xls/tshopitem.xls";
 	public static String XLS_TSKILL					= "xls/tskill.xls";
 
-//	 声音和图像资源目录
-	public static String SOUND_ROOT					= "sound";
-	public static String SOUND_SUFFIX				= ".ogg";
-	public static String ICON_ROOT					= "icons";
-	public static String ICON_SUFFIX				= ".png";
-	public static String TALK_ROOT					= "npctalk";
-	public static String TALK_SUFFIX				= ".js";
-	
-	/**NPC说话脚本例子*/
-	public static String TALK_EXAMPLE				= null;
+	@ConfigField("G2D存储目录")
+	public static String G2D_SAVE_NAME				= "project.g2d.save";
+
+//	--------------------------------------------------------------------------------------------------------
+	@ConfigSeparator("低级界面")
+//	--------------------------------------------------------------------------------------------------------
 	
 	/**低级界面默认的FPS*/
 	public static Integer DEFAULT_FPS				= 30;
@@ -55,11 +64,8 @@ public class Config extends com.cell.util.Config
 	public static String  DEFAULT_FONT				= "宋体";
 	public static Integer DEFAULT_FONT_SIZE			= 12;
 	
-	@ConfigField("G2D存储目录")
-	public static String G2D_SAVE_NAME				= "project.g2d.save";
-	
 //	--------------------------------------------------------------------------------------------------------
-//	(插件类)
+	@ConfigSeparator("动态加载的类(插件类)")
 //	--------------------------------------------------------------------------------------------------------
 //	动态加载的类(插件类)
 	
@@ -86,7 +92,7 @@ public class Config extends com.cell.util.Config
 //	--------------------------------------------------------------------------------------------------------
 	
 //	--------------------------------------------------------------------------------------------------------
-//	 扩展资源编辑器
+	@ConfigSeparator(" 扩展资源编辑器")
 //	--------------------------------------------------------------------------------------------------------
 	
 	/**执行Builder的类*/

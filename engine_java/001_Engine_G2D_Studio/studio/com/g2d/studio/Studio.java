@@ -153,9 +153,9 @@ public class Studio extends AbstractFrame
 			System.exit(1);
 		}
 		
-		root_icon_path		= getFile				(Config.ICON_ROOT);
-		root_sound_path		= getFile				(Config.SOUND_ROOT);
-		root_talk_path		= getFile				(Config.TALK_ROOT);
+		root_icon_path		= getFile				(Config.RES_ICON_ROOT);
+		root_sound_path		= getFile				(Config.RES_SOUND_ROOT);
+		root_talk_path		= getFile				(Config.RES_TALK_ROOT);
 		
 		xls_tplayer			= getFile				(Config.XLS_TPLAYER);
 		xls_tunit			= getFile				(Config.XLS_TUNIT);
