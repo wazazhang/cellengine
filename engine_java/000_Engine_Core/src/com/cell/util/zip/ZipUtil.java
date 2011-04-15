@@ -6,14 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -21,6 +18,7 @@ import java.util.zip.ZipOutputStream;
 import com.cell.CIO;
 import com.cell.CUtil;
 import com.cell.io.CFile;
+import com.cell.util.FileFilters;
 import com.cell.util.Pair;
 import com.cell.util.StringFilters;
 
@@ -192,7 +190,7 @@ public class ZipUtil
 				File src = new File(args[args.length-2]).getCanonicalFile();
 				File out = new File(args[args.length-3]).getCanonicalFile();
 //				Pattern parttern = Pattern.compile(args[args.length-1]);
-				StringFilters pattern = new StringFilters(args[args.length-1]);
+				FileFilters pattern = new FileFilters(args[args.length-1]);
 				zipFiles(src, out, pattern, commands.containsKey("-verbos"));
 			} 
 			else if (args[0].equals("E")) 
@@ -227,7 +225,7 @@ public class ZipUtil
 	 * @param parttern
 	 * @throws Exception
 	 */
-	static public void zipFiles(File src, File out, StringFilters pattern, boolean verbos) throws Exception
+	static public void zipFiles(File src, File out, FileFilters pattern, boolean verbos) throws Exception
 	{
 		src = src.getCanonicalFile();
 		out = out.getCanonicalFile();
@@ -257,10 +255,10 @@ public class ZipUtil
 		}
 	}
 	
-	static public void zipFiles(File src, StringFilters pattern, String root, LinkedHashMap<String, byte[]> entrys, boolean verbos) throws Exception
+	static public void zipFiles(File src, FileFilters pattern, String root, LinkedHashMap<String, byte[]> entrys, boolean verbos) throws Exception
 	{
 		if (!src.isHidden()) {
-			if (pattern.accept(src.getName())) {
+			if (pattern.accept(src)) {
 				if (src.isFile()) {
 					pushFileEntry(src, root, entrys, verbos);
 				} else if (src.isDirectory()) {
