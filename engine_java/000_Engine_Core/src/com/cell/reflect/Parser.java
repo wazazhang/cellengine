@@ -113,6 +113,9 @@ public class Parser
 			@Override
 			public Object parseFrom(String str) 
 			{
+				if (str.equals("1"))
+					return true;				
+				
 				return new Boolean(str);
 			}
 		});	
@@ -275,7 +278,18 @@ public class Parser
 		return obj.toString();
 	}
 	
-	public static <T> T castNumber(Object obj, Class<T> return_type)
+	public static <T> T cast(Object obj, Class<T> return_type)
+	{
+		T ret = castNumber(obj, return_type);
+		
+		if ( (ret == null) && (obj instanceof String) )
+			ret = stringToObject((String)obj, return_type);
+			
+		return ret;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static final <T> T castNumber(Object obj, Class<T> return_type)
 	{
 		// 基础类型
 		if (obj instanceof Number) {
