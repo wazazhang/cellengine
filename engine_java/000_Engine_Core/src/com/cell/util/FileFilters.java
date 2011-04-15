@@ -77,16 +77,26 @@ public class FileFilters
 	
 	public static void main(String args[])
 	{
-		FileFilters ff = new FileFilters("-project_cn.g2d.save$/;+.list$;+gfx.\\w+.properties$");
+		FileFilters ff = new FileFilters(
+				"-project_tw.g2d.save$/;" +
+				"-.svn$/;" +
+				"+.list$;" +
+				"+.properties$");
 		
-		validate(new File("E:\\Work\\edit\\resource"));
+		validate(ff, new File("E:\\Work\\edit\\resource"));
 	}
 	
-	private static void validate(File file) {
-		if (file.isDirectory()) {
-			
+	private static void validate(FileFilters ff, File file) {
+		if (ff.accept(file)) {
+			if (file.isDirectory()) {
+				for (File sub : file.listFiles()) {
+					validate(ff, sub);
+				}
+			} else {
+				System.out.println("check : " + file);
+			}
 		} else {
-			
+//			System.out.println("ignore : " + file);
 		}
 	}
 }
