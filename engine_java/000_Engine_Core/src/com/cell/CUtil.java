@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -63,7 +64,6 @@ public class CUtil extends CObject
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static<T> byte[] serializeObject(T src)
 	{
 		if (src != null)
@@ -2582,6 +2582,37 @@ public class CUtil extends CObject
 		ret[1] = Vaule;
 		return ret;
 	}	
+	
+//	--------------------------------------------------------------------------------------------------------------------------	
+	
+	public static <T> Map<T, Integer> count(Collection<T> keys)
+	{
+		Map<T, Integer> ret = null; 
+
+		if ( (keys != null) && !keys.isEmpty() )
+		{
+			for ( T key : keys )
+			{
+				if (key != null)
+				{
+					if (ret == null)
+						ret = new HashMap<T, Integer>();
+
+					Integer val = ret.get(key);
+
+					if (val == null)
+						val = 1;
+					else
+						val++;
+					
+					ret.put(key, val);
+				}
+			}
+		}
+
+		return ret;
+	}
+	
 
 //	--------------------------------------------------------------------------------------------------------------------------
 //	Random
