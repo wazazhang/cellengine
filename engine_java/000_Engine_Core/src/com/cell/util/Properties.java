@@ -9,9 +9,11 @@ public class Properties extends Property<String>
 {
 	public Properties(){}
 	public Properties(InputStream is){
-		load(is);
+		super.load(is);
 	}
-	
+	public Properties(java.util.Properties cfg){
+		super.fromJavaProperties(cfg);
+	}
 	public Properties(MarkedHashtable map){
 		super(map);
 	}

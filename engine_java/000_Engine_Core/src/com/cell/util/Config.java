@@ -36,6 +36,19 @@ public abstract class Config
 	{
 		return load(config, config.getClass(), is, true);
 	}
+
+	/**
+	 * 将 Config 中的所有静态字段全部初始化
+	 * @param config_class
+	 * @param file
+	 * @return 返回静态变量的 名字：值　对应关系
+	 */
+	public static Map<Field, Object> load(Config config, java.util.Properties cfg)
+	{
+		return load(config, config.getClass(), new Properties(cfg), true);
+	}
+	
+//	-----------------------------------------------------------------------------------------------------------
 	
 	/**
 	 * 将 Config 中的所有静态字段全部初始化
@@ -56,8 +69,21 @@ public abstract class Config
 	 */
 	public static Map<Field, Object> load(Class<? extends Config> config_class, InputStream is)
 	{
-		return load(config_class, is, true);
+		return load(null, config_class, is, true);
 	}
+
+	/**
+	 * 将 Config 中的所有静态字段全部初始化
+	 * @param config_class
+	 * @param file
+	 * @return 返回静态变量的 名字：值　对应关系
+	 */
+	public static Map<Field, Object> load(Class<? extends Config> config_class, java.util.Properties cfg)
+	{
+		return load(null, config_class, new Properties(cfg), true);
+	}
+	
+//	-----------------------------------------------------------------------------------------------------------
 	
 	/**
 	 * 将 Config 中的所有静态字段全部初始化
@@ -68,7 +94,7 @@ public abstract class Config
 	 */
 	public static Map<Field, Object> load(Class<? extends Config> config_class, String file, boolean verbos)
 	{
-		return load((Config)null, config_class, file, verbos);
+		return load(null, config_class, file, verbos);
 	}
 	
 	/**
@@ -82,6 +108,21 @@ public abstract class Config
 	{
 		return load((Config)null, config_class, is, verbos);
 	}
+	
+
+	/**
+	 * 将 Config 中的所有静态字段全部初始化
+	 * @param config_class
+	 * @param file
+	 * @param verbos 打印详细信息
+	 * @return 返回静态变量的 名字：值　对应关系
+	 */
+	public static Map<Field, Object> load(Class<? extends Config> config_class, java.util.Properties cfg, boolean verbos)
+	{
+		return load((Config)null, config_class, new Properties(cfg), verbos);
+	}
+	
+//	-----------------------------------------------------------------------------------------------------------
 	
 	/**
 	 * 将 Config 中的所有静态字段全部初始化
@@ -104,6 +145,20 @@ public abstract class Config
 	 */
 	protected static Map<Field, Object> load(Config instance, Class<? extends Config> config_class, InputStream is, boolean verbos)
 	{
+		Properties cfg = new Properties();
+		cfg.load(is);
+		return load(instance, config_class, cfg, verbos);
+	}
+	
+	/**
+	 * 将 Config 中的所有静态字段全部初始化
+	 * @param config_class
+	 * @param is
+	 * @param verbos 打印详细信息
+	 * @return 返回静态变量的 名字：值　对应关系
+	 */
+	protected static Map<Field, Object> load(Config instance, Class<? extends Config> config_class, Properties cfg, boolean verbos)
+	{
 		HashMap<Field, Object> map = new HashMap<Field, Object>();
 		
 		StringBuilder sb = new StringBuilder();
@@ -119,10 +174,7 @@ public abstract class Config
 		
 		
 		try
-		{
-			Properties cfg = new Properties();
-			cfg.load(is);
-			
+		{			
 			Field[] fields = config_class.getFields();
 			
 			for (Field field : fields)
@@ -193,6 +245,7 @@ public abstract class Config
 		System.out.println("load config completed !");
 		return map;
 	}
+	
 //	----------------------------------------------------------------------------------------------------------------
 	static private void toCommetLine(StringBuilder sb, String s, int size) {
 		sb.append("###");
