@@ -106,9 +106,9 @@ public class Util
 	public static String getHeapString(long free, long total, long max) 
 	{
 		long used = total - free;
-		return CUtil.getBytesSizeString(used) + " / " +
-			CUtil.getBytesSizeString(total) + " / " + 
-			CUtil.getBytesSizeString(max);
+		return "[" + CUtil.getBytesSizeString(used) + "|"
+				+ CUtil.getBytesSizeString(total) + "|"
+				+ CUtil.getBytesSizeString(max) + "]";
 	}
 	
 }
