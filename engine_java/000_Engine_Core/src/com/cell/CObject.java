@@ -34,7 +34,7 @@ import com.cell.io.IODispatcher;
  * @version 1.0
  */
 public class CObject {
-	static class NullStorage implements IStorage {
+	static public class NullStorage implements IStorage {
 
 		public NullStorage() {}
 
@@ -154,7 +154,7 @@ public class CObject {
 		}
 	}
 
-	static class NullAppBridge implements IAppBridge
+	static public class NullAppBridge implements IAppBridge
 	{
 		final Hashtable<String, String> Propertys = new Hashtable<String, String>();
 		final ClassLoader m_ClassLoader;

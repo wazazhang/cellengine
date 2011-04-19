@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import com.cell.CObject;
 import com.cell.IAppBridge;
+import com.cell.IStorage;
 import com.cell.gfx.IGfxBridge;
 import com.cell.gfx.IImage;
 import com.cell.io.DefaultIODispatcher;
@@ -33,6 +34,11 @@ public class CAppBridge implements IAppBridge, IGfxBridge
 	public static void init()
 	{
 		CObject.initSystem(new CStorage("_default"), new CAppBridge());
+	}
+	
+	public static void initNullStorage()
+	{
+		CObject.initSystem(new CObject.NullStorage(), new CAppBridge());
 	}
 	
 	private Hashtable<String, String>	Propertys = new Hashtable<String, String>();
