@@ -59,8 +59,10 @@ public class UnitBattleTeam extends AbstractAbility
 		}
 		public SpawnTypes(AbilitiesVector vector) {
 			super(TeamNode.class);
-			for (AbstractAbility a : vector.getAbilities()) {
-				this.addAbility(a);
+			if (vector != null) {
+				for (AbstractAbility a : vector.getAbilities()) {
+					this.addAbility(a);
+				}
 			}
 		}
 		public String toString() {

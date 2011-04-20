@@ -73,8 +73,10 @@ public class RegionSpawnNPC extends AbstractAbility
 		}
 		public SpawnTypes(AbilitiesVector vector) {
 			super(NPCSpawn.class);
-			for (AbstractAbility a : vector.getAbilities()) {
-				this.addAbility(a);
+			if (vector != null) {
+				for (AbstractAbility a : vector.getAbilities()) {
+					this.addAbility(a);
+				}
 			}
 		}
 		public String toString() {
