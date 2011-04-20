@@ -1060,14 +1060,22 @@ public class CSprite extends CUnit implements Serializable
 	public CCD getFrameBounds(int anim, int frame, CCD out_bounds)
 	{
 		CCD bounds = out_bounds;
-		int frameid = FrameAnimate[anim][frame];
-		int count = animates.getComboFrameCount(frameid);
-		for (int i=0; i<count; i++) {
-			bounds.X1 = (short)Math.min(bounds.X1, animates.getFrameX(frameid, i));
-			bounds.Y1 = (short)Math.min(bounds.Y1, animates.getFrameY(frameid, i));
-			bounds.X2 = (short)Math.max(bounds.X2, animates.getFrameX(frameid, i)+animates.getFrameW(frameid, i)-1);
-			bounds.Y2 = (short)Math.max(bounds.Y2, animates.getFrameY(frameid, i)+animates.getFrameH(frameid, i)-1);
+		
+		if (anim < FrameAnimate.length)
+		{
+			if (frame < FrameAnimate[anim].length)
+			{
+				int frameid = FrameAnimate[anim][frame];
+				int count = animates.getComboFrameCount(frameid);
+				for (int i=0; i<count; i++) {
+					bounds.X1 = (short)Math.min(bounds.X1, animates.getFrameX(frameid, i));
+					bounds.Y1 = (short)Math.min(bounds.Y1, animates.getFrameY(frameid, i));
+					bounds.X2 = (short)Math.max(bounds.X2, animates.getFrameX(frameid, i)+animates.getFrameW(frameid, i)-1);
+					bounds.Y2 = (short)Math.max(bounds.Y2, animates.getFrameY(frameid, i)+animates.getFrameH(frameid, i)-1);
+				}
+			}
 		}
+		
 		return bounds;
 	}
 	

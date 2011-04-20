@@ -104,7 +104,7 @@ public class CUtil extends CObject
 	@SuppressWarnings("unchecked")
 	public static<T> T deserializeObject(byte[] src)
 	{
-		if (src != null)
+		if ( (src != null) && (src.length > 0) )
 		{	
 			ByteArrayInputStream bais = new ByteArrayInputStream(src);
 			ObjectInputStream ois = null;
