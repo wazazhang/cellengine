@@ -243,7 +243,7 @@ public class ScenePoint extends com.g2d.game.rpg.Unit implements SceneUnitTag<Po
 				if (!next_nodes.isEmpty()) {
 					synchronized(next_nodes) {
 						g.pushComposite();
-						g.popComposite();
+						g.pushStroke();
 						setAlpha(g, talpha);
 						g.setStroke(new BasicStroke(2));
 						int[] tx3 = new int[]{-4,-20,-20};
@@ -259,8 +259,10 @@ public class ScenePoint extends com.g2d.game.rpg.Unit implements SceneUnitTag<Po
 							g.rotate(-angle);
 							g.translate(-nx, -ny);
 						}
-						g.setStroke(popObject(Stroke.class));
-						g.setAlpha(popObject(Float.class));
+//						g.setStroke(popObject(Stroke.class));
+//						g.setAlpha(popObject(Float.class));
+						g.popStroke();
+						g.popComposite();
 					}
 				}
 				g.fill(local_bounds);
