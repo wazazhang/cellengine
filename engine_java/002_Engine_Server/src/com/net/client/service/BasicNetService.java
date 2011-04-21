@@ -75,7 +75,8 @@ public abstract class BasicNetService
 		this.thread_pool		= thread_pool;
 	}
 
-	final protected ServerSessionListener getSessionListener() {
+	final protected ServerSessionListener getSessionListener() 
+	{
 		return session_listener;
 	}
 
@@ -99,7 +100,8 @@ public abstract class BasicNetService
 	 * 直接发送，不监听回馈 
 	 * @param msg
 	 */
-	public void send(MessageHeader msg) {
+	public void send(MessageHeader msg) 
+	{
 		getSession().send(msg);
 	}
 
@@ -165,7 +167,8 @@ public abstract class BasicNetService
      * @param message
      * @param listeners
      */
-    final public AtomicReference<MessageHeader> sendRequest(MessageHeader message, WaitingListener<?,?> ... listeners) {
+    final public AtomicReference<MessageHeader> sendRequest(MessageHeader message, WaitingListener<?,?> ... listeners) 
+    {
     	return sendRequest(message, 0, listeners);
 	}
     
@@ -173,7 +176,8 @@ public abstract class BasicNetService
      * 强制移除所有等待中的请求
      * @param type
      */
-	final public void clearRequests() {
+	final public void clearRequests() 
+	{
 		synchronized (WaitingListeners) {
 			for (Integer pnum : new ArrayList<Integer>(WaitingListeners.keySet())) {
 				WaitingListeners.remove(pnum);
@@ -185,7 +189,8 @@ public abstract class BasicNetService
 	 * 得到网络交互延迟时间
 	 * @return
 	 */
-	final public int getPing() {
+	final public int getPing() 
+	{
 		return request_response_ping.get();
 	}
 	
@@ -202,7 +207,8 @@ public abstract class BasicNetService
 	AtomicReference<ScheduledFuture<?>> schedule_clean_task				= new AtomicReference<ScheduledFuture<?>>();
 	AtomicReference<ScheduledFuture<?>> schedule_clean_task_fix_rate	= new AtomicReference<ScheduledFuture<?>>();
 	
-	final public ScheduledFuture<?> scheduleCleanTask(ThreadPool tp, long time_ms) {
+	final public ScheduledFuture<?> scheduleCleanTask(ThreadPool tp, long time_ms) 
+	{
 		synchronized (schedule_clean_task) {
 			ScheduledFuture<?> old = schedule_clean_task.get();
 			if (old != null) {
@@ -218,7 +224,8 @@ public abstract class BasicNetService
 		}
 	}
 	
-	final public ScheduledFuture<?> scheduleCleanTaskFixRate(ThreadPool tp, int period_ms) {
+	final public ScheduledFuture<?> scheduleCleanTaskFixRate(ThreadPool tp, int period_ms) 
+	{
 		synchronized (schedule_clean_task_fix_rate) {
 			ScheduledFuture<?> old = schedule_clean_task_fix_rate.get();
 			if (old != null) {
@@ -242,7 +249,8 @@ public abstract class BasicNetService
 	 * @param message_type
 	 * @param listener
 	 */
-	final public void registNotifyListener(Class<? extends MessageHeader> message_type, NotifyListener<?> listener) {
+	final public void registNotifyListener(Class<? extends MessageHeader> message_type, NotifyListener<?> listener) 
+	{
 		synchronized (notifies_lock) {
 			HashSet<NotifyListener<?>> notifys = notifies_map.get(message_type);
 			if (notifys == null) {
@@ -274,7 +282,8 @@ public abstract class BasicNetService
 	 * @param message_type
 	 * @param listener
 	 */
-	final public void unregistNotifyListener(Class<? extends MessageHeader> message_type, NotifyListener<?> listener) {
+	final public void unregistNotifyListener(Class<? extends MessageHeader> message_type, NotifyListener<?> listener) 
+	{
 		synchronized (notifies_lock){
 			HashSet<NotifyListener<?>> notifys = notifies_map.get(message_type);
 			if (notifys != null) {
@@ -351,9 +360,46 @@ public abstract class BasicNetService
 		}
     }
     
+    public void clearUnhandledNotify(Class<?> notify_type)
+    {
+		try 
+		{
+			if (!UnhandledMessages.isEmpty()) 
+			{
+				ArrayList<Protocol> removed = null;
+				
+				for (Entry<Protocol, MessageHeader> unotify : UnhandledMessages.entrySet()) 
+				{
+					Protocol protocol = unotify.getKey();
+					MessageHeader msg = unotify.getValue();
+					
+					if (notify_type.isInstance(msg)) 
+					{
+						if (removed == null)
+							removed = new ArrayList<Protocol>(UnhandledMessages.size());
+						removed.add(protocol);
+					}
+				}
+				if (removed != null) 
+				{
+					for (Protocol unotify : removed) 
+					{
+						UnhandledMessages.remove(unotify);
+						log.info("clear a unhandled notify : " + unotify);
+					}
+				}
+			}
+		} 
+		catch (Exception err) 
+		{
+			log.error(err.getMessage(), err);
+		}
+    }
+    
 //    -------------------------------------------------------------------------------------------------------------------
     
-	final private void processReceiveSessionMessage(ServerSession session, Protocol protocol, MessageHeader message) {
+	final private void processReceiveSessionMessage(ServerSession session, Protocol protocol, MessageHeader message) 
+	{
 		try {
 			onReceivedMessage(session, message);
 		} catch (Exception err) {
@@ -368,7 +414,8 @@ public abstract class BasicNetService
 		}
 	}
 	
-	final private void processReceiveChannelMessage(ServerSession session, Protocol protocol, MessageHeader message) {
+	final private void processReceiveChannelMessage(ServerSession session, Protocol protocol, MessageHeader message) 
+	{
 		try {
 			onReceivedMessage(session, message);
 		} catch (Exception err) {
@@ -438,12 +485,14 @@ public abstract class BasicNetService
 
 	private class SimpleClientListenerImpl implements ServerSessionListener
 	{
-		public void connected(ServerSession session) {
+		public void connected(ServerSession session) 
+		{
 			log.info("reconnected : " + session);
 			onConnected(session);
 		}
 		
-	    public void disconnected(ServerSession session, boolean graceful, String reason) {
+	    public void disconnected(ServerSession session, boolean graceful, String reason) 
+	    {
 	    	log.info("disconnected : " + (graceful? "graceful" : "not graceful") + " : " + reason);
 			onDisconnected(session, graceful, reason);
 			ScheduledFuture<?> old_1 = schedule_clean_task_fix_rate.getAndSet(null);
@@ -459,12 +508,14 @@ public abstract class BasicNetService
 			}
 	    }
 	    
-	    public void joinedChannel(ClientChannel channel) {
+	    public void joinedChannel(ClientChannel channel) 
+	    {
 	    	log.info("joined channel : \"" + channel.getID() + "\"");
 			onJoinedChannel(channel);
 	    }
 
-	    public void leftChannel(ClientChannel channel) {
+	    public void leftChannel(ClientChannel channel) 
+	    {
 	    	log.info("left channel : \""  + channel.getID() + "\"");
 	        onLeftChannel(channel);	
 	    }
@@ -496,7 +547,8 @@ public abstract class BasicNetService
 		}
 	    
 	    @Override
-	    public void sentMessage(ServerSession session, Protocol protocol, MessageHeader message) {
+	    public void sentMessage(ServerSession session, Protocol protocol, MessageHeader message) 
+	    {
 	    	onSentMessage(session, message);
 	    }
 	    
@@ -506,14 +558,16 @@ public abstract class BasicNetService
 			final ServerSession session;
 			final Protocol protocol;
 			
-			public ReceiveTask(ServerSession session, Protocol protocol, MessageHeader message) {
+			public ReceiveTask(ServerSession session, Protocol protocol, MessageHeader message)
+			{
 				this.message = message;
 				this.session = session;
 				this.protocol = protocol;
 			}
 			
 			@Override
-			public void run() {
+			public void run() 
+			{
 				try {
 					processReceiveSessionMessage(session, protocol, message);
 				} catch (Throwable err) {
@@ -528,14 +582,16 @@ public abstract class BasicNetService
 			final ServerSession session;
 			final Protocol 		protocol;
 			
-			public ReceiveChannelTask(ServerSession session, Protocol protocol, MessageHeader message) {
+			public ReceiveChannelTask(ServerSession session, Protocol protocol, MessageHeader message) 
+			{
 				this.message = message;
 				this.session = session;
 				this.protocol = protocol;
 			}
 			
 			@Override
-			public void run() {
+			public void run() 
+			{
 				try {
 					processReceiveChannelMessage(session, protocol, message);
 				} catch (Throwable err) {
@@ -576,7 +632,8 @@ public abstract class BasicNetService
 			this.Listeners 		= listeners;
 		}
 		
-		public int getPacketNumber() {
+		public int getPacketNumber() 
+		{
 			return PacketNumber;
 		}
 		
@@ -614,7 +671,8 @@ public abstract class BasicNetService
 			}
 		}
 		
-		private void timeout() {
+		private void timeout() 
+		{
 			for (WaitingListener wait : Listeners) {
 				if (wait != null) {
 					wait.timeout(BasicNetService.this, Message, SendTime);
@@ -622,11 +680,13 @@ public abstract class BasicNetService
 			}
 		}
 				
-		protected boolean isDroped() {
+		protected boolean isDroped() 
+		{
 			return SendTime + SendTimeOut + DropRequestTimeOut < System.currentTimeMillis();
 		}
 		
-		public String toString() {
+		public String toString() 
+		{
 			return "Request [" + getPacketNumber() + "] " + Message;
 		}
 		
