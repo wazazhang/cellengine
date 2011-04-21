@@ -26,16 +26,15 @@ import com.g2d.editor.property.ObjectPropertyRowPanel;
 import com.g2d.editor.property.ObjectPropertyRowPanel.ColumnFiller;
 import com.g2d.studio.Studio;
 import com.g2d.studio.gameedit.template.XLSSkill;
-import com.g2d.studio.item.ItemPropertiesAdapter;
+import com.g2d.studio.item.ItemPropertiesEditor;
 import com.g2d.studio.item.property.ItemPropertyNode;
 import com.g2d.studio.item.property.ItemPropertySelectDialog;
-import com.g2d.studio.rpg.AbilityAdapter;
-import com.g2d.studio.rpg.ItemCountCollectionEdit;
-import com.g2d.studio.rpg.ItemFormulaEdit;
-import com.g2d.studio.rpg.ItemRateCollectionEdit;
-import com.g2d.studio.rpg.PropertyAdapters;
 import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DListItem;
+
+
+
+
 
 @SuppressWarnings("serial")
 public class SkillPropertiesEditor extends JPanel implements ActionListener
@@ -188,7 +187,8 @@ public class SkillPropertiesEditor extends JPanel implements ActionListener
 									column_type;
 		final private FieldTable 	levels;
 		
-		public ColumnItem(int column) {
+		public ColumnItem(int column) 
+		{
 			this.column 		= column;
 			this.column_type	= skill.getData().getColumnType(column);
 			this.levels 		= new FieldTable();
@@ -223,13 +223,8 @@ public class SkillPropertiesEditor extends JPanel implements ActionListener
 				super(column_type, 
 						skill.getData().getColumnProperties(column), 
 						COLUMN_LEVEL,
-						new AbilityAdapter(),
-						new AbilityAdapter.ObjectAdapter(),
-						new ItemPropertiesAdapter.ValueRangeAdapter(),
-						new PropertyAdapters.UnitTypeAdapter(),
-						new ItemFormulaEdit.ItemFormulaAdapter(),
-						new ItemRateCollectionEdit.ItemRateCollectionAdapter(),
-						new ItemCountCollectionEdit.ItemCountCollectionAdapter());
+						ItemPropertiesEditor.getAdapters()
+				);
 				super.addColumnFiller(new FillerRangeValue());
 			}
 		}
@@ -247,25 +242,23 @@ public class SkillPropertiesEditor extends JPanel implements ActionListener
 		@Override
 		public String getCommand(Object row_data, Field columnField) 
 		{
-			if (ArgTemplate.class.isAssignableFrom(columnField.getType())) {
+			if (ArgTemplate.class.isAssignableFrom(columnField.getType())) 
+			{
 				return "填充" + ArgTemplate.class.getSimpleName();
 			}
+
 			return null;
 		}
 
 		@Override
-		public Component startFill(ObjectPropertyRowPanel<?> panel,
-				Field columnType, ArrayList<?> rowDatas) 
+		public Component startFill(ObjectPropertyRowPanel<?> panel, Field columnType, ArrayList<?> rowDatas) 
 		{
-
 			return this;
 		}
 
 		@Override
-		public ArrayList<Object> getValues(ObjectPropertyRowPanel<?> panel,
-				Field columnType, ArrayList<?> rowDatas) 
+		public ArrayList<Object> getValues(ObjectPropertyRowPanel<?> panel, Field columnType, ArrayList<?> rowDatas) 
 		{
-
 			return null;
 		}
 		

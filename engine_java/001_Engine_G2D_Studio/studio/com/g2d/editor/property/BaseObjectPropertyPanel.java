@@ -15,8 +15,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 
 import com.cell.reflect.Parser;
-import com.g2d.display.ui.layout.UILayout;
 import com.g2d.editor.Util;
+
+
+
 
 @SuppressWarnings("serial")
 public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPropertyEdit
@@ -27,17 +29,20 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 
 	public BaseObjectPropertyPanel(CellEditAdapter<?> ... adapters)
 	{
-		for (CellEditAdapter<?> ad : adapters) {
+		for (CellEditAdapter<?> ad : adapters) 
+		{
 			edit_adapters.put(ad.getClass(), ad);
 		}
 	}
 	
-	final public Collection<CellEditAdapter<?>> getAdapters() {
+	final public Collection<CellEditAdapter<?>> getAdapters() 
+	{
 		return edit_adapters.values();
 	}
 	
 	@Override
-	final public Component getComponent() {
+	final public Component getComponent() 
+	{
 		return this;
 	}
 	
@@ -48,7 +53,8 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 	 * @param field_value	被编辑的对象类的字段当前值
 	 * @return
 	 */
-	final protected Component getPropertyCellRender(DefaultTableCellRenderer src, Object object, Field field, Object field_value) {
+	final protected Component getPropertyCellRender(DefaultTableCellRenderer src, Object object, Field field, Object field_value) 
+	{
 		try {
 			for (CellEditAdapter<?> ad : edit_adapters.values()) {
 				if (ad.getType().isInstance(object)) {
@@ -71,7 +77,8 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 	 * @param field_value	被编辑的对象类的字段当前值
 	 * @return
 	 */
-	final protected String getPropertyCellText(Object object, Field field, Object field_value) {
+	final protected String getPropertyCellText(Object object, Field field, Object field_value) 
+	{
 		try {
 			for (CellEditAdapter<?> ad : edit_adapters.values()) {
 				if (ad.getType().isInstance(object)) {
@@ -187,7 +194,8 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 	 * @param object 当前被改变的对象
 	 * @param field 该对象在其所有者中的字段
 	 */
-	final protected void onFieldChanged(Object object, Field field){
+	final protected void onFieldChanged(Object object, Field field)
+	{
 		try{
 			for (CellEditAdapter<?> ad : edit_adapters.values()) {
 				if (ad.getType().isInstance(object)) {
