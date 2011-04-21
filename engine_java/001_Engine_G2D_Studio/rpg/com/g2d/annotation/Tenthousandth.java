@@ -10,15 +10,15 @@ import java.lang.annotation.Target;
 
 
 /**
- * @since 2009-04-09
- * @author WAZA <br>
+ * @since 2011-04-21
+ * @author Tilergames <br>
  * <font color="#ff0000"> show field in ObjectPropertyPanel </font> <br>
  * can edit field
  */
 @Documented
 @Target({TYPE, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Property
+public @interface Tenthousandth
 {
-	String[] value();
+	boolean value();
 }
