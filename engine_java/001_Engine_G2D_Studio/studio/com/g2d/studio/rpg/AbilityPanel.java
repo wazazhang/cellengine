@@ -19,7 +19,6 @@ import java.util.Vector;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -37,7 +36,6 @@ import com.cell.rpg.ability.AbstractAbility;
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.editor.property.CellEditAdapter;
 import com.g2d.editor.property.ObjectPropertyEdit;
-import com.g2d.editor.property.ObjectPropertyForm;
 import com.g2d.editor.property.ObjectPropertyPanel;
 import com.g2d.editor.property.PropertyCellEdit;
 import com.g2d.studio.res.Res;
@@ -62,10 +60,12 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 						adapters = new ArrayList<CellEditAdapter<?>>();
 	
 	// ui
-	JList 				list_cur_ability 	= new JList();
+	G2DList 			list_cur_ability 	= new G2DList();
 	JButton 			btn_add_ability 	= new JButton("添加能力");
 	JButton 			btn_del_ability 	= new JButton("删除能力");
 	JButton 			btn_self		 	= new JButton("自有属性");
+	JButton				tool_set_up			= new JButton("↑");
+	JButton				tool_set_down		= new JButton("↓");	
 	
 	JSplitPane 			split 				= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	JPanel 				left 				= new JPanel(new BorderLayout());
@@ -100,10 +100,14 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 				this.btn_add_ability.addActionListener(this);
 				this.btn_del_ability.addActionListener(this);
 				this.btn_self.addActionListener(this);
+				this.tool_set_up.addActionListener(this);
+				this.tool_set_down.addActionListener(this);				
 				bpan.add(btn_add_ability);
 				bpan.add(btn_del_ability);
 				bpan.addSeparator();
 				bpan.add(btn_self);
+				bpan.add(tool_set_up);
+				bpan.add(tool_set_down);
 				left.add(bpan, BorderLayout.NORTH);
 			}
 			left.setMinimumSize(new Dimension(250,200));
@@ -122,16 +126,23 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 //	-----------------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btn_del_ability) {
+	public void actionPerformed(ActionEvent e) 
+	{
+		Object source = e.getSource();
+		
+		if (source == btn_del_ability) 
+		{
 			deleteSeletedAbility();
 		}
-		else if (e.getSource() == btn_add_ability) {
-			if (abilities.getSubAbilityTypes()!=null && abilities.getSubAbilityTypes().length>0){
+		else if (source == btn_add_ability) 
+		{
+			if (abilities.getSubAbilityTypes()!=null && abilities.getSubAbilityTypes().length>0)
+			{
 				new AddAbilityForm(this).setVisible(true);
 			}
 		}
-		else if (e.getSource() == btn_self) {
+		else if (source == btn_self)
+		{
 			AbstractDialog ad = new AbstractDialog(this);
 			ad.add(new ObjectPropertyPanel(
 					abilities, 
@@ -140,11 +151,41 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 			ad.setCenter();
 			ad.setVisible(true);
 		}
+		else if (tool_set_up == source) 
+		{
+			int index = list_cur_ability.getSelectedIndex();
+			if (index > 0) 
+			{
+				int new_index = index - 1;
+				if (abilities.moveAbility(index, -1) > 0) 
+				{
+					AbstractAbility[] ability_datas = abilities.getAbilities();
+					this.list_cur_ability.setListData((ability_datas==null)? new AbstractAbility[0] : ability_datas);
+					list_cur_ability.setSelectedIndex(new_index);
+				}
+			}			
+		}
+		else if (tool_set_down == source) 
+		{
+			int index = list_cur_ability.getSelectedIndex();
+			if ( (index >= 0) && (index < (list_cur_ability.getModel().getSize()-1 )) ) 
+			{
+				int new_index = index + 1;
+				if (abilities.moveAbility(index, 1) > 0)
+				{
+					AbstractAbility[] ability_datas = abilities.getAbilities();
+					this.list_cur_ability.setListData((ability_datas==null)? new AbstractAbility[0] : ability_datas);
+					list_cur_ability.setSelectedIndex(new_index);
+				}
+			}			
+		}		
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == list_cur_ability) {
+	public void mouseClicked(MouseEvent e)
+	{
+		if (e.getSource() == list_cur_ability) 
+		{
 			Object selected = list_cur_ability.getSelectedValue();
 			if (selected instanceof AbstractAbility) {
 				resetAbility();
@@ -155,7 +196,9 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 				split.setRightComponent(panel);
 				list_cur_ability.setSelectedValue(selected, false);
 			}
-		} else {
+		} 
+		else 
+		{
 			split.setRightComponent(right);
 		}
 	}
@@ -184,27 +227,32 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 	 * 得到正在编辑的Abilities
 	 * @return
 	 */
-	public Abilities getAbilities() {
+	public Abilities getAbilities() 
+	{
 		return abilities;
 	}
 	
-	public void resetAbility() {
+	public void resetAbility() 
+	{
 		this.list_cur_ability.setListData(abilities.getAbilities());
 	}
 	
-	public void addAbility(AbstractAbility ability) {
+	public void addAbility(AbstractAbility ability) 
+	{
 		this.abilities.addAbility(ability);
 		this.list_cur_ability.setListData(abilities.getAbilities());
 	}
 	
 	@Override
-	public String toString(){
+	public String toString()
+	{
 		return "Ability";
 	}
 
 //	-----------------------------------------------------------------------------------------------------------------------------
 
-	protected String getListAbilityText(AbstractAbility ability) {
+	protected String getListAbilityText(AbstractAbility ability) 
+	{
 		return AbstractAbility.getEditName(ability.getClass());
 	}
 	
@@ -212,13 +260,15 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 	{
 		private static final long serialVersionUID = 1L;
 
-		public ListRender() {
+		public ListRender() 
+		{
 			setOpaque(true);
 		}
 
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+				int index, boolean isSelected, boolean cellHasFocus) 
+		{
 			Component ret = super.getListCellRendererComponent(list, value,
 					index, isSelected, cellHasFocus);
 			if (value instanceof AbstractAbility) {
@@ -312,7 +362,8 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 		}
 		
 		@Override
-		public void valueChanged(ListSelectionEvent e) {
+		public void valueChanged(ListSelectionEvent e) 
+		{
 			AddAbilityItem selected = list_abilities.getSelectedItem();
 			if (selected != null) {
 				setAbilityClass(selected.data);
@@ -320,13 +371,15 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 			}
 		}
 		
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) 
+		{
 //			if (e.getSource() == combo_abilities) {
 //				Class<? extends AbstractAbility> ability_cls = 
 //					(Class<? extends AbstractAbility>)combo_abilities.getSelectedItem();
 //				setAbilityClass(ability_cls);
 //			} 
-			if (e.getSource() == btn_add) {
+			if (e.getSource() == btn_add) 
+			{
 				try{
 					AbilityPanel.this.addAbility(current_ability);
 					AddAbilityForm.this.setVisible(false);
@@ -335,7 +388,8 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 					err.printStackTrace();
 				}
 			}
-			else if (e.getSource() == btn_cancel) {
+			else if (e.getSource() == btn_cancel) 
+			{
 				try{
 					AddAbilityForm.this.setVisible(false);
 					AddAbilityForm.this.dispose();
@@ -349,13 +403,15 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 		@SuppressWarnings("unchecked")
 		public Component getListCellRendererComponent(JList list,
 				Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
+				boolean cellHasFocus) 
+		{
 			Class<? extends AbstractAbility> ability_cls = (Class<? extends AbstractAbility>)value;
 			return new JLabel(AbstractAbility.getEditName(ability_cls));
 		}
 
 		@Override
-		public int compare(Class<?> o1, Class<?> o2) {
+		public int compare(Class<?> o1, Class<?> o2) 
+		{
 			return CUtil.getStringCompare().compare(AbstractAbility.getEditName(o2), AbstractAbility.getEditName(o1));
 		}
 		
@@ -386,22 +442,26 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 			Class<? extends AbstractAbility> data;
 			
 			@SuppressWarnings("unchecked")
-			public AddAbilityItem(Class<?> data) {
+			public AddAbilityItem(Class<?> data) 
+			{
 				this.data = (Class<? extends AbstractAbility>) data;
 			}
 			
 			@Override
-			public Component getListComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) 
+			{
 				return null;
 			}
 			
 			@Override
-			public ImageIcon getListIcon(boolean update) {
+			public ImageIcon getListIcon(boolean update) 
+			{
 				return null;
 			}
 			
 			@Override
-			public String getListName() {
+			public String getListName() 
+			{
 				return AbstractAbility.getEditName(data);
 			}
 		}
@@ -414,12 +474,14 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 	class AbilitiesCellEditAdapter implements CellEditAdapter<Object>
 	{
 		@Override
-		public Class<Object> getType() {
+		public Class<Object> getType() 
+		{
 			return Object.class;
 		}
 		
 		@Override
-		public PropertyCellEdit<?> getCellEdit(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field) {
+		public PropertyCellEdit<?> getCellEdit(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field) 
+		{
 			// 测试是否是集合
 			try {
 				field.getType().asSubclass(Abilities.class);
@@ -436,22 +498,26 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 		}
 		
 		@Override
-		public Component getCellRender(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field, DefaultTableCellRenderer src) {
+		public Component getCellRender(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field, DefaultTableCellRenderer src) 
+		{
 			return null;
 		}
 		
 		@Override
-		public boolean fieldChanged(Object editObject, Object fieldValue, Field field) {
+		public boolean fieldChanged(Object editObject, Object fieldValue, Field field) 
+		{
 			return false;
 		}
 	
 		@Override
 		public Object getCellValue(Object editObject,
-			PropertyCellEdit<?> fieldEdit, Field field, Object fieldSrcValue) {
+			PropertyCellEdit<?> fieldEdit, Field field, Object fieldSrcValue)
+		{
 			return null;
 		}
 		@Override
-		public String getCellText(Object editObject, Field field, Object fieldSrcValue) {
+		public String getCellText(Object editObject, Field field, Object fieldSrcValue)
+		{
 			return null;
 		}
 	}
@@ -462,30 +528,34 @@ public class AbilityPanel extends JPanel implements MouseListener, ActionListene
 	public static abstract class AbilityCellEditAdapter<T extends AbstractAbility> implements CellEditAdapter<T>
 	{
 		@Override
-		public boolean fieldChanged(Object editObject, Object fieldValue,
-				Field field) {
+		public boolean fieldChanged(Object editObject, Object fieldValue, Field field) 
+		{
 			return false;
 		}
 
 		@Override
-		public PropertyCellEdit<?> getCellEdit(ObjectPropertyEdit owner,
-				Object editObject, Object fieldValue, Field field) {
+		public PropertyCellEdit<?> getCellEdit(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field) 
+		{
 			return null;
 		}
 
 		@Override
 		public Component getCellRender(ObjectPropertyEdit owner, Object editObject,
-				Object fieldValue, Field field, DefaultTableCellRenderer src) {
+				Object fieldValue, Field field, DefaultTableCellRenderer src)
+		{
 			return null;
 		}
 		
 		@Override
 		public Object getCellValue(Object editObject,
-			PropertyCellEdit<?> fieldEdit, Field field, Object fieldSrcValue) {
+			PropertyCellEdit<?> fieldEdit, Field field, Object fieldSrcValue) 
+		{
 			return null;
 		}
+
 		@Override
-		public String getCellText(Object editObject, Field field, Object fieldSrcValue) {
+		public String getCellText(Object editObject, Field field, Object fieldSrcValue) 
+		{
 			return null;
 		}
 	}

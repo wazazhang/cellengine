@@ -2,6 +2,7 @@ package com.cell.rpg.struct;
 
 import java.util.ArrayList;
 
+import com.cell.exception.NotImplementedException;
 import com.cell.rpg.ability.Abilities;
 import com.cell.rpg.ability.AbstractAbility;
 import com.cell.rpg.anno.PropertyAdapter;
@@ -27,24 +28,29 @@ public class QuestStateDisplayOR extends ArrayList<QuestStateDisplayOR.State> im
 //	--------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void addAbility(AbstractAbility element) {
-		if (element instanceof State) {
+	public void addAbility(AbstractAbility element) 
+	{
+		if (element instanceof State) 
+		{
 			super.add((State)element);
 		}
 	}
 	
 	@Override
-	public void clearAbilities() {
+	public void clearAbilities() 
+	{
 		super.clear();
 	}
 
 	@Override
-	public AbstractAbility[] getAbilities() {
+	public AbstractAbility[] getAbilities() 
+	{
 		return super.toArray(new State[super.size()]);
 	}
 
 	@Override
-	public <T> ArrayList<T> getAbilities(Class<T> type) {
+	public <T> ArrayList<T> getAbilities(Class<T> type) 
+	{
 		ArrayList<T> ret = new ArrayList<T>();
 		if (State.class.isAssignableFrom(type)) {
 			for (State st : this) {
@@ -55,12 +61,14 @@ public class QuestStateDisplayOR extends ArrayList<QuestStateDisplayOR.State> im
 	}
 
 	@Override
-	public int getAbilitiesCount() {
+	public int getAbilitiesCount() 
+	{
 		return size();
 	}
 
 	@Override
-	public <T> T getAbility(Class<T> type) {
+	public <T> T getAbility(Class<T> type) 
+	{
 		if (State.class.isAssignableFrom(type) && super.isEmpty()) {
 			return type.cast(super.get(0));
 		}
@@ -68,17 +76,61 @@ public class QuestStateDisplayOR extends ArrayList<QuestStateDisplayOR.State> im
 	}
 
 	@Override
-	public void removeAbility(AbstractAbility element) {
+	public void removeAbility(AbstractAbility element) 
+	{
 		super.remove(element);
 	}
 	
 	@Override
-	public Class<?>[] getSubAbilityTypes() {
+	public int moveAbility(int index, int offset) throws NotImplementedException 
+	{
+		int total = super.size();
+		
+		if ( (0<=index) && (index<total) ) 
+		{
+			if (offset == 0)
+				return 0;
+			
+			if (offset > 0) // 向前
+			{
+				int new_index = index + offset + 1;
+				
+				if (new_index > total)
+					return -2;
+				
+				AbstractAbility ability = (AbstractAbility)super.get(index);
+				super.add(new_index, (State) ability);
+				super.remove(index);
+				
+				return 1;				
+			}
+			else // 向后
+			{
+				int new_index = index + offset;
+				
+				if (new_index < 0)
+					return -2;
+				
+				AbstractAbility ability = (AbstractAbility)super.get(index);
+				super.add(new_index, (State) ability);
+				super.remove(index+1);
+
+				return 1;
+			}
+		}
+		
+		return -1;
+	}	
+	
+	@Override
+	public Class<?>[] getSubAbilityTypes() 
+	{
 		return new Class[] { State.class };
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuffer sb = new StringBuffer();
 		if (all_not)
 			sb.append("[all_not] ");
@@ -107,8 +159,11 @@ public class QuestStateDisplayOR extends ArrayList<QuestStateDisplayOR.State> im
 		public int 			show_in_quest_id		= -1;
 		
 		@Override
-		public boolean isMultiField() {
+		public boolean isMultiField() 
+		{
 			return true;
 		}
 	}
 }
+
+

@@ -4,16 +4,16 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import com.cell.CUtil;
+import com.cell.exception.NotImplementedException;
 import com.cell.rpg.ability.Abilities;
 import com.cell.rpg.ability.AbstractAbility;
-import com.cell.rpg.scene.script.trigger.Event;
 import com.g2d.annotation.Property;
+
+
+
 
 public class TriggerGenerator implements Serializable, Comparator<String>, Abilities
 {
@@ -21,7 +21,8 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 	
 	private TreeMap<String, TriggerInstance> binded_triggers = new TreeMap<String, TriggerInstance>();
 	
-	final protected Object writeReplace() throws ObjectStreamException {
+	final protected Object writeReplace() throws ObjectStreamException 
+	{
 		if (binded_triggers != null) {
 			TreeMap<String, TriggerInstance> new_list = new TreeMap<String, TriggerInstance>();
 			for (TriggerInstance e : binded_triggers.values()) {
@@ -31,7 +32,9 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 		}
 		return this;
 	}
-	final protected Object readResolve() throws ObjectStreamException {
+
+	final protected Object readResolve() throws ObjectStreamException 
+	{
 		if (binded_triggers == null) {
 			binded_triggers = new TreeMap<String, TriggerInstance>();
 		}
@@ -39,7 +42,8 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 	}
 
 
-	public boolean bindTrigger(SceneTrigger st){
+	public boolean bindTrigger(SceneTrigger st)
+	{
 		if (binded_triggers.containsKey(st.getName())) {
 			return false;
 		} else {
@@ -48,7 +52,8 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 		}
 	}
 
-	public boolean unbindTrigger(SceneTrigger st) {
+	public boolean unbindTrigger(SceneTrigger st) 
+	{
 		if (binded_triggers.containsKey(st.getName())) {
 			binded_triggers.remove(st.getName());
 			return true;
@@ -57,11 +62,13 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 		}
 	}
 
-	public TriggerInstance getTriggerInstance(String name) {
+	public TriggerInstance getTriggerInstance(String name) 
+	{
 		return binded_triggers.get(name);
 	}
 
-	public ArrayList<SceneTrigger> getTriggers(Triggers triggers) {
+	public ArrayList<SceneTrigger> getTriggers(Triggers triggers) 
+	{
 		ArrayList<SceneTrigger> ret = new ArrayList<SceneTrigger>(binded_triggers.size());
 		for (String name : new ArrayList<String>(binded_triggers.keySet())) {
 			SceneTrigger st = triggers.getTrigger(name);
@@ -74,25 +81,30 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 		return ret;
 	}
 
-	public ArrayList<TriggerInstance> getBindedTriggers() {
+	public ArrayList<TriggerInstance> getBindedTriggers() 
+	{
 		return new ArrayList<TriggerInstance>(binded_triggers.values());
 	}
 	
-	public ArrayList<String> getTriggerNames() {
+	public ArrayList<String> getTriggerNames() 
+	{
 		return new ArrayList<String>(binded_triggers.keySet());
 	}
 
-	public int getTriggerCount() {
+	public int getTriggerCount() 
+	{
 		return binded_triggers.size();
 	}
 	
 	@Override
-	public int compare(String o1, String o2) {
+	public int compare(String o1, String o2) 
+	{
 		return CUtil.getStringCompare().compare(o2, o1);
 	}
 
 	@Override
-	public void addAbility(AbstractAbility element) {
+	public void addAbility(AbstractAbility element) 
+	{
 		if (element instanceof TriggerInstance) {
 			TriggerInstance e = (TriggerInstance)element;
 			if (e.trigger_name!=null &&
@@ -103,7 +115,8 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 	}
 
 	@Override
-	public void removeAbility(AbstractAbility element) {
+	public void removeAbility(AbstractAbility element) 
+	{
 		if (element instanceof TriggerInstance) {
 			TriggerInstance e = (TriggerInstance)element;
 			if (binded_triggers.containsKey(e.trigger_name)) {
@@ -111,23 +124,34 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 			}
 		}
 	}
+	
 	@Override
-	public void clearAbilities() {
+	public int moveAbility(int index, int offset) throws NotImplementedException 
+	{
+		throw new NotImplementedException();
+	}	
+
+	@Override
+	public void clearAbilities() 
+	{
 		binded_triggers.clear();
 	}
 	
 	@Override
-	public AbstractAbility[] getAbilities() {
+	public AbstractAbility[] getAbilities() 
+	{
 		return binded_triggers.values().toArray(new AbstractAbility[binded_triggers.size()]);
 	}
 
 	@Override
-	public int getAbilitiesCount() {
+	public int getAbilitiesCount() 
+	{
 		return binded_triggers.size();
 	}
 
 	@Override
-	public <T> ArrayList<T> getAbilities(Class<T> type) {
+	public <T> ArrayList<T> getAbilities(Class<T> type) 
+	{
 		if (TriggerInstance.class.isAssignableFrom(type)) {
 			ArrayList<T> ret = new ArrayList<T>(binded_triggers.size());
 			for (TriggerInstance e : binded_triggers.values()) {
@@ -139,7 +163,8 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 	}
 	
 	@Override
-	public <T> T getAbility(Class<T> type) {
+	public <T> T getAbility(Class<T> type) 
+	{
 		if (TriggerInstance.class.isAssignableFrom(type)) {
 			for (TriggerInstance e : binded_triggers.values()) {
 				return type.cast(e);
@@ -149,7 +174,8 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 	}
 	
 	@Override
-	public Class<?>[] getSubAbilityTypes() {
+	public Class<?>[] getSubAbilityTypes() 
+	{
 		return new Class[]{
 				TriggerInstance.class,
 		};
@@ -168,17 +194,20 @@ public class TriggerGenerator implements Serializable, Comparator<String>, Abili
 		
 		public TriggerInstance() {}
 		
-		public TriggerInstance(String trigger_name) {
+		public TriggerInstance(String trigger_name) 
+		{
 			this.trigger_name = trigger_name;
 		}
 		
 		@Override
-		public boolean isMultiField() {
+		public boolean isMultiField() 
+		{
 			return true;
 		}
 		
 		@Override
-		public String toString() {
+		public String toString() 
+		{
 			return super.toString() + " - " + trigger_name;
 		}
 	}
