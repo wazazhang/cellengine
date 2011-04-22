@@ -121,27 +121,50 @@ public class TextBoxBlock extends UIComponent
 		return texts.get(index).getKey();
 	}
 
+	public Pair<MultiTextLayout, Rectangle> getLineInfo(int index) {
+		return texts.get(index);
+	}
+
+	public MultiTextLayout getLine(int x, int y)
+	{
+		Pair<MultiTextLayout, Rectangle> pair = getLineInfo(x, y) ;
+		if (pair != null) {
+			return pair.getKey();
+		}
+		return null;
+	}
 	
-	
+	public Pair<MultiTextLayout, Rectangle> getLineInfo(int x, int y) 
+	{
+		if (local_bounds.contains(x, y)) {
+			int scroll_v = (int) v_scrollbar.getValue();
+			y = y - view_port_rect.y + scroll_v;
+			x = x - view_port_rect.x;
+			for (Pair<MultiTextLayout, Rectangle> pair : texts)
+			{
+				Rectangle text_rect = pair.getValue();
+				if (text_rect != null) 
+				{
+					if (text_rect.contains(x, y)) 
+					{
+						return pair;
+					}
+				}
+				
+			}
+		}
+		return null;
+	}
 //	-------------------------------------------------------------------------------------------------------------
 	
-	
-	protected void onMouseDown(MouseEvent event) {
-//		System.out.println("TextBox onMouseDown");
-//		text.setCaret(getMouseX()-text_draw_x, getMouseY()-text_draw_y);
-////		text.getSelectedSegment(AttributedCharacterIterator.Attribute.INPUT_METHOD_SEGMENT);
-//		if (click_segment_listeners != null) {
-//			int position = text.pointToPosition(getMouseX() - text_draw_x, getMouseY() - text_draw_y);
-//			for (Attribute attribute : click_segment_listeners.keySet()) {
-//				TextClickSegmentListener listener = click_segment_listeners.get(attribute);
-//				if (listener != null) {
-//					AttributedSegment segment = text.getSegment(position, attribute);
-//					if (segment != null) {
-//						listener.segmentClicked(event, this, segment);
-//					}
-//				}
-//			}
-//		}
+	private int getTextPosition(MultiTextLayout text, Rectangle rect, int x, int y) 
+	{
+		int scroll_v = (int) v_scrollbar.getValue();
+		y = y - view_port_rect.y + scroll_v;
+		x = x - view_port_rect.x;
+		x -= rect.x;
+		y -= rect.y;
+		return text.pointToPosition(x, y);
 	}
 	
 	/**
@@ -152,10 +175,18 @@ public class TextBoxBlock extends UIComponent
 	 * @param y
 	 * @return
 	 */
-	public AttributedSegment getSegment(Attribute attribute, Object value, int x, int y) {
-//		int position = text.pointToPosition(x - text_draw_x, y - text_draw_y);
-//		AttributedSegment segment = text.getSegment(position, attribute, value);
-//		return segment;
+	public AttributedSegment getSegment(Attribute attribute, Object value, int x, int y) 
+	{
+		Pair<MultiTextLayout, Rectangle> pair = getLineInfo(x, y);
+		if (pair != null) {
+			MultiTextLayout text = pair.getKey();
+			int position = getTextPosition(text, pair.getValue(), x, y);
+			AttributedSegment segment = text.getSegment(position, attribute, value);
+			if (segment != null) {
+				System.out.println(segment);
+			}
+			return segment;
+		}
 		return null;
 	}
 	
@@ -167,10 +198,31 @@ public class TextBoxBlock extends UIComponent
 	 * @return
 	 */
 	public AttributedSegment getSegment(Attribute attribute, int x, int y) {
-//		int position = text.pointToPosition(x - text_draw_x, y - text_draw_y);
-//		AttributedSegment segment = text.getSegment(position, attribute);
-//		return segment;
+		Pair<MultiTextLayout, Rectangle> pair = getLineInfo(x, y);
+		if (pair != null) {
+			MultiTextLayout text = pair.getKey();
+			int position = getTextPosition(text, pair.getValue(), x, y);
+			AttributedSegment segment = text.getSegment(position, attribute);
+			if (segment != null) {
+				System.out.println(segment);
+			}
+			return segment;
+		}
 		return null;
+	}
+
+	protected void onMouseDown(MouseEvent event) {
+		if (click_segment_listeners != null) {
+			for (Attribute attribute : click_segment_listeners.keySet()) {
+				AttributedSegment segment = getSegment(attribute, getMouseX(), getMouseY());
+				if (segment != null) {
+					TextClickSegmentListener listener = click_segment_listeners.get(attribute);
+					if (listener != null) {
+						listener.segmentClicked(event, this, segment);
+					}
+				}
+			}
+		}
 	}
 	
 	protected void onMouseDraged(MouseMoveEvent event) {
@@ -182,6 +234,13 @@ public class TextBoxBlock extends UIComponent
 		//System.out.println(" mouseWheelMoved");
 		v_scrollbar.moveInterval(event.scrollDirection);
 	}
+
+	protected void onKeyTyped(KeyEvent event) {
+//		if (!is_readonly || event.keyChar == MultiTextLayout.CHAR_COPY) {
+//			text.insertChar(event.keyChar);
+//		}
+	}
+		
 
 	public void addClickSegmentListener(Attribute attribute, TextClickSegmentListener listener)
 	{
@@ -197,13 +256,6 @@ public class TextBoxBlock extends UIComponent
 	{
 		this.click_segment_listeners.clear();
 	}
-	
-	protected void onKeyTyped(KeyEvent event) {
-//		if (!is_readonly || event.keyChar == MultiTextLayout.CHAR_COPY) {
-//			text.insertChar(event.keyChar);
-//		}
-	}
-		
 	
 	@Override
 	public AnimateCursor getCursor() {
