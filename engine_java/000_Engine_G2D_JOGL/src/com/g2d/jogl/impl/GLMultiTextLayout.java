@@ -1147,18 +1147,14 @@ class GLMultiTextLayout extends MultiTextLayout
 	 * @param sh 绘制文本的范围，是该Layout的内部坐标
 	 * @return
 	 */
-	synchronized public Dimension getDrawTextDimension(
-			Graphics2D g, 
-//			int max_line,
-			int x, int y, 
-			int sx, int sy, int sw, int sh) 
+	synchronized public Dimension getDrawTextDimension(Graphics2D g) 
 	{
-		x += 1;
-		y += 1;
-		sx -= 1;
-		sy -= 1;
-		sw += 2;
-		sh += 2;
+//		x += 1;
+//		y += 1;
+//		sx -= 1;
+//		sy -= 1;
+//		sw += 2;
+//		sh += 2;
 		
 		tryChangeTextAndCaret(g);
 		
