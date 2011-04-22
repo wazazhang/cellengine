@@ -182,9 +182,9 @@ public class TextBoxBlock extends UIComponent
 			MultiTextLayout text = pair.getKey();
 			int position = getTextPosition(text, pair.getValue(), x, y);
 			AttributedSegment segment = text.getSegment(position, attribute, value);
-			if (segment != null) {
-				System.out.println(segment);
-			}
+//			if (segment != null) {
+//				System.out.println(segment);
+//			}
 			return segment;
 		}
 		return null;
@@ -203,9 +203,9 @@ public class TextBoxBlock extends UIComponent
 			MultiTextLayout text = pair.getKey();
 			int position = getTextPosition(text, pair.getValue(), x, y);
 			AttributedSegment segment = text.getSegment(position, attribute);
-			if (segment != null) {
-				System.out.println(segment);
-			}
+//			if (segment != null) {
+//				System.out.println(segment);
+//			}
 			return segment;
 		}
 		return null;
