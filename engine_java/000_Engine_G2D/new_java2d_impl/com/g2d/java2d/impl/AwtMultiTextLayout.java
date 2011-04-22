@@ -934,6 +934,60 @@ class AwtMultiTextLayout extends MultiTextLayout
 		this.insertText(start, end, new AttributedString(text));
 	}
 
+	@Override
+	synchronized public void removeText(int start, int end)
+	{
+		if (start == end) {
+			return;
+		}
+		int min = Math.min(start, end);
+		int max = Math.max(start, end);
+
+		String 				get_text	= getText();
+		AttributedString	get_atext	= getAttributeText();
+		
+		if (get_atext != null)
+		{
+			if (textChange == null) {
+				textChange = new TextChanges();
+			}
+			
+			// 全部被删除
+			if (min <= 0 && max >= get_text.length()) 
+			{
+				textChange.set("");
+			}
+			// 前面一半被删除
+			else if (min <= 0)
+			{
+				String 				text_right	= get_text.substring(max, get_text.length());
+				AttributedString	atext_right	= TextBuilder.subString(get_atext, max, get_text.length());
+				textChange.set(text_right, atext_right);
+			}
+			// 后面一半被删除
+			else if (max >= get_text.length()) 
+			{
+				String 				text_left	= get_text.substring(0, min);
+				AttributedString	atext_left	= TextBuilder.subString(get_atext, 0, min);
+
+				textChange.set(text_left, atext_left);
+			}
+			// 中间一段被删除
+			else
+			{
+				String 				text_left	= get_text.substring(0, min);
+				String 				text_right	= get_text.substring(max, get_text.length());
+				AttributedString	atext_left	= TextBuilder.subString(get_atext, 0, min);
+				AttributedString	atext_right	= TextBuilder.subString(get_atext, max, get_text.length());
+			
+				textChange.set(
+						text_left.concat(text_right),
+						TextBuilder.concat(atext_left, atext_right));
+			}
+		}
+		
+	
+	}
 	
 	synchronized public void putAttribute(Attribute attribute, Object value, int start, int end) {
 		if (textChange == null) {

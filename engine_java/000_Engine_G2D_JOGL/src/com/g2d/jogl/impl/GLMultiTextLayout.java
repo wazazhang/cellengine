@@ -937,6 +937,12 @@ class GLMultiTextLayout extends MultiTextLayout
 	}
 
 	
+	@Override
+	public void removeText(int start, int end) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	synchronized public void putAttribute(Attribute attribute, Object value, int start, int end) {
 		if (textChange == null) {
 			textChange = new TextChanges();

@@ -172,9 +172,15 @@ public abstract class MultiTextLayout
 	 */
 	abstract public void insertText(int start, int end, String text) ;
 
+	/**
+	 * 删除文字
+	 * @param start
+	 * @param end
+	 */
+	abstract public void removeText(int start, int end) ;
+
 	
 	abstract public void putAttribute(Attribute attribute, Object value, int start, int end) ;
-	
 	
 	
 //	---------------------------------------------------------------------------------------------------------------
