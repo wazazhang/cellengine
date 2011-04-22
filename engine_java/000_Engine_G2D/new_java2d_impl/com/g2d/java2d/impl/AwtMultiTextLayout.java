@@ -1185,64 +1185,15 @@ class AwtMultiTextLayout extends MultiTextLayout
 	/**
 	 * @param g
 	 * @param max_line 最多显示几行
-	 * @param x 绘制到g的位置
-	 * @param y 绘制到g的位置
-	 * @param sx 绘制文本的范围，是该Layout的内部坐标
-	 * @param sy 绘制文本的范围，是该Layout的内部坐标
-	 * @param sw 绘制文本的范围，是该Layout的内部坐标
-	 * @param sh 绘制文本的范围，是该Layout的内部坐标
 	 * @return
 	 */
-	synchronized public Dimension getDrawTextDimension(
-			Graphics2D g, 
-//			int max_line,
-			int x, int y, 
-			int sx, int sy, int sw, int sh) 
+	synchronized public Dimension getDrawTextDimension(Graphics2D g) 
 	{
-		x += 1;
-		y += 1;
-		sx -= 1;
-		sy -= 1;
-		sw += 2;
-		sh += 2;
-		
 		tryChangeTextAndCaret(g);
-		
 		render_size.setSize(0, height);
-		{
-//			g.translate(x, y);
-//			Shape prew_shape = g.getClip();
-//			try {
-//				Rectangle rect = new Rectangle(sx, sy, sw, sh);
-//				g.clip(rect);
-//				int rended_line = 0;
-				for (TextLine line : textlines) {
-//					if (rended_line < max_line) {
-//						if (rect.intersects(line.x, line.y, line.width, line.height)) {
-//							line.render(g, shadow_x, shadow_y, shadow_alpha, shadow_color);
-//						}
-//					}
-					render_size.width = Math.max(line.width, render_size.width);
-//					rended_line++;
-				}
-//				if (!is_read_only && is_show_caret) {
-//					if (render_timer / 6 % 2 == 0 && caret_bounds != null) {
-//						g.setColor(Color.WHITE);
-//						if (text.length() > 0) {
-//							g.fillRect(caret_bounds.x, caret_bounds.y, 2, caret_bounds.height);
-//						} else {
-//							g.fillRect(0, 0, 2, g.getFont().getSize());
-//						}
-//					}
-//				}	
-//			} finally {
-//				g.setClip(prew_shape);
-//				g.translate(-x, -y);
-//			}
+		for (TextLine line : textlines) {
+			render_size.width = Math.max(line.width, render_size.width);
 		}
-//		render_timer++;
-//		render_shadow_alpha = shadow_alpha;
-//		render_shadow_color = shadow_color;
 		return render_size;
 	}	
 	

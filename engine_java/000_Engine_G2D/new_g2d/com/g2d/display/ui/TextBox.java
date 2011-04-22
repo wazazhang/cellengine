@@ -53,7 +53,7 @@ public class TextBox extends UIComponent
 	
 	protected MultiTextLayout			text				= Engine.getEngine().createMultiTextLayout();
 
-	transient Hashtable<Attribute, ClickSegmentListener> click_segment_listeners;
+	transient Hashtable<Attribute, TextClickSegmentListener> click_segment_listeners;
 	
 	
 //	-------------------------------------------------------------------------------------------------------------------
@@ -77,7 +77,8 @@ public class TextBox extends UIComponent
 		this.text.setText(text);
 		this.setSize(w, h);		
 		
-		this.addClickSegmentListener(TextAttribute.LINK, new TextBox.URLClickSegmentListener());
+		this.addClickSegmentListener(TextAttribute.LINK, 
+				new TextClickSegmentListener.URLClickSegmentListener());
 	}
 	
 	public MultiTextLayout getTextLayout() {
@@ -149,7 +150,7 @@ public class TextBox extends UIComponent
 		if (click_segment_listeners != null) {
 			int position = text.pointToPosition(getMouseX() - text_draw_x, getMouseY() - text_draw_y);
 			for (Attribute attribute : click_segment_listeners.keySet()) {
-				ClickSegmentListener listener = click_segment_listeners.get(attribute);
+				TextClickSegmentListener listener = click_segment_listeners.get(attribute);
 				if (listener != null) {
 					AttributedSegment segment = text.getSegment(position, attribute);
 					if (segment != null) {
@@ -320,11 +321,11 @@ public class TextBox extends UIComponent
 
 	
 	
-	public void addClickSegmentListener(Attribute attribute, ClickSegmentListener listener)
+	public void addClickSegmentListener(Attribute attribute, TextClickSegmentListener listener)
 	{
 		if (attribute != null) {
 			if (click_segment_listeners == null) {
-				click_segment_listeners = new Hashtable<Attribute, ClickSegmentListener>();
+				click_segment_listeners = new Hashtable<Attribute, TextClickSegmentListener>();
 			}
 			click_segment_listeners.put(attribute, listener);
 		}
@@ -341,25 +342,25 @@ public class TextBox extends UIComponent
 //		addClickSegmentListener(, listener);
 //	}
 	
-	/**
-	 * 用于监听特殊属性的字符段被点击的接口
-	 * @author WAZA
-	 */
-	public static interface ClickSegmentListener extends EventListener
-	{
-		public void segmentClicked(MouseEvent event, TextBox textbox, AttributedSegment segment);
-	}
-	
-	public static class URLClickSegmentListener implements ClickSegmentListener
-	{
-		@Override
-		public void segmentClicked(MouseEvent event, TextBox textbox, AttributedSegment segment) {
-			if (event.type == MouseEvent.EVENT_MOUSE_DOWN) {
-				String url = segment.attribute_value + "";
-				if (url.startsWith("http://")) {
-					CObject.getAppBridge().openBrowser(url);
-				}
-			}
-		}
-	}
+//	/**
+//	 * 用于监听特殊属性的字符段被点击的接口
+//	 * @author WAZA
+//	 */
+//	public static interface ClickSegmentListener extends EventListener
+//	{
+//		public void segmentClicked(MouseEvent event, TextBox textbox, AttributedSegment segment);
+//	}
+//	
+//	public static class URLClickSegmentListener implements ClickSegmentListener
+//	{
+//		@Override
+//		public void segmentClicked(MouseEvent event, TextBox textbox, AttributedSegment segment) {
+//			if (event.type == MouseEvent.EVENT_MOUSE_DOWN) {
+//				String url = segment.attribute_value + "";
+//				if (url.startsWith("http://")) {
+//					CObject.getAppBridge().openBrowser(url);
+//				}
+//			}
+//		}
+//	}
 }

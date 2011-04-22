@@ -7,6 +7,7 @@ import com.cell.math.Vector;
 import com.g2d.Canvas;
 import com.g2d.Color;
 import com.g2d.Composite;
+import com.g2d.Engine;
 import com.g2d.Graphics2D;
 import com.g2d.geom.AffineTransform;
 import com.g2d.geom.Dimension;
@@ -24,8 +25,11 @@ public abstract class DisplayObject implements Vector
 	
 //	public static int 		main_timer;
 
-	static Stack<Object>	display_stack = new Stack<Object>();
+	static Stack<Object> display_stack = new Stack<Object>();
 	
+	public static Engine getEngine() {
+		return Engine.getEngine();
+	}
 
 //	-------------------------------------------------------------
 //	 public

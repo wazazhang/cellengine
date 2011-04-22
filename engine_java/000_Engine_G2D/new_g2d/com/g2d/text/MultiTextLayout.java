@@ -282,10 +282,7 @@ public abstract class MultiTextLayout
 	 * @param sh 绘制文本的范围，是该Layout的内部坐标
 	 * @return
 	 */
-	abstract public Dimension getDrawTextDimension(
-			Graphics2D g, 
-			int x, int y, 
-			int sx, int sy, int sw, int sh) ;
+	abstract public Dimension getDrawTextDimension(Graphics2D g) ;
 	
 //	------------------------------------------------------------------------------------------------------------------------
 
