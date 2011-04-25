@@ -7,6 +7,7 @@ import java.util.Hashtable;
 
 import com.cell.CMath;
 import com.cell.CObject;
+import com.cell.math.TVector;
 import com.cell.util.Pair;
 import com.g2d.AnimateCursor;
 import com.g2d.Color;
@@ -21,6 +22,7 @@ import com.g2d.display.event.MouseMoveEvent;
 import com.g2d.display.event.MouseWheelEvent;
 import com.g2d.font.TextAttribute;
 import com.g2d.geom.Dimension;
+import com.g2d.geom.Point;
 import com.g2d.geom.Rectangle;
 import com.g2d.text.MultiTextLayout;
 import com.g2d.text.TextBuilder;
@@ -37,6 +39,7 @@ public class TextBoxBlock extends UIComponent
 	protected ScrollBar					v_scrollbar			= ScrollBar.createVScroll(SCROLL_BAR_SIZE);
 	protected boolean					v_scroll_left_dock	= false;
 	private boolean						enable_scrollbar	= true;
+	private boolean						enable_show_select	= true;
 	
 	private Rectangle 					view_port_rect		= new Rectangle();
 
@@ -53,6 +56,8 @@ public class TextBoxBlock extends UIComponent
 
 	private Hashtable<Attribute, TextClickSegmentListener> 
 										click_segment_listeners;
+	
+	private HitInfo						selected_text;
 	
 //	-------------------------------------------------------------------------------------------------------------------
 	
@@ -74,6 +79,9 @@ public class TextBoxBlock extends UIComponent
 		throw new IllegalStateException("can not remove a custom child component in " + getClass().getName() + " !");
 	}
 
+	
+//	-------------------------------------------------------------------------------------------------------------
+	
 	public void setEnableScrollBar(boolean vs) {
 		this.enable_scrollbar = vs;
 		if (!vs) {
@@ -87,6 +95,13 @@ public class TextBoxBlock extends UIComponent
 		}
 	}
 	
+	public void setShowSelect(boolean show) {
+		this.enable_show_select = show;
+		for (Pair<MultiTextLayout, Rectangle> pair : texts) {
+			pair.getKey().setShowSelect(show);
+		}
+	}
+	
 //	-------------------------------------------------------------------------------------------------------------
 	
 	public void clearText() {
@@ -96,7 +111,7 @@ public class TextBoxBlock extends UIComponent
 	public void appendLine(String text) {
 		MultiTextLayout mtext = getEngine().createMultiTextLayout();
 		mtext.setShowCaret(false);
-		mtext.setShowSelect(false);
+		mtext.setShowSelect(enable_show_select);
 		mtext.setText(text);
 		texts.add(new Pair<MultiTextLayout, Rectangle>(mtext, null));
 	}
@@ -104,7 +119,7 @@ public class TextBoxBlock extends UIComponent
 	public void appendLine(AttributedString atext) {
 		MultiTextLayout mtext = getEngine().createMultiTextLayout();
 		mtext.setShowCaret(false);
-		mtext.setShowSelect(false);
+		mtext.setShowSelect(enable_show_select);
 		mtext.setText(atext);
 		texts.add(new Pair<MultiTextLayout, Rectangle>(mtext, null));
 	}
@@ -121,20 +136,31 @@ public class TextBoxBlock extends UIComponent
 		return texts.get(index).getKey();
 	}
 
-	public Pair<MultiTextLayout, Rectangle> getLineInfo(int index) {
-		return texts.get(index);
-	}
+//	public Pair<MultiTextLayout, Rectangle> getLineInfo(int index) {
+//		return texts.get(index);
+//	}
 
 	public MultiTextLayout getLine(int x, int y)
 	{
-		Pair<MultiTextLayout, Rectangle> pair = getLineInfo(x, y) ;
-		if (pair != null) {
-			return pair.getKey();
+		HitInfo hit = getHitInfo(x, y);
+		if (hit != null) {
+			return hit.text;
 		}
 		return null;
 	}
 	
-	public Pair<MultiTextLayout, Rectangle> getLineInfo(int x, int y) 
+//	public Pair<MultiTextLayout, Rectangle> getLineInfo(int x, int y) 
+//	{
+//		if (local_bounds.contains(x, y)) {
+//			HitInfo hit = getHitInfo(x, y);
+//			if (hit != null) {
+//				return new Pair<MultiTextLayout, Rectangle>(hit.text, hit.text_rect);
+//			}
+//		}
+//		return null;
+//	}
+
+	public HitInfo getHitInfo(int x, int y) 
 	{
 		if (local_bounds.contains(x, y)) {
 			int scroll_v = (int) v_scrollbar.getValue();
@@ -147,25 +173,52 @@ public class TextBoxBlock extends UIComponent
 				{
 					if (text_rect.contains(x, y)) 
 					{
-						return pair;
+						x -= text_rect.x;
+						y -= text_rect.y;
+						return new HitInfo(pair.getKey(), text_rect, new Point(x, y));
 					}
 				}
-				
 			}
 		}
 		return null;
 	}
-//	-------------------------------------------------------------------------------------------------------------
 	
-	private int getTextPosition(MultiTextLayout text, Rectangle rect, int x, int y) 
+//	private int getTextPosition(MultiTextLayout text, Rectangle rect, int x, int y) 
+//	{
+//		int scroll_v = (int) v_scrollbar.getValue();
+//		y = y - view_port_rect.y + scroll_v;
+//		x = x - view_port_rect.x;
+//		x -= rect.x;
+//		y -= rect.y;
+//		return text.pointToPosition(x, y);
+//	}
+	
+	private Point getTextPoint(MultiTextLayout text, Rectangle rect, int x, int y) 
 	{
 		int scroll_v = (int) v_scrollbar.getValue();
 		y = y - view_port_rect.y + scroll_v;
 		x = x - view_port_rect.x;
 		x -= rect.x;
 		y -= rect.y;
-		return text.pointToPosition(x, y);
+		return new Point(x, y);
 	}
+
+	public class HitInfo 
+	{
+		MultiTextLayout text;
+		Rectangle text_rect;
+		Point point;
+		public HitInfo(MultiTextLayout text, Rectangle text_rect, Point point) {
+			this.text = text;
+			this.text_rect = text_rect;
+			this.point = point;
+		}
+	}
+
+//	-------------------------------------------------------------------------------------------------------------
+
+//	-------------------------------------------------------------------------------------------------------------
+	
 	
 	/**
 	 * @see MultiTextLayout
@@ -177,14 +230,11 @@ public class TextBoxBlock extends UIComponent
 	 */
 	public AttributedSegment getSegment(Attribute attribute, Object value, int x, int y) 
 	{
-		Pair<MultiTextLayout, Rectangle> pair = getLineInfo(x, y);
-		if (pair != null) {
-			MultiTextLayout text = pair.getKey();
-			int position = getTextPosition(text, pair.getValue(), x, y);
-			AttributedSegment segment = text.getSegment(position, attribute, value);
-//			if (segment != null) {
-//				System.out.println(segment);
-//			}
+		HitInfo hit = getHitInfo(x, y);
+		if (hit != null) {
+			AttributedSegment segment = hit.text.getSegment(
+					hit.text.pointToPosition(hit.point.x, hit.point.y), 
+					attribute, value);
 			return segment;
 		}
 		return null;
@@ -198,20 +248,28 @@ public class TextBoxBlock extends UIComponent
 	 * @return
 	 */
 	public AttributedSegment getSegment(Attribute attribute, int x, int y) {
-		Pair<MultiTextLayout, Rectangle> pair = getLineInfo(x, y);
-		if (pair != null) {
-			MultiTextLayout text = pair.getKey();
-			int position = getTextPosition(text, pair.getValue(), x, y);
-			AttributedSegment segment = text.getSegment(position, attribute);
-//			if (segment != null) {
-//				System.out.println(segment);
-//			}
+		HitInfo hit = getHitInfo(x, y);
+		if (hit != null) {
+			AttributedSegment segment = hit.text.getSegment(
+					hit.text.pointToPosition(hit.point.x, hit.point.y), 
+					attribute);
 			return segment;
 		}
 		return null;
 	}
 
-	protected void onMouseDown(MouseEvent event) {
+	protected void onMouseDown(MouseEvent event) 
+	{
+		selected_text = getHitInfo(getMouseX(), getMouseY());
+		if (selected_text != null) {
+			selected_text.text.setCaret(selected_text.point.x, selected_text.point.y);
+			for (Pair<MultiTextLayout, Rectangle> pair : texts) {
+				if (pair.getKey() != selected_text.text) {
+					pair.getKey().setCaret(0, 0);
+					pair.getKey().dragCaret(0, 0);
+				}
+			}
+		}
 		if (click_segment_listeners != null) {
 			for (Attribute attribute : click_segment_listeners.keySet()) {
 				AttributedSegment segment = getSegment(attribute, getMouseX(), getMouseY());
@@ -228,6 +286,13 @@ public class TextBoxBlock extends UIComponent
 	protected void onMouseDraged(MouseMoveEvent event) {
 		//System.out.println("TextBox onMouseDraged");
 //		text.dragCaret(getMouseX()-text_draw_x, getMouseY()-text_draw_y);
+		if (selected_text != null) {
+			Point dpoint = getTextPoint(
+					selected_text.text, 
+					selected_text.text_rect, 
+					getMouseX(), getMouseY());
+			selected_text.text.dragCaret(dpoint.x, dpoint.y);
+		}
 	}
 	
 	protected void onMouseWheelMoved(MouseWheelEvent event) {

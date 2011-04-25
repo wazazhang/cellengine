@@ -212,6 +212,12 @@ class AwtMultiTextLayout extends MultiTextLayout
 		}
 	}
 	
+	@Override
+	public void clearSelectText() {
+		setCaret(0, 0);
+		dragCaret(0, 0);
+	}
+	
 	/**
 	 * 点击
 	 * @param line

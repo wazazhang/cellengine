@@ -77,6 +77,8 @@ public abstract class MultiTextLayout
 	
 	abstract public int getCaretPosY() ;
 	
+	abstract public void clearSelectText();
+	
 	/**
 	 * 坐标位置转换到文字位置
 	 * @param x
