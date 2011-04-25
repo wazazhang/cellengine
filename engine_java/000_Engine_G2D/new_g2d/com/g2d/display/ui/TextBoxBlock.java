@@ -263,12 +263,13 @@ public class TextBoxBlock extends UIComponent
 		selected_text = getHitInfo(getMouseX(), getMouseY());
 		if (selected_text != null) {
 			selected_text.text.setCaret(selected_text.point.x, selected_text.point.y);
-			for (Pair<MultiTextLayout, Rectangle> pair : texts) {
-				if (pair.getKey() != selected_text.text) {
-					pair.getKey().clearSelectText();
-				}
+		}		
+		for (Pair<MultiTextLayout, Rectangle> pair : texts) {
+			if (selected_text == null || pair.getKey() != selected_text.text) {
+				pair.getKey().clearSelectText();
 			}
 		}
+
 		if (click_segment_listeners != null) {
 			for (Attribute attribute : click_segment_listeners.keySet()) {
 				AttributedSegment segment = getSegment(attribute, getMouseX(), getMouseY());
