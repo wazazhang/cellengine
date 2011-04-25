@@ -265,8 +265,7 @@ public class TextBoxBlock extends UIComponent
 			selected_text.text.setCaret(selected_text.point.x, selected_text.point.y);
 			for (Pair<MultiTextLayout, Rectangle> pair : texts) {
 				if (pair.getKey() != selected_text.text) {
-					pair.getKey().setCaret(0, 0);
-					pair.getKey().dragCaret(0, 0);
+					pair.getKey().clearSelectText();
 				}
 			}
 		}
