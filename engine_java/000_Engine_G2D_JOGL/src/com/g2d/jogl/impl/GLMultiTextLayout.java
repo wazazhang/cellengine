@@ -213,6 +213,12 @@ class GLMultiTextLayout extends MultiTextLayout
 			testCaretSelected();
 		}
 	}
+
+	@Override
+	public void clearSelectText() {
+		setCaret(0, 0);
+		dragCaret(0, 0);
+	}
 	
 	/**
 	 * 点击
