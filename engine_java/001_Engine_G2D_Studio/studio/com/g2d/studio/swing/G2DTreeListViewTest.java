@@ -20,10 +20,10 @@ public class G2DTreeListViewTest extends G2DTreeListView<com.g2d.studio.swing.G2
 {
 	public G2DTreeListViewTest() 
 	{
-		super(new NodeGroup<Item>("root"));
+		super(new Group("root"));
 		
-		NodeGroup<Item> g1 = new NodeGroup<Item>("g1");
-		NodeGroup<Item> g2 = new NodeGroup<Item>("g2");
+		NodeGroup<Item> g1 = new Group("g1");
+		NodeGroup<Item> g2 = new Group("g2");
 		
 		for (int i = 0; i < 10; i++) {
 			g1.addItem(new Item("g1_"+i));
@@ -34,6 +34,18 @@ public class G2DTreeListViewTest extends G2DTreeListView<com.g2d.studio.swing.G2
 		getRoot().add(g2);
 		
 		reload();
+	}
+	
+	static class Group extends NodeGroup<Item>
+	{
+		public Group(String name) {
+			super(name);
+		}
+		
+		@Override
+		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+			return new Group(name);
+		}
 	}
 	
 	static class Item implements G2DListItem

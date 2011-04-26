@@ -326,7 +326,7 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	
 //	-----------------------------------------------------------------------------------------------------------------------
 	
-	static public class NodeGroup<T extends G2DListItem> extends G2DTreeNodeGroup<G2DTreeNode<?>>
+	abstract static public class NodeGroup<T extends G2DListItem> extends G2DTreeNodeGroup<G2DTreeNode<?>>
 	{
 		protected LinkedHashMap<String, G2DListItem> items = new LinkedHashMap<String, G2DListItem>();
 		
@@ -357,7 +357,7 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		
 		@Override
 		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
-			return new NodeGroup<T>(name);
+			return null;
 		}
 		
 		@Override

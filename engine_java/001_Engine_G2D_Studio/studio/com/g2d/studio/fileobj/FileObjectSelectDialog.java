@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
 
 import com.cell.CUtil;
 import com.g2d.awt.util.AbstractDialog;
@@ -23,6 +25,7 @@ import com.g2d.studio.io.File;
 import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DListItem;
 import com.g2d.studio.swing.G2DTreeListView;
+import com.g2d.studio.swing.G2DTreeNodeGroup;
 import com.g2d.studio.swing.G2DTreeListView.NodeGroup;
 
 @SuppressWarnings("serial")
@@ -39,14 +42,14 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 	
 	T object;
 			
-	public FileObjectSelectDialog(Component owner, FileObjectView<T> list, T default_value)
+	public FileObjectSelectDialog(Component owner, FileObjectView<T> v, T default_value)
 	{
 		super(owner);
 		super.setLayout(new BorderLayout());
 		super.setSize(600, 400);
 		super.setCenter();
 		
-		this.list = new TreeListView(list);
+		this.list = new TreeListView(v);
 		this.add(list, BorderLayout.CENTER);
 		
 		this.object = default_value;
@@ -126,12 +129,27 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		public TreeListView(FileObjectView<T> other)
 		{
 			super(cloneRoot(other.getRoot()));
+			super.getTree().setDragEnabled(false);
+			super.getList().setDragEnabled(false);
 		}
 	}
 	
+	class StaticGroup extends NodeGroup<T>
+	{
+		public StaticGroup(String name) {
+			super(name);
+		}
+		@Override
+		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+			return new StaticGroup(name);
+		}
+		@Override
+		public void onClicked(JTree tree, MouseEvent e) {
+		}
+	}
 
-	public NodeGroup<T> cloneRoot(NodeGroup<T> src) {
-		NodeGroup<T> root = new NodeGroup<T>(src.getName());
+	private NodeGroup<T> cloneRoot(NodeGroup<T> src) {
+		NodeGroup<T> root = new StaticGroup(src.getName());
 		cloneChilds(root, src);
 		return root;
 	}
@@ -144,7 +162,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		Enumeration<?> childs = src.children();
 		while (childs.hasMoreElements()) {
 			NodeGroup<T> s = (NodeGroup<T>)childs.nextElement();
-			NodeGroup<T> d = new NodeGroup<T>(s.getName());
+			NodeGroup<T> d = new StaticGroup(s.getName());
 			dst.add(d); 
 			cloneChilds(s, d) ;
 		}
