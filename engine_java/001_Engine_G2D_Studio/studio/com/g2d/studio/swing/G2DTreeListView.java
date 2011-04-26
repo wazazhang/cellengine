@@ -75,8 +75,12 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		this.setLeftComponent(new JScrollPane(g2d_tree));
 		this.setRightComponent(new JScrollPane(g2d_list));
 		
+		this.getLeftComponent()	
+		.setMinimumSize(new Dimension(200, 200));
+		this.getRightComponent()	
+		.setMinimumSize(new Dimension(200, 200));
 	}
-
+	
 //	-----------------------------------------------------------------------------------------------------------------------
 	
 	protected TreeView createTree(NodeGroup<T> tree_root) {
