@@ -20,6 +20,7 @@ import javax.swing.JTree;
 import com.cell.CUtil;
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.fileobj.FileObject.WrapObject;
 import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
 import com.g2d.studio.swing.G2DList;
@@ -40,7 +41,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 	JButton ok 		= new JButton("确定");
 	JButton cancel 	= new JButton("取消");
 	
-	T object;
+	WrapObject object;
 			
 	public FileObjectSelectDialog(Component owner, FileObjectView<T> v, T default_value)
 	{
@@ -51,9 +52,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		
 		this.list = new TreeListView(v);
 		this.add(list, BorderLayout.CENTER);
-		
-		this.object = default_value;
-		
+		this.object = null;
 		{
 			JPanel south = new JPanel(new FlowLayout());
 			
@@ -68,6 +67,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		
 		if (default_value != null) {
 			list.setSelectedItem(default_value, true);
+			object = list.getSelectedItem();
 		} else {
 			try {
 				Object tobj = list.getItems().firstElement();
@@ -80,8 +80,12 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public T getSelectedObject() {
-		return object;
+		if (object != null) {
+			return (T) (object.src);
+		}
+		return null;
 	}
 
 	public TreeListView getList() {
@@ -116,7 +120,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 			}
 		}.start();
 		super.setVisible(true);
-		return object;
+		return getSelectedObject();
 	}
 	
 	protected boolean checkOK() {
@@ -124,17 +128,19 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 	}
 	
 	
-	class TreeListView extends G2DTreeListView<T>
+	class TreeListView extends G2DTreeListView<WrapObject>
 	{
 		public TreeListView(FileObjectView<T> other)
 		{
 			super(cloneRoot(other.getRoot()));
 			super.getTree().setDragEnabled(false);
 			super.getList().setDragEnabled(false);
+			super.getList().setVisibleRowCount(other.getList().getVisibleRowCount());
+			super.getList().setLayoutOrientation(other.getList().getLayoutOrientation());
 		}
 	}
 	
-	class StaticGroup extends NodeGroup<T>
+	class StaticGroup extends NodeGroup<WrapObject>
 	{
 		public StaticGroup(String name) {
 			super(name);
@@ -148,21 +154,21 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		}
 	}
 
-	private NodeGroup<T> cloneRoot(NodeGroup<T> src) {
-		NodeGroup<T> root = new StaticGroup(src.getName());
-		cloneChilds(root, src);
-		return root;
+	private NodeGroup<WrapObject> cloneRoot(NodeGroup<T> src) {
+		StaticGroup dst = new StaticGroup(src.getName());
+		cloneChilds(src, dst);
+		return dst;
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void cloneChilds(NodeGroup<T> src, NodeGroup<T> dst) {
+	private void cloneChilds(NodeGroup<T> src, StaticGroup dst) {
 		for (G2DListItem item : src.getItems()) {
 			dst.addItem(((FileObject)item).clone());
 		}
 		Enumeration<?> childs = src.children();
 		while (childs.hasMoreElements()) {
 			NodeGroup<T> s = (NodeGroup<T>)childs.nextElement();
-			NodeGroup<T> d = new StaticGroup(s.getName());
+			StaticGroup  d = new StaticGroup(s.getName());
 			dst.add(d); 
 			cloneChilds(s, d) ;
 		}

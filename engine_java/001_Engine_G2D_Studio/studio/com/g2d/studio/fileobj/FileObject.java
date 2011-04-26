@@ -88,7 +88,22 @@ abstract public class FileObject implements G2DListItem
 		public Component getListComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			return null;
 		}
-
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof WrapObject) {
+				return ((WrapObject) obj).src.equals(src);
+			}
+			if (obj instanceof FileObject) {
+				return obj.equals(src);
+			}
+			return false;
+		}
+		
+		@Override
+		public int hashCode() {
+			return src.hashCode();
+		}
 	}
 }
 
