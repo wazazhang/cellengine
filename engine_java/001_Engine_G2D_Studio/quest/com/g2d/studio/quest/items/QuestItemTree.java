@@ -13,9 +13,11 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 
+import com.cell.CUtil;
 import com.cell.rpg.quest.QuestCondition;
 import com.g2d.studio.quest.QuestNode;
 import com.g2d.studio.quest.QuestNode.QuestItemManager;
+import com.g2d.studio.scene.entity.SceneGroup;
 import com.g2d.studio.swing.G2DTree;
 import com.g2d.studio.swing.G2DTreeNodeGroup;
 import com.g2d.studio.swing.G2DTreeNodeGroup.GroupMenu;
@@ -122,8 +124,29 @@ public class QuestItemTree extends G2DTree
 		public ConditionGroup(String title) {
 			super(title);
 		}
-		
-		@Override
+
+		public void loadPath(String node_path) {
+			String[] id_name = CUtil.splitString(node_path, "?");
+			if (id_name.length > 1) {
+				node_path = id_name[0];
+			}
+			ConditionGroup group = this;
+			String[] path = fromPathString(node_path.trim(), "/");
+			for (int i=0; i<path.length; i++) {
+				String file_name = path[i].trim();
+				if (group.pathAddLeafNode(file_name, i, path.length)) {
+					return;
+				} else {
+					G2DTreeNodeGroup<?> g = group.findChild(file_name);
+					if (g == null) {
+						g = createGroupNode(file_name);
+						group.add(g);
+					}
+					group = (ConditionGroup)g;
+				}
+			}
+		}
+
 		protected boolean pathAddLeafNode(String name, int index, int length) {
 			QuestItemManager items = quest_node.getQuestItemManager();
 			try{
@@ -139,7 +162,7 @@ public class QuestItemTree extends G2DTree
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new ConditionGroup(name);
 		}
 		

@@ -42,7 +42,7 @@ public class ItemListTreeView extends ObjectTreeViewTemplateDynamic<DItemList, T
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new ItemListGroup(name);
 		}
 		

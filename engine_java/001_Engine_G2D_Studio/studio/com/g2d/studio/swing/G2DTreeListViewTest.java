@@ -43,7 +43,7 @@ public class G2DTreeListViewTest extends G2DTreeListView<com.g2d.studio.swing.G2
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new Group(name);
 		}
 	}

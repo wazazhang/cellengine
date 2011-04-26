@@ -16,7 +16,6 @@ abstract public class FileObject implements G2DListItem
 	final private String 		name;
 
 	final private File			file;
-	String[]					path = new String[]{};
 	
 	public FileObject(String name, File file) {
 		this.name = name;
@@ -41,7 +40,7 @@ abstract public class FileObject implements G2DListItem
 		return null;
 	}
 	
-	abstract public String getSaveListName();
+	abstract public String getSaveListArgs();
 
 	public FileObject clone() {
 		return new WrapObject(this);
@@ -67,8 +66,8 @@ abstract public class FileObject implements G2DListItem
 		}
 		
 		@Override
-		public String getSaveListName() {
-			return src.getSaveListName();
+		public String getSaveListArgs() {
+			return src.getSaveListArgs();
 		}
 		
 		public File getFile() {

@@ -45,7 +45,7 @@ public class IconFile extends FileObject
 	}
 	
 	@Override
-	public String getSaveListName() {
-		return getName()+","+getImage().getWidth()+","+getImage().getHeight();
+	public String getSaveListArgs() {
+		return getImage().getWidth()+","+getImage().getHeight();
 	}
 }

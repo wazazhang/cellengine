@@ -39,6 +39,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import com.cell.rpg.RPGObject;
 import com.cell.util.IDFactoryInteger;
+import com.cell.util.Pair;
 import com.g2d.awt.util.DragAndDrop;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.gameedit.entity.IProgress;
@@ -122,6 +123,22 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		return ret;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Vector<Pair<NodeGroup<T>, T>> getItemsPath()
+	{
+		Vector<Pair<NodeGroup<T>, T>> ret = new Vector<Pair<NodeGroup<T>, T>>();
+		for (TreeNode n : G2DTree.getAllNodes(tree_root)) {
+			if (n instanceof NodeGroup<?>) {
+				NodeGroup<T> g = (NodeGroup<T>)n;
+				for (G2DListItem t : g.items.values()) {
+					ret.add(new Pair<NodeGroup<T>, T>(g, (T)t));
+				}
+			}
+		}
+		return ret;
+	}
+
+
 	public boolean addItem(NodeGroup<T> root, T item) {
 		return root.addItem(item);
 	}
@@ -349,14 +366,9 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		public Vector<G2DListItem> getItems() {
 			return new Vector<G2DListItem>(items.values());
 		}
-		
+
 		@Override
-		protected boolean pathAddLeafNode(String name, int index, int length) {
-			return false;
-		}
-		
-		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return null;
 		}
 		

@@ -27,7 +27,7 @@ public class ItemPropertiesGroup extends ObjectGroup<ItemPropertiesNode, ItemPro
 	}
 	
 	@Override
-	protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+	protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 		return new ItemPropertiesGroup(name, view);
 	}
 	

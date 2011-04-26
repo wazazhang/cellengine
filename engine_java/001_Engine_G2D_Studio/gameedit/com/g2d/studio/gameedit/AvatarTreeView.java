@@ -51,7 +51,7 @@ public class AvatarTreeView extends ObjectTreeViewTemplateDynamic<DAvatar, TAvat
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 //			System.out.println("create avatar group node : " + name);
 			return new AvatarGroup(name);
 		}

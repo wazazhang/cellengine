@@ -23,7 +23,7 @@ public class InstanceZoneGroup extends ObjectGroup<InstanceZoneNode, InstanceZon
 	}
 	
 	@Override
-	protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+	protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 		return new InstanceZoneGroup(name, view);
 	}
 	

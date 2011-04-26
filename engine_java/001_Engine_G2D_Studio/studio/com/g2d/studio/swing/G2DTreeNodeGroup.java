@@ -106,46 +106,12 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 //	-------------------------------------------------------------------------------------------------------
 //
 
-	public void loadPath(String node_path)
-	{
-		String[] id_name = CUtil.splitString(node_path, "?");
-		if (id_name.length > 1) {
-			node_path = id_name[0];
-		}
-		
-		G2DTreeNodeGroup<?> group = this;
-		String[] path = fromPathString(node_path.trim(), "/");
-		for (int i=0; i<path.length; i++) {
-			String file_name = path[i].trim();
-			if (group.pathAddLeafNode(file_name, i, path.length)) {
-				return;
-			} else {
-				G2DTreeNodeGroup<?> g = group.findChild(file_name);
-				if (g == null) {
-					g = pathCreateGroupNode(file_name);
-					group.add(g);
-				}
-				group = g;
-			}
-		}
-	}
-	
-	
-	/**
-	 * 有子叶子节点加入的时候
-	 * @param name
-	 * @param index TODO
-	 * @param length TODO
-	 * @return
-	 */
-	abstract protected boolean pathAddLeafNode(String name, int index, int length);
-	
 	/**
 	 * 有子节点加入的时候
 	 * @param name
 	 * @return
 	 */
-	abstract protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name);
+	abstract protected G2DTreeNodeGroup<?> createGroupNode(String name);
 	
 //	-------------------------------------------------------------------------------------------------------
 	
@@ -154,6 +120,12 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 	
 //	-------------------------------------------------------------------------------------------------------
 	
+	/**
+	 * 忽略根节点,子节点必须是叶子。
+	 * @param node
+	 * @param split
+	 * @return
+	 */
 	public static String toPathString(G2DTreeNode<?> node, String split)
 	{
 		String path = "";
@@ -162,6 +134,23 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 			if (p.getParent()!=null) {
 				path = p.toString() + split + path;
 			}
+			p = p.getParent();
+		}
+		return path;
+	}
+	
+	/**
+	 * 忽略根节点
+	 * @param node
+	 * @param split
+	 * @return
+	 */
+	public static String toPathString(TreeNode node, String split)
+	{
+		String path = "";
+		TreeNode p = node;
+		while (p != null && p.getParent() != null) {
+			path = p.toString() + split + path;
 			p = p.getParent();
 		}
 		return path;
@@ -216,7 +205,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 				String group_name = JOptionPane.showInputDialog(window, " 输入过滤器名字！", "未命名过滤器");
 				if (group_name!=null && group_name.length()>0) {
 					if (root.findChild(group_name)==null) {
-						root.add(root.pathCreateGroupNode(group_name));
+						root.add(root.createGroupNode(group_name));
 						g2d_tree.reload(root);
 					} else {
 						JOptionPane.showMessageDialog(window, "过滤器 \"" + group_name + "\" 已经存在！");

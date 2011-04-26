@@ -42,7 +42,7 @@ public class ShopItemListTreeView extends ObjectTreeViewTemplateDynamic<DShopIte
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new ShopItemListGroup(name);
 		}
 		

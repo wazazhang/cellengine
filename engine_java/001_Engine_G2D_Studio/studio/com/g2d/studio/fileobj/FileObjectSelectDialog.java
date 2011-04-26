@@ -146,7 +146,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 			super(name);
 		}
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new StaticGroup(name);
 		}
 		@Override

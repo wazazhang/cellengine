@@ -36,8 +36,6 @@ import com.g2d.awt.util.*;
 public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerForm implements ActionListener
 {	
 	final protected FileObjectView<T>	list;
-	final protected File 				save_list_file;
-	final protected File 				res_root;
 	
 	final protected G2DWindowToolBar	tool_bar 		= new G2DWindowToolBar(this);
 	
@@ -60,9 +58,6 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 			File save_list_file) 
 	{
 		super(studio, progress, title, icon);
-		
-		this.save_list_file = save_list_file;
-		this.res_root		= res_root;
 		
 		this.btn_refresh.setToolTipText("刷新");
 		this.btn_refresh.addActionListener(this);
@@ -118,8 +113,7 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 	
 	public void saveAll(IProgress progress) 
 	{
-		String sb = list.getListFileData();
-		save_list_file.writeUTF(sb.toString());
+		list.saveAll();
 	}
 	
 	@Override

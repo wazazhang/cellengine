@@ -172,7 +172,7 @@ extends ObjectTreeView<T, D>
 		}
 		
 		@Override
-		protected XLSGroup pathCreateGroupNode(String name) {
+		protected XLSGroup createGroupNode(String name) {
 			return new XLSGroup(name);
 		}
 

@@ -43,7 +43,7 @@ public class QuestGroupTreeView extends ObjectTreeViewDynamic<DQuestGroup, Quest
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new QuestGroupGroup(name);
 		}
 		

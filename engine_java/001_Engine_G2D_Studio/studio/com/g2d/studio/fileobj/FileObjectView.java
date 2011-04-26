@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import com.cell.CUtil;
+import com.cell.util.Pair;
 import com.g2d.awt.util.Tools;
 import com.g2d.studio.SaveProgressForm;
 import com.g2d.studio.Studio;
@@ -31,6 +32,7 @@ import com.g2d.studio.swing.G2DListItem;
 import com.g2d.studio.swing.G2DTreeListView;
 import com.g2d.studio.swing.G2DTreeNodeGroup;
 import com.g2d.studio.swing.G2DWindowToolBar;
+import com.g2d.studio.swing.G2DTreeListView.NodeGroup;
 import com.g2d.studio.talks.TalkFile;
 
 @SuppressWarnings("serial")
@@ -66,11 +68,14 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 
 //	--------------------------------------------------------------------------------------------------------------
 	
-	public String getListFileData() {
+	public String saveAll() {
 		StringBuilder new_list = new StringBuilder();
-		for (T o : nodes_file.values()) {
-			new_list.append(CUtil.arrayToString(o.path, "/") + o.getSaveListName() + "\n");
+		for (Pair<NodeGroup<T>, T> p : getItemsPath()) {
+			NodeGroup<T> g = p.getKey();
+			T o = p.getValue();
+			new_list.append(G2DTreeNodeGroup.toPathString(g, "/") + o.getName() + ";" + o.getSaveListArgs() + "\n");
 		}
+		save_list_file.writeUTF(new_list.toString());
 		return new_list.toString();
 	}
 	
@@ -86,8 +91,28 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		return nodes_name.size();
 	}
 	
+	private HashMap<String, String[]> readListFile()
+	{
+		String text = save_list_file.readUTF();
+		String[] lines = CUtil.splitString(text, "\n");
+		HashMap<String, String[]> ret = new LinkedHashMap<String, String[]>(lines.length);
+		for (String line : lines) {
+			try {
+				int i = line.lastIndexOf(';');
+				if (i > 0) {
+					line = line.substring(0, i);
+					String[] path = line.split("/");
+					ret.put(path[path.length-1], Arrays.copyOf(path, path.length-1));
+				}
+			} catch (Exception e) {}
+		}
+		return ret;
+	}
+	
 	synchronized public void refresh(IProgress progress)
 	{
+		HashMap<String, String[]> saved_list = readListFile();
+		
 		Vector<T> 		added	= new Vector<T>();
 		Vector<T> 		removed	= new Vector<T>(nodes_file.values());
 		
@@ -114,6 +139,10 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 			nodes_file.put(item.getFile(), item);
 			nodes_name.put(item.getName(), item);
 			addItem(getRoot(), item);
+			String[] path = saved_list.get(item.getName());
+			if (path != null) {
+//				getRoot().loadPath(path);
+			}
 		}
 		
 		System.out.println(title + " : remove " + removed.size());

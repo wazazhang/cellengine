@@ -13,7 +13,7 @@ public class FileGroup<T extends FileObject> extends NodeGroup<T>
 	}
 
 	@Override
-	protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+	protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 		return new FileGroup<T>(name);
 	}
 	

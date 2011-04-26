@@ -25,6 +25,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.tree.TreeNode;
 
+import com.cell.CUtil;
 import com.cell.rpg.scene.SceneTrigger;
 import com.cell.rpg.scene.SceneTriggerEditable;
 import com.cell.rpg.scene.SceneTriggerScriptable;
@@ -32,6 +33,7 @@ import com.cell.rpg.scene.Triggers;
 import com.cell.rpg.scene.TriggersPackage;
 import com.g2d.studio.quest.items.QuestItemNode;
 import com.g2d.studio.res.Res;
+import com.g2d.studio.scene.entity.SceneGroup;
 import com.g2d.studio.scene.script.TriggersEditor.TriggerGroup.TriggerNode;
 import com.g2d.studio.swing.G2DTree;
 import com.g2d.studio.swing.G2DTreeNode;
@@ -212,8 +214,29 @@ public class TriggersEditor extends JPanel implements AncestorListener, WindowLi
 		public TriggerGroup(String name) {
 			super(name);
 		}
-		
-		@Override
+
+		public void loadPath(String node_path) {
+			String[] id_name = CUtil.splitString(node_path, "?");
+			if (id_name.length > 1) {
+				node_path = id_name[0];
+			}
+			TriggerGroup group = this;
+			String[] path = fromPathString(node_path.trim(), "/");
+			for (int i=0; i<path.length; i++) {
+				String file_name = path[i].trim();
+				if (group.pathAddLeafNode(file_name, i, path.length)) {
+					return;
+				} else {
+					G2DTreeNodeGroup<?> g = group.findChild(file_name);
+					if (g == null) {
+						g = createGroupNode(file_name);
+						group.add(g);
+					}
+					group = (TriggerGroup)g;
+				}
+			}
+		}
+
 		protected boolean pathAddLeafNode(String name, int index, int length) {
 			if (index == length - 1) {
 				SceneTrigger st = triggers.getTrigger(name);
@@ -226,7 +249,7 @@ public class TriggersEditor extends JPanel implements AncestorListener, WindowLi
 		}
 		
 		@Override
-		protected G2DTreeNodeGroup<?> pathCreateGroupNode(String name) {
+		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
 			return new TriggerGroup(name);
 		}
 		
