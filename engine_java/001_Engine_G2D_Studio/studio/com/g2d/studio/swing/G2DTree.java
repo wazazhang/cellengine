@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Window;
+import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -59,10 +61,10 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 	
 	final protected DropTarget			drop_target;
 
-	ArrayList<G2DDragDropListener<G2DTree>> 
+	private ArrayList<G2DDragDropListener<G2DTree>> 
 										drag_drop_listeners = new ArrayList<G2DDragDropListener<G2DTree>>(1);
-	Object 								drag_location_object;
-	int									drag_drop_position	= 0;
+	private Object 						drag_location_object;
+	private int							drag_drop_position	= 0;
 	
 	public G2DTree(DefaultMutableTreeNode tree_root) 
 	{
@@ -138,8 +140,8 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 	}
 	
 	@Override
-	public void onDragDrop(G2DTree comp, Object src, Object dst) {
-		if (checkDrag(drop_target, src, dst, drag_drop_position)) {
+	public void onDragDrop(G2DTree comp, Transferable t, Object src, Object dst) {
+		if (checkDrag(drop_target, null, src, dst, drag_drop_position)) {
 			Map<TreeNode, TreePath> expan = storeAllExpandState();
 			try{
 				MutableTreeNode src_node = (MutableTreeNode)src;
@@ -193,12 +195,13 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 	
 	/**
 	 * @param evt_source
+	 * @param trans TODO
 	 * @param src
 	 * @param dst
 	 * @param position 等于 0 代表放置，大于0代表向下插入，小于0代表向下插入
 	 * @return
 	 */
-	protected boolean checkDrag(DropTarget evt_source, Object src, Object dst, int position) {
+	protected boolean checkDrag(DropTarget evt_source, Transferable trans, Object src, Object dst, int position) {
 		if (dst == null) {
 			return false;
 		}
@@ -230,6 +233,28 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		return true;
 	}
 
+	/**
+	 * position 等于 0 代表放置，大于0代表向下插入，小于0代表向下插入
+	 * @return
+	 */
+	public int getDragDropPosition() {
+		return drag_drop_position;
+	}
+
+//	/**
+//	 * @param dtde
+//	 * @return 是否截获此事件
+//	 */
+//	protected boolean dropDirect(DropTargetDropEvent dtde, ) {
+//		return false;
+//	}
+//	/**
+//	 * @param dtde
+//	 * @return 是否截获此事件
+//	 */
+//	protected boolean dragOverDirect(DropTargetDragEvent dtde) {
+//		return false;
+//	}
 //	----------------------------------------------------------------------------------------------------------------------------
 
 	public TreePath createTreePath(TreeNode node) {
@@ -310,6 +335,36 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		}
 	}
 
+	/**
+	 * 遍历所有节点
+	 * @param root
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	static public void getAllNodes(TreeNode root, Vector<TreeNode> ret)
+	{
+		ret.add(root);
+		//深度遍历
+		Enumeration files = root.children();
+		while(files.hasMoreElements()) {
+			TreeNode node = (TreeNode)files.nextElement();
+			getAllNodes(node, ret);
+		}
+	}
+
+
+	/**
+	 * 遍历所有节点
+	 * @param root
+	 * @return
+	 */
+	static public Vector<TreeNode> getAllNodes(TreeNode root)
+	{
+		Vector<TreeNode> ret = new Vector<TreeNode>();
+		getAllNodes(root, ret);
+		return ret;
+	}
+	
 //	----------------------------------------------------------------------------------------------------------------------------
 	
 	static public G2DTreeNode<?> getNode(TreeNode root, String ... path)
@@ -541,22 +596,28 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		@Override
 		final public void dragOver(DropTargetDragEvent dtde) {
 			drag_location_object = null;
-			TreePath path = G2DTree.this.getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
-			if (path!=null) {
-				{
-					Rectangle comp = getPathBounds(path);
-					int dy	= dtde.getLocation().y - (comp.y + comp.height/2);
-					int div	= comp.height / 4;
-					drag_drop_position = dy / div;
+//			if (!dragOverDirect(dtde)) {
+				TreePath path = G2DTree.this.getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+				if (path!=null) {
+					{
+						Rectangle comp = getPathBounds(path);
+						int dy	= dtde.getLocation().y - (comp.y + comp.height/2);
+						int div	= comp.height / 4;
+						drag_drop_position = dy / div;
+					}
+					drag_location_object = path.getLastPathComponent();
+					if (checkDrag((DropTarget)dtde.getSource(), 
+							dtde.getTransferable(), 
+							getSelectedNode(), 
+							drag_location_object, 
+							drag_drop_position)) {
+						dtde.acceptDrag(dtde.getDropAction());
+					} else {
+						drag_location_object = null;
+						dtde.rejectDrag();
+					}
 				}
-				drag_location_object = path.getLastPathComponent();
-				if (checkDrag((DropTarget)dtde.getSource(), getSelectedNode(), drag_location_object, drag_drop_position)) {
-					dtde.acceptDrag(dtde.getDropAction());
-				} else {
-					drag_location_object = null;
-					dtde.rejectDrag();
-				}
-			}
+//			}
 			G2DTree.this.repaint();
 		}
 		
@@ -571,11 +632,15 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 					int div	= comp.height / 4;
 					drag_drop_position = dy / div;
 				}
-				if (checkDrag((DropTarget)dtde.getSource(), getSelectedNode(), path.getLastPathComponent(), drag_drop_position)) {
+				if (checkDrag((DropTarget)dtde.getSource(), 
+						dtde.getTransferable(), 
+						getSelectedNode(), 
+						path.getLastPathComponent(),
+						drag_drop_position)) {
 					TreeNode sender		= G2DTree.this.getSelectedNode();
 					TreeNode reciver	= (TreeNode)path.getLastPathComponent();
 					for (G2DDragDropListener<G2DTree> l : drag_drop_listeners) {
-						l.onDragDrop(G2DTree.this, sender, reciver);
+						l.onDragDrop(G2DTree.this, dtde.getTransferable(), sender, reciver);
 					}
 				}
 			}

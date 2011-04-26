@@ -19,27 +19,25 @@ import com.cell.CUtil;
 import com.g2d.awt.util.Tools;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DList;
+import com.g2d.studio.swing.G2DTreeListView;
 import com.g2d.studio.swing.G2DTreeNodeGroup;
 import com.g2d.studio.swing.G2DWindowToolBar;
 import com.g2d.studio.talks.TalkFile;
 
-public abstract class FileObjectView<T extends FileObject> extends JSplitPane
+@SuppressWarnings("serial")
+public abstract class FileObjectView<T extends FileObject> extends G2DTreeListView<T>
 {
+	final String title;
+	
 	final protected File 		save_list_file;
 	final protected File 		res_root;
 
 	final protected HashMap<File, T> nodes_file = new HashMap<File, T>();
 	final protected HashMap<String, T> nodes_name = new HashMap<String, T>();
-	
-	int view_index = 0;
-	int[] view_modes = new int[]{
-		JList.HORIZONTAL_WRAP,
-		JList.VERTICAL,
-		JList.VERTICAL_WRAP,
-	};
 	
 	public FileObjectView(
 			String title,
@@ -47,81 +45,57 @@ public abstract class FileObjectView<T extends FileObject> extends JSplitPane
 			File res_root, 
 			File save_list_file)
 	{
+		super(new NodeGroup<T>(title));
 		this.save_list_file = save_list_file;
-		this.res_root		= res_root;
+		this.res_root = res_root;		
+		this.title = title;
+		
+		refresh(progress);
+		
+//		this.getList().setVisibleRowCount(this.files.size()/10+1);
+//		this.getList().setLayoutOrientation(JList.HORIZONTAL_WRAP);
+
 	}
 
-	abstract protected T			createNode(File file);
-
-	abstract protected String 		getSaveListName(T node);
-
+	abstract public NodeGroup<T> cloneRoot() ;
 	
-	synchronized public void refresh(String title, ProgressForm progress)
-	{
-		File 			files[]	= res_root.listFiles();
-		
-		Vector<T> 		added	= new Vector<T>();
-		Vector<T> 		removed	= new Vector<T>(nodes_file.values());
-		HashSet<T>		current = new HashSet<T>(files.length);	
+	abstract public T	createNode(File file);
 
-		progress.setMaximum(title, files.length);
-		for (int i = 0; i < files.length; i++) {
-			File file = files[i];
-			T node = nodes_file.get(file);
-			if (node == null) {
-				node = createNode(file);
-				if (node != null) {
-					added.add(node);
-				}
-			}
-			if (node != null) {
-				current.add(node);
-				removed.remove(node);
-			}
-			progress.setValue(title, i);
-		}
-		for (T o : removed) {
-			this.nodes_file.remove(o.getFile());
-		}
-		for (T o : added) {
-			this.nodes_file.put(o.getFile(), o);
-		}
-
-		this.nodes_name.clear();
-		for (T o : nodes_file.values()) {
-			nodes_name.put(o.getName(), o);
-		}
-		
-		String save_list = save_list_file.readUTF();
-		if (save_list != null) {
-			String list[] = CUtil.splitString(save_list, "\n");
-			for (String e : list) {
-				String path[] = G2DTreeNodeGroup.fromPathString(e, "/");
-				if (path.length > 0) {
-					T o = nodes_name.get(path[path.length-1]);
-					if (o != null) {
-						o.path = Arrays.copyOfRange(path, 0, path.length-1);
-					}
-				}
-			}
-		}
-		
+	abstract protected	String getSaveListName(T t);
+	
+	public String getListFileData() {
 		StringBuilder new_list = new StringBuilder();
 		for (T o : nodes_file.values()) {
 			new_list.append(CUtil.arrayToString(o.path, "/") + getSaveListName(o) + "\n");
 		}
-		save_list_file.writeUTF(new_list.toString());
-	}
-
-	public T getNode(String name) {
-		return nodes_name.get(name);
+		return new_list.toString();
 	}
 	
-	class FileList extends G2DList<T>
+	public Vector<T> getNodes() {
+		return getItems();
+	}
+	
+	public T getNode(String node_name) {
+		return nodes_name.get(node_name);
+	}
+	
+	
+	synchronized public void refresh(IProgress progress)
 	{
-		FileList(Vector<T> icons) {
-			super(icons);
-		}		
+		this.nodes_file.clear();	
+		this.nodes_name.clear();
+		File files[] = res_root.listFiles();
+		
+		progress.setMaximum(title, files.length);
+		for (int i = 0; i < files.length; i++) {
+			File file = files[i];
+			T node = createNode(file);
+			if (node != null) {
+				this.nodes_file.put(file, node);
+				nodes_name.put(node.getName(), node);
+			}
+			progress.setValue(title, i);
+		}
 	}
 	
 }

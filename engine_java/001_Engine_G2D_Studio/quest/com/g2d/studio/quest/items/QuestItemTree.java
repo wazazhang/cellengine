@@ -1,6 +1,7 @@
 package com.g2d.studio.quest.items;
 
 import java.awt.Dimension;
+import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -75,7 +76,7 @@ public class QuestItemTree extends G2DTree
 	}
 	
 	@Override
-	protected boolean checkDrag(DropTarget evtSource, Object src, Object dst, int position) {
+	protected boolean checkDrag(DropTarget evtSource, Transferable trans, Object src, Object dst, int position) {
 		MutableTreeNode src_node = (MutableTreeNode)src;
 		MutableTreeNode dst_node = (MutableTreeNode)dst;
 		if (dst_node == getRoot()) {
@@ -111,7 +112,7 @@ public class QuestItemTree extends G2DTree
 				return false;
 			}
 		}
-		return super.checkDrag(evtSource, src, dst, position);
+		return super.checkDrag(evtSource, trans, src, dst, position);
 	}
 	
 //	----------------------------------------------------------------------------------------------------------------------------------

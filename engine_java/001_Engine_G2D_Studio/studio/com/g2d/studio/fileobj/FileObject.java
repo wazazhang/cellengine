@@ -17,7 +17,7 @@ abstract public class FileObject implements G2DListItem
 	final private File			file;
 	String[]					path = new String[]{};
 	
-	FileObject(String name, File file) {
+	public FileObject(String name, File file) {
 		this.name = name;
 		this.file = file;
 	}
