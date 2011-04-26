@@ -46,7 +46,7 @@ public class QuestNode extends DynamicNode<Quest>
 	
 	@Override
 	public ImageIcon getIcon(boolean update) {
-		if (icon_file==null || !icon_file.icon_file_name.equals(getData())) {
+		if (icon_file==null || !icon_file.getName().equals(getData())) {
 			resetIcon();
 		} 
 		return super.getIcon(update);

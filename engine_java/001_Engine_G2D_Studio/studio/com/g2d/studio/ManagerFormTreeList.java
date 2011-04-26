@@ -26,6 +26,7 @@ import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DListItem;
 import com.g2d.studio.swing.G2DTreeListView;
 import com.g2d.studio.swing.G2DWindowToolBar;
+import com.g2d.studio.swing.G2DTreeListView.NodeGroup;
 
 import com.g2d.awt.util.*;
 
@@ -74,7 +75,9 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 		
 		this.add(tool_bar, BorderLayout.NORTH);		
 		
-		this.list = createList(res_root, save_list_file, progress);
+		this.list = createList(res_root, save_list_file, progress);	
+		this.list.getList().setLayoutOrientation(JList.HORIZONTAL_WRAP);
+
 		this.add(new JScrollPane(list), BorderLayout.CENTER);
 		
 		saveAll(null);
@@ -91,7 +94,7 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 		}
 		else if (e.getSource() == btn_view) {
 			view_index ++;
-			view_index %= view_modes.length;
+			view_index %= view_modes.length;		
 			this.list.getList().setLayoutOrientation(view_modes[view_index]);
 		}
 	}
@@ -101,6 +104,10 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 			File save_list_file, 
 			ProgressForm progress);
 	
+	public FileObjectView<T> getList() {
+		return list;
+	}
+	
 	public Vector<T> getNodes() {
 		return list.getNodes();
 	}
@@ -108,7 +115,6 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 	public T getNode(String node_name) {
 		return list.getNode(node_name);
 	}
-	
 	
 	public void saveAll(IProgress progress) 
 	{

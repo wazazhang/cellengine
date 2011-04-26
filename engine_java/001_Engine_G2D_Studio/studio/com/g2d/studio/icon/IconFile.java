@@ -9,27 +9,29 @@ import javax.swing.JList;
 
 import com.g2d.awt.util.*;
 
+import com.g2d.studio.Config;
+import com.g2d.studio.fileobj.FileObject;
 import com.g2d.studio.io.File;
 import com.g2d.studio.swing.G2DListItem;
 
-public class IconFile implements G2DListItem
+public class IconFile extends FileObject
 {
-	final public String 		icon_file_name;
-	final public File			image_file;
-	
-	
 	transient private BufferedImage	image;
 	transient private ImageIcon 	icon;	
 	
+	IconFile(File file) {
+		super(file.getName().substring(0, file.getName().length() - Config.ICON_SUFFIX.length()), file);
+	}
 	
-	IconFile(String name, File image_file) {
-		this.icon_file_name = name;
-		this.image_file		= image_file;
+	IconFile(String name, File file, BufferedImage image, ImageIcon icon) {
+		super(name, file);
+		this.image = image;
+		this.icon  = icon;
 	}
 	
 	public BufferedImage getImage() {
 		if (image == null) {
-			image = Tools.readImage(image_file.getPath());
+			image = Tools.readImage(getFile().getPath());
 		}
 		return image;
 	}
@@ -43,12 +45,7 @@ public class IconFile implements G2DListItem
 	}
 	
 	@Override
-	public String getListName() {
-		return icon_file_name;
-	}
-	
-	@Override
-	public Component getListComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		return null;
+	public String getSaveListName() {
+		return getName()+","+getImage().getWidth()+","+getImage().getHeight();
 	}
 }

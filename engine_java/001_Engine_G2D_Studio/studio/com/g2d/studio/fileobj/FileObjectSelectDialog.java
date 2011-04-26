@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -22,14 +23,16 @@ import com.g2d.studio.io.File;
 import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DListItem;
 import com.g2d.studio.swing.G2DTreeListView;
+import com.g2d.studio.swing.G2DTreeListView.NodeGroup;
 
+@SuppressWarnings("serial")
 public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
 	private static HashMap<Class<?>, Object> histroy_selected = new HashMap<Class<?>, Object>();
 	
-	TreeListView<T> list;
+	TreeListView list;
 	
 	JButton ok 		= new JButton("确定");
 	JButton cancel 	= new JButton("取消");
@@ -43,11 +46,8 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		super.setSize(600, 400);
 		super.setCenter();
 		
-		this.list = list;
-		this.list.setSize(getSize());
-		this.list.setLayoutOrientation(JList.HORIZONTAL_WRAP);		
-		this.list.setVisibleRowCount(0);
-		this.add(new JScrollPane(list), BorderLayout.CENTER);
+		this.list = new TreeListView(list);
+		this.add(list, BorderLayout.CENTER);
 		
 		this.object = default_value;
 		
@@ -64,29 +64,28 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		}
 		
 		if (default_value != null) {
-			list.setSelectedValue(default_value, true);
+			list.setSelectedItem(default_value, true);
 		} else {
 			try {
-				Object tobj = list.getModel().getElementAt(0);
+				Object tobj = list.getItems().firstElement();
 				Object obj = histroy_selected.get(tobj.getClass());
 				if (obj != null) {
-					list.setSelectedValue(obj, true);
+					list.setSelectedItem(obj, true);
 				}
 			} catch (Exception err) {
 			}
 		}
 	}
 	
-	
-	
-	protected G2DList<T> getList(){
-		return this.list;
-	}
-	
 	public T getSelectedObject() {
 		return object;
 	}
-	
+
+	public TreeListView getList() {
+		return list;
+	}
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == ok) {
@@ -98,7 +97,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 				this.setVisible(false);
 			}
 		} else if (e.getSource() == cancel) {
-			list.setSelectedValue(null, false);
+			list.setSelectedItem(null, false);
 			this.setVisible(false);
 		}
 	}
@@ -108,8 +107,8 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 			public void run() {
 				try {
 					Thread.sleep(100);
-					int index = list.getSelectedIndex();
-					list.scrollRectToVisible(list.getCellBounds(index, index));
+					int index = list.getList().getSelectedIndex();
+					list.getList().scrollRectToVisible(list.getList().getCellBounds(index, index));
 				} catch (Exception err) {}
 			}
 		}.start();
@@ -126,10 +125,30 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 	{
 		public TreeListView(FileObjectView<T> other)
 		{
-			super(other.cloneRoot());
+			super(cloneRoot(other.getRoot()));
 		}
-		
-		
 	}
+	
+
+	public NodeGroup<T> cloneRoot(NodeGroup<T> src) {
+		NodeGroup<T> root = new NodeGroup<T>(src.getName());
+		cloneChilds(root, src);
+		return root;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void cloneChilds(NodeGroup<T> src, NodeGroup<T> dst) {
+		for (G2DListItem item : src.getItems()) {
+			dst.addItem(((FileObject)item).clone());
+		}
+		Enumeration<?> childs = src.children();
+		while (childs.hasMoreElements()) {
+			NodeGroup<T> s = (NodeGroup<T>)childs.nextElement();
+			NodeGroup<T> d = new NodeGroup<T>(s.getName());
+			dst.add(d); 
+			cloneChilds(s, d) ;
+		}
+	}
+	
 }
 

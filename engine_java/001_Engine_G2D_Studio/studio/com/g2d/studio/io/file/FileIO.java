@@ -31,10 +31,16 @@ public class FileIO implements IO
     
     private static class FileImpl implements File
     {
-    	java.io.File file;
+    	final java.io.File file;
     	
     	private FileImpl(java.io.File file) {
-			this.file = file;
+    		java.io.File f = file;
+			try {
+				f = file.getCanonicalFile();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+			this.file = f;
 		}
     	
     	@Override
@@ -121,14 +127,27 @@ public class FileIO implements IO
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof FileImpl) {
-				return ((FileImpl) obj).file.equals(this.file);
-			}
+				if (((FileImpl) obj).file.equals(this.file)) {
+//					System.out.println("equal : " + this.file);
+					return true;
+				}
+			} 
 			return false;
+		}
+		
+		@Override
+		public int hashCode() {
+			return file.hashCode();
 		}
 		
 		@Override
 		public void delete() {
 			file.delete();
+		}
+		
+		@Override
+		public String toString() {
+			return file.toString();
 		}
     }
 }

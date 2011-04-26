@@ -20,7 +20,7 @@ public class IconSelectCellEdit extends IconSelectDialog implements PropertyCell
 	public Component getComponent(ObjectPropertyEdit panel) {
 		IconFile icon = getSelectedObject();
 		if (icon!=null) {
-			edit_label.setText(icon.icon_file_name);	
+			edit_label.setText(icon.getName());	
 			edit_label.setIcon(icon.getListIcon(false));
 		} else {
 			edit_label.setText("");	
@@ -33,7 +33,7 @@ public class IconSelectCellEdit extends IconSelectDialog implements PropertyCell
 	public String getValue() {
 		IconFile icon = getSelectedObject();
 		if (icon!=null) {
-			return icon.icon_file_name;
+			return icon.getName();
 		}
 		return null;
 	}

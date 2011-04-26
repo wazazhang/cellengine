@@ -50,6 +50,9 @@ public class G2DList<T extends G2DListItem> extends JList
 		this.addKeyListener(new ListKeyListener());
 	}
 	
+	public int getItemsCount() {
+		return getModel().getSize();
+	}
 	
 	@Override
 	public void setSelectedValue(Object anObject, boolean shouldScroll) {

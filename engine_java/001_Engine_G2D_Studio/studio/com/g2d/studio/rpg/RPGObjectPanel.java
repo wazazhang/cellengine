@@ -120,7 +120,7 @@ public class RPGObjectPanel extends JPanel
 				if (field.getName().equals("icon_index") && fieldValue!=null) {
 					String icon_name = fieldValue.toString();
 					if (this.icon == null ||
-						this.icon.icon_file_name.equals(icon_name) == false) {
+						this.icon.getName().equals(icon_name) == false) {
 						this.icon = Studio.getInstance().getIconManager().getIcon(icon_name);
 					} 
 					if (icon!=null) {

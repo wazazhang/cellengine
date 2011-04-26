@@ -8,7 +8,7 @@
 	<classpathentry kind="src" path="instancezone"/>
 	<classpathentry excluding="com/g2d/studio/quest/items/QuestItemManager.java" kind="src" path="quest"/>
 	<classpathentry kind="src" path="particles"/>
-	<classpathentry excluding="com/g2d/studio/rpg/AbilityTreeView.java|com/g2d/studio/anno/PropertyAdapter.java|com/g2d/editor/FormEditor.java|com/g2d/editor/UIComponentEditor.java|com/g2d/editor/property/PopupCellEditUILayout.java|com/g2d/studio/fileobj/FileObjectSelectDialog.java" kind="src" path="studio"/>
+	<classpathentry excluding="com/g2d/studio/rpg/AbilityTreeView.java|com/g2d/studio/anno/PropertyAdapter.java|com/g2d/editor/FormEditor.java|com/g2d/editor/UIComponentEditor.java|com/g2d/editor/property/PopupCellEditUILayout.java" kind="src" path="studio"/>
 	<classpathentry kind="src" path="scripts"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>

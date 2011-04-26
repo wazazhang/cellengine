@@ -38,7 +38,7 @@ final public class XLSSkill extends XLSTemplateNode<TSkill>
 
 	@Override
 	public ImageIcon getIcon(boolean update) {
-		if (icon_file==null || !icon_file.icon_file_name.equals(getData().icon_index)) {
+		if (icon_file==null || !icon_file.getName().equals(getData().icon_index)) {
 			resetIcon();
 		} 
 		return super.getIcon(update);

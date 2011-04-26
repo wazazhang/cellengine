@@ -8,13 +8,15 @@ import javax.swing.JScrollPane;
 import com.g2d.studio.Config;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormList;
+import com.g2d.studio.ManagerFormTreeList;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.fileobj.FileObjectView;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DList;
 
-public class IconManager extends ManagerFormList<IconFile>
+public class IconManager extends ManagerFormTreeList<IconFile>
 {
 	private static final long serialVersionUID = 1L;
 		
@@ -32,28 +34,52 @@ public class IconManager extends ManagerFormList<IconFile>
 	public IconFile getIcon(String icon_name) {
 		return super.getNode(icon_name);
 	}
+//	
+//	@Override
+//	protected G2DList<IconFile> createList(Vector<IconFile> files) {
+//		return new IconList(files);
+//	}
+//	@Override
+//	protected String asNodeName(File file) {
+//		return file.getName().substring(0, file.getName().length() - Config.ICON_SUFFIX.length());
+//	}
+//	@Override
+//	protected IconFile createNode(File file) {
+//		if (file.getName().endsWith(Config.ICON_SUFFIX)) {
+//			IconFile icon = new IconFile(asNodeName(file), file);
+//			icon.getImage();
+//			return icon;
+//		}
+//		return null;
+//	}
+//	
+//	@Override
+//	protected String getSaveListName(IconFile icon) {
+//		return icon.getListName()+","+icon.getImage().getWidth()+","+icon.getImage().getHeight();
+//	}
 	
 	@Override
-	protected G2DList<IconFile> createList(Vector<IconFile> files) {
-		return new IconList(files);
+	protected FileObjectView<IconFile> createList(File resRoot,
+			File saveListFile, ProgressForm progress) {
+		return new IconList("icons", progress, resRoot, saveListFile);
 	}
-	@Override
-	protected String asNodeName(File file) {
-		return file.getName().substring(0, file.getName().length() - Config.ICON_SUFFIX.length());
-	}
-	@Override
-	protected IconFile createNode(File file) {
-		if (file.getName().endsWith(Config.ICON_SUFFIX)) {
-			IconFile icon = new IconFile(asNodeName(file), file);
-			icon.getImage();
-			return icon;
+	
+	public class IconList extends FileObjectView<IconFile>
+	{
+		private static final long serialVersionUID = 1L;
+
+		public IconList(String title, ProgressForm progress, File resRoot, File saveListFile) {
+			super(title, progress, resRoot, saveListFile);
 		}
-		return null;
+		
+		@Override
+		public IconFile createItem(File file) {
+			if (file.getName().endsWith(Config.ICON_SUFFIX)) {
+				IconFile icon = new IconFile(file);
+				icon.getImage();
+				return icon;
+			}
+			return null;
+		}
 	}
-	
-	@Override
-	protected String getSaveListName(IconFile icon) {
-		return icon.getListName()+","+icon.getImage().getWidth()+","+icon.getImage().getHeight();
-	}
-	
 }
