@@ -275,10 +275,10 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 			int i = 0;
 			for (SceneNode node : nodes) {
 				saveScene(scene_dir, node);
-				i++;
 				if (progress != null) {
 					progress.setValue("", i);
 				}
+				i++;
 			}
 		}
 	}
