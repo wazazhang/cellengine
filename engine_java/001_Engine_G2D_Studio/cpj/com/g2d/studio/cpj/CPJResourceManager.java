@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -47,44 +48,26 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 
 //	CPJSpriteViewer sprite_viewer = new CPJSpriteViewer();
 	
-	File save_actor_list;
-	File save_effect_list;
-	File save_avatar_list;
-	File save_scene_list;
-	
-	DefaultMutableTreeNode unit_root;
-	DefaultMutableTreeNode avatar_root;
-	DefaultMutableTreeNode effect_root;
-	DefaultMutableTreeNode scene_root;
+	CPJRootNode unit_root;
+	CPJRootNode avatar_root;
+	CPJRootNode effect_root;
+	CPJRootNode scene_root;
 	
 	public CPJResourceManager(Studio studio, ProgressForm progress)
 	{
 		super(studio, progress, "资源管理器", Res.icons_bar[7]);
 
 		File save_dir = Studio.getInstance().project_save_path.getChildFile("resources");
-		{
-			save_actor_list = save_dir.getChildFile("actor_list.list");
-			save_avatar_list = save_dir.getChildFile("avatar_list.list");
-			save_effect_list = save_dir.getChildFile("effect_list.list");
-			save_scene_list = save_dir.getChildFile("scene_list.list");
-		}
-		
-		com.g2d.studio.io.File path = Studio.getInstance().project_path;
 		
 		JTabbedPane table = new JTabbedPane();
 		// actors
 		{
 			System.out.println("init : 单位资源");
-			unit_root = new DefaultMutableTreeNode("单位模板");
-			ArrayList<CPJFile> files = CPJFile.getSavedListFile(
-					save_actor_list, path, 
+			unit_root = new CPJRootNode("单位模板", 
+					Config.RES_ACTOR_ROOT,
+					save_dir.getChildFile("actor_list.list"), 
 					CPJResourceType.ACTOR,
 					progress);
-			progress.setMaximum("", files.size());
-			for (int i=0; i<files.size(); i++) {
-				unit_root.add(files.get(i));
-				progress.increment();
-			}
 			G2DTree tree = new G2DTree(unit_root);
 			tree.addMouseListener(this);
 			JScrollPane scroll = new JScrollPane(tree);	
@@ -94,16 +77,11 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// avatars
 		{
 			System.out.println("init : AVATAR资源");
-			avatar_root = new DefaultMutableTreeNode("AVATAR模板");
-			ArrayList<CPJFile> files = CPJFile.getSavedListFile(
-					save_avatar_list, path, 
+			avatar_root = new CPJRootNode("AVATAR模板",
+					Config.RES_AVATAR_ROOT,
+					save_dir.getChildFile("avatar_list.list"), 
 					CPJResourceType.AVATAR, 
 					progress);
-			progress.setMaximum("", files.size());
-			for (int i=0; i<files.size(); i++) {
-				avatar_root.add(files.get(i));
-				progress.increment();
-			}
 			G2DTree tree = new G2DTree(avatar_root);
 			tree.addMouseListener(this);
 			JScrollPane scroll = new JScrollPane(tree);	
@@ -113,16 +91,11 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// effect
 		{
 			System.out.println("init : 特效资源");
-			effect_root = new DefaultMutableTreeNode("特效模板");
-			ArrayList<CPJFile> files = CPJFile.getSavedListFile(
-					save_effect_list, path, 
+			effect_root = new CPJRootNode("特效模板",
+					Config.RES_EFFECT_ROOT,
+					save_dir.getChildFile("effect_list.list"),
 					CPJResourceType.EFFECT,
 					progress);
-			progress.setMaximum("", files.size());
-			for (int i=0; i<files.size(); i++) {
-				effect_root.add(files.get(i));
-				progress.increment();
-			}
 			G2DTree tree = new G2DTree(effect_root);
 			tree.addMouseListener(this);
 			JScrollPane scroll = new JScrollPane(tree);	
@@ -132,16 +105,11 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// scenes
 		{
 			System.out.println("init : 场景资源");
-			scene_root = new DefaultMutableTreeNode("场景模板");
-			ArrayList<CPJFile> files = CPJFile.getSavedListFile(
-					save_scene_list, path,
+			scene_root = new CPJRootNode("场景模板",
+					Config.RES_SCENE_ROOT,
+					save_dir.getChildFile("scene_list.list"),
 					CPJResourceType.WORLD, 
 					progress);
-			progress.setMaximum("", files.size());
-			for (int i=0; i<files.size(); i++) {
-				scene_root.add(files.get(i));
-				progress.increment();
-			}
 			G2DTree tree = new G2DTree(scene_root);
 			tree.addMouseListener(this);
 			JScrollPane scroll = new JScrollPane(tree);	
@@ -259,7 +227,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 					TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 					if (tree.getSelectedNode() == root &&
 						path.getLastPathComponent() == root) {
-						new RootMenu(tree, root).show(tree, e.getX(), e.getY());
+						new RootMenu(tree, (CPJRootNode)root).show(tree, e.getX(), e.getY());
 					}
 				}catch(Exception err){}
 			}
@@ -309,22 +277,48 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	
 	public void saveAll(IProgress progress)
 	{
-		String actor_list = getList(G2DTree.getNodesSubClass(unit_root, CPJSprite.class));
-		save_actor_list.writeUTF(actor_list);
-		
-		String effect_list = getList(G2DTree.getNodesSubClass(effect_root, CPJSprite.class));
-		save_effect_list.writeUTF(effect_list);
-		
-		String avatar_list = getList(G2DTree.getNodesSubClass(avatar_root, CPJSprite.class));
-		save_avatar_list.writeUTF(avatar_list);
-		
-		String scene_list = getList(G2DTree.getNodesSubClass(scene_root, CPJWorld.class));
-		save_scene_list.writeUTF(scene_list);
+		unit_root.save();
 
+		effect_root.save();
+
+		avatar_root.save();
+
+		scene_root.save();
 	}
 	
 	@Override
 	public void saveSingle() throws Throwable {}
+
+//	----------------------------------------------------------------------------------------------------------------------------
+	
+	class CPJRootNode extends DefaultMutableTreeNode
+	{
+		final File 				save_list;
+		final CPJResourceType 	res_type;
+		final String 			res_root;
+		public CPJRootNode(String name, String res_root, File saveActorList, CPJResourceType resType, IProgress progress) 
+		{
+			super(name);
+			
+			this.save_list = saveActorList;
+			this.res_root = res_root;
+			this.res_type = resType;
+			
+			ArrayList<CPJFile> files = CPJFile.getSavedListFile(
+					save_list, Studio.getInstance().project_path, 
+					res_type, progress);
+			progress.setMaximum("", files.size());
+			for (int i = 0; i < files.size(); i++) {
+				unit_root.add(files.get(i));
+				progress.increment();
+			}
+		}
+
+		public void save() {
+			String list = getList(G2DTree.getNodesSubClass(this, res_type.res_type));
+			save_list.writeUTF(list);
+		}
+	}
 	
 //	----------------------------------------------------------------------------------------------------------------------------
 	
@@ -333,13 +327,13 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		private static final long serialVersionUID = 1L;
 		
 		G2DTree tree;
-		DefaultMutableTreeNode root;
+		CPJRootNode root;
 		
 		JMenuItem	refresh_all		= new JMenuItem("刷新所有");
 		JMenuItem	build_new		= new JMenuItem("编译新加的");
 		JMenuItem	build_all		= new JMenuItem("重编译所有");
 		
-		public RootMenu(G2DTree tree, DefaultMutableTreeNode root) {
+		public RootMenu(G2DTree tree, CPJRootNode root) {
 			this.tree = tree;
 			this.root = root;
 			refresh_all	.addActionListener(this);
@@ -354,7 +348,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == refresh_all) {
-				
+				new RefreshTask(tree, root).start();
 			}
 			else if (e.getSource() == build_new) {
 				new BuildResourceTask(root.children(), true).start();
@@ -367,23 +361,14 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 
 //	----------------------------------------------------------------------------------------------------------------------------
 	
-	class RefreshTask extends AbstractDialog
+	class RefreshTask extends AbstractDialog implements Runnable
 	{
 		SaveProgressBar	progress = new SaveProgressBar();
 		
-		G2DTree tree;
-		DefaultMutableTreeNode root;
+		G2DTree 		tree;
+		CPJRootNode 	root;
 		
-		File save_list;
-		String res_root;
-		CPJResourceType res_type;
-		
-		public RefreshTask(
-				G2DTree tree, 
-				DefaultMutableTreeNode root, 
-				File save_list,
-				String res_root, 
-				CPJResourceType res_type) 
+		public RefreshTask(G2DTree tree, CPJRootNode root)		
 		{
 			super(tree);
 			super.setSize(500, 90);
@@ -394,39 +379,50 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 			
 			this.tree = tree;
 			this.root = root;
-			
-			this.save_list = save_list;
-			this.res_root = res_root;
-			this.res_type = res_type;
 		}
 
-		public void refresh()
+		public void run()
 		{
 			Vector<CPJFile> cur_files = G2DTree.getNodesSubClass(root, CPJFile.class);
-			
+			HashMap<File, CPJFile> cur_files_map = new HashMap<File, CPJFile>(cur_files.size());
 			// 查找老目录下的新文件
 			progress.setMaximum(cur_files.size());
 			int i = 0;
 			for (CPJFile file : cur_files) {
 				try {
+					cur_files_map.put(file.getFile(), file);
 					file.refresh();
 				} catch (Throwable e1) {
 					e1.printStackTrace();
 				}	
 				i++;
-				progress.setValue(i);
+				progress.increment();
 			}
 			// 
-			com.g2d.studio.io.File path = Studio.getInstance().project_path;
-			{
-				ArrayList<CPJFile> files = CPJFile.listRootFile(path, res_root,
-						res_type, progress);
-
+			ArrayList<File> new_files = CPJFile.listRootFile(
+					Studio.getInstance().project_path, 
+					root.res_root,
+					root.res_type, 
+					progress);
+			progress.setMaximum(new_files.size());
+			for (File file : new_files) {
+				if (!cur_files_map.containsKey(file)) {
+					try {
+						root.add(new CPJFile(file, root.res_type));
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+				}
+				progress.increment();
 			}
 			tree.reload(root);
 			
-			String list = getList(G2DTree.getNodesSubClass(root, res_type.res_type));
-			save_list.writeUTF(list);
+			root.save();
+		}
+
+		public void start() {
+			setVisible(true);
+			new Thread(this).start();
 		}
 		
 	}

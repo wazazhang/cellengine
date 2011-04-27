@@ -46,7 +46,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	private HashMap<String, CPJSprite>	sprites			= new HashMap<String, CPJSprite>();
 	private HashMap<String, CPJWorld>	worlds			= new HashMap<String, CPJWorld>();
 	
-	CPJFile(File cpj_file, CPJResourceType res_type) throws Throwable 
+	public CPJFile(File cpj_file, CPJResourceType res_type) throws Throwable 
 	{
 		this.cpj_file		= cpj_file;
 		this.name			= cpj_file.getParentFile().getName();		
@@ -336,31 +336,24 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	 * @param cpj_file		item.cpj
 	 * @return
 	 */
-	public static ArrayList<CPJFile> listRootFile (
+	public static ArrayList<File> listRootFile (
 			File root, 
 			String res_root, 
 			CPJResourceType res_type,
 			IProgress progress)
 	{
 //		res_prefix = res_prefix.toLowerCase();
-		ArrayList<CPJFile> ret = new ArrayList<CPJFile>();
+		ArrayList<File> ret = new ArrayList<File>();
 		try{
 			File root_file = Studio.getInstance().getIO().createFile(root, res_root);
 			File[] files = root_file.listFiles();
 			progress.setMaximum(res_root, files.length);
-			int i = 0;
 			for (File file : files) {
 				File cpj = Builder.getInstance().getCPJFile(file, res_type);
 				if (cpj != null && cpj.exists()) {
-					try {
-						progress.increment();
-						ret.add(new CPJFile(cpj, res_type));
-					} catch(Throwable err){
-						System.err.println("init cpj file error : " + cpj.getPath());
-						err.printStackTrace();
-					}
+					progress.increment();
+					ret.add(cpj);
 				}
-				i ++;
 			}
 		}catch (Exception err){
 			err.printStackTrace();
