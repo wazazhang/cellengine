@@ -38,6 +38,7 @@ import com.cell.rpg.template.TShopItemList;
 import com.cell.rpg.template.TSkill;
 import com.cell.rpg.template.TUnit;
 import com.cell.sound.ISound;
+import com.cell.util.Pair;
 import com.cell.util.concurrent.ThreadPoolService;
 import com.g2d.BufferedImage;
 import com.g2d.Tools;
@@ -371,7 +372,7 @@ public abstract class ResourceManager extends CellSetResourceManager
 	
 //	--------------------------------------------------------------------------------------------------------------------
 
-	
+
 	final protected <T extends ResourceSet<?>> LinkedHashMap<String, T> readSets(
 			String file, 
 			Class<T> type, 
@@ -413,6 +414,29 @@ public abstract class ResourceManager extends CellSetResourceManager
 		return table;
 	}
 
+	
+	/**
+	 * icons, sounds, talks
+	 * @param line
+	 * @return name, args
+	 */
+	protected Pair<String, String> toFileObjectName(String line) {
+		int s = line.indexOf(';');
+		if (s > 0) {
+			String path = line.substring(0, s);
+			String args = line.substring(s + 1, line.length());
+			int p = path.lastIndexOf('/');
+			if (p >= 0) {
+				return new Pair<String, String>(path.substring(p + 1, path.length()), args);
+			} else {
+				return new Pair<String, String>(path, args);
+			}
+		} else {
+			return new Pair<String, String>(line.trim(), null);
+		}
+	}
+	
+	
 	final protected LinkedHashSet<String> readIcons(String icon_list)
 	{
 		System.out.println("list icons : " + icon_list);
@@ -423,14 +447,20 @@ public abstract class ResourceManager extends CellSetResourceManager
 		
 		for (int i=0; i<res_list.length; i++)
 		{
-			String[] split 	= CUtil.splitString(res_list[i].trim(), ",");
-			String icon_id 	= split[0];
-			String icon_w 	= split[1];
-			String icon_h 	= split[2];
-			table.add(icon_id);
-			
+			Pair<String, String> pair = toFileObjectName(res_list[i]);
+			if (pair.getValue() != null) {
+				String[] split 	= CUtil.splitString(pair.getValue(), ",");
+				table.add(pair.getKey());
+			} else {
+				// keep to old version
+				String[] split 	= CUtil.splitString(res_list[i].trim(), ",");
+				String icon_id 	= split[0];
+				String icon_w 	= split[1];
+				String icon_h 	= split[2];
+				table.add(icon_id);
+			}
 			if (PRINT_VERBOS)
-			System.out.println("\tget icon : " + icon_id + "(" + icon_w + "x" + icon_h + ")");
+			System.out.println("\tget icon : " + res_list);
 		}
 		
 		System.out.println("size : " + table.size());
@@ -449,7 +479,8 @@ public abstract class ResourceManager extends CellSetResourceManager
 		
 		for (int i=0; i<res_list.length; i++)
 		{
-			table.add(res_list[i].trim());
+			Pair<String, String> pair = toFileObjectName(res_list[i]);
+			table.add(pair.getKey());
 			if (PRINT_VERBOS)
 			System.out.println("\tget sound : " + res_list[i]);
 		}
@@ -469,7 +500,8 @@ public abstract class ResourceManager extends CellSetResourceManager
 		
 		for (int i=0; i<res_list.length; i++)
 		{
-			table.add(res_list[i].trim());
+			Pair<String, String> pair = toFileObjectName(res_list[i]);
+			table.add(pair.getKey());
 			if (PRINT_VERBOS)
 			System.out.println("\tget npc talk : " + res_list[i]);
 		}
