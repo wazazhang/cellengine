@@ -559,6 +559,7 @@ public class Studio extends AbstractFrame
 
 		JLabel lbl_title;
 		JLabel back;
+		private String prefix;
 		
 		public ProgressForm()
 		{
@@ -601,6 +602,7 @@ public class Studio extends AbstractFrame
 		@Override
 		public void setMaximum(String prefix, int total) 
 		{
+			this.prefix = prefix;
 			progress.setMaximum(total);			
 			progress.setValue(0);
 			progress.setString(prefix + " " + (progress.getValue())+"/"+progress.getMaximum());
@@ -627,11 +629,13 @@ public class Studio extends AbstractFrame
 		
 		@Override
 		public void increment() {
-			progress.setValue(progress.getValue()+1);
+			increment(1);
 		}
+		
 		@Override
 		public void increment(int count) {
 			progress.setValue(progress.getValue()+count);
+			progress.setString(prefix + " " + (progress.getValue())+"/"+progress.getMaximum());
 		}
 //		public void increment() {
 //			progress.setValue(progress.getValue()+1);
