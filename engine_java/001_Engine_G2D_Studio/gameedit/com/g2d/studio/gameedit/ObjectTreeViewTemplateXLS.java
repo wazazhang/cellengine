@@ -50,7 +50,7 @@ extends ObjectTreeView<T, D>
 		progress.setMaximum(title, list.size());
 		for (XLSFullRow row : list) {
 			xls_row_map.put(row.id, row);
-			progress.setValue(row.id, i++);
+			progress.increment();
 		}
 		getTreeRoot().loadList(progress);
 		boolean new_xls_row = false;
@@ -66,7 +66,7 @@ extends ObjectTreeView<T, D>
 					System.out.println("find new xls row data : " + node.getID() + " : " + node.getName());
 				}
 			}
-			progress.setValue(row.id, i++);
+			progress.increment();
 		}
 		reload();
 		getTree().setDragEnabled(true);
@@ -92,7 +92,7 @@ extends ObjectTreeView<T, D>
 		
 		Map<String, XLSFullRow> tmp_xls_row_map = new TreeMap<String, XLSFullRow>();
 		
-		int progressMaximum = list.size() / 200;
+		int progressMaximum = list.size();
 		
 		progress.setMaximum("refresh xls rows: ", progressMaximum);
 		
@@ -103,12 +103,12 @@ extends ObjectTreeView<T, D>
 			xls_row_map.put(row.id, row);
 			tmp_xls_row_map.put(row.id, row);
 			if (progress != null)
-			progress.setValue("refresh xls rows: "+row.id, ++i/200);
+			progress.increment();
 		}
 		
 		
 		
-		progressMaximum = xls_row_map.size() / 200;
+		progressMaximum = xls_row_map.size();
 		
 		progress.setMaximum("refreshing node: ", progressMaximum);
 		
@@ -126,13 +126,13 @@ extends ObjectTreeView<T, D>
 					removeNode(getTreeRoot(), node);
 				}					
 			}
-			
-			progress.setValue("refreshing node: "+row.id, ++i/200);
+			if (progress != null)
+				progress.increment();
 		}
 		reload();
 		xls_row_map = tmp_xls_row_map;
 		
-		progress.setValue("refresh completed, (total " + xls_row_map.size() + ")  ", progressMaximum);
+		//progress.setValue("refresh completed, (total " + xls_row_map.size() + ")  ", progressMaximum);
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------------------------

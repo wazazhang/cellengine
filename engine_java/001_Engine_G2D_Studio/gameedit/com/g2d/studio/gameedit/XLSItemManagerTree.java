@@ -9,6 +9,7 @@ import javax.swing.JProgressBar;
 
 import com.cell.rpg.template.TItem;
 import com.g2d.awt.util.Tools;
+import com.g2d.studio.SaveProgressForm;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.gameedit.dynamic.DItemList;
@@ -23,9 +24,6 @@ public class XLSItemManagerTree extends ObjectManagerTree<XLSItem, TItem>
 	
 	private JButton					btn_refresh_;
 	
-	private JProgressBar			progress_bar_ = new JProgressBar();
-	
-	
 	private ObjectManagerTree<?, ?>	itemlist_form;
 		
 	
@@ -33,8 +31,8 @@ public class XLSItemManagerTree extends ObjectManagerTree<XLSItem, TItem>
 	{
 		super(studio, progress, icon, tree_view);
 		
-		progress_bar_.setStringPainted(true);
-		this.add(progress_bar_, BorderLayout.SOUTH);
+//		progress_bar_.setStringPainted(true);
+//		this.add(progress_bar_, BorderLayout.SOUTH);
 	}
 	
 	
@@ -90,37 +88,7 @@ public class XLSItemManagerTree extends ObjectManagerTree<XLSItem, TItem>
 						@Override
 						public void run() 
 						{
-							XLSItemManagerTree.this.tree_view.refresh(
-									new IProgress() 
-									{
-										@Override
-										public void setValue(String prefix, int value) 
-										{
-											progress_bar_.setValue(value);
-											progress_bar_.setString(prefix + " " + (progress_bar_.getValue())+"/"+progress_bar_.getMaximum());
-										}
-										
-										@Override
-										public void setMaximum(String prefix, int total) 
-										{
-											progress_bar_.setMaximum(total);
-											progress_bar_.setValue(0);
-											progress_bar_.setString(prefix + " " + (progress_bar_.getValue())+"/"+progress_bar_.getMaximum());
-										}
-										
-										@Override
-										public int getValue() 
-										{
-											return progress_bar_.getValue();
-										}
-										
-										@Override
-										public int getMaximum() 
-										{
-											return progress_bar_.getMaximum();
-										}
-									}
-								);					
+							XLSItemManagerTree.this.tree_view.refresh(new SaveProgressForm());					
 						}
 			}).start();
 		}

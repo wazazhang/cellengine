@@ -63,7 +63,7 @@ public abstract class ManagerFormList<T extends G2DListItem> extends ManagerForm
 			if (node != null) {
 				this.files.add(node);
 			}
-			progress.setValue(title, i);
+			progress.increment();
 		}
 
 		this.btn_refresh.setToolTipText("刷新");
@@ -168,7 +168,7 @@ public abstract class ManagerFormList<T extends G2DListItem> extends ManagerForm
 		for (T icon : files) {
 			sb.append(getSaveListName(icon)+"\n");
 			if (progress != null) {
-				progress.setValue(getTitle(), i);
+				progress.increment();
 			}
 			i++;
 		}

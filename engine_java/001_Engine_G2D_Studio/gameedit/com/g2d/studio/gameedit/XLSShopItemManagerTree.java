@@ -9,6 +9,7 @@ import javax.swing.JProgressBar;
 
 import com.cell.rpg.template.TShopItem;
 import com.g2d.awt.util.Tools;
+import com.g2d.studio.SaveProgressForm;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.gameedit.dynamic.DShopItemList;
@@ -23,7 +24,7 @@ public class XLSShopItemManagerTree extends ObjectManagerTree<XLSShopItem, TShop
 	
 	private JButton					btn_refresh_;
 	
-	private JProgressBar			progress_bar_ = new JProgressBar();
+//	private JProgressBar			progress_bar_ = new JProgressBar();
 
 	private ObjectManagerTree<?, ?>	itemlist_form;
 	
@@ -32,8 +33,8 @@ public class XLSShopItemManagerTree extends ObjectManagerTree<XLSShopItem, TShop
 	{
 		super(studio, progress, icon, tree_view);
 		
-		progress_bar_.setStringPainted(true);
-		this.add(progress_bar_, BorderLayout.SOUTH);		
+//		progress_bar_.setStringPainted(true);
+//		this.add(progress_bar_, BorderLayout.SOUTH);		
 	}
 	
 	
@@ -93,37 +94,7 @@ public class XLSShopItemManagerTree extends ObjectManagerTree<XLSShopItem, TShop
 						@Override
 						public void run() 
 						{
-							XLSShopItemManagerTree.this.tree_view.refresh(
-									new IProgress() 
-									{
-										@Override
-										public void setValue(String prefix, int value) 
-										{
-											progress_bar_.setValue(value);
-											progress_bar_.setString(prefix + " " + (progress_bar_.getValue())+"/"+progress_bar_.getMaximum());
-										}
-										
-										@Override
-										public void setMaximum(String prefix, int total) 
-										{
-											progress_bar_.setMaximum(total);
-											progress_bar_.setValue(0);
-											progress_bar_.setString(prefix + " " + (progress_bar_.getValue())+"/"+progress_bar_.getMaximum());
-										}
-										
-										@Override
-										public int getValue() 
-										{
-											return progress_bar_.getValue();
-										}
-										
-										@Override
-										public int getMaximum() 
-										{
-											return progress_bar_.getMaximum();
-										}
-									}
-								);					
+							XLSShopItemManagerTree.this.tree_view.refresh(new SaveProgressForm());					
 						}
 			}).start();
 		}		

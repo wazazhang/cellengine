@@ -81,7 +81,7 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 					g.addItem(item);
 				}
 			}
-			if (progress != null) progress.setValue(title, i);
+			if (progress != null) progress.increment();
 			i++;
 		}
 		System.out.println("read : " + nodes_file.size());
@@ -116,7 +116,7 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 			} else {
 				removed.remove(node);
 			}
-			if (progress != null) progress.setValue(title, i);
+			if (progress != null) progress.increment();
 			i++;
 		}
 		

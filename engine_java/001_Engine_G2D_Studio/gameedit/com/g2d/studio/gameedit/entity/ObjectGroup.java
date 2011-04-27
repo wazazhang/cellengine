@@ -87,7 +87,7 @@ public abstract class ObjectGroup<T extends ObjectNode<D>, D extends RPGObject> 
 				err.printStackTrace();
 			}
 			if (progress != null) {
-				progress.setValue("", i);
+				progress.increment();
 			}
 			i ++;
 		}
@@ -134,7 +134,7 @@ public abstract class ObjectGroup<T extends ObjectNode<D>, D extends RPGObject> 
 					} catch (Exception e) {
 						e.printStackTrace();
 					} finally {
-						progress.setValue(line, i);
+						progress.increment();
 						i++;
 					}
 				}

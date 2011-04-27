@@ -100,10 +100,9 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 			if (scene_list.exists()) {
 				String[] all_scene = CIO.readAllLine(scene_list.getPath(), "UTF-8");
 				progress.setMaximum("", all_scene.length);
-				int i=0;
 				for (String node_path : all_scene) {
 					tree_root.loadPath(node_path.trim());
-					progress.setValue("", i++);
+					progress.increment();
 				}
 			}
 		}
@@ -276,7 +275,7 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 			for (SceneNode node : nodes) {
 				saveScene(scene_dir, node);
 				if (progress != null) {
-					progress.setValue("", i);
+					progress.increment();
 				}
 				i++;
 			}

@@ -16,6 +16,9 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	private JProgressBar progress = new JProgressBar();
 	
 	private boolean auto_close = false;
+	
+	private String prefix;
+	
 	public SaveProgressForm() {
 		this(true);
 	}
@@ -42,19 +45,41 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	@Override
 	public void setMaximum(String prefix, int total) 
 	{
+		this.prefix = prefix;
 		progress.setMaximum(total);			
 		progress.setValue(0);
-		progress.setString(prefix + " " + (progress.getValue())+"/"+progress.getMaximum());
+		progress.setString(prefix + " " + (0)+"/"+progress.getMaximum());
+	}
+	
+//	@Override
+//	public void setValue(String prefix, int n) 
+//	{
+//		progress.setValue(n);
+//		progress.setString(prefix + " " + (n)+"/"+progress.getMaximum());
+//		
+//		if (auto_close) {
+//			if (n >= progress.getMaximum()) {
+//				EventQueue.invokeLater(new Runnable() {
+//					public void run() {
+//						setVisible(false);
+//					}
+//				});
+//			}
+//		}
+//	}
+	
+	@Override
+	public void increment()
+	{
+		increment(1);
 	}
 	
 	@Override
-	public void setValue(String prefix, int n) 
-	{
-		progress.setValue(n);
-		progress.setString(prefix + " " + (n+1)+"/"+progress.getMaximum());
-		
+	public void increment(int count) {
+		progress.setValue(progress.getValue() + count);
+		progress.setString(prefix + " " + progress.getValue() + "/" + progress.getMaximum());
 		if (auto_close) {
-			if (n + 1 >= progress.getMaximum()) {
+			if (progress.getValue() >= progress.getMaximum()) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						setVisible(false);

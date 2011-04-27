@@ -60,13 +60,14 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		JTabbedPane table = new JTabbedPane();
 		// actors
 		{
+			System.out.println("init : 单位资源");
 			unit_root = new DefaultMutableTreeNode("单位模板");
 			ArrayList<CPJFile> files = CPJFile.listFile(path, 
 					Config.RES_ACTOR_ROOT, CPJResourceType.ACTOR, progress);
 			progress.setMaximum("", files.size());
 			for (int i=0; i<files.size(); i++) {
 				unit_root.add(files.get(i));
-				progress.setValue("", i);
+				progress.increment();
 			}
 			G2DTree tree = new G2DTree(unit_root);
 			tree.addMouseListener(this);
@@ -76,13 +77,14 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		}
 		// avatars
 		{
+			System.out.println("init : AVATAR资源");
 			avatar_root = new DefaultMutableTreeNode("AVATAR模板");
 			ArrayList<CPJFile> files = CPJFile.listFile(path, 
 					Config.RES_AVATAR_ROOT, CPJResourceType.AVATAR, progress);
 			progress.setMaximum("", files.size());
 			for (int i=0; i<files.size(); i++) {
 				avatar_root.add(files.get(i));
-				progress.setValue("", i);
+				progress.increment();
 			}
 			G2DTree tree = new G2DTree(avatar_root);
 			tree.addMouseListener(this);
@@ -92,13 +94,14 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		}
 		// effect
 		{
+			System.out.println("init : 特效资源");
 			effect_root = new DefaultMutableTreeNode("特效模板");
 			ArrayList<CPJFile> files = CPJFile.listFile(path, 
 					Config.RES_EFFECT_ROOT, CPJResourceType.EFFECT, progress);
 			progress.setMaximum("", files.size());
 			for (int i=0; i<files.size(); i++) {
 				effect_root.add(files.get(i));
-				progress.setValue("", i);
+				progress.increment();
 			}
 			G2DTree tree = new G2DTree(effect_root);
 			tree.addMouseListener(this);
@@ -108,13 +111,14 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		}
 		// scenes
 		{
+			System.out.println("init : 场景资源");
 			scene_root = new DefaultMutableTreeNode("场景模板");
 			ArrayList<CPJFile> files = CPJFile.listFile(path,
 					Config.RES_SCENE_ROOT, CPJResourceType.WORLD, progress);
 			progress.setMaximum("", files.size());
 			for (int i=0; i<files.size(); i++) {
 				scene_root.add(files.get(i));
-				progress.setValue("", i);
+				progress.increment();
 			}
 			G2DTree tree = new G2DTree(scene_root);
 			tree.addMouseListener(this);
@@ -331,19 +335,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == refresh_all) {
-				Enumeration<?> childs = root.children();
-				while (childs.hasMoreElements()) {
-					Object obj = childs.nextElement();
-					if (obj instanceof CPJFile) {
-						CPJFile file = (CPJFile)obj;
-						try {
-							file.refresh();
-						} catch (Throwable e1) {
-							e1.printStackTrace();
-						}
-					}
-				}
-				tree.reload(root);
+				
 			}
 			else if (e.getSource() == build_new) {
 				new BuildResourceTask(root.children(), true).start();
@@ -353,8 +345,44 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 			}
 		}
 	}
+
+//	----------------------------------------------------------------------------------------------------------------------------
 	
-	
+	class RefreshTask extends AbstractDialog 
+	{
+		JProgressBar	progress = new JProgressBar();
+		
+		G2DTree tree;
+		DefaultMutableTreeNode root;
+
+		public RefreshTask(G2DTree tree, DefaultMutableTreeNode root) {
+			super(tree);
+			super.setSize(500, 90);
+			super.setLayout(new BorderLayout());
+			super.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			super.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+			super.setAlwaysOnTop(false);
+			this.tree = tree;
+			this.root = root;
+		}
+
+		public void refresh()
+		{
+			Vector<CPJFile> cur_files = G2DTree.getNodesSubClass(root, CPJFile.class);
+			progress.setMaximum(cur_files.size());
+			int i = 0;
+			for (CPJFile file : cur_files) {
+				try {
+					file.refresh();
+				} catch (Throwable e1) {
+					e1.printStackTrace();
+				}	
+				i++;
+				progress.setValue(i);
+			}
+			tree.reload(root);
+		}
+	}
 
 //	----------------------------------------------------------------------------------------------------------------------------
 	

@@ -309,7 +309,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 				File cpj = Builder.getInstance().getCPJFile(file, res_type);
 				if (cpj != null && cpj.exists()) {
 					try {
-						progress.setValue(file.getName(), i);
+						progress.increment();
 						ret.add(new CPJFile(cpj, res_type));
 					} catch(Throwable err){
 						System.err.println("init cpj file error : " + cpj.getPath());

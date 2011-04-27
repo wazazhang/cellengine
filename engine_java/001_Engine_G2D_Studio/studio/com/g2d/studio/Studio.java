@@ -410,7 +410,7 @@ public class Studio extends AbstractFrame
 		}
 
 		this.add(state_bar, BorderLayout.SOUTH);
-		progress.setValue("", 1);
+		progress.increment();
 	}
 	
 	public IO getIO() {
@@ -606,12 +606,12 @@ public class Studio extends AbstractFrame
 			progress.setString(prefix + " " + (progress.getValue())+"/"+progress.getMaximum());
 		}
 		
-		@Override
-		public void setValue(String prefix, int n) 
-		{
-			progress.setValue(n);
-			progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
-		}
+//		@Override
+//		public void setValue(String prefix, int n) 
+//		{
+//			progress.setValue(n);
+//			progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
+//		}
 		
 		@Override
 		public int getMaximum()
@@ -625,6 +625,14 @@ public class Studio extends AbstractFrame
 			return progress.getValue();
 		}
 		
+		@Override
+		public void increment() {
+			progress.setValue(progress.getValue()+1);
+		}
+		@Override
+		public void increment(int count) {
+			progress.setValue(progress.getValue()+count);
+		}
 //		public void increment() {
 //			progress.setValue(progress.getValue()+1);
 //		}
