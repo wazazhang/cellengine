@@ -3,6 +3,7 @@ package com.g2d.studio.sound;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
@@ -75,13 +76,22 @@ public class SoundManager extends ManagerFormTreeList<SoundFile>
 		return new SoundList("声音编辑器", progress, resRoot, saveListFile);
 	}
 	
-	public class SoundList extends FileObjectView<SoundFile> implements MouseListener
+	public class SoundList extends FileObjectView<SoundFile>
 	{
 		private static final long serialVersionUID = 1L;
 
 		public SoundList(String title, ProgressForm progress, File resRoot, File saveListFile) {
 			super(title, progress, resRoot, saveListFile);	
-			getList().addMouseListener(this);
+			getList().addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+						if (getSelectedItem() != null) {
+							playSelected();
+						}
+					}
+				}
+			});
 		}
 		
 		@Override
@@ -123,22 +133,6 @@ public class SoundManager extends ManagerFormTreeList<SoundFile>
 		}
 		
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount()==2) {
-				if (getSelectedItem()!=null) {
-					 playSelected();
-				}
-			}
-		}
-		@Override
-		public void mouseEntered(MouseEvent e) {}
-		@Override
-		public void mouseExited(MouseEvent e) {}
-		@Override
-		public void mousePressed(MouseEvent e) {}
-		@Override
-		public void mouseReleased(MouseEvent e) {}
 	}
 
 }
