@@ -51,22 +51,23 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 		progress.setString(prefix + " " + (0)+"/"+progress.getMaximum());
 	}
 	
-//	@Override
-//	public void setValue(String prefix, int n) 
-//	{
-//		progress.setValue(n);
-//		progress.setString(prefix + " " + (n)+"/"+progress.getMaximum());
-//		
-//		if (auto_close) {
-//			if (n >= progress.getMaximum()) {
-//				EventQueue.invokeLater(new Runnable() {
-//					public void run() {
-//						setVisible(false);
-//					}
-//				});
-//			}
-//		}
-//	}
+	@Override
+	public void setValue(String prefix, int n) 
+	{
+		this.prefix = prefix;
+		progress.setValue(n);
+		progress.setString(prefix + " " + (n) + "/" + progress.getMaximum());
+		
+		if (auto_close) {
+			if (n >= progress.getMaximum()) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						setVisible(false);
+					}
+				});
+			}
+		}
+	}
 	
 	@Override
 	public void increment()

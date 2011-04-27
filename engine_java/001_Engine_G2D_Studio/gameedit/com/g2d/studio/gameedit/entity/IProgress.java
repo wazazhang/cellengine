@@ -14,12 +14,12 @@ public interface IProgress
 	 */
 	public void setMaximum(String prefix, int total);
 	
-//	/**
-//	 * 设置进度条的进度值
-//	 * @param prefix 进度描述用的前缀
-//	 * @param value 进度值
-//	 */
-//	public void setValue(String prefix, int value);
+	/**
+	 * 设置进度条的进度值
+	 * @param prefix 进度描述用的前缀
+	 * @param value 进度值
+	 */
+	public void setValue(String prefix, int value);
 	
 	
 	public void increment();

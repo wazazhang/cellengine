@@ -608,12 +608,13 @@ public class Studio extends AbstractFrame
 			progress.setString(prefix + " " + (progress.getValue())+"/"+progress.getMaximum());
 		}
 		
-//		@Override
-//		public void setValue(String prefix, int n) 
-//		{
-//			progress.setValue(n);
-//			progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
-//		}
+		@Override
+		public void setValue(String prefix, int n) 
+		{
+			this.prefix = prefix;
+			progress.setValue(n);
+			progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
+		}
 		
 		@Override
 		public int getMaximum()
