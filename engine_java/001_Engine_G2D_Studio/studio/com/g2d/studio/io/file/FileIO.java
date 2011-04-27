@@ -10,15 +10,40 @@ import java.util.ArrayList;
 
 import com.cell.CIO;
 import com.cell.CObject;
+import com.cell.CUtil;
 import com.cell.io.CFile;
+import com.cell.util.Pair;
 import com.g2d.studio.Config;
 import com.g2d.studio.io.File;
 import com.g2d.studio.io.IO;
 
 public class FileIO implements IO
 {
+	private static ArrayList<Pair<String, String>> REDIRECT_MAP = new ArrayList<Pair<String,String>>();
+	
+	private static void addRedirect(String src, String dst) {
+		REDIRECT_MAP.add(new Pair<String, String>(src, dst));
+	}
+	
+	public FileIO(String[] args) {
+		for (int i = 1; i < args.length; i++) {
+			if (args[i].startsWith("redirect=")) {
+				File rfile = createFile(args[i].substring("redirect=".length()));
+				String ftext = rfile.readUTF();
+				for (String line : CUtil.splitString(ftext, "\n")) {
+					String[] sd = CUtil.splitString(line, "->", true);
+					if (sd.length > 1) {
+						FileIO.addRedirect(sd[0], sd[1]);
+						System.out.println("FileImpl - redirect map : " + sd[0]);
+						System.out.println("                          " + sd[1]);
+					}
+				}
+			}
+		}
+	}
+	
     public File createFile(String pathname) {
-    	return new FileImpl(new java.io.File(pathname));
+        return new FileImpl(new java.io.File(pathname));
     }
 
     public File createFile(String parent, String child) {
@@ -34,13 +59,21 @@ public class FileIO implements IO
     	final java.io.File file;
     	
     	private FileImpl(java.io.File file) {
-    		java.io.File f = file;
-			try {
-				f = file.getCanonicalFile();
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-			this.file = f;
+    		try {
+    			String path = file.getCanonicalFile().getPath();
+//    			System.out.println("create File : " + path);
+    			for (Pair<String, String> pair : REDIRECT_MAP) {
+    				if (path.startsWith(pair.getKey())) {
+    					path = pair.getValue() + path.substring(pair.getValue().length());
+    					file = new java.io.File(path);
+    					System.out.println("FileImpl - redirect File : " + path);
+    					break;
+    				}
+    			}
+    		} catch (Throwable e) {
+    			e.printStackTrace();
+    		}
+			this.file = file;
 		}
     	
     	@Override

@@ -293,7 +293,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	 * @return
 	 */
 	public static ArrayList<CPJFile> listFile (
-			String root, 
+			File root, 
 			String res_root, 
 			CPJResourceType res_type,
 			ProgressForm progress)

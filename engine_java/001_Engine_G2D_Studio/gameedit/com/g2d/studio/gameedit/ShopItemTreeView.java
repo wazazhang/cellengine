@@ -14,7 +14,7 @@ public class ShopItemTreeView extends ObjectTreeViewTemplateXLS<XLSShopItem, TSh
 	
 	public ShopItemTreeView(
 			String		title, 
-			String		objects_dir,
+			com.g2d.studio.io.File		objects_dir,
 			File		xls_file,
 			ProgressForm progress) {
 		super(title, XLSShopItem.class, TShopItem.class, objects_dir, xls_file, progress);

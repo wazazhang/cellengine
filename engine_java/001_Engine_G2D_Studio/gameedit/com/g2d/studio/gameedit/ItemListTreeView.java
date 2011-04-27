@@ -18,7 +18,7 @@ public class ItemListTreeView extends ObjectTreeViewTemplateDynamic<DItemList, T
 {
 	private static final long serialVersionUID = 1L;
 
-	public ItemListTreeView(String title, String objects_dir, ProgressForm progress) 
+	public ItemListTreeView(String title, com.g2d.studio.io.File objects_dir, ProgressForm progress) 
 	{
 		super(title, DItemList.class, TItemList.class, objects_dir, progress);		
 	}

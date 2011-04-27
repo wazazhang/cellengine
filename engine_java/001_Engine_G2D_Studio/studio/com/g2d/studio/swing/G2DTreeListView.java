@@ -127,14 +127,29 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Vector<Pair<NodeGroup<T>, T>> getItemsPath()
+	public Vector<Pair<T, NodeGroup<T>>> getItemsPath()
 	{
-		Vector<Pair<NodeGroup<T>, T>> ret = new Vector<Pair<NodeGroup<T>, T>>();
+		Vector<Pair<T, NodeGroup<T>>> ret = new Vector<Pair<T, NodeGroup<T>>>();
 		for (TreeNode n : G2DTree.getAllNodes(tree_root)) {
 			if (n instanceof NodeGroup<?>) {
 				NodeGroup<T> g = (NodeGroup<T>)n;
 				for (G2DListItem t : g.items.values()) {
-					ret.add(new Pair<NodeGroup<T>, T>(g, (T)t));
+					ret.add(new Pair<T, NodeGroup<T>>((T)t, g));
+				}
+			}
+		}
+		return ret;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public LinkedHashMap<T, NodeGroup<T>> getItemsMap()
+	{
+		LinkedHashMap<T, NodeGroup<T>> ret = new LinkedHashMap<T, NodeGroup<T>>();
+		for (TreeNode n : G2DTree.getAllNodes(tree_root)) {
+			if (n instanceof NodeGroup<?>) {
+				NodeGroup<T> g = (NodeGroup<T>)n;
+				for (G2DListItem t : g.items.values()) {
+					ret.put((T)t, g);
 				}
 			}
 		}

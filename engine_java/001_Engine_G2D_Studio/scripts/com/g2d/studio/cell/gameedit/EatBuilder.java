@@ -617,7 +617,7 @@ public class EatBuilder extends Builder
 				EatBuilder builder = new EatBuilder(new File(arg_2).getParent());
 				Builder.setBuilder(builder);
 				
-				FileIO io = new FileIO();
+				FileIO io = new FileIO(new String[]{});
 				if (arg_1.equals("scene")) {
 					builder.buildScene(io.createFile(new File(arg_0).getCanonicalPath()), false);
 				} else {

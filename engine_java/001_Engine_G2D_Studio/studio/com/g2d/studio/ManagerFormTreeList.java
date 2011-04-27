@@ -63,13 +63,12 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 		this.list.getList().setLayoutOrientation(JList.HORIZONTAL_WRAP);
 
 		this.add(new JScrollPane(list), BorderLayout.CENTER);
-		
-		saveAll(null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == tool_bar.save) {
+			list.refresh(new SaveProgressForm());
 			saveAll(null);
 		}
 		else if (e.getSource() == btn_refresh) {

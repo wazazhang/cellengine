@@ -48,7 +48,7 @@ public class TalkManager extends ManagerFormTreeList<TalkFile>
 		private static final long serialVersionUID = 1L;
 
 		public TalkList(String title, ProgressForm progress, File resRoot, File saveListFile) {
-			super(title, progress, resRoot, saveListFile);
+			super(title, progress, resRoot, saveListFile, Config.TALK_SUFFIX);
 		}
 		
 		@Override

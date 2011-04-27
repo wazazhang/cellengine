@@ -27,7 +27,7 @@ public class AvatarTreeView extends ObjectTreeViewTemplateDynamic<DAvatar, TAvat
 {
 	private static final long serialVersionUID = 1L;
 
-	public AvatarTreeView(String title, String objects_dir, ProgressForm progress) 
+	public AvatarTreeView(String title, com.g2d.studio.io.File objects_dir, ProgressForm progress) 
 	{
 		super(title, DAvatar.class, TAvatar.class, objects_dir, progress);		
 	}

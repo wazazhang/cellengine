@@ -14,7 +14,7 @@ public class SkillTreeView extends ObjectTreeViewTemplateXLS<XLSSkill, TSkill>
 	
 	public SkillTreeView(
 			String		title, 
-			String		objects_dir,
+			com.g2d.studio.io.File		objects_dir,
 			File		xls_file,
 			ProgressForm progress) {
 		super(title, XLSSkill.class, TSkill.class, objects_dir, xls_file, progress);

@@ -69,14 +69,13 @@ public class IconManager extends ManagerFormTreeList<IconFile>
 		private static final long serialVersionUID = 1L;
 
 		public IconList(String title, ProgressForm progress, File resRoot, File saveListFile) {
-			super(title, progress, resRoot, saveListFile);
+			super(title, progress, resRoot, saveListFile, Config.ICON_SUFFIX);
 		}
 		
 		@Override
 		public IconFile createItem(File file) {
 			if (file.getName().endsWith(Config.ICON_SUFFIX)) {
 				IconFile icon = new IconFile(file);
-				icon.getImage();
 				return icon;
 			}
 			return null;

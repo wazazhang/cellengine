@@ -637,7 +637,7 @@ public class ImagePaletteMerger
 			{
 				new AwtEngine();		
 				
-				IO io = new FileIO();
+				IO io = new FileIO(new String[]{});
 								
 				for ( int i=0; i<args.length; ++i )
 				{

@@ -55,7 +55,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	{
 		super(studio, progress, "资源管理器", Res.icons_bar[7]);
 		
-		String path = Studio.getInstance().project_path.getPath();
+		com.g2d.studio.io.File path = Studio.getInstance().project_path;
 		
 		JTabbedPane table = new JTabbedPane();
 		// actors

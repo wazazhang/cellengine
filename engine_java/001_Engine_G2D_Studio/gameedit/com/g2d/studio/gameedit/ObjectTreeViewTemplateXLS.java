@@ -32,7 +32,7 @@ extends ObjectTreeView<T, D>
 			String		title, 
 			Class<T>	node_type, 
 			Class<D>	data_type, 
-			String		objects_dir,
+			File		objects_dir,
 			File		xls_file,
 			ProgressForm progress) 
 	{

@@ -1,6 +1,7 @@
 package com.g2d.studio;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
 import javax.swing.JProgressBar;
 
@@ -50,11 +51,15 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	public void setValue(String prefix, int n) 
 	{
 		progress.setValue(n);
-		progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
+		progress.setString(prefix + " " + (n+1)+"/"+progress.getMaximum());
 		
 		if (auto_close) {
-			if (n >= progress.getMaximum() - 1) {
-				this.setVisible(false);
+			if (n + 1 >= progress.getMaximum()) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						setVisible(false);
+					}
+				});
 			}
 		}
 	}

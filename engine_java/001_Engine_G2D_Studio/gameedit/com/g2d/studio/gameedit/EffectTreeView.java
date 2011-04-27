@@ -18,7 +18,7 @@ public class EffectTreeView extends ObjectTreeViewTemplateDynamic<DEffect, TEffe
 {
 	private static final long serialVersionUID = 1L;
 
-	public EffectTreeView(String title, String objects_dir, ProgressForm progress) 
+	public EffectTreeView(String title, com.g2d.studio.io.File objects_dir, ProgressForm progress) 
 	{
 		super(title, DEffect.class, TEffect.class, objects_dir, progress);		
 	}

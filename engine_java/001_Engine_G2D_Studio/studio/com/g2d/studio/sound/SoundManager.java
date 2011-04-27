@@ -81,7 +81,7 @@ public class SoundManager extends ManagerFormTreeList<SoundFile>
 		private static final long serialVersionUID = 1L;
 
 		public SoundList(String title, ProgressForm progress, File resRoot, File saveListFile) {
-			super(title, progress, resRoot, saveListFile);	
+			super(title, progress, resRoot, saveListFile, Config.SOUND_SUFFIX);	
 			getList().addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {

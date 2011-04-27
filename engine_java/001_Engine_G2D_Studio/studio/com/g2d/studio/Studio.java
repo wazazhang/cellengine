@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 
 import com.cell.CIO;
 import com.cell.CObject;
+import com.cell.CUtil;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
 import com.cell.rpg.RPGConfig;
@@ -123,7 +124,7 @@ public class Studio extends AbstractFrame
 		
 		project_file 		= g2d_file;
 		project_path 		= io.createFile(project_file.getParent());
-		project_save_path	= io.createFile(project_file.getParent(), Config.G2D_SAVE_NAME);
+		project_save_path	= io.createFile(project_file.getParentFile(), Config.G2D_SAVE_NAME);
 		
 		RPGConfig.IS_EDIT_MODE = true;
 		RPGObjectMap.setPersistanceManagerDriver	(Config.PERSISTANCE_MANAGER);
@@ -423,7 +424,7 @@ public class Studio extends AbstractFrame
 	 */
 	public File getFile(String path)
 	{
-		return io.createFile(project_path.getPath(), path);
+		return io.createFile(project_path, path);
 	}
 
 //-----------------------------------------------------------------------------------------------------------
@@ -686,7 +687,7 @@ public class Studio extends AbstractFrame
 					io = new FileHttp(args);
 				}
 				else if (io == null) {
-					io = new FileIO();
+					io = new FileIO(args);
 				}
 				
 				System.out.println("Open: " + args[0]);
