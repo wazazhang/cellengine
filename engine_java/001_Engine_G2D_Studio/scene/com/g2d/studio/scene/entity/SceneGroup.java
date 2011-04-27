@@ -20,27 +20,27 @@ public class SceneGroup extends G2DTreeNodeGroup<SceneNode>
 		return new SceneGroup(name);
 	}
 	
-	public void loadPath(String node_path) {
-		String[] id_name = CUtil.splitString(node_path, "?");
-		if (id_name.length > 1) {
-			node_path = id_name[0];
-		}
-		SceneGroup group = this;
-		String[] path = fromPathString(node_path.trim(), "/");
-		for (int i=0; i<path.length; i++) {
-			String file_name = path[i].trim();
-			if (group.pathAddLeafNode(file_name, i, path.length)) {
-				return;
-			} else {
-				G2DTreeNodeGroup<?> g = group.findChild(file_name);
-				if (g == null) {
-					g = createGroupNode(file_name);
-					group.add(g);
-				}
-				group = (SceneGroup)g;
-			}
-		}
-	}
+//	public void loadPath(String node_path) {
+//		String[] id_name = CUtil.splitString(node_path, "?");
+//		if (id_name.length > 1) {
+//			node_path = id_name[0];
+//		}
+//		SceneGroup group = this;
+//		String[] path = fromPathString(node_path.trim(), "/");
+//		for (int i=0; i<path.length; i++) {
+//			String file_name = path[i].trim();
+//			if (group.pathAddLeafNode(file_name, i, path.length)) {
+//				return;
+//			} else {
+//				G2DTreeNodeGroup<?> g = group.findChild(file_name);
+//				if (g == null) {
+//					g = createGroupNode(file_name);
+//					group.add(g);
+//				}
+//				group = (SceneGroup)g;
+//			}
+//		}
+//	}
 
 	protected boolean pathAddLeafNode(String name, int index, int length) {
 		if (name.endsWith(".xml")) {

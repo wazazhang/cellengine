@@ -125,27 +125,27 @@ public class QuestItemTree extends G2DTree
 			super(title);
 		}
 
-		public void loadPath(String node_path) {
-			String[] id_name = CUtil.splitString(node_path, "?");
-			if (id_name.length > 1) {
-				node_path = id_name[0];
-			}
-			ConditionGroup group = this;
-			String[] path = fromPathString(node_path.trim(), "/");
-			for (int i=0; i<path.length; i++) {
-				String file_name = path[i].trim();
-				if (group.pathAddLeafNode(file_name, i, path.length)) {
-					return;
-				} else {
-					G2DTreeNodeGroup<?> g = group.findChild(file_name);
-					if (g == null) {
-						g = createGroupNode(file_name);
-						group.add(g);
-					}
-					group = (ConditionGroup)g;
-				}
-			}
-		}
+//		public void loadPath(String node_path) {
+//			String[] id_name = CUtil.splitString(node_path, "?");
+//			if (id_name.length > 1) {
+//				node_path = id_name[0];
+//			}
+//			ConditionGroup group = this;
+//			String[] path = fromPathString(node_path.trim(), "/");
+//			for (int i=0; i<path.length; i++) {
+//				String file_name = path[i].trim();
+//				if (group.pathAddLeafNode(file_name, i, path.length)) {
+//					return;
+//				} else {
+//					G2DTreeNodeGroup<?> g = group.findChild(file_name);
+//					if (g == null) {
+//						g = createGroupNode(file_name);
+//						group.add(g);
+//					}
+//					group = (ConditionGroup)g;
+//				}
+//			}
+//		}
 
 		protected boolean pathAddLeafNode(String name, int index, int length) {
 			QuestItemManager items = quest_node.getQuestItemManager();

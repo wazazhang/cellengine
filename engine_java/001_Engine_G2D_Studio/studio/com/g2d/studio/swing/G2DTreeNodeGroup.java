@@ -21,6 +21,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import com.cell.CUtil;
+import com.g2d.studio.gameedit.entity.ObjectGroup;
 
 
 
@@ -106,6 +107,30 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 //	-------------------------------------------------------------------------------------------------------
 //
 
+	final public void loadPath(String node_path) {
+		String[] id_name = CUtil.splitString(node_path, "?");
+		if (id_name.length > 1) {
+			node_path = id_name[0];
+		}
+		G2DTreeNodeGroup<?> group = this;
+		String[] path = fromPathString(node_path.trim(), "/");
+		for (int i=0; i<path.length; i++) {
+			String file_name = path[i].trim();
+			if (group.pathAddLeafNode(file_name, i, path.length)) {
+				return;
+			} else {
+				G2DTreeNodeGroup<?> g = group.findChild(file_name);
+				if (g == null) {
+					g = createGroupNode(file_name);
+					group.add(g);
+				}
+				group = (G2DTreeNodeGroup<?>)g;
+			}
+		}
+	}
+	
+	abstract protected boolean pathAddLeafNode(String name, int index, int length);
+	
 	/**
 	 * 有子节点加入的时候
 	 * @param name
@@ -131,7 +156,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 		String path = "";
 		TreeNode p = node.getParent();
 		while (p != null) {
-			if (p.getParent()!=null) {
+			if (p.getParent() != null) {
 				path = p.toString() + split + path;
 			}
 			p = p.getParent();
@@ -145,7 +170,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 	 * @param split
 	 * @return
 	 */
-	public static String toPathString(TreeNode node, String split)
+	public static String toFullPathString(TreeNode node, String split)
 	{
 		String path = "";
 		TreeNode p = node;

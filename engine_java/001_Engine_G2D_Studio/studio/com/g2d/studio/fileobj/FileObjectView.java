@@ -73,7 +73,7 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		for (Pair<NodeGroup<T>, T> p : getItemsPath()) {
 			NodeGroup<T> g = p.getKey();
 			T o = p.getValue();
-			new_list.append(G2DTreeNodeGroup.toPathString(g, "/") + o.getName() + ";" + o.getSaveListArgs() + "\n");
+			new_list.append(G2DTreeNodeGroup.toFullPathString(g, "/") + o.getName() + ";" + o.getSaveListArgs() + "\n");
 		}
 		save_list_file.writeUTF(new_list.toString());
 		return new_list.toString();

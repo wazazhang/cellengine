@@ -366,6 +366,11 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		public Vector<G2DListItem> getItems() {
 			return new Vector<G2DListItem>(items.values());
 		}
+		
+		@Override
+		protected boolean pathAddLeafNode(String name, int index, int length) {
+			return false;
+		}
 
 		@Override
 		protected G2DTreeNodeGroup<?> createGroupNode(String name) {
