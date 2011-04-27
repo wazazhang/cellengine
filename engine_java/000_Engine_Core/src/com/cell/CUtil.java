@@ -1367,7 +1367,7 @@ public class CUtil extends CObject
 	 * @param separator
 	 * @return
 	 */
-	static public String[] splitString(String text, String separator, int limit) {
+	static public String[] splitString(String text, String separator, int limit, boolean autotrim) {
 		int count = 0;
 		try {
 			Vector<String> lines = new Vector<String>();
@@ -1389,6 +1389,11 @@ public class CUtil extends CObject
 			}
 			String[] texts = new String[lines.size()];
 			lines.copyInto(texts);
+			if (autotrim) {
+				for (int i = 0; i < texts.length; i++) {
+					texts[i] = texts[i].trim();
+				}
+			}
 			lines = null;
 			return texts;
 		} catch (Exception err) {
@@ -1398,11 +1403,16 @@ public class CUtil extends CObject
 	}
 	
 	static public String[] splitString(String text, String separator) {
-		return splitString(text, separator, Integer.MAX_VALUE);
+		return splitString(text, separator, Integer.MAX_VALUE, false);
 	}
-	
 
-	
+	static public String[] splitString(String text, String separator, int limit) {
+		return splitString(text, separator, limit, false);
+	}
+
+	static public String[] splitString(String text, String separator, boolean autotrim) {
+		return splitString(text, separator, Integer.MAX_VALUE, autotrim);
+	}
 	
 	
 	
