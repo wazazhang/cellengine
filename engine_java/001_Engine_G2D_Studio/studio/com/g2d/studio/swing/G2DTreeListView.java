@@ -126,6 +126,10 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		return ret;
 	}
 	
+	/**
+	 * 返回一个有序列表，用于存储。
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public Vector<Pair<T, NodeGroup<T>>> getItemsPath()
 	{
@@ -133,7 +137,11 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		for (TreeNode n : G2DTree.getAllNodes(tree_root)) {
 			if (n instanceof NodeGroup<?>) {
 				NodeGroup<T> g = (NodeGroup<T>)n;
-				for (G2DListItem t : g.items.values()) {
+				Vector<G2DListItem> items = g.getItems();
+				if (comparator != null) {
+					Collections.sort(items, comparator);
+				}
+				for (G2DListItem t : items) {
 					ret.add(new Pair<T, NodeGroup<T>>((T)t, g));
 				}
 			}

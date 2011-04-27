@@ -195,13 +195,13 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		return ret;
 	}
 	
-	private HashMap<String, T> getItemsList() {
-		HashMap<String, T> ret = new LinkedHashMap<String, T>();
-		for (T i : getItems()) {
-			ret.put(i.getName(), i);
-		}
-		return ret;
-	}
+//	private HashMap<String, T> getItemsList() {
+//		HashMap<String, T> ret = new LinkedHashMap<String, T>();
+//		for (T i : getItems()) {
+//			ret.put(i.getName(), i);
+//		}
+//		return ret;
+//	}
 	
 //	--------------------------------------------------------------------------------------------------------------
 	
