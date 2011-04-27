@@ -452,7 +452,7 @@ public abstract class ResourceManager extends CellSetResourceManager
 				String[] split 	= CUtil.splitString(pair.getValue(), ",");
 				table.add(pair.getKey());
 			} else {
-				// keep to old version
+				// keep for old version
 				String[] split 	= CUtil.splitString(res_list[i].trim(), ",");
 				String icon_id 	= split[0];
 				String icon_w 	= split[1];
