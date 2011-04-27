@@ -102,7 +102,7 @@ extends ObjectTreeView<T, D>
 		{
 			xls_row_map.put(row.id, row);
 			tmp_xls_row_map.put(row.id, row);
-			
+			if (progress != null)
 			progress.setValue("refresh xls rows: "+row.id, ++i/200);
 		}
 		

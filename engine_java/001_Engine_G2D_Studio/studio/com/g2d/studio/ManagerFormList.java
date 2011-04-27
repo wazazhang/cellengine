@@ -167,10 +167,10 @@ public abstract class ManagerFormList<T extends G2DListItem> extends ManagerForm
 		int i = 0;
 		for (T icon : files) {
 			sb.append(getSaveListName(icon)+"\n");
-			i++;
 			if (progress != null) {
 				progress.setValue(getTitle(), i);
 			}
+			i++;
 		}
 		save_list_file.writeUTF(sb.toString());
 	}

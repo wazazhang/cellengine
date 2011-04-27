@@ -13,8 +13,12 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	private static final long serialVersionUID = 1L;
 	
 	private JProgressBar progress = new JProgressBar();
-
-	public SaveProgressForm()
+	
+	public SaveProgressForm() {
+		this(true);
+	}
+	
+	public SaveProgressForm(boolean auto_close)
 	{
 		this.setLayout(new BorderLayout());
 		this.setIconImage(Res.icon_edit);
@@ -44,6 +48,10 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	{
 		progress.setValue(n);
 		progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
+		
+		if (n == progress.getMaximum()) {
+			this.setVisible(false);
+		}
 	}
 	
 	@Override

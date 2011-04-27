@@ -482,7 +482,7 @@ public class Studio extends AbstractFrame
 	
 	public void saveAll() 
 	{		
-		SaveProgressForm progress = new SaveProgressForm();
+		SaveProgressForm progress = new SaveProgressForm(false);
 		
 		try {
 			frame_sound_manager.saveAll(progress);
