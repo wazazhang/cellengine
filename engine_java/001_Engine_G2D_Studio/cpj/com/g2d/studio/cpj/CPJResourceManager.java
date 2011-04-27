@@ -309,7 +309,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 					res_type, progress);
 			progress.setMaximum("", files.size());
 			for (int i = 0; i < files.size(); i++) {
-				unit_root.add(files.get(i));
+				add(files.get(i));
 				progress.increment();
 			}
 		}
