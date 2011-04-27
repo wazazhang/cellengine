@@ -63,7 +63,6 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		JTabbedPane table = new JTabbedPane();
 		// actors
 		{
-			System.out.println("init : 单位资源");
 			unit_root = new CPJRootNode("单位模板", 
 					Config.RES_ACTOR_ROOT,
 					save_dir.getChildFile("actor_list.list"), 
@@ -77,7 +76,6 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		}
 		// avatars
 		{
-			System.out.println("init : AVATAR资源");
 			avatar_root = new CPJRootNode("AVATAR模板",
 					Config.RES_AVATAR_ROOT,
 					save_dir.getChildFile("avatar_list.list"), 
@@ -91,7 +89,6 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		}
 		// effect
 		{
-			System.out.println("init : 特效资源");
 			effect_root = new CPJRootNode("特效模板",
 					Config.RES_EFFECT_ROOT,
 					save_dir.getChildFile("effect_list.list"),
@@ -105,7 +102,6 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		}
 		// scenes
 		{
-			System.out.println("init : 场景资源");
 			scene_root = new CPJRootNode("场景模板",
 					Config.RES_SCENE_ROOT,
 					save_dir.getChildFile("scene_list.list"),
@@ -141,25 +137,40 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	public <T extends CPJObject<?>> T getNode(CPJIndex<T> index)
 	{
 		try{
-			G2DTreeNode<?> node = null;
-			switch(index.res_type)
+			G2DTreeNode<?> file = G2DTree.getNode(
+					unit_root, 
+					index.cpj_file_name);
+			if (file instanceof CPJFile) 
 			{
-			case ACTOR:
-				node = G2DTree.getNode(unit_root, index.cpj_file_name, index.set_object_name);
-				break;
-			case EFFECT:
-				node = G2DTree.getNode(effect_root, index.cpj_file_name, index.set_object_name);
-				break;
-			case WORLD:
-				node = G2DTree.getNode(scene_root, index.cpj_file_name, index.set_object_name);
-				break;
-			case AVATAR:
-				node = G2DTree.getNode(avatar_root, index.cpj_file_name, index.set_object_name);
-				break;
-			}
-			if (node != null) {
-				index.object = (T)node;
-				return (T)node;
+				CPJFile cpj = (CPJFile)file;
+				if (cpj.getSetResource() == null) {
+					try {
+						cpj.refresh();
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+				}
+				
+				G2DTreeNode<?> node = null;
+				switch(index.res_type)
+				{
+				case ACTOR:
+					node = G2DTree.getNode(cpj, index.set_object_name);
+					break;
+				case EFFECT:
+					node = G2DTree.getNode(cpj, index.set_object_name);
+					break;
+				case WORLD:
+					node = G2DTree.getNode(cpj, index.set_object_name);
+					break;
+				case AVATAR:
+					node = G2DTree.getNode(cpj, index.set_object_name);
+					break;
+				}
+				if (node != null) {
+					index.object = (T)node;
+					return (T)node;
+				}
 			}
 		}catch(Exception err){
 			err.printStackTrace();
@@ -301,19 +312,20 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		public CPJRootNode(String name, String res_root, File saveActorList, CPJResourceType resType, IProgress progress) 
 		{
 			super(name);
-			
 			this.save_list = saveActorList;
 			this.res_root = res_root;
 			this.res_type = resType;
-			
+
+			System.out.println("init : " + name);
 			ArrayList<CPJFile> files = CPJFile.getSavedListFile(
 					save_list, Studio.getInstance().project_path, 
 					res_type, progress);
-			progress.setMaximum("", files.size());
+			progress.setMaximum(resType.name(), files.size());
 			for (int i = 0; i < files.size(); i++) {
 				add(files.get(i));
 				progress.increment();
 			}
+			System.out.println("read : " + progress.getValue());
 		}
 
 		public void save() {

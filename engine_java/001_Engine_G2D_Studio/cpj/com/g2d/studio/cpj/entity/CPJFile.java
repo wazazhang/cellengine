@@ -60,7 +60,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 
 //		set_resource = new StudioResource(output_file, name);
 		
-		refresh();
+//		refresh();
 	}
 	
 	@Override
