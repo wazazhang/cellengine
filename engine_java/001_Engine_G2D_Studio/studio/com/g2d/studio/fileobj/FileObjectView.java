@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,7 +37,7 @@ import com.g2d.studio.swing.G2DTreeListView.NodeGroup;
 import com.g2d.studio.talks.TalkFile;
 
 @SuppressWarnings("serial")
-public abstract class FileObjectView<T extends FileObject> extends G2DTreeListView<T>
+public abstract class FileObjectView<T extends FileObject> extends G2DTreeListView<T> implements Comparator<G2DListItem>
 {
 	final String title;
 	
@@ -57,6 +58,8 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		this.res_root = res_root;		
 		this.title = title;
 		
+		this.setComparator(this);
+		
 		refresh(progress);
 		
 //		this.getList().setVisibleRowCount(this.files.size()/10+1);
@@ -65,10 +68,15 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		getTree().expandAll();
 		
 		reload();
+		
 	}
 
 	abstract public T	createItem(File file);
 
+	public int compare(G2DListItem o1, G2DListItem o2) {
+		return o1.getListName().compareTo(o2.getListName());
+	}
+	
 //	--------------------------------------------------------------------------------------------------------------
 	
 	public String saveAll()

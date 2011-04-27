@@ -18,6 +18,8 @@ import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.TooManyListenersException;
 import java.util.Vector;
@@ -61,9 +63,9 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	final protected TreeView g2d_tree;
 	final protected ListView g2d_list;
 
-//	final private AtomicReference<T> draged_item = new AtomicReference<T>();
-
 	final private JPanel blank_right = new JPanel();
+
+	private Comparator<G2DListItem> comparator = null;
 	
 	protected G2DTreeListView(NodeGroup<T> root) 
 	{
@@ -220,7 +222,11 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 			}catch(Exception err){}
 		}
 	}
-	
+
+	public void setComparator(Comparator<G2DListItem> comparator) {
+		this.comparator = comparator;
+	}
+
 //	-----------------------------------------------------------------------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
@@ -320,7 +326,11 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		public void selectGroup(NodeGroup<?> node) {
 			current_node = node;
 			if (node != null) {
-				this.setListData(node.getItems());
+				Vector<G2DListItem> items = node.getItems();
+				if (comparator != null) {
+					Collections.sort(items, comparator);
+				}
+				this.setListData(items);
 			} else {
 				this.setListData(new Object[]{});
 			}
