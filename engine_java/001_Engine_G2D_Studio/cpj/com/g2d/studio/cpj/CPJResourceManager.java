@@ -377,52 +377,62 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 			super.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 			super.setAlwaysOnTop(false);
 			
+			progress.setStringPainted(true);
+			super.add(progress, BorderLayout.CENTER);
+
 			this.tree = tree;
 			this.root = root;
 		}
 
 		public void run()
 		{
-			Vector<CPJFile> cur_files = G2DTree.getNodesSubClass(root, CPJFile.class);
-			HashMap<File, CPJFile> cur_files_map = new HashMap<File, CPJFile>(cur_files.size());
-			// 查找老目录下的新文件
-			progress.setMaximum(cur_files.size());
-			int i = 0;
-			for (CPJFile file : cur_files) {
-				try {
-					cur_files_map.put(file.getFile(), file);
-					file.refresh();
-				} catch (Throwable e1) {
-					e1.printStackTrace();
-				}	
-				i++;
-				progress.increment();
-			}
-			// 
-			ArrayList<File> new_files = CPJFile.listRootFile(
-					Studio.getInstance().project_path, 
-					root.res_root,
-					root.res_type, 
-					progress);
-			progress.setMaximum(new_files.size());
-			for (File file : new_files) {
-				if (!cur_files_map.containsKey(file)) {
+			try 
+			{
+				Vector<CPJFile> cur_files = G2DTree.getNodesSubClass(root, CPJFile.class);
+				HashMap<File, CPJFile> cur_files_map = new HashMap<File, CPJFile>(cur_files.size());
+				// 查找老目录下的新文件
+				progress.setMaximum(cur_files.size());
+				int i = 0;
+				for (CPJFile file : cur_files) {
 					try {
-						root.add(new CPJFile(file, root.res_type));
-					} catch (Throwable e) {
-						e.printStackTrace();
-					}
+						cur_files_map.put(file.getFile(), file);
+						file.refresh();
+					} catch (Throwable e1) {
+						e1.printStackTrace();
+					}	
+					i++;
+					progress.increment();
 				}
-				progress.increment();
+				// 
+				ArrayList<File> new_files = CPJFile.listRootFile(
+						Studio.getInstance().project_path, 
+						root.res_root,
+						root.res_type, 
+						progress);
+				progress.setMaximum(new_files.size());
+				for (File file : new_files) {
+					if (!cur_files_map.containsKey(file)) {
+						try {
+							root.add(new CPJFile(file, root.res_type));
+							System.out.println("add : " + file);
+						} catch (Throwable e) {
+							e.printStackTrace();
+						}
+					}
+					progress.increment();
+				}
+				tree.reload(root);
+				
+				root.save();
+			} 
+			finally {
+				setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			}
-			tree.reload(root);
-			
-			root.save();
 		}
 
 		public void start() {
-			setVisible(true);
 			new Thread(this).start();
+			setVisible(true);
 		}
 		
 	}
