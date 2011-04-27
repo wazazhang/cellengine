@@ -61,7 +61,7 @@ public class IconManager extends ManagerFormTreeList<IconFile>
 	@Override
 	protected FileObjectView<IconFile> createList(File resRoot,
 			File saveListFile, ProgressForm progress) {
-		return new IconList("icons", progress, resRoot, saveListFile);
+		return new IconList("图标管理器", progress, resRoot, saveListFile);
 	}
 	
 	public class IconList extends FileObjectView<IconFile>
