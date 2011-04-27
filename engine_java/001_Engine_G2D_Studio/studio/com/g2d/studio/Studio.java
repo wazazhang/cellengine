@@ -191,39 +191,52 @@ public class Studio extends AbstractFrame
 		System.out.println(System.setProperty("user.dir", project_path.getPath()));
 		System.out.println(System.getProperty("user.dir"));
 		
-		// sysetm init
-		ProgressForm progress_form = new ProgressForm();
-		progress_form.setVisible(true);
+		this.setTitle(Config.TITLE);
+		this.setIconImage(Res.icon_edit);
+		this.setSize(300, AbstractFrame.getScreenHeight()-60);
+		this.setLocation(0, 0);
+		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		try
-		{
-			//
-			this.setTitle(Config.TITLE);
-			this.setIconImage(Res.icon_edit);
-			this.setSize(300, AbstractFrame.getScreenHeight()-60);
-			this.setLocation(0, 0);
-			this.setLayout(new BorderLayout());
-			this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-			initToolBar(progress_form);
-			initStateBar(progress_form);
-			
-			this.scene_manager = new SceneManager(this, progress_form);
-			
-			this.frame_instance_zone_manager = scene_manager.getInstanceZonesManager();
-			
-			this.add(scene_manager, BorderLayout.CENTER);
-			
-			this.addWindowListener(new StudioWindowListener());
-		}
-		catch (Throwable e) {
-			throw e;
-		} finally{
-			progress_form.setVisible(false);
-			progress_form.dispose();
-		}
+		
+		new LoadTask().start();
 	}
 
+	private class LoadTask extends Thread
+	{
+		@Override
+		public void run()
+		{
+			// sysetm init
+			ProgressForm progress_form = new ProgressForm();
+			progress_form.setVisible(true);
+
+			try
+			{
+				initToolBar(progress_form);
+				initStateBar(progress_form);
+				
+				Studio.this.scene_manager = new SceneManager(Studio.this, progress_form);
+				
+				Studio.this.frame_instance_zone_manager = scene_manager.getInstanceZonesManager();
+				
+				Studio.this.add(scene_manager, BorderLayout.CENTER);
+				
+				Studio.this.addWindowListener(new StudioWindowListener());
+				
+				progress_form.setVisible(false);
+				progress_form.dispose();
+				
+				Studio.this.setVisible(true);
+			}
+			catch (Throwable e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+	}
+	
+	
 	// init tool bar
 	private void initToolBar(ProgressForm progress)
 	{
@@ -644,11 +657,7 @@ public class Studio extends AbstractFrame
 		EventQueue.invokeLater(new Runnable() {
             public void run() {
             	CAppBridge.init();
-            	new Thread(){
-            		public void run() {
-            			start_studio(args);
-            		}
-            	}.start();
+            	start_studio(args);
             }
         });
 	}
@@ -682,8 +691,7 @@ public class Studio extends AbstractFrame
 				
 				System.out.println("Open: " + args[0]);
 				File g2d_file = io.createFile(args[0]);
-				Studio studio = new Studio(g2d_file, io);
-				studio.setVisible(true);
+				new Studio(g2d_file, io);
 			}
 		}
 		catch (Throwable e)
