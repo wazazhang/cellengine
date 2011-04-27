@@ -14,6 +14,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 
+import com.cell.CUtil;
 import com.cell.gameedit.object.WorldSet;
 import com.g2d.awt.util.*;
 
@@ -24,6 +25,7 @@ import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.cell.gameedit.Builder;
 import com.g2d.studio.cell.gameedit.EatBuilder;
 import com.g2d.studio.cpj.CPJResourceType;
+import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DTreeNode;
@@ -61,7 +63,18 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 		refresh();
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof CPJFile) {
+			((CPJFile) obj).cpj_file.equals(this.cpj_file);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return cpj_file.hashCode();
+	}
 	
 	@Override
 	public String getName() {
@@ -283,6 +296,37 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	
 //	------------------------------------------------------------------------------------------------------------------------------
 	
+	public static ArrayList<CPJFile> getSavedListFile(
+			File save_list,
+			File root, 
+			CPJResourceType res_type,
+			IProgress progress)
+	{
+		String text = save_list.readUTF();
+		String[] lines = CUtil.splitString(text, "\n", true);
+		progress.setMaximum(res_type.toString(), lines.length);
+		ArrayList<CPJFile> ret = new ArrayList<CPJFile>(lines.length);
+		for (String line : lines) {
+			try {
+				String info[] = CUtil.splitString(line, ";");
+				if (info.length >= 3) {
+					File cpj = root.getChildFile(info[0]);
+					if (cpj.exists()) {
+						try {
+							progress.increment();
+							ret.add(new CPJFile(cpj, res_type));
+						} catch(Throwable err){
+							System.err.println("init cpj file error : " + cpj.getPath());
+							err.printStackTrace();
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
 
 	/**
 	 * @param root			g2d resource root
@@ -292,11 +336,11 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	 * @param cpj_file		item.cpj
 	 * @return
 	 */
-	public static ArrayList<CPJFile> listFile (
+	public static ArrayList<CPJFile> listRootFile (
 			File root, 
 			String res_root, 
 			CPJResourceType res_type,
-			ProgressForm progress)
+			IProgress progress)
 	{
 //		res_prefix = res_prefix.toLowerCase();
 		ArrayList<CPJFile> ret = new ArrayList<CPJFile>();
@@ -323,16 +367,16 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 		}
 		return ret;
 	}
-	
-	public static File getCPJFile(File file, CPJResourceType res_type) {
-		if (file.getName().startsWith("item_")) {
-			File cpj = file.getChildFile("item.cpj");
-			if (cpj.exists()) {
-				return cpj;
-			}
-		}
-		return null;
-	}
+//	
+//	public static File getCPJFile(File file, CPJResourceType res_type) {
+//		if (file.getName().startsWith("item_")) {
+//			File cpj = file.getChildFile("item.cpj");
+//			if (cpj.exists()) {
+//				return cpj;
+//			}
+//		}
+//		return null;
+//	}
 	
 }
 
