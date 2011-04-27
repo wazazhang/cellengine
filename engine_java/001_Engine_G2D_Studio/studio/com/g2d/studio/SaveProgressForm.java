@@ -14,6 +14,7 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 	
 	private JProgressBar progress = new JProgressBar();
 	
+	private boolean auto_close = false;
 	public SaveProgressForm() {
 		this(true);
 	}
@@ -27,7 +28,9 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 		this.add(progress, BorderLayout.CENTER);	
 		
 		AbstractFrame.setCenter(this);
-
+		
+		this.auto_close = auto_close;
+		
 		new Thread(){
 			public void run() {
 				setVisible(true);
@@ -49,8 +52,10 @@ public class SaveProgressForm extends AbstractFrame implements IProgress
 		progress.setValue(n);
 		progress.setString(prefix + " " + (progress.getValue()+1)+"/"+progress.getMaximum());
 		
-		if (n == progress.getMaximum()) {
-			this.setVisible(false);
+		if (auto_close) {
+			if (n >= progress.getMaximum() - 1) {
+				this.setVisible(false);
+			}
 		}
 	}
 	
