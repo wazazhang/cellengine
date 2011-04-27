@@ -15,7 +15,7 @@ import com.g2d.studio.cpj.CPJResourceType;
 import com.g2d.studio.swing.G2DListItem;
 import com.g2d.studio.swing.G2DTreeNode;
 
-public abstract class CPJObject <T extends SetObject> extends G2DTreeNode<CPJObject<?>> implements G2DListItem
+public abstract class CPJObject <T extends SetObject> extends G2DTreeNode<CPJObject<?>> implements G2DListItem, Comparable<CPJObject<?>>
 {
 	private static final long serialVersionUID = 1L;
 	final public CPJFile			parent;
@@ -31,6 +31,11 @@ public abstract class CPJObject <T extends SetObject> extends G2DTreeNode<CPJObj
 		this.name		= name;
 		this.res_type	= res_type;
 		this.set_object	= parent.getSetResource().getSetObject(type, name);
+	}
+	
+	@Override
+	public int compareTo(CPJObject<?> o) {
+		return this.name.compareTo(o.name);
 	}
 	
 //	abstract public DisplayObject createDisplayObject();

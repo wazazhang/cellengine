@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Vector;
@@ -265,6 +266,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	
 	private String getList(Vector<? extends CPJObject<?>> objs) {
 		StringBuffer list = new StringBuffer();
+		Collections.sort(objs);
 		for (CPJObject<?> spr : objs){
 			list.append(
 					spr.parent.getCPJPath() + ";" +
