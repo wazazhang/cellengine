@@ -3,7 +3,6 @@ package com.g2d.studio;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,43 +11,34 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JToolBar;
-import javax.swing.JWindow;
 import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import com.cell.CIO;
 import com.cell.CObject;
-import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
-
 import com.cell.rpg.RPGConfig;
 import com.cell.rpg.io.RPGObjectMap;
 import com.cell.rpg.scene.script.SceneScriptManager;
-import com.cell.sound.IPlayer;
-import com.cell.sound.ISound;
-import com.cell.sound.SoundInfo;
 import com.cell.sound.mute_impl.NullSoundManager;
 import com.cell.sound.openal_impl.JALSoundManager;
 import com.cell.sound.util.StaticSoundPlayer;
 import com.cell.sql.SQMTypeManager;
 import com.cell.util.concurrent.ThreadPool;
-
-
-import com.g2d.Engine;
+import com.g2d.awt.util.AbstractFrame;
+import com.g2d.awt.util.Drawing;
+import com.g2d.awt.util.Tools;
+import com.g2d.awt.util.Util;
+import com.g2d.display.ui.layout.UILayoutManager.SimpleLayoutManager;
+import com.g2d.java2d.impl.AwtEngine;
 import com.g2d.studio.cell.gameedit.Builder;
 import com.g2d.studio.cpj.CPJResourceManager;
 import com.g2d.studio.gameedit.ObjectManager;
@@ -67,11 +57,6 @@ import com.g2d.studio.res.Res;
 import com.g2d.studio.scene.SceneManager;
 import com.g2d.studio.sound.SoundManager;
 import com.g2d.studio.talks.TalkManager;
-import com.g2d.text.MultiTextLayout;
-
-import com.g2d.awt.util.*;
-import com.g2d.display.ui.layout.UILayoutManager.SimpleLayoutManager;
-import com.g2d.java2d.impl.AwtEngine;
 
 
 

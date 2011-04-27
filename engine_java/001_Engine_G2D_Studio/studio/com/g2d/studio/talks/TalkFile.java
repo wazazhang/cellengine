@@ -5,19 +5,16 @@ import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 
+import com.g2d.studio.Config;
+import com.g2d.studio.fileobj.FileObject;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DListItem;
 
-public class TalkFile implements G2DListItem
+public class TalkFile extends FileObject
 {
-	final public String 		talk_file_name;
-	final public File			talk_file;
-		
-	
-	TalkFile(String name, File talk_file) {
-		this.talk_file_name = name;
-		this.talk_file		= talk_file;
+	TalkFile(File file) {
+		super(file.getName().substring(0, file.getName().length() - Config.TALK_SUFFIX.length()), file);
 	}
 	
 	@Override
@@ -26,12 +23,9 @@ public class TalkFile implements G2DListItem
 	}
 	
 	@Override
-	public String getListName() {
-		return talk_file_name;
+	public String getSaveListArgs() {
+		return "";
 	}
 	
-	@Override
-	public Component getListComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		return null;
-	}
+	
 }

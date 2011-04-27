@@ -1,6 +1,6 @@
 package com.g2d.studio;
 
-import com.g2d.awt.util.*;
+import com.g2d.awt.util.AbstractDialog;
 
 
 @SuppressWarnings("serial")

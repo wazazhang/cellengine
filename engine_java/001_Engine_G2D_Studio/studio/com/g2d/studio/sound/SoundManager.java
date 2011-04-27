@@ -3,32 +3,39 @@ package com.g2d.studio.sound;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
+import javax.swing.ListModel;
 
+import com.cell.sound.util.StaticSoundPlayer;
 import com.g2d.studio.Config;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormList;
+import com.g2d.studio.ManagerFormTreeList;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.fileobj.FileObjectView;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DList;
+import com.g2d.studio.talks.TalkFile;
 
-public class SoundManager extends ManagerFormList<SoundFile>
+public class SoundManager extends ManagerFormTreeList<SoundFile>
 {
 	private static final long serialVersionUID = 1L;
 	
 	com.cell.sound.SoundManager sound_system = Studio.getInstance().getSoundSystem();
-	
-	SoundList sound_list;
-	
+		
 	JButton btn_play	= new JButton("播放");
 	JButton btn_stop	= new JButton("停止");
+
+	private StaticSoundPlayer playing_sound ;
 	
 	public SoundManager(Studio studio, ProgressForm progress) 
 	{
@@ -46,9 +53,9 @@ public class SoundManager extends ManagerFormList<SoundFile>
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btn_play) {
-			sound_list.playSelected();
+			((SoundList)list).playSelected();
 		} else if (e.getSource() == btn_stop) {
-			sound_list.stopSelected();
+			((SoundList)list).stopSelected();
 		} else {
 			super.actionPerformed(e);
 		}
@@ -63,28 +70,75 @@ public class SoundManager extends ManagerFormList<SoundFile>
 	}
 	
 	@Override
-	protected G2DList<SoundFile> createList(Vector<SoundFile> files) {
-		sound_list = new SoundList(getSounds());
-		return sound_list;
-	}
-
-	@Override
-	protected String asNodeName(File file) {
-		return file.getName().substring(0, file.getName().length() - Config.SOUND_SUFFIX.length());
+	protected FileObjectView<SoundFile> createList(File resRoot,
+			File saveListFile, ProgressForm progress) {
+		return new SoundList("声音编辑器", progress, resRoot, saveListFile);
 	}
 	
-	@Override
-	protected SoundFile createNode(File file) {
-		if (file.getName().endsWith(Config.SOUND_SUFFIX)) {
-			return new SoundFile(asNodeName(file));
+	public class SoundList extends FileObjectView<SoundFile> implements MouseListener
+	{
+		private static final long serialVersionUID = 1L;
+
+		public SoundList(String title, ProgressForm progress, File resRoot, File saveListFile) {
+			super(title, progress, resRoot, saveListFile);	
+			getList().addMouseListener(this);
 		}
-		return null;
-	}
-	
-	@Override
-	protected String getSaveListName(SoundFile node) {
-		return node.getListName();
+		
+		@Override
+		public SoundFile createItem(File file) {
+			if (file.getName().endsWith(Config.SOUND_SUFFIX)) {
+				SoundFile n = new SoundFile(file);
+				return n;
+			}
+			return null;
+		}
+		
+		public SoundFile getSoundFile(String name) {
+			ListModel model = getList().getModel();
+			for (int i = 0; i < model.getSize(); i++) {
+				SoundFile sound = (SoundFile) model.getElementAt(i);
+				if (sound.getName().equals(name)) {
+					return sound;
+				}
+			}
+			return null;
+		}
+
+		public void playSelected() {
+			if (playing_sound!=null) {
+				playing_sound.dispose();
+				playing_sound = null;
+			}
+			if (getSelectedItem()!=null) {
+				playing_sound = getSelectedItem().createSoundPlayer();
+				playing_sound.play(false);
+			}
+		}
+		
+		public void stopSelected() {
+			if (playing_sound!=null) {
+				playing_sound.dispose();
+				playing_sound = null;
+			}
+		}
+		
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount()==2) {
+				if (getSelectedItem()!=null) {
+					 playSelected();
+				}
+			}
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		@Override
+		public void mousePressed(MouseEvent e) {}
+		@Override
+		public void mouseReleased(MouseEvent e) {}
 	}
 
-	
 }

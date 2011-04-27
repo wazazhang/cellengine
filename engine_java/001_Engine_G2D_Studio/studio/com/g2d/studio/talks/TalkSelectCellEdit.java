@@ -22,7 +22,7 @@ public class TalkSelectCellEdit extends TalkSelectDialog implements PropertyCell
 	public Component getComponent(ObjectPropertyEdit panel) {
 		TalkFile talk = getSelectedObject();
 		if (talk!=null) {
-			edit_label.setText(talk.talk_file_name);	
+			edit_label.setText(talk.getName());	
 			edit_label.setIcon(talk.getListIcon(false));
 		} else {
 			edit_label.setText("");	
@@ -35,7 +35,7 @@ public class TalkSelectCellEdit extends TalkSelectDialog implements PropertyCell
 	public String getValue() {
 		TalkFile talk = getSelectedObject();
 		if (talk!=null) {
-			return talk.talk_file_name;
+			return talk.getName();
 		}
 		return null;
 	}

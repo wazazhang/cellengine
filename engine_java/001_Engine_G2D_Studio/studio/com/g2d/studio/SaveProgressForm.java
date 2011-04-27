@@ -1,16 +1,10 @@
 package com.g2d.studio;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 import com.g2d.awt.util.AbstractFrame;
-import com.g2d.awt.util.Drawing;
-import com.g2d.awt.util.Tools;
 import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.res.Res;
 

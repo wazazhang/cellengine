@@ -7,9 +7,10 @@ import javax.swing.JLabel;
 import com.g2d.editor.property.ObjectPropertyEdit;
 import com.g2d.editor.property.PropertyCellEdit;
 import com.g2d.studio.Studio;
+import com.g2d.studio.fileobj.FileObjectSelectDialog;
 import com.g2d.studio.swing.G2DListSelectDialog;
 
-public class SoundSelectDialog extends G2DListSelectDialog<SoundFile> implements PropertyCellEdit<String>
+public class SoundSelectDialog extends FileObjectSelectDialog<SoundFile> implements PropertyCellEdit<String>
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -17,10 +18,10 @@ public class SoundSelectDialog extends G2DListSelectDialog<SoundFile> implements
 
 	public SoundSelectDialog(Component owner, String def)
 	{
-		super(owner, new SoundList(), Studio.getInstance().getSoundManager().getSound(def));
+		super(owner, 
+				Studio.getInstance().getSoundManager().getList(), 
+				Studio.getInstance().getSoundManager().getSound(def));
 		super.setTitle("选择一个声音");
-		SoundList list = (SoundList)getList();
-		super.getList().setSelectedValue(list.getSoundFile(def), true);
 	}
 	
 	@Override

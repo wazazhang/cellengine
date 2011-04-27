@@ -3,12 +3,10 @@ package com.g2d.studio;
 import java.awt.Image;
 
 import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 
+import com.g2d.awt.util.AbstractFrame;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.gameedit.entity.IProgress;
-
-import com.g2d.awt.util.*;
 
 public abstract class ManagerForm extends JFrame
 {

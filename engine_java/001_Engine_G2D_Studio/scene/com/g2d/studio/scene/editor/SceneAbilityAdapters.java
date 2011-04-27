@@ -550,7 +550,7 @@ public class SceneAbilityAdapters
 		public String getValue() {
 			TalkFile file = getSelectedObject();
 			if (file != null) {
-				return file.talk_file_name;
+				return file.getName();
 			}
 			return null;
 		}

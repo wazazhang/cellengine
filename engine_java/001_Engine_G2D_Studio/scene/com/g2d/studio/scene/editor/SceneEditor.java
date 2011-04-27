@@ -396,6 +396,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		if (scene_mini_map != null){
 			scene_mini_map.killSnapshot();
 		}
+		if (v_bgm_sound_player != null) {
+			v_bgm_sound_player.dispose();
+		}
 	}
 	
 	@Override

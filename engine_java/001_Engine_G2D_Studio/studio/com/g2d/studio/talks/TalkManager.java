@@ -8,13 +8,16 @@ import javax.swing.JScrollPane;
 import com.g2d.studio.Config;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormList;
+import com.g2d.studio.ManagerFormTreeList;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.fileobj.FileObjectView;
+import com.g2d.studio.icon.IconFile;
 import com.g2d.studio.io.File;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DList;
 
-public class TalkManager extends ManagerFormList<TalkFile>
+public class TalkManager extends ManagerFormTreeList<TalkFile>
 {
 	private static final long serialVersionUID = 1L;
 		
@@ -33,28 +36,28 @@ public class TalkManager extends ManagerFormList<TalkFile>
 	public TalkFile getTalk(String talk_name) {
 		return super.getNode(talk_name);
 	}
+
+	@Override
+	protected FileObjectView<TalkFile> createList(File resRoot,
+			File saveListFile, ProgressForm progress) {
+		return new TalkList("对话管理器", progress, resRoot, saveListFile);
+	}
 	
-	@Override
-	protected G2DList<TalkFile> createList(Vector<TalkFile> files) {
-		return new TalkList(files);
-	}
-	@Override
-	protected String asNodeName(File file) {
-		return file.getName().substring(0, file.getName().length() - Config.TALK_SUFFIX.length());
-	}
-	@Override
-	protected TalkFile createNode(File file) {
-		if (file.getName().endsWith(Config.TALK_SUFFIX)) {
-			return new TalkFile(asNodeName(file), file);
+	public class TalkList extends FileObjectView<TalkFile>
+	{
+		private static final long serialVersionUID = 1L;
+
+		public TalkList(String title, ProgressForm progress, File resRoot, File saveListFile) {
+			super(title, progress, resRoot, saveListFile);
 		}
-		return null;
+		
+		@Override
+		public TalkFile createItem(File file) {
+			if (file.getName().endsWith(Config.TALK_SUFFIX)) {
+				TalkFile n = new TalkFile(file);
+				return n;
+			}
+			return null;
+		}
 	}
-	
-	@Override
-	protected String getSaveListName(TalkFile node) {
-		return node.getListName();
-	}
-	
-	
-	
 }

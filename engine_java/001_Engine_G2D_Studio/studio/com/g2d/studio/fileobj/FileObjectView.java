@@ -63,6 +63,8 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 //		this.getList().setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		
 		getTree().expandAll();
+		
+		reload();
 	}
 
 	abstract public T	createItem(File file);
