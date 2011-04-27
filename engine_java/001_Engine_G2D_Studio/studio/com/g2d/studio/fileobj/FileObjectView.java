@@ -61,14 +61,16 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		
 //		this.getList().setVisibleRowCount(this.files.size()/10+1);
 //		this.getList().setLayoutOrientation(JList.HORIZONTAL_WRAP);
-
+		
+		getTree().expandAll();
 	}
 
 	abstract public T	createItem(File file);
 
 //	--------------------------------------------------------------------------------------------------------------
 	
-	public String saveAll() {
+	public String saveAll()
+	{
 		StringBuilder new_list = new StringBuilder();
 		for (Pair<NodeGroup<T>, T> p : getItemsPath()) {
 			NodeGroup<T> g = p.getKey();
@@ -91,27 +93,31 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		return nodes_name.size();
 	}
 	
-	private HashMap<String, String[]> readListFile()
+	private HashMap<String, String> readListFile()
 	{
 		String text = save_list_file.readUTF();
 		String[] lines = CUtil.splitString(text, "\n");
-		HashMap<String, String[]> ret = new LinkedHashMap<String, String[]>(lines.length);
+		HashMap<String, String> ret = new HashMap<String, String>(lines.length);
 		for (String line : lines) {
 			try {
 				int i = line.lastIndexOf(';');
 				if (i > 0) {
 					line = line.substring(0, i);
-					String[] path = line.split("/");
-					ret.put(path[path.length-1], Arrays.copyOf(path, path.length-1));
+					int j = line.lastIndexOf("/");
+					if (j > 0) {
+						ret.put(line.substring(j+1), line.substring(0, j));
+					}
 				}
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return ret;
 	}
 	
 	synchronized public void refresh(IProgress progress)
 	{
-		HashMap<String, String[]> saved_list = readListFile();
+		HashMap<String, String> saved_list = readListFile();
 		
 		Vector<T> 		added	= new Vector<T>();
 		Vector<T> 		removed	= new Vector<T>(nodes_file.values());
@@ -138,11 +144,12 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 		for (T item : added) {
 			nodes_file.put(item.getFile(), item);
 			nodes_name.put(item.getName(), item);
-			addItem(getRoot(), item);
-			String[] path = saved_list.get(item.getName());
+			String path = saved_list.get(item.getName());
+			FileGroup<?> g = (FileGroup<?>)getRoot();
 			if (path != null) {
-//				getRoot().loadPath(path);
+				g = (FileGroup<?>)getRoot().loadPath(path);
 			}
+			g.addItem(item);
 		}
 		
 		System.out.println(title + " : remove " + removed.size());

@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
 import com.cell.CUtil;
+import com.cell.util.Pair;
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.fileobj.FileObject.WrapObject;
@@ -66,8 +67,11 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 		}
 		
 		if (default_value != null) {
-			list.setSelectedItem(default_value, true);
-			object = list.getSelectedItem();
+			Pair<NodeGroup<WrapObject>, WrapObject> pair = list.getItemPath(default_value.getListName());
+			if (pair != null) {
+				list.setSelectedItem(pair.getValue(), true);
+				object = list.getSelectedItem();
+			}
 		} else {
 			try {
 				Object tobj = list.getItems().firstElement();
@@ -137,6 +141,7 @@ public class FileObjectSelectDialog<T extends FileObject> extends AbstractDialog
 			super.getList().setDragEnabled(false);
 			super.getList().setVisibleRowCount(other.getList().getVisibleRowCount());
 			super.getList().setLayoutOrientation(other.getList().getLayoutOrientation());
+			getTree().expandAll();
 		}
 	}
 	

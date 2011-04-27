@@ -107,7 +107,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 //	-------------------------------------------------------------------------------------------------------
 //
 
-	final public void loadPath(String node_path) {
+	final public G2DTreeNodeGroup<?> loadPath(String node_path) {
 		String[] id_name = CUtil.splitString(node_path, "?");
 		if (id_name.length > 1) {
 			node_path = id_name[0];
@@ -117,7 +117,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 		for (int i=0; i<path.length; i++) {
 			String file_name = path[i].trim();
 			if (group.pathAddLeafNode(file_name, i, path.length)) {
-				return;
+				return group;
 			} else {
 				G2DTreeNodeGroup<?> g = group.findChild(file_name);
 				if (g == null) {
@@ -127,6 +127,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 				group = (G2DTreeNodeGroup<?>)g;
 			}
 		}
+		return group;
 	}
 	
 	abstract protected boolean pathAddLeafNode(String name, int index, int length);

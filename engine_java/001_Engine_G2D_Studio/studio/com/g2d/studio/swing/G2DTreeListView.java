@@ -45,6 +45,7 @@ import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.gameedit.entity.ObjectGroup;
 import com.g2d.studio.gameedit.entity.ObjectNode;
+import com.g2d.studio.scene.entity.SceneNode;
 import com.g2d.studio.swing.G2DTree;
 import com.g2d.studio.swing.G2DTreeNodeGroup.GroupMenu;
 import com.g2d.studio.io.File;
@@ -106,9 +107,9 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	public void reloadList() {
 		TreeNode node = g2d_tree.getSelectedNode();
 		if (node instanceof NodeGroup<?>) {
-			g2d_list.setListData(((NodeGroup) node).getItems());
+			g2d_list.selectGroup(((NodeGroup) node));
 		} else {
-			g2d_list.setListData(new Object[]{});
+			g2d_list.selectGroup(null);
 		}
 	}
 	
@@ -138,7 +139,22 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		return ret;
 	}
 
-
+	@SuppressWarnings("unchecked")
+	public Pair<NodeGroup<T>, T> getItemPath(String name) {
+		for (TreeNode n : G2DTree.getAllNodes(tree_root)) {
+			if (n instanceof NodeGroup<?>) {
+				NodeGroup<T> g = (NodeGroup<T>)n;
+				for (G2DListItem t : g.items.values()) {
+					if (t.getListName().equals(name)) {
+						return new Pair<NodeGroup<T>, T>(g, (T)t);
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	
 	public boolean addItem(NodeGroup<T> root, T item) {
 		return root.addItem(item);
 	}
@@ -152,12 +168,16 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	}
 	
 	@SuppressWarnings({ "static-access", "unchecked" })
-	public void setSelectedItem(Object item, boolean shouldScroll) {
-		if (item != null) {
+	public void setSelectedItem(Object obj, boolean shouldScroll) {
+		if (obj instanceof G2DListItem) {
+			G2DListItem item = (G2DListItem)obj;
 			for (TreeNode node : g2d_tree.getAllNodes(getRoot())) {
 				NodeGroup<T> n = (NodeGroup)node;
-				if (n.items.containsValue(item)) {
-					g2d_list.setListData(n.getItems());
+				if (n.items.containsKey(item.getListName())) {				
+					g2d_tree.expand(n);
+					g2d_tree.repaint();
+					g2d_tree.setSelectionPath(g2d_tree.createTreePath(n));
+					g2d_list.selectGroup(n);
 					g2d_list.setSelectedValue(item, shouldScroll);
 					g2d_list.repaint();
 					return;
@@ -173,9 +193,7 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		if (item != null) {
 			for (TreeNode node : g2d_tree.getAllNodes(getRoot())) {
 				NodeGroup<T> n = (NodeGroup)node;
-				if (n.items.containsValue(item)) {
-					n.removeItem(item.getListName());
-				}
+				n.removeItem(item.getListName());
 			}
 		}
 	}
@@ -208,8 +226,7 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	@SuppressWarnings("unchecked")
 	public void valueChanged(TreeSelectionEvent e) {
 		if (e.getPath().getLastPathComponent() instanceof NodeGroup<?>) {
-			NodeGroup group = (NodeGroup)e.getPath().getLastPathComponent();
-			this.g2d_list.setListData(new Vector(group.items.values()));
+			this.g2d_list.selectGroup((NodeGroup)e.getPath().getLastPathComponent());
 		} else {
 			blank_right.setVisible(true);
 			this.setRightComponent(blank_right);
@@ -274,7 +291,10 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 	
 	public class ListView extends G2DList<T>
 	{
-		public ListView() {
+		NodeGroup<?> current_node;
+		
+		public ListView() 
+		{
 			this.setDragEnabled(true);	
 			this.setVisibleRowCount(0);
 			this.setAutoscrolls(false);
@@ -296,6 +316,15 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 				}
 			});
 		}
+		
+		public void selectGroup(NodeGroup<?> node) {
+			current_node = node;
+			if (node != null) {
+				this.setListData(node.getItems());
+			} else {
+				this.setListData(new Object[]{});
+			}
+		}
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------------
@@ -309,6 +338,9 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		
 		@Override
 		protected boolean checkDrag(DropTarget evtSource, Transferable trans, Object src, Object dst, int position) {
+			if (src == null) {
+				src = g2d_list.current_node;
+			}
 			if (src != null && dst != null && src != dst) {
 				Object[] items = DragAndDrop.getTransferData(trans, Object[].class);
 				if (items != null) {
@@ -322,22 +354,43 @@ public abstract class G2DTreeListView<T extends G2DListItem> extends JSplitPane 
 		public void onDragDrop(G2DTree comp, Transferable t, Object src, Object dst) {
 			Object[] items = DragAndDrop.getTransferData(t, Object[].class);
 			if (items != null) {
+				if (src == null) {
+					src = g2d_list.current_node;
+				}
 				NodeGroup<?> sg = (NodeGroup<?>)src;
 				NodeGroup<?> dg = (NodeGroup<?>)dst;
-				if (getDragDropPosition() != 0) {
+				if (getDragDropPosition() != 0 && dg.getParent() != null) {
 					dg = (NodeGroup<?>)dg.getParent();
 				}
-				for (Object o : items) {
-					G2DListItem item = (G2DListItem)o;
-					sg.removeItem(item.getListName());
-					dg.addItem(item);
-					reloadList();
+				if (dg != null) {
+					for (Object o : items) {
+						G2DListItem item = (G2DListItem)o;
+						sg.removeItem(item.getListName());
+						dg.addItem(item);
+						reloadList();
+					}
+					reload(dg);
 				}
 				return;
 			}
 			super.onDragDrop(comp, t, src, dst);
 		}
 		
+		@Override
+		public String convertValueToText(Object value, boolean selected,
+				boolean expanded, boolean leaf, int row, boolean hasFocus) {
+			if (value instanceof NodeGroup<?>) {
+				NodeGroup<?> node = (NodeGroup<?>)value;
+				StringBuffer sb = new StringBuffer();
+				sb.append("<html><body>");
+				sb.append("<p>" + node.getName() + 
+						"<font color=\"#808080\">(" + node.items.size()  + ")</font>" + 
+						"</p>");
+				sb.append("</body></html>");
+				return sb.toString();
+			}
+			return super.convertValueToText(value, selected, expanded, leaf, row, hasFocus);
+		}
 	}
 	
 	
