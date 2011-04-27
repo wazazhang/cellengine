@@ -391,7 +391,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 				Vector<CPJFile> cur_files = G2DTree.getNodesSubClass(root, CPJFile.class);
 				HashMap<File, CPJFile> cur_files_map = new HashMap<File, CPJFile>(cur_files.size());
 				// 查找老目录下的新文件
-				progress.setMaximum(cur_files.size());
+				progress.setMaximum("刷新老资源", cur_files.size());
 				int i = 0;
 				for (CPJFile file : cur_files) {
 					try {
@@ -409,12 +409,12 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 						root.res_root,
 						root.res_type, 
 						progress);
-				progress.setMaximum(new_files.size());
+				progress.setMaximum("查找新资源", new_files.size());
 				for (File file : new_files) {
 					if (!cur_files_map.containsKey(file)) {
 						try {
 							root.add(new CPJFile(file, root.res_type));
-							System.out.println("add : " + file);
+							System.out.println("找到新资源 : " + file);
 						} catch (Throwable e) {
 							e.printStackTrace();
 						}
