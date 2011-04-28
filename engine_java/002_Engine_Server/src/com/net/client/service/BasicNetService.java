@@ -431,7 +431,7 @@ public abstract class BasicNetService
 //	----------------------------------------------------------------------------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
-	final private boolean tryReceivedNotify(MessageHeader message) 
+	private boolean tryReceivedNotify(MessageHeader message) 
 	{
 		synchronized (notifies_lock)
 		{
@@ -446,7 +446,7 @@ public abstract class BasicNetService
     	return false;
 	}
 	
-	final private boolean tryReceivedResponse(Protocol protocol, MessageHeader message)
+	private boolean tryReceivedResponse(Protocol protocol, MessageHeader message)
 	{
 		Request request = WaitingListeners.remove(protocol.getPacketNumber());
     	if (request != null) {
@@ -456,7 +456,7 @@ public abstract class BasicNetService
     	return false;
 	}
 	
-	final private boolean tryPushUnhandledNotify(Protocol protocol, MessageHeader message)
+	private boolean tryPushUnhandledNotify(Protocol protocol, MessageHeader message)
 	{
 		if (protocol.getPacketNumber() == 0) {
 			UnhandledMessages.put(protocol, message);
