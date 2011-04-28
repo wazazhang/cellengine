@@ -9,6 +9,7 @@ import com.cell.rpg.ability.Abilities;
 import com.g2d.editor.property.CellEditAdapter;
 import com.g2d.editor.property.ObjectPropertyEdit;
 import com.g2d.editor.property.PropertyCellEdit;
+import com.g2d.studio.item.ItemPropertiesEditor;
 
 public class AbilityAdapter implements CellEditAdapter<Abilities>
 {
@@ -76,7 +77,7 @@ public class AbilityAdapter implements CellEditAdapter<Abilities>
 				}
 				return new AbilityForm(
 						owner,
-						(Abilities) fieldValue);
+						(Abilities) fieldValue, ItemPropertiesEditor.getAdapters());
 			} catch (Exception e) {}
 			return null;
 		}
