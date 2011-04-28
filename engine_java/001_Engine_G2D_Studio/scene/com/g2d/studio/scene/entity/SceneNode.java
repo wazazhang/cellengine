@@ -86,7 +86,11 @@ final public class SceneNode extends DynamicNode<Scene>
 	public CPJWorld getWorldDisplay() {
 		if (world_display==null) {
 			System.out.println("load world display : " + world_index.set_object_name);
-			world_display = Studio.getInstance().getCPJResourceManager().getNode(world_index);
+			this.world_display = Studio.getInstance().getCPJResourceManager().getNode(world_index);
+			if (this.world_display != null) {
+				this.bind_data.scene_node.width		= world_display.getSetObject().Width;
+				this.bind_data.scene_node.height	= world_display.getSetObject().Height;
+			}
 		}
 		return world_display;
 	}
@@ -100,9 +104,8 @@ final public class SceneNode extends DynamicNode<Scene>
 	}
 	
 	public void cleanSceneEditor() {
-//		this.world_editor = null;
-		this.bind_data.scene_node.width		= world_index.getObject().getSetObject().Width;
-		this.bind_data.scene_node.height	= world_index.getObject().getSetObject().Height;
+		this.world_editor.set(null);
+		this.world_display = null;
 	}
 	
 	public SceneEditor getSceneEditor() {
