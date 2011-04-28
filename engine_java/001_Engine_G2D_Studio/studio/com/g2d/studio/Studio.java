@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.sql.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -229,6 +230,11 @@ public class Studio extends AbstractFrame
 				progress_form.dispose();
 				
 				Studio.this.setVisible(true);
+				
+				System.out.println("****************************************");
+				System.out.println("* 开启时间 ：" + CObject.timesliceToStringHour(System.currentTimeMillis() - start_time));
+				System.out.println("****************************************");
+
 			}
 			catch (Throwable e) {
 				e.printStackTrace();
@@ -665,6 +671,7 @@ public class Studio extends AbstractFrame
 //	----------------------------------------------------------------------------------------------------------------
 //	main entry
 
+	final public long start_time = System.currentTimeMillis();
 	
 	static public void main(final String[] args)
 	{

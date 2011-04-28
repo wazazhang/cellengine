@@ -62,7 +62,7 @@ public abstract class ManagerFormTreeList<T extends FileObject> extends ManagerF
 		this.list = createList(res_root, save_list_file, progress);	
 		this.list.getList().setLayoutOrientation(JList.HORIZONTAL_WRAP);
 
-		this.add(new JScrollPane(list), BorderLayout.CENTER);
+		this.add(list, BorderLayout.CENTER);
 	}
 
 	@Override
