@@ -71,7 +71,8 @@ final public class XLSUnit extends XLSTemplateNode<TUnit>
 	
 	@Override
 	public ImageIcon createIcon() {
-		if (cpj_sprite!=null) {
+		getCPJSprite();
+		if (cpj_sprite != null) {
 			return Tools.createIcon(Tools.combianImage(20, 20, cpj_sprite.getIcon(true).getImage()));
 		} else {
 			return super.createIcon();
