@@ -60,7 +60,8 @@ public class FileIO implements IO
     	
     	private FileImpl(java.io.File file) {
     		try {
-    			String path = file.getCanonicalFile().getPath();
+    			file = file.getCanonicalFile();
+    			String path = file.getPath();
 //    			System.out.println("create File : " + path);
     			for (Pair<String, String> pair : REDIRECT_MAP) {
     				if (path.startsWith(pair.getKey())) {

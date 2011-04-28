@@ -23,19 +23,19 @@ import com.g2d.studio.gameedit.XLSObjectViewer;
 
 final public class XLSUnit extends XLSTemplateNode<TUnit>
 {
-	CPJSprite cpj_sprite;
+	private CPJSprite cpj_sprite;
 	
 	public XLSUnit(XLSFile xls_file, XLSFullRow xls_row, TemplateNode data) {
 		super(xls_file, xls_row, data);
-		if (template_data.getDisplayNode()!=null) {
-			CPJIndex<CPJSprite> spr_index = Studio.getInstance().getCPJResourceManager().getNode(
-					CPJResourceType.ACTOR, 
-					template_data.getDisplayNode().cpj_project_name,
-					template_data.getDisplayNode().cpj_object_id);
-			if (spr_index != null) {
-				cpj_sprite = spr_index.getObject();
-			}
-		}
+//		if (template_data.getDisplayNode()!=null) {
+//			CPJIndex<CPJSprite> spr_index = Studio.getInstance().getCPJResourceManager().getNode(
+//					CPJResourceType.ACTOR, 
+//					template_data.getDisplayNode().cpj_project_name,
+//					template_data.getDisplayNode().cpj_object_id);
+//			if (spr_index != null) {
+//				cpj_sprite = spr_index.getObject();
+//			}
+//		}
 	}
 	
 	@Override
@@ -44,6 +44,15 @@ final public class XLSUnit extends XLSTemplateNode<TUnit>
 	}
 	
 	public CPJSprite getCPJSprite() {
+		if (cpj_sprite == null && template_data.getDisplayNode()!=null) {
+			CPJIndex<CPJSprite> spr_index = Studio.getInstance().getCPJResourceManager().getNode(
+					CPJResourceType.ACTOR, 
+					template_data.getDisplayNode().cpj_project_name,
+					template_data.getDisplayNode().cpj_object_id);
+			if (spr_index != null) {
+				cpj_sprite = spr_index.getObject();
+			}
+		}
 		return cpj_sprite;	
 	}
 	

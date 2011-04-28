@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.ImageIcon;
@@ -207,6 +208,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	{
 		if (cpj_file != null && cpj_file.exists())
 		{
+			System.out.println("refresh resource : " + getName());
 			try {
 				set_resource = EatBuilder.getInstance().createResource(cpj_file);
 				switch (res_type) {
@@ -305,19 +307,21 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 		String text = save_list.readUTF();
 		String[] lines = CUtil.splitString(text, "\n", true);
 		progress.setMaximum(res_type.toString(), lines.length);
-		ArrayList<CPJFile> ret = new ArrayList<CPJFile>(lines.length);
+		LinkedHashMap<String, CPJFile> ret = new LinkedHashMap<String, CPJFile>(lines.length);
 		for (String line : lines) {
 			try {
 				String info[] = CUtil.splitString(line, ";");
 				if (info.length >= 3) {
-					File cpj = root.getChildFile(info[0]);
-					if (cpj.exists()) {
-						try {
-							progress.increment();
-							ret.add(new CPJFile(cpj, res_type));
-						} catch(Throwable err){
-							System.err.println("init cpj file error : " + cpj.getPath());
-							err.printStackTrace();
+					if (!ret.containsKey(info[0])) {
+						File cpj = root.getChildFile(info[0]);
+						if (cpj.exists()) {
+							try {
+								progress.increment();
+								ret.put(info[0], new CPJFile(cpj, res_type));
+							} catch(Throwable err){
+								System.err.println("init cpj file error : " + cpj.getPath());
+								err.printStackTrace();
+							}
 						}
 					}
 				}
@@ -325,7 +329,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 				e.printStackTrace();
 			}
 		}
-		return ret;
+		return new ArrayList<CPJFile>(ret.values());
 	}
 
 	/**

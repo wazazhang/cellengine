@@ -42,15 +42,15 @@ final public class SceneNode extends DynamicNode<Scene>
 				CPJResourceType.WORLD, 
 				scene.scene_node.cpj_project_name, 
 				scene.scene_node.cpj_object_id);
-		try {
-			CPJWorld res_world = Studio.getInstance().getCPJResourceManager().getNode(world_index);
-			this.bind_data.scene_node.width		= res_world.getSetObject().Width;
-			this.bind_data.scene_node.height	= res_world.getSetObject().Height;
-			System.out.println("load a scene : " + scene.name + "   (" + scene.id + ")");
-		} catch(Exception err) {
-			err.printStackTrace();
-			throw new RuntimeException("场景\""+scene.name+"("+scene.id+")\"读取错误！", err);
-		}
+		System.out.println("load a scene : " + scene.name + "   (" + scene.id + ")");
+//		try {
+//			CPJWorld res_world = Studio.getInstance().getCPJResourceManager().getNode(world_index);
+//			this.bind_data.scene_node.width		= res_world.getSetObject().Width;
+//			this.bind_data.scene_node.height	= res_world.getSetObject().Height;
+//		} catch(Exception err) {
+//			err.printStackTrace();
+//			throw new RuntimeException("场景\""+scene.name+"("+scene.id+")\"读取错误！", err);
+//		}
 	}
 	
 	@Override
@@ -85,6 +85,7 @@ final public class SceneNode extends DynamicNode<Scene>
 	
 	public CPJWorld getWorldDisplay() {
 		if (world_display==null) {
+			System.out.println("load world display : " + world_index.set_object_name);
 			world_display = Studio.getInstance().getCPJResourceManager().getNode(world_index);
 		}
 		return world_display;

@@ -138,8 +138,9 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	{
 		try{
 			G2DTreeNode<?> file = G2DTree.getNode(
-					unit_root, 
+					getRoot(index.res_type), 
 					index.cpj_file_name);
+			
 			if (file instanceof CPJFile) 
 			{
 				CPJFile cpj = (CPJFile)file;
@@ -194,7 +195,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		return null;
 	}
 	
-	public DefaultMutableTreeNode getRoot(CPJResourceType index) {
+	public CPJRootNode getRoot(CPJResourceType index) {
 		switch (index) {
 		case ACTOR:
 			return unit_root;
