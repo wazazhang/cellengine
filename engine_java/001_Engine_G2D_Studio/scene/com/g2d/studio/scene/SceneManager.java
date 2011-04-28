@@ -38,6 +38,7 @@ import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.cpj.CPJResourceSelectDialog;
 import com.g2d.studio.cpj.CPJResourceType;
+import com.g2d.studio.cpj.entity.CPJFile;
 import com.g2d.studio.cpj.entity.CPJWorld;
 import com.g2d.studio.gameedit.dynamic.IDynamicIDFactory;
 import com.g2d.studio.gameedit.entity.IProgress;
@@ -213,9 +214,9 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 		}
 	}
 
-	public void resetAllResources() {
+	public void resetAllResources(CPJFile cpj) {
 		for (SceneNode node : getAllScenes()) {
-			node.cleanSceneEditor();
+			node.resetResource(cpj);
 		}
 	}
 	

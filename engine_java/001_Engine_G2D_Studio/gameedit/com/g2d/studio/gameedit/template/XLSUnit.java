@@ -16,6 +16,7 @@ import com.g2d.studio.Studio;
 import com.g2d.studio.cpj.CPJIndex;
 import com.g2d.studio.cpj.CPJResourceSelectDialog;
 import com.g2d.studio.cpj.CPJResourceType;
+import com.g2d.studio.cpj.entity.CPJFile;
 import com.g2d.studio.cpj.entity.CPJSprite;
 import com.g2d.studio.gameedit.ObjectAdapters;
 import com.g2d.studio.gameedit.ObjectViewer;
@@ -85,6 +86,14 @@ final public class XLSUnit extends XLSTemplateNode<TUnit>
 			edit_component = new NPCObjectViewer();
 		}
 		return edit_component;
+	}
+	
+	public void resetResource(CPJFile cpj) {
+		if (template_data.getDisplayNode() != null && 
+			template_data.getDisplayNode().cpj_project_name.equals(cpj.getName())) {
+			cpj_sprite = null;
+			getCPJSprite();
+		}
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------

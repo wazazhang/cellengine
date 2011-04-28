@@ -18,6 +18,7 @@ import com.cell.rpg.xls.XLSColumns;
 import com.cell.rpg.xls.XLSFullRow;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
+import com.g2d.studio.cpj.entity.CPJFile;
 import com.g2d.studio.gameedit.dynamic.DAvatar;
 import com.g2d.studio.gameedit.dynamic.DEffect;
 import com.g2d.studio.gameedit.dynamic.DItemList;
@@ -199,8 +200,10 @@ public class ObjectManager
 		return getObject(type, Integer.parseInt(id));
 	}
 
-	public void resetAllResources() {
-		
+	public void resetAllResources(CPJFile cpj) {
+		for (XLSUnit unit : getObjects(XLSUnit.class)) {
+			unit.resetResource(cpj);
+		}
 	}
 	
 	public void saveAll(IProgress progress) throws Throwable

@@ -14,6 +14,7 @@ import com.g2d.awt.util.Tools;
 import com.g2d.studio.Studio;
 import com.g2d.studio.cpj.CPJIndex;
 import com.g2d.studio.cpj.CPJResourceType;
+import com.g2d.studio.cpj.entity.CPJFile;
 import com.g2d.studio.cpj.entity.CPJWorld;
 import com.g2d.studio.gameedit.dynamic.DynamicNode;
 import com.g2d.studio.gameedit.dynamic.IDynamicIDFactory;
@@ -103,9 +104,18 @@ final public class SceneNode extends DynamicNode<Scene>
 		}
 	}
 	
-	public void cleanSceneEditor() {
-		this.world_editor.set(null);
-		this.world_display = null;
+	public void resetResource(CPJFile cpj) {
+		if (cpj.getName().equals(world_index.cpj_file_name)) {
+			SceneEditor editor = this.world_editor.get();
+			if (editor != null) {
+				editor.setVisible(false);
+				editor.dispose();
+				world_editor.set(null);
+			}
+			if (world_display != null) {
+				this.world_display = null;
+			}
+		}
 	}
 	
 	public SceneEditor getSceneEditor() {
