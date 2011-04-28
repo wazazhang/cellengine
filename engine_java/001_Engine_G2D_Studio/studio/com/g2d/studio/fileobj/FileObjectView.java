@@ -186,6 +186,8 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 					int j = line.lastIndexOf("/");
 					if (j > 0) {
 						ret.put(line.substring(j+1), line.substring(0, j));
+					} else {
+						ret.put(line, null);
 					}
 				}
 			} catch (Exception e) {
