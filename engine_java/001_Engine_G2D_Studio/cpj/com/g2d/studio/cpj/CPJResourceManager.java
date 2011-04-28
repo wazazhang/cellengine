@@ -552,6 +552,11 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 				setTitle("总共用时: " + CObject.timesliceToStringHour(System.currentTimeMillis()-start_time));
 				terminate.setText("关闭");
 				setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+//				try{
+//					Studio.getInstance().getObjectManager().resetAllResources(CPJFile.this);
+//					Studio.getInstance().getSceneManager().resetAllResources(CPJFile.this);
+//				}catch (Exception err){err.printStackTrace();}
 			}
 		}
 		
