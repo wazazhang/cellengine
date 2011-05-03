@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" width="745" height="593">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[	
+			
+			import com.smartfoxserver.v2.SmartFox;
+			import com.smartfoxserver.v2.core.SFSEvent;
+			import com.smartfoxserver.v2.entities.*;
+			import com.smartfoxserver.v2.entities.data.*;
+			import com.smartfoxserver.v2.requests.*;
+			
+			import flash.display.*;
+			import flash.events.*;
+			import flash.system.Security;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.TextOperationEvent;
+			
+			private var sfs:SmartFox = new SmartFox();
+			
+			protected function button1_addHandler(event:FlexEvent):void
+			{
+				// Create an instance of the SmartFox class
+				// Turn on the debug feature
+				sfs.debug = true
+				
+				// Add SFS2X event listeners
+				sfs.addEventListener(SFSEvent.CONNECTION, onConnection)
+				sfs.addEventListener(SFSEvent.CONNECTION_LOST, onConnectionLost)
+				sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS, onConfigLoadSuccess)
+				sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE, onConfigLoadFailure)
+				
+				sfs.addEventListener(SFSEvent.LOGIN, onLogin);
+				sfs.addEventListener(SFSEvent.LOGIN_ERROR, onLoginError);
+				
+				sfs.addEventListener(SFSEvent.ROOM_JOIN, onRoomJoin);
+				sfs.addEventListener(SFSEvent.ROOM_JOIN_ERROR, onRoomJoinError);
+				// Connect button listener
+				
+				dTrace("SmartFox API: "+ sfs.version)
+				dTrace("Click the CONNECT button to start...")
+				
+
+			}
+
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				sfs.connect("localhost", 9933);
+			}
+			
+//			-----------------------------------------------------------------------------------------------------------
+			
+			public function onRoomJoin(evt:SFSEvent):void
+			{
+				trace("onRoomJoin success: ");
+				
+			}
+			
+			public function onRoomJoinError(evt:SFSEvent):void
+			{
+				trace("onRoomJoin failed: ");
+			}
+			
+//			-----------------------------------------------------------------------------------------------------------
+			
+			public function onLogin(evt:SFSEvent):void
+			{
+				trace("Login success: " + evt.params.user.name);
+				sfs.send( new JoinRoomRequest("LamiLobby"));
+
+			}
+			
+			public function onLoginError(evt:SFSEvent):void
+			{
+				trace("Login failed: " + evt.params.errorMessage);
+			}
+			
+//			-----------------------------------------------------------------------------------------------------------
+			
+			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+			// SFS2X Event Handlers
+			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+			private function onConnection(evt:SFSEvent):void
+			{
+				if (evt.params.success)
+				{
+					dTrace("Connection Success!")
+					
+					// This code is executed after the connection
+					sfs.send( new LoginRequest("", "", "XML_NAME") );
+					
+				}
+				else
+				{
+					dTrace("Connection Failure: " + evt.params.errorMessage)
+				}
+			}
+			
+			private function onConnectionLost(evt:SFSEvent):void
+			{
+				dTrace("Connection was lost. Reason: " + evt.params.reason)
+			}
+			
+			private function onConfigLoadSuccess(evt:SFSEvent):void
+			{
+				dTrace("Config load success!")
+				dTrace("Server settings: "  + sfs.config.host + ":" + sfs.config.port)
+			}
+			
+			private function onConfigLoadFailure(evt:SFSEvent):void
+			{
+				dTrace("Config load failure!!!")
+			}
+			
+			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+			// Utility Methods
+			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+			private function dTrace(msg:String):void
+			{
+				trace("--> " + msg + "\n");
+			}
+			
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:RichText x="10" y="10" text="RichText" width="463" height="383" backgroundColor="#D5D5D5"/>
+	<s:Button x="10" y="413" label="按钮" click="button1_clickHandler(event)" enabled="true" add="button1_addHandler(event)"/>
+</s:Application>
