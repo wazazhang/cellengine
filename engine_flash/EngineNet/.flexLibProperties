@@ -13,6 +13,7 @@
     <classEntry path="com.net.client.ClientRequest"/>
     <classEntry path="com.cell.util.Util"/>
     <classEntry path="com.net.client.NetDataTypes"/>
+    <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
