@@ -87,6 +87,8 @@ public class QuestItem extends RPGObject implements NamedObject
 					TagTeamPlayerCountComparison.class,
 					
 					TagInstanceZoneValueComparison.class,
+					
+					TagBattleWin.class,
 				};
 		} else {
 			return new Class<?>[]{
@@ -439,6 +441,28 @@ public class QuestItem extends RPGObject implements NamedObject
 		{
 			return "副本条件"+dst_value.toString()+"不满足"; // TODO
 		}		
+	}
+	
+
+	@Property("[条件] 判断战斗结果,该条件增加一个单位")
+	final public static class TagBattleWin extends QuestItemAbility
+	{
+		private static final long serialVersionUID = 1L;
+		
+		@Property("和指定单位类型战斗")
+		public Integer			unit_id			= -1;
+		
+		@Property("该单位是否为友军")
+		public boolean			is_friend;
+		
+		@Property("附加参数")
+		public String			arg				= "";
+
+		@Override
+		public boolean isMultiField() 
+		{
+			return true;
+		}
 	}
 
 //	--------------------------------------------------------------------------------------

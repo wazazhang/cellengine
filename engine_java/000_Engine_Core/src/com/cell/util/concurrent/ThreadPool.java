@@ -10,7 +10,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 import com.cell.CUtil;
 
@@ -394,10 +393,17 @@ public class ThreadPool implements ThreadPoolService
 	
 	public static String getHeapStatus()
 	{
+		Runtime runtime = Runtime.getRuntime();
+
+		long free_memory = runtime.freeMemory();
+		long total_memory = runtime.totalMemory();
+		long max_memory = runtime.maxMemory();
+		
 		StringBuilder lines = new StringBuilder();
-		CUtil.toStatusLine("FreeMemory", 	CUtil.toBytesSizeString(Runtime.getRuntime().freeMemory()), lines);
-		CUtil.toStatusLine("TotalMemory", 	CUtil.toBytesSizeString(Runtime.getRuntime().totalMemory()), lines);
-		CUtil.toStatusLine("MaxMemory", 	CUtil.toBytesSizeString(Runtime.getRuntime().maxMemory()), lines);
+		CUtil.toStatusLine("UsedMemory", 	CUtil.toBytesSizeString(total_memory-free_memory), lines);
+		CUtil.toStatusLine("FreeMemory", 	CUtil.toBytesSizeString(free_memory), lines);
+		CUtil.toStatusLine("TotalMemory", 	CUtil.toBytesSizeString(total_memory), lines);
+		CUtil.toStatusLine("MaxMemory", 	CUtil.toBytesSizeString(max_memory), lines);
 		return lines.toString();
 	}
 }
