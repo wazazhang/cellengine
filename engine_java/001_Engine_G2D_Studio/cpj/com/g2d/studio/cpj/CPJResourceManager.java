@@ -291,13 +291,13 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	
 	public void saveAll(IProgress progress)
 	{
-		unit_root.save();
-
-		effect_root.save();
-
-		avatar_root.save();
-
-		scene_root.save();
+//		unit_root.save();
+//
+//		effect_root.save();
+//
+//		avatar_root.save();
+//
+//		scene_root.save();
 	}
 	
 	@Override
