@@ -1,166 +1,108 @@
 package com.net;
 
 import java.io.DataInput;
+import java.io.EOFException;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.UTFDataFormatException;
 
-import com.cell.CUtil;
-import com.cell.io.ExternalizableUtil;
-
-public abstract class NetDataInput implements DataInput
+public interface NetDataInput extends DataInput
 {
+	public ExternalizableFactory getFactory();
 	
-	public boolean[] readBooleanArray() throws IOException {
-		return ExternalizableUtil.readBooleanArray(this);
-	}
+//	-----------------------------------------------------------------------------------------------
 	
-	public char[] readCharArray() throws IOException {
-		return ExternalizableUtil.readCharArray(this);
-	}
+	public boolean[] readBooleanArray() throws IOException ;
 	
-	public byte[] readByteArray() throws IOException {
-		return ExternalizableUtil.readByteArray(this);
-	}
+	public char[] readCharArray() throws IOException ;
 	
-	public short[] readShortArray() throws IOException {
-		return ExternalizableUtil.readShortArray(this);
-	}
+	public byte[] readByteArray() throws IOException ;
 	
-	public int[] readIntArray() throws IOException {
-		return ExternalizableUtil.readIntArray(this);
-	}
+	public short[] readShortArray() throws IOException ;
 	
-	public long[] readLongArray() throws IOException {
-		return ExternalizableUtil.readLongArray(this);
-	}
+	public int[] readIntArray() throws IOException ;
 	
-	public float[] readFloatArray() throws IOException {
-		return ExternalizableUtil.readFloatArray(this);
-	}
+	public long[] readLongArray() throws IOException ;
 	
-	public double[] readDoubleArray() throws IOException {
-		return ExternalizableUtil.readDoubleArray(this);
-	}
+	public float[] readFloatArray() throws IOException ;
+	
+	public double[] readDoubleArray() throws IOException;
 
-	public String[] readUTFArray() throws IOException {
-		String[] ret = new String[readInt()];
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = readUTF();
-		}
-		return ret;
-	}
+	public String[] readUTFArray() throws IOException;
+
+	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException ;
+
+	public <T extends ExternalizableMessage> T[] readExternalArray(Class<T> type) throws IOException;
+
+	public <T> T[] readObjectArray(Class<T> type) throws IOException ;
+
+	public Object readAnyArray(Class<?> type, byte component_data_type) throws IOException;
 	
+	public<T> T readObject(Class<T> type) throws IOException;
 
-	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
-		int type = readInt();
-		if (type != 0) {
-			try {
-				T data = cls.newInstance();
-				data.readExternal(this);
-				return data;
-			} catch (Exception e) {
-				throw new IOException(e);
-			}
-		}
-		return null;
-	}
+//	-----------------------------------------------------------------------------------------------
+
+//	-----------------------------------------------------------------------------------------------
+
+	public void readFully(String key, byte b[]) throws IOException;
+
+	public void readFully(String key, byte b[], int off, int len) throws IOException;
+
+	public boolean readBoolean(String key) throws IOException;
+
+	public byte readByte(String key) throws IOException;
+
+	public int readUnsignedByte(String key) throws IOException;
+
+	public short readShort(String key) throws IOException;
+
+	public int readUnsignedShort(String key) throws IOException;
+
+	public char readChar(String key) throws IOException;
+
+	public int readInt(String key) throws IOException;
+
+	public long readLong(String key) throws IOException;
+
+	public float readFloat(String key) throws IOException;
+
+	public double readDouble(String key) throws IOException;
+
+	public String readLine(String key) throws IOException;
+
+	public String readUTF(String key) throws IOException;
+
+//	-----------------------------------------------------------------------------------------------
 	
+	public boolean[] readBooleanArray(String key) throws IOException ;
+	
+	public char[] readCharArray(String key) throws IOException ;
+	
+	public byte[] readByteArray(String key) throws IOException ;
+	
+	public short[] readShortArray(String key) throws IOException ;
+	
+	public int[] readIntArray(String key) throws IOException ;
+	
+	public long[] readLongArray(String key) throws IOException ;
+	
+	public float[] readFloatArray(String key) throws IOException ;
+	
+	public double[] readDoubleArray(String key) throws IOException;
 
-	public <T extends ExternalizableMessage> T[] readExternalArray(Class<T> type) throws IOException {
-		T[] ret = CUtil.newArray(type, readInt());
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = readExternal(type);
-		}
-		return ret;
-	}
+	public String[] readUTFArray(String key) throws IOException;
 
-	public <T> T[] readObjectArray(Class<T> type) throws IOException {
-		T[] ret = CUtil.newArray(type, readInt());
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = readObject(type);
-		}
-		return ret;
-	}
+	public <T extends com.net.ExternalizableMessage> T readExternal(String key, Class<T> cls) throws IOException ;
+
+	public <T extends ExternalizableMessage> T[] readExternalArray(String key, Class<T> type) throws IOException;
+
+	public <T> T[] readObjectArray(String key, Class<T> type) throws IOException ;
+
+	public Object readAnyArray(String key, Class<?> type, byte component_data_type) throws IOException;
+	
+	public<T> T readObject(String key, Class<T> type) throws IOException;
 
 
 //	-----------------------------------------------------------------------------------------------
 
-
-	public Object readAnyArray(Class<?> type, byte component_data_type) throws IOException {
-		int count = readInt();
-		if (count == 0) {
-			return null;
-		}
-		Class<?> component_type = type.getComponentType();
-		if (count < 0) { // 表示成员还是个数组
-			count = -count;
-			Object array = Array.newInstance(component_type, count);
-			for (int i = 0; i < count; i++) {
-				Array.set(array, i, readAnyArray(component_type, component_data_type));
-			}
-			return array;
-		} else if (count > 0) { // 表示成员是个通常对象
-			Object array = Array.newInstance(component_type, count);
-			for (int i = 0; i < count; i++) {
-				Array.set(array, i, readAny(component_data_type, component_type));
-			}
-			return array;
-		}
-		return null;
-	}
-	
-	private Object readAny(byte component_data_type, Class<?> component_type) throws IOException {
-		switch (component_data_type) {
-		case NetDataTypes.TYPE_EXTERNALIZABLE:
-			return readAnyExternal(component_type);
-		case NetDataTypes.TYPE_BOOLEAN:
-			return readBoolean();
-		case NetDataTypes.TYPE_BYTE:
-			return readByte();
-		case NetDataTypes.TYPE_CHAR:
-			return readChar();
-		case NetDataTypes.TYPE_SHORT:
-			return readShort();
-		case NetDataTypes.TYPE_INT:
-			return readInt();
-		case NetDataTypes.TYPE_LONG:
-			return readLong();
-		case NetDataTypes.TYPE_FLOAT:
-			return readFloat();
-		case NetDataTypes.TYPE_DOUBLE:
-			return readDouble();
-		case NetDataTypes.TYPE_STRING: 
-			return readUTF();
-		case NetDataTypes.TYPE_OBJECT:
-			return readObject(component_type);
-		default:
-			return null;
-		}
-	}
-	
-	private ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
-		int type = readInt();
-		if (type != 0) {
-			try {
-				ExternalizableMessage data = (ExternalizableMessage)cls.newInstance();
-				data.readExternal(this);
-				return data;
-			} catch (Exception e) {
-				throw new IOException(e);
-			}
-		}
-		return null;
-	}
-
-//	-----------------------------------------------------------------------------------------------
-
-	
-	
-	
-	
-	abstract public<T> T readObject(Class<T> type) throws IOException;
-
-	abstract public ExternalizableFactory getFactory();
-	
 }
 
