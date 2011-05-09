@@ -30,12 +30,11 @@
 				// Create an instance of the SmartFox class
 				// Turn on the debug feature
 				sfs.debug = true
-				
 				// Add SFS2X event listeners
 				sfs.addEventListener(SFSEvent.CONNECTION, onConnection)
 				sfs.addEventListener(SFSEvent.CONNECTION_LOST, onConnectionLost)
-				sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS, onConfigLoadSuccess)
-				sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE, onConfigLoadFailure)
+//				sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS, onConfigLoadSuccess)
+//				sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE, onConfigLoadFailure)
 				
 				sfs.addEventListener(SFSEvent.LOGIN, onLogin);
 				sfs.addEventListener(SFSEvent.LOGIN_ERROR, onLoginError);
@@ -47,12 +46,27 @@
 				dTrace("SmartFox API: "+ sfs.version)
 				dTrace("Click the CONNECT button to start...")
 				
+				Security.loadPolicyFile("xmlsocket://rr2.usxingcloud.info:40000")
 
 			}
 
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
 				sfs.connect("localhost", 9933);
+//				sfs.connect("rr2.usxingcloud.info", 40000);
+			}
+			
+//			-----------------------------------------------------------------------------------------------------------
+			
+			private function onExtensionResponse(evt:SFSEvent):void
+			{
+				if (evt.params.cmd == "add")
+				{
+					var responseParams:ISFSObject = evt.params.params as SFSObject;
+					
+					// We expect an int parameter called "sum"
+					trace("The sum is: " + responseParams.getInt("sum"));
+				}
 			}
 			
 //			-----------------------------------------------------------------------------------------------------------
@@ -61,6 +75,14 @@
 			{
 				trace("onRoomJoin success: ");
 				
+				sfs.addEventListener(SFSEvent.EXTENSION_RESPONSE, onExtensionResponse);
+				
+				// Send two integers to the Zone extension and get their sum in return
+				var params:ISFSObject = new SFSObject();
+				params.putInt("n1", 26);
+				params.putInt("n2", 16);
+				
+				sfs.send(new ExtensionRequest("add", params));
 			}
 			
 			public function onRoomJoinError(evt:SFSEvent):void
@@ -107,18 +129,18 @@
 			{
 				dTrace("Connection was lost. Reason: " + evt.params.reason)
 			}
-			
-			private function onConfigLoadSuccess(evt:SFSEvent):void
-			{
-				dTrace("Config load success!")
-				dTrace("Server settings: "  + sfs.config.host + ":" + sfs.config.port)
-			}
-			
-			private function onConfigLoadFailure(evt:SFSEvent):void
-			{
-				dTrace("Config load failure!!!")
-			}
-			
+//			
+//			private function onConfigLoadSuccess(evt:SFSEvent):void
+//			{
+//				dTrace("Config load success!")
+//				dTrace("Server settings: "  + sfs.config.host + ":" + sfs.config.port)
+//			}
+//			
+//			private function onConfigLoadFailure(evt:SFSEvent):void
+//			{
+//				dTrace("Config load failure!!!")
+//			}
+//			
 			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 			// Utility Methods
 			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
