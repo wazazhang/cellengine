@@ -22,5 +22,15 @@ public interface ServerSession extends AbstractSession
 	public long		getHeartBeatReceived();
 	
 	
+	/**
+	 * 获取Session的本端地址
+	 */
+	public String			getLocalAddress();
+	
+	/**
+	 * 获取Session的对端地址
+	 */
+	public String			getRemoteAddress();
+
 	
 }

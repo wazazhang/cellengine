@@ -18,19 +18,19 @@ public interface Server
 	public void						broadcast(MessageHeader message);
 	
 	
-	
-	public long 					getSentMessageCount() ;
-	
-	public long 					getReceivedMessageCount ();
-	
-	public long 					getSentBytes();
-	
-	public long 					getReceivedBytes();
-	
-	
-	public long						getHeartBeatSent();
-	
-	public long						getHeartBeatReceived();
+//	
+//	public long 					getSentMessageCount() ;
+//	
+//	public long 					getReceivedMessageCount ();
+//	
+//	public long 					getSentBytes();
+//	
+//	public long 					getReceivedBytes();
+//	
+//	
+//	public long						getHeartBeatSent();
+//	
+//	public long						getHeartBeatReceived();
 
 	
 	public int 						getSessionCount();
