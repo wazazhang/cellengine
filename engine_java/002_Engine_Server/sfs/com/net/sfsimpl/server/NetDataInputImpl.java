@@ -4,9 +4,10 @@ import java.io.DataInput;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+
+import org.apache.mina.core.buffer.IoBuffer;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
@@ -18,11 +19,11 @@ import com.net.NetDataTypes;
 
 public class NetDataInputImpl implements NetDataInput
 {	
-	final ByteBuffer buffer ;
+	final IoBuffer buffer ;
 	final ExternalizableFactory factory;
 
-	public NetDataInputImpl(ByteBuffer buffer, ExternalizableFactory factory) {
-		this.buffer = buffer;
+	public NetDataInputImpl(byte[] data, ExternalizableFactory factory) {
+		this.buffer = IoBuffer.wrap(data);
 		this.factory = factory;
 	}
 	
@@ -31,18 +32,29 @@ public class NetDataInputImpl implements NetDataInput
 		return factory;
 	}
 	
-	@Override
 	public int skipBytes(int n) throws IOException {
-		buffer.position(buffer.position() + n);
+		buffer.skip(n);
 		return n;
 	}
 	
-	@Deprecated
+	
 	public <T> T readObject(Class<T> type) throws IOException {
-		throw new NotImplementedException("not support on sfs system !");
+		int size = buffer.getInt();
+		if (size > 0) {
+			try {
+				Object obj = buffer.getObject();
+				if (obj != null) {
+					return type.cast(obj);
+				}
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
 	}
 	
-	@Override
+
+	
 	public String readUTF() throws IOException {
 		int size = buffer.getShort();
 		if (size > 0) {		
@@ -52,7 +64,17 @@ public class NetDataInputImpl implements NetDataInput
 		}
 		return null;
 	}
-		
+	
+	static public String readUTF(IoBuffer buffer) throws IOException {
+		int size = buffer.getShort();
+		if (size > 0) {		
+			byte[] data = new byte[size];
+			buffer.get(data, 0, size);
+			return new String(data, CUtil.getEncoding());
+		}
+		return null;
+	}
+	
 //	-----------------------------------------------------------------------------------------------
 	
 	
@@ -101,33 +123,13 @@ public class NetDataInputImpl implements NetDataInput
 	}
 	
 	public int readUnsignedByte() throws IOException {
-		byte[] ub = new byte[1];
-		buffer.get(ub);
-		int ret = 0x00ff & ub[0];
-		return ret;
+		return buffer.getUnsigned();
 	}
 	
-	/**
-	 * big edian
-	 */
 	public int readUnsignedShort() throws IOException {
-		byte[] ub = new byte[2];
-		buffer.get(ub);
-		int ret =
-			((0x00ff & ub[0])<<8) | 
-			((0x00ff & ub[1]));
-		return ret;
+		return buffer.getUnsignedShort();
 	}
 
-//	public static void main(String[] args)
-//	{
-//		byte[] ub = new byte[]{(byte)0xaf, (byte)0xff};
-//		int ret =
-//			((0x00ff & ub[0])<<8) | 
-//			((0x00ff & ub[1]));
-//		System.out.println(Integer.toString(ret, 16));
-//	}
-	
 //	--------------------------------------------------------------------------------------------------------------
 	
 //	--------------------------------------------------------------------------------------------------------------
@@ -277,6 +279,159 @@ public class NetDataInputImpl implements NetDataInput
 		return null;
 	}
 
+//	-----------------------------------------------------------------------------------------------
+//	
+//	-----------------------------------------------------------------------------------------------
+//	
+//
+//	@Override
+//	public Object readAnyArray(String key, Class<?> type, byte componentDataType) throws IOException {
+//		return readAnyArray(type, componentDataType);
+//	}
+//
+//	@Override
+//	public boolean readBoolean(String key) throws IOException {
+//		return readBoolean();
+//	}
+//
+//	@Override
+//	public boolean[] readBooleanArray(String key) throws IOException {
+//		return readBooleanArray();
+//	}
+//
+//	@Override
+//	public byte readByte(String key) throws IOException {
+//		return readByte();
+//	}
+//
+//	@Override
+//	public byte[] readByteArray(String key) throws IOException {
+//		return readByteArray();
+//	}
+//
+//	@Override
+//	public char readChar(String key) throws IOException {
+//		return readChar();
+//	}
+//
+//	@Override
+//	public char[] readCharArray(String key) throws IOException {
+//		return readCharArray();
+//	}
+//
+//	@Override
+//	public double readDouble(String key) throws IOException {
+//		return readDouble();
+//	}
+//
+//	@Override
+//	public double[] readDoubleArray(String key) throws IOException {
+//		return readDoubleArray();
+//	}
+//
+//	@Override
+//	public <T extends ExternalizableMessage> T readExternal(String key,
+//			Class<T> cls) throws IOException {
+//		return readExternal(cls);
+//	}
+//
+//	@Override
+//	public <T extends ExternalizableMessage> T[] readExternalArray(String key,
+//			Class<T> type) throws IOException {
+//		return readExternalArray(type);
+//	}
+//
+//	@Override
+//	public float readFloat(String key) throws IOException {
+//		return readFloat();
+//	}
+//
+//	@Override
+//	public float[] readFloatArray(String key) throws IOException {
+//		return readFloatArray();
+//	}
+//
+//	@Override
+//	public void readFully(String key, byte[] b, int off, int len)
+//			throws IOException {
+//		readFully(b, off, len);
+//	}
+//
+//	@Override
+//	public void readFully(String key, byte[] b) throws IOException {
+//		readFully(b);
+//	}
+//
+//	@Override
+//	public int readInt(String key) throws IOException {
+//		return readInt();
+//	}
+//
+//	@Override
+//	public int[] readIntArray(String key) throws IOException {
+//		return readIntArray();
+//	}
+//
+//	@Override
+//	public String readLine(String key) throws IOException {
+//		return readLine();
+//	}
+//
+//	@Override
+//	public long readLong(String key) throws IOException {
+//		return readLong();
+//	}
+//
+//	@Override
+//	public long[] readLongArray(String key) throws IOException {
+//		return readLongArray();
+//	}
+//
+//	@Override
+//	public <T> T readObject(String key, Class<T> type) throws IOException {
+//		return readObject(type);
+//	}
+//
+//	@Override
+//	public <T> T[] readObjectArray(String key, Class<T> type)
+//			throws IOException {
+//		return readObjectArray(type);
+//	}
+//
+//	@Override
+//	public short readShort(String key) throws IOException {
+//		return readShort();
+//	}
+//
+//	@Override
+//	public short[] readShortArray(String key) throws IOException {
+//		return readShortArray();
+//	}
+//
+//	@Override
+//	public int readUnsignedByte(String key) throws IOException {
+//		return readUnsignedByte();
+//	}
+//
+//	@Override
+//	public int readUnsignedShort(String key) throws IOException {
+//		return readUnsignedShort();
+//	}
+//
+//	@Override
+//	public String readUTF(String key) throws IOException {
+//		return readUTF();
+//	}
+//
+//	@Override
+//	public String[] readUTFArray(String key) throws IOException {
+//		return readUTFArray();
+//	}
+//
+////	-----------------------------------------------------------------------------------------------
+////	
+////	-----------------------------------------------------------------------------------------------
+	
 	
 
 }

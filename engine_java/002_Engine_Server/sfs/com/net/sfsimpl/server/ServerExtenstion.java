@@ -166,7 +166,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 			// 解出包包含的二进制消息
 			p.message = ext_factory.createMessage(in.getInt("message_type"));	// ext 4
 			ExternalizableMessage ext = (ExternalizableMessage)p.message;
-//			ext.readExternal(new NetDataInputImpl(obj_in, ext_factory));
+			ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), ext_factory));
 			
 			return p;
 		} catch (Throwable e) {

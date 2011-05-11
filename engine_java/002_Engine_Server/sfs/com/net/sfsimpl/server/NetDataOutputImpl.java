@@ -4,10 +4,11 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+
+import org.apache.mina.core.buffer.IoBuffer;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
@@ -20,11 +21,11 @@ import com.net.NetDataTypes;
 
 public class NetDataOutputImpl implements NetDataOutput
 {	
-	final ByteBuffer buffer ;
+	final IoBuffer buffer ;
 	final ExternalizableFactory factory;
 	
-	public NetDataOutputImpl(ByteBuffer buffer, ExternalizableFactory factory) {
-		this.buffer = buffer;
+	public NetDataOutputImpl(int capacity, ExternalizableFactory factory) {
+		this.buffer = IoBuffer.allocate(capacity);
 		this.factory = factory;
 	}
 	
@@ -32,9 +33,17 @@ public class NetDataOutputImpl implements NetDataOutput
 	public ExternalizableFactory getFactory() {
 		return factory;
 	}
+
+	
+	
 	
 	public void writeObject(Object data) throws IOException {
-		throw new NotImplementedException("not support on sfs system !");
+		if (data != null) {
+			buffer.putInt(1);
+			buffer.putObject(data);
+		} else {
+			buffer.putInt(0);
+		}
 	}
 
 	
@@ -49,6 +58,19 @@ public class NetDataOutputImpl implements NetDataOutput
 			buffer.putShort((short)0);
 		}
 	}
+
+	static public void writeUTF(String s, IoBuffer buffer) throws IOException {
+		if (s != null) {			
+			byte[] data = s.getBytes(CUtil.getEncoding());
+			buffer.putShort((short)data.length);
+			if (data.length > 0) {
+				buffer.put(data);
+			}
+		} else {
+			buffer.putShort((short)0);
+		}
+	}
+
 	
 //	-----------------------------------------------------------------------------------------------------------
 //	

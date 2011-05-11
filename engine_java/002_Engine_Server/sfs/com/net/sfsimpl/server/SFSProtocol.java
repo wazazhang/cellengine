@@ -18,10 +18,7 @@ final public class SFSProtocol  implements com.net.Protocol
 	
 	/**匹配Request和Response的值，如果为0，则代表为Notify*/
 	int					PacketNumber		= 0;
-	
-	/** 标识为 {@link Serializable} 方式序列化 */
-	byte				transmission_flag	= 0;
-	
+		
 //	-------------------------------------------------------------------------------
 	
 	/**频道ID<br>
