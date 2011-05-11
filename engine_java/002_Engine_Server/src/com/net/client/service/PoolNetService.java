@@ -61,12 +61,12 @@ public class PoolNetService extends BasicNetService
 		return null;
 	}
 	
-	@Override
-	public long getHeartbeatCount() {
-		int sum = 0;
-		for (int i = 0; i < sessions.length; i++) {
-			sum += sessions[i].getHeartBeatReceived() + sessions[i].getHeartBeatSent();
-		}
-		return sum;
-	}
+//	@Override
+//	public long getHeartbeatCount() {
+//		int sum = 0;
+//		for (int i = 0; i < sessions.length; i++) {
+//			sum += sessions[i].getHeartBeatReceived() + sessions[i].getHeartBeatSent();
+//		}
+//		return sum;
+//	}
 }

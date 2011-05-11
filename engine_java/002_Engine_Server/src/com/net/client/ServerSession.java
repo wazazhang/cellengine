@@ -17,9 +17,9 @@ public interface ServerSession extends AbstractSession
 	
 	public boolean	connect(String host, int port, ServerSessionListener listener) throws IOException;
 	
-	public long		getHeartBeatSent();
-	
-	public long		getHeartBeatReceived();
+//	public long		getHeartBeatSent();
+//	
+//	public long		getHeartBeatReceived();
 	
 	
 	/**
