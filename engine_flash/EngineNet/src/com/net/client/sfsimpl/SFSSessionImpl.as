@@ -5,40 +5,29 @@ package com.net.client.sfsimpl
 		
 	public class SFSSessionImpl implements com.net.client.ServerSession
 	{
+		private var sfs : SmartFox;
+
 		public function SFSSessionImpl()
 		{
-			
+			sfs = new SmartFox();
 		}
 		
 		
 		/** 获取Session的对端地址 */
 		public function	getRemoteAddress() : String
 		{
-			return "";
+			return sfs.currentIp+":"+sfs.currentPort;
 		}
 		
 		
 		public function	isConnected() : Boolean
 		{
-			
-			return false;
+			return sfs.isConnected;
 		}
 		
 		public function disconnect() : void
 		{
-			
-		}
-		
-		public function send(message : Message): Boolean
-		{
-			return false;
-			
-		}
-		
-		public function sendRequest(pnum: int, message : Message) : Boolean
-		{
-			return false;
-			
+			sfs.disconnect();
 		}
 		
 		public function connect(
@@ -46,45 +35,22 @@ package com.net.client.sfsimpl
 			port 		: int, 
 			listener 	: ServerSessionListener) : Boolean
 		{
+			sfs.connect(host, port);
+			
+			return true;
+		}
+		
+
+		public function send(message : Message): Boolean
+		{
+			
+			
 			return false;
-			
 		}
 		
-		
-		public function getSentMessageCount(): int 
+		public function sendRequest(pnum: int, message : Message) : Boolean
 		{
-			return 1;
-			
-		}
-		
-		public function getReceivedMessageCount () : int
-		{
-			return 1;
-			
-		}
-		
-		public function getSentBytes(): int
-		{
-			return 1;
-			
-		}
-		
-		public function getReceivedBytes(): int
-		{
-			return 1;
-			
-		}
-		
-		public function getHeartBeatSent(): int
-		{
-			return 1;
-			
-		}
-		
-		public function getHeartBeatReceived(): int
-		{
-			return 1;
-			
+			return false;
 		}
 
 	}

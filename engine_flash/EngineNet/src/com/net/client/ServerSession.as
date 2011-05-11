@@ -23,17 +23,17 @@ package com.net.client
 							listener 	: ServerSessionListener) : Boolean;
 		
 		
-		function  		getSentMessageCount(): int ;
-		
-		function  		getReceivedMessageCount () : int;
-		
-		function  		getSentBytes(): int;
-		
-		function  		getReceivedBytes(): int;
-		
-		function 		getHeartBeatSent(): int;
-		
-		function 		getHeartBeatReceived(): int;
+//		function  		getSentMessageCount(): int ;
+//		
+//		function  		getReceivedMessageCount () : int;
+//		
+//		function  		getSentBytes(): int;
+//		
+//		function  		getReceivedBytes(): int;
+//		
+//		function 		getHeartBeatSent(): int;
+//		
+//		function 		getHeartBeatReceived(): int;
 		
 	}
 }
