@@ -14,7 +14,7 @@ final public class SFSProtocol  implements com.net.Protocol
 	byte 				Protocol;		
 	
 	/**该链接对于服务器的唯一ID*/
-	long 				SessionID;
+	int 				SessionID;
 	
 	/**匹配Request和Response的值，如果为0，则代表为Notify*/
 	int					PacketNumber		= 0;
@@ -27,7 +27,7 @@ final public class SFSProtocol  implements com.net.Protocol
 	
 	/**频道发送者的SessionID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	long				ChannelSesseionID;
+	int					ChannelSesseionID;
 
 	
 	MessageHeader		Message;

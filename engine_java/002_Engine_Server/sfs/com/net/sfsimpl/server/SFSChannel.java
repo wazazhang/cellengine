@@ -8,15 +8,18 @@ import com.net.server.Channel;
 import com.net.server.ChannelListener;
 import com.net.server.ClientSession;
 import com.net.server.Server;
+import com.smartfoxserver.v2.entities.Room;
 
 public class SFSChannel implements Channel
 {
+	final Room room;
+	
+	public SFSChannel(Room room) {
+		this.room = room;
+	}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void dispose() {}
 
 	@Override
 	public ChannelListener getChannelListener() {

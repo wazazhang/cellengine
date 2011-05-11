@@ -59,14 +59,16 @@ public class SFSSession implements ClientSession
 	
 	public boolean send(MessageHeader message)
 	{
-		// TODO
-		return false;
+		server.send(this, message, 
+				Protocol.PROTOCOL_SESSION_MESSAGE, 0, 0, 0);
+		return true;
 	}
 
 	public boolean sendResponse(Protocol request, MessageHeader response)
 	{
-	
-		return false;
+		server.send(this, response, 
+				Protocol.PROTOCOL_SESSION_MESSAGE, 0, 0, request.getPacketNumber());
+		return true;
 	}
 	
 //	------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@ package com.net.sfsimpl.server;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,15 +24,19 @@ import com.net.server.ClientSessionListener;
 import com.net.server.Server;
 import com.net.server.ServerListener;
 
+import com.smartfoxserver.v2.api.CreateRoomSettings;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.ISFSEventListener;
 import com.smartfoxserver.v2.core.ISFSEventParam;
 import com.smartfoxserver.v2.core.SFSEventParam;
 import com.smartfoxserver.v2.core.SFSEventType;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.SFSRoomRemoveMode;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.Zone;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
@@ -182,21 +187,24 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		}
 		
 		// 解出包包含的二进制消息
-		p.Message = ext_factory.createMessage(in.getInt("message_type"));	// ext 4
-		ExternalizableMessage ext = (ExternalizableMessage)p.Message;
-		ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), ext_factory));
-		
+		int message_type 			= in.getInt("message_type");
+		if (message_type != 0) {
+			p.Message = ext_factory.createMessage(message_type);	// ext 4
+			ExternalizableMessage ext = (ExternalizableMessage)p.Message;
+			ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), ext_factory));
+		}
+
 		return p;
 	}
 	
-	private ISFSObject encode(SFSSession session, SFSProtocol p) throws Throwable
+	private ISFSObject encode(SFSProtocol p) throws Throwable
 	{
 		p.DynamicSendTime = System.currentTimeMillis();
 		
 		ISFSObject out = new SFSObject();
 		{
 			out.putByte		("Protocol", 			p.Protocol);			// 1
-			out.putLong		("SessionID", 			p.SessionID);			// 8
+			out.putInt		("SessionID", 			p.SessionID);			// 8
 			out.putInt		("PacketNumber",		p.PacketNumber);		// 4
 			
 			switch (p.Protocol) {
@@ -204,7 +212,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 			case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 			case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
-				out.putLong	("ChannelSesseionID",	p.ChannelSesseionID);	// 8
+				out.putInt	("ChannelSesseionID",	p.ChannelSesseionID);	// 8
 				break;
 			}
 
@@ -214,20 +222,68 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 				((ExternalizableMessage)p.Message).writeExternal(net_out);
 				net_out.buffer.shrink().flip();
 				out.putByteArray("message", net_out.buffer.array());
-			} 
+			} else {
+				out.putInt("message_type", 0);	// ext 4
+			}
 		}
 
 		p.DynamicSendTime = System.currentTimeMillis();
 		return out;
 	}
 	
+	void send(
+			SFSSession 		session, 
+			MessageHeader 	message,
+			byte			protocol, 
+			int				channel_id, 
+			long			channel_sender_id,
+			int				packnumber)
+	{
+		SFSProtocol p = new SFSProtocol();
+		p.Message 			= message;
+		p.SessionID 		= (int)session.getID();
+		p.Protocol			= protocol;
+		p.ChannelID			= channel_id;
+		p.ChannelSesseionID	= p.SessionID;
+		p.PacketNumber		= packnumber;
+		
+		try {
+			this.send(message.getClass().getSimpleName(), encode(p), session.user);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void broadcast(MessageHeader message) 
+	{
+		SFSProtocol p = new SFSProtocol();
+		p.Message 			= message;
+		p.SessionID 		= 0;
+		p.Protocol			= Protocol.PROTOCOL_SESSION_MESSAGE;
+		p.ChannelID			= 0;
+		p.ChannelSesseionID	= 0;
+		p.PacketNumber		= 0;
+		
+		try {
+			ArrayList<User> users = new ArrayList<User>(sessions.size());
+			synchronized (sessions) {
+				for (SFSSession s : sessions.values()) {
+					users.add(s.user);
+				}
+			}
+			this.send(message.getClass().getSimpleName(), encode(p), users);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
 //	----------------------------------------------------------------------------------------------------------
 
 	@Override
 	public ClientSession getSession(long sessionID) {
 		User user = getApi().getUserById((int)sessionID);
 		if (user != null) {
-//			user.setProperty(arg0, arg1)
 			ClientSession session = (ClientSession)user.getProperty(ClientSession.class);
 			return session;
 		}
@@ -236,23 +292,18 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 	
 	@Override
 	public int getSessionCount() {
-		return 0;
+		return sessions.size();
 	}
 	
 	@Override
 	public Iterator<ClientSession> getSessions() {
-		return null;
+		ArrayList<ClientSession> users = new ArrayList<ClientSession>(sessions.values());
+		return users.iterator();
 	}
 	
 	@Override
 	public boolean hasSession(ClientSession session) {
-		return false;
-	}
-
-	@Override
-	public void broadcast(MessageHeader message) 
-	{
-		
+		return sessions.containsValue(session);
 	}
 
 //	----------------------------------------------------------------------------------------------------------
@@ -265,30 +316,48 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 	
 	class RoomChannelManager implements ChannelManager
 	{
-		AtomicInteger channel_index = new AtomicInteger();
-
+		ConcurrentHashMap<Integer, SFSChannel> channels = new ConcurrentHashMap<Integer, SFSChannel>();
+		
 		@Override
 		public Channel createChannel(int id, ChannelListener listener) {
-
-//			getApi().createRoom(current_zone, arg1, null)
+			synchronized (channels) {
+				if (!channels.containsKey(id)) {
+					try {
+						CreateRoomSettings settings = new CreateRoomSettings();
+						settings.setName("r_" + id);
+						settings.setMaxUsers(10000);
+						settings.setMaxVariablesAllowed(1);
+						settings.setAutoRemoveMode(SFSRoomRemoveMode.DEFAULT);
+						Room room = getApi().createRoom(current_zone, settings, null);
+						SFSChannel channel = new SFSChannel(room);
+						room.setProperty(SFSChannel.class, channel);
+						channels.put(id, channel);
+						return channel;
+					} catch (SFSCreateRoomException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 			return null;
 		}
 
 		@Override
 		public Channel getChannel(int id) {
-			// TODO Auto-generated method stub
-			return null;
+			return channels.get(id);
 		}
 
 		@Override
 		public Iterator<Channel> getChannels() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<Channel> ret = new ArrayList<Channel>(channels.values());
+			return ret.iterator();
 		}
 
 		@Override
 		public Channel removeChannel(int id) {
-			// TODO Auto-generated method stub
+			synchronized (channels) {
+				SFSChannel channel = channels.remove(id);
+				channel.room.getZone().removeRoom(channel.room.getName());
+			}
 			return null;
 		}
 		
