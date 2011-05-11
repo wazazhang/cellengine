@@ -29,6 +29,10 @@ final public class SFSProtocol  implements com.net.Protocol
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
 	long				ChannelSesseionID;
 
+	
+	MessageHeader		Message;
+	
+	
 //	-------------------------------------------------------------------------------
 //	/**发送时间*/
 	transient long		DynamicSendTime;
@@ -36,7 +40,6 @@ final public class SFSProtocol  implements com.net.Protocol
 	/**接收时间*/
 	transient long		DynamicReceiveTime;
 
-	public MessageHeader message;
 	
 //	-------------------------------------------------------------------------------
 
@@ -83,11 +86,11 @@ final public class SFSProtocol  implements com.net.Protocol
 	
 	@Override
 	public MessageHeader getMessage() {
-		return message;
+		return Message;
 	}
 	
 	@Override
 	public String toString() {
-		return "[0x"+Integer.toHexString(Protocol)+"] : " + message;
+		return "[0x"+Integer.toHexString(Protocol)+"] : " + Message;
 	}
 }

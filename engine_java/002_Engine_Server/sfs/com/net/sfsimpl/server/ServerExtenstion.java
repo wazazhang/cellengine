@@ -1,15 +1,20 @@
 package com.net.sfsimpl.server;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.mina.core.buffer.IoBuffer;
+
 import com.cell.exception.NotImplementedException;
+import com.net.CompressingMessage;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
 import com.net.Protocol;
+
 import com.net.server.Channel;
 import com.net.server.ChannelListener;
 import com.net.server.ChannelManager;
@@ -17,6 +22,7 @@ import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;
 import com.net.server.Server;
 import com.net.server.ServerListener;
+
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.ISFSEventListener;
 import com.smartfoxserver.v2.core.ISFSEventParam;
@@ -25,11 +31,17 @@ import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.Zone;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
 abstract public class ServerExtenstion extends SFSExtension implements Server, ServerListener
 {
+	public static int PACKAGE_DEFAULT_SIZE = 4096;
+
+//	--------------------------------------------------------------------------------------
+	
+	
 	private RoomChannelManager channel_manager;
 	
 	private UserEventListener user_listener;
@@ -39,6 +51,9 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 	private Zone current_zone;
 	
 	private ExternalizableFactory ext_factory;
+	
+//	--------------------------------------------------------------------------------------
+	
 	
 	@Override
 	public void init() 
@@ -132,53 +147,78 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		SFSSession session = (SFSSession)sender.getProperty(ClientSession.class);
 		if (session != null)
 		{
-			SFSProtocol protocol = decode(params);
-			if (protocol != null) {
-				session.getListener().receivedMessage(session, protocol, protocol.getMessage());
-			} else {
-				trace("ERROR : handleClientRequest : " + params.toString());
+			try {
+				SFSProtocol protocol = decode(params);
+				if (protocol != null) {
+					session.getListener().receivedMessage(session, protocol, protocol.getMessage());
+				} else {
+					trace("ERROR : handleClientRequest : " + params.toString());
+				}
+			} catch (Throwable e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
 //	----------------------------------------------------------------------------------------------------------
 
-	private SFSProtocol decode(ISFSObject in)
+	private SFSProtocol decode(ISFSObject in) throws Throwable
 	{
-		try {
-			SFSProtocol p = new SFSProtocol();
-			
-			p.DynamicReceiveTime		= System.currentTimeMillis();
+		SFSProtocol p = new SFSProtocol();
+		
+		p.DynamicReceiveTime		= System.currentTimeMillis();
 
-			p.Protocol 					= in.getByte("Protocol");		// 1
-			p.SessionID 				= in.getInt	("SessionID");		// 4
-			p.PacketNumber				= in.getInt	("PacketNumber");	// 4
+		p.Protocol 					= in.getByte("Protocol");		// 1
+		p.SessionID 				= in.getInt	("SessionID");		// 4
+		p.PacketNumber				= in.getInt	("PacketNumber");	// 4
+		
+		switch (p.Protocol) {
+		case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
+		case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
+		case Protocol.PROTOCOL_CHANNEL_MESSAGE:
+			p.ChannelID 			= in.getInt("ChannelID");			// 4
+			p.ChannelSesseionID 	= in.getInt("ChannelSesseionID");	// 4
+			break;
+		}
+		
+		// 解出包包含的二进制消息
+		p.Message = ext_factory.createMessage(in.getInt("message_type"));	// ext 4
+		ExternalizableMessage ext = (ExternalizableMessage)p.Message;
+		ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), ext_factory));
+		
+		return p;
+	}
+	
+	private ISFSObject encode(SFSSession session, SFSProtocol p) throws Throwable
+	{
+		p.DynamicSendTime = System.currentTimeMillis();
+		
+		ISFSObject out = new SFSObject();
+		{
+			out.putByte		("Protocol", 			p.Protocol);			// 1
+			out.putLong		("SessionID", 			p.SessionID);			// 8
+			out.putInt		("PacketNumber",		p.PacketNumber);		// 4
 			
 			switch (p.Protocol) {
 			case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 			case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 			case Protocol.PROTOCOL_CHANNEL_MESSAGE:
-				p.ChannelID 			= in.getInt("ChannelID");			// 4
-				p.ChannelSesseionID 	= in.getInt("ChannelSesseionID");	// 4
+				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
+				out.putLong	("ChannelSesseionID",	p.ChannelSesseionID);	// 8
 				break;
 			}
-			
-			// 解出包包含的二进制消息
-			p.message = ext_factory.createMessage(in.getInt("message_type"));	// ext 4
-			ExternalizableMessage ext = (ExternalizableMessage)p.message;
-			ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), ext_factory));
-			
-			return p;
-		} catch (Throwable e) {
-			e.printStackTrace();
+
+			if (p.Message instanceof ExternalizableMessage) {
+				out.putInt("message_type", ext_factory.getType(p.Message));	// ext 4
+				NetDataOutputImpl net_out = new NetDataOutputImpl(PACKAGE_DEFAULT_SIZE, ext_factory);
+				((ExternalizableMessage)p.Message).writeExternal(net_out);
+				net_out.buffer.shrink().flip();
+				out.putByteArray("message", net_out.buffer.array());
+			} 
 		}
-		return null;
-	}
-	
-	private SFSProtocol encode(SFSSession session, MessageHeader hd) 
-	{
-		
-		return null;
+
+		p.DynamicSendTime = System.currentTimeMillis();
+		return out;
 	}
 	
 //	----------------------------------------------------------------------------------------------------------
@@ -188,7 +228,8 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		User user = getApi().getUserById((int)sessionID);
 		if (user != null) {
 //			user.setProperty(arg0, arg1)
-			return sessions.get(user);
+			ClientSession session = (ClientSession)user.getProperty(ClientSession.class);
+			return session;
 		}
 		return null;
 	}

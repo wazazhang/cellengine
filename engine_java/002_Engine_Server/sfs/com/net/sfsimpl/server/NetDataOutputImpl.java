@@ -25,7 +25,7 @@ public class NetDataOutputImpl implements NetDataOutput
 	final ExternalizableFactory factory;
 	
 	public NetDataOutputImpl(int capacity, ExternalizableFactory factory) {
-		this.buffer = IoBuffer.allocate(capacity);
+		this.buffer = IoBuffer.allocate(capacity).setAutoExpand(true);
 		this.factory = factory;
 	}
 	
