@@ -1,6 +1,7 @@
 package com.net.sfsimpl.server;
 
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.net.MessageHeader;
 import com.net.Protocol;
@@ -8,96 +9,139 @@ import com.net.server.Channel;
 import com.net.server.ChannelListener;
 import com.net.server.ClientSession;
 import com.net.server.Server;
-import com.smartfoxserver.v2.entities.Room;
 
 public class SFSChannel implements Channel
 {
-	final Room room;
+	final ChannelListener Listener;
+	final int ID;
+	final ServerExtenstion server;
+	final ConcurrentHashMap<ClientSession, SFSSession> sessions = new ConcurrentHashMap<ClientSession, SFSSession>();
 	
-	public SFSChannel(Room room) {
-		this.room = room;
+	SFSChannel(int id, ServerExtenstion server, ChannelListener listener) {
+		this.Listener			= listener;
+		this.ID 				= id;
+		this.server 			= server;
 	}
-
-	@Override
-	public void dispose() {}
-
-	@Override
-	public ChannelListener getChannelListener() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	void clear() {
+		
 	}
-
+	
 	@Override
+	public void dispose() {
+		server.getChannelManager().removeChannel(getID());
+	}
+	
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return ID;
 	}
-
-	@Override
-	public Server getServer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getSessionCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
+	
 	public Iterator<ClientSession> getSessions() {
-		// TODO Auto-generated method stub
-		return null;
+		return sessions.keySet().iterator();
 	}
-
-	@Override
-	public boolean hasSession(ClientSession session) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public int getSessionCount(){
+		return sessions.size();
 	}
-
-	@Override
+	
 	public boolean hasSessions() {
-		// TODO Auto-generated method stub
-		return false;
+		return sessions.isEmpty();
 	}
-
-	@Override
+	
+	public boolean hasSession(ClientSession session){
+		return sessions.contains(session);
+	}
+	
 	public boolean join(ClientSession session) {
-		// TODO Auto-generated method stub
+		if (session instanceof SFSSession) {
+			SFSSession impl = (SFSSession)session;
+			ClientSession old = sessions.putIfAbsent(session, impl);
+			if (old == null) {
+				server.send(
+						impl, 
+						null,
+						Protocol.PROTOCOL_CHANNEL_JOIN_S2C, 
+						getID(), 
+						impl.getID(),
+						0);
+				Listener.sessionJoined(this, session);
+				return true;
+			}
+		}
 		return false;
 	}
-
-	@Override
+	
 	public boolean leave(ClientSession session) {
-		// TODO Auto-generated method stub
+		SFSSession old = sessions.remove(session);
+		if (old != null) {
+			server.send(
+					old, 
+					null,
+					Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, 
+					getID(), 
+					old.getID(),
+					0);
+			Listener.sessionLeaved(this, session);
+			return true;
+		}
 		return false;
 	}
-
-	@Override
+	
 	public int leaveAll() {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		for (Iterator<SFSSession> it = sessions.values().iterator(); it.hasNext(); ) {
+			ClientSession session = it.next();
+			if (leave(session)) {
+				count ++;
+			}
+		}
+		return count;
 	}
-
-	@Override
-	public int send(ClientSession sender, MessageHeader message) {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	int broadcast(ClientSession sender, MessageHeader message, int packnum)
+	{
+		long sender_id = (sender != null ? sender.getID() : 0);
+		int  count = 0;
+		for (Iterator<SFSSession> it = sessions.values().iterator(); it.hasNext(); ) {
+			SFSSession session = it.next();
+			server.send(session,
+					message,
+					Protocol.PROTOCOL_CHANNEL_MESSAGE,
+					ID,
+					sender_id, 
+					packnum);
+		}
+		return count;
 	}
-
-	@Override
+	
+//	int broadcast(ClientSession sender, byte protocol)
+//	{
+//		long sender_id = (sender != null ? sender.getID() : 0);
+//		int  count = 0;
+//		for (Iterator<ClientSessionImpl> it = sessions.values().iterator(); it.hasNext(); ) {
+//			ClientSessionImpl session = it.next();
+//			server.write(session.Session, null, protocol, getID(), sender_id, 0);
+//		}
+//		return count;
+//	}
+	
 	public int send(MessageHeader message) {
-		// TODO Auto-generated method stub
-		return 0;
+		return broadcast(null, message, 0);
 	}
-
-	@Override
-	public int sendResponse(ClientSession sender, Protocol request,
-			MessageHeader response) {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public int send(ClientSession sender, MessageHeader message) {
+		return broadcast(sender, message, 0);
 	}
-
+	
+	public int sendResponse(ClientSession sender, Protocol request, MessageHeader response) {
+		return broadcast(sender, response, request.getPacketNumber());
+	}
+	
+	public ChannelListener getChannelListener() {
+		return Listener;
+	}
+	
+	public Server getServer() {
+		return server;
+	}
 }

@@ -351,41 +351,9 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 		public Channel createChannel(int id, ChannelListener listener) {
 			synchronized (channels) {
 				if (!channels.containsKey(id)) {
-					try {
-						CreateRoomSettings settings = new CreateRoomSettings();
-						settings.setName("r_" + id);
-						settings.setMaxUsers(10000);
-						settings.setMaxVariablesAllowed(1);
-						settings.setAutoRemoveMode(SFSRoomRemoveMode.DEFAULT);
-//						Parameters:
-//						zone - the Zone in which the Room is going to be created
-//						settings - the Room settings
-//						owner - the Room owner, when null it indicates that the Room is owned by the Server itself
-//						joinIt - if true the Room will be joined by the owner right after creation
-//						roomToLeave - a previous Room to leave after the join, or null
-//						fireClientEvent - fire a client side Event
-//						fireServerEvent - fire a server side Event
-//						Returns:
-//						the Room
-//						Throws:
-//						SFSCreateRoomException
-//						See Also:
-//						CreateRoomSettings
-						Room room = getApi().createRoom(current_zone,
-				                settings,
-				               	null,
-				                false,
-				                null,
-				                false,
-				                true);
-//						Room room = getApi().createRoom(current_zone, settings, null);
-						SFSChannel channel = new SFSChannel(room);
-//						room.setProperty(SFSChannel.class, channel);
-						channels.put(id, channel);
-						return channel;
-					} catch (SFSCreateRoomException e) {
-						e.printStackTrace();
-					}
+					SFSChannel channel = new SFSChannel(id, ServerExtenstion.this, listener);
+					channels.put(id, channel);
+					return channel;
 				}
 			}
 			return null;
@@ -406,7 +374,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 		public Channel removeChannel(int id) {
 			synchronized (channels) {
 				SFSChannel channel = channels.remove(id);
-				channel.room.getZone().removeRoom(channel.room.getName());
+				channel.clear();
 			}
 			return null;
 		}
