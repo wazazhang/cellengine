@@ -29,7 +29,7 @@ package com.net.client.sfsimpl
 			// Create an instance of the SmartFox class
 			sfs = new SmartFox();
 			// Turn on the debug feature
-			sfs.debug = true
+			sfs.debug = false;
 			// Add SFS2X event listeners
 			sfs.addEventListener(SFSEvent.CONNECTION, onConnection)
 			sfs.addEventListener(SFSEvent.CONNECTION_LOST, onConnectionLost)
@@ -85,7 +85,7 @@ package com.net.client.sfsimpl
 			p.setChannelSessionID(0);
 			p.setMessage(message);
 			p.setPacketNumber(0);
-			var params  : SFSObject = encode(p);
+			var params  : ISFSObject = encode(p);
 			if (params != null) {
 				sfs.send(new ExtensionRequest("msg", params));
 				return false;
@@ -102,7 +102,7 @@ package com.net.client.sfsimpl
 			p.setChannelSessionID(0);
 			p.setMessage(message);
 			p.setPacketNumber(pnum);
-			var params  : SFSObject = encode(p);
+			var params  : ISFSObject = encode(p);
 			if (params != null) {
 				sfs.send(new ExtensionRequest("msg", params));
 				return false;
@@ -114,7 +114,7 @@ package com.net.client.sfsimpl
 //		
 //		---------------------------------------------------------------------------------------------------------
 		
-		function encode(p : SFSProtocol) : SFSObject
+		function encode(p : SFSProtocol) : ISFSObject
 		{
 			var out : SFSObject = new SFSObject();
 			{
@@ -144,7 +144,7 @@ package com.net.client.sfsimpl
 			return out;
 		}
 		
-		function decode(obj : SFSObject) : SFSProtocol
+		function decode(obj : ISFSObject) : SFSProtocol
 		{
 			var p : SFSProtocol = new SFSProtocol();
 
@@ -170,6 +170,7 @@ package com.net.client.sfsimpl
 				net_in.writeBytes(data);
 				net_in.position = 0;
 				ext_factory.readExternal(msg, net_in);
+				p.setMessage			(msg);
 			}
 			recivedMessage(p);
 			return p;
@@ -241,18 +242,8 @@ package com.net.client.sfsimpl
 				
 		private function onLogin(evt:SFSEvent):void
 		{
-			if (evt.params.success) 
-			{
-				trace("Login success: " + evt.params.user.name);
-				
-				user_listener.connected(this);
-			}
-			else 
-			{
-				trace("Login failed: " + evt.params.errorMessage);
-				sfs.disconnect();
-				user_listener.disconnected(this, evt.params.errorMessage);
-			}
+			trace("Login success: " + evt.params.user.name);
+			user_listener.connected(this);
 		}
 		
 		private function onLoginError(evt:SFSEvent):void
@@ -286,13 +277,14 @@ package com.net.client.sfsimpl
 		{
 			var msg : ISFSObject = evt.params.params as SFSObject;
 	
-
+			decode(msg);
 		}
 		
 		private function onObjectMessage(evt:SFSEvent):void
 		{
 			var msg : ISFSObject = evt.params.params as SFSObject;
 			
+			decode(msg);
 			
 		}
 		
