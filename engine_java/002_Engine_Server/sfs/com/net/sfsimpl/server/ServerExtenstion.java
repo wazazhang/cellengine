@@ -176,6 +176,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 	@Override
 	public void handleClientRequest(String requestId, User sender, ISFSObject params) 
 	{
+//		trace("handleC/lientRequest : " + params.toString());
 		SFSSession session = (SFSSession)sender.getProperty(ClientSession.class);
 		if (session != null)
 		{
