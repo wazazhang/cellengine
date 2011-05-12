@@ -44,7 +44,7 @@ package com.net.client
 		
 		/**频道发送者的SessionID<br>
 		 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-		public function 		getChannelSesseionID() : Number{
+		public function 		getChannelSessionID() : Number{
 			return this.channel_session_id;
 		}
 		

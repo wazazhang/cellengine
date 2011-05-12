@@ -433,7 +433,7 @@ package com.net.client.minaimpl
 					
 					buffer.writeInt(protocol_fixed_size + (end_pos - begin_pos));
 				}
-								
+				sentMessage(protocol);
 				return buffer;
 			}
 			catch(err : Error) 

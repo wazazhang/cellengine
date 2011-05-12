@@ -14,6 +14,7 @@
     <classEntry path="com.cell.util.Util"/>
     <classEntry path="com.net.client.NetDataTypes"/>
     <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
+    <classEntry path="com.net.client.sfsimpl.SFSProtocol"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
