@@ -201,7 +201,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 	{
 		p.DynamicSendTime = System.currentTimeMillis();
 		
-		ISFSObject out = new SFSObject();
+		ISFSObject out = SFSObject.newInstance();
 		{
 			out.putByte		("Protocol", 			p.Protocol);			// 1
 			out.putInt		("SessionID", 			p.SessionID);			// 8
@@ -249,6 +249,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		
 		try {
 			this.send("msg", encode(p), session.user);
+//			this.getApi().sendExtensionResponse("msg", encode(p), session.user, null, false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
