@@ -227,7 +227,7 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 				ProtocolImpl p = ProtocolPool.getInstance().createProtocol();
 				p.Protocol			= ProtocolImpl.PROTOCOL_CHANNEL_MESSAGE;
 				p.ChannelID			= channel.getID();
-				p.ChannelSesseionID	= getID();
+				p.ChannelSessionID	= getID();
 				p.message			= message;
 				io_session.write(p);
 			}

@@ -39,7 +39,7 @@ public class ProtocolImpl implements com.net.Protocol
 	
 	/**频道发送者的SessionID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	public long					ChannelSesseionID;
+	public long					ChannelSessionID;
 
 //	-------------------------------------------------------------------------------
 //	/**发送时间*/
@@ -73,8 +73,8 @@ public class ProtocolImpl implements com.net.Protocol
 	}
 
 	@Override
-	public long getChannelSesseionID() {
-		return ChannelSesseionID;
+	public long getChannelSessionID() {
+		return ChannelSessionID;
 	}
 
 	@Override

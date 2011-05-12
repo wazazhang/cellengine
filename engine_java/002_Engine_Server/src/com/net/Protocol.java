@@ -31,7 +31,7 @@ public interface Protocol
 	
 	/**频道发送者的SessionID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	public long		getChannelSesseionID();
+	public long		getChannelSessionID();
 	
 //	----------------------------------------------------------------------------------------------------------------		
 //	dynamic fields

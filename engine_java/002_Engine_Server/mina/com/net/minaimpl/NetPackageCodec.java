@@ -145,7 +145,7 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 	    					p.ChannelID 			= in.getInt();		// 4
-	    					p.ChannelSesseionID 	= in.getLong();		// 8
+	    					p.ChannelSessionID 		= in.getLong();		// 8
 	    					obj_size -= 12;
 	    					break;
 	    				}
@@ -246,7 +246,7 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 	    					buffer.putInt	(p.ChannelID);			// 4
-							buffer.putLong	(p.ChannelSesseionID);	// 8
+							buffer.putLong	(p.ChannelSessionID);	// 8
 							break;
 						}
 						

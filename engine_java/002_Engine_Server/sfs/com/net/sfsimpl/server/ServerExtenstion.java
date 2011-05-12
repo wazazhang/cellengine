@@ -182,7 +182,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 		case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 			p.ChannelID 			= in.getInt("ChannelID");			// 4
-			p.ChannelSesseionID 	= in.getInt("ChannelSesseionID");	// 4
+			p.ChannelSessionID 		= in.getInt("ChannelSessionID");	// 4
 			break;
 		}
 		
@@ -212,7 +212,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 			case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 			case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
-				out.putInt	("ChannelSesseionID",	p.ChannelSesseionID);	// 8
+				out.putInt	("ChannelSessionID",	p.ChannelSessionID);	// 8
 				break;
 			}
 
@@ -244,11 +244,11 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		p.SessionID 		= (int)session.getID();
 		p.Protocol			= protocol;
 		p.ChannelID			= channel_id;
-		p.ChannelSesseionID	= p.SessionID;
+		p.ChannelSessionID	= p.SessionID;
 		p.PacketNumber		= packnumber;
 		
 		try {
-			this.send(message.getClass().getSimpleName(), encode(p), session.user);
+			this.send("msg", encode(p), session.user);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -262,7 +262,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		p.SessionID 		= 0;
 		p.Protocol			= Protocol.PROTOCOL_SESSION_MESSAGE;
 		p.ChannelID			= 0;
-		p.ChannelSesseionID	= 0;
+		p.ChannelSessionID	= 0;
 		p.PacketNumber		= 0;
 		
 		try {
@@ -272,7 +272,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 					users.add(s.user);
 				}
 			}
-			this.send(message.getClass().getSimpleName(), encode(p), users);
+			this.send("msg", encode(p), users);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

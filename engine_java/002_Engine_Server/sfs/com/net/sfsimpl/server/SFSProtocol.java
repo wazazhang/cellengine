@@ -27,7 +27,7 @@ final public class SFSProtocol  implements com.net.Protocol
 	
 	/**频道发送者的SessionID<br>
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	int					ChannelSesseionID;
+	int					ChannelSessionID;
 
 	
 	MessageHeader		Message;
@@ -70,8 +70,8 @@ final public class SFSProtocol  implements com.net.Protocol
 	}
 
 	@Override
-	public long getChannelSesseionID() {
-		return ChannelSesseionID;
+	public long getChannelSessionID() {
+		return ChannelSessionID;
 	}
 
 	@Override
