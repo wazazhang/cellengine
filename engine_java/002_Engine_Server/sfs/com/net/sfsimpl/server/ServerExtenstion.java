@@ -40,12 +40,12 @@ import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
-abstract public class ServerExtenstion extends SFSExtension implements Server, ServerListener
+abstract public class ServerExtenstion extends SFSExtension implements Server
 {
 	public static int PACKAGE_DEFAULT_SIZE = 4096;
 
 //	--------------------------------------------------------------------------------------
-	
+	private ServerListener	server_listener;
 	
 	private RoomChannelManager channel_manager;
 	
@@ -59,7 +59,6 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 	
 //	--------------------------------------------------------------------------------------
 	
-	
 	@Override
 	public void init() 
 	{
@@ -70,7 +69,35 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 		current_zone = getParentZone();
 		
 		trace(getClass().getSimpleName() + " ready, current zone is [" + current_zone.getName() + "]");
+	
+		ext_factory = createFactory();
+		
+		try {
+			server_listener = createListener();
+		} catch (Exception e) {
+			e.printStackTrace();
+			server_listener = new ServerListener() {
+				@Override
+				public ClientSessionListener connected(
+						ClientSession session) {
+					trace("no session listener !");
+					return null;
+				}
+			};
+		}
+	
+	
 	}
+	
+	
+
+//	------------------------------------------------------------------------------------
+	
+	abstract protected ServerListener 			createListener() throws Exception;
+	
+	abstract protected ExternalizableFactory 	createFactory();
+	
+//	------------------------------------------------------------------------------------
 	
 	class UserEventListener implements ISFSEventListener
 	{
@@ -119,7 +146,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 				synchronized (sessions) {
 					if (!sessions.containsKey(user)) {
 						SFSSession session = new SFSSession(user, ServerExtenstion.this);
-						ClientSessionListener listener = connected(session);
+						ClientSessionListener listener = server_listener.connected(session);
 						session.setListener(listener);
 						user.setProperty(ClientSession.class, session);
 						sessions.put(user.getId(), session);
@@ -134,7 +161,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 				synchronized (sessions) {
 					SFSSession session = sessions.remove(user.getId());
 					if (session != null) {
-						user.setProperty(ClientSession.class, null);
+						user.removeProperty(ClientSession.class);
 						session.getListener().disconnected(session);
 					}
 				}
@@ -329,9 +356,30 @@ abstract public class ServerExtenstion extends SFSExtension implements Server, S
 						settings.setMaxUsers(10000);
 						settings.setMaxVariablesAllowed(1);
 						settings.setAutoRemoveMode(SFSRoomRemoveMode.DEFAULT);
-						Room room = getApi().createRoom(current_zone, settings, null);
+//						Parameters:
+//						zone - the Zone in which the Room is going to be created
+//						settings - the Room settings
+//						owner - the Room owner, when null it indicates that the Room is owned by the Server itself
+//						joinIt - if true the Room will be joined by the owner right after creation
+//						roomToLeave - a previous Room to leave after the join, or null
+//						fireClientEvent - fire a client side Event
+//						fireServerEvent - fire a server side Event
+//						Returns:
+//						the Room
+//						Throws:
+//						SFSCreateRoomException
+//						See Also:
+//						CreateRoomSettings
+						Room room = getApi().createRoom(current_zone,
+				                settings,
+				               	null,
+				                false,
+				                null,
+				                false,
+				                true);
+//						Room room = getApi().createRoom(current_zone, settings, null);
 						SFSChannel channel = new SFSChannel(room);
-						room.setProperty(SFSChannel.class, channel);
+//						room.setProperty(SFSChannel.class, channel);
 						channels.put(id, channel);
 						return channel;
 					} catch (SFSCreateRoomException e) {
