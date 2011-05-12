@@ -248,8 +248,8 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 				out.putInt("message_type", ext_factory.getType(p.Message));	// ext 4
 				NetDataOutputImpl net_out = new NetDataOutputImpl(PACKAGE_DEFAULT_SIZE, ext_factory);
 				((ExternalizableMessage)p.Message).writeExternal(net_out);
-				net_out.buffer.shrink().flip();
-				out.putByteArray("message", net_out.buffer.array());
+				byte[] data = net_out.buffer.shrink().flip().array();
+				out.putByteArray("message", data);
 			} else {
 				out.putInt("message_type", 0);	// ext 4
 			}
