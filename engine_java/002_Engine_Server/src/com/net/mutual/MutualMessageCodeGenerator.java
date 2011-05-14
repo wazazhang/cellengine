@@ -3,6 +3,7 @@ package com.net.mutual;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,6 +29,6 @@ public abstract class MutualMessageCodeGenerator
 	
 	
 	public String getVersion() {
-		return "";
+		return new Date().toString();
 	}
 }
