@@ -4,6 +4,8 @@ package com.net.client
 	public interface MessageFactory
 	{
 		
+		function	getVersion() : String;
+		
 		/**获得此消息体的类型ID*/
 		function	getType(message:Message) : int;
 		
