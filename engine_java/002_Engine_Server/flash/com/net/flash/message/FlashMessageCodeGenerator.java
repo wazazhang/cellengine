@@ -19,7 +19,7 @@ import com.net.NetDataTypes;
 import com.net.mutual.MutualMessageCodeGenerator;
 import com.net.mutual.MutualMessageCodeGeneratorJava;
 
-public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
+public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 {
 	private String codec_template	= CIO.readAllText("/com/net/flash/message/FlashMessageCodec.txt");
 	private String codec_class_name	= "FlashMessageCodec";
@@ -103,6 +103,7 @@ public class FlashMessageCodeGenerator implements MutualMessageCodeGenerator
 		ret = CUtil.replaceString(ret, "//package", 		codec_package);
 		ret = CUtil.replaceString(ret, "//import", 			codec_import);
 		ret = CUtil.replaceString(ret, "//className", 		codec_class_name);	
+		ret = CUtil.replaceString(ret, "//version",			getVersion());
 		ret = CUtil.replaceString(ret, "//getType", 		get_type.toString());
 		ret = CUtil.replaceString(ret, "//createMessage", 	new_msg.toString());	
 		ret = CUtil.replaceString(ret, "//readExternal",	read_external.toString());

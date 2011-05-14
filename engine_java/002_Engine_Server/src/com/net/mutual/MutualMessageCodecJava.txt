@@ -13,6 +13,10 @@ import com.net.NetDataTypes;
  */
 public class //className implements MutualMessageCodec
 {
+	public String getVersion() {
+		return "//version";
+	}
+
 	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
 	{
 //readExternal

@@ -12,6 +12,7 @@ import com.cell.CUtil;
 import com.cell.io.CFile;
 import com.cell.reflect.Fields;
 import com.cell.reflect.Parser;
+import com.cell.security.MD5;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
@@ -20,7 +21,7 @@ import com.net.NetDataOutput;
 import com.net.NetDataTypes;
 
 
-public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerator
+public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 {
 	private String template 		= CIO.readAllText("/com/net/mutual/MutualMessageCodecJava.txt");
 	
@@ -84,6 +85,8 @@ public class MutualMessageCodeGeneratorJava implements MutualMessageCodeGenerato
 		ret = CUtil.replaceString(ret, "//package",			code_package);
 		ret = CUtil.replaceString(ret, "//import",			code_import);
 		ret = CUtil.replaceString(ret, "//className",		code_class_name);
+		
+		ret = CUtil.replaceString(ret, "//version",			getVersion());
 		
 		ret = CUtil.replaceString(ret, "//readExternal",	read_external.toString());
 		ret = CUtil.replaceString(ret, "//writeExternal",	write_external.toString());

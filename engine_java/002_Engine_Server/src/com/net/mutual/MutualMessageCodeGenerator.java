@@ -17,13 +17,17 @@ import com.net.NetDataInput;
 import com.net.NetDataOutput;
 
 
-public interface MutualMessageCodeGenerator
+public abstract class MutualMessageCodeGenerator
 {
 	/**
 	 * 自动生成代码文件，或编解码规则文件。
 	 * @param regist_types
 	 * @return
 	 */
-	public String genMutualMessageCodec(ExternalizableFactory factory);
+	abstract public String genMutualMessageCodec(ExternalizableFactory factory);
 	
+	
+	public String getVersion() {
+		return "";
+	}
 }

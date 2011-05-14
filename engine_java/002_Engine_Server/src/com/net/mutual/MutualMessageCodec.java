@@ -12,6 +12,8 @@ import com.net.NetDataOutput;
  */
 public interface MutualMessageCodec
 {
+	public String getVersion();
+	
 	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException;
 
 	public void writeExternal(MutualMessage msg, NetDataOutput out) throws IOException;

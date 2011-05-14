@@ -12,6 +12,11 @@ package //package
 	 */
 	public class //className implements MessageFactory
 	{
+	
+		public function getVersion() : String{
+			return "//version";
+		}
+	
 		public function	getType(msg : Message) : int 
 		{
 //getType
