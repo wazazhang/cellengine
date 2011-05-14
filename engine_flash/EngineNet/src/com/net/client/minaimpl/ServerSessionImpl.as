@@ -6,6 +6,7 @@ package com.net.client.minaimpl
 	import com.net.client.NetDataInput;
 	import com.net.client.NetDataOutput;
 	import com.net.client.Protocol;
+	import com.net.client.ProtocolType;
 	import com.net.client.ServerSession;
 	import com.net.client.ServerSessionListener;
 	
@@ -135,7 +136,7 @@ package com.net.client.minaimpl
 		private function sendImpl(protocol : ProtocolImpl) : void
 		{
 			protocol.setSessionID(0,0);
-			protocol.setProtocol(Protocol.PROTOCOL_SESSION_MESSAGE);
+			protocol.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
 			protocol.setChannelID(null);
 			protocol.setChannelSessionID(0,0);
 			var stream  : ByteArray = encode(protocol);
@@ -330,9 +331,9 @@ package com.net.client.minaimpl
 						protocol.setPacketNumber			(buffer.readInt());		// 4
 												
 						switch (protocol.getProtocol()) {
-						case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
-						case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
-						case Protocol.PROTOCOL_CHANNEL_MESSAGE:
+						case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:
+						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
+						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 							protocol.setChannelID			(buffer.readInt());		// utf
 							protocol.setChannelSessionID	(buffer.readInt(), 
 															 buffer.readInt());		// 8
@@ -413,9 +414,9 @@ package com.net.client.minaimpl
 						buffer.writeInt		(protocol.getPacketNumber());	// 4
 						
 						switch (protocol.getProtocol()) {
-						case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
-						case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
-						case Protocol.PROTOCOL_CHANNEL_MESSAGE:
+						case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:
+						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
+						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 							buffer.writeInt	(protocol.getChannelID());		// utf
 							buffer.writeInt	(0);							// 8
 							buffer.writeInt	(0);
@@ -449,19 +450,19 @@ package com.net.client.minaimpl
 		{
 			// 判断是否是联盟消息，协议消息等
 			switch (decoded.getProtocol()) {
-				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:{
+				case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:{
 					this.listener.joinedChannel(decoded.getChannelID(), this);
 					break;
 				}
-				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:{
+				case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:{
 					this.listener.leftChannel(decoded.getChannelID(), this);
 					break;
 				}
-				case Protocol.PROTOCOL_CHANNEL_MESSAGE:{
+				case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:{
 					this.listener.receivedMessage(this, decoded);
 					break;
 				}
-				case Protocol.PROTOCOL_SESSION_MESSAGE:{
+				case ProtocolType.PROTOCOL_SESSION_MESSAGE:{
 					this.listener.receivedMessage(this, decoded);
 					break;
 				}

@@ -15,6 +15,7 @@
     <classEntry path="com.net.client.NetDataTypes"/>
     <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
     <classEntry path="com.net.client.sfsimpl.SFSProtocol"/>
+    <classEntry path="com.net.client.ProtocolType"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

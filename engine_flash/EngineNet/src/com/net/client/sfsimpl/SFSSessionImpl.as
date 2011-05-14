@@ -80,7 +80,7 @@ package com.net.client.sfsimpl
 		{
 			var p : SFSProtocol = new SFSProtocol();
 			p.setSessionID(0);
-			p.setProtocol(Protocol.PROTOCOL_SESSION_MESSAGE);
+			p.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
 			p.setChannelID(null);
 			p.setChannelSessionID(0);
 			p.setMessage(message);
@@ -97,7 +97,7 @@ package com.net.client.sfsimpl
 		{
 			var p : SFSProtocol = new SFSProtocol();
 			p.setSessionID(0);
-			p.setProtocol(Protocol.PROTOCOL_SESSION_MESSAGE);
+			p.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
 			p.setChannelID(null);
 			p.setChannelSessionID(0);
 			p.setMessage(message);
@@ -123,9 +123,9 @@ package com.net.client.sfsimpl
 				out.putInt		("PacketNumber",		p.getPacketNumber());		// 4
 				
 				switch (p.getProtocol()) {
-				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
-				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
-				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
+				case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:
+				case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
+				case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 					out.putInt	("ChannelID",		 	p.getChannelID());			// 4
 					out.putInt	("ChannelSessionID",	p.getChannelSessionID());	// 8
 					break;
@@ -153,9 +153,9 @@ package com.net.client.sfsimpl
 			p.setPacketNumber			(obj.getInt		("PacketNumber"));	// 4
 			
 			switch (p.getProtocol()) {
-			case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
-			case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
-			case Protocol.PROTOCOL_CHANNEL_MESSAGE:
+			case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:
+			case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
+			case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 				p.setChannelID 			(obj.getInt		("ChannelID"));			// 4
 				p.setChannelSessionID	(obj.getInt		("ChannelSessionID"));	// 4
 				break;
@@ -180,19 +180,19 @@ package com.net.client.sfsimpl
 		{
 			// 判断是否是联盟消息，协议消息等
 			switch (decoded.getProtocol()) {
-				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:{
+				case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:{
 					this.user_listener.joinedChannel(decoded.getChannelID(), this);
 					break;
 				}
-				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:{
+				case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:{
 					this.user_listener.leftChannel(decoded.getChannelID(), this);
 					break;
 				}
-				case Protocol.PROTOCOL_CHANNEL_MESSAGE:{
+				case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:{
 					this.user_listener.receivedMessage(this, decoded);
 					break;
 				}
-				case Protocol.PROTOCOL_SESSION_MESSAGE:{
+				case ProtocolType.PROTOCOL_SESSION_MESSAGE:{
 					this.user_listener.receivedMessage(this, decoded);
 					break;
 				}
