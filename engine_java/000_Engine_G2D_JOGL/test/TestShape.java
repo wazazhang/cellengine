@@ -17,17 +17,12 @@ public class TestShape extends Sprite
 
 	BufferedImage cp 	= Tools.readImage("/copper.png");
 	
-	double offset_x;
-	double offset_y;
-	
 	public TestShape() 
 	{
 //		rotate	= Math.random();
 //		scale_x	= Math.random() / 1f;
 //		scale_x	= Math.random() / 1f;
 		
-		offset_x = CUtil.getRandom(-100, 100);
-		offset_y = CUtil.getRandom(-100, 100);
 		local_bounds.setBounds(
 				-image.getWidth()/2,
 				-image.getHeight()/2, 
@@ -53,7 +48,9 @@ public class TestShape extends Sprite
 	public void update()
 	{
 		if (getRoot().isMouseHold(MouseEvent.BUTTON_LEFT)) 
-		{
+		{	
+			double offset_x = CUtil.getRandom(-100, 100);
+			double offset_y = CUtil.getRandom(-100, 100);
 			setLocation(
 					getParent().getMouseX() + offset_x,
 					getParent().getMouseY() + offset_y);
@@ -86,28 +83,28 @@ public class TestShape extends Sprite
 	public void render(Graphics2D g) 
 	{
 //		g.setAlpha(0.75f);
-		g.clipRect(
-				local_bounds.x-100, 
-				local_bounds.y, 
-				local_bounds.width+200,
-				local_bounds.height);
-		
-		g.pushBlendMode();
-		g.setBlendMode(3, 0.75f);
-		g.setColor(Color.GRAY);
-		g.fillRect(
-				local_bounds.x-100, 
-				local_bounds.y, 
-				local_bounds.width+200,
-				local_bounds.height);
-		
+//		g.clipRect(
+//				local_bounds.x-100, 
+//				local_bounds.y, 
+//				local_bounds.width+200,
+//				local_bounds.height);
+//		
+//		g.pushBlendMode();
+//		g.setBlendMode(3, 0.75f);
+//		g.setColor(Color.GRAY);
+//		g.fillRect(
+//				local_bounds.x-100, 
+//				local_bounds.y, 
+//				local_bounds.width+200,
+//				local_bounds.height);
+//		
 		g.drawImage(image, local_bounds.x, local_bounds.y);
-		g.popBlendMode();
-		
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, 32, 32);
-		g.setColor(Color.YELLOW);
-		g.draw(local_bounds);
+//		g.popBlendMode();
+//		
+//		g.setColor(Color.GREEN);
+//		g.fillRect(0, 0, 32, 32);
+//		g.setColor(Color.YELLOW);
+//		g.draw(local_bounds);
 	}
 	
 	public class Copper extends Sprite 

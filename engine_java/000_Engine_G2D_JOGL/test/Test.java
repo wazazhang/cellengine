@@ -50,26 +50,31 @@ public class Test extends Stage
 	public void render(Graphics2D g) {
 		
 //		g.pushClip();
-		g.setClip(32, 32, 200, 200);
-		g.setColor(Color.RED);
-		g.fillRect(32, 32, getWidth() / 2, getHeight() / 2);
+//		g.setClip(32, 32, 200, 200);
+//		g.setColor(Color.RED);
+//		g.fillRect(32, 32, getWidth() / 2, getHeight() / 2);
 //		g.popClip();
 		
-		g.setColor(Color.BLUE);
-		g.drawRect(32, 32, 200, 200);
-		
-		g.setColor(Color.YELLOW);
-		g.fillRect(16, 16, 16, 16);
-
-		g.setColor(Color.GREEN);
-		g.drawRect(32, 32, 64, 64);
-		
-		
-		g.setColor(Color.WHITE);
+//		g.setColor(Color.BLUE);
+//		g.drawRect(32, 32, 200, 200);
+//		
+//		g.setColor(Color.YELLOW);
+//		g.fillRect(16, 16, 16, 16);
+//
+//		g.setColor(Color.GREEN);
+//		g.drawRect(32, 32, 64, 64);
+//		
+//		
+//		g.setColor(Color.WHITE);
 		g.drawString("FPS="+getRoot().getFPS(), 0, 0);
 		
 	}
 	
+	@Override
+	protected void renderChilds(Graphics2D g) {
+		g.setBlendMode(3, 0.75f);
+		super.renderChilds(g);
+	}
 	
 	public static void main(String[] args) 
 	{
@@ -78,7 +83,7 @@ public class Test extends Stage
             public void run() {
             	CAppBridge.init();
             	new GLEngine();
-                SimpleFrame frame = new SimpleFrame(800, 600);
+                SimpleFrame frame = new SimpleFrame(1024, 768);
                 frame.setVisible(true);
                 frame.start(60, Test.class);
             }
