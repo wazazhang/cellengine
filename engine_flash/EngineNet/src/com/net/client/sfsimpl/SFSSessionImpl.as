@@ -47,6 +47,10 @@ package com.net.client.sfsimpl
 			dTrace("SmartFox API: "+ sfs.version)
 		}
 		
+		public function getMessageFactory() : MessageFactory 
+		{
+			return ext_factory;
+		}
 		
 		/** 获取Session的对端地址 */
 		public function	getRemoteAddress() : String

@@ -22,6 +22,7 @@ package com.net.client
 							port 		: int, 
 							listener 	: ServerSessionListener) : Boolean;
 		
+		function		getMessageFactory() : MessageFactory;
 		
 //		function  		getSentMessageCount(): int ;
 //		

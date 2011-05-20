@@ -72,6 +72,11 @@ package com.net.client.minaimpl
 
 		}
 		
+		public function getMessageFactory() : MessageFactory 
+		{
+			return message_factory;
+		}
+		
 		public function connect(
 			host 		: String, 
 			port 		: int, 
