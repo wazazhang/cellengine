@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ScheduledFuture;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cell.CIO;
 import com.cell.CObject;
 import com.cell.CUtil;
@@ -25,18 +28,16 @@ import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;
 import com.net.server.ServerListener;
 
-public class FlashTestEchoServer extends ServerImpl implements ServerListener
+public class FlashTestEchoServer implements ServerListener
 {
-	ThreadPool services = new ThreadPool("Flash-Test");
+	private static Logger log = LoggerFactory.getLogger(FlashTestEchoServer.class);
 	
-	public FlashTestEchoServer(FlashMessageFactory factory) {
-		super(CIO.getAppBridge().getClassLoader(), factory, 10, 600, 600, 0);
+	private ThreadPool services = new ThreadPool("Flash-Test");
+	
+	public FlashTestEchoServer() {
+		
 	}
 
-	public void open(int port) throws IOException {
-		super.open(port, this);
-	}
-	
 	@Override
 	public ClientSessionListener connected(ClientSession session) {
 		log.info("connected " + session.getRemoteAddress());
@@ -74,25 +75,4 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 		}
 	}
 	
-	public static void main(String[] args) throws IOException
-	{
-		try {
-			CAppBridge.init();
-			FlashMessageFactory factory = new FlashMessageFactory(new MessageCodecJava(), Messages.class);
-			FlashTestEchoServer server = new FlashTestEchoServer(factory);
-			int port = 19820;
-			if (args.length > 0) {
-				try {
-					port = Integer.parseInt(args[0]);
-				} catch (Exception err) {
-					System.err.println("use default port " + port);
-				}
-			}
-			server.open(port);
-			
-		} catch (Exception err) {
-			err.printStackTrace();
-			System.exit(1);
-		}
-	}
 }
