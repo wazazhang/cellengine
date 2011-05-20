@@ -166,14 +166,14 @@ package com.net.client
 		
 		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
 		{
-			trace("sentMessage : " + protocol);
+			//trace("sentMessage : " + protocol);
 			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, 
 				protocol.getChannelID(), protocol.getMessage(), null));
 		}
 		
 		final public function receivedMessage(session : ServerSession, protocol : Protocol) : void
 		{
-			trace("receivedMessage : " + protocol);	
+			//trace("receivedMessage : " + protocol);	
 			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
 			delete request_listeners[protocol.getPacketNumber()];
 			if (request != null) {
