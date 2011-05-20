@@ -154,21 +154,21 @@ package com.net.client
 		{
 			trace("connected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this, 
-				0, null, null));
+				0, null, null, null));
 		}
 		
 		final public function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this, 
-				0, null, null));
+				0, null, null, reason));
 		}
 		
 		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			//trace("sentMessage : " + protocol);
 			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, 
-				protocol.getChannelID(), protocol.getMessage(), null));
+				protocol.getChannelID(), protocol.getMessage(), null, null));
 		}
 		
 		final public function receivedMessage(session : ServerSession, protocol : Protocol) : void
@@ -178,12 +178,12 @@ package com.net.client
 			delete request_listeners[protocol.getPacketNumber()];
 			if (request != null) {
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
-					protocol.getChannelID(), request.request, protocol.getMessage());
+					protocol.getChannelID(), request.request, protocol.getMessage(), null);
 				request.set(protocol.getMessage());
 				request.response.call(request.response, event);
 			} else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
-					protocol.getChannelID(), null, protocol.getMessage()));
+					protocol.getChannelID(), null, protocol.getMessage(), null));
 			}
 		}
 
@@ -191,14 +191,14 @@ package com.net.client
 		{
 			trace("joinedChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, 
-				channel_id, null, null));
+				channel_id, null, null, null));
 		}
 		
 		final public function leftChannel(channel_id : int, session : ServerSession) : void
 		{
 			trace("leftChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, 
-				channel_id, null, null));
+				channel_id, null, null, null));
 		}
 
 		

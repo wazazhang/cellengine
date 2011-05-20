@@ -193,13 +193,19 @@ package com.net.client.minaimpl
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
 //			trace("ioErrorHandler: " + event);
-			this.disconnect();
+			if (this.connector.connected) {
+				this.connector.close();
+			}
+			this.listener.disconnected(this, event.toString());
 //			this.listener.disconnected(this, false, event.toString());
 		}
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
 //			trace("securityErrorHandler: " + event);
-			this.disconnect();
+			if (this.connector.connected) {
+				this.connector.close();
+			}
+			this.listener.disconnected(this, event.toString());
 //			this.listener.disconnected(this, false, event.toString());
 		}
 		

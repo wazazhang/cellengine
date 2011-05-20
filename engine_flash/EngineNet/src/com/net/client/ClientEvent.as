@@ -24,22 +24,26 @@ package com.net.client
 		private var request		: Message;
 		private var message		: Message;
 		private var channel_id	: int;
+		private var reason		: String;
 		
 		public function ClientEvent(
 			evt 		: String, 
 			client 		: Client,
 			channel_id	: int,
 			request		: Message,
-			message		: Message) 
+			message		: Message,
+			reason		: String
+		) 
 		{
 			super(evt);
 			this.client 	= client;
 			this.message	= message;
 			this.request	= request;
+			this.reason		= reason;
 		}
 		
 		override public function clone() : Event {  
-			return new ClientEvent(this.type, this.client, this.channel_id, this.request, this.message);  
+			return new ClientEvent(this.type, this.client, this.channel_id, this.request, this.message, this.reason);  
 		}
 		
 		public function getRequest() : Message {
@@ -60,6 +64,11 @@ package com.net.client
 		
 		public function getClient() : Client {
 			return this.client;
+		}
+		
+		public function getReason() : String
+		{
+			return this.reason;
 		}
 		
 	}
