@@ -71,6 +71,8 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	final ExecutorService 			AcceptorPool;
 	final ExecutorService 			IoProcessorPool;
 	
+	ExternalizableFactory 			externalizable_factory;
+	
 	ServerListener					SrvListener;
 	long							StartTime;
 	boolean							CloseOnError = true;
@@ -136,6 +138,11 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	
 //	----------------------------------------------------------------------------------------------------------------------
 
+	@Override
+	public ExternalizableFactory getMessageFactory() {
+		return externalizable_factory;
+	}
+	
 	final public long getStartTime() {
 		return StartTime;
 	}

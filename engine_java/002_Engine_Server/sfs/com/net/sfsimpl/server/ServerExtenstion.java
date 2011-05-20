@@ -89,7 +89,10 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 	
 	}
 	
-	
+	@Override
+	public ExternalizableFactory getMessageFactory() {
+		return ext_factory;
+	}
 
 //	------------------------------------------------------------------------------------
 	

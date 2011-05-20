@@ -3,6 +3,7 @@ package com.net.server;
 import java.io.IOException;
 import java.util.Iterator;
 
+import com.net.ExternalizableFactory;
 import com.net.MessageHeader;
 
 public interface Server 
@@ -17,7 +18,7 @@ public interface Server
 	
 	public void						broadcast(MessageHeader message);
 	
-	
+	public ExternalizableFactory	getMessageFactory();
 //	
 //	public long 					getSentMessageCount() ;
 //	
