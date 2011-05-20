@@ -8,14 +8,15 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.net.flash.test.TestClient;
+			import com.net.flash.test.TestClientSFS;
 			
 			import mx.events.FlexEvent;
 
 			protected function application1_initializeHandler(event:FlexEvent):void
 			{
 				// TODO Auto-generated method stub
-				test_panel.setClient(new TestClient());
+				test_panel.setClient(new TestClientSFS());
+				test_panel.txt_port.text = "9933";
 			}
 
 		]]>

@@ -19,7 +19,7 @@
   </compiler>
   <applications>
     <application path="EngineTest.mxml"/>
-    <application path="SFSTest2.mxml"/>
+    <application path="EngineTestSFS.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
