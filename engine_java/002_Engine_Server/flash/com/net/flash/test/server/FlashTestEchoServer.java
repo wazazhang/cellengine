@@ -69,7 +69,7 @@ public class FlashTestEchoServer extends ServerImpl implements ServerListener
 			}
 		}
 		public void run() {
-			log.info("send notify");
+//			log.info("send notify");
 			this.session.send(new EchoNotify("roll " + CUtil.getRandom(1, 100)));
 		}
 	}
