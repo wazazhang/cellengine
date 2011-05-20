@@ -12,6 +12,11 @@ package com.net.flash.test
 	 */
 	public class MessageCodec implements MessageFactory
 	{
+	
+		public function getVersion() : String{
+			return "1305874630383";
+		}
+	
 		public function	getType(msg : Message) : int 
 		{
 			if (msg is com.net.flash.test.Messages.Data) return 1;
