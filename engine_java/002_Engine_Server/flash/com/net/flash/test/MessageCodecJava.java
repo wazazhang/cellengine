@@ -13,6 +13,10 @@ import com.net.NetDataTypes;
  */
 public class MessageCodecJava implements MutualMessageCodec
 {
+	public String getVersion() {
+		return "1305874630383";
+	}
+
 	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
 	{
 		if (msg.getClass().equals(com.net.flash.test.Messages.Data.class)) {

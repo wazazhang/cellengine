@@ -124,6 +124,8 @@ public class Messages
 
 	public static void main(String[] args) throws IOException
 	{
+		final long date = System.currentTimeMillis();
+		
 		CAppBridge.init();
 		FlashMessageFactory factory = new FlashMessageFactory(null, Messages.class);
 		{
@@ -131,7 +133,12 @@ public class Messages
 					"com.net.flash.test",
 					"",
 					"MessageCodecJava"
-					);
+					){
+				@Override
+				public String getVersion() {
+					return date+"";
+				}
+			};
 			gen_java.genCodeFile(factory, 
 					new File("./flash"));
 		}{
@@ -140,7 +147,12 @@ public class Messages
 					"MessageCodec",
 					"\timport com.net.flash.test.Messages.*;",
 					""
-					);
+					){
+				@Override
+				public String getVersion() {
+					return date+"";
+				}
+			};
 			gen_as.genCodeFile(factory, 
 					new File(args[0]));
 		}
