@@ -52,6 +52,11 @@
 			{
 				client.sendRequest(new EchoRequest(txt_message.text), client_response);
 			}
+			
+			protected function btn_send_big_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
 
 			//-------------------------------------------------------------------------------------------------
 			//网络事件
@@ -86,11 +91,6 @@
 			//-------------------------------------------------------------------------------------------------
 
 			
-			
-
-
-
-
 		]]>
 	</fx:Script>
 
@@ -105,4 +105,5 @@
 	<s:Button x="405" y="418" label="发送" id="btn_send" click="btn_send_clickHandler(event)"/>
 	<s:TextInput x="195" y="10" width="91" text="19820" id="txt_port"/>
 	<s:TextArea x="19" y="36" width="456" height="373" id="txt_info"/>
+	<s:Button x="405" y="447" label="发送1000" id="btn_send_big" click="btn_send_big_clickHandler(event)"/>
 </s:Group>
