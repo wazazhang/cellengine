@@ -71,7 +71,7 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	final ExecutorService 			AcceptorPool;
 	final ExecutorService 			IoProcessorPool;
 	
-	ExternalizableFactory 			externalizable_factory;
+	final ExternalizableFactory 	externalizable_factory;
 	
 	ServerListener					SrvListener;
 	long							StartTime;
@@ -115,6 +115,7 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			this.IoProcessorPool = null;
 		}
 
+		this.externalizable_factory = externalizable_factory;
 		this.Codec = new NetPackageCodec(class_loader, externalizable_factory);
 		this.Acceptor = new NioSocketAcceptor(acceptor_pool, 
 				new SimpleIoProcessorPool<NioSession>(
