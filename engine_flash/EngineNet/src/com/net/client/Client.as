@@ -175,8 +175,8 @@ package com.net.client
 		{
 			//trace("receivedMessage : " + protocol);	
 			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
-			delete request_listeners[protocol.getPacketNumber()];
-			if (request != null) {
+			if (request != null) {			
+				delete request_listeners[protocol.getPacketNumber()];
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
 					protocol.getChannelID(), request.request, protocol.getMessage(), null);
 				request.set(protocol.getMessage());
