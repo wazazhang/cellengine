@@ -24,6 +24,8 @@
 			
 			private var client : Client;
 			
+			private var start_time : Date;
+			
 			public function setClient(client : Client) : void
 			{
 				this.client = client;
@@ -50,12 +52,16 @@
 			
 			protected function btn_send_clickHandler(event:MouseEvent):void
 			{
+				start_time = new Date();
 				client.sendRequest(new EchoRequest(txt_message.text), client_response);
 			}
 			
 			protected function btn_send_big_clickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
+				start_time = new Date();
+				for (var i:int=0; i<10; i++) {
+					client.sendRequest(new EchoRequest(txt_message.text), client_response);
+				}
 			}
 
 			//-------------------------------------------------------------------------------------------------
@@ -71,13 +77,20 @@
 			// 监听回馈消息
 			protected function client_response(event:ClientEvent)
 			{
+				var ping : Number = 0;
+				if (start_time != null) {
+					var cur_time : Date = new Date();
+					ping = (cur_time.time - start_time.time);
+				}
 				if (event.getResponse() is EchoResponse) {
 					var response1 : EchoResponse = event.getResponse() as EchoResponse;
-					txt_info.appendText("response : " + response1.message + "\n");
+					txt_info.appendText("response : " + response1.message + 
+						" : ping=" + ping + "(ms)\n");
 				}
 				else if (event.getResponse() is Echo2Response) {
 					var response2 : Echo2Response = event.getResponse() as Echo2Response;
-					txt_info.appendText("response : " + response2.message + "\n");
+					txt_info.appendText("response : " + response2.message + 
+						" : ping=" + ping + "(ms)\n");
 				}
 			}
 			// 监听通知消息
@@ -105,5 +118,5 @@
 	<s:Button x="405" y="418" label="发送" id="btn_send" click="btn_send_clickHandler(event)"/>
 	<s:TextInput x="195" y="10" width="91" text="19820" id="txt_port"/>
 	<s:TextArea x="19" y="36" width="456" height="373" id="txt_info"/>
-	<s:Button x="405" y="447" label="发送1000" id="btn_send_big" click="btn_send_big_clickHandler(event)"/>
+	<s:Button x="405" y="447" label="发送10" id="btn_send_big" click="btn_send_big_clickHandler(event)"/>
 </s:Group>
