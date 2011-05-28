@@ -23,10 +23,6 @@ public class SFSChannel implements Channel
 		this.server 			= server;
 	}
 	
-	void clear() {
-		
-	}
-	
 	@Override
 	public void dispose() {
 		server.getChannelManager().removeChannel(getID());
@@ -91,8 +87,12 @@ public class SFSChannel implements Channel
 		int count = 0;
 		for (Iterator<SFSSession> it = sessions.values().iterator(); it.hasNext(); ) {
 			ClientSession session = it.next();
-			if (leave(session)) {
-				count ++;
+			try {
+				if (leave(session)) {
+					count ++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return count;
@@ -113,18 +113,7 @@ public class SFSChannel implements Channel
 		}
 		return count;
 	}
-	
-//	int broadcast(ClientSession sender, byte protocol)
-//	{
-//		long sender_id = (sender != null ? sender.getID() : 0);
-//		int  count = 0;
-//		for (Iterator<ClientSessionImpl> it = sessions.values().iterator(); it.hasNext(); ) {
-//			ClientSessionImpl session = it.next();
-//			server.write(session.Session, null, protocol, getID(), sender_id, 0);
-//		}
-//		return count;
-//	}
-	
+
 	public int send(MessageHeader message) {
 		return broadcast(null, message, 0);
 	}

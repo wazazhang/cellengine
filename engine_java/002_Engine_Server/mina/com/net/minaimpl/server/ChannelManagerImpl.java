@@ -37,6 +37,8 @@ public class ChannelManagerImpl implements ChannelManager
 	
 	@Override
 	public Channel removeChannel(int id) {
-		return Channels.remove(id);
+		Channel c = Channels.remove(id);
+		c.leaveAll();
+		return c;
 	}
 }

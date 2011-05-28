@@ -375,11 +375,12 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 
 		@Override
 		public Channel removeChannel(int id) {
+			SFSChannel channel = null;
 			synchronized (channels) {
-				SFSChannel channel = channels.remove(id);
-				channel.clear();
+				channel = channels.remove(id);
 			}
-			return null;
+			channel.leaveAll();
+			return channel;
 		}
 		
 	}

@@ -87,8 +87,12 @@ public class ChannelImpl implements Channel
 		int count = 0;
 		for (Iterator<ClientSessionImpl> it = sessions.values().iterator(); it.hasNext(); ) {
 			ClientSession session = it.next();
-			if (leave(session)) {
-				count ++;
+			try {
+				if (leave(session)) {
+					count ++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return count;
