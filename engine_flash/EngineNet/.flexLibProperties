@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" version="3">
   <includeClasses>
-    <classEntry path="com.net.client.Message"/>
-    <classEntry path="com.net.client.MessageFactory"/>
-    <classEntry path="com.net.client.ServerSessionListener"/>
-    <classEntry path="com.net.client.ServerSession"/>
-    <classEntry path="com.net.client.minaimpl.ProtocolImpl"/>
-    <classEntry path="com.net.client.Client"/>
-    <classEntry path="com.net.client.ClientResponseListener"/>
     <classEntry path="com.cell.util.Map"/>
     <classEntry path="com.cell.util.Reference"/>
-    <classEntry path="com.net.client.ClientRequest"/>
     <classEntry path="com.cell.util.Util"/>
+    <classEntry path="com.net.client.Client"/>
+    <classEntry path="com.net.client.ClientEvent"/>
+    <classEntry path="com.net.client.ClientRequest"/>
+    <classEntry path="com.net.client.ClientServerListener"/>
+    <classEntry path="com.net.client.Message"/>
+    <classEntry path="com.net.client.MessageFactory"/>
+    <classEntry path="com.net.client.NetDataInput"/>
+    <classEntry path="com.net.client.NetDataOutput"/>
     <classEntry path="com.net.client.NetDataTypes"/>
-    <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
-    <classEntry path="com.net.client.sfsimpl.SFSProtocol"/>
+    <classEntry path="com.net.client.Protocol"/>
     <classEntry path="com.net.client.ProtocolType"/>
+    <classEntry path="com.net.client.ServerSession"/>
+    <classEntry path="com.net.client.ServerSessionListener"/>
+    <classEntry path="com.net.client.minaimpl.ProtocolImpl"/>
+    <classEntry path="com.net.client.minaimpl.ServerSessionImpl"/>
+    <classEntry path="com.net.client.sfsimpl.SFSProtocol"/>
+    <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
