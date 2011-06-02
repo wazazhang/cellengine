@@ -246,13 +246,13 @@ package com.net.client.sfsimpl
 				
 		private function onLogin(evt:SFSEvent):void
 		{
-			trace("Login success: " + evt.params.user.name);
+			dTrace("Login success: " + evt.params.user.name);
 			user_listener.connected(this);
 		}
 		
 		private function onLoginError(evt:SFSEvent):void
 		{
-			trace("Login failed: " + evt.params.errorMessage);
+			dTrace("Login failed: " + evt.params.errorMessage);
 			sfs.disconnect();
 			user_listener.disconnected(this, evt.params.errorMessage);
 		}
@@ -263,13 +263,13 @@ package com.net.client.sfsimpl
 		
 		private function onRoomJoin(evt:SFSEvent):void
 		{
-			trace("onRoomJoin success: " + evt.params.toString());
+			dTrace("onRoomJoin success: " + evt.params.toString());
 			
 		}
 		
 		private function onRoomJoinError(evt:SFSEvent):void
 		{
-			trace("onRoomJoin failed: " + evt.params.errorMessage);
+			dTrace("onRoomJoin failed: " + evt.params.errorMessage);
 			
 		}
 		
