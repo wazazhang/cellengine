@@ -8,7 +8,7 @@ package com.net.client
 	//告诉系统，需要注册哪里事件  
 	[Event(name=ClientEvent.CONNECTED, 		type="com.net.client.ClientEvent")]  
 	[Event(name=ClientEvent.DISCONNECTED,	type="com.net.client.ClientEvent")]  
-	public class Client extends EventDispatcher implements ServerSessionListener
+	public class Client extends EventDispatcher
 	{
 		private var package_index 			: int = 1;
 		
@@ -40,7 +40,7 @@ package com.net.client
 			port 		: int,
 			timeout		: int = 60000) : Boolean
 		{
-			return getSession().connect(host, port, this);
+			return getSession().connect(host, port, new ClientServerListener(this));
 		}
 		
 		/**
@@ -150,28 +150,28 @@ package com.net.client
 //		
 //	----------------------------------------------------------------------------------------------------------------------------
 		
-		final public function connected(session : ServerSession) : void
+		final function connected(session : ServerSession) : void
 		{
 			trace("connected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this, 
 				0, null, null, null));
 		}
 		
-		final public function disconnected(session : ServerSession, reason:String) : void
+		final function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this, 
 				0, null, null, reason));
 		}
 		
-		final public function sentMessage(session : ServerSession, protocol : Protocol) : void
+		final function sentMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			//trace("sentMessage : " + protocol);
 			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, 
 				protocol.getChannelID(), protocol.getMessage(), null, null));
 		}
 		
-		final public function receivedMessage(session : ServerSession, protocol : Protocol) : void
+		final function receivedMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			//trace("receivedMessage : " + protocol);	
 			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
@@ -187,14 +187,14 @@ package com.net.client
 			}
 		}
 
-		final public function joinedChannel(channel_id : int, session : ServerSession)  : void
+		final function joinedChannel(channel_id : int, session : ServerSession)  : void
 		{
 			trace("joinedChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, 
 				channel_id, null, null, null));
 		}
 		
-		final public function leftChannel(channel_id : int, session : ServerSession) : void
+		final function leftChannel(channel_id : int, session : ServerSession) : void
 		{
 			trace("leftChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, 
