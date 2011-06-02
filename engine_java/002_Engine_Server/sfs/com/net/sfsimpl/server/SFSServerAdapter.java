@@ -40,143 +40,73 @@ import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
-abstract public class ServerExtenstion extends SFSExtension implements Server
+public class SFSServerAdapter implements Server, ISFSEventListener
 {
 	public static int PACKAGE_DEFAULT_SIZE = 4096;
 
 //	--------------------------------------------------------------------------------------
-	private ServerListener	server_listener;
 	
-	private RoomChannelManager channel_manager;
+	final SFSExtension 					extension;
 	
-	private UserEventListener user_listener;
+	final private RoomChannelManager 	channel_manager;
 	
-	private ConcurrentHashMap<Integer, SFSSession> sessions = new ConcurrentHashMap<Integer, SFSSession>();
+	final private ConcurrentHashMap<Integer, SFSSession> 
+										sessions = new ConcurrentHashMap<Integer, SFSSession>();
 	
-	private Zone current_zone;
+	final private Zone 					current_zone;
+
+	final private ServerListener		server_listener;
 	
-	private ExternalizableFactory ext_factory;
+	final private ExternalizableFactory	ext_factory;
 	
 //	--------------------------------------------------------------------------------------
 	
-	@Override
-	public void init() 
+	public SFSServerAdapter(
+			SFSExtension extension, 
+			ExternalizableFactory codec, 
+			ServerListener listener) 
 	{
-		channel_manager = new RoomChannelManager();
+		this.extension 			= extension;
+		this.channel_manager 	= new RoomChannelManager();
+		this.current_zone 		= extension.getParentZone();
+		this.ext_factory 		= codec;
+		this.server_listener 	= listener;
 		
-		user_listener = new UserEventListener();
-		
-		current_zone = getParentZone();
-		
-		trace(getClass().getSimpleName() + " ready, current zone is [" + current_zone.getName() + "]");
-	
-		ext_factory = createFactory();
-		
-		try {
-			server_listener = createListener();
-		} catch (Exception e) {
-			e.printStackTrace();
-			server_listener = new ServerListener() {
-				@Override
-				public ClientSessionListener connected(
-						ClientSession session) {
-					trace("no session listener !");
-					return null;
-				}
-			};
-		}
-	
-	
-	}
-	
-	@Override
-	public ExternalizableFactory getMessageFactory() {
-		return ext_factory;
-	}
 
-//	------------------------------------------------------------------------------------
-	
-	abstract protected ServerListener 			createListener() throws Exception;
-	
-	abstract protected ExternalizableFactory 	createFactory();
-	
-//	------------------------------------------------------------------------------------
-	
-	class UserEventListener implements ISFSEventListener
-	{
-		public UserEventListener() 
-		{
-//			addEventListener(SFSEventType.BUDDY_ADD, this);
-//			addEventListener(SFSEventType.BUDDY_BLOCK, this);
-//			addEventListener(SFSEventType.BUDDY_LIST_INIT, this);
-//			addEventListener(SFSEventType.BUDDY_MESSAGE, this);
-//			addEventListener(SFSEventType.BUDDY_ONLINE_STATE_UPDATE, this);
-//			addEventListener(SFSEventType.BUDDY_REMOVE, this);
-//			addEventListener(SFSEventType.BUDDY_VARIABLES_UPDATE, this);
+//		addEventListener(SFSEventType.BUDDY_ADD, this);
+//		addEventListener(SFSEventType.BUDDY_BLOCK, this);
+//		addEventListener(SFSEventType.BUDDY_LIST_INIT, this);
+//		addEventListener(SFSEventType.BUDDY_MESSAGE, this);
+//		addEventListener(SFSEventType.BUDDY_ONLINE_STATE_UPDATE, this);
+//		addEventListener(SFSEventType.BUDDY_REMOVE, this);
+//		addEventListener(SFSEventType.BUDDY_VARIABLES_UPDATE, this);
 //
-//			addEventListener(SFSEventType.GAME_INVITATION_FAILURE, this);
-//			addEventListener(SFSEventType.GAME_INVITATION_SUCCESS, this);
-//			addEventListener(SFSEventType.PLAYER_TO_SPECTATOR, this);
-//			addEventListener(SFSEventType.PRIVATE_MESSAGE, this);
-//			addEventListener(SFSEventType.PUBLIC_MESSAGE, this);
-//			addEventListener(SFSEventType.ROOM_ADDED, this);
-//			addEventListener(SFSEventType.ROOM_REMOVED, this);
-//			addEventListener(SFSEventType.ROOM_VARIABLES_UPDATE, this);
-//			addEventListener(SFSEventType.SERVER_READY, this);
-//			addEventListener(SFSEventType.SPECTATOR_TO_PLAYER, this);
+//		addEventListener(SFSEventType.GAME_INVITATION_FAILURE, this);
+//		addEventListener(SFSEventType.GAME_INVITATION_SUCCESS, this);
+//		addEventListener(SFSEventType.PLAYER_TO_SPECTATOR, this);
+//		addEventListener(SFSEventType.PRIVATE_MESSAGE, this);
+//		addEventListener(SFSEventType.PUBLIC_MESSAGE, this);
+//		addEventListener(SFSEventType.ROOM_ADDED, this);
+//		addEventListener(SFSEventType.ROOM_REMOVED, this);
+//		addEventListener(SFSEventType.ROOM_VARIABLES_UPDATE, this);
+//		addEventListener(SFSEventType.SERVER_READY, this);
+//		addEventListener(SFSEventType.SPECTATOR_TO_PLAYER, this);
 
-			addEventListener(SFSEventType.USER_DISCONNECT, this);
-			addEventListener(SFSEventType.USER_JOIN_ROOM, this);
-			addEventListener(SFSEventType.USER_JOIN_ZONE, this);
-			addEventListener(SFSEventType.USER_LEAVE_ROOM, this);
-			addEventListener(SFSEventType.USER_LOGIN, this);
-			addEventListener(SFSEventType.USER_LOGOUT, this);
-			addEventListener(SFSEventType.USER_RECONNECTION_SUCCESS, this);
-			addEventListener(SFSEventType.USER_RECONNECTION_TRY, this);
-			addEventListener(SFSEventType.USER_VARIABLES_UPDATE, this);
+		this.extension.addEventListener(SFSEventType.USER_DISCONNECT, this);
+		this.extension.addEventListener(SFSEventType.USER_JOIN_ROOM, this);
+		this.extension.addEventListener(SFSEventType.USER_JOIN_ZONE, this);
+		this.extension.addEventListener(SFSEventType.USER_LEAVE_ROOM, this);
+		this.extension.addEventListener(SFSEventType.USER_LOGIN, this);
+		this.extension.addEventListener(SFSEventType.USER_LOGOUT, this);
+		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_SUCCESS, this);
+		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_TRY, this);
+		this.extension.addEventListener(SFSEventType.USER_VARIABLES_UPDATE, this);
 
-		}
-		
-		@Override
-		public void handleServerEvent(ISFSEvent event) throws Exception
-		{
-			System.out.println("handleServerEvent:" + event.toString());
-			switch (event.getType()) {
-			case USER_LOGIN:
-			case USER_JOIN_ZONE:
-			{
-				User user = (User)event.getParameter(SFSEventParam.USER);
-				synchronized (sessions) {
-					if (!sessions.containsKey(user)) {
-						SFSSession session = new SFSSession(user, ServerExtenstion.this);
-						ClientSessionListener listener = server_listener.connected(session);
-						session.setListener(listener);
-						user.setProperty(ClientSession.class, session);
-						sessions.put(user.getId(), session);
-					}
-				}
-				break;
-			}
-			case USER_LOGOUT:
-			case USER_DISCONNECT: 
-			{
-				User user = (User)event.getParameter(SFSEventParam.USER);
-				synchronized (sessions) {
-					SFSSession session = sessions.remove(user.getId());
-					if (session != null) {
-						user.removeProperty(ClientSession.class);
-						session.getListener().disconnected(session);
-					}
-				}
-			}
-			default:
-				break;
-			}
-			
-		}
+		trace(getClass().getSimpleName() + " ready, " +
+				"current zone is [" + current_zone.getName() + "]");
 	}
 
-	@Override
+
 	public void handleClientRequest(String requestId, User sender, ISFSObject params) 
 	{
 //		trace("handleC/lientRequest : " + params.toString());
@@ -196,8 +126,58 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 		}
 	}
 
+	@Override
+	public void handleServerEvent(ISFSEvent event) throws Exception
+	{
+		System.out.println("handleServerEvent:" + event.toString());
+		switch (event.getType()) {
+		case USER_LOGIN:
+		case USER_JOIN_ZONE:
+		{
+			User user = (User)event.getParameter(SFSEventParam.USER);
+			synchronized (sessions) {
+				if (!sessions.containsKey(user)) {
+					SFSSession session = new SFSSession(user, SFSServerAdapter.this);
+					ClientSessionListener listener = server_listener.connected(session);
+					session.setListener(listener);
+					user.setProperty(ClientSession.class, session);
+					sessions.put(user.getId(), session);
+				}
+			}
+			break;
+		}
+		case USER_LOGOUT:
+		case USER_DISCONNECT: 
+		{
+			User user = (User)event.getParameter(SFSEventParam.USER);
+			synchronized (sessions) {
+				SFSSession session = sessions.remove(user.getId());
+				if (session != null) {
+					user.removeProperty(ClientSession.class);
+					session.getListener().disconnected(session);
+				}
+			}
+		}
+		default:
+			break;
+		}
+		
+	}
+
 //	----------------------------------------------------------------------------------------------------------
 
+	@Override
+	public ExternalizableFactory getMessageFactory() {
+		return ext_factory;
+	}
+
+	public void trace(Object ... args) {
+		extension.trace(args);
+	}
+	
+//	----------------------------------------------------------------------------------------------------------
+
+	
 	private SFSProtocol decode(ISFSObject in) throws Throwable
 	{
 		SFSProtocol p = new SFSProtocol();
@@ -279,7 +259,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 		p.PacketNumber		= packnumber;
 		
 		try {
-			this.send("msg", encode(p), session.user);
+			extension.send("msg", encode(p), session.user);
 //			this.getApi().sendExtensionResponse("msg", encode(p), session.user, null, false);
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -304,7 +284,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 					users.add(s.user);
 				}
 			}
-			this.send("msg", encode(p), users);
+			extension.send("msg", encode(p), users);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -314,7 +294,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 
 	@Override
 	public ClientSession getSession(long sessionID) {
-		User user = getApi().getUserById((int)sessionID);
+		User user = extension.getApi().getUserById((int)sessionID);
 		if (user != null) {
 			ClientSession session = (ClientSession)user.getProperty(ClientSession.class);
 			return session;
@@ -354,7 +334,7 @@ abstract public class ServerExtenstion extends SFSExtension implements Server
 		public Channel createChannel(int id, ChannelListener listener) {
 			synchronized (channels) {
 				if (!channels.containsKey(id)) {
-					SFSChannel channel = new SFSChannel(id, ServerExtenstion.this, listener);
+					SFSChannel channel = new SFSChannel(id, SFSServerAdapter.this, listener);
 					channels.put(id, channel);
 					return channel;
 				}

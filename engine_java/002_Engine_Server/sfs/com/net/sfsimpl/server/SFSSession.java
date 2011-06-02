@@ -21,10 +21,10 @@ public class SFSSession implements ClientSession
 	final private HashMap<Object, Object>	attributes = new HashMap<Object, Object>();
 	
 	final protected User	 				user;
-	final protected ServerExtenstion		server;
+	final protected SFSServerAdapter		server;
 	private ClientSessionListener			listener;
 	
-	SFSSession(User session, ServerExtenstion server)
+	protected SFSSession(User session, SFSServerAdapter server)
 	{
 		this.user = session;
 		this.server = server;
@@ -52,7 +52,7 @@ public class SFSSession implements ClientSession
 	
 	public boolean disconnect(boolean force) 
 	{
-		server.getApi().disconnectUser(user, ClientDisconnectionReason.KICK);
+		server.extension.getApi().disconnectUser(user, ClientDisconnectionReason.KICK);
 		return true;
 	}
 

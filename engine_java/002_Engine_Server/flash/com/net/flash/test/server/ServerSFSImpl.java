@@ -6,29 +6,31 @@ import com.net.flash.message.FlashMessageFactory;
 import com.net.flash.test.MessageCodecJava;
 import com.net.flash.test.Messages;
 import com.net.server.ServerListener;
-import com.net.sfsimpl.server.ServerExtenstion;
+import com.net.sfsimpl.server.SFSServerAdapter;
+import com.smartfoxserver.v2.entities.User;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.extensions.SFSExtension;
 
-public class ServerSFSImpl extends ServerExtenstion
+public class ServerSFSImpl extends SFSExtension
 {
+	SFSServerAdapter adapter;
+	
 	@Override
 	public void init() 
 	{
 		CAppBridge.initNullStorage();
 
-		super.init();
+		adapter = new SFSServerAdapter(this, 
+				new FlashMessageFactory(new MessageCodecJava(), Messages.class), 
+				new FlashTestEchoServer());
 		
 		trace(new Object[] { "Test SFSExtension started" });
 		
 	}
 
 	@Override
-	protected ServerListener createListener() throws Exception {
-		return new FlashTestEchoServer();
-	}
-	
-	@Override
-	public ExternalizableFactory createFactory() {	
-		return new FlashMessageFactory(new MessageCodecJava(), Messages.class);
+	public void handleClientRequest(String requestId, User sender, ISFSObject params) {
+		adapter.handleClientRequest(requestId, sender, params);
 	}
 	
 	@Override

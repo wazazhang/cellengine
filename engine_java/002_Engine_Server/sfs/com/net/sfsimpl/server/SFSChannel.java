@@ -14,10 +14,10 @@ public class SFSChannel implements Channel
 {
 	final ChannelListener Listener;
 	final int ID;
-	final ServerExtenstion server;
+	final SFSServerAdapter server;
 	final ConcurrentHashMap<ClientSession, SFSSession> sessions = new ConcurrentHashMap<ClientSession, SFSSession>();
 	
-	SFSChannel(int id, ServerExtenstion server, ChannelListener listener) {
+	SFSChannel(int id, SFSServerAdapter server, ChannelListener listener) {
 		this.Listener			= listener;
 		this.ID 				= id;
 		this.server 			= server;
