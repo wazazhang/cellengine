@@ -40,7 +40,7 @@ import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
-public class SFSServerAdapter implements Server, ISFSEventListener
+public class SFSServerAdapter implements Server
 {
 	public static int PACKAGE_DEFAULT_SIZE = 4096;
 
@@ -59,6 +59,8 @@ public class SFSServerAdapter implements Server, ISFSEventListener
 	
 	final private ExternalizableFactory	ext_factory;
 	
+	final private ISFSEventListener		event_listener;
+	
 //	--------------------------------------------------------------------------------------
 	
 	public SFSServerAdapter(
@@ -71,7 +73,7 @@ public class SFSServerAdapter implements Server, ISFSEventListener
 		this.current_zone 		= extension.getParentZone();
 		this.ext_factory 		= codec;
 		this.server_listener 	= listener;
-		
+		this.event_listener		= new ServerEventListener();
 
 //		addEventListener(SFSEventType.BUDDY_ADD, this);
 //		addEventListener(SFSEventType.BUDDY_BLOCK, this);
@@ -92,15 +94,15 @@ public class SFSServerAdapter implements Server, ISFSEventListener
 //		addEventListener(SFSEventType.SERVER_READY, this);
 //		addEventListener(SFSEventType.SPECTATOR_TO_PLAYER, this);
 
-		this.extension.addEventListener(SFSEventType.USER_DISCONNECT, this);
-		this.extension.addEventListener(SFSEventType.USER_JOIN_ROOM, this);
-		this.extension.addEventListener(SFSEventType.USER_JOIN_ZONE, this);
-		this.extension.addEventListener(SFSEventType.USER_LEAVE_ROOM, this);
-		this.extension.addEventListener(SFSEventType.USER_LOGIN, this);
-		this.extension.addEventListener(SFSEventType.USER_LOGOUT, this);
-		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_SUCCESS, this);
-		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_TRY, this);
-		this.extension.addEventListener(SFSEventType.USER_VARIABLES_UPDATE, this);
+		this.extension.addEventListener(SFSEventType.USER_DISCONNECT, 			event_listener);
+		this.extension.addEventListener(SFSEventType.USER_JOIN_ROOM, 			event_listener);
+		this.extension.addEventListener(SFSEventType.USER_JOIN_ZONE, 			event_listener);
+		this.extension.addEventListener(SFSEventType.USER_LEAVE_ROOM, 			event_listener);
+		this.extension.addEventListener(SFSEventType.USER_LOGIN, 				event_listener);
+		this.extension.addEventListener(SFSEventType.USER_LOGOUT, 				event_listener);
+		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_SUCCESS, event_listener);
+		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_TRY, 	event_listener);
+		this.extension.addEventListener(SFSEventType.USER_VARIABLES_UPDATE, 	event_listener);
 
 		trace(getClass().getSimpleName() + " ready, " +
 				"current zone is [" + current_zone.getName() + "]");
@@ -125,43 +127,45 @@ public class SFSServerAdapter implements Server, ISFSEventListener
 			}
 		}
 	}
-
-	@Override
-	public void handleServerEvent(ISFSEvent event) throws Exception
+	private class ServerEventListener implements ISFSEventListener
 	{
-		System.out.println("handleServerEvent:" + event.toString());
-		switch (event.getType()) {
-		case USER_LOGIN:
-		case USER_JOIN_ZONE:
+		@Override
+		public void handleServerEvent(ISFSEvent event) throws Exception
 		{
-			User user = (User)event.getParameter(SFSEventParam.USER);
-			synchronized (sessions) {
-				if (!sessions.containsKey(user)) {
-					SFSSession session = new SFSSession(user, SFSServerAdapter.this);
-					ClientSessionListener listener = server_listener.connected(session);
-					session.setListener(listener);
-					user.setProperty(ClientSession.class, session);
-					sessions.put(user.getId(), session);
+			System.out.println("handleServerEvent:" + event.toString());
+			switch (event.getType()) {
+			case USER_LOGIN:
+			case USER_JOIN_ZONE:
+			{
+				User user = (User)event.getParameter(SFSEventParam.USER);
+				synchronized (sessions) {
+					if (!sessions.containsKey(user)) {
+						SFSSession session = new SFSSession(user, SFSServerAdapter.this);
+						ClientSessionListener listener = server_listener.connected(session);
+						session.setListener(listener);
+						user.setProperty(ClientSession.class, session);
+						sessions.put(user.getId(), session);
+					}
+				}
+				break;
+			}
+			case USER_LOGOUT:
+			case USER_DISCONNECT: 
+			{
+				User user = (User)event.getParameter(SFSEventParam.USER);
+				synchronized (sessions) {
+					SFSSession session = sessions.remove(user.getId());
+					if (session != null) {
+						user.removeProperty(ClientSession.class);
+						session.getListener().disconnected(session);
+					}
 				}
 			}
-			break;
-		}
-		case USER_LOGOUT:
-		case USER_DISCONNECT: 
-		{
-			User user = (User)event.getParameter(SFSEventParam.USER);
-			synchronized (sessions) {
-				SFSSession session = sessions.remove(user.getId());
-				if (session != null) {
-					user.removeProperty(ClientSession.class);
-					session.getListener().disconnected(session);
-				}
+			default:
+				break;
 			}
+			
 		}
-		default:
-			break;
-		}
-		
 	}
 
 //	----------------------------------------------------------------------------------------------------------
