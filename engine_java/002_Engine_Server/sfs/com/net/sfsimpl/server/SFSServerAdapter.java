@@ -124,6 +124,8 @@ public class SFSServerAdapter implements Server
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
+		} else {
+			trace("ERROR : handleClientRequest : session not found, as " + params.toString());
 		}
 	}
 	private class ServerEventListener implements ISFSEventListener
