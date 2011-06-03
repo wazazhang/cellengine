@@ -55,24 +55,23 @@ public class SFSServerAdapter implements Server
 	
 	final private Zone 					current_zone;
 
-	final private ServerListener		server_listener;
-	
 	final private ExternalizableFactory	ext_factory;
 	
 	final private ISFSEventListener		event_listener;
+
+	
+	private ServerListener				server_listener;
 	
 //	--------------------------------------------------------------------------------------
 	
 	public SFSServerAdapter(
 			SFSExtension extension, 
-			ExternalizableFactory codec, 
-			ServerListener listener) 
+			ExternalizableFactory codec) 
 	{
 		this.extension 			= extension;
 		this.channel_manager 	= new RoomChannelManager();
 		this.current_zone 		= extension.getParentZone();
 		this.ext_factory 		= codec;
-		this.server_listener 	= listener;
 		this.event_listener		= new ServerEventListener();
 
 //		addEventListener(SFSEventType.BUDDY_ADD, this);
@@ -373,17 +372,15 @@ public class SFSServerAdapter implements Server
 	
 //	----------------------------------------------------------------------------------------------------------
 
-	@Deprecated
 	@Override
 	public void open(int port, ServerListener listener) throws IOException {
-		throw new NotImplementedException("not support on sfs system !");
+		this.server_listener = listener;
+		this.server_listener.init(this);
 	}
 	
-
-	@Deprecated
 	@Override
 	public void dispose() throws IOException {
-		throw new NotImplementedException("not support on sfs system !");
+		server_listener.destory();
 	}
 	
 	

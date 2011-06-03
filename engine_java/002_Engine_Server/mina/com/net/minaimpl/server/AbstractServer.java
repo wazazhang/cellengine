@@ -151,8 +151,9 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	synchronized public void open(int port, ServerListener listener) throws IOException 
 	{
 		if (!Acceptor.isActive()) {
-			this.SrvListener	= listener;
-			this.StartTime		= System.currentTimeMillis();
+			this.SrvListener = listener;
+			this.SrvListener.init(this);
+			this.StartTime = System.currentTimeMillis();
 			log.info("starting server at port : " + port);
 			Acceptor.bind(new InetSocketAddress(port));
 			log.info("server started !");

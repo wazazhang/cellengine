@@ -1,5 +1,7 @@
 package com.net.flash.test.server;
 
+import java.io.IOException;
+
 import com.cell.j2se.CAppBridge;
 import com.net.ExternalizableFactory;
 import com.net.flash.message.FlashMessageFactory;
@@ -20,10 +22,13 @@ public class ServerSFSImpl extends SFSExtension
 	{
 		CAppBridge.initNullStorage();
 
-		adapter = new SFSServerAdapter(this, 
-				new FlashMessageFactory(new MessageCodecJava(), Messages.class), 
-				new FlashTestEchoServer());
-		
+		try {		
+			adapter = new SFSServerAdapter(this, 
+				new FlashMessageFactory(new MessageCodecJava(), Messages.class));
+			adapter.open(0, new FlashTestEchoServer());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		trace(new Object[] { "Test SFSExtension started" });
 		
 	}

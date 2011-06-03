@@ -26,6 +26,7 @@ import com.net.flash.test.Messages.*;
 import com.net.minaimpl.server.ServerImpl;
 import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;
+import com.net.server.Server;
 import com.net.server.ServerListener;
 
 public class FlashTestEchoServer implements ServerListener
@@ -37,7 +38,17 @@ public class FlashTestEchoServer implements ServerListener
 	public FlashTestEchoServer() {
 		
 	}
-
+	
+	@Override
+	public void init(Server server) {
+		
+	}
+	
+	@Override
+	public void destory() {
+		
+	}
+	
 	@Override
 	public ClientSessionListener connected(ClientSession session) {
 		log.info("connected " + session.getRemoteAddress());
