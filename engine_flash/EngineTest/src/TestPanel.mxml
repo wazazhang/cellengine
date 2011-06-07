@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="600" chromeColor="#7E7E7E">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="600" chromeColor="#7E7E7E" enterFrame="group1_enterFrameHandler(event)" exitFrame="group1_exitFrameHandler(event)">
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
@@ -19,6 +19,8 @@
 			import com.net.flash.test.Messages.EchoNotify;
 			import com.net.flash.test.Messages.EchoRequest;
 			import com.net.flash.test.Messages.EchoResponse;
+			
+			import flash.sampler.getGetterInvocationCount;
 			
 			import mx.events.FlexEvent;
 			
@@ -104,6 +106,29 @@
 			//-------------------------------------------------------------------------------------------------
 
 			
+
+			protected function group1_enterFrameHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				trace("enter frame");
+				
+				
+			}
+
+
+			protected function group1_exitFrameHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				trace("exit frame");
+			}
+
+
+			protected function txt_info_enterFrameHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				trace("txt enter frame");
+			}
+
 		]]>
 	</fx:Script>
 
@@ -117,6 +142,6 @@
 	<s:TextInput x="21" y="417" width="376" id="txt_message"/>
 	<s:Button x="405" y="418" label="发送" id="btn_send" click="btn_send_clickHandler(event)"/>
 	<s:TextInput x="195" y="10" width="91" text="19820" id="txt_port"/>
-	<s:TextArea x="19" y="36" width="456" height="373" id="txt_info"/>
+	<s:TextArea x="19" y="36" width="456" height="373" id="txt_info" enterFrame="txt_info_enterFrameHandler(event)"/>
 	<s:Button x="405" y="447" label="发送10" id="btn_send_big" click="btn_send_big_clickHandler(event)"/>
 </s:Group>
