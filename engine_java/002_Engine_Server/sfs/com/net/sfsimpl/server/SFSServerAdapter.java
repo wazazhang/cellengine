@@ -133,7 +133,7 @@ public class SFSServerAdapter implements Server
 		@Override
 		public void handleServerEvent(ISFSEvent event) throws Exception
 		{
-			System.out.println("handleServerEvent:" + event.toString());
+			trace("handleServerEvent:" + event.toString());
 			switch (event.getType()) {
 			case USER_LOGIN:
 			case USER_JOIN_ZONE:
