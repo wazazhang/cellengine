@@ -65,7 +65,7 @@ public class ChannelImpl implements Channel
 			ClientSessionImpl impl = (ClientSessionImpl)session;
 			ClientSession old = sessions.putIfAbsent(session, impl);
 			if (old == null) {
-				server.write(impl.Session, null, Protocol.PROTOCOL_CHANNEL_JOIN_S2C, getID(), impl.getID(), 0);
+				server.write(impl.Session, null, Protocol.PROTOCOL_CHANNEL_JOIN_S2C, getID(), 0);
 				Listener.sessionJoined(this, session);
 				return true;
 			}
@@ -76,7 +76,7 @@ public class ChannelImpl implements Channel
 	public boolean leave(ClientSession session) {
 		ClientSessionImpl old = sessions.remove(session);
 		if (old != null) {
-			server.write(old.Session, null, Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, getID(), old.getID(), 0);
+			server.write(old.Session, null, Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, getID(), 0);
 			Listener.sessionLeaved(this, session);
 			return true;
 		}
@@ -100,11 +100,11 @@ public class ChannelImpl implements Channel
 	
 	int broadcast(ClientSession sender, MessageHeader message, int packnum)
 	{
-		long sender_id = (sender != null ? sender.getID() : 0);
+//		long sender_id = (sender != null ? sender.getID() : 0);
 		int  count = 0;
 		for (Iterator<ClientSessionImpl> it = sessions.values().iterator(); it.hasNext(); ) {
 			ClientSessionImpl session = it.next();
-			server.write(session.Session, message, Protocol.PROTOCOL_CHANNEL_MESSAGE, ID, sender_id, packnum);
+			server.write(session.Session, message, Protocol.PROTOCOL_CHANNEL_MESSAGE, ID, packnum);
 		}
 		return count;
 	}

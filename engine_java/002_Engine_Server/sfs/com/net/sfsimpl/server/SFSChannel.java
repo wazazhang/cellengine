@@ -58,7 +58,6 @@ public class SFSChannel implements Channel
 						null,
 						Protocol.PROTOCOL_CHANNEL_JOIN_S2C, 
 						getID(), 
-						impl.getID(),
 						0);
 				Listener.sessionJoined(this, session);
 				return true;
@@ -75,7 +74,6 @@ public class SFSChannel implements Channel
 					null,
 					Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, 
 					getID(), 
-					old.getID(),
 					0);
 			Listener.sessionLeaved(this, session);
 			return true;
@@ -100,7 +98,6 @@ public class SFSChannel implements Channel
 	
 	int broadcast(ClientSession sender, MessageHeader message, int packnum)
 	{
-		long sender_id = (sender != null ? sender.getID() : 0);
 		int  count = 0;
 		for (Iterator<SFSSession> it = sessions.values().iterator(); it.hasNext(); ) {
 			SFSSession session = it.next();
@@ -108,7 +105,6 @@ public class SFSChannel implements Channel
 					message,
 					Protocol.PROTOCOL_CHANNEL_MESSAGE,
 					ID,
-					sender_id, 
 					packnum);
 		}
 		return count;

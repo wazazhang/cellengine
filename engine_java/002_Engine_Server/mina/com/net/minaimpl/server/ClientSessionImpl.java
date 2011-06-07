@@ -89,7 +89,7 @@ public class ClientSessionImpl implements ClientSession
 		return Server.write(Session, 
 				message, 
 				Protocol.PROTOCOL_SESSION_MESSAGE, 
-				0, 0, 0);
+				0, 0);
 	}
 	
 	
@@ -97,7 +97,7 @@ public class ClientSessionImpl implements ClientSession
 		return Server.write(Session, 
 				response, 
 				Protocol.PROTOCOL_SESSION_MESSAGE, 
-				0, 0, request.getPacketNumber());
+				0, request.getPacketNumber());
 	}
 	
 	

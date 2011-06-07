@@ -249,17 +249,16 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			MessageHeader 	message,
 			byte			protocol, 
 			int				channel_id, 
-			long			channel_sender_id,
 			int				packnumber)
 	{
 		if (session.isConnected()) {
 			ProtocolImpl p = ProtocolPool.getInstance().createProtocol();
-			p.SessionID			= session.getId();
+//			p.SessionID			= session.getId();
 			p.Protocol			= protocol;
 			p.PacketNumber		= packnumber;
 			p.message			= message;			
 			p.ChannelID			= channel_id;
-			p.ChannelSessionID	= channel_sender_id;
+//			p.ChannelSessionID	= channel_sender_id;
 //			session.resumeWrite();
 			WriteFuture future = session.write(p);
 			

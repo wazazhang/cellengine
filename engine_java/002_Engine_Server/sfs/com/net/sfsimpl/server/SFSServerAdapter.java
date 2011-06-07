@@ -190,7 +190,7 @@ public class SFSServerAdapter implements Server
 		p.DynamicReceiveTime		= System.currentTimeMillis();
 
 		p.Protocol 					= in.getByte("Protocol");		// 1
-		p.SessionID 				= in.getInt	("SessionID");		// 4
+//		p.SessionID 				= in.getInt	("SessionID");		// 4
 		p.PacketNumber				= in.getInt	("PacketNumber");	// 4
 		
 		switch (p.Protocol) {
@@ -198,7 +198,7 @@ public class SFSServerAdapter implements Server
 		case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 		case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 			p.ChannelID 			= in.getInt("ChannelID");			// 4
-			p.ChannelSessionID 		= in.getInt("ChannelSessionID");	// 4
+//			p.ChannelSessionID 		= in.getInt("ChannelSessionID");	// 4
 			break;
 		}
 		
@@ -220,7 +220,7 @@ public class SFSServerAdapter implements Server
 		ISFSObject out = SFSObject.newInstance();
 		{
 			out.putByte		("Protocol", 			p.Protocol);			// 1
-			out.putInt		("SessionID", 			p.SessionID);			// 8
+//			out.putInt		("SessionID", 			p.SessionID);			// 8
 			out.putInt		("PacketNumber",		p.PacketNumber);		// 4
 			
 			switch (p.Protocol) {
@@ -228,7 +228,7 @@ public class SFSServerAdapter implements Server
 			case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 			case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
-				out.putInt	("ChannelSessionID",	p.ChannelSessionID);	// 8
+//				out.putInt	("ChannelSessionID",	p.ChannelSessionID);	// 8
 				break;
 			}
 
@@ -252,15 +252,14 @@ public class SFSServerAdapter implements Server
 			MessageHeader 	message,
 			byte			protocol, 
 			int				channel_id, 
-			long			channel_sender_id,
 			int				packnumber)
 	{
 		SFSProtocol p = new SFSProtocol();
 		p.Message 			= message;
-		p.SessionID 		= (int)session.getID();
+//		p.SessionID 		= (int)session.getID();
 		p.Protocol			= protocol;
 		p.ChannelID			= channel_id;
-		p.ChannelSessionID	= p.SessionID;
+//		p.ChannelSessionID	= p.SessionID;
 		p.PacketNumber		= packnumber;
 		
 		try {
@@ -276,10 +275,10 @@ public class SFSServerAdapter implements Server
 	{
 		SFSProtocol p = new SFSProtocol();
 		p.Message 			= message;
-		p.SessionID 		= 0;
+//		p.SessionID 		= 0;
 		p.Protocol			= Protocol.PROTOCOL_SESSION_MESSAGE;
 		p.ChannelID			= 0;
-		p.ChannelSessionID	= 0;
+//		p.ChannelSessionID	= 0;
 		p.PacketNumber		= 0;
 		
 		try {

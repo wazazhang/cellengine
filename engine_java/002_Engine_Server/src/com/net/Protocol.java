@@ -18,8 +18,8 @@ public interface Protocol
 	/**消息类型*/
 	public byte 	getProtocol();
 	
-	/**该链接对于服务器的唯一ID*/
-	public long 	getSessionID();
+//	/**该链接对于服务器的唯一ID*/
+//	public long 	getSessionID();
 	
 	/**匹配Request和Response的值，如果为0，则代表为Notify*/
 	public int		getPacketNumber();
@@ -29,9 +29,9 @@ public interface Protocol
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
 	public int		getChannelID();
 	
-	/**频道发送者的SessionID<br>
-	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	public long		getChannelSessionID();
+//	/**频道发送者的SessionID<br>
+//	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
+//	public long		getChannelSessionID();
 	
 //	----------------------------------------------------------------------------------------------------------------		
 //	dynamic fields

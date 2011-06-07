@@ -227,7 +227,7 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 				ProtocolImpl p = ProtocolPool.getInstance().createProtocol();
 				p.Protocol			= ProtocolImpl.PROTOCOL_CHANNEL_MESSAGE;
 				p.ChannelID			= channel.getID();
-				p.ChannelSessionID	= getID();
+//				p.ChannelSessionID	= getID();
 				p.message			= message;
 				io_session.write(p);
 			}
@@ -250,12 +250,14 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 	public long getReceivedBytes(){
 		return Codec.getTotalReceivedBytes();
 	}
+	
 	public long getHeartBeatReceived() {
 		if (keep_alive != null) {
 			return keep_alive.getReceivedMessageCount();
 		}
 		return 0;
 	}
+	
 	public long getHeartBeatSent() {
 		if (keep_alive != null) {
 			return keep_alive.getSentMessageCount();

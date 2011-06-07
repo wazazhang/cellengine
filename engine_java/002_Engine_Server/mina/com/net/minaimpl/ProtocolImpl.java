@@ -22,8 +22,8 @@ public class ProtocolImpl implements com.net.Protocol
 	/**消息类型*/
 	public byte 				Protocol;		
 	
-	/**该链接对于服务器的唯一ID*/
-	public long 				SessionID;
+//	/**该链接对于服务器的唯一ID*/
+//	public long 				SessionID;
 	
 	/**匹配Request和Response的值，如果为0，则代表为Notify*/
 	public int					PacketNumber		= 0;
@@ -37,9 +37,9 @@ public class ProtocolImpl implements com.net.Protocol
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
 	public int					ChannelID;
 	
-	/**频道发送者的SessionID<br>
-	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	public long					ChannelSessionID;
+//	/**频道发送者的SessionID<br>
+//	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
+//	public long					ChannelSessionID;
 
 //	-------------------------------------------------------------------------------
 //	/**发送时间*/
@@ -57,10 +57,10 @@ public class ProtocolImpl implements com.net.Protocol
 		return Protocol;
 	}
 
-	@Override
-	public long getSessionID() {
-		return SessionID;
-	}
+//	@Override
+//	public long getSessionID() {
+//		return SessionID;
+//	}
 	
 	@Override
 	public int getPacketNumber() {
@@ -72,10 +72,10 @@ public class ProtocolImpl implements com.net.Protocol
 		return ChannelID;
 	}
 
-	@Override
-	public long getChannelSessionID() {
-		return ChannelSessionID;
-	}
+//	@Override
+//	public long getChannelSessionID() {
+//		return ChannelSessionID;
+//	}
 
 	@Override
 	public long getSentTime() {

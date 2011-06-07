@@ -13,8 +13,8 @@ final public class SFSProtocol  implements com.net.Protocol
 	/**消息类型*/
 	byte 				Protocol;		
 	
-	/**该链接对于服务器的唯一ID*/
-	int 				SessionID;
+//	/**该链接对于服务器的唯一ID*/
+//	int 				SessionID;
 	
 	/**匹配Request和Response的值，如果为0，则代表为Notify*/
 	int					PacketNumber		= 0;
@@ -25,9 +25,9 @@ final public class SFSProtocol  implements com.net.Protocol
 	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
 	int					ChannelID;
 	
-	/**频道发送者的SessionID<br>
-	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
-	int					ChannelSessionID;
+//	/**频道发送者的SessionID<br>
+//	 * 仅PROTOCOL_CHANNEL_*类型的消息有效*/
+//	int					ChannelSessionID;
 
 	
 	MessageHeader		Message;
@@ -54,10 +54,10 @@ final public class SFSProtocol  implements com.net.Protocol
 		return Protocol;
 	}
 
-	@Override
-	public long getSessionID() {
-		return SessionID;
-	}
+//	@Override
+//	public long getSessionID() {
+//		return SessionID;
+//	}
 	
 	@Override
 	public int getPacketNumber() {
@@ -69,10 +69,10 @@ final public class SFSProtocol  implements com.net.Protocol
 		return ChannelID;
 	}
 
-	@Override
-	public long getChannelSessionID() {
-		return ChannelSessionID;
-	}
+//	@Override
+//	public long getChannelSessionID() {
+//		return ChannelSessionID;
+//	}
 
 	@Override
 	public long getSentTime() {
