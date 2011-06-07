@@ -83,10 +83,10 @@ package com.net.client.sfsimpl
 		public function send(message : Message): Boolean
 		{
 			var p : SFSProtocol = new SFSProtocol();
-			p.setSessionID(0);
+//			p.setSessionID(0);
 			p.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
 			p.setChannelID(null);
-			p.setChannelSessionID(0);
+//			p.setChannelSessionID(0);
 			p.setMessage(message);
 			p.setPacketNumber(0);
 			var params  : ISFSObject = encode(p);
@@ -100,10 +100,10 @@ package com.net.client.sfsimpl
 		public function sendRequest(pnum: int, message : Message) : Boolean
 		{
 			var p : SFSProtocol = new SFSProtocol();
-			p.setSessionID(0);
+//			p.setSessionID(0);
 			p.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
 			p.setChannelID(null);
-			p.setChannelSessionID(0);
+//			p.setChannelSessionID(0);
 			p.setMessage(message);
 			p.setPacketNumber(pnum);
 			var params  : ISFSObject = encode(p);
@@ -123,7 +123,7 @@ package com.net.client.sfsimpl
 			var out : SFSObject = new SFSObject();
 			{
 				out.putByte		("Protocol", 			p.getProtocol());			// 1
-				out.putInt		("SessionID", 			p.getSessionID());			// 8
+//				out.putInt		("SessionID", 			p.getSessionID());			// 8
 				out.putInt		("PacketNumber",		p.getPacketNumber());		// 4
 				
 				switch (p.getProtocol()) {
@@ -131,7 +131,7 @@ package com.net.client.sfsimpl
 				case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 				case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 					out.putInt	("ChannelID",		 	p.getChannelID());			// 4
-					out.putInt	("ChannelSessionID",	p.getChannelSessionID());	// 8
+//					out.putInt	("ChannelSessionID",	p.getChannelSessionID());	// 8
 					break;
 				}
 				if (p.getMessage() != null) {
@@ -153,7 +153,7 @@ package com.net.client.sfsimpl
 			var p : SFSProtocol = new SFSProtocol();
 
 			p.setProtocol 				(obj.getByte	("Protocol"));	// 1
-			p.setSessionID 				(obj.getInt		("SessionID"));		// 4
+//			p.setSessionID 				(obj.getInt		("SessionID"));		// 4
 			p.setPacketNumber			(obj.getInt		("PacketNumber"));	// 4
 			
 			switch (p.getProtocol()) {
@@ -161,7 +161,7 @@ package com.net.client.sfsimpl
 			case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 			case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 				p.setChannelID 			(obj.getInt		("ChannelID"));			// 4
-				p.setChannelSessionID	(obj.getInt		("ChannelSessionID"));	// 4
+//				p.setChannelSessionID	(obj.getInt		("ChannelSessionID"));	// 4
 				break;
 			}
 			

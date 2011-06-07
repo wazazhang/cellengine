@@ -140,10 +140,10 @@ package com.net.client.minaimpl
 		
 		private function sendImpl(protocol : ProtocolImpl) : void
 		{
-			protocol.setSessionID(0,0);
+//			protocol.setSessionID(0,0);
 			protocol.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
 			protocol.setChannelID(null);
-			protocol.setChannelSessionID(0,0);
+//			protocol.setChannelSessionID(0,0);
 			var stream  : ByteArray = encode(protocol);
 			if (stream != null) {
 				stream.position = 0;
@@ -337,8 +337,8 @@ package com.net.client.minaimpl
 						protocol.setReceivedTime			(new Date());
 						
 						protocol.setProtocol				(buffer.readByte());	// 1
-						protocol.setSessionID				(buffer.readInt(), 
-															 buffer.readInt());		// 8
+//						protocol.setSessionID				(buffer.readInt(), 
+//															 buffer.readInt());		// 8
 						protocol.setPacketNumber			(buffer.readInt());		// 4
 												
 						switch (protocol.getProtocol()) {
@@ -346,8 +346,8 @@ package com.net.client.minaimpl
 						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 							protocol.setChannelID			(buffer.readInt());		// utf
-							protocol.setChannelSessionID	(buffer.readInt(), 
-															 buffer.readInt());		// 8
+//							protocol.setChannelSessionID	(buffer.readInt(), 
+//															 buffer.readInt());		// 8
 							break;
 						}
 						
