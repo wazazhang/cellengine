@@ -1,6 +1,7 @@
 package com.net;
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 
 
 
@@ -88,4 +89,5 @@ public class NetDataTypes
 			return TYPE_OBJECT;
 		}
 	}
+
 }
