@@ -139,28 +139,32 @@ public class SFSServerAdapter implements Server
 			case USER_JOIN_ZONE:
 			{
 				User user = (User)event.getParameter(SFSEventParam.USER);
-				synchronized (sessions) {
-					if (!sessions.containsKey(user)) {
-						SFSSession session = new SFSSession(user, SFSServerAdapter.this);
-						ClientSessionListener listener = server_listener.connected(session);
-						session.setListener(listener);
-						user.setProperty(ClientSession.class, session);
-						sessions.put(user.getId(), session);
-					}
+				SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
+				if (session == null) {
+					session = new SFSSession(user, SFSServerAdapter.this);
+					ClientSessionListener listener = server_listener.connected(session);
+					session.setListener(listener);
+					user.setProperty(ClientSession.class, session);
 				}
+				sessions.put(user.getId(), session);
 				break;
 			}
 			case USER_LOGOUT:
+			{				
+				User user = (User)event.getParameter(SFSEventParam.USER);
+				user.disconnect(ClientDisconnectionReason.IDLE);
+				break;
+			}
 			case USER_DISCONNECT: 
 			{
 				User user = (User)event.getParameter(SFSEventParam.USER);
-				synchronized (sessions) {
-					SFSSession session = sessions.remove(user.getId());
-					if (session != null) {
-						user.removeProperty(ClientSession.class);
-						session.getListener().disconnected(session);
-					}
+				SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
+				if (session != null) {
+					session = sessions.remove(user.getId());
+					user.removeProperty(ClientSession.class);
+					session.getListener().disconnected(session);
 				}
+				break;
 			}
 			default:
 				break;

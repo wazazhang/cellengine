@@ -52,7 +52,8 @@ public class SFSSession implements ClientSession
 	
 	public boolean disconnect(boolean force) 
 	{
-		server.extension.getApi().disconnectUser(user, ClientDisconnectionReason.KICK);
+		server.extension.getApi().disconnectUser(user, 
+				ClientDisconnectionReason.KICK);
 		return true;
 	}
 

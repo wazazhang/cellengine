@@ -22,7 +22,7 @@ public class ServerSFSImpl extends SFSExtension
 	public void init() 
 	{
 		CAppBridge.initNullStorage();
-
+		
 		try {		
 			adapter = new SFSServerAdapter(this, 
 				new FlashMessageFactory(new MessageCodecJava(), Messages.class));
