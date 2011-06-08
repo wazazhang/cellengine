@@ -82,7 +82,8 @@ package com.net.client.minaimpl
 			port 		: int, 
 			listener 	: ServerSessionListener) : Boolean
 		{
-			this.serveraddr = host + ":" + port;		
+			this.serveraddr = host + ":" + port;	
+			trace("connecting : " + serveraddr);	
 			this.listener = listener;
 			this.connector.connect(host, port);
 			return this.connector.connected;

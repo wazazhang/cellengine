@@ -74,6 +74,7 @@ package com.net.client.sfsimpl
 			port 		: int, 
 			listener 	: ServerSessionListener) : Boolean
 		{
+			trace("connecting : " + host+":"+port);
 			this.user_listener = listener;
 			sfs.connect(host, port);
 			return sfs.isConnected;
@@ -242,13 +243,13 @@ package com.net.client.sfsimpl
 				
 		private function onLogin(evt:SFSEvent):void
 		{
-			dTrace("Login success: " + evt.params.user.name);
+			dTrace("SFS Login success: " + evt.params.user.name);
 			user_listener.connected(this);
 		}
 		
 		private function onLoginError(evt:SFSEvent):void
 		{
-			dTrace("Login failed: " + evt.params.errorMessage);
+			dTrace("SFS Login failed: " + evt.params.errorMessage);
 			sfs.disconnect();
 			user_listener.disconnected(this, evt.params.errorMessage);
 		}
