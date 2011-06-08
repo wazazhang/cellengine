@@ -135,18 +135,16 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				p.DynamicReceiveTime		= System.currentTimeMillis();
 
     					p.Protocol 					= in.get();			// 1
-//    					p.SessionID 				= in.getLong();		// 8
     					p.PacketNumber				= in.getInt();		// 4
     					
-    					int obj_size 				= message_size - 13;
+    					int obj_size 				= message_size - 5;
     					
     					switch (p.Protocol) {
 	    				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 	    					p.ChannelID 			= in.getInt();		// 4
-//	    					p.ChannelSessionID 		= in.getLong();		// 8
-	    					obj_size -= 12;
+	    					obj_size -= 4;
 	    					break;
 	    				}
     					
@@ -238,7 +236,6 @@ public class NetPackageCodec extends MessageHeaderCodec
     				int cur = buffer.position();
 	    			{
 						buffer.put			(p.Protocol);			// 1
-//						buffer.putLong		(p.SessionID);			// 8
 						buffer.putInt		(p.PacketNumber);		// 4
 						
 						switch (p.Protocol) {
@@ -246,7 +243,6 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 	    					buffer.putInt	(p.ChannelID);			// 4
-//							buffer.putLong	(p.ChannelSessionID);	// 8
 							break;
 						}
 						
