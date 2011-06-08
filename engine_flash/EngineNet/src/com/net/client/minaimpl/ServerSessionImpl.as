@@ -337,8 +337,6 @@ package com.net.client.minaimpl
 						protocol.setReceivedTime			(new Date());
 						
 						protocol.setProtocol				(buffer.readByte());	// 1
-//						protocol.setSessionID				(buffer.readInt(), 
-//															 buffer.readInt());		// 8
 						protocol.setPacketNumber			(buffer.readInt());		// 4
 												
 						switch (protocol.getProtocol()) {
@@ -346,8 +344,6 @@ package com.net.client.minaimpl
 						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 							protocol.setChannelID			(buffer.readInt());		// utf
-//							protocol.setChannelSessionID	(buffer.readInt(), 
-//															 buffer.readInt());		// 8
 							break;
 						}
 						
@@ -420,8 +416,6 @@ package com.net.client.minaimpl
 					var begin_pos : int = buffer.position;
 					{
 						buffer.writeByte	(protocol.getProtocol());		// 1
-						buffer.writeInt		(0);							// 8
-						buffer.writeInt		(0);						
 						buffer.writeInt		(protocol.getPacketNumber());	// 4
 						
 						switch (protocol.getProtocol()) {
@@ -429,8 +423,6 @@ package com.net.client.minaimpl
 						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
 							buffer.writeInt	(protocol.getChannelID());		// utf
-							buffer.writeInt	(0);							// 8
-							buffer.writeInt	(0);
 							break;
 						}
 						
