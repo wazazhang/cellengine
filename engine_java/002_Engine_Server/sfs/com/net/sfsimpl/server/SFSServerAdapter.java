@@ -194,7 +194,6 @@ public class SFSServerAdapter implements Server
 		p.DynamicReceiveTime		= System.currentTimeMillis();
 
 		p.Protocol 					= in.getByte("Protocol");		// 1
-//		p.SessionID 				= in.getInt	("SessionID");		// 4
 		p.PacketNumber				= in.getInt	("PacketNumber");	// 4
 		
 		switch (p.Protocol) {
@@ -202,7 +201,6 @@ public class SFSServerAdapter implements Server
 		case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 		case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 			p.ChannelID 			= in.getInt("ChannelID");			// 4
-//			p.ChannelSessionID 		= in.getInt("ChannelSessionID");	// 4
 			break;
 		}
 		
@@ -224,7 +222,6 @@ public class SFSServerAdapter implements Server
 		ISFSObject out = SFSObject.newInstance();
 		{
 			out.putByte		("Protocol", 			p.Protocol);			// 1
-//			out.putInt		("SessionID", 			p.SessionID);			// 8
 			out.putInt		("PacketNumber",		p.PacketNumber);		// 4
 			
 			switch (p.Protocol) {
@@ -232,7 +229,6 @@ public class SFSServerAdapter implements Server
 			case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 			case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
-//				out.putInt	("ChannelSessionID",	p.ChannelSessionID);	// 8
 				break;
 			}
 
@@ -260,17 +256,14 @@ public class SFSServerAdapter implements Server
 	{
 		SFSProtocol p = new SFSProtocol();
 		p.Message 			= message;
-//		p.SessionID 		= (int)session.getID();
 		p.Protocol			= protocol;
 		p.ChannelID			= channel_id;
-//		p.ChannelSessionID	= p.SessionID;
 		p.PacketNumber		= packnumber;
 		
 		try {
 			extension.send("msg", encode(p), session.user);
-//			this.getApi().sendExtensionResponse("msg", encode(p), session.user, null, false);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			trace(e);
 		}
 	}
 
@@ -294,7 +287,7 @@ public class SFSServerAdapter implements Server
 			}
 			extension.send("msg", encode(p), users);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			trace(e);
 		}
 	}
 
