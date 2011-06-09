@@ -19,11 +19,12 @@ package com.net.client.sfsimpl
 		private var user_listener 	: ServerSessionListener;
 		private var ext_factory		: MessageFactory;
 		
-		private var DEFAULT_ZONE	: String;
+		private var sfs_zone		: String = "XML_NAME";
+		private var sfs_user		: String = "";
+		private var sfs_pswd		: String = "";
 		
-		public function SFSSessionImpl(factory : MessageFactory, zone : String = "XML_NAME")
+		public function SFSSessionImpl(factory : MessageFactory)
 		{
-			this.DEFAULT_ZONE	= zone;
 			this.ext_factory	= factory;
 			
 			// Create an instance of the SmartFox class
@@ -46,6 +47,28 @@ package com.net.client.sfsimpl
 //			sfs.addEventListener(SFSEvent.OBJECT_MESSAGE, onObjectMessage);
 			dTrace("SmartFox API: "+ sfs.version)
 		}
+		
+//		------------------------------------------------------------------------------------
+		
+		public function setZone(zone:String) : SFSSessionImpl
+		{
+			this.sfs_zone = zone;
+			return this;
+		}
+		
+		public function setUser(user:String) : SFSSessionImpl
+		{
+			this.sfs_user = user;
+			return this;
+		}
+		
+		public function setPassword(pswd:String) : SFSSessionImpl
+		{
+			this.sfs_pswd = pswd;
+			return this;
+		}
+		
+//		------------------------------------------------------------------------------------
 		
 		public function getMessageFactory() : MessageFactory 
 		{
@@ -219,13 +242,11 @@ package com.net.client.sfsimpl
 			if (evt.params.success)
 			{
 				dTrace("Connection Success!")
-				// This code is executed after the connection
-				sfs.send( new LoginRequest("", "", DEFAULT_ZONE) );
+				sfs.send( new LoginRequest(sfs_user, sfs_pswd, sfs_zone) );
 			}
 			else
 			{
 				dTrace("Connection Failure: " + evt.params.errorMessage)
-				
 				user_listener.disconnected(this, evt.params.errorMessage);
 			}
 		}
