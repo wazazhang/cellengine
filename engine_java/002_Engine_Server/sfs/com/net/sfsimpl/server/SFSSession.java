@@ -52,22 +52,21 @@ public class SFSSession implements ClientSession
 	
 	public boolean disconnect(boolean force) 
 	{
-		server.extension.getApi().disconnectUser(user, 
-				ClientDisconnectionReason.KICK);
+		server.disconnect(user);
 		return true;
 	}
 
 	
 	public boolean send(MessageHeader message)
 	{
-		server.send(this, message, 
+		server.send(user, message, 
 				Protocol.PROTOCOL_SESSION_MESSAGE, 0, 0);
 		return true;
 	}
 
 	public boolean sendResponse(Protocol request, MessageHeader response)
 	{
-		server.send(this, response, 
+		server.send(user, response, 
 				Protocol.PROTOCOL_SESSION_MESSAGE, 0, request.getPacketNumber());
 		return true;
 	}

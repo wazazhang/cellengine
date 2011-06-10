@@ -54,7 +54,7 @@ public class SFSChannel implements Channel
 			ClientSession old = sessions.putIfAbsent(session, impl);
 			if (old == null) {
 				server.send(
-						impl, 
+						impl.user, 
 						null,
 						Protocol.PROTOCOL_CHANNEL_JOIN_S2C, 
 						getID(), 
@@ -70,7 +70,7 @@ public class SFSChannel implements Channel
 		SFSSession old = sessions.remove(session);
 		if (old != null) {
 			server.send(
-					old, 
+					old.user, 
 					null,
 					Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, 
 					getID(), 
@@ -101,7 +101,7 @@ public class SFSChannel implements Channel
 		int  count = 0;
 		for (Iterator<SFSSession> it = sessions.values().iterator(); it.hasNext(); ) {
 			SFSSession session = it.next();
-			server.send(session,
+			server.send(session.user,
 					message,
 					Protocol.PROTOCOL_CHANNEL_MESSAGE,
 					ID,

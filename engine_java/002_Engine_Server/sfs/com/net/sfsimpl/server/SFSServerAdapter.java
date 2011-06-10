@@ -110,7 +110,6 @@ public class SFSServerAdapter implements Server
 
 	public void handleClientRequest(String requestId, User sender, ISFSObject params) 
 	{
-//		trace("handleC/lientRequest : " + params.toString());
 		SFSSession session = (SFSSession)sender.getProperty(ClientSession.class);
 		if (session != null)
 		{
@@ -119,13 +118,24 @@ public class SFSServerAdapter implements Server
 				if (protocol != null) {
 					session.getListener().receivedMessage(session, protocol, protocol.getMessage());
 				} else {
-					trace("ERROR : handleClientRequest : " + params.toString());
+					trace("ERROR" +
+							" : handleClientRequest" +
+							" : " + params.toString());
+					disconnect(sender);
 				}
 			} catch (Throwable e) {
-				e.printStackTrace();
+				trace("ERROR" +
+						" : handleClientRequest" +
+						" : " + params.toString() + 
+						" : " + e.getMessage() + 
+						" : " + e);
+				disconnect(sender);
 			}
 		} else {
-			trace("ERROR : handleClientRequest : session not found, as " + params.toString());
+			trace("ERROR" +
+					" : handleClientRequest" +
+					" : session not found, as " + params.toString());
+			disconnect(sender);
 		}
 	}
 	private class ServerEventListener implements ISFSEventListener
@@ -133,20 +143,22 @@ public class SFSServerAdapter implements Server
 		@Override
 		public void handleServerEvent(ISFSEvent event) throws Exception
 		{
-			trace("handleServerEvent:" + event.toString());
+			System.out.println("handleServerEvent:" + event.toString());
 			switch (event.getType()) {
 			case USER_LOGIN:
 			case USER_JOIN_ZONE:
 			{
 				User user = (User)event.getParameter(SFSEventParam.USER);
-				SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
-				if (session == null) {
-					session = new SFSSession(user, SFSServerAdapter.this);
-					ClientSessionListener listener = server_listener.connected(session);
-					session.setListener(listener);
-					user.setProperty(ClientSession.class, session);
+				synchronized (sessions) {
+					SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
+					if (session == null) {
+						session = new SFSSession(user, SFSServerAdapter.this);
+						ClientSessionListener listener = server_listener.connected(session);
+						session.setListener(listener);
+						user.setProperty(ClientSession.class, session);
+						sessions.put(user.getId(), session);
+					}
 				}
-				sessions.put(user.getId(), session);
 				break;
 			}
 			case USER_LOGOUT:
@@ -158,11 +170,13 @@ public class SFSServerAdapter implements Server
 			case USER_DISCONNECT: 
 			{
 				User user = (User)event.getParameter(SFSEventParam.USER);
-				SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
-				if (session != null) {
-					session = sessions.remove(user.getId());
-					user.removeProperty(ClientSession.class);
-					session.getListener().disconnected(session);
+				synchronized (sessions) {
+					SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
+					if (session != null) {
+						session = sessions.remove(user.getId());
+						user.removeProperty(ClientSession.class);
+						session.getListener().disconnected(session);
+					}
 				}
 				break;
 			}
@@ -247,8 +261,13 @@ public class SFSServerAdapter implements Server
 		return out;
 	}
 	
+	void disconnect(User user) {
+		this.extension.getApi().disconnectUser(user, 
+				ClientDisconnectionReason.KICK);
+	}
+	
 	void send(
-			SFSSession 		session, 
+			User 			user, 
 			MessageHeader 	message,
 			byte			protocol, 
 			int				channel_id, 
@@ -261,7 +280,7 @@ public class SFSServerAdapter implements Server
 		p.PacketNumber		= packnumber;
 		
 		try {
-			extension.send("msg", encode(p), session.user);
+			extension.send("msg", encode(p), user);
 		} catch (Throwable e) {
 			trace(e);
 		}
