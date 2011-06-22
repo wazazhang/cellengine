@@ -159,11 +159,12 @@ package com.cell.util
 				
 				return str;
 			}
+			
+			public static function format(str:String, ... rest):String
+			{
+				return substitute(str, rest);
+			}
 		}
 	
-	public static function format(str:String, ... rest):String
-	{
-		return substitute(strm rest);
-	}
-}
+
 }
