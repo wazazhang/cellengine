@@ -40,76 +40,51 @@ import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
-public class SFSServerAdapter implements Server
+public abstract class SFSServerAdapter extends SFSExtension implements Server, ISFSEventListener
 {
 	public static int PACKAGE_DEFAULT_SIZE = 4096;
 
 //	--------------------------------------------------------------------------------------
 	
-	final SFSExtension 					extension;
+	private RoomChannelManager 	channel_manager;
 	
-	final private RoomChannelManager 	channel_manager;
+	private ConcurrentHashMap<Integer, SFSSession> 
+									sessions = new ConcurrentHashMap<Integer, SFSSession>();
 	
-	final private ConcurrentHashMap<Integer, SFSSession> 
-										sessions = new ConcurrentHashMap<Integer, SFSSession>();
+	private Zone 					current_zone;
 	
-	final private Zone 					current_zone;
-
-	final private ExternalizableFactory	ext_factory;
-	
-	final private ISFSEventListener		event_listener;
-
-	
-	private ServerListener				server_listener;
+	private ServerListener			server_listener;
 	
 //	--------------------------------------------------------------------------------------
-	
-	public SFSServerAdapter(
-			SFSExtension extension, 
-			ExternalizableFactory codec) 
+
+	@Override
+	public void open(int port, ServerListener listener) throws IOException 
 	{
-		this.extension 			= extension;
 		this.channel_manager 	= new RoomChannelManager();
-		this.current_zone 		= extension.getParentZone();
-		this.ext_factory 		= codec;
-		this.event_listener		= new ServerEventListener();
+		this.current_zone 		= getParentZone();
+		
+		this.addEventListener(SFSEventType.USER_DISCONNECT, 			this);
+		this.addEventListener(SFSEventType.USER_JOIN_ROOM, 				this);
+		this.addEventListener(SFSEventType.USER_JOIN_ZONE, 				this);
+		this.addEventListener(SFSEventType.USER_LEAVE_ROOM, 			this);
+		this.addEventListener(SFSEventType.USER_LOGIN, 					this);
+		this.addEventListener(SFSEventType.USER_LOGOUT, 				this);
+		this.addEventListener(SFSEventType.USER_RECONNECTION_SUCCESS, 	this);
+		this.addEventListener(SFSEventType.USER_RECONNECTION_TRY, 		this);
+		this.addEventListener(SFSEventType.USER_VARIABLES_UPDATE, 		this);
 
-//		addEventListener(SFSEventType.BUDDY_ADD, this);
-//		addEventListener(SFSEventType.BUDDY_BLOCK, this);
-//		addEventListener(SFSEventType.BUDDY_LIST_INIT, this);
-//		addEventListener(SFSEventType.BUDDY_MESSAGE, this);
-//		addEventListener(SFSEventType.BUDDY_ONLINE_STATE_UPDATE, this);
-//		addEventListener(SFSEventType.BUDDY_REMOVE, this);
-//		addEventListener(SFSEventType.BUDDY_VARIABLES_UPDATE, this);
-//
-//		addEventListener(SFSEventType.GAME_INVITATION_FAILURE, this);
-//		addEventListener(SFSEventType.GAME_INVITATION_SUCCESS, this);
-//		addEventListener(SFSEventType.PLAYER_TO_SPECTATOR, this);
-//		addEventListener(SFSEventType.PRIVATE_MESSAGE, this);
-//		addEventListener(SFSEventType.PUBLIC_MESSAGE, this);
-//		addEventListener(SFSEventType.ROOM_ADDED, this);
-//		addEventListener(SFSEventType.ROOM_REMOVED, this);
-//		addEventListener(SFSEventType.ROOM_VARIABLES_UPDATE, this);
-//		addEventListener(SFSEventType.SERVER_READY, this);
-//		addEventListener(SFSEventType.SPECTATOR_TO_PLAYER, this);
-
-		this.extension.addEventListener(SFSEventType.USER_DISCONNECT, 			event_listener);
-		this.extension.addEventListener(SFSEventType.USER_JOIN_ROOM, 			event_listener);
-		this.extension.addEventListener(SFSEventType.USER_JOIN_ZONE, 			event_listener);
-		this.extension.addEventListener(SFSEventType.USER_LEAVE_ROOM, 			event_listener);
-		this.extension.addEventListener(SFSEventType.USER_LOGIN, 				event_listener);
-		this.extension.addEventListener(SFSEventType.USER_LOGOUT, 				event_listener);
-		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_SUCCESS, event_listener);
-		this.extension.addEventListener(SFSEventType.USER_RECONNECTION_TRY, 	event_listener);
-		this.extension.addEventListener(SFSEventType.USER_VARIABLES_UPDATE, 	event_listener);
-
+		this.server_listener = listener;
+		this.server_listener.init(this);
+		
 		trace(getClass().getSimpleName() + " ready, " +
 				"current zone is [" + current_zone.getName() + "]");
 	}
+	
 
 
 	public void handleClientRequest(String requestId, User sender, ISFSObject params) 
 	{
+//		System.out.println("received " + params);
 		SFSSession session = (SFSSession)sender.getProperty(ClientSession.class);
 		if (session != null)
 		{
@@ -124,6 +99,7 @@ public class SFSServerAdapter implements Server
 					disconnect(sender);
 				}
 			} catch (Throwable e) {
+				e.printStackTrace();
 				trace("ERROR" +
 						" : handleClientRequest" +
 						" : " + params.toString() + 
@@ -138,72 +114,64 @@ public class SFSServerAdapter implements Server
 			disconnect(sender);
 		}
 	}
-	private class ServerEventListener implements ISFSEventListener
+
+	@Override
+	public void handleServerEvent(ISFSEvent event) throws Exception
 	{
-		@Override
-		public void handleServerEvent(ISFSEvent event) throws Exception
+		trace("handleServerEvent:" + event.toString());
+		switch (event.getType()) {
+		case USER_LOGIN:
+		case USER_JOIN_ZONE:
 		{
-			trace("handleServerEvent:" + event.toString());
-			switch (event.getType()) {
-			case USER_LOGIN:
-			case USER_JOIN_ZONE:
-			{
-				User user = (User)event.getParameter(SFSEventParam.USER);
-				if (user != null) {
-					synchronized (sessions) {
-						SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
-						if (session == null) {
-							session = new SFSSession(user, SFSServerAdapter.this);
-							ClientSessionListener listener = server_listener.connected(session);
-							session.setListener(listener);
-							user.setProperty(ClientSession.class, session);
-							sessions.put(user.getId(), session);
-						}
+			User user = (User)event.getParameter(SFSEventParam.USER);
+			if (user != null) {
+				synchronized (sessions) {
+					SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
+					if (session == null) {
+						session = new SFSSession(user, SFSServerAdapter.this);
+						ClientSessionListener listener = server_listener.connected(session);
+						session.setListener(listener);
+						user.setProperty(ClientSession.class, session);
+						sessions.put(user.getId(), session);
 					}
 				}
-				break;
 			}
-			case USER_LOGOUT:
-			{				
-				User user = (User)event.getParameter(SFSEventParam.USER);
-				if (user != null) {
-					user.disconnect(ClientDisconnectionReason.IDLE);
-				}
-				break;
-			}
-			case USER_DISCONNECT: 
-			{
-				User user = (User)event.getParameter(SFSEventParam.USER);
-				if (user != null) {
-					synchronized (sessions) {
-						SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
-						if (session != null) {
-							session = sessions.remove(user.getId());
-							user.removeProperty(ClientSession.class);
-							session.getListener().disconnected(session);
-						}
-					}
-				}
-				break;
-			}
-			default:
-				break;
-			}
-			
+			break;
 		}
+		case USER_LOGOUT:
+		{				
+			User user = (User)event.getParameter(SFSEventParam.USER);
+			if (user != null) {
+				user.disconnect(ClientDisconnectionReason.IDLE);
+			}
+			break;
+		}
+		case USER_DISCONNECT: 
+		{
+			User user = (User)event.getParameter(SFSEventParam.USER);
+			if (user != null) {
+				synchronized (sessions) {
+					SFSSession session = (SFSSession)user.getProperty(ClientSession.class);
+					if (session != null) {
+						session = sessions.remove(user.getId());
+						user.removeProperty(ClientSession.class);
+						session.getListener().disconnected(session);
+					}
+				}
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		
 	}
+
 
 //	----------------------------------------------------------------------------------------------------------
 
-	@Override
-	public ExternalizableFactory getMessageFactory() {
-		return ext_factory;
-	}
+	abstract public ExternalizableFactory getMessageFactory();
 
-	public void trace(Object ... args) {
-		extension.trace(args);
-	}
-	
 //	----------------------------------------------------------------------------------------------------------
 
 	
@@ -227,9 +195,10 @@ public class SFSServerAdapter implements Server
 		// 解出包包含的二进制消息
 		int message_type 			= in.getInt("message_type");
 		if (message_type != 0) {
-			p.Message = ext_factory.createMessage(message_type);	// ext 4
+			ExternalizableFactory codec = getMessageFactory();
+			p.Message = codec.createMessage(message_type);	// ext 4
 			ExternalizableMessage ext = (ExternalizableMessage)p.Message;
-			ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), ext_factory));
+			ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), codec));
 		}
 
 		return p;
@@ -251,10 +220,10 @@ public class SFSServerAdapter implements Server
 				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
 				break;
 			}
-
 			if (p.Message instanceof ExternalizableMessage) {
-				out.putInt("message_type", ext_factory.getType(p.Message));	// ext 4
-				NetDataOutputImpl net_out = new NetDataOutputImpl(PACKAGE_DEFAULT_SIZE, ext_factory);
+				ExternalizableFactory codec = getMessageFactory();
+				out.putInt("message_type", codec.getType(p.Message));	// ext 4
+				NetDataOutputImpl net_out = new NetDataOutputImpl(PACKAGE_DEFAULT_SIZE, codec);
 				((ExternalizableMessage)p.Message).writeExternal(net_out);
 				byte[] data = net_out.buffer.shrink().flip().array();
 				out.putByteArray("message", data);
@@ -268,7 +237,7 @@ public class SFSServerAdapter implements Server
 	}
 	
 	void disconnect(User user) {
-		this.extension.getApi().disconnectUser(user, 
+		this.getApi().disconnectUser(user, 
 				ClientDisconnectionReason.KICK);
 	}
 	
@@ -284,10 +253,11 @@ public class SFSServerAdapter implements Server
 		p.Protocol			= protocol;
 		p.ChannelID			= channel_id;
 		p.PacketNumber		= packnumber;
-		
+//		System.out.println("send " + message);
 		try {
-			extension.send("msg", encode(p), user);
+			send("msg", encode(p), user);
 		} catch (Throwable e) {
+			e.printStackTrace();
 			trace(e);
 		}
 	}
@@ -310,8 +280,9 @@ public class SFSServerAdapter implements Server
 					users.add(s.user);
 				}
 			}
-			extension.send("msg", encode(p), users);
+			send("msg", encode(p), users);
 		} catch (Throwable e) {
+			e.printStackTrace();
 			trace(e);
 		}
 	}
@@ -320,7 +291,7 @@ public class SFSServerAdapter implements Server
 
 	@Override
 	public ClientSession getSession(long sessionID) {
-		User user = extension.getApi().getUserById((int)sessionID);
+		User user = getApi().getUserById((int)sessionID);
 		if (user != null) {
 			ClientSession session = (ClientSession)user.getProperty(ClientSession.class);
 			return session;
@@ -396,15 +367,17 @@ public class SFSServerAdapter implements Server
 //	----------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void open(int port, ServerListener listener) throws IOException {
-		this.server_listener = listener;
-		this.server_listener.init(this);
-	}
-	
-	@Override
 	public void dispose() throws IOException {
 		server_listener.destory();
 	}
 	
-	
+	@Override
+	public void destroy() {
+		try {
+			dispose();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		super.destroy();
+	}
 }

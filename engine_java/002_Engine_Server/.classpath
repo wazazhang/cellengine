@@ -3,7 +3,7 @@
 	<classpathentry excluding="com/gt/net/server/MessageTask.java|com/gt/net/server/Task.java|com/gt/net/server/TaskManager.java|com/gt/net/server/TaskManagerJavaConcurrent.java|com/gt/net/server/MessageRouter.java|com/gt/net/server/Manager.java|TestJavaUtil.java|TestObjectPool.java|com/net/proxy/|com/net/anno/" kind="src" path="src"/>
 	<classpathentry kind="src" path="mina"/>
 	<classpathentry kind="src" path="sfs"/>
-	<classpathentry kind="src" path="flash"/>
+	<classpathentry excluding="com/net/flash/test/server/|com/net/flash/test/" kind="src" path="flash"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-api-1.5.2.jar"/>
