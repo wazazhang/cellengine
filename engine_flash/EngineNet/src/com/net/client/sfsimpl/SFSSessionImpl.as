@@ -202,6 +202,7 @@ package com.net.client.sfsimpl
 		
 		function recivedMessage(decoded : Protocol) : void
 		{
+			trace(decoded.getMessage());
 			// 判断是否是联盟消息，协议消息等
 			switch (decoded.getProtocol()) {
 				case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:{
@@ -230,6 +231,7 @@ package com.net.client.sfsimpl
 		
 		function sentMessage(decoded : Protocol) : void
 		{
+			trace(decoded.getMessage());
 			this.user_listener.sentMessage(this, decoded);
 		}
 		
