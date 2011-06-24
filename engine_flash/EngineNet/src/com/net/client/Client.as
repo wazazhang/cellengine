@@ -76,11 +76,15 @@ package com.net.client
 			timeout_listener	: Function = null,
 			timeout 			: int = 10000) : Reference
 		{
-			return sendRequestImpl(
-				message, 
-				new Array(response_listener), 
-				timeout_listener == null ? null : new Array(timeout_listener), 
-				timeout);
+			var fresponse : Array = new Array();
+			var ftimeout : Array = new Array();
+			
+			fresponse.push(response_listener);
+
+			if (!timeout_listener == null) {
+				ftimeout.push(timeout_listener);
+			}
+			return sendRequestImpl(message, fresponse, ftimeout, timeout);
 		}
 		
 		public function sendRequestImpl(
@@ -195,7 +199,7 @@ package com.net.client
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
 					protocol.getChannelID(), request.request, protocol.getMessage(), null);
 				request.set(protocol.getMessage());
-				for each (var response : Function in request.response) {
+				for each (var response : Function in request.fresponse) {
 					response.call(response, event);
 				}
 			} else {

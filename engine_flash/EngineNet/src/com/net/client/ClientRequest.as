@@ -8,8 +8,8 @@ package com.net.client
 		internal var package_num	: int;
 		internal var drop_timeout	: int;
 		
-		internal var response 		: Array;
-		internal var timeout 		: Array;
+		internal var fresponse 		: Array;
+		internal var ftimeout 		: Array;
 		
 		internal var sent_time		: Date;
 		
@@ -24,8 +24,8 @@ package com.net.client
 			this.package_num 	= package_num;
 			this.drop_timeout	= drop_timeout;
 			
-			this.response 		= response;
-			this.timeout 		= timeout;
+			this.fresponse 		= response;
+			this.ftimeout 		= timeout;
 		}
 		
 		internal function getPacketNumber() : int

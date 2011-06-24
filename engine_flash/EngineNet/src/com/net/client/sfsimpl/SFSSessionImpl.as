@@ -109,7 +109,7 @@ package com.net.client.sfsimpl
 			var p : SFSProtocol = new SFSProtocol();
 //			p.setSessionID(0);
 			p.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
-			p.setChannelID(null);
+			p.setChannelID(0);
 //			p.setChannelSessionID(0);
 			p.setMessage(message);
 			p.setPacketNumber(0);
@@ -126,7 +126,7 @@ package com.net.client.sfsimpl
 			var p : SFSProtocol = new SFSProtocol();
 //			p.setSessionID(0);
 			p.setProtocol(ProtocolType.PROTOCOL_SESSION_MESSAGE);
-			p.setChannelID(null);
+			p.setChannelID(0);
 //			p.setChannelSessionID(0);
 			p.setMessage(message);
 			p.setPacketNumber(pnum);
