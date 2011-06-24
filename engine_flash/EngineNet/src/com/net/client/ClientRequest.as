@@ -8,8 +8,8 @@ package com.net.client
 		internal var package_num	: int;
 		internal var drop_timeout	: int;
 		
-		internal var response 		: Function;
-		internal var timeout 		: Function;
+		internal var response 		: Array;
+		internal var timeout 		: Array;
 		
 		internal var sent_time		: Date;
 		
@@ -17,8 +17,8 @@ package com.net.client
 			message 		: Message, 
 			package_num		: int,
 			drop_timeout 	: int, 
-			response 		: Function,
-			timeout 		: Function
+			response 		: Array,
+			timeout 		: Array
 		){
 			this.request 		= message;
 			this.package_num 	= package_num;

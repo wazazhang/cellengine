@@ -5,6 +5,8 @@ package com.net.client
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	
+	import mx.events.Request;
+	
 	//告诉系统，需要注册哪里事件  
 	[Event(name=ClientEvent.CONNECTED, 		type="com.net.client.ClientEvent")]  
 	[Event(name=ClientEvent.DISCONNECTED,	type="com.net.client.ClientEvent")]  
@@ -72,6 +74,19 @@ package com.net.client
 			message 			: Message, 
 			response_listener 	: Function, 
 			timeout_listener	: Function = null,
+			timeout 			: int = 10000) : Reference
+		{
+			return sendRequestImpl(
+				message, 
+				new Array(response_listener), 
+				timeout_listener == null ? null : new Array(timeout_listener), 
+				timeout);
+		}
+		
+		public function sendRequestImpl(
+			message 			: Message, 
+			response_listener 	: Array, 
+			timeout_listener	: Array = null,
 			timeout 			: int = 10000) : Reference
 		{
 			if (isConnected()) {
@@ -180,7 +195,9 @@ package com.net.client
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
 					protocol.getChannelID(), request.request, protocol.getMessage(), null);
 				request.set(protocol.getMessage());
-				request.response.call(request.response, event);
+				for each (var response : Function in request.response) {
+					response.call(response, event);
+				}
 			} else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
 					protocol.getChannelID(), null, protocol.getMessage(), null));
