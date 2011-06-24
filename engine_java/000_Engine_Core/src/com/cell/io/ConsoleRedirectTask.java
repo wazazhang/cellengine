@@ -39,6 +39,7 @@ public class ConsoleRedirectTask extends Thread
                 	appendLine(line);
                 }
             } catch (Exception ioe) {
+            	ioe.printStackTrace();
                 break;
             }
         }
