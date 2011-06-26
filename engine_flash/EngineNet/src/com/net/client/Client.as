@@ -79,11 +79,13 @@ package com.net.client
 			var fresponse : Array = new Array();
 			var ftimeout : Array = new Array();
 			
-			fresponse.push(response_listener);
-
-			if (!timeout_listener == null) {
+			if (response_listener != null) {
+				fresponse.push(response_listener);
+			}
+			if (timeout_listener != null) {
 				ftimeout.push(timeout_listener);
 			}
+			
 			return sendRequestImpl(message, fresponse, ftimeout, timeout);
 		}
 		
