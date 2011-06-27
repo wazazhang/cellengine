@@ -198,12 +198,7 @@ package com.net.client
 			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
 			if (request != null) {			
 				delete request_listeners[protocol.getPacketNumber()];
-				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
-					protocol.getChannelID(), request.request, protocol.getMessage(), null);
-				request.set(protocol.getMessage());
-				for each (var response : Function in request.fresponse) {
-					response.call(response, event);
-				}
+				request.onResponse(this, protocol);
 			} else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
 					protocol.getChannelID(), null, protocol.getMessage(), null));

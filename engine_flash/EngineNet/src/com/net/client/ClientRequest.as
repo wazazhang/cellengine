@@ -4,14 +4,15 @@ package com.net.client
 	
 	internal class ClientRequest extends Reference
 	{
-		internal var request 		: Message;
-		internal var package_num	: int;
-		internal var drop_timeout	: int;
+		private var request 		: Message;
+		private var package_num		: int;
+		private var drop_timeout	: int;
 		
-		internal var fresponse 		: Array;
-		internal var ftimeout 		: Array;
+		private var fresponse 		: Array;
+		private var ftimeout 		: Array;
 		
-		internal var sent_time		: Date;
+		private var sent_time		: Number;
+		private var ping			: int;
 		
 		function ClientRequest(
 			message 		: Message, 
@@ -35,12 +36,32 @@ package com.net.client
 		
 		internal function send(client : Client) : void
 		{
+			this.sent_time = new Date().valueOf();
 			client.getSession().sendRequest(package_num, this.request);
-			this.sent_time = new Date();
 		}
 		
 		internal function isDrop() : Boolean {
-			return (new Date().time - this.sent_time.time) > drop_timeout;
+			return (new Date().valueOf() - this.sent_time) > drop_timeout;
+		}
+		
+		internal function onResponse(client:Client, protocol : Protocol) : void
+		{
+			this.ping = new Date().valueOf() - sent_time;
+			this.set(protocol.getMessage());
+			var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, client, 
+				protocol.getChannelID(), this.request, protocol.getMessage(), null);
+			for each (var response : Function in this.fresponse) {
+				response.call(response, event);
+			}
+		}
+		
+		internal function onTimeout(client:Client) : void
+		{
+			var event : ClientEvent = new ClientEvent(ClientEvent.REQUEST_TIMEOUT, client, 
+				0, this.request, null, null);
+			for each (var timeout : Function in this.ftimeout) {
+				timeout.call(timeout, event);
+			}
 		}
 	}
 }
