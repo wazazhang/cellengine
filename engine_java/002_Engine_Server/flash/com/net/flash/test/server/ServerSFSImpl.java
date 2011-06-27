@@ -14,43 +14,29 @@ import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 
-public class ServerSFSImpl extends SFSExtension
+public class ServerSFSImpl extends SFSServerAdapter
 {
-	SFSServerAdapter adapter;
+	FlashMessageFactory codec = new FlashMessageFactory(
+			new MessageCodecJava(), 
+			Messages.class);
 	
 	@Override
 	public void init() 
 	{
 		CAppBridge.initNullStorage();
-		
 		try {		
-			adapter = new SFSServerAdapter(this, 
-				new FlashMessageFactory(new MessageCodecJava(), Messages.class));
-			adapter.open(0, new FlashTestEchoServer());
+			this.open(0, new FlashTestEchoServer());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		trace(new Object[] { "Test SFSExtension started" });
-		
+	}
+	
+	@Override
+	public ExternalizableFactory getMessageFactory() {
+		return codec;
 	}
 
-	@Override
-	public void handleClientRequest(String requestId, User sender, ISFSObject params) {
-		adapter.handleClientRequest(requestId, sender, params);
-	}
-	
-	@Override
-	public void handleServerEvent(ISFSEvent event) throws Exception {
-		System.out.println("handleServerEvent ex: " + event.toString());
-		super.handleServerEvent(event);
-	}
-	
-	@Override
-	public Object handleInternalMessage(String cmdName, Object params) {
-		System.out.println("handleInternalMessage ex: " + cmdName + " : " + params);
-		return super.handleInternalMessage(cmdName, params);
-	}
-	
 	@Override
 	public void destroy() 
 	{
