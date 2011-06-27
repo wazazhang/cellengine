@@ -7,7 +7,7 @@ package com.net.flash.test
 	{
 		public function TestClientSFS()
 		{
-			super(new SFSSessionImpl(new MessageCodec(), "EngineTest"));
+			super(new SFSSessionImpl(new MessageCodec()));
 		}
 	}
 }
