@@ -160,10 +160,42 @@ package com.cell.util
 				return str;
 			}
 			
-			public static function format(str:String, ... rest):String
+			public static function format(str:String, ... rest) : String
 			{
 				return substitute(str, rest);
 			}
+			
+			public static const ANCHOR_LEFT : int = 0;
+			public static const ANCHOR_RIGHT : int = 2;
+			
+			/**
+			 * 填充字符串
+			 * 比如: 
+			 * fillAlign('12', 3, '0', ANCHOR_RIGHT) => 012
+			 */
+			public static function fillAlign(src:*, length:int, 
+											 fill_char:String = ' ',
+											 anchor:int = ANCHOR_LEFT) : String
+			{
+				var str : String = src.toString();
+				// src out of range
+				if (str.length >= length) {
+					return str;
+				}
+				var fill_count : int = length - str.length;
+				if (anchor == ANCHOR_LEFT) {
+					for (var i:int=0; i<fill_count; i++) {
+						str = str + fill_char;
+					}
+				} else {
+					for (var j:int=0; j<fill_count; j++) {
+						str = fill_char + str;
+					}
+				}
+				return str;
+			}
+			
+			
 		}
 	
 
