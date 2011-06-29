@@ -51,7 +51,11 @@ package com.net.client
 			var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, client, 
 				protocol.getChannelID(), this.request, protocol.getMessage(), null);
 			for each (var response : Function in this.fresponse) {
-				response.call(response, event);
+				try {
+					response.call(response, event);
+				} catch (err:Error) {
+					trace(err.message, err);
+				}
 			}
 		}
 		
@@ -60,7 +64,11 @@ package com.net.client
 			var event : ClientEvent = new ClientEvent(ClientEvent.REQUEST_TIMEOUT, client, 
 				0, this.request, null, null);
 			for each (var timeout : Function in this.ftimeout) {
-				timeout.call(timeout, event);
+				try {
+					timeout.call(timeout, event);
+				} catch (err:Error) {
+					trace(err.message, err);
+				}
 			}
 		}
 	}
