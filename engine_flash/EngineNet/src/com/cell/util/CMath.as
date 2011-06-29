@@ -172,7 +172,9 @@ package com.cell.util
 		}
 		
 		//	--------------------------------------------------------------------------------------------------
-		
+		/**
+		 * 点和圆是否相交
+		 */
 		static public function includeRoundPoint(
 			sx:Number, sy:Number, sr:Number, 
 			px:Number, py:Number) : Boolean
@@ -188,7 +190,9 @@ package com.cell.util
 		}
 		
 		//	--------------------------------------------------------------------------------------------------
-		
+		/**
+		 * 2矩形是否相交
+		 */
 		static public function intersectRect(
 			sx1:Number, sy1:Number, sx2:Number, sy2:Number, 
 			dx1:Number, dy1:Number, dx2:Number, dy2:Number) : Boolean
@@ -200,6 +204,9 @@ package com.cell.util
 			return true;
 		}
 		
+		/**
+		 * 2矩形是否相交（宽高表示）
+		 */
 		static public function intersectRect2(
 			sx1:Number, sy1:Number, sw:Number, sh:Number, 
 			dx1:Number, dy1:Number, dw:Number, dh:Number) : Boolean
@@ -216,7 +223,9 @@ package com.cell.util
 		}
 		
 		//	--------------------------------------------------------------------------------------------------
-		
+		/**
+		 * 点和矩形是否相交
+		 */ 
 		static public function includeRectPoint(
 			sx1:Number, sy1:Number, 
 			sx2:Number, sy2:Number, 
@@ -229,6 +238,9 @@ package com.cell.util
 				return true;
 		}
 		
+		/**
+		 * 点和矩形是否相交（宽高表示）
+		 */ 
 		static public function includeRectPoint2(
 			sx1:Number, sy1:Number, 
 			sw:Number, sh:Number, 
