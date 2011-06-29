@@ -21,6 +21,7 @@
     <classEntry path="com.net.client.minaimpl.ServerSessionImpl"/>
     <classEntry path="com.net.client.sfsimpl.SFSProtocol"/>
     <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
+    <classEntry path="com.cell.util.CMath"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
