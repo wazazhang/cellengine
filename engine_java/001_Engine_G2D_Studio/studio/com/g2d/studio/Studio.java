@@ -136,8 +136,10 @@ public class Studio extends AbstractFrame
 			scene_script_manager = (SceneScriptManager)Class.forName(
 					Config.DYNAMIC_SCENE_SCRIPT_MANAGER_CLASS).newInstance();
 		} catch (Exception err) {
-			err.printStackTrace();
-			System.exit(1);
+			System.err.println("can not found scene script manager class : " +
+					Config.DYNAMIC_SCENE_SCRIPT_MANAGER_CLASS);
+//			err.printStackTrace();
+//			System.exit(1);
 		}
 		
 		root_icon_path		= getFile				(Config.RES_ICON_ROOT);
@@ -151,12 +153,14 @@ public class Studio extends AbstractFrame
 		xls_tshopitem		= getFile				(Config.XLS_TSHOPITEM);
 		xls_tskill			= getFile				(Config.XLS_TSKILL);
 		
-		File talk_example_file = getFile			(Config.TALK_EXAMPLE);
-		if (talk_example_file.exists()) {
-			talk_example = CIO.stringDecode(talk_example_file.readBytes(), CObject.ENCODING);
-		} else {
-			talk_example = "// talk example";
-		}
+//		File talk_example_file = getFile			(Config.TALK_EXAMPLE);
+		talk_example = "// talk example";
+//		try {
+//			if (talk_example_file.exists()) {
+//				talk_example = CIO.stringDecode(talk_example_file.readBytes(), CObject.ENCODING);
+//			}
+//		} catch (Exception e) {}
+		
 		
 		try {
 			UILayoutManager.setInstance(new UILayoutManager());
@@ -726,5 +730,6 @@ public class Studio extends AbstractFrame
 			System.exit(1);
 		}
 	}
+	
 }
 

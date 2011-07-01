@@ -304,6 +304,9 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 			CPJResourceType res_type,
 			IProgress progress)
 	{
+		if (!save_list.exists()) {
+			return new ArrayList<CPJFile>();
+		}
 		String text = save_list.readUTF();
 		String[] lines = CUtil.splitString(text, "\n", true);
 		progress.setMaximum(res_type.toString(), lines.length);

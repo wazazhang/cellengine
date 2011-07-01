@@ -40,8 +40,6 @@ public class Config extends com.cell.util.Config
 	public static String SOUND_SUFFIX				= ".ogg";
 	public static String ICON_SUFFIX				= ".png";
 	public static String TALK_SUFFIX				= ".js";
-	/**NPC说话脚本例子*/
-	public static String TALK_EXAMPLE				= null;
 	
 //	 XLS模板数据目录
 	public static String XLS_TPLAYER				= "xls/tplayer.xls";

@@ -175,26 +175,30 @@ public abstract class FileObjectView<T extends FileObject> extends G2DTreeListVi
 	
 	private HashMap<String, String> readListFile()
 	{
-		String text = save_list_file.readUTF();
-		String[] lines = CUtil.splitString(text, "\n");
-		HashMap<String, String> ret = new HashMap<String, String>(lines.length);
-		for (String line : lines) {
-			try {
-				int i = line.lastIndexOf(';');
-				if (i > 0) {
-					line = line.substring(0, i);
-					int j = line.lastIndexOf("/");
-					if (j > 0) {
-						ret.put(line.substring(j+1), line.substring(0, j));
-					} else {
-						ret.put(line, null);
+		if (save_list_file.exists()) {
+			String text = save_list_file.readUTF();
+			String[] lines = CUtil.splitString(text, "\n");
+			HashMap<String, String> ret = new HashMap<String, String>(lines.length);
+			for (String line : lines) {
+				try {
+					int i = line.lastIndexOf(';');
+					if (i > 0) {
+						line = line.substring(0, i);
+						int j = line.lastIndexOf("/");
+						if (j > 0) {
+							ret.put(line.substring(j+1), line.substring(0, j));
+						} else {
+							ret.put(line, null);
+						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			return ret;
+		} else {
+			return new HashMap<String, String>();
 		}
-		return ret;
 	}
 	
 //	private HashMap<String, T> getItemsList() {
