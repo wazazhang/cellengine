@@ -41,7 +41,7 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 		
 		try 
 		{
-			skin	= new CellSetResource("/skin.properties");
+			skin	= new CellSetResource("/skin/skin.properties");
 			effect	= skin.getSprite("hit");
 			keys	= skin.getSprite("keys");
 			nodes	= skin.getSprite("nodes");

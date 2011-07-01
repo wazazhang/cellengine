@@ -19,9 +19,13 @@ public class IDefineSound implements IDefineNote
 	
 	synchronized
 	public void play(){
-		IPlayer player = SoundManager.getSoundManager().createPlayer();
-		player.setSound(sound);
-		player.play(false);
+		IPlayer player = PlayerManager.getFreePlayer();
+		if (player != null) {
+			player.setSound(sound);
+			player.play(false);
+		} else {
+			System.err.println("no player resource : " + sound_info.getResource());
+		}
 	}
 	
 	@Override
