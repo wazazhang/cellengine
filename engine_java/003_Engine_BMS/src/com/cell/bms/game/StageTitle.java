@@ -1,6 +1,5 @@
 package com.cell.bms.game;
 
-import java.awt.Graphics2D;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -13,7 +12,8 @@ import com.cell.bms.BMSPlayer;
 import com.cell.bms.BMSFile.LoadingListener;
 import com.cell.j2se.CStorage;
 
-import com.g2d.display.Canvas;
+import com.g2d.Color;
+import com.g2d.Graphics2D;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Stage;
 import com.g2d.display.ui.Button;
@@ -21,7 +21,6 @@ import com.g2d.display.ui.Form;
 import com.g2d.display.ui.UIComponent;
 import com.g2d.display.ui.event.ActionEvent;
 import com.g2d.display.ui.event.ActionListener;
-import com.g2d.util.AbstractDialog;
 
 public class StageTitle extends Stage
 {
@@ -36,7 +35,8 @@ public class StageTitle extends Stage
 	public void removed(DisplayObjectContainer parent) {}
 	public void update() {}
 	public void render(Graphics2D g) {
-		g.clearRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 	
 	
@@ -69,7 +69,7 @@ public class StageTitle extends Stage
 						"BMS File", "bms");
 				fc.setFileFilter(filter);
 				fc.setCurrentDirectory(last);
-				fc.showOpenDialog(getRoot().getParent());
+				fc.showOpenDialog(null);
 				File file = fc.getSelectedFile();
 				if (file!=null) {
 					getRoot().changeStage(

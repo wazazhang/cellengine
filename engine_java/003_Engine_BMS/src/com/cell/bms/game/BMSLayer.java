@@ -1,21 +1,19 @@
 package com.cell.bms.game;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import com.cell.bms.BMSPlayer;
 import com.cell.bms.BMSPlayerListener;
 import com.cell.bms.IDefineImage;
 import com.cell.bms.BMSFile.Note;
+import com.cell.gameedit.object.WorldSet;
+import com.cell.gameedit.object.WorldSet.SpriteObject;
 import com.cell.gfx.game.CCD;
 import com.cell.gfx.game.CSprite;
-import com.cell.j2se.CGraphics;
+import com.g2d.Color;
+import com.g2d.Graphics2D;
 import com.g2d.cell.CellSetResource;
 import com.g2d.cell.CellSprite;
-import com.g2d.cell.CellSetResource.WorldSet;
-import com.g2d.cell.CellSetResource.WorldSet.SpriteObject;
 import com.g2d.display.DisplayObject;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Sprite;
@@ -82,13 +80,11 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 	@Override
 	public void render(Graphics2D g) 
 	{
-		CGraphics cg = new CGraphics(g);
-		
 		// paint notes
 		{
 			IDefineImage img_bg = player.getPlayBGImage();
 			if (img_bg != null && img_bg.getImage() != null) {
-				g.drawImage(img_bg.getImage(), 0, 0, getWidth(), getHeight(), this);
+				g.drawImage(img_bg.getImage(), 0, 0, getWidth(), getHeight());
 			} else {
 				g.setColor(Color.BLACK);
 				g.fill(local_bounds);
@@ -100,7 +96,7 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 				if (k != null) {
 					double x = k.getX() + (k.getWidth() >> 1);
 					double y = (player.getPlayPosition() - note.getBeginPosition()) + k.y;
-					nodes.render(cg, (int)x, (int)y, k.anim, timer % nodes.getFrameCount(k.anim));
+					nodes.render(g, (int)x, (int)y, k.anim, timer % nodes.getFrameCount(k.anim));
 				} else {
 					double x = getHeight()-8;
 					double y = (player.getPlayPosition() - note.getBeginPosition()) + getHeight();

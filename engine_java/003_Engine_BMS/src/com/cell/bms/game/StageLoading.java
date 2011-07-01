@@ -1,13 +1,12 @@
 package com.cell.bms.game;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-
 import com.cell.bms.BMSFile;
 import com.cell.bms.BMSPlayer;
 import com.cell.bms.BMSFile.LoadingListener;
 
-import com.g2d.display.Canvas;
+import com.g2d.Canvas;
+import com.g2d.Color;
+import com.g2d.Graphics2D;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Stage;
 import com.g2d.display.ui.Form;

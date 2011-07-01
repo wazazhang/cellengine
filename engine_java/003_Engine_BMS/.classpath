@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/cell/bms/jmf/|com/cell/bms/oal/" kind="src" path="src"/>
+	<classpathentry excluding="com/cell/bms/jmf/|com/cell/bms/oal/|com/cell/bms/game/MainApplet.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
-	<classpathentry kind="src" path="midi"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_G2D"/>

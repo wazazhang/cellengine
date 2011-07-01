@@ -1,7 +1,7 @@
 package com.cell.bms;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import com.g2d.Image;
+import com.g2d.BufferedImage;
 
 import com.g2d.Tools;
 

@@ -104,7 +104,6 @@ public class BMSPlayer
 	{
 		try{			
 			play_tracks = null;
-			SoundManager.getSoundManager().cleanAllPlayer();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
