@@ -1,13 +1,21 @@
 package com.g2d.studio;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
+
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.write.WritableCell;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 import com.cell.CObject;
 import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
+import com.cell.rpg.xls.XLSColumns;
 import com.cell.util.anno.ConfigField;
 import com.g2d.java2d.impl.AwtEngine;
 import com.g2d.studio.io.IO;
@@ -38,9 +46,29 @@ public class StudioCreater {
 			new File(root, Config.RES_ICON_ROOT).mkdirs();
 			new File(root, Config.RES_SOUND_ROOT).mkdirs();
 			new File(root, Config.RES_TALK_ROOT).mkdirs();
-			
-			
-			new File(root, Config.XLS_TPLAYER);
+
+			createXLS(new File(root, Config.XLS_TPLAYER));
+			createXLS(new File(root, Config.XLS_TPET));
+			createXLS(new File(root, Config.XLS_TITEM));
+			createXLS(new File(root, Config.XLS_TSHOPITEM));
+			createXLS(new File(root, Config.XLS_TSKILL));
+			createXLS(new File(root, Config.XLS_TUNIT));
+		}
+		else 
+		{
+			System.out.println(project_file.getName() + " already exist!");
+		}
+	}
+	
+	static private void createXLS(File file) {
+		try {
+			file.getParentFile().mkdirs();
+			WritableWorkbook wb = Workbook.createWorkbook(file);
+			WritableSheet ws = wb.createSheet(file.getName(), 0);
+			wb.write();
+			wb.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

@@ -83,12 +83,14 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 	{
 		super(new BorderLayout());
 		
-		try {
-			Class<?> cls = Class.forName(Config.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS);
-			SceneAbilityManager manager = (SceneAbilityManager)cls.newInstance();
-			SceneAbilityManager.setManager(manager);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		if (Config.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS != null) {
+			try {
+				Class<?> cls = Class.forName(Config.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS);
+				SceneAbilityManager manager = (SceneAbilityManager)cls.newInstance();
+				SceneAbilityManager.setManager(manager);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
 		}
 		
 		progress.startReadBlock("初始化场景...");

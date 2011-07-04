@@ -27,13 +27,16 @@ public class ItemManager extends ManagerFormDynamic
 	{
 		super(studio, progress, "道具/技能能力管理器", Res.icons_bar[5]);
 	
-		try {
-			Class<?> properties_type = Class.forName(Config.DYNAMIC_ITEM_PROPERTY_MANAGER_CLASS);
-			ItemPropertyManager manager = (ItemPropertyManager)properties_type.newInstance();
-			ItemPropertyTypes.setItemPropertyTypes(manager);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		if (Config.DYNAMIC_ITEM_PROPERTY_MANAGER_CLASS != null) {
+			try {
+				Class<?> properties_type = Class.forName(Config.DYNAMIC_ITEM_PROPERTY_MANAGER_CLASS);
+				ItemPropertyManager manager = (ItemPropertyManager)properties_type.newInstance();
+				ItemPropertyTypes.setItemPropertyTypes(manager);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
 		}
+		
 	
 		File item_properties_list_file = studio.project_save_path.getChildFile("item_properties/item_properties.list");
 		this.tree_view = new ItemPropertiesTreeView(item_properties_list_file, progress);
