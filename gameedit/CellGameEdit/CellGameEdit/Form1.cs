@@ -81,7 +81,7 @@ namespace CellGameEdit
 
         void run_args()
         {
-            if (open_args.Length > 0)
+            if (open_args != null && open_args.Length > 0)
             {
                 if (open_args[0].Trim().Equals("-convert"))
                 {
