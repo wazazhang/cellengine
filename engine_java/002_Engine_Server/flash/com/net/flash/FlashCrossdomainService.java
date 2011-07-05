@@ -113,30 +113,32 @@ public class FlashCrossdomainService extends IoHandlerAdapter
 		new FlashCrossdomainService();
 	}
 	
-	final static int PORT = 843;
-	
-	final static String REQUST = 
+	protected String REQUST = 
 		"<policy-file-request/>";
 	
-	final static String RESPONSE = 
+	protected String RESPONSE = 
 		"<cross-domain-policy> \n" +
 		"<allow-access-from domain=\"*\" to-ports=\"*\" /> \n" +
 		"</cross-domain-policy> \n" +
 		"\0";
 	
 	private IoAcceptor Acceptor;
+
+	public FlashCrossdomainService() {
+		this(843);
+	}
 	
-	private FlashCrossdomainService()
+	public FlashCrossdomainService(int port)
 	{
-		System.out.println("starting flash crossdomain service at port : " + PORT);
+		System.out.println("starting flash crossdomain service at port : " + port);
 		
 		try
 		{
-			Acceptor				= new NioSocketAcceptor();
+			Acceptor = new NioSocketAcceptor();
 			DefaultIoFilterChainBuilder chain = Acceptor.getFilterChain();
 			chain.addLast("codec",	new ProtocolCodecFilter(new FlashCrossdomainCodec()));
 			Acceptor.setHandler(this);
-			Acceptor.bind(new InetSocketAddress(PORT));
+			Acceptor.bind(new InetSocketAddress(port));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
