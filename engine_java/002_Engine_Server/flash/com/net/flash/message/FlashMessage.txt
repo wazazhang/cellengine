@@ -6,10 +6,11 @@ package //package
 //import
 
 	/**
+	 * //classComment
 	 * Java Class [//classType] [//classFullName]<br>
 	 * 此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。
 	 */
-	[Bindable]
+	[Bindable] 
 	public class //className extends Message
 	{
 //fields

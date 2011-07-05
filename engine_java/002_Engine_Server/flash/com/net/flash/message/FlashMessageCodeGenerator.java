@@ -16,6 +16,7 @@ import com.cell.io.CFile;
 import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataTypes;
+import com.net.mutual.Comment;
 import com.net.mutual.MutualMessageCodeGenerator;
 import com.net.mutual.MutualMessageCodeGeneratorJava;
 
@@ -274,9 +275,11 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	
 	protected String genMsgClass(ExternalizableFactory factory, Class<?> msg, int msg_type) 
 	{
-		String c_name = msg.getCanonicalName();
-		String s_name = msg.getSimpleName();
-		String o_package = c_name.substring(0, c_name.length() - s_name.length() - 1);
+		String	c_name 		= msg.getCanonicalName();
+		Comment	c_comment 	= msg.getAnnotation(Comment.class);
+		String 	s_name 		= msg.getSimpleName();
+		String 	o_package 	= c_name.substring(0, c_name.length() - s_name.length() - 1);
+		String 	s_comment	= c_comment != null ? CUtil.arrayToString(c_comment.value(),",","<br>") : "";
 		
 		StringBuilder d_fields 		= new StringBuilder();
 		StringBuilder d_init_args	= new StringBuilder();		
@@ -291,13 +294,22 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		d_init_commet.append("		/**\n");
 		for (Field f : fields) {
 			int modifiers = f.getModifiers();
-			String field_type_comment = f.getType().getCanonicalName();
-			String field_leaf_name = NetDataTypes.toTypeName(
+			String	f_type_comment 	= f.getType().getCanonicalName();
+			Comment f_comment 		= f.getAnnotation(Comment.class);
+			String	f_leaf_name 	= NetDataTypes.toTypeName(
 					NetDataTypes.getArrayCompomentType(f.getType(), factory));
+			String	f_cline 		= "Java type is : " +
+					"<font color=#0000ff>" + f_type_comment + "</font>";
+			if (f_comment != null) {
 			d_fields.append(
-			"		/** Java type is : <font color=#0000ff>" + field_type_comment + "</font> */\n");
+					"		/** " + CUtil.arrayToString(f_comment.value(),",","") + "<br>\n" +
+					"		  * " + f_cline + "*/\n");
+			} else {
 			d_fields.append(
-			"		[JavaType(name=\""+field_type_comment+"\", leaf_type=NetDataTypes."+field_leaf_name +")]\n");
+					"		/** " + f_cline + "*/\n");
+			}
+			d_fields.append(
+					"		[JavaType(name=\""+f_type_comment+"\", leaf_type=NetDataTypes."+f_leaf_name +")]\n");
 			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
 				Object value = null;
 				try {
@@ -309,7 +321,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 				d_fields.append(
 						"		public var " + genMsgField(factory, f) + ";");
 				d_init_commet.append(
-						"		 * @param " + f.getName() + " as <font color=#0000ff>" + field_type_comment + "</font>");
+						"		 * @param " + f.getName() + " as <font color=#0000ff>" + f_type_comment + "</font>");
 				d_init_args.append(
 						"			" + genMsgField(factory, f) + " = " + genMsgFieldValue(f));
 				d_init_fields.append(
@@ -331,6 +343,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		String ret = this.message_template;
 		ret = CUtil.replaceString(ret, "//package", 		o_package);
 		ret = CUtil.replaceString(ret, "//import", 			message_import);
+		ret = CUtil.replaceString(ret, "//classComment", 	s_comment);
 		ret = CUtil.replaceString(ret, "//classType", 		msg_type+"");
 		ret = CUtil.replaceString(ret, "//className", 		s_name);
 		ret = CUtil.replaceString(ret, "//classFullName", 	c_name);
