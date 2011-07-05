@@ -14,7 +14,7 @@ package com.net.flash.test
 	{
 	
 		public function getVersion() : String{
-			return "1305874630383";
+			return "1309883681909";
 		}
 	
 		public function	getType(msg : Message) : int 
@@ -170,13 +170,13 @@ package com.net.flash.test
 		msg.message = input.readJavaUTF();
 		msg.data = input.readExternal() as com.net.flash.test.Messages.Data;
 		msg.datas = input.readExternalArray();
-		msg.datas2 = input.readAnyArray(NetDataTypes.TYPE_EXTERNALIZABLE);
+		msg.datas2 = input.readAnyArray(NetDataTypes.TYPE_MUTUAL);
 	}
 	private function w_EchoRequest_5(msg : com.net.flash.test.Messages.EchoRequest, output : NetDataOutput) : void {
 		output.writeJavaUTF(msg.message);
 		output.writeExternal(msg.data);
 		output.writeExternalArray(msg.datas);
-		output.writeAnyArray(msg.datas2, NetDataTypes.TYPE_EXTERNALIZABLE);
+		output.writeAnyArray(msg.datas2, NetDataTypes.TYPE_MUTUAL);
 	}
 
 //	----------------------------------------------------------------------------------------------------
