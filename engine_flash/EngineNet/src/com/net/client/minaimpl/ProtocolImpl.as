@@ -10,6 +10,8 @@ package com.net.client.minaimpl
 		public static const TRANSMISSION_TYPE_SERIALIZABLE		: int		= 0x01;
 		/** 标识为 {@link ExternalizableMessage} 方式序列化，即以纯手工序列化/反序列化 */
 		public static const TRANSMISSION_TYPE_EXTERNALIZABLE	: int		= 0x02;
+		/** 标识为 {@link MutualMessage} 方式序列化 */
+		public static const TRANSMISSION_TYPE_MUTUAL			: int		= 0x04;
 		/** 标识为 {@link CompressingMessage} 方式序列化，压缩包 */
 		public static const TRANSMISSION_TYPE_COMPRESSING		: int		= 0x10;
 

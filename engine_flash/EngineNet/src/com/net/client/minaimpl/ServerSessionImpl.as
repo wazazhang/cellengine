@@ -355,10 +355,13 @@ package com.net.client.minaimpl
 							trace("not supprot TRANSMISSION_TYPE_COMPRESSING");
 						}
 						// 解出包包含的二进制消息
-						if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
+						if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
 							var message : Message = message_factory.createMessage(buffer.readInt());// ext 4
 							message_factory.readExternal(message, buffer);
 							protocol.setMessage(message);
+						}
+						else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
+							trace("not supprot TRANSMISSION_TYPE_EXTERNALIZABLE");
 						}
 						else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE) != 0) {
 							trace("not supprot TRANSMISSION_TYPE_SERIALIZABLE");
@@ -427,7 +430,7 @@ package com.net.client.minaimpl
 							break;
 						}
 						
-						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE);	// 1
+						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_MUTUAL);	// 1
 						
 						buffer.writeInt		(message_factory.getType(protocol.getMessage()));	// ext 4
 						message_factory		.writeExternal(protocol.getMessage(), buffer);
