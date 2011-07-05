@@ -225,6 +225,11 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 					f_type.getCanonicalName() + ".class);\n");
 			write.append("		out.writeExternal(" + f_name + ");\n");
 		} 
+		else if (MutualMessage.class.isAssignableFrom(f_type)) {
+			read.append("		" + f_name + " = in.readMutual(" + 
+					f_type.getCanonicalName() + ".class);\n");
+			write.append("		out.writeMutual(" + f_name + ");\n");
+		} 
 		else if (f_type.isArray()) {
 			if (f_type.getComponentType().isArray()) {
 				String leaf_type = NetDataTypes.toTypeName(NetDataTypes.getArrayCompomentType(f_type, factory));
@@ -234,9 +239,17 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 				write.append("		out.writeAnyArray(" + f_name + ", " +
 						"NetDataTypes." + leaf_type + ");\n");
 			} else {
-				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
-						f_type.getComponentType().getCanonicalName() + ".class);\n");
-				write.append("		out.writeExternalArray(" + f_name + ");\n");
+				Class<?> comp_type = f_type.getComponentType();
+				if (ExternalizableMessage.class.isAssignableFrom(comp_type)) {
+					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
+							comp_type.getCanonicalName() + ".class);\n");
+					write.append("		out.writeExternalArray(" + f_name + ");\n");
+				} 
+				else if (MutualMessage.class.isAssignableFrom(comp_type)) {
+					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readMutualArray(" + 
+							comp_type.getCanonicalName() + ".class);\n");
+					write.append("		out.writeMutualArray(" + f_name + ");\n");
+				} 
 			}
 		} 
 		// Error -----------------------------------------------

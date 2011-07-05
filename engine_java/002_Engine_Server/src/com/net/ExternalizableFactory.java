@@ -97,7 +97,7 @@ public abstract class ExternalizableFactory implements Comparator<Class<?>>
 				} catch (SecurityException e1) {
 					e1.printStackTrace();
 				} catch (NoSuchMethodException e1) {
-					System.err.println("ExternalizableMessage : " + e1.getClass() + " : " + e1.getMessage());
+					System.err.println("Message : " + e1.getClass() + " : " + e1.getMessage());
 				}
 				index ++;
 			}
@@ -105,10 +105,13 @@ public abstract class ExternalizableFactory implements Comparator<Class<?>>
 		Map<Integer, Class<?>> regist_types = getRegistTypes();
 		if (verbos) {
 			for (Entry<Integer, Class<?>> e : regist_types.entrySet()) {
-				String info = "ExternalizableMessage :";
+				String info = "Message :";
 				info += " (0x" + Long.toHexString((0x100000000L + (long)e.getKey())).substring(1) + ")";
 				if (MutualMessage.class.isAssignableFrom(e.getValue())) {
 					info += " (Mutual)";
+				}
+				else if (ExternalizableMessage.class.isAssignableFrom(e.getValue())) {
+					info += " (Externalizable)";
 				}
 				info += " " + e.getValue().getCanonicalName();
 				System.out.println(info);
@@ -124,6 +127,9 @@ public abstract class ExternalizableFactory implements Comparator<Class<?>>
 	public void registClasses(Class<?> cls) {
 		synchronized (all_types) {
 			if (ExternalizableMessage.class.isAssignableFrom(cls)) {
+				all_types.add(cls);
+			}
+			else if (MutualMessage.class.isAssignableFrom(cls)) {
 				all_types.add(cls);
 			}
 			for (Class<?> sub : cls.getClasses()) {

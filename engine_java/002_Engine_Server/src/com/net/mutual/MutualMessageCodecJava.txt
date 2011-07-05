@@ -17,12 +17,12 @@ public class //className implements MutualMessageCodec
 		return "//version";
 	}
 
-	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException 
+	public void readMutual(MutualMessage msg, NetDataInput in) throws IOException 
 	{
 //readExternal
 	}
 
-	public void writeExternal(MutualMessage msg, NetDataOutput out) throws IOException 
+	public void writeMutual(MutualMessage msg, NetDataOutput out) throws IOException 
 	{
 //writeExternal
 	}
