@@ -39,6 +39,7 @@ import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
 import com.net.NetDataOutput;
 import com.net.Protocol;
+import com.net.mutual.MutualMessage;
 
 
 public class NetPackageCodec extends MessageHeaderCodec
@@ -160,8 +161,15 @@ public class NetPackageCodec extends MessageHeaderCodec
 						if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
 							p.message = ext_factory.createMessage(obj_in.getInt());	// ext 4
 							ExternalizableMessage ext = (ExternalizableMessage)p.message;
-							ext.readExternal(new NetDataInputImpl(obj_in, ext_factory));
+							NetDataInputImpl in_buff = new NetDataInputImpl(obj_in, ext_factory);
+							ext.readExternal(in_buff);
 						}
+						else if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
+							p.message = ext_factory.createMessage(obj_in.getInt());	// ext 4
+							MutualMessage mutual = (MutualMessage)p.message;
+							NetDataInputImpl in_buff = new NetDataInputImpl(obj_in, ext_factory);
+							ext_factory.getMutualCodec().readMutual(mutual, in_buff);
+ 						}
 						else if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE) != 0) {
  							p.message = (MessageHeader)obj_in.getObject(class_loader);
  						}
@@ -256,17 +264,27 @@ public class NetPackageCodec extends MessageHeaderCodec
 						}
 						if (p.message instanceof ExternalizableMessage) {
 							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE;
-						} else if (p.message instanceof Serializable) {
+						} 
+						else if (p.message instanceof MutualMessage) {
+							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_MUTUAL;
+						}
+						else if (p.message instanceof MessageHeader) {
 							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE;
 						}
+						
 						buffer.put		(trans_flag);			// 1
 						{
 							if (p.message instanceof ExternalizableMessage) {
 								obj_buff.putInt		(ext_factory.getType(p.message));	// ext 4
-								((ExternalizableMessage)p.message).writeExternal(
-										new NetDataOutputImpl(obj_buff, ext_factory));
+								NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
+								((ExternalizableMessage)p.message).writeExternal(out_buff);
 							} 
-							else if (p.message instanceof Serializable) {
+							else if (p.message instanceof MutualMessage) {
+								obj_buff.putInt		(ext_factory.getType(p.message));	// ext 4
+								NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
+								ext_factory.getMutualCodec().writeMutual(((MutualMessage)p.message), out_buff);
+							}
+							else if (p.message instanceof MessageHeader) {
 								obj_buff.putObject	(p.message);
 							}
 						}

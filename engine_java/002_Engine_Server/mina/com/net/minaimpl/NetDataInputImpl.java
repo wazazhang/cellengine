@@ -16,6 +16,7 @@ import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataInput;
 import com.net.NetDataTypes;
+import com.net.mutual.MutualMessage;
 
 public class NetDataInputImpl implements NetDataInput
 {	
@@ -201,6 +202,32 @@ public class NetDataInputImpl implements NetDataInput
 		return ret;
 	}
 
+	
+	public <T extends MutualMessage> T readMutual(Class<T> cls) throws IOException {
+		int type = readInt();
+		if (type != 0) {
+			try {
+				T data = cls.newInstance();
+				this.factory.getMutualCodec().readMutual(data, this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
+	}
+	
+
+	public <T extends MutualMessage> T[] readMutualArray(Class<T> type) throws IOException {
+		T[] ret = CUtil.newArray(type, readInt());
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = readMutual(type);
+		}
+		return ret;
+	}
+	
+	
+	
 	public <T> T[] readObjectArray(Class<T> type) throws IOException {
 		T[] ret = CUtil.newArray(type, readInt());
 		for (int i = 0; i < ret.length; i++) {

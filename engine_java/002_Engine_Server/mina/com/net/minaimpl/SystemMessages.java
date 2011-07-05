@@ -20,14 +20,14 @@ public interface SystemMessages
 //	}
 	
 	
-	public static class ServerStatusRequestC2S extends MessageHeader
+	public static class ServerStatusRequestC2S implements MessageHeader
 	{
 		private static final long serialVersionUID = 1L;
 		public ServerStatusRequestC2S() {}
 	}
 	
 	
-	public static class ServerStatusResponseS2C extends MessageHeader
+	public static class ServerStatusResponseS2C implements MessageHeader
 	{
 		private static final long serialVersionUID = 1L;
 		

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 
 import com.cell.io.ExternalizableUtil;
+import com.net.mutual.MutualMessage;
 
 public interface NetDataOutput extends DataOutput
 {
@@ -30,16 +31,22 @@ public interface NetDataOutput extends DataOutput
 	
 	public void writeUTFArray(String[] data) throws IOException ;
 
-	public <T extends ExternalizableMessage> void writeExternalArray(T[] data) throws IOException ;
- 
-	public void writeObjectArray(Object[] data) throws IOException;
-	
-	public void writeAnyArray(Object array, byte component_data_type) throws IOException;
-		
-	public void writeExternal(ExternalizableMessage data) throws IOException;
 	
 	public void writeObject(Object data) throws IOException;
+	public void writeObjectArray(Object[] data) throws IOException;
+	
 
+	public void writeExternal(ExternalizableMessage data) throws IOException;
+	public <T extends ExternalizableMessage> void writeExternalArray(T[] data) throws IOException ;
+
+
+	public void writeMutual(MutualMessage data) throws IOException;
+	public <T extends MutualMessage> void writeMutualArray(T[] data) throws IOException ;
+ 
+
+	public void writeAnyArray(Object array, byte component_data_type) throws IOException;
+		
+	
 //	-----------------------------------------------------------------------------------------------
 
 //// -----------------------------------------------------------------------------------------------

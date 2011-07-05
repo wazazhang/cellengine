@@ -16,6 +16,8 @@ import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
 import com.net.Protocol;
 
+import com.net.minaimpl.NetDataInputImpl;
+import com.net.minaimpl.NetDataOutputImpl;
 import com.net.server.Channel;
 import com.net.server.ChannelListener;
 import com.net.server.ChannelManager;
@@ -198,7 +200,8 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 			ExternalizableFactory codec = getMessageFactory();
 			p.Message = codec.createMessage(message_type);	// ext 4
 			ExternalizableMessage ext = (ExternalizableMessage)p.Message;
-			ext.readExternal(new NetDataInputImpl(in.getByteArray("message"), codec));
+			ext.readExternal(new NetDataInputImpl(
+					IoBuffer.wrap(in.getByteArray("message")), codec));
 		}
 
 		return p;
@@ -223,9 +226,10 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 			if (p.Message instanceof ExternalizableMessage) {
 				ExternalizableFactory codec = getMessageFactory();
 				out.putInt("message_type", codec.getType(p.Message));	// ext 4
-				NetDataOutputImpl net_out = new NetDataOutputImpl(PACKAGE_DEFAULT_SIZE, codec);
+				NetDataOutputImpl net_out = new NetDataOutputImpl(
+						IoBuffer.allocate(PACKAGE_DEFAULT_SIZE), codec);
 				((ExternalizableMessage)p.Message).writeExternal(net_out);
-				byte[] data = net_out.buffer.shrink().flip().array();
+				byte[] data = net_out.getWritedData();
 				out.putByteArray("message", data);
 			} else {
 				out.putInt("message_type", 0);	// ext 4

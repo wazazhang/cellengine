@@ -14,8 +14,8 @@ public interface MutualMessageCodec
 {
 	public String getVersion();
 	
-	public void readExternal(MutualMessage msg, NetDataInput in) throws IOException;
+	public void readMutual(MutualMessage msg, NetDataInput in) throws IOException;
 
-	public void writeExternal(MutualMessage msg, NetDataOutput out) throws IOException;
+	public void writeMutual(MutualMessage msg, NetDataOutput out) throws IOException;
 
 }

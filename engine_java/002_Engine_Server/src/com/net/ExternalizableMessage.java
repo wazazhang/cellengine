@@ -11,7 +11,7 @@ import java.io.IOException;
  * 实现类也必须拥有无参数公共构造函数<br>
  * </b>
  */
-public interface ExternalizableMessage 
+public interface ExternalizableMessage extends MessageHeader
 {
 	public void readExternal(NetDataInput in) throws IOException ;
 	

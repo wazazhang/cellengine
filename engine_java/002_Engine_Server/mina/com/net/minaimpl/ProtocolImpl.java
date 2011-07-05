@@ -12,6 +12,8 @@ public class ProtocolImpl implements com.net.Protocol
 	final public static byte	TRANSMISSION_TYPE_SERIALIZABLE		= 0x01;
 	/** 标识为 {@link ExternalizableMessage} 方式序列化，即以纯手工序列化/反序列化 */
 	final public static byte	TRANSMISSION_TYPE_EXTERNALIZABLE	= 0x02;
+	/** 标识为 {@link MutualMessage} 方式序列化 */
+	final public static byte	TRANSMISSION_TYPE_MUTUAL			= 0x04;
 	/** 标识为 {@link CompressingMessage} 方式序列化，压缩包 */
 	final public static byte	TRANSMISSION_TYPE_COMPRESSING		= 0x10;
 	

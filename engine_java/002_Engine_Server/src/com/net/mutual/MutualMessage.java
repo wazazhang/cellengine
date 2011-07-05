@@ -16,17 +16,17 @@ import com.net.NetDataOutput;
  * 可实现自动生成其他语言形式的编解码规范。
  * @author WAZA
  */
-public class MutualMessage extends MessageHeader implements ExternalizableMessage
+public interface MutualMessage extends MessageHeader
 {
-	public MutualMessage() {}
-	
-	@Override
-	final public void readExternal(NetDataInput in) throws IOException {
-		in.getFactory().getMutualCodec().readExternal(this, in);
-	}
-	@Override
-	final public void writeExternal(NetDataOutput out) throws IOException {
-		out.getFactory().getMutualCodec().writeExternal(this, out);
-	}
+//	public MutualMessage() {}
+//	
+//	@Override
+//	final public void readExternal(NetDataInput in) throws IOException {
+//		in.getFactory().getMutualCodec().readExternal(this, in);
+//	}
+//	@Override
+//	final public void writeExternal(NetDataOutput out) throws IOException {
+//		out.getFactory().getMutualCodec().writeExternal(this, out);
+//	}
 	
 }

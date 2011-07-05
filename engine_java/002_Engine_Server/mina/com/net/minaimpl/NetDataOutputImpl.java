@@ -18,6 +18,7 @@ import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.NetDataOutput;
 import com.net.NetDataTypes;
+import com.net.mutual.MutualMessage;
 
 public class NetDataOutputImpl implements NetDataOutput
 {	
@@ -34,7 +35,9 @@ public class NetDataOutputImpl implements NetDataOutput
 		return factory;
 	}
 
-	
+	public byte[] getWritedData() {
+		return buffer.shrink().flip().array();
+	}
 	
 	
 	public void writeObject(Object data) throws IOException {
@@ -183,7 +186,18 @@ public class NetDataOutputImpl implements NetDataOutput
 			writeInt(0);
 		}
 	}
- 
+	
+	public <T extends MutualMessage> void writeMutualArray(T[] data) throws IOException {
+		if (data != null) {
+			writeInt(data.length);
+			for (T d : data) {
+				writeMutual(d);
+			}
+		} else {
+			writeInt(0);
+		}
+	}
+	
 	public void writeObjectArray(Object[] data) throws IOException {
 		if (data != null) {
 			writeInt(data.length);
@@ -213,7 +227,18 @@ public class NetDataOutputImpl implements NetDataOutput
 		}
 	}
 	
-
+	public void writeMutual(MutualMessage data) throws IOException {
+		if (data != null) {
+			int msg_type = getFactory().getType(data.getClass());
+			writeInt(msg_type);
+			if (msg_type != 0) {
+				this.factory.getMutualCodec().writeMutual(data, this);
+			}
+		} else {
+			writeInt(0);
+		}
+	}
+	
 //	-----------------------------------------------------------------------------------------------------------
 //	
 
@@ -281,6 +306,8 @@ public class NetDataOutputImpl implements NetDataOutput
 		}
 	}
 
+	
+	
 ////	-----------------------------------------------------------------------------------------------------------
 ////	
 ////	-----------------------------------------------------------------------------------------------------------
