@@ -8,6 +8,11 @@ package com.cell.util
 		{
 		}
 		
-		
+		public function clear() : void
+		{
+			for each (var o : Object in this) { 
+				delete this[o];
+			}
+		}
 	}
 }
