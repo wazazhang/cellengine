@@ -8,18 +8,18 @@ import org.apache.mina.core.buffer.IoBuffer;
 import com.cell.CIO;
 import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
+import com.net.ExternalizableFactory;
 import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
-import com.net.flash.message.FlashMessage;
 import com.net.flash.message.FlashMessageCodeGenerator;
-import com.net.flash.message.FlashMessageFactory;
+import com.net.mutual.MutualMessage;
 import com.net.mutual.MutualMessageCodeGeneratorJava;
 
 public class Messages 
 {
-	public static class Data extends FlashMessage
+	public static class Data implements MutualMessage
 	{
 		public String		message2;
 		public boolean 		d0;
@@ -44,7 +44,7 @@ public class Messages
 		public float[][] 	b_d5;
 	}
 	
-	public static class EchoNotify extends FlashMessage
+	public static class EchoNotify implements MutualMessage
 	{
 		public String message;		
 		public EchoNotify(String message) {
@@ -57,7 +57,7 @@ public class Messages
 		}
 	}
 	
-	public static class Echo2Request extends FlashMessage
+	public static class Echo2Request implements MutualMessage
 	{
 		public String message;		
 		public Echo2Request(String message) {
@@ -70,7 +70,7 @@ public class Messages
 		}
 	}
 	
-	public static class Echo2Response extends FlashMessage
+	public static class Echo2Response implements MutualMessage
 	{
 		public String message;
 		public Echo2Response(String message) {
@@ -83,7 +83,7 @@ public class Messages
 		}
 	}
 	
-	public static class EchoRequest extends FlashMessage
+	public static class EchoRequest implements MutualMessage
 	{
 		public String message;
 		public Data data;
@@ -107,7 +107,7 @@ public class Messages
 		}
 	}
 	
-	public static class EchoResponse extends FlashMessage
+	public static class EchoResponse implements MutualMessage
 	{
 		public String message;
 		public Data data;
@@ -127,7 +127,7 @@ public class Messages
 		final long date = System.currentTimeMillis();
 		
 		CAppBridge.init();
-		FlashMessageFactory factory = new FlashMessageFactory(null, Messages.class);
+		ExternalizableFactory factory = new ExternalizableFactory(Messages.class);
 		{
 			MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(
 					"com.net.flash.test",

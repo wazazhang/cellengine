@@ -19,7 +19,6 @@ import com.net.MessageHeader;
 import com.net.NetDataInput;
 import com.net.NetDataOutput;
 import com.net.Protocol;
-import com.net.flash.message.FlashMessageFactory;
 import com.net.flash.test.MessageCodecJava;
 import com.net.flash.test.Messages;
 import com.net.flash.test.Messages.*;

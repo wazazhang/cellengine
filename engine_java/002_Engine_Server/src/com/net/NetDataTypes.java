@@ -3,6 +3,8 @@ package com.net;
 import java.lang.reflect.Array;
 import java.util.Collection;
 
+import com.net.mutual.MutualMessage;
+
 
 
 
@@ -20,11 +22,14 @@ public class NetDataTypes
 	public final static byte TYPE_STRING			= -9;
 	public final static byte TYPE_OBJECT			= -10;
 	public final static byte TYPE_EXTERNALIZABLE	= -11;
+	public final static byte TYPE_MUTUAL			= -12;
 	
 	public static String toTypeName(byte type) {
 		switch (type) {
 		case NetDataTypes.TYPE_EXTERNALIZABLE:
 			return "TYPE_EXTERNALIZABLE";
+		case NetDataTypes.TYPE_MUTUAL:
+			return "TYPE_MUTUAL";
 		case NetDataTypes.TYPE_BOOLEAN:
 			return "TYPE_BOOLEAN";
 		case NetDataTypes.TYPE_BYTE:
@@ -84,6 +89,9 @@ public class NetDataTypes
 		}
 		else if (ExternalizableMessage.class.isAssignableFrom(type)) {
 			return TYPE_EXTERNALIZABLE;
+		}
+		else if (MutualMessage.class.isAssignableFrom(type)) {
+			return TYPE_MUTUAL;
 		}
 		else {
 			return TYPE_OBJECT;

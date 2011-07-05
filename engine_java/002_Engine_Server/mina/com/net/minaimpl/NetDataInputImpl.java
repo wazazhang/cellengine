@@ -266,7 +266,9 @@ public class NetDataInputImpl implements NetDataInput
 	private Object readAny(byte component_data_type, Class<?> component_type) throws IOException {
 		switch (component_data_type) {
 		case NetDataTypes.TYPE_EXTERNALIZABLE:
-			return readAnyExternal(component_type);
+			return readAnyExternal(component_type);	
+		case NetDataTypes.TYPE_MUTUAL:
+			return readAnyMutual(component_type);
 		case NetDataTypes.TYPE_BOOLEAN:
 			return readBoolean();
 		case NetDataTypes.TYPE_BYTE:
@@ -298,6 +300,21 @@ public class NetDataInputImpl implements NetDataInput
 			try {
 				ExternalizableMessage data = (ExternalizableMessage)cls.newInstance();
 				data.readExternal(this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
+	}
+	
+
+	private MutualMessage readAnyMutual(Class<?> cls) throws IOException {
+		int type = readInt();
+		if (type != 0) {
+			try {
+				MutualMessage data = (MutualMessage)cls.newInstance();
+				this.factory.getMutualCodec().readMutual(data, this);
 				return data;
 			} catch (Exception e) {
 				throw new IOException(e);

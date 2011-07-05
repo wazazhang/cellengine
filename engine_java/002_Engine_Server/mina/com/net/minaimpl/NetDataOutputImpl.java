@@ -272,6 +272,9 @@ public class NetDataOutputImpl implements NetDataOutput
 		case NetDataTypes.TYPE_EXTERNALIZABLE:
 			writeExternal((ExternalizableMessage)obj);
 			break;
+		case NetDataTypes.TYPE_MUTUAL:
+			writeMutual((MutualMessage)obj);
+			break;
 		case NetDataTypes.TYPE_BOOLEAN:
 			writeBoolean((Boolean)obj);
 			break;

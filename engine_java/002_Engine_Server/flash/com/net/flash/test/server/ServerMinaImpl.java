@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.cell.CIO;
 import com.cell.j2se.CAppBridge;
-import com.net.flash.message.FlashMessageFactory;
+import com.net.ExternalizableFactory;
 import com.net.flash.test.MessageCodecJava;
 import com.net.flash.test.Messages;
 import com.net.minaimpl.server.ServerImpl;
@@ -13,7 +13,7 @@ public class ServerMinaImpl extends ServerImpl
 {
 	public ServerMinaImpl() {
 		super(CIO.getAppBridge().getClassLoader(), 
-				new FlashMessageFactory(new MessageCodecJava(), Messages.class), 10, 600, 600, 0);
+				new ExternalizableFactory(new MessageCodecJava(), Messages.class), 10, 600, 600, 0);
 	}
 	
 	public static void main(String[] args) throws IOException
