@@ -14,9 +14,10 @@ import com.cell.CIO;
 import com.cell.CUtil;
 import com.cell.io.CFile;
 import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
+//import com.net.ExternalizableMessage;
 import com.net.NetDataTypes;
 import com.net.mutual.Comment;
+import com.net.mutual.MutualMessage;
 import com.net.mutual.MutualMessageCodeGenerator;
 import com.net.mutual.MutualMessageCodeGeneratorJava;
 
@@ -239,10 +240,14 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			write.append("		output.writeUTFArray(" + f_name + ");\n");
 		}	
 		// ExternalizableMessage -----------------------------------------------
-		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
+//		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
+//			read.append("		" + f_name + " = input.readExternal() as " + f_type.getCanonicalName() + ";\n");
+//			write.append("		output.writeExternal(" + f_name + ");\n");
+//		} 
+		else if (MutualMessage.class.isAssignableFrom(f_type)) {
 			read.append("		" + f_name + " = input.readExternal() as " + f_type.getCanonicalName() + ";\n");
 			write.append("		output.writeExternal(" + f_name + ");\n");
-		} 
+		}
 		else if (f_type.isArray()) {
 			if (f_type.getComponentType().isArray()) {
 				String leaf_type = NetDataTypes.toTypeName(NetDataTypes.getArrayCompomentType(f_type, factory));
@@ -394,7 +399,10 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			return f.getName() + " :  String";
 		}
 		// ExternalizableMessage -----------------------------------------------
-		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
+//		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
+//			return f.getName() + " :  " + f_type.getCanonicalName()+"";
+//		} 
+		else if (MutualMessage.class.isAssignableFrom(f_type)) {
 			return f.getName() + " :  " + f_type.getCanonicalName()+"";
 		} 
 		else if (f_type.isArray()) {
