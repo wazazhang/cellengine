@@ -1,23 +1,18 @@
 package com.net.sfsimpl.server;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
-import com.cell.exception.NotImplementedException;
-import com.net.CompressingMessage;
 import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
 import com.net.MessageHeader;
 import com.net.Protocol;
-
 import com.net.minaimpl.NetDataInputImpl;
 import com.net.minaimpl.NetDataOutputImpl;
+import com.net.mutual.MutualMessage;
 import com.net.server.Channel;
 import com.net.server.ChannelListener;
 import com.net.server.ChannelManager;
@@ -25,20 +20,14 @@ import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;
 import com.net.server.Server;
 import com.net.server.ServerListener;
-
-import com.smartfoxserver.v2.api.CreateRoomSettings;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.ISFSEventListener;
-import com.smartfoxserver.v2.core.ISFSEventParam;
 import com.smartfoxserver.v2.core.SFSEventParam;
 import com.smartfoxserver.v2.core.SFSEventType;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.SFSRoomRemoveMode;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.Zone;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.util.ClientDisconnectionReason;
 
@@ -199,9 +188,10 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 		if (message_type != 0) {
 			ExternalizableFactory codec = getMessageFactory();
 			p.Message = codec.createMessage(message_type);	// ext 4
-			ExternalizableMessage ext = (ExternalizableMessage)p.Message;
-			ext.readExternal(new NetDataInputImpl(
-					IoBuffer.wrap(in.getByteArray("message")), codec));
+			MutualMessage ext = (MutualMessage)p.Message;
+			NetDataInputImpl obj_in = new NetDataInputImpl(
+					IoBuffer.wrap(in.getByteArray("message")), codec);
+			codec.getMutualCodec().readMutual(ext, obj_in);
 		}
 
 		return p;
@@ -223,12 +213,13 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 				out.putInt	("ChannelID",		 	p.ChannelID);			// 4
 				break;
 			}
-			if (p.Message instanceof ExternalizableMessage) {
+			if (p.Message instanceof MutualMessage) {
 				ExternalizableFactory codec = getMessageFactory();
 				out.putInt("message_type", codec.getType(p.Message));	// ext 4
 				NetDataOutputImpl net_out = new NetDataOutputImpl(
 						IoBuffer.allocate(PACKAGE_DEFAULT_SIZE), codec);
-				((ExternalizableMessage)p.Message).writeExternal(net_out);
+				codec.getMutualCodec().writeMutual(
+						((MutualMessage)p.Message), net_out);
 				byte[] data = net_out.getWritedData();
 				out.putByteArray("message", data);
 			} else {
