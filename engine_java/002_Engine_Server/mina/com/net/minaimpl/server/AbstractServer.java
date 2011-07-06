@@ -251,33 +251,36 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			int				channel_id, 
 			int				packnumber)
 	{
-		if (session.isConnected()) {
-			ProtocolImpl p = ProtocolPool.getInstance().createProtocol();
-//			p.SessionID			= session.getId();
-			p.Protocol			= protocol;
-			p.PacketNumber		= packnumber;
-			p.message			= message;			
-			p.ChannelID			= channel_id;
-//			p.ChannelSessionID	= channel_sender_id;
-//			session.resumeWrite();
-			WriteFuture future = session.write(p);
-			
-//			// Wait until the message is completely written out to the O/S
-//			// buffer.
-//			future.awaitUninterruptibly();
-//			if (future.isWritten()) {
-//				// The message has been written successfully.
-//				return true;
-//			} else {
-//				// The messsage couldn't be written out completely for some
-//				// reason.
-//				// (e.g. Connection is closed)
-//				return false;
-//			}
-			return false;
-		} else {
-			return false;
+		try {
+			if (session.isConnected() && !session.isClosing()) {
+				ProtocolImpl p = ProtocolPool.getInstance().createProtocol();
+//				p.SessionID			= session.getId();
+				p.Protocol			= protocol;
+				p.PacketNumber		= packnumber;
+				p.message			= message;			
+				p.ChannelID			= channel_id;
+//				p.ChannelSessionID	= channel_sender_id;
+//				session.resumeWrite();
+				WriteFuture future = session.write(p);
+				
+//				// Wait until the message is completely written out to the O/S
+//				// buffer.
+//				future.awaitUninterruptibly();
+//				if (future.isWritten()) {
+//					// The message has been written successfully.
+//					return true;
+//				} else {
+//					// The messsage couldn't be written out completely for some
+//					// reason.
+//					// (e.g. Connection is closed)
+//					return false;
+//				}
+				return false;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
+		return false;
 	}
 
 //	----------------------------------------------------------------------------------------------------------------------
