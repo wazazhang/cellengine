@@ -246,7 +246,11 @@ public class ServerImpl extends AbstractServer
 			try {
 				Iterator<Channel> channels = channel_manager.getChannels();
 				while (channels.hasNext()) {
-					channels.next().leave(client);
+					try {
+						channels.next().leave(client);
+					} catch (Throwable e) {
+						log.error(e.getMessage(), e);
+					}
 				}
 			} catch (Throwable e) {
 				log.error(e.getMessage(), e);
