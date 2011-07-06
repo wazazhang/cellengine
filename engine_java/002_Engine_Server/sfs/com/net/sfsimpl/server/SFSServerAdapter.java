@@ -186,11 +186,12 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 		// 解出包包含的二进制消息
 		int message_type 			= in.getInt("message_type");
 		if (message_type != 0) {
+			byte[] msg_data = in.getByteArray("message");
 			ExternalizableFactory codec = getMessageFactory();
 			p.Message = codec.createMessage(message_type);	// ext 4
 			MutualMessage ext = (MutualMessage)p.Message;
 			NetDataInputImpl obj_in = new NetDataInputImpl(
-					IoBuffer.wrap(in.getByteArray("message")), codec);
+					IoBuffer.wrap(msg_data), codec);
 			codec.getMutualCodec().readMutual(ext, obj_in);
 		}
 
