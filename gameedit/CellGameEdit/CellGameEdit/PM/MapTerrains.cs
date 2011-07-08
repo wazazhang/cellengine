@@ -286,16 +286,16 @@ namespace CellGameEdit.PM
                             int dstFlip = map.getTileFlip(dbx, dby);
                             DeepNode dstDeep = getTileDeep(dstTile, dstFlip);
 
-                            if (dstDeep == null)
+                            //if (dstDeep == null)
                             {
                                 srcTile = MapClip.getTileID(x, y);
                                 srcFlip = MapClip.getTileFlip(x, y);
                                 map.putTile(srcTile, dbx, dby);
                                 map.putFlip(srcFlip, dbx, dby);
                             }
-                            else
+                            //else
+                            if (false)
                             {
-
                                 if (dstDeep.Len < srcDeep.Len)//联合
                                 {
                                     if (srcDeep.DX != 0 && srcDeep.DY != 0)
@@ -320,39 +320,6 @@ namespace CellGameEdit.PM
                                                 map.putFlip(fix.Flip, dbx, dby);
                                             }
                                         }
-
-                                    //    if (dstDeep.Len == 0.9f)
-                                    //    {
-                                    //        if (srcDeep.DX != 0 && srcDeep.DY != 0)
-                                    //        {
-                                    //            if (srcDeep.DX == dstDeep.DX && srcDeep.DY == dstDeep.DY)
-                                    //            {
-                                    //                FixNode fix = getFixNode(srcDeep.DX, srcDeep.DY, 0, 0);
-
-                                    //                if (fix != null)
-                                    //                {
-                                    //                    map.putTile(fix.Tile, dbx, dby);
-                                    //                    map.putFlip(fix.Flip, dbx, dby);
-                                    //                }
-                                    //            }
-                                    //        }
-                                    //    }
-                                    //    if (dstDeep.Len == 0.8f)
-                                    //    {
-                                    //        if (srcDeep.DX != 0 && srcDeep.DY != 0)
-                                    //        {
-                                    //            if (srcDeep.DX == -dstDeep.DX && srcDeep.DY == -dstDeep.DY)
-                                    //            {
-                                    //                FixNode fix = getFixNode(0, 0, 0, 0);
-
-                                    //                if (fix != null)
-                                    //                {
-                                    //                    map.putTile(fix.Tile, dbx, dby);
-                                    //                    map.putFlip(fix.Flip, dbx, dby);
-                                    //                }
-                                    //            }
-                                    //        }
-                                    //    }
                                     }
                                 }
                                 else if (dstDeep.Len > srcDeep.Len)//覆盖
