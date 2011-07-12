@@ -21,7 +21,7 @@ public class Config extends com.cell.util.Config
 	
 //	 角色，场景，特效资源目录
 	@ConfigField("角色精灵资源子目录名")
-	public static String RES_ACTOR_ROOT				= "character";
+	public static String RES_ACTOR_ROOT				= "actor";
 	@ConfigField("AVATAR部件资源子目录名")
 	public static String RES_AVATAR_ROOT			= "avatar";
 	@ConfigField("特效精灵资源子目录名")
