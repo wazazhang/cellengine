@@ -1,0 +1,124 @@
+<entry>
+<!--
+<OUTPUT>		.\output\<VAR_FILE_NAME>.xml
+<IMAGE_OUTPUT>	.\output\
+<FORMAT_NUMBER_ARRAY_1D>    <>,
+<FORMAT_STRING_ARRAY_1D>	<>,
+<FORMAT_ARRAY_1D>			<>,
+<FORMAT_ARRAY_2D>			{<>},
+<FIXED_STRING_ARRAY>		char,
+-->
+<IMAGE_TYPE>png
+</IMAGE_TYPE>
+<IMAGE_TILE>false
+</IMAGE_TILE>
+<IMAGE_GROUP>true
+</IMAGE_GROUP>
+
+<RESOURCE>
+<resource images_count="<RES_IMAGES_COUNT>" map_count="<RES_MAP_COUNT>" sprite_count="<RES_SPRITE_COUNT>" >
+	
+	<IMAGES><images index="<IMAGES_INDEX>" name="<NAME>" size="<COUNT>"><CLIP>
+		<clip index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" data="<DATA>" /></CLIP>
+	</images></IMAGES>
+	
+	<MAP><map index="<MAP_INDEX>" name="<NAME>" 
+		images_name="<IMAGES_NAME>" 
+		xcount="<X_COUNT>" 
+		ycount="<Y_COUNT>"
+		cellw="<CELL_W>" 
+		cellh="<CELL_H>"
+		scene_part_count="<SCENE_PART_COUNT>"
+		scene_frame_count="<SCENE_FRAME_COUNT>"
+		cd_part_count="<CD_PART_COUNT>">
+		<SCENE_PART>
+		<scene_part index="<INDEX>" tile="<TILE>" trans="<TRANS>" /></SCENE_PART>
+		<SCENE_FRAME>
+		<scene_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></SCENE_FRAME>
+		<CD_PART>
+		<cd_part index="<INDEX>" type="<TYPE>" mask="<MASK>" x1="<X1>" y1="<Y1>" x2="<X2>" y2="<Y2>" width="<W>" height="<H>" /></CD_PART>
+		
+		<matrix
+			tile_matrix="<TILE_MATRIX>"
+			flag_matrix="<FLAG_MATRIX>"
+		/>
+		
+	</map></MAP>
+	
+	
+	<SPRITE><sprite index="<SPR_INDEX>" name="<NAME>"
+		images_name="<IMAGES_NAME>"
+		scene_part_count="<SCENE_PART_COUNT>"
+		scene_frame_count="<SCENE_FRAME_COUNT>"
+		cd_part_count="<CD_PART_COUNT>"
+		cd_frame_count="<CD_FRAME_COUNT>"
+		animate_count="<ANIMATE_COUNT>">
+		
+		<SCENE_PART>
+		<scene_part index="<INDEX>" tile="<TILE>" x="<X>" y="<Y>" trans="<TRANS>" /></SCENE_PART>
+		<SCENE_FRAME>
+		<scene_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></SCENE_FRAME>
+		<CD_PART>
+		<cd_part index="<INDEX>" type="<TYPE>" mask="<MASK>" x1="<X1>" y1="<Y1>" x2="<X2>" y2="<Y2>" width="<W>" height="<H>" /></CD_PART>
+		<CD_FRAME>
+		<cd_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></CD_FRAME>
+		
+		<frames 
+			counts="<FRAME_COUNTS>" 
+			names="<FRAME_NAME>" 
+			animates="<FRAME_ANIMATE>"
+			cd_map="<FRAME_CD_MAP>"
+			cd_atk="<FRAME_CD_ATK>"
+			cd_def="<FRAME_CD_DEF>"
+			cd_ext="<FRAME_CD_EXT>"
+		/>
+
+	</sprite></SPRITE>
+	
+</resource>
+</RESOURCE>
+
+<LEVEL>
+<level world_count="<LEVEL_WORLD_COUNT>">
+
+	<WORLD>
+	<world index="<WORLD_INDEX>" name="<NAME>" 
+		grid_x_count="<GRID_X_COUNT>"
+		grid_y_count="<GRID_Y_COUNT>"
+		grid_w="<GRID_W>"
+		grid_h="<GRID_H>"
+		width="<WIDTH>"
+		height="<HEIGHT>"
+		unit_count_map="<UNIT_MAP_COUNT>"
+		unit_count_sprite="<UNIT_SPRITE_COUNT>"
+		waypoint_count="<WAYPOINT_COUNT>"
+		region_count="<REGION_COUNT>"
+		data="<DATA>"
+		terrain="<TERRAIN>">
+		<UNIT_MAP>
+		<unit_map index="<INDEX>" map_name="<MAP_NAME>" id="<IDENTIFY>" x="<X>" y="<Y>" images="<SUPER>" map_data="<MAP_DATA>" /></UNIT_MAP>
+		<UNIT_SPRITE>
+		<unit_sprite index="<INDEX>" spr_name="<SPR_NAME>" id="<IDENTIFY>" animate_id="<ANIMATE_ID>" frame_id="<FRAME_ID>" x="<X>" y="<Y>" images="<SUPER>" spr_data="<SPR_DATA>" /></UNIT_SPRITE>
+		<WAYPOINT>
+		<waypoint index="<INDEX>" x="<X>" y="<Y>" path_data="<PATH_DATA>" /></WAYPOINT>
+		<WAYPOINT_LINK>
+		<waypoint_link start="<START>" end="<END>" /></WAYPOINT_LINK>
+		<REGION>
+		<region index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" region_data="<REGION_DATA>" /></REGION>
+	
+	</world>
+	</WORLD>
+	
+	
+	
+</level>
+</LEVEL>
+
+
+
+</entry>
+
+
+
+
+
