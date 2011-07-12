@@ -355,7 +355,7 @@ namespace CellGameEdit.PM
             {
                 try
                 {
-                    String world = Util.getFullTrunkScript(script, "#<WORLD>", "#<END WORLD>");
+                    String world = Util.getFullTrunkScript(script, "<WORLD>", "</WORLD>");
 
                     ArrayList maps = new ArrayList();
                     ArrayList sprs = new ArrayList();
@@ -417,14 +417,14 @@ namespace CellGameEdit.PM
                             string SUPER = ((Unit)maps[i]).map.super.id;
 
                             String ignoreKey = null;
-                            if (Util.testIgnore("<IGNORE MAP>", world, ID, ref ignoreKey) == true)
+                            if (Util.testIgnore("<IGNORE_MAP>", world, ID, ref ignoreKey) == true)
                             {
                                 map[i] = "";
                                 continue;
                             }
 
                             String keepKey = null;
-                            if (Util.testKeep("<KEEP MAP>", world, ID, ref keepKey) == false)
+                            if (Util.testKeep("<KEEP_MAP>", world, ID, ref keepKey) == false)
                             {
                                 map[i] = "";
                                 continue;
@@ -433,11 +433,11 @@ namespace CellGameEdit.PM
                             string[] data = (Util.toStringMultiLine(((Unit)maps[i]).Data.ToString())) ;
                             string MAP_DATA = Util.toStringArray1D(ref data);
 
-                            map[i] = Util.replaceKeywordsScript(world, "#<UNIT MAP>", "#<END UNIT MAP>",
-                                   new string[] { "<MAP NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<SUPER>", "<MAP DATA>" },
+                            map[i] = Util.replaceKeywordsScript(world, "<UNIT_MAP>", "</UNIT_MAP>",
+                                   new string[] { "<MAP_NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<SUPER>", "<MAP_DATA>" },
                                    new string[] { NAME, ID, i.ToString(), X, Y, SUPER, MAP_DATA });
                         }
-                        string temp = Util.replaceSubTrunksScript(world, "#<UNIT MAP>", "#<END UNIT MAP>", map);
+                        string temp = Util.replaceSubTrunksScript(world, "<UNIT_MAP>", "</UNIT_MAP>", map);
                         if (temp == null)
                         {
                             fix = false;
@@ -465,14 +465,14 @@ namespace CellGameEdit.PM
                             //string SPR_DATA = ((Unit)sprs[i]).Data.ToString();
 
                             String ignoreKey = null;
-                            if (Util.testIgnore("<IGNORE SPR>", world, ID, ref ignoreKey) == true)
+                            if (Util.testIgnore("<IGNORE_SPR>", world, ID, ref ignoreKey) == true)
                             {
                                 spr[i] = "";
                                 continue;
                             }
 
                             String keepKey = null;
-                            if (Util.testKeep("<KEEP SPR>", world, ID, ref keepKey) == false)
+                            if (Util.testKeep("<KEEP_SPR>", world, ID, ref keepKey) == false)
                             {
                                 spr[i] = "";
                                 continue;
@@ -481,11 +481,11 @@ namespace CellGameEdit.PM
 
                             string[] data = Util.toStringMultiLine(((Unit)sprs[i]).Data.ToString());
                             string SPR_DATA = Util.toStringArray1D(ref data);
-                            spr[i] = Util.replaceKeywordsScript(world, "#<UNIT SPRITE>", "#<END UNIT SPRITE>",
-                                   new string[] { "<SPR NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<ANIMATE ID>", "<FRAME ID>", "<SUPER>", "<SPR DATA>" },
+                            spr[i] = Util.replaceKeywordsScript(world, "<UNIT_SPRITE>", "</UNIT_SPRITE>",
+                                   new string[] { "<SPR_NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<ANIMATE_ID>", "<FRAME_ID>", "<SUPER>", "<SPR_DATA>" },
                                    new string[] { NAME, ID, i.ToString(), X, Y, ANIM_ID, FRAME_ID, SUPER, SPR_DATA });
                         }
-                        string temp = Util.replaceSubTrunksScript(world, "#<UNIT SPRITE>", "#<END UNIT SPRITE>", spr);
+                        string temp = Util.replaceSubTrunksScript(world, "<UNIT_SPRITE>", "</UNIT_SPRITE>", spr);
                         if (temp == null)
                         {
                             fix = false;
@@ -508,11 +508,11 @@ namespace CellGameEdit.PM
                             string Y = p.point.Y.ToString();
                             string[] data = Util.toStringMultiLine(p.Data.ToString());
                             string PATH_DATA = Util.toStringArray1D(ref data);
-                            wp[i] = Util.replaceKeywordsScript(world, "#<WAYPOINT>", "#<END WAYPOINT>",
-                                   new string[] { "<INDEX>", "<X>", "<Y>", "<PATH DATA>" },
+                            wp[i] = Util.replaceKeywordsScript(world, "<WAYPOINT>", "</WAYPOINT>",
+                                   new string[] { "<INDEX>", "<X>", "<Y>", "<PATH_DATA>" },
                                    new string[] { i.ToString(), X, Y, PATH_DATA });
                         }
-                        string temp = Util.replaceSubTrunksScript(world, "#<WAYPOINT>", "#<END WAYPOINT>", wp);
+                        string temp = Util.replaceSubTrunksScript(world, "<WAYPOINT>", "</WAYPOINT>", wp);
                         if (temp == null)
                         {
                             fix = false;
@@ -542,7 +542,7 @@ namespace CellGameEdit.PM
                                                 string START = WayPoints.IndexOf(p).ToString();
                                                 string END = WayPoints.IndexOf(l).ToString();
                                                 link.Add(
-                                                    Util.replaceKeywordsScript(world, "#<WAYPOINT LINK>", "#<END WAYPOINT LINK>",
+                                                    Util.replaceKeywordsScript(world, "<WAYPOINT_LINK>", "</WAYPOINT_LINK>",
                                                        new string[] { "<INDEX>", "<START>", "<END>", },
                                                        new string[] { link.Count.ToString(), START, END, })
                                                 );
@@ -556,7 +556,7 @@ namespace CellGameEdit.PM
                         }//
                         String[] slink = new string[link.Count];
                         slink = (String[])link.ToArray(typeof(String));
-                        string temp = Util.replaceSubTrunksScript(world, "#<WAYPOINT LINK>", "#<END WAYPOINT LINK>", slink);
+                        string temp = Util.replaceSubTrunksScript(world, "<WAYPOINT_LINK>", "</WAYPOINT_LINK>", slink);
                         if (temp == null)
                         {
                             fix = false;
@@ -581,11 +581,11 @@ namespace CellGameEdit.PM
                             string H = (r.rect.Height) + "";
                             string[] data = Util.toStringMultiLine(r.Data.ToString());
                             string REGION_DATA = Util.toStringArray1D(ref data);
-                            region[i] = Util.replaceKeywordsScript(world, "#<REGION>", "#<END REGION>",
-                                   new string[] { "<INDEX>", "<X>", "<Y>", "<W>", "<H>", "<REGION DATA>" },
+                            region[i] = Util.replaceKeywordsScript(world, "<REGION>", "</REGION>",
+                                   new string[] { "<INDEX>", "<X>", "<Y>", "<W>", "<H>", "<REGION_DATA>" },
                                    new string[] { i.ToString(), X, Y, W, H, REGION_DATA });
                         }
-                        string temp = Util.replaceSubTrunksScript(world, "#<REGION>", "#<END REGION>", region);
+                        string temp = Util.replaceSubTrunksScript(world, "<REGION>", "</REGION>", region);
                         if (temp == null)
                         {
                             fix = false;
@@ -612,22 +612,22 @@ namespace CellGameEdit.PM
 
 
                     // world key words
-                    world = Util.replaceKeywordsScript(world, "#<WORLD>", "#<END WORLD>",
+                    world = Util.replaceKeywordsScript(world, "<WORLD>", "</WORLD>",
                         new string[] { 
                             "<NAME>", 
-                            "<WORLD INDEX>",
+                            "<WORLD_INDEX>",
                             "<DATA>",
                             "<WIDTH>",
                             "<HEIGHT>",
-                            "<GRID W>",
-                            "<GRID H>",
-                            "<GRID X COUNT>",
-                            "<GRID Y COUNT>",
+                            "<GRID_W>",
+                            "<GRID_H>",
+                            "<GRID_X_COUNT>",
+                            "<GRID_Y_COUNT>",
                             "<TERRAIN>",
-                            "<UNIT MAP COUNT>" ,
-                            "<UNIT SPRITE COUNT>",
-                            "<WAYPOINT COUNT>",
-                            "<REGION COUNT>",
+                            "<UNIT_MAP_COUNT>" ,
+                            "<UNIT_SPRITE_COUNT>",
+                            "<WAYPOINT_COUNT>",
+                            "<REGION_COUNT>",
                     },
                         new string[] { 
                             this.id, 

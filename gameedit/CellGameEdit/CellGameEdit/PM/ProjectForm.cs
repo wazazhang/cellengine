@@ -313,8 +313,8 @@ namespace CellGameEdit.PM
                         // var
                         script = Util.fillVar(script,
                             new String[] { 
-                                "<VAR FILE NAME>",
-                                "<VAR PATH NAME>",
+                                SC.VAR_FILE_NAME,
+                                SC.VAR_PATH_NAME,
                             },
                             new String[] { 
                                 Path.GetFileNameWithoutExtension(workName),
@@ -326,7 +326,7 @@ namespace CellGameEdit.PM
 
 
                         // build command
-                        OutputName = Util.getCommandScript(script, "<OUTPUT>");
+                        OutputName = Util.getCommandScript(script, SC.OUTPUT);
                         //OutputName = Path.GetFullPath(OutputName);
                         try
                         {
@@ -353,7 +353,7 @@ namespace CellGameEdit.PM
                         Console.WriteLine("OutputName : " + OutputName);
 
                         // out image
-                        OutputDirImage = Util.getCommandScript(script, "<IMAGE OUTPUT>");
+                        OutputDirImage = Util.getCommandScript(script, SC.IMAGE_OUTPUT);
                         if (OutputDirImage == "") OutputDirImage = null;
                         try
                         {
@@ -369,11 +369,11 @@ namespace CellGameEdit.PM
                             {
                                 System.IO.Directory.CreateDirectory(OutputDirImage);
                             }
-                            ImageType = Util.getCommandScript(script, "<IMAGE TYPE>");
-                            ImageTile = Util.getCommandScript(script, "<IMAGE TILE>").Equals("true", StringComparison.CurrentCultureIgnoreCase);
-                            ImageTileData = Util.getCommandScript(script, "<IMAGE TILE DATA>").Equals("true", StringComparison.CurrentCultureIgnoreCase);
-                            ImageGroup = Util.getCommandScript(script, "<IMAGE GROUP>").Equals("true", StringComparison.CurrentCultureIgnoreCase);
-                            ImageGroupData = Util.getCommandScript(script, "<IMAGE GROUP DATA>").Equals("true", StringComparison.CurrentCultureIgnoreCase);
+                            ImageType = Util.getCommandScript(script, SC.IMAGE_TYPE);
+                            ImageTile = Util.getCommandScript(script, SC.IMAGE_TILE).Equals("true", StringComparison.CurrentCultureIgnoreCase);
+                            ImageTileData = Util.getCommandScript(script, SC.IMAGE_TILE_DATA).Equals("true", StringComparison.CurrentCultureIgnoreCase);
+                            ImageGroup = Util.getCommandScript(script, SC.IMAGE_GROUP).Equals("true", StringComparison.CurrentCultureIgnoreCase);
+                            ImageGroupData = Util.getCommandScript(script, SC.IMAGE_GROUP_DATA).Equals("true", StringComparison.CurrentCultureIgnoreCase);
                         }
                         catch (Exception err)
                         {
@@ -386,13 +386,13 @@ namespace CellGameEdit.PM
                         }
 
                         // build format
-                        Util.setFormatNumberArray1D(Util.getCommandScript(script, "<FORMAT NUMBER ARRAY 1D>"), "<>");
-                        Util.setFormatStringArray1D(Util.getCommandScript(script, "<FORMAT STRING ARRAY 1D>"), "<>");
+                        Util.setFormatNumberArray1D(Util.getCommandScript(script, SC.FORMAT_NUMBER_ARRAY_1D), "<>");
+                        Util.setFormatStringArray1D(Util.getCommandScript(script, SC.FORMAT_STRING_ARRAY_1D), "<>");
 
-                        Util.setFormatArray1D(Util.getCommandScript(script, "<FORMAT ARRAY 1D>"), "<>");
-                        Util.setFormatArray2D(Util.getCommandScript(script, "<FORMAT ARRAY 2D>"), "<>");
+                        Util.setFormatArray1D(Util.getCommandScript(script, SC.FORMAT_ARRAY_1D), "<>");
+                        Util.setFormatArray2D(Util.getCommandScript(script, SC.FORMAT_ARRAY_2D), "<>");
 
-                        Util.setFixedStringArray(Util.getCommandScript(script, "<FIXED STRING ARRAY>"));
+                        Util.setFixedStringArray(Util.getCommandScript(script, SC.FIXED_STRING_ARRAY));
 
                         script = fillScriptNode(script);
 
@@ -515,28 +515,30 @@ namespace CellGameEdit.PM
             Console.WriteLine("build resource trunk");
             try
             {
-                string resource = Util.getTopTrunk(script, "#<RESOURCE>", "#<END RESOURCE>");
+                string resource = Util.getTopTrunk(script, SC._RESOURCE, SC._END_RESOURCE);
                 if (resource != null)
                 {
                     bool fix = false;
                     do
                     {
                         fix = false;
-                        string images = fillScriptSub(resource, "#<IMAGES>", "#<END IMAGES>", FormsImages);
+                        string images = fillScriptSub(resource, SC._IMAGES, SC._END_IMAGES, FormsImages);
                         if (images != null) { resource = images; fix = true; }
 
-                        string map = fillScriptSub(resource, "#<MAP>", "#<END MAP>", FormsMap);
+                        string map = fillScriptSub(resource, SC._MAP, SC._END_MAP, FormsMap);
                         if (map != null) { resource = map; fix = true; }
 
-                        string sprite = fillScriptSub(resource, "#<SPRITE>", "#<END SPRITE>", FormsSprite);
+                        string sprite = fillScriptSub(resource, SC._SPRITE, SC._END_SPRITE, FormsSprite);
                         if (sprite != null) { resource = sprite; fix = true; }
 
                     } while (fix);
-                
-                resource = Util.replaceKeywordsScript(resource, "#<RESOURCE>", "#<END RESOURCE>",
-                     new string[] { "<RES IMAGES COUNT>", "<RES MAP COUNT>", "<RES SPRITE COUNT>" },
+
+                    resource = Util.replaceKeywordsScript(resource,
+                        SC._RESOURCE, 
+                        SC._END_RESOURCE,
+                     new string[] { SC.RES_IMAGES_COUNT, SC.RES_MAP_COUNT, SC.RES_SPRITE_COUNT },
                      new string[] { FormsImages.Count.ToString(), FormsMap.Count.ToString(), FormsSprite.Count.ToString() });
-                script = Util.replaceSubTrunksScript(script, "#<RESOURCE>", "#<END RESOURCE>", new string[] { resource });
+                    script = Util.replaceSubTrunksScript(script, SC._RESOURCE, SC._END_RESOURCE, new string[] { resource });
             } 
             }
             catch (Exception err) { MessageBox.Show(err.StackTrace + "  at  " +err.Message); }
@@ -546,22 +548,22 @@ namespace CellGameEdit.PM
             Console.WriteLine("build world trunk");
             try
             {
-                string level = Util.getTopTrunk(script, "#<LEVEL>", "#<END LEVEL>");
+                string level = Util.getTopTrunk(script, SC._LEVEL, SC._END_LEVEL);
                 if (level != null)
                 {
                     bool fix = false;
                     do
                     {
                         fix = false;
-                        string world = fillScriptSub(level, "#<WORLD>", "#<END WORLD>", FormsWorld);
+                        string world = fillScriptSub(level, SC._WORLD, SC._END_WORLD, FormsWorld);
                         if (world != null) { level = world; fix = true; }
 
                     } while (fix);
-                
-                level = Util.replaceKeywordsScript(level, "#<LEVEL>", "#<END LEVEL>",
-                    new string[] { "<LEVEL WORLD COUNT>" },
+
+                    level = Util.replaceKeywordsScript(level, SC._LEVEL, SC._END_LEVEL,
+                    new string[] { SC.LEVEL_WORLD_COUNT },
                     new string[] { FormsWorld.Count.ToString() });
-                script = Util.replaceSubTrunksScript(script, "#<LEVEL>", "#<END LEVEL>", new string[] { level });
+                    script = Util.replaceSubTrunksScript(script, SC._LEVEL, SC._END_LEVEL, new string[] { level });
             }
             }
             catch (Exception err) { MessageBox.Show(err.StackTrace + "  at  " +err.Message); }
@@ -571,22 +573,22 @@ namespace CellGameEdit.PM
             Console.WriteLine("build command trunk");
             try
             {
-                string command = Util.getTopTrunk(script, "#<COMMAND>", "#<END COMMAND>");
+                string command = Util.getTopTrunk(script, SC._COMMAND, SC._END_COMMAND);
                 if (command != null)
                 {
                     bool fix = false;
                     do
                     {
                         fix = false;
-                        string table = fillScriptSub(command, "#<TABLE GROUP>", "#<END TABLE GROUP>", FormsCommands);
+                        string table = fillScriptSub(command, SC._TABLE_GROUP, SC._END_TABLE_GROUP, FormsCommands);
                         if (table != null) { command = table; fix = true; }
 
                     } while (fix);
-                
-                 command = Util.replaceKeywordsScript(command, "#<COMMAND>", "#<END COMMAND>",
-                      new string[] { "<COMMAND TABLE GROUP COUNT>" },
+
+                    command = Util.replaceKeywordsScript(command, SC._COMMAND, SC._END_COMMAND,
+                      new string[] { SC.COMMAND_TABLE_GROUP_COUNT },
                       new string[] { FormsCommands.Count.ToString() });
-                 script = Util.replaceSubTrunksScript(script, "#<COMMAND>", "#<END COMMAND>", new string[] { command });
+                    script = Util.replaceSubTrunksScript(script, SC._COMMAND, SC._END_COMMAND, new string[] { command });
              }
             }
             catch (Exception err) { MessageBox.Show(err.StackTrace + "  at  " + err.Message); }

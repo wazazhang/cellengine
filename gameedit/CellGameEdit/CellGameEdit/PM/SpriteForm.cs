@@ -485,7 +485,7 @@ namespace CellGameEdit.PM
                 {
                     initOutput();
 
-                    String sprite = Util.getFullTrunkScript(script, "#<SPRITE>", "#<END SPRITE>");
+                    String sprite = Util.getFullTrunkScript(script, "<SPRITE>", "</SPRITE>");
 
                     bool fix = false;
 
@@ -500,12 +500,12 @@ namespace CellGameEdit.PM
                             string TILE = ((int)AllFrame.SubIndex[i]).ToString();
                             string TRANS = (flipTableJ2me[(int)(AllFrame.SubFlip[i])]).ToString();
 
-                            senceParts[i] = Util.replaceKeywordsScript(sprite, "#<SCENE PART>", "#<END SCENE PART>",
+                            senceParts[i] = Util.replaceKeywordsScript(sprite, "<SCENE_PART>", "</SCENE_PART>",
                                 new string[] { "<INDEX>", "<X>", "<Y>", "<TILE>", "<TRANS>" },
                                 new string[] { i.ToString(), X, Y, TILE, TRANS }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(sprite, "#<SCENE PART>", "#<END SCENE PART>", senceParts);
+                        string temp = Util.replaceSubTrunksScript(sprite, "<SCENE_PART>", "</SCENE_PART>", senceParts);
                         if (temp == null)
                         {
                             fix = false;
@@ -529,12 +529,12 @@ namespace CellGameEdit.PM
                             string DATA = Util.toNumberArray1D<int>(ref frames);
 
 
-                            senceFrames[i] = Util.replaceKeywordsScript(sprite, "#<SCENE FRAME>", "#<END SCENE FRAME>",
-                                new string[] { "<INDEX>", "<DATA SIZE>", "<DATA>" },
+                            senceFrames[i] = Util.replaceKeywordsScript(sprite, "<SCENE_FRAME>", "</SCENE_FRAME>",
+                                new string[] { "<INDEX>", "<DATA_SIZE>", "<DATA>" },
                                 new string[] { i.ToString(), animates.frameGetFrame(i).Count.ToString(), DATA }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(sprite, "#<SCENE FRAME>", "#<END SCENE FRAME>", senceFrames);
+                        string temp = Util.replaceSubTrunksScript(sprite, "<SCENE_FRAME>", "</SCENE_FRAME>", senceFrames);
                         if (temp == null)
                         {
                             fix = false;
@@ -561,12 +561,12 @@ namespace CellGameEdit.PM
                             string X2 = ((int)(((int)AllFrame.CDX[i]) + ((int)AllFrame.CDW[i]))).ToString();
                             string Y2 = ((int)(((int)AllFrame.CDY[i]) + ((int)AllFrame.CDH[i]))).ToString();
 
-                            cdParts[i] = Util.replaceKeywordsScript(sprite, "#<CD PART>", "#<END CD PART>",
+                            cdParts[i] = Util.replaceKeywordsScript(sprite, "<CD_PART>", "</CD_PART>",
                                 new string[] { "<INDEX>", "<TYPE>", "<MASK>", "<X1>", "<Y1>", "<W>", "<H>", "<X2>", "<Y2>" },
                                 new string[] { i.ToString(), TYPE, MASK, X1, Y1, W, H, X2, Y2 }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(sprite, "#<CD PART>", "#<END CD PART>", cdParts);
+                        string temp = Util.replaceSubTrunksScript(sprite, "<CD_PART>", "</CD_PART>", cdParts);
                         if (temp == null)
                         {
                             fix = false;
@@ -588,12 +588,12 @@ namespace CellGameEdit.PM
                             int[] frame = (int[])(collides.frameGetFrame(i).ToArray(typeof(int)));
                             string DATA = Util.toNumberArray1D<int>(ref frame);
 
-                            cdFrames[i] = Util.replaceKeywordsScript(sprite, "#<CD FRAME>", "#<END CD FRAME>",
-                                new string[] { "<INDEX>", "<DATA SIZE>", "<DATA>" },
+                            cdFrames[i] = Util.replaceKeywordsScript(sprite, "<CD_FRAME>", "</CD_FRAME>",
+                                new string[] { "<INDEX>", "<DATA_SIZE>", "<DATA>" },
                                 new string[] { i.ToString(), collides.frameGetFrame(i).Count.ToString(), DATA }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(sprite, "#<CD FRAME>", "#<END CD FRAME>", cdFrames);
+                        string temp = Util.replaceSubTrunksScript(sprite, "<CD_FRAME>", "</CD_FRAME>", cdFrames);
                         if (temp == null)
                         {
                             fix = false;
@@ -653,23 +653,23 @@ namespace CellGameEdit.PM
 
 
 
-                    sprite = Util.replaceKeywordsScript(sprite, "#<SPRITE>", "#<END SPRITE>",
+                    sprite = Util.replaceKeywordsScript(sprite, "<SPRITE>", "</SPRITE>",
                         new string[] { 
                     "<NAME>", 
-                    "<SPR INDEX>",
-                    "<IMAGES NAME>",
-                    "<SCENE PART COUNT>" ,
-                    "<SCENE FRAME COUNT>" ,
-                    "<CD PART COUNT>",
-                    "<CD FRAME COUNT>",
-                    "<ANIMATE COUNT>",
-                    "<FRAME COUNTS>",
-                    "<FRAME NAME>",
-                    "<FRAME ANIMATE>",
-                    "<FRAME CD MAP>",
-                    "<FRAME CD ATK>",
-                    "<FRAME CD DEF>",
-                    "<FRAME CD EXT>"
+                    "<SPR_INDEX>",
+                    "<IMAGES_NAME>",
+                    "<SCENE_PART_COUNT>" ,
+                    "<SCENE_FRAME_COUNT>" ,
+                    "<CD_PART_COUNT>",
+                    "<CD_FRAME_COUNT>",
+                    "<ANIMATE_COUNT>",
+                    "<FRAME_COUNTS>",
+                    "<FRAME_NAME>",
+                    "<FRAME_ANIMATE>",
+                    "<FRAME_CD_MAP>",
+                    "<FRAME_CD_ATK>",
+                    "<FRAME_CD_DEF>",
+                    "<FRAME_CD_EXT>"
                     },
                         new string[] { 
                     this.id,

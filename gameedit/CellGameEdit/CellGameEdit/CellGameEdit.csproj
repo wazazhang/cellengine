@@ -129,6 +129,7 @@
     <Compile Include="PM\CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PM\Constants.cs" />
     <Compile Include="PM\DataGridConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -508,7 +509,6 @@
     <None Include="Resources\Image60.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CellGameEdit_TemporaryKey.pfx" />
     <None Include="Config.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Config.Designer.cs</LastGenOutput>

@@ -15,49 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_03A4B9D514BF4836BBE40AA64C85F2AA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_071A3D9133BB4D7C56C85C7A056DD55F"
-        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_071A3D9133BB4D7C56C85C7A056DD55F"
-        "OwnerKey" = "8:_49E4B5BDB719DAB13EE48204F839031F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_07A7F8A617F14D6A90FC2A030C96EBE6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1ABD0B1519EC428C91243DA2EA832941"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_33652C92C0B94BA3819F6912437FA6DF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3DED479933924C72B76C7A7AF13C2844"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_47DA90C661D94600A0EE58BDC719CA54"
+        "MsmKey" = "8:_0F84770252A3412F92DBE8A72E6BC904"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -69,32 +27,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_49E4B5BDB719DAB13EE48204F839031F"
-        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_63445CE40F044F089EB92A82D35EF158"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_69F86216F2114AB3849C353E120A5491"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7BF48A8E14A944189489B9E31B948A59"
+        "MsmKey" = "8:_7FEDE0FFB4BD4559898579B01B220E2F"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9F42E3F7795C3F53D6129EF94C8D43B8"
+        "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -105,20 +51,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BFA834F5CFA1461DB4DCF7969E3D9D37"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
+        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CB3BC59554F13070C7DF8324BCAE98BF"
-        "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
+        "MsmKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
+        "OwnerKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D2DFCD35256C42C0BA68648AE49C8BAE"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
+        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,25 +88,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49E4B5BDB719DAB13EE48204F839031F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_071A3D9133BB4D7C56C85C7A056DD55F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CB3BC59554F13070C7DF8324BCAE98BF"
+        "OwnerKey" = "8:_9F42E3F7795C3F53D6129EF94C8D43B8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -268,10 +214,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03A4B9D514BF4836BBE40AA64C85F2AA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0F84770252A3412F92DBE8A72E6BC904"
             {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutputTile_PNG.txt.conf"
-            "TargetName" = "8:SetOutputTile_PNG.txt.conf"
+            "SourcePath" = "8:..\\ScriptExample\\output.xml"
+            "TargetName" = "8:output.xml"
             "Tag" = "8:"
             "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
             "Condition" = "8:"
@@ -288,14 +234,34 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_071A3D9133BB4D7C56C85C7A056DD55F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7FEDE0FFB4BD4559898579B01B220E2F"
+            {
+            "SourcePath" = "8:..\\ScriptExample\\output.properties"
+            "TargetName" = "8:output.properties"
+            "Tag" = "8:"
+            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9F42E3F7795C3F53D6129EF94C8D43B8"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_071A3D9133BB4D7C56C85C7A056DD55F"
+                    "_9F42E3F7795C3F53D6129EF94C8D43B8"
                     {
                     "Name" = "8:CellCore.dll"
                     "Attributes" = "3:512"
@@ -317,197 +283,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_07A7F8A617F14D6A90FC2A030C96EBE6"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutput.txt.conf"
-            "TargetName" = "8:SetOutput.txt.conf"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1ABD0B1519EC428C91243DA2EA832941"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutput.txt.java"
-            "TargetName" = "8:SetOutput.txt.java"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_33652C92C0B94BA3819F6912437FA6DF"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\CsvOutput.txt.csv"
-            "TargetName" = "8:CsvOutput.txt.csv"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3DED479933924C72B76C7A7AF13C2844"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutputTile_JPG.txt.conf"
-            "TargetName" = "8:SetOutputTile_JPG.txt.conf"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_47DA90C661D94600A0EE58BDC719CA54"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutput_WorldTerrain.txt.conf"
-            "TargetName" = "8:SetOutput_WorldTerrain.txt.conf"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_49E4B5BDB719DAB13EE48204F839031F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CellGameEdit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_49E4B5BDB719DAB13EE48204F839031F"
-                    {
-                    "Name" = "8:CellGameEdit.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CellGameEdit.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_63445CE40F044F089EB92A82D35EF158"
-            {
-            "SourcePath" = "8:..\\CellGameEdit\\Resources\\TextFileScriptHelp.txt"
-            "TargetName" = "8:ScriptHelp.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_69F86216F2114AB3849C353E120A5491"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\output.properties"
-            "TargetName" = "8:output.properties"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7BF48A8E14A944189489B9E31B948A59"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutput.txt.bat"
-            "TargetName" = "8:SetOutput.txt.bat"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12C6107140342789E5AADB7EAD4D447"
@@ -530,34 +305,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BFA834F5CFA1461DB4DCF7969E3D9D37"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\SetOutputD.txt.conf"
-            "TargetName" = "8:SetOutputD.txt.conf"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CB3BC59554F13070C7DF8324BCAE98BF"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C63A2772B735F7EC225CFCEBFD92C8FE"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CB3BC59554F13070C7DF8324BCAE98BF"
+                    "_C63A2772B735F7EC225CFCEBFD92C8FE"
                     {
                     "Name" = "8:CellCore.dll"
                     "Attributes" = "3:512"
@@ -581,12 +336,23 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D2DFCD35256C42C0BA68648AE49C8BAE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C87A3FE071C84A2B090B9ABE5A911F19"
             {
-            "SourcePath" = "8:..\\ScriptExample\\TableGroupOutput_ByteString.txt.ini"
-            "TargetName" = "8:TableGroupOutput_ByteString.txt.ini"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellGameEdit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C87A3FE071C84A2B090B9ABE5A911F19"
+                    {
+                    "Name" = "8:CellGameEdit.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellGameEdit.exe"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -598,7 +364,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E6ADE44BD6684E57ABA1A3F9687CFE21"
@@ -776,7 +542,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CellGameEditor"
         "ProductCode" = "8:{156EC386-9110-4F01-9ADB-4ACF900BF51A}"
-        "PackageCode" = "8:{F8F72C84-A2C9-4BD4-8ED8-323F1D89C6CD}"
+        "PackageCode" = "8:{C0122A2A-AB1D-43D7-851E-D88AE1C37576}"
         "UpgradeCode" = "8:{EE5A5160-9D62-4264-A9C2-994FD8B014B4}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -918,20 +684,6 @@
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_A12C6107140342789E5AADB7EAD4D447"
-            "Folder" = "8:_A93B9972EF20406D8AEB4D10C028708F"
-            "WorkingFolder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6A5764F9A1854AF7B39C29FD001FBE16"
-            {
-            "Name" = "8:ScriptHelp"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_63445CE40F044F089EB92A82D35EF158"
             "Folder" = "8:_A93B9972EF20406D8AEB4D10C028708F"
             "WorkingFolder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
             "Icon" = "8:"

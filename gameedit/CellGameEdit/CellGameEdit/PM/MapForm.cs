@@ -629,7 +629,7 @@ namespace CellGameEdit.PM
                 {
                     initOutput();
 
-                    String map = Util.getFullTrunkScript(script, "#<MAP>", "#<END MAP>");
+                    String map = Util.getFullTrunkScript(script, SC._MAP, SC._END_MAP);
 
                     bool fix = false;
 
@@ -642,12 +642,12 @@ namespace CellGameEdit.PM
                             string TILE = OutputAnimates.SubPart[i].ToString();
                             string TRANS = flipTableJ2me[(int)(OutputAnimates.SubFlip[i])].ToString();
 
-                            senceParts[i] = Util.replaceKeywordsScript(map, "#<SCENE PART>", "#<END SCENE PART>",
-                                new string[] { "<INDEX>", "<TILE>", "<TRANS>" },
+                            senceParts[i] = Util.replaceKeywordsScript(map, SC._SCENE_PART, SC._END_SCENE_PART,
+                                new string[] { SC.INDEX, SC.TILE, SC.TRANS },
                                 new string[] { i.ToString(), TILE, TRANS }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(map, "#<SCENE PART>", "#<END SCENE PART>", senceParts);
+                        string temp = Util.replaceSubTrunksScript(map, SC._SCENE_PART, SC._END_SCENE_PART, senceParts);
                         if (temp == null)
                         {
                             fix = false;
@@ -670,12 +670,12 @@ namespace CellGameEdit.PM
                             int[] frames = ((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))));
                             string DATA = Util.toNumberArray1D<int>(ref frames);
 
-                            senceFrames[i] = Util.replaceKeywordsScript(map, "#<SCENE FRAME>", "#<END SCENE FRAME>",
-                                new string[] { "<INDEX>", "<DATA SIZE>", "<DATA>" },
+                            senceFrames[i] = Util.replaceKeywordsScript(map, SC._SCENE_FRAME, SC._END_SCENE_FRAME,
+                                new string[] { SC.INDEX, SC.DATA_SIZE, SC.DATA },
                                 new string[] { i.ToString(), OutputAnimates.frameGetFrame(i).Count.ToString(), DATA }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(map, "#<SCENE FRAME>", "#<END SCENE FRAME>", senceFrames);
+                        string temp = Util.replaceSubTrunksScript(map, SC._SCENE_FRAME, SC._END_SCENE_FRAME, senceFrames);
                         if (temp == null)
                         {
                             fix = false;
@@ -717,12 +717,12 @@ namespace CellGameEdit.PM
                             string H = cds[i][5].ToString();
                             string X2 = cds[i][6].ToString();
                             string Y2 = cds[i][7].ToString();
-                            cdParts[i] = Util.replaceKeywordsScript(map, "#<CD PART>", "#<END CD PART>",
-                                new string[] { "<INDEX>", "<TYPE>", "<MASK>", "<X1>", "<Y1>", "<W>", "<H>", "<X2>", "<Y2>" },
+                            cdParts[i] = Util.replaceKeywordsScript(map, SC._CD_PART, SC._END_CD_PART,
+                                new string[] { SC.INDEX, SC.TYPE, SC.MASK, SC.X1, SC.Y1, SC.W, SC.H, SC.X2, SC.Y2 },
                                 new string[] { i.ToString(), TYPE, MASK, X1, Y1, W, H, X2, Y2 }
                                 );
                         }
-                        string temp = Util.replaceSubTrunksScript(map, "#<CD PART>", "#<END CD PART>", cdParts);
+                        string temp = Util.replaceSubTrunksScript(map, SC._CD_PART, SC._END_CD_PART, cdParts);
                         if (temp == null)
                         {
                             fix = false;
@@ -748,20 +748,20 @@ namespace CellGameEdit.PM
 
                     String cdMatrix = Util.toNumberArray2D<int>(ref OutputFlagMatrix);
 
-                    map = Util.replaceKeywordsScript(map, "#<MAP>", "#<END MAP>",
+                    map = Util.replaceKeywordsScript(map, SC._MAP, SC._END_MAP,
                         new string[] { 
-                    "<NAME>", 
-                    "<MAP INDEX>",
-                    "<IMAGES NAME>",
-                    "<CELL W>",
-                    "<CELL H>" , 
-                    "<X COUNT>",
-                    "<Y COUNT>" , 
-                    "<TILE MATRIX>" , 
-                    "<FLAG MATRIX>" , 
-                    "<SCENE PART COUNT>" ,
-                    "<SCENE FRAME COUNT>" ,
-                    "<CD PART COUNT>"
+                    SC.NAME, 
+                     SC.MAP_INDEX,
+                     SC.IMAGES_NAME,
+                     SC.CELL_W,
+                     SC.CELL_H, 
+                     SC.X_COUNT,
+                     SC.Y_COUNT,
+                     SC.TILE_MATRIX,
+                     SC.FLAG_MATRIX,
+                     SC.SCENE_PART_COUNT,
+                     SC.SCENE_FRAME_COUNT,
+                     SC.CD_PART_COUNT
                 },
                         new string[] { 
                     this.id, 

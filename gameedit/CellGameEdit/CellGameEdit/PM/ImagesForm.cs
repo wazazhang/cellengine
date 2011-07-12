@@ -501,12 +501,12 @@ namespace CellGameEdit.PM
             {
                 try
                 {
-                    String images = Util.getFullTrunkScript(script, "#<IMAGES>", "#<END IMAGES>");
+                    String images = Util.getFullTrunkScript(script, SC._IMAGES, SC._END_IMAGES);
 
                     Boolean isIgnoreNullTile = false;
                     try
                     {
-                        isIgnoreNullTile = Util.getCommandScript(images, "<IGNORE NULL CLIP>").Equals("true", StringComparison.CurrentCultureIgnoreCase);
+                        isIgnoreNullTile = Util.getCommandScript(images, SC.IGNORE_NULL_CLIP).Equals("true", StringComparison.CurrentCultureIgnoreCase);
                     }
                     catch (Exception err) { }
 
@@ -523,8 +523,8 @@ namespace CellGameEdit.PM
                                 string W = getDstImage(i).killed ? "0" : getDstImage(i).getWidth().ToString();
                                 string H = getDstImage(i).killed ? "0" : getDstImage(i).getHeight().ToString();
                                 string DATA = getDstImage(i).killed ? "" : (String)dstDataKeys[i];
-                                clips[i] = Util.replaceKeywordsScript(images, "#<CLIP>", "#<END CLIP>",
-                                    new string[] { "<INDEX>", "<X>", "<Y>", "<W>", "<H>" ,"<DATA>"},
+                                clips[i] = Util.replaceKeywordsScript(images, SC._CLIP, SC._END_CLIP,
+                                    new string[] { SC.INDEX, SC.X, SC.Y, SC.W, SC.H ,SC.DATA},
                                     new string[] { i.ToString(), X, Y, W, H ,DATA}
                                     );
                             }
@@ -532,8 +532,8 @@ namespace CellGameEdit.PM
                             {
                                 if (isIgnoreNullTile == false)
                                 {
-                                    clips[i] = Util.replaceKeywordsScript(images, "#<CLIP>", "#<END CLIP>",
-                                          new string[] { "<INDEX>", "<X>", "<Y>", "<W>", "<H>", "<DATA>" },
+                                    clips[i] = Util.replaceKeywordsScript(images, SC._CLIP, SC._END_CLIP,
+                                          new string[] { SC.INDEX, SC.X, SC.Y, SC.W, SC.H, SC.DATA },
                                           new string[] { i.ToString(), "0", "0", "0", "0", "" }
                                           );
                                 }
@@ -545,7 +545,7 @@ namespace CellGameEdit.PM
                                 
                             }
                         }
-                        string temp = Util.replaceSubTrunksScript(images, "#<CLIP>", "#<END CLIP>", clips);
+                        string temp = Util.replaceSubTrunksScript(images, SC._CLIP, SC._END_CLIP, clips);
 
                         if (temp == null)
                         {
@@ -560,8 +560,8 @@ namespace CellGameEdit.PM
                     } while (fix);
 
 
-                    images = Util.replaceKeywordsScript(images, "#<IMAGES>", "#<END IMAGES>",
-                        new string[] { "<NAME>", "<IMAGES INDEX>", "<COUNT>" },
+                    images = Util.replaceKeywordsScript(images, SC._IMAGES, SC._END_IMAGES,
+                        new string[] { SC.NAME,  SC.IMAGES_INDEX, SC.COUNT },
                         new string[] { this.id, index.ToString(), this.getDstImageCount().ToString() }
                         );
 

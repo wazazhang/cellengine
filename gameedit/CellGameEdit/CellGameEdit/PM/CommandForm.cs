@@ -239,23 +239,23 @@ namespace CellGameEdit.PM
                 String tableGroup = src.Substring(0, src.Length);
                 try
                 {
-                    string command = Util.getTopTrunk(tableGroup, "#<TABLE GROUP>", "#<END TABLE GROUP>");
+                    string command = Util.getTopTrunk(tableGroup, "<TABLE_GROUP>", "</TABLE_GROUP>");
                     if (command != null)
                     {
                         bool fix = false;
                         do
                         {
                             fix = false;
-                            string table = fillScriptSub(command, "#<TABLE>", "#<END TABLE>");
+                            string table = fillScriptSub(command, "<TABLE>", "</TABLE>");
                             if (table != null) { command = table; fix = true; }
 
                         } while (fix);
 
-                        command = Util.replaceKeywordsScript(command, "#<TABLE GROUP>", "#<END TABLE GROUP>",
+                        command = Util.replaceKeywordsScript(command, "<TABLE_GROUP>", "</TABLE_GROUP>",
                              new string[] { 
-                            "<TABLE GROUP NAME>", 
-                            "<TABLE GROUP INDEX>",
-                            "<TABLE COUNT>",
+                            "<TABLE_GROUP_NAME>", 
+                            "<TABLE_GROUP_INDEX>",
+                            "<TABLE_COUNT>",
                             },
                             new string[] { 
                                 this.id, 
@@ -263,7 +263,7 @@ namespace CellGameEdit.PM
                                 getTableCount().ToString(),
                             }
                             );
-                        tableGroup = Util.replaceSubTrunksScript(tableGroup, "#<TABLE GROUP>", "#<END TABLE GROUP>", new string[] { command });
+                        tableGroup = Util.replaceSubTrunksScript(tableGroup, "<TABLE_GROUP>", "</TABLE_GROUP>", new string[] { command });
 
                         output.WriteLine(tableGroup);
                     }
@@ -285,13 +285,13 @@ namespace CellGameEdit.PM
                 for (int i = 0; i < getTableCount(); i++)
                 {
                     String ignoreKey = null;
-                    if (Util.testIgnore("<IGNORE TABLE>", sub, getTableName(i), ref ignoreKey) == true)
+                    if (Util.testIgnore("<IGNORE_TABLE>", sub, getTableName(i), ref ignoreKey) == true)
                     {
                         continue;
                     }
 
                     String keepKey = null;
-                    if (Util.testKeep("<KEEP TABLE>", sub, getTableName(i), ref keepKey) == false)
+                    if (Util.testKeep("<KEEP_TABLE>", sub, getTableName(i), ref keepKey) == false)
                     {
                         continue;
                     }
@@ -356,7 +356,7 @@ namespace CellGameEdit.PM
 
             try
             {
-                String table = Util.getFullTrunkScript(script, "#<TABLE>", "#<END TABLE>");
+                String table = Util.getFullTrunkScript(script, "<TABLE>", "</TABLE>");
 
                 bool fix = false;
 
@@ -367,28 +367,28 @@ namespace CellGameEdit.PM
 
                 try
                 {
-                    keep_c = int.Parse(Util.getCommandScript(table, "<KEEP COLUMN>"));
+                    keep_c = int.Parse(Util.getCommandScript(table, "<KEEP_COLUMN>"));
                     //Console.WriteLine("Keep Table Column   : " + this.id + " : " + keep_c);
                 }
                 catch (Exception err) { }
 
                 try
                 {
-                    keep_r = int.Parse(Util.getCommandScript(table, "<KEEP ROW>"));
+                    keep_r = int.Parse(Util.getCommandScript(table, "<KEEP_ROW>"));
                     //Console.WriteLine("Keep Table Row      : " + this.id + " : " + keep_c);
                 }
                 catch (Exception err) { }
 
                 try
                 {
-                    ignore_c = int.Parse(Util.getCommandScript(table, "<IGNORE COLUMN>"));
+                    ignore_c = int.Parse(Util.getCommandScript(table, "<IGNORE_COLUMN>"));
                     //Console.WriteLine("Ignore Table Column : " + this.id + " : " + keep_c);
                 }
                 catch (Exception err) { }
 
                 try
                 {
-                    ignore_r = int.Parse(Util.getCommandScript(table, "<IGNORE ROW>"));
+                    ignore_r = int.Parse(Util.getCommandScript(table, "<IGNORE_ROW>"));
                     //Console.WriteLine("Ignore Table Row    : " + this.id + " : " + keep_c);
                 }
                 catch (Exception err) { }
@@ -413,12 +413,12 @@ namespace CellGameEdit.PM
 
                         string TEXT = getHeadText(index, c);
 
-                        heads[c] = Util.replaceKeywordsScript(table, "#<COLUMN HEAD>", "#<END COLUMN HEAD>",
+                        heads[c] = Util.replaceKeywordsScript(table, "<COLUMN_HEAD>", "</COLUMN HEAD>",
                             new string[] { "<INDEX>", "<TEXT>" },
                             new string[] { c.ToString(), TEXT }
                             );
                     }
-                    string temp = Util.replaceSubTrunksScript(table, "#<COLUMN HEAD>", "#<END COLUMN HEAD>", heads);
+                    string temp = Util.replaceSubTrunksScript(table, "<COLUMN_HEAD>", "</COLUMN_HEAD>", heads);
                     if (temp == null)
                     {
                         fix = false;
@@ -464,13 +464,13 @@ namespace CellGameEdit.PM
 
                             string TEXT = getCellText(index, r, c);
                             if (TEXT == null) TEXT = "";
-                            cells[i] = Util.replaceKeywordsScript(table, "#<CELL>", "#<END CELL>",
-                                new string[] { "<COLUMN INDEX>", "<ROW INDEX>", "<TEXT>" },
+                            cells[i] = Util.replaceKeywordsScript(table, "<CELL>", "</CELL>",
+                                new string[] { "<COLUMN_INDEX>", "<ROW_INDEX>", "<TEXT>" },
                                 new string[] { c.ToString(), r.ToString(), TEXT }
                                 );
                         }
                     }
-                    string temp = Util.replaceSubTrunksScript(table, "#<CELL>", "#<END CELL>", cells);
+                    string temp = Util.replaceSubTrunksScript(table, "<CELL>", "</CELL>", cells);
                     if (temp == null)
                     {
                         fix = false;
@@ -511,12 +511,12 @@ namespace CellGameEdit.PM
                         string ARRAY_STR = Util.toStringArray1D(ref cell_matrix_r_c[r]);
                         string ARRAY_SMART = Util.toSmartArray1D(ref cell_matrix_r_c[r], type_matrix_r_c[r]);
 
-                        rows[r] = Util.replaceKeywordsScript(table, "#<ROWS>", "#<END ROWS>",
-                            new string[] { "<INDEX>", "<ARRAY>", "<ARRAY STR>", "<ARRAY NUM>", "<ARRAY SMART>" },
+                        rows[r] = Util.replaceKeywordsScript(table, "<ROWS>", "</ROWS>",
+                            new string[] { "<INDEX>", "<ARRAY>", "<ARRAY_STR>", "<ARRAY_NUM>", "<ARRAY_SMART>" },
                             new string[] { r.ToString(), ARRAY, ARRAY_STR, ARRAY_NUM, ARRAY_SMART }
                             );
                     }
-                    string temp = Util.replaceSubTrunksScript(table, "#<ROWS>", "#<END ROWS>", rows);
+                    string temp = Util.replaceSubTrunksScript(table, "<ROWS>", "</ROWS>", rows);
                     if (temp == null)
                     {
                         fix = false;
@@ -556,12 +556,12 @@ namespace CellGameEdit.PM
                         string ARRAY_STR = Util.toStringArray1D(ref cell_matrix_c_r[c]);
                         string ARRAY_SMART = Util.toSmartArray1D(ref cell_matrix_c_r[c], type_matrix_c_r[c]);
 
-                        columns[c] = Util.replaceKeywordsScript(table, "#<COLUMNS>", "#<END COLUMNS>",
-                            new string[] { "<INDEX>", "<ARRAY>", "<ARRAY STR>", "<ARRAY NUM>", "<ARRAY SMART>" },
+                        columns[c] = Util.replaceKeywordsScript(table, "<COLUMNS>", "</COLUMNS>",
+                            new string[] { "<INDEX>", "<ARRAY>", "<ARRAY_STR>", "<ARRAY_NUM>", "<ARRAY_SMART>" },
                             new string[] { c.ToString(), ARRAY, ARRAY_STR, ARRAY_NUM, ARRAY_SMART }
                             );
                     }
-                    string temp = Util.replaceSubTrunksScript(table, "#<COLUMNS>", "#<END COLUMNS>", columns);
+                    string temp = Util.replaceSubTrunksScript(table, "<COLUMNS>", "</COLUMNS>", columns);
                     if (temp == null)
                     {
                         fix = false;
@@ -582,16 +582,16 @@ namespace CellGameEdit.PM
                 string numMatrix = Util.toNumberArray2D(ref cell_matrix_r_c);
                 string smartMatrix = Util.toSmartArray2D(ref cell_matrix_r_c, type_matrix_r_c);
 
-                table = Util.replaceKeywordsScript(table, "#<TABLE>", "#<END TABLE>",
+                table = Util.replaceKeywordsScript(table, "<TABLE>", "</TABLE>",
                     new string[] { 
-                            "<TABLE NAME>", 
-                            "<TABLE INDEX>",
-                            "<COLUMN COUNT>",
-                            "<ROW COUNT>",
-                            "<TABLE MATRIX> ",
-                            "<TABLE MATRIX STR>",         /*(str)[][] 表文字二维数组 */
-                            "<TABLE MATRIX NUM>",         /*(str)[][] 表数字二维数组 */
-                            "<TABLE MATRIX SMART>",       /*(str)[][] 表自动二维数组 */
+                            "<TABLE_NAME>", 
+                            "<TABLE_INDEX>",
+                            "<COLUMN_COUNT>",
+                            "<ROW_COUNT>",
+                            "<TABLE_MATRIX> ",
+                            "<TABLE_MATRIX_STR>",         /*(str)[][] 表文字二维数组 */
+                            "<TABLE_MATRIX_NUM>",         /*(str)[][] 表数字二维数组 */
+                            "<TABLE_MATRIX_SMART>",       /*(str)[][] 表自动二维数组 */
                         },
                     new string[] { 
                             getTableName(index), 
