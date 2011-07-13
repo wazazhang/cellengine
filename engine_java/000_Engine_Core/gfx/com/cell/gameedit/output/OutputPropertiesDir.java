@@ -3,6 +3,8 @@ package com.cell.gameedit.output;
 
 import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.cell.CIO;
 import com.cell.util.PropertyGroup;
@@ -37,13 +39,50 @@ public class OutputPropertiesDir extends OutputProperties
 		super.init(config);
 	}
 	
-	@Override
-	public String getPropertiesCode() {
-		return conf_code;
+	/***
+	 * 是否单独输出每张图
+	 * @return
+	 */
+	public boolean isTile() {
+		String code = conf_code;
+		Pattern pattern_tile = Pattern.compile("#<IMAGE TILE>\\s+\\w+");
+		Matcher matcher = pattern_tile.matcher(code);
+		if (matcher.find()) {
+			String group = code.substring(matcher.start(), matcher.end());
+			return group.endsWith("true");
+		}
+		return false;
 	}
 	
-	public PropertyGroup getProperties() {
-		return config;
+	/**
+	 * 是否输出整图
+	 * @return
+	 */
+	public boolean isGroup() {
+		String code = conf_code;
+		Pattern pattern_group = Pattern.compile("#<IMAGE GROUP>\\s+\\w+");
+		Matcher matcher = pattern_group.matcher(code);
+		if (matcher.find()) {
+			String group = code.substring(matcher.start(), matcher.end());
+			return group.endsWith("true");
+		}
+		return false;
+	}
+	
+	/**
+	 * 获得导出图片文件类型
+	 * @return
+	 */
+	public String getImageExtentions() {
+		String code = conf_code;
+		Pattern pattern_tile = Pattern.compile("#<IMAGE TYPE>\\s+\\w+");
+		Matcher matcher = pattern_tile.matcher(code);
+		if (matcher.find()) {
+			String group = code.substring(matcher.start(), matcher.end());
+			String[] split = group.split("\\s");
+			return split[split.length-1];
+		}
+		return "png";
 	}
 	
 	@Override

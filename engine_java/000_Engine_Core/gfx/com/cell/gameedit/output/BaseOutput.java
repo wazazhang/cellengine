@@ -3,7 +3,9 @@ package com.cell.gameedit.output;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import com.cell.CUtil;
@@ -299,16 +301,16 @@ abstract public class BaseOutput implements Output
 	
 //	########################################################################################################################
 
-	final public CWayPoint[] createWayPointsFromSet(Vector<WaypointObject> waypoints)
+	final public CWayPoint[] createWayPointsFromSet(Map<Integer, WaypointObject> waypoints)
 	{
 		CWayPoint wayPoints[] = new CWayPoint[waypoints.size()];
-		for (int i = waypoints.size() - 1; i >= 0; --i) {
+		for (int i : waypoints.keySet()) {
 			WaypointObject src = waypoints.get(i);
 			CWayPoint wp = new CWayPoint(src.X, src.Y);
 			wp.SetData = getArray1D(src.Data);
 			wayPoints[i] = wp;
 		}
-		for (int i = waypoints.size() - 1; i >= 0; --i) {
+		for (int i : waypoints.keySet()) {
 			WaypointObject src = waypoints.get(i);
 			CWayPoint wp = wayPoints[i];
 			for (int j = src.Nexts.size() - 1; j >= 0; --j) {
@@ -321,10 +323,10 @@ abstract public class BaseOutput implements Output
 	}
 	
 	
-	final public CCD[] createRegionsFromSet(Vector<RegionObject> regions)
+	final public CCD[] createRegionsFromSet(Map<Integer, RegionObject> regions)
 	{
 		CCD cds[] = new CCD[regions.size()];
-		for (int i = regions.size() - 1; i >= 0; --i) {
+		for (int i : regions.keySet()) {
 			RegionObject src = regions.get(i);
 			CCD cd = CCD.createCDRect(0, src.X, src.Y, src.W, src.H);
 			cd.SetData = getArray1D(src.Data);

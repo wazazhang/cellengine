@@ -114,7 +114,6 @@ abstract public class OutputProperties extends BaseOutput
 	
 	}
 	
-	
 //	------------------------------------------------------------------------------------------------
 	
 //	-------------------------------------------------------------------------------------
@@ -446,7 +445,7 @@ abstract public class OutputProperties extends BaseOutput
 			map.Y 			= Integer.parseInt(_args[4]);
 			map.ImagesID 	= _args[5];
 			map.Data		= _args[6];
-			set.Maps.add(map);
+			set.Maps.put(map.Index, map);
 		}
 		for (int i=0; i<sprs_count; i++) {
 			// <INDEX>,<SPR NAME>,<IDENTIFY>,<ANIMATE ID>,<FRAME ID>,<X>,<Y>,<SUPER>,<SPR DATA>
@@ -461,7 +460,7 @@ abstract public class OutputProperties extends BaseOutput
 			spr.Y 			= Integer.parseInt(_args[6]);
 			spr.ImagesID 	= _args[7];
 			spr.Data		= _args[8];
-			set.Sprs.add(spr);
+			set.Sprs.put(spr.Index, spr);
 		}
 		for (int i=0; i<wpss_count; i++) {
 			WorldSet.WaypointObject wp = new WorldSet.WaypointObject();
@@ -470,7 +469,7 @@ abstract public class OutputProperties extends BaseOutput
 			wp.X 			= Integer.parseInt(_args[1]);
 			wp.Y 			= Integer.parseInt(_args[2]);
 			wp.Data			= _args[3];
-			set.WayPoints.add(wp);
+			set.WayPoints.put(wp.Index, wp);
 		}
 		for (int i=0; i<wrss_count; i++) {
 			WorldSet.RegionObject wr = new WorldSet.RegionObject();
@@ -481,7 +480,7 @@ abstract public class OutputProperties extends BaseOutput
 			wr.W 			= Integer.parseInt(_args[3]);
 			wr.H 			= Integer.parseInt(_args[4]);
 			wr.Data			= _args[5];
-			set.Regions.add(wr);
+			set.Regions.put(wr.Index, wr);
 		}
 		
 		for (int i = 0; i < wpsl.length; i++) {

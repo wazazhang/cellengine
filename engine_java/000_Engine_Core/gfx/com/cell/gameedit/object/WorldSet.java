@@ -2,6 +2,7 @@ package com.cell.gameedit.object;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import com.cell.gameedit.SetObject;
@@ -19,10 +20,10 @@ public class WorldSet implements SetObject
 	public int Width;
 	public int Height;
 
-	public Vector<SpriteObject> Sprs = new Vector<SpriteObject>();
-	public Vector<MapObject> Maps = new Vector<MapObject>();
-	public Vector<WaypointObject> WayPoints = new Vector<WaypointObject>();
-	public Vector<RegionObject> Regions = new Vector<RegionObject>();
+	public TreeMap<Integer, SpriteObject> 	Sprs 		= new TreeMap<Integer, SpriteObject>();
+	public TreeMap<Integer, MapObject> 		Maps 		= new TreeMap<Integer, MapObject>();
+	public TreeMap<Integer, WaypointObject> WayPoints 	= new TreeMap<Integer, WaypointObject>();
+	public TreeMap<Integer, RegionObject> 	Regions 	= new TreeMap<Integer, RegionObject>();
 
 	public String Data;
 	public int[][] Terrian;
