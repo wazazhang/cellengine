@@ -48,7 +48,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 			this.set_resource 	= resource;
 			this.set_world		= set_world;
 			
-			for (WorldSet.SpriteObject wspr : sortWorldObject(new ArrayList<WorldSet.SpriteObject>(set_world.Sprs))){
+			for (WorldSet.SpriteObject wspr : sortWorldObject(new ArrayList<WorldSet.SpriteObject>(set_world.Sprs.values()))){
 				Unit cs = createWorldObject(resource, wspr);
 				addChild(cs);
 			}
@@ -83,8 +83,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 
 		public boolean isStreamingImages()
 		{
-			for (int i=set_world.Sprs.size()-1; i>=0; --i){
-				WorldSet.SpriteObject wspr = set_world.Sprs.elementAt(i);
+			for (WorldSet.SpriteObject wspr : set_world.Sprs.values()){
 				if (set_resource.isStreamingImages(wspr.ImagesID)){
 					return true;
 				}
@@ -102,8 +101,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 				double scalew = width / getWidth();
 				double scaleh = height / getHeight();
 				g2d.scale(scalew, scaleh);
-				for (int i = set_world.Sprs.size() - 1; i >= 0; --i) {
-					WorldSet.SpriteObject wspr = set_world.Sprs.elementAt(i);
+				for (WorldSet.SpriteObject wspr : set_world.Sprs.values()) {
 					CSprite csprite = set_resource.getSprite(wspr.SprID);
 					csprite.render(g2d, wspr.X, wspr.Y, wspr.Anim, wspr.Frame);
 				}
@@ -119,8 +117,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 			} else {
 				BufferedImage buffer = Tools.createImage((int) width, (int) height);
 				Graphics2D g2d = (Graphics2D) buffer.createGraphics();
-				for (int i = set_world.Sprs.size() - 1; i >= 0; --i) {
-					WorldSet.SpriteObject wspr = set_world.Sprs.elementAt(i);
+				for (WorldSet.SpriteObject wspr : set_world.Sprs.values()) {
 					CSprite csprite = set_resource.getSprite(wspr.SprID);
 					csprite.render(g2d, x+wspr.X, y+wspr.Y, wspr.Anim, wspr.Frame);
 				}
