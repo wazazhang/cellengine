@@ -46,34 +46,7 @@ import com.cell.util.PropertyGroup;
  * @author WAZA
  */
 abstract public class OutputXML extends BaseOutput
-{
-	public static void main(String argv[]) {
-		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			InputStream is = CIO.getInputStream(
-					"E:/Projects/hf_elex_svn/santc/data/edit/res/actor/" +
-					"actor_000000/output/actor.xml");
-			Document doc = docBuilder.parse(is);
-			new OutputXML() {
-				@Override
-				public byte[] loadRes(String name, AtomicReference<Float> percent) {
-					return null;
-				}
-			}.init(doc);
-		} catch (SAXParseException err) {
-			System.out.println("** Parsing error" + ", line "
-					+ err.getLineNumber() + ", uri " + err.getSystemId());
-			System.out.println(" " + err.getMessage());
-		} catch (SAXException e) {
-			Exception x = e.getException();
-			((x == null) ? e : x).printStackTrace();
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		// System.exit (0);
-	}// end of main
-		
+{		
 	private String	image_type;
 	private boolean	image_tile;
 	private boolean	image_group;
