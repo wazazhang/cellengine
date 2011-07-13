@@ -47,7 +47,7 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 			nodes	= skin.getSprite("nodes");
 			
 			WorldSet main_frame = skin.getSetWorld("main_frame");
-			for (SpriteObject obj : main_frame.Sprs) {
+			for (SpriteObject obj : main_frame.Sprs.values()) {
 				if (obj.SprID.equals("keys")) {
 					Key k = new Key(obj);
 					addChild(k, true);
