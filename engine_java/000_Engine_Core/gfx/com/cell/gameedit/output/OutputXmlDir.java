@@ -49,10 +49,30 @@ import com.cell.util.PropertyGroup;
  */
 public class OutputXmlDir extends OutputXml
 {
+	final public String root;
+	final public String file_name;
+	final public String path;
 	
-	
-	public OutputXmlDir(String file_path) {
-		
+	public OutputXmlDir(String file) throws Exception {
+		this.path 		= file.replace('\\', '/');
+		this.root		= path.substring(0, path.lastIndexOf("/")+1);
+		this.file_name	= path.substring(root.length());
+		try {
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			InputStream is = CIO.getInputStream(file);
+			Document doc = docBuilder.parse(is);
+			this.init(doc);
+		} catch (SAXParseException err) {
+			System.out.println("** Parsing error" + ", line "
+					+ err.getLineNumber() + ", uri " + err.getSystemId());
+			System.out.println(" " + err.getMessage());
+			throw err;
+		} catch (SAXException e) {
+			Exception x = e.getException();
+			((x == null) ? e : x).printStackTrace();
+			throw e;
+		}
 	}
 	
 	@Override
