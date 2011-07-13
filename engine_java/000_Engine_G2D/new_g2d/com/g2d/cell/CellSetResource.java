@@ -33,7 +33,7 @@ public class CellSetResource extends SetResource
 	public CellSetResource(String file) throws Exception
 	{
 		super(new OutputPropertiesDir(file));
-		this.Path = ((OutputProperties) getOutput()).path;
+		this.Path = ((OutputPropertiesDir) getOutput()).path;
 	}
 	
 	public CellSetResource(Output output, String path) throws Exception

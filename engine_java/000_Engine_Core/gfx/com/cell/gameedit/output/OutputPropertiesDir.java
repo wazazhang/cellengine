@@ -21,21 +21,32 @@ public class OutputPropertiesDir extends OutputProperties
 	
 	final public String root;
 	final public String file_name;
+
+	final public String path;
 	
+	public OutputPropertiesDir(String file, PropertyGroup Config) throws Exception 
+	{
+		this.path 		= file.replace('\\', '/');
+		this.root		= path.substring(0, path.lastIndexOf("/")+1);
+		this.file_name	= path.substring(root.length());
+		this.config 	= Config;
+		this.conf_code	= null;
+		init(Config);
+	}
+
 	public OutputPropertiesDir(String file) throws Exception
 	{
-		super(file);
-		this.root 			= path.substring(0, path.lastIndexOf("/")+1);
-		this.file_name		= path.substring(root.length());
-		
+		this.path 		= file.replace('\\', '/');
+		this.root		= path.substring(0, path.lastIndexOf("/")+1);
+		this.file_name	= path.substring(root.length());
+
 		// 读入基础属性
-		byte[] conf_data = loadRes(file_name, null);
+		byte[] conf_data = loadRes(file, null);
 		if (conf_data == null) {
-			throw new FileNotFoundException(path);
+			throw new FileNotFoundException(file);
 		}
 		this.conf_code = new String(conf_data, CIO.ENCODING);
 		this.config = new PropertyGroup(conf_code, "=");
-		
 		super.init(config);
 	}
 	

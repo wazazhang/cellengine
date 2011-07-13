@@ -391,7 +391,7 @@ public class EatBuilder extends Builder
 		
 		public OutputPack(com.g2d.studio.io.File pak_file) throws Exception
 		{
-			super(pak_file.getPath());
+			String path = pak_file.getPath();
 			this.pak_file = pak_file;
 		
 			InputStream fis = pak_file.getInputStream();

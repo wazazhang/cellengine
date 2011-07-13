@@ -1,9 +1,11 @@
 package com.cell.gameedit.output;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -47,6 +49,12 @@ import com.cell.util.PropertyGroup;
  */
 public class OutputXmlDir extends OutputXml
 {
+	
+	
+	public OutputXmlDir(String file_path) {
+		
+	}
+	
 	@Override
 	public byte[] loadRes(String name, AtomicReference<Float> percent) {
 		// TODO Auto-generated method stub

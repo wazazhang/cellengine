@@ -34,17 +34,6 @@ import com.cell.util.PropertyGroup;
  */
 abstract public class OutputProperties extends BaseOutput
 {
-	final public String path;
-	
-	public OutputProperties(String path, PropertyGroup Config) throws Exception {
-		this.path = path.replace('\\', '/');
-		init(Config);
-	}
-
-	public OutputProperties(String path) {
-		this.path = path.replace('\\', '/');
-	}
-	
 	final protected void init(PropertyGroup Config) throws Exception
 	{
 		// 解吸所有对象
