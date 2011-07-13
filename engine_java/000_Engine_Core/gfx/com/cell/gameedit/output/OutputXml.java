@@ -45,7 +45,7 @@ import com.cell.util.PropertyGroup;
  * 如何将编辑器资源解析成单位
  * @author WAZA
  */
-abstract public class OutputXML extends BaseOutput
+abstract public class OutputXml extends BaseOutput
 {		
 	private String	image_type;
 	private boolean	image_tile;

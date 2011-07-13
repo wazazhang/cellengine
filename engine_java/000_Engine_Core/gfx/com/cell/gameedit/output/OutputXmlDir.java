@@ -45,7 +45,7 @@ import com.cell.util.PropertyGroup;
  * 如何将编辑器资源解析成单位
  * @author WAZA
  */
-public class OutputXmlDir extends OutputXML
+public class OutputXmlDir extends OutputXml
 {
 	@Override
 	public byte[] loadRes(String name, AtomicReference<Float> percent) {
@@ -61,7 +61,7 @@ public class OutputXmlDir extends OutputXML
 					"E:/Projects/hf_elex_svn/santc/data/edit/res/actor/" +
 					"actor_000000/output/actor.xml");
 			Document doc = docBuilder.parse(is);
-			new OutputXML() {
+			new OutputXml() {
 				@Override
 				public byte[] loadRes(String name, AtomicReference<Float> percent) {
 					return null;
