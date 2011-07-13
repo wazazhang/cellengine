@@ -21,14 +21,7 @@ public class CellStreamTiles extends StreamTiles
 	 * @return
 	 */
 	public boolean isTile() {
-		String code = set.getOutput().getPropertiesCode();
-		Pattern pattern_tile = Pattern.compile("#<IMAGE TILE>\\s+\\w+");
-		Matcher matcher = pattern_tile.matcher(code);
-		if (matcher.find()) {
-			String group = code.substring(matcher.start(), matcher.end());
-			return group.endsWith("true");
-		}
-		return false;
+		return set.getOutput().isTile();
 	}
 	
 	/**
@@ -36,14 +29,7 @@ public class CellStreamTiles extends StreamTiles
 	 * @return
 	 */
 	public boolean isGroup() {
-		String code = set.getOutput().getPropertiesCode();
-		Pattern pattern_group = Pattern.compile("#<IMAGE GROUP>\\s+\\w+");
-		Matcher matcher = pattern_group.matcher(code);
-		if (matcher.find()) {
-			String group = code.substring(matcher.start(), matcher.end());
-			return group.endsWith("true");
-		}
-		return false;
+		return set.getOutput().isGroup();
 	}
 	
 	/**
@@ -51,15 +37,7 @@ public class CellStreamTiles extends StreamTiles
 	 * @return
 	 */
 	public String getImageExtentions() {
-		String code = set.getOutput().getPropertiesCode();
-		Pattern pattern_tile = Pattern.compile("#<IMAGE TYPE>\\s+\\w+");
-		Matcher matcher = pattern_tile.matcher(code);
-		if (matcher.find()) {
-			String group = code.substring(matcher.start(), matcher.end());
-			String[] split = group.split("\\s");
-			return split[split.length-1];
-		}
-		return "png";
+		return set.getOutput().getImageExtentions();
 	}
 	
 	@Override
