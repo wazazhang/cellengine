@@ -399,10 +399,10 @@ abstract public class OutputXML extends BaseOutput
 		set.Width		= Integer.parseInt(world.getAttribute("width"));
 		set.Height		= Integer.parseInt(world.getAttribute("height"));
 		
-		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
-		int sprs_count	= Integer.parseInt(world.getAttribute("unit_count_sprite"));
-		int wpss_count	= Integer.parseInt(world.getAttribute("waypoint_count"));
-		int wrss_count	= Integer.parseInt(world.getAttribute("region_count"));
+//		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
+//		int sprs_count	= Integer.parseInt(world.getAttribute("unit_count_sprite"));
+//		int wpss_count	= Integer.parseInt(world.getAttribute("waypoint_count"));
+//		int wrss_count	= Integer.parseInt(world.getAttribute("region_count"));
 
 		set.Data		= world.getAttribute("data");
 		
@@ -476,7 +476,7 @@ abstract public class OutputXML extends BaseOutput
 			Node node = list.item(s);
 			if (node instanceof Element) {
 				Element e = (Element)node;
-				if (e.getNodeName().equals("unit_map")) {
+				if (e.getNodeName().equals("waypoint_link")) {
 					int start	= Integer.parseInt(e.getAttribute("start"));
 					int end 	= Integer.parseInt(e.getAttribute("end"));
 					set.WayPoints.get(start).Nexts.add(set.WayPoints.get(end));
