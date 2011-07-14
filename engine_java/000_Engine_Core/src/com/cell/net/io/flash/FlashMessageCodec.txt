@@ -1,10 +1,10 @@
 package //package
 {
-	import com.net.client.MessageFactory;
-	import com.net.client.Message;
-	import com.net.client.NetDataInput;
-	import com.net.client.NetDataOutput;
-	import com.net.client.NetDataTypes;
+	import com.cell.net.io.MessageFactory;
+	import com.cell.net.io.MutualMessage;
+	import com.cell.net.io.NetDataInput;
+	import com.cell.net.io.NetDataOutput;
+	import com.cell.net.io.NetDataTypes;
 //import
 
 	/**
@@ -17,13 +17,13 @@ package //package
 			return "//version";
 		}
 	
-		public function	getType(msg : Message) : int 
+		public function	getType(msg : MutualMessage) : int 
 		{
 //getType
 			return 0;
 		}
 		
-		public function	createMessage(type : int) : Message
+		public function	createMessage(type : int) : MutualMessage
 		{
 			switch(type)
 			{
@@ -32,12 +32,12 @@ package //package
 			return null;
 		}
 		
-		public function	readExternal(msg : Message,  input : NetDataInput) : void  
+		public function	readExternal(msg : MutualMessage,  input : NetDataInput) : void  
 		{
 //readExternal
 		}
 		
-		public function	writeExternal(msg : Message, output : NetDataOutput) : void  
+		public function	writeExternal(msg : MutualMessage, output : NetDataOutput) : void  
 		{
 //writeExternal
 		}
