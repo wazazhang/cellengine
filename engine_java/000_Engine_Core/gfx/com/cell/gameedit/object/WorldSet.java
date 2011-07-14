@@ -85,7 +85,7 @@ public class WorldSet implements SetObject
 		public int Index;
 		public int X;
 		public int Y;
-		public String Data;
+		public String Data[];
 
 		public ArrayList<WaypointObject> Nexts = new ArrayList<WaypointObject>();
 
@@ -100,7 +100,7 @@ public class WorldSet implements SetObject
 		public int Y;
 		public int W;
 		public int H;
-		public String Data;
+		public String Data[];
 
 	}
 	

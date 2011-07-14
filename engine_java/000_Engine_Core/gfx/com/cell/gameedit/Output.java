@@ -62,16 +62,16 @@ public interface Output
 	public Hashtable<String, TableSet>		getTableGroups();
 	
 	
-
-	public IImages		createImagesFromSet(ImagesSet img, IImage image, IImages stuff);
-	
-	public CMap			createMapFromSet(MapSet tmap, IImages tiles, boolean isAnimate, boolean isCyc);
-
-	public CSprite		createSpriteFromSet(SpriteSet tsprite, IImages tiles);
-	
-	public CWayPoint[]	createWayPointsFromSet(java.util.Map<Integer, WaypointObject> waypoints);
-
-	public CCD[] 		createRegionsFromSet(java.util.Map<Integer, RegionObject> regions);
+//
+//	public IImages		createImagesFromSet(ImagesSet img, IImage image, IImages stuff);
+//	
+//	public CMap			createMapFromSet(MapSet tmap, IImages tiles, boolean isAnimate, boolean isCyc);
+//
+//	public CSprite		createSpriteFromSet(SpriteSet tsprite, IImages tiles);
+//	
+//	public CWayPoint[]	createWayPointsFromSet(java.util.Map<Integer, WaypointObject> waypoints);
+//
+//	public CCD[] 		createRegionsFromSet(java.util.Map<Integer, RegionObject> regions);
 
 
 	/**

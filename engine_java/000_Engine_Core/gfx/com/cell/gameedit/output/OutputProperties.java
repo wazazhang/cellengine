@@ -457,7 +457,7 @@ abstract public class OutputProperties extends BaseOutput
 			wp.Index 		= Integer.parseInt(_args[0]);
 			wp.X 			= Integer.parseInt(_args[1]);
 			wp.Y 			= Integer.parseInt(_args[2]);
-			wp.Data			= _args[3];
+			wp.Data			= getArray1D(_args[3]);
 			set.WayPoints.put(wp.Index, wp);
 		}
 		for (int i=0; i<wrss_count; i++) {
@@ -468,7 +468,7 @@ abstract public class OutputProperties extends BaseOutput
 			wr.Y 			= Integer.parseInt(_args[2]);
 			wr.W 			= Integer.parseInt(_args[3]);
 			wr.H 			= Integer.parseInt(_args[4]);
-			wr.Data			= _args[5];
+			wr.Data			= getArray1D(_args[5]);
 			set.Regions.put(wr.Index, wr);
 		}
 		

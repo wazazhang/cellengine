@@ -427,7 +427,7 @@ abstract public class OutputXml extends BaseOutput
 					wp.Index 		= Integer.parseInt(e.getAttribute("index"));
 					wp.X 			= Integer.parseInt(e.getAttribute("x"));
 					wp.Y 			= Integer.parseInt(e.getAttribute("y"));
-					wp.Data			= e.getAttribute("data");
+					wp.Data			= getArray1D(e.getAttribute("data"));
 					set.WayPoints.put(wp.Index, wp);
 				}
 				else if (e.getNodeName().equals("region"))
@@ -438,7 +438,7 @@ abstract public class OutputXml extends BaseOutput
 					wr.Y 			= Integer.parseInt(e.getAttribute("y"));
 					wr.W 			= Integer.parseInt(e.getAttribute("width"));
 					wr.H 			= Integer.parseInt(e.getAttribute("height"));
-					wr.Data			= e.getAttribute("data");
+					wr.Data			= getArray1D(e.getAttribute("data"));
 					set.Regions.put(wr.Index, wr);
 				}
 			}
