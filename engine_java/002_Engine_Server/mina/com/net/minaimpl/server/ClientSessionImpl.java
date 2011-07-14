@@ -7,7 +7,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.Protocol;
 import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;

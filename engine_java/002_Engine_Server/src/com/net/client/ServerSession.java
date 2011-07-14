@@ -2,8 +2,8 @@ package com.net.client;
 
 import java.io.IOException;
 
+import com.cell.net.io.MessageHeader;
 import com.net.AbstractSession;
-import com.net.MessageHeader;
 
 public interface ServerSession extends AbstractSession
 {

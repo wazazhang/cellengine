@@ -1,7 +1,7 @@
 package com.net.server;
 
+import com.cell.net.io.MessageHeader;
 import com.net.AbstractSession;
-import com.net.MessageHeader;
 import com.net.Protocol;
 
 

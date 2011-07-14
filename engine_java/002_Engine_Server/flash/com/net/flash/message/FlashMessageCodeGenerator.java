@@ -13,13 +13,13 @@ import java.util.Map.Entry;
 import com.cell.CIO;
 import com.cell.CUtil;
 import com.cell.io.CFile;
-import com.net.ExternalizableFactory;
+import com.cell.net.io.Comment;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.MutualMessageCodeGenerator;
+import com.cell.net.io.MutualMessageCodeGeneratorJava;
+import com.cell.net.io.NetDataTypes;
 //import com.net.ExternalizableMessage;
-import com.net.NetDataTypes;
-import com.net.mutual.Comment;
-import com.net.mutual.MutualMessage;
-import com.net.mutual.MutualMessageCodeGenerator;
-import com.net.mutual.MutualMessageCodeGeneratorJava;
 
 public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 {

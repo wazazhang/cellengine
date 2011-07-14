@@ -1,11 +1,12 @@
 package com.net.flash.test;
 
 import java.io.IOException;
-import com.net.mutual.MutualMessage;
-import com.net.mutual.MutualMessageCodec;
-import com.net.NetDataInput;
-import com.net.NetDataOutput;
-import com.net.NetDataTypes;
+
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.MutualMessageCodec;
+import com.cell.net.io.NetDataInput;
+import com.cell.net.io.NetDataOutput;
+import com.cell.net.io.NetDataTypes;
 
 
 /**

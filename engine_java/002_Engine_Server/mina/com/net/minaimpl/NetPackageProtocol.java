@@ -1,6 +1,6 @@
 package com.net.minaimpl;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 
 
 final public class NetPackageProtocol 

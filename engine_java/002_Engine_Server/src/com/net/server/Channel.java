@@ -3,7 +3,7 @@ package com.net.server;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.Protocol;
 
 public interface Channel 

@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cell.CObject;
+import com.cell.net.io.MessageHeader;
 import com.cell.util.concurrent.ThreadPool;
-import com.net.MessageHeader;
 import com.net.client.ServerSession;
 
 

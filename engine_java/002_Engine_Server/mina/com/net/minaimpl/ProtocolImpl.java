@@ -2,8 +2,8 @@ package com.net.minaimpl;
 
 import java.io.Serializable;
 
-import com.net.ExternalizableMessage;
-import com.net.MessageHeader;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MessageHeader;
 
 public class ProtocolImpl implements com.net.Protocol
 {	

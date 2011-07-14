@@ -44,9 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cell.CUtil;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.MessageHeader;
 import com.cell.util.concurrent.ThreadPool;
-import com.net.ExternalizableFactory;
-import com.net.MessageHeader;
 import com.net.minaimpl.KeepAlive;
 import com.net.minaimpl.MinaThreadFactory;
 import com.net.minaimpl.NetPackageCodec;

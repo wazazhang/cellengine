@@ -1,6 +1,6 @@
 package com.net.minaimpl.client;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.client.ClientChannel;
 import com.net.client.ServerSession;
 

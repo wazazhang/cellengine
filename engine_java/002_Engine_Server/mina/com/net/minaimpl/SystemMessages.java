@@ -3,7 +3,7 @@ package com.net.minaimpl;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.minaimpl.server.ServerImpl;
 
 public interface SystemMessages 

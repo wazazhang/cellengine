@@ -32,14 +32,14 @@ import org.slf4j.LoggerFactory;
 
 import com.cell.CUtil;
 import com.cell.io.NIOSerialize;
+import com.cell.net.io.CompressingMessage;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MessageHeader;
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.NetDataOutput;
 import com.cell.util.zip.ZipUtil;
-import com.net.CompressingMessage;
-import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
-import com.net.MessageHeader;
-import com.net.NetDataOutput;
 import com.net.Protocol;
-import com.net.mutual.MutualMessage;
 
 
 public class NetPackageCodec extends MessageHeaderCodec

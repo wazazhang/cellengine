@@ -12,9 +12,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cell.net.io.MessageHeader;
 import com.cell.util.concurrent.ThreadPool;
 //import com.net.Heartbeat;
-import com.net.MessageHeader;
 import com.net.Protocol;
 import com.net.client.ClientChannel;
 import com.net.client.ServerSession;

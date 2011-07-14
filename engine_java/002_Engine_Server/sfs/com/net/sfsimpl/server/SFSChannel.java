@@ -3,7 +3,7 @@ package com.net.sfsimpl.server;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.Protocol;
 import com.net.server.Channel;
 import com.net.server.ChannelListener;

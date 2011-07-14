@@ -3,8 +3,8 @@ package com.net.server;
 import java.io.IOException;
 import java.util.Iterator;
 
-import com.net.ExternalizableFactory;
-import com.net.MessageHeader;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.MessageHeader;
 
 public interface Server 
 {

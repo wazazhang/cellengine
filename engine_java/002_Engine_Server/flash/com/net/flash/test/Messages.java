@@ -8,14 +8,14 @@ import org.apache.mina.core.buffer.IoBuffer;
 import com.cell.CIO;
 import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
-import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
-import com.net.MessageHeader;
-import com.net.NetDataInput;
-import com.net.NetDataOutput;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MessageHeader;
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.MutualMessageCodeGeneratorJava;
+import com.cell.net.io.NetDataInput;
+import com.cell.net.io.NetDataOutput;
 import com.net.flash.message.FlashMessageCodeGenerator;
-import com.net.mutual.MutualMessage;
-import com.net.mutual.MutualMessageCodeGeneratorJava;
 
 public class Messages 
 {

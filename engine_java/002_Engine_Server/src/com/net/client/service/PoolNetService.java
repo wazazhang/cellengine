@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.cell.CUtil;
+import com.cell.net.io.MessageHeader;
 import com.cell.util.concurrent.ThreadPool;
-import com.net.MessageHeader;
 import com.net.client.ServerSession;
 
 /**

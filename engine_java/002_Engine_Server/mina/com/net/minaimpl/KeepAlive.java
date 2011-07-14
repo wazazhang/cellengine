@@ -10,7 +10,7 @@ import org.apache.mina.filter.keepalive.KeepAliveRequestTimeoutHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.net.ExternalizableFactory;
+import com.cell.net.io.ExternalizableFactory;
 
 public class KeepAlive extends KeepAliveFilter 
 {

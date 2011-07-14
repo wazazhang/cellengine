@@ -12,11 +12,11 @@ import org.apache.mina.core.buffer.IoBuffer;
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
-import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
-import com.net.NetDataInput;
-import com.net.NetDataTypes;
-import com.net.mutual.MutualMessage;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.NetDataInput;
+import com.cell.net.io.NetDataTypes;
 
 public class NetDataInputImpl implements NetDataInput
 {	
@@ -179,7 +179,7 @@ public class NetDataInputImpl implements NetDataInput
 	}
 	
 
-	public <T extends com.net.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
+	public <T extends com.cell.net.io.ExternalizableMessage> T readExternal(Class<T> cls) throws IOException {
 		int type = readInt();
 		if (type != 0) {
 			try {

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.cell.CIO;
 import com.cell.j2se.CAppBridge;
-import com.net.ExternalizableFactory;
+import com.cell.net.io.ExternalizableFactory;
 import com.net.flash.test.MessageCodecJava;
 import com.net.flash.test.Messages;
 import com.net.minaimpl.server.ServerImpl;

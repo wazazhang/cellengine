@@ -1,6 +1,6 @@
 package com.net.client.service;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 
 public interface WaitingListener<REQ extends MessageHeader, RSP extends MessageHeader>
 {

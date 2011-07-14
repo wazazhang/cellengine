@@ -1,6 +1,6 @@
 package com.net.server;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.Protocol;
 
 public interface ClientSessionListener

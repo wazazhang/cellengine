@@ -20,8 +20,8 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.net.ExternalizableFactory;
-import com.net.MessageHeader;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.MessageHeader;
 import com.net.Protocol;
 import com.net.client.ServerSession;
 import com.net.client.ServerSessionListener;

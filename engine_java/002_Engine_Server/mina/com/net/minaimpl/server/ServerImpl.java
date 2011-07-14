@@ -15,9 +15,9 @@ import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.IoSession;
 
 import com.cell.CUtil;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.MessageHeader;
 import com.cell.util.concurrent.ThreadPool;
-import com.net.ExternalizableFactory;
-import com.net.MessageHeader;
 import com.net.Protocol;
 import com.net.minaimpl.ProtocolImpl;
 import com.net.minaimpl.ProtocolPool;

@@ -13,12 +13,12 @@ import org.apache.mina.core.buffer.IoBuffer;
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.NetDataOutput;
+import com.cell.net.io.NetDataTypes;
 import com.cell.reflect.Parser;
-import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
-import com.net.NetDataOutput;
-import com.net.NetDataTypes;
-import com.net.mutual.MutualMessage;
 
 public class NetDataOutputImpl implements NetDataOutput
 {	

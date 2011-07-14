@@ -1,6 +1,6 @@
 package com.net.client.service;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 
 public class WaitingListenerAdapter implements WaitingListener<MessageHeader, MessageHeader>
 {

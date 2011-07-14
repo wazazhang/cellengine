@@ -2,8 +2,8 @@ package com.net.sfsimpl.server;
 
 import java.io.Serializable;
 
-import com.net.ExternalizableMessage;
-import com.net.MessageHeader;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MessageHeader;
 
 
 final public class SFSProtocol  implements com.net.Protocol

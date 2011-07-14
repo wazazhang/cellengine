@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 
-import com.net.ExternalizableFactory;
-import com.net.ExternalizableMessage;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.ExternalizableMessage;
 
 public abstract class MessageHeaderCodec implements ProtocolCodecFactory
 {

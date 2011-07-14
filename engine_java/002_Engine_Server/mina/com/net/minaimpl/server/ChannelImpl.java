@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import com.net.MessageHeader;
+import com.cell.net.io.MessageHeader;
 import com.net.Protocol;
 import com.net.minaimpl.SystemMessages;
 import com.net.minaimpl.SystemMessages.*;

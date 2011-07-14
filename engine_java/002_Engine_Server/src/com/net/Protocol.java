@@ -1,5 +1,7 @@
 package com.net;
 
+import com.cell.net.io.MessageHeader;
+
 public interface Protocol
 {
 //	----------------------------------------------------------------------------------------------------------------		
