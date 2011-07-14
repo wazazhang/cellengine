@@ -75,11 +75,15 @@ public class OutputXmlDir extends OutputXml
 		}
 	}
 	
-	@Override
-	public byte[] loadRes(String name, AtomicReference<Float> percent) {
-		// TODO Auto-generated method stub
-		return null;
+	public byte[] loadRes(String path, AtomicReference<Float> percent)
+	{
+		byte[] data = CIO.loadData(root + path);
+		if (data == null) {
+			System.err.println("SetResource : read error : " + root + path);
+		} 
+		return data;
 	}
+
 	
 	public static void main(String argv[]) {
 		try {
