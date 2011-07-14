@@ -1,12 +1,7 @@
 package com.net.flash.test;
 
 import java.io.IOException;
-
-import com.cell.net.io.MutualMessage;
-import com.cell.net.io.MutualMessageCodec;
-import com.cell.net.io.NetDataInput;
-import com.cell.net.io.NetDataOutput;
-import com.cell.net.io.NetDataTypes;
+import com.cell.net.io.*;
 
 
 /**
@@ -15,7 +10,7 @@ import com.cell.net.io.NetDataTypes;
 public class MessageCodecJava implements MutualMessageCodec
 {
 	public String getVersion() {
-		return "1309883681909";
+		return "1310621473312";
 	}
 
 	public void readMutual(MutualMessage msg, NetDataInput in) throws IOException 
