@@ -15,7 +15,7 @@ import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGeneratorJava;
 import com.cell.net.io.NetDataInput;
 import com.cell.net.io.NetDataOutput;
-import com.net.flash.message.FlashMessageCodeGenerator;
+import com.cell.net.io.flash.FlashMessageCodeGenerator;
 
 public class Messages 
 {
