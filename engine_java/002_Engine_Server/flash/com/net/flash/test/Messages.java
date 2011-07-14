@@ -12,10 +12,10 @@ import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.ExternalizableMessage;
 import com.cell.net.io.MessageHeader;
 import com.cell.net.io.MutualMessage;
-import com.cell.net.io.MutualMessageCodeGeneratorJava;
 import com.cell.net.io.NetDataInput;
 import com.cell.net.io.NetDataOutput;
 import com.cell.net.io.flash.FlashMessageCodeGenerator;
+import com.cell.net.io.java.MutualMessageCodeGeneratorJava;
 
 public class Messages 
 {

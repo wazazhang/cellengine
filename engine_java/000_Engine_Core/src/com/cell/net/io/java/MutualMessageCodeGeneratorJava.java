@@ -1,4 +1,4 @@
-package com.cell.net.io;
+package com.cell.net.io.java;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,12 +9,17 @@ import java.util.Map.Entry;
 import com.cell.CIO;
 import com.cell.CUtil;
 import com.cell.io.CFile;
+import com.cell.net.io.ExternalizableFactory;
+import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MutualMessage;
+import com.cell.net.io.MutualMessageCodeGenerator;
+import com.cell.net.io.NetDataTypes;
 
 
 public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 {
 	private String template 		= CIO.readAllText(
-			"/com/cell/net/io/MutualMessageCodecJava.txt");
+			"/com/cell/net/io/java/MutualMessageCodecJava.txt");
 	
 	private String code_package		= "com.net.mutual";
 	private String code_import		= "";
