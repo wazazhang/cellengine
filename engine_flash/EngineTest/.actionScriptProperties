@@ -20,6 +20,7 @@
   <applications>
     <application path="EngineTest.mxml"/>
     <application path="EngineTestSFS.mxml"/>
+    <application path="TestGFX.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

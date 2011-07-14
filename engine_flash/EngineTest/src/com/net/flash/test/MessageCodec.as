@@ -1,10 +1,10 @@
 package com.net.flash.test
 {
-	import com.net.client.MessageFactory;
-	import com.net.client.Message;
-	import com.net.client.NetDataInput;
-	import com.net.client.NetDataOutput;
-	import com.net.client.NetDataTypes;
+	import com.cell.net.io.MessageFactory;
+	import com.cell.net.io.MutualMessage;
+	import com.cell.net.io.NetDataInput;
+	import com.cell.net.io.NetDataOutput;
+	import com.cell.net.io.NetDataTypes;
 	import com.net.flash.test.Messages.*;
 
 	/**
@@ -14,10 +14,10 @@ package com.net.flash.test
 	{
 	
 		public function getVersion() : String{
-			return "1309883681909";
+			return "1310621473312";
 		}
 	
-		public function	getType(msg : Message) : int 
+		public function	getType(msg : MutualMessage) : int 
 		{
 			if (msg is com.net.flash.test.Messages.Data) return 1;
 			if (msg is com.net.flash.test.Messages.Echo2Request) return 2;
@@ -29,7 +29,7 @@ package com.net.flash.test
 			return 0;
 		}
 		
-		public function	createMessage(type : int) : Message
+		public function	createMessage(type : int) : MutualMessage
 		{
 			switch(type)
 			{
@@ -44,7 +44,7 @@ package com.net.flash.test
 			return null;
 		}
 		
-		public function	readExternal(msg : Message,  input : NetDataInput) : void  
+		public function	readExternal(msg : MutualMessage,  input : NetDataInput) : void  
 		{
 		if (msg is com.net.flash.test.Messages.Data) {
 			r_Data_1(com.net.flash.test.Messages.Data(msg), input); return;
@@ -67,7 +67,7 @@ package com.net.flash.test
 
 		}
 		
-		public function	writeExternal(msg : Message, output : NetDataOutput) : void  
+		public function	writeExternal(msg : MutualMessage, output : NetDataOutput) : void  
 		{
 		if (msg is com.net.flash.test.Messages.Data) {
 			w_Data_1(com.net.flash.test.Messages.Data(msg), output); return;
