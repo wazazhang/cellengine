@@ -14,7 +14,7 @@ import com.cell.io.CFile;
 public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 {
 	private String template 		= CIO.readAllText(
-			"/com/cell/net/io/mutual/MutualMessageCodecJava.txt");
+			"/com/cell/net/io/MutualMessageCodecJava.txt");
 	
 	private String code_package		= "com.net.mutual";
 	private String code_import		= "";
