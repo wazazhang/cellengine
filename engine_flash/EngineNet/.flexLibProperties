@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" version="3">
   <includeClasses>
-    <classEntry path="com.cell.util.Map"/>
     <classEntry path="com.cell.util.Reference"/>
     <classEntry path="com.cell.util.Util"/>
     <classEntry path="com.net.client.Client"/>
@@ -21,7 +20,6 @@
     <classEntry path="com.net.client.minaimpl.ServerSessionImpl"/>
     <classEntry path="com.net.client.sfsimpl.SFSProtocol"/>
     <classEntry path="com.net.client.sfsimpl.SFSSessionImpl"/>
-    <classEntry path="com.cell.util.CMath"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
