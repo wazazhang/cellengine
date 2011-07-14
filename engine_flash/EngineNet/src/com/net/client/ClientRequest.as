@@ -1,10 +1,11 @@
 package com.net.client
 {
+	import com.cell.net.io.MutualMessage;
 	import com.cell.util.Reference;
 	
 	internal class ClientRequest extends Reference
 	{
-		private var request 		: Message;
+		private var request 		: MutualMessage;
 		private var package_num		: int;
 		private var drop_timeout	: int;
 		
@@ -15,7 +16,7 @@ package com.net.client
 		private var ping			: int;
 		
 		function ClientRequest(
-			message 		: Message, 
+			message 		: MutualMessage, 
 			package_num		: int,
 			drop_timeout 	: int, 
 			response 		: Array,

@@ -1,5 +1,8 @@
 package com.net.client
 {
+	import com.cell.net.io.MessageFactory;
+	import com.cell.net.io.MutualMessage;
+	
 	import flash.events.IEventDispatcher;
 	
 	public interface ServerSession
@@ -13,9 +16,9 @@ package com.net.client
 		
 		function 		disconnect() : void;
 		
-		function 		send(message : Message): Boolean;
+		function 		send(message : MutualMessage): Boolean;
 		
-		function 		sendRequest(pnum: int, message : Message) : Boolean;
+		function 		sendRequest(pnum: int, message : MutualMessage) : Boolean;
 		
 		function 		connect(
 							host 		: String, 

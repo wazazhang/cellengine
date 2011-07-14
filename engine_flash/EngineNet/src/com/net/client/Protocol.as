@@ -1,5 +1,7 @@
 package com.net.client
 {
+	import com.cell.net.io.MutualMessage;
+	
 	public interface Protocol
 	{
 		/**消息类型*/
@@ -26,7 +28,7 @@ package com.net.client
 		function 		getReceivedTime():Date ;
 		
 		/**包含的消息*/
-		function 		getMessage() : Message ;
+		function 		getMessage() : MutualMessage ;
 		
 	}
 	

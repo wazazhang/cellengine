@@ -1,7 +1,8 @@
 package com.net.client
 {
 	import flash.events.Event;
-
+	import com.cell.net.io.MutualMessage;
+	
 	public class ClientEvent extends Event
 	{
 		public static const CONNECTED			:String = "onConnected"; 
@@ -21,8 +22,8 @@ package com.net.client
 		public static const REQUEST_TIMEOUT		:String = "onRequestTimeout"; 
 		
 		private var client 		: Client;
-		private var request		: Message;
-		private var message		: Message;
+		private var request		: MutualMessage;
+		private var message		: MutualMessage;
 		private var channel_id	: int;
 		private var reason		: String;
 		
@@ -30,8 +31,8 @@ package com.net.client
 			evt 		: String, 
 			client 		: Client,
 			channel_id	: int,
-			request		: Message,
-			message		: Message,
+			request		: MutualMessage,
+			message		: MutualMessage,
 			reason		: String
 		) 
 		{
@@ -46,15 +47,15 @@ package com.net.client
 			return new ClientEvent(this.type, this.client, this.channel_id, this.request, this.message, this.reason);  
 		}
 		
-		public function getRequest() : Message {
+		public function getRequest() : MutualMessage {
 			return request;
 		}
 		
-		public function getResponse() : Message {
+		public function getResponse() : MutualMessage {
 			return message;
 		}
 		
-		public function getNotify() : Message {
+		public function getNotify() : MutualMessage {
 			return message;
 		}
 	

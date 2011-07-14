@@ -1,5 +1,9 @@
 package com.net.client.sfsimpl
 {
+	import com.cell.net.io.MessageFactory;
+	import com.cell.net.io.MutualMessage;
+	import com.cell.net.io.NetDataInput;
+	import com.cell.net.io.NetDataOutput;
 	import com.net.client.*;
 	import com.smartfoxserver.v2.*;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -104,7 +108,7 @@ package com.net.client.sfsimpl
 		}
 		
 
-		public function send(message : Message): Boolean
+		public function send(message : MutualMessage): Boolean
 		{
 			var p : SFSProtocol = new SFSProtocol();
 //			p.setSessionID(0);
@@ -121,7 +125,7 @@ package com.net.client.sfsimpl
 			return true;
 		}
 		
-		public function sendRequest(pnum: int, message : Message) : Boolean
+		public function sendRequest(pnum: int, message : MutualMessage) : Boolean
 		{
 			var p : SFSProtocol = new SFSProtocol();
 //			p.setSessionID(0);
@@ -189,7 +193,7 @@ package com.net.client.sfsimpl
 			var message_type : int		= obj.getInt	("message_type");
 			if (message_type != 0) {
 				var data : ByteArray 	= obj.getByteArray("message");
-				var msg : Message = ext_factory.createMessage(message_type);
+				var msg : MutualMessage = ext_factory.createMessage(message_type);
 				var net_in : NetDataInput = new NetDataInput(ext_factory);
 				net_in.writeBytes(data);
 				net_in.position = 0;

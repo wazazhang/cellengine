@@ -1,6 +1,6 @@
 package com.net.client.sfsimpl
 {
-	import com.net.client.Message;
+	import com.cell.net.io.MutualMessage;
 	import com.net.client.Protocol;
 
 	public class SFSProtocol implements Protocol
@@ -13,7 +13,7 @@ package com.net.client.sfsimpl
 //		protected var 		channel_session_id 	: Number;
 		protected var 		sent_time 			: Date;
 		protected var 		received_time 		: Date;
-		protected var 		message 			: Message;
+		protected var 		message 			: MutualMessage;
 		
 		
 		public function SFSProtocol()
@@ -41,7 +41,7 @@ package com.net.client.sfsimpl
 		function setReceivedTime(received_time : Date) : void {
 			this.received_time = received_time;
 		}
-		function setMessage(message : Message) : void {
+		function setMessage(message : MutualMessage) : void {
 			this.message = message;
 		}
 		
@@ -83,7 +83,7 @@ package com.net.client.sfsimpl
 		}
 		
 		/**包含的消息*/
-		public function 		getMessage() : Message {
+		public function 		getMessage() : MutualMessage {
 			return this.message;
 		}
 	}

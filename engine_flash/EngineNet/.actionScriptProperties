@@ -8,8 +8,8 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="1" linkType="1" path="lib/sfs"/>
       <libraryPathEntry kind="3" linkType="1" path="/001_EngineGFX/bin/001_EngineGFX.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="1" linkType="1" path="lib/sfs"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

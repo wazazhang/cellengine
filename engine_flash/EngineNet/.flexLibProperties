@@ -7,10 +7,6 @@
     <classEntry path="com.net.client.ClientEvent"/>
     <classEntry path="com.net.client.ClientRequest"/>
     <classEntry path="com.net.client.ClientServerListener"/>
-    <classEntry path="com.net.client.MessageFactory"/>
-    <classEntry path="com.net.client.NetDataInput"/>
-    <classEntry path="com.net.client.NetDataOutput"/>
-    <classEntry path="com.net.client.NetDataTypes"/>
     <classEntry path="com.net.client.Protocol"/>
     <classEntry path="com.net.client.ProtocolType"/>
     <classEntry path="com.net.client.ServerSession"/>

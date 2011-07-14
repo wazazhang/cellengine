@@ -4,7 +4,7 @@ package com.net.client
 	
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
-	
+	import com.cell.net.io.MutualMessage;
 	import mx.events.Request;
 	
 	//告诉系统，需要注册哪里事件  
@@ -57,7 +57,7 @@ package com.net.client
 		 * 直接发送，不监听回馈 
 		 * @param msg
 		 */
-		public function send(msg : Message) : Boolean
+		public function send(msg : MutualMessage) : Boolean
 		{
 			return getSession().send(msg);
 		}
@@ -71,7 +71,7 @@ package com.net.client
 		 * @return
 		 */
 		public function sendRequest(
-			message 			: Message, 
+			message 			: MutualMessage, 
 			response_listener 	: Function, 
 			timeout_listener	: Function = null,
 			timeout 			: int = 10000) : Reference
@@ -90,7 +90,7 @@ package com.net.client
 		}
 		
 		public function sendRequestImpl(
-			message 			: Message, 
+			message 			: MutualMessage, 
 			response_listener 	: Array, 
 			timeout_listener	: Array = null,
 			timeout 			: int = 10000) : Reference

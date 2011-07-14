@@ -1,10 +1,10 @@
 package com.net.client.minaimpl
 {	
+	import com.cell.net.io.MessageFactory;
+	import com.cell.net.io.MutualMessage;
+	import com.cell.net.io.NetDataInput;
+	import com.cell.net.io.NetDataOutput;
 	import com.cell.util.Util;
-	import com.net.client.Message;
-	import com.net.client.MessageFactory;
-	import com.net.client.NetDataInput;
-	import com.net.client.NetDataOutput;
 	import com.net.client.Protocol;
 	import com.net.client.ProtocolType;
 	import com.net.client.ServerSession;
@@ -113,7 +113,7 @@ package com.net.client.minaimpl
 			}
 		}
 		
-		public function send(message: Message) : Boolean
+		public function send(message: MutualMessage) : Boolean
 		{
 			if (this.connector.connected) {
 				var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
@@ -126,7 +126,7 @@ package com.net.client.minaimpl
 			}
 		}
 		
-		public function sendRequest(pnum: int, message : Message) : Boolean
+		public function sendRequest(pnum: int, message : MutualMessage) : Boolean
 		{
 			if (this.connector.connected) {
 				var protocol : ProtocolImpl = new ProtocolImpl(protocol_fixed_size);
@@ -356,7 +356,7 @@ package com.net.client.minaimpl
 						}
 						// 解出包包含的二进制消息
 						if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
-							var message : Message = message_factory.createMessage(buffer.readInt());// ext 4
+							var message : MutualMessage = message_factory.createMessage(buffer.readInt());// ext 4
 							message_factory.readExternal(message, buffer);
 							protocol.setMessage(message);
 						}

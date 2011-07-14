@@ -1,6 +1,6 @@
 package com.net.client.minaimpl
 {
-	import com.net.client.Message;
+	import com.cell.net.io.MutualMessage;
 	import com.net.client.Protocol;
 
 	public class ProtocolImpl implements Protocol
@@ -21,7 +21,7 @@ package com.net.client.minaimpl
 		protected var 		channel_id 			: int;
 		protected var 		sent_time 			: Date;
 		protected var 		received_time 		: Date;
-		protected var 		message 			: Message;
+		protected var 		message 			: MutualMessage;
 		
 		var buffer_size : int;
 		
@@ -46,7 +46,7 @@ package com.net.client.minaimpl
 		function setReceivedTime(received_time : Date) : void {
 			this.received_time = received_time;
 		}
-		function setMessage(message : Message) : void {
+		function setMessage(message : MutualMessage) : void {
 			this.message = message;
 		}
 		
@@ -78,7 +78,7 @@ package com.net.client.minaimpl
 		}
 		
 		/**包含的消息*/
-		public function 		getMessage() : Message {
+		public function 		getMessage() : MutualMessage {
 			return this.message;
 		}
 	}
