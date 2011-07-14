@@ -196,6 +196,10 @@ package com.cell.util
 			}
 			
 			
+			public static function endsOf(src:String, end:String) : Boolean {
+				return src.lastIndexOf(end) + end.length == src.length;
+			}
+			
 		}
 	
 

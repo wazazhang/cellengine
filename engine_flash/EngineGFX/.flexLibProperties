@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" version="3">
   <includeClasses>
-    <classEntry path="com.cell.gfx.Actor"/>
+    <classEntry path="com.cell.net.io.MutualMessage"/>
+    <classEntry path="com.cell.gameedit.object.worldset.MapObject"/>
+    <classEntry path="com.cell.gameedit.object.worldset.RegionObject"/>
+    <classEntry path="com.cell.gfx.CImages"/>
+    <classEntry path="com.cell.gameedit.output.XmlOutput"/>
+    <classEntry path="com.cell.gameedit.ResourceLoader"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
