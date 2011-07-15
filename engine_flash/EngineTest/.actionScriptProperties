@@ -14,6 +14,7 @@
       <libraryPathEntry kind="1" linkType="1" path="${FLEXUNIT_LOCALE_LOCATION}/version4locale/"/>
       <libraryPathEntry kind="3" linkType="1" path="/002_EngineNet/bin/002_EngineNet.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="E:/Projects/cellengine/engine_flash/EngineNet/lib/sfs/SFS2X_API_AS3.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/001_EngineGFX/bin/001_EngineGFX.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

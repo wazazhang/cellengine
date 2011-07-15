@@ -4,6 +4,9 @@
 				xmlns:mx="library://ns.adobe.com/flex/mx" initialize="initalize(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.cell.gameedit.ResourceEvent;
+			import com.cell.gameedit.ResourceLoader;
+			
 			import mx.events.FlexEvent;
 			
 			var ldr:Loader = new Loader();
@@ -17,16 +20,15 @@
 				rect.graphics.endFill();
 				addChild(rect);
 				
-				var url:String = "file:///E:/Projects/hf_elex_svn/santc/data/edit/res/actor/actor_000000/output/tiles.png";
+				var url:String = "../actor_000000/output/tiles.png";
 				var urlReq:URLRequest = new URLRequest(url);
 				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
 				ldr.load(urlReq);
 
 				
-				
-				
-				
-					
+				var resloader : ResourceLoader = new ResourceLoader();
+				resloader.addEventListener(ResourceEvent.LOADED, loaded_set);
+				resloader.load(new URLRequest("../actor_000000/output/actor.xml"));
 					
 			}
 			
@@ -36,6 +38,14 @@
 				addChild(ldr);
 				
 			}
+			
+			private function loaded_set(e:Event) : void
+			{
+				trace("loaded_set");
+				
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
