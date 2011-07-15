@@ -7,6 +7,8 @@
     <classEntry path="com.cell.gfx.CImages"/>
     <classEntry path="com.cell.gameedit.output.XmlOutput"/>
     <classEntry path="com.cell.gameedit.ResourceLoader"/>
+    <classEntry path="com.cell.io.TextReader"/>
+    <classEntry path="com.cell.util.Arrays"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -14,5 +14,16 @@ package com.cell.util
 				delete this[o];
 			}
 		}
+		
+		public function put(key:*, value:*) : void
+		{
+			this[key] = value;
+		}
+		
+		public function get(key:*) : *
+		{
+			return this[key];
+		}
+		
 	}
 }

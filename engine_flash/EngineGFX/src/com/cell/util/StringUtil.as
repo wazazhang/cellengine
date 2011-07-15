@@ -1,5 +1,10 @@
 package com.cell.util
 {
+	import com.cell.io.TextDeserialize;
+	import com.cell.io.TextReader;
+	
+	import flash.utils.ByteArray;
+
 	/**
 	 *  The StringUtil utility class is an all-static class with methods for
 	 *  working with String objects within Flex.
@@ -196,10 +201,152 @@ package com.cell.util
 			}
 			
 			
-			public static function endsOf(src:String, end:String) : Boolean {
+			public static function endsOf(src:String, end:String) : Boolean 
+			{
 				return src.lastIndexOf(end) + end.length == src.length;
 			}
 			
+			
+			/**
+			 * get [key : value] form str <\b> 
+			 * 
+			 * str = "FORCE=A"
+			 * key = "FORCE="
+			 * value = "A"
+			 * 
+			 * @param str
+			 * @param key
+			 * @param value
+			 */
+			static public function getStringValueFromKey(str:String, key:String) : String
+			{
+				var index : int = str.indexOf(key);
+				if(index >= 0)
+				{
+					return str.substring(index + key.length);
+				}
+				else
+				{
+					return null;
+				}
+			}
+			
+			
+			/**
+			 * @param text
+			 * @param s
+			 * @param d
+			 * @return
+			 */
+			static public function replaceString(text:String, s:String, d:String, limit:int=int.MAX_VALUE) : String
+			{
+				if (text.indexOf(s, 0) < 0) {
+					return text;
+				}
+				
+				var count : int = 0;
+				
+				var sb : String = "";
+				
+				for (var i:int = 0; i < text.length; i++)
+				{
+					if (count < limit) {
+						var dst : int = text.indexOf(s, i);
+						if (dst >= 0) {
+							sb += (text.substring(i, dst) + d);
+							i = dst + s.length - 1;
+							count++;
+						} else {
+							sb += (text.substring(i));
+							break;
+						}
+					} else {
+						sb += (text.substring(i));
+						break;
+					}
+				}
+				
+				return sb;
+			}
+			
+			/**
+			 * @author 
+			 * split string 
+			 * @param text
+			 * @param separator
+			 * @return
+			 */
+			static public function splitString( text:String, 
+												separator:String, 
+												limit:int=int.MAX_VALUE, 
+												autotrim:Boolean=false) : Array
+			{
+				var count : int = 0;
+				
+				var lines : Array = new Array();
+				for (var i : int = 0; i < text.length; i++) {
+					if (count < limit) {
+						var dst : int = text.indexOf(separator, i);
+						if (dst >= 0) {
+							lines.push(text.substring(i, dst));
+							i = dst + separator.length - 1;
+							count ++;
+						} else {
+							lines.push(text.substring(i, text.length));
+							break;
+						}
+					} else {
+						lines.push(text.substring(i, text.length));
+						break;
+					}
+				}
+				if (autotrim) {
+					for (var i : int = 0; i < lines.length; i++) {
+						lines[i] = StringUtil.trim(lines[i]);
+					}
+				}
+				return lines;
+			}
+			
+			
+			
+			
+			/**
+			 * input "{1234},{5678}"
+			 * return [1234][5678]
+			 */
+			public static function getArray2D(text:String) : Array
+			{
+				text = text.replace('{', ' ');
+				var texts : Array = StringUtil.splitString(text, "},");
+				for (var i:int=texts.length-1; i>=0; --i) {
+					texts[i] = StringUtil.trim(texts[i]);
+				}
+				return texts;
+			}
+			
+			/**
+			 * input 3,123,4,5678
+			 * return [123] [5678]
+			 * @param text
+			 * @return
+			 */
+			public static function getArray1D(text:String) : Array
+			{
+				var reader : TextReader = new TextReader(text);
+				var list : Array = new Array();
+				while(true){
+					var line : String = TextDeserialize.getString(reader);
+					if (line != null && line.length > 0) {
+						list.push(line);
+					} else {
+						break;
+					}
+				}
+				return list;
+			}
+			
+
 		}
 	
 

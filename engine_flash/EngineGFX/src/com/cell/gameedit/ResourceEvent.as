@@ -6,7 +6,11 @@ package com.cell.gameedit
 	{
 		public static const LOADED :String = "LOADED"; 
 
-		public var resource : SetResource;
+		public var res : ResourceLoader;
 		
+		public function ResourceEvent(evt:String) 
+		{
+			super(evt);
+		}
 	}
 }

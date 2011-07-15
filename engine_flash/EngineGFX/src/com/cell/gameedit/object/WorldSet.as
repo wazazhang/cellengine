@@ -1,6 +1,7 @@
 package com.cell.gameedit.object
 {
 	import com.cell.gameedit.SetObject;
+	import com.cell.util.Map;
 
 	public class WorldSet implements SetObject
 	{
@@ -15,13 +16,13 @@ package com.cell.gameedit.object
 		public var Height		: int;
 		
 		/** SpriteObject[] */
-		public var Sprs 		: Array;
+		public var Sprs 		: Map;
 		/** MapObject[] */
-		public var Maps 		: Array;
+		public var Maps 		: Map;
 		/** WaypointObject[] */
-		public var WayPoints 	: Array;
+		public var WayPoints 	: Map;
 		/** RegionObject[] */
-		public var Regions		: Array;
+		public var Regions		: Map;
 	
 		public var Data			: String;
 		
