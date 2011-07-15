@@ -189,7 +189,7 @@ public class CUtil extends CObject
 			return false;
 		
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i].equals(array2[i]))
+			if (!array1[i].equals(array2[i]))
 				return false;
 		}
 		return true;
@@ -204,7 +204,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.size(); i++) {
-			if (array1.get(i).equals(array2.get(i))) {
+			if (!array1.get(i).equals(array2.get(i))) {
 				return false;
 			}
 		}
@@ -220,7 +220,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i] == (array2[i])) {
+			if (array1[i] != (array2[i])) {
 				return false;
 			}
 		}
@@ -234,7 +234,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i] == (array2[i])) {
+			if (array1[i] != (array2[i])) {
 				return false;
 			}
 		}
@@ -248,7 +248,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i] == (array2[i])) {
+			if (array1[i] != (array2[i])) {
 				return false;
 			}
 		}
@@ -262,7 +262,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i] == (array2[i])) {
+			if (array1[i] != (array2[i])) {
 				return false;
 			}
 		}
@@ -276,7 +276,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i] == (array2[i])) {
+			if (array1[i] != (array2[i])) {
 				return false;
 			}
 		}
@@ -291,7 +291,7 @@ public class CUtil extends CObject
 			return false;
 		}
 		for (int i = 0; i < array1.length; i++) {
-			if (array1[i] == (array2[i])) {
+			if (array1[i] != (array2[i])) {
 				return false;
 			}
 		}
