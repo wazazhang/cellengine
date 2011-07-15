@@ -479,55 +479,6 @@ abstract public class OutputXml extends BaseOutput
 	public void dispose() 
 	{}
 
-//-------------------------------------------------------------------------------------
-//	#<COMMAND>
-//	TableGroupCount=<COMMAND TABLE GROUP COUNT>
-//	#<TABLE GROUP>
-//	TG_<TABLE GROUP INDEX>=<TABLE GROUP INDEX>,<TABLE COUNT>,<TABLE GROUP NAME>
-//	#<TABLE>
-//	T_<TABLE GROUP INDEX>_<TABLE INDEX>	=<TABLE INDEX>,<COLUMN COUNT>,<ROW COUNT>,<TABLE NAME>
-//	T_<TABLE GROUP INDEX>_<TABLE INDEX>_C	=#<COLUMN HEAD>{<INDEX>,<TEXT>},#<END COLUMN HEAD>
-//	T_<TABLE GROUP INDEX>_<TABLE INDEX>_R	=#<ROWS>{<INDEX>,<ARRAY STR>},#<END ROWS>//	#<END TABLE>
-//	#<END TABLE GROUP>
-//	#<END COMMAND>
-
-	final TableSet createTableSet(String table_group, PropertyGroup cfg) throws IOException
-	{
-		String[] args = CUtil.splitString(table_group, ",", 4);
-		TableSet set = new TableSet(Integer.parseInt(args[0]), args[2]);
-		
-		set.TableCount = Integer.parseInt(args[1]);
-
-		for (int i = 0; i < set.TableCount; i++)
-		{
-			String table	= cfg.getString("T_" + set.Index + "_" + i);
-			String _columns	= cfg.getString("T_" + set.Index + "_" + i + "_C");
-			String _rows	= cfg.getString("T_" + set.Index + "_" + i + "_R");
-			
-			String[] _args = CUtil.splitString(table, ",", 5);
-			TableSet.Table tb = new TableSet.Table(Integer.parseInt(_args[0]), _args[3]);
-			{
-				tb.ColumnCount	= Integer.parseInt(_args[1]);
-				tb.RowCount		= Integer.parseInt(_args[2]);
-				tb.Columns		= getArray2D(_columns);
-				tb.Rows			= new String[tb.RowCount][tb.ColumnCount];
-				
-				String[] rows	= getArray2D(_rows);
-				for (int r = 0; r < tb.RowCount; r++) {
-					StringReader reader = new StringReader(rows[r]);
-					for (int c = 0; c < tb.ColumnCount; c++) {
-						tb.Rows[r][c] = TextDeserialize.getBytesString(reader);
-					}
-				}
-			}
-			
-			set.Tables.add(tb);
-		}
-		return set;
-	}
-
-
-
 
 
 
