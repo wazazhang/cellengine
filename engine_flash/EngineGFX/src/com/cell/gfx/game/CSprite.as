@@ -130,6 +130,10 @@ package com.cell.gfx.game
 			return FrameAnimate[anim].length;
 		}
 		
+		public function getCurrentFrameCount() : int {
+			return FrameAnimate[CurAnimate].length;
+		}
+		
 		public function getCurrentFrame() : int {
 			return CurFrame;
 		}
@@ -160,10 +164,20 @@ package com.cell.gfx.game
 		 *  2 : big than anim <br>
 		 * -2 : less than anim <br>
 		 * */
-		public function setCurrentFrame(anim:int, frame:int, restrict:Boolean=false, cyc:Boolean=false) : int {
+		public function setCurrentFrame(anim:uint, frame:uint, restrict:Boolean=false, cyc:Boolean=false) : int {
 			if (anim != CurAnimate || CurFrame != frame) {
-				this.CurAnimate = anim;
-				this.CurFrame   = frame;
+				if (cyc) {
+					this.CurAnimate = CMath.cycNum(0, anim,  getAnimateCount());
+					this.CurFrame   = CMath.cycNum(0, frame, getCurrentFrameCount());
+				}
+				else if (restrict) {
+					if (anim >= getAnimateCount()) {
+						this.CurAnimate = getAnimateCount()-1;
+					}
+					if (frame >= getCurrentFrameCount()) {
+						this.CurFrame = getCurrentFrameCount()-1;
+					}
+				}
 				repaint();
 			}
 			return 0;

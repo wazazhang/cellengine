@@ -45,31 +45,43 @@ package com.cell.gfx
 			this.g = g;
 		}
 		
-		public function getMatrix(transform:int) : Matrix
+		public function getMatrix(x:int, y:int, transform:int) : Matrix
 		{
+			var ret : Matrix = new Matrix();
+			ret.translate(x, y);
 			switch (transform) {
 				case TRANS_NONE:
 					break;
 				case TRANS_90:
+					ret.rotate(Math.PI/2);
 					break;
 				case TRANS_180:
+					ret.rotate(Math.PI);
 					break;
 				case TRANS_270:
+					ret.rotate(-Math.PI/2);
 					break;
 				case TRANS_H:
+					ret.scale(-1, 1);
 					break;
 				case TRANS_V:
+					ret.scale(1, -1);
 					break;
 				case TRANS_HV:
+					ret.scale(-1, -1);
 					break;
 				case TRANS_H90:
+					ret.rotate(Math.PI/2);
+					ret.scale(-1, 1);
 					break;
 				case TRANS_V90:
+					ret.rotate(Math.PI/2);
+					ret.scale(1, -1);
 					break;
 			}
-			return null;
+			return ret;
 		}
-		
+
 		
 		/**
 		 * 绘制指定图像中当前可用的图像。图像的左上角位于该图形上下文坐标空间的 (x, y)。
@@ -80,7 +92,7 @@ package com.cell.gfx
 		 */
 		public function drawImage(img:CImage, x:int, y:int, transform:int) : void
 		{
-			g.beginBitmapFill(img.src, getMatrix(transform), false, false);
+			g.beginBitmapFill(img.src, getMatrix(x, y, transform), false, false);
 			g.drawRect(x, y, img.width, img.height);
 			g.endFill();
 		}
@@ -97,9 +109,9 @@ package com.cell.gfx
 		 */
 		public function drawImageScale(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-			g.beginBitmapFill(img.src, getMatrix(transform), false, false);
-			g.drawRect(x, y, w, h);
-			g.endFill();
+//			g.beginBitmapFill(img.src, getMatrix(transform), false, false);
+//			g.drawRect(x, y, w, h);
+//			g.endFill();
 		}
 		
 		/**
@@ -122,7 +134,6 @@ package com.cell.gfx
 								   x_dest:int, 
 								   y_dest:int) : void
 		{
-		
 		} 
 		
 		/**

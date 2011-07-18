@@ -1,71 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
-				xmlns:mx="library://ns.adobe.com/flex/mx" initialize="initalize(event)" enterFrame="uicomponent1_enterFrameHandler(event)">
+				xmlns:mx="library://ns.adobe.com/flex/mx" initialize="initalize(event)" enterFrame="uicomponent1_enterFrameHandler(event)" mouseWheel="uicomponent1_mouseWheelHandler(event)">
 	<fx:Script>
 		<![CDATA[
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
+			import com.cell.gfx.game.CSprite;
 			
 			import mx.events.FlexEvent;
 			
+			
 			var ldr:Loader = new Loader();
-			var rect:Shape = new Shape();
+			var spr : Sprite = new Sprite();
+			
+			
+			var resloader : ResourceLoader;
+			var cspr : CSprite;
 			
 			protected function initalize(event:FlexEvent):void
 			{
-//				
+//				var rect:Shape = new Shape();
 //				rect.graphics.beginFill(0xffFF0000);
 //				rect.graphics.drawRect(0, 0, 100, 100);
 //				rect.graphics.endFill();
 //				addChild(rect);
 //				
-				var url:String = "../actor_000000/output/tiles.png";
-				var urlReq:URLRequest = new URLRequest(url);
 				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
-				ldr.load(urlReq);
+				ldr.load(new URLRequest("../actor_000000/output/tiles.png"));
 
 				
-				var resloader : ResourceLoader = new ResourceLoader();
+				resloader = new ResourceLoader();
 				resloader.addEventListener(ResourceEvent.LOADED, loaded_set);
 				resloader.load("../actor_000000/output/actor.xml");
 					
 			}
 			
-			var bitmap : Bitmap;
 			
 			private function complete(e:Event) : void
 			{
 				trace("complete");
 				//addChild(ldr);
 				
-				bitmap = (ldr.content as Bitmap);
-				
-				var spr : Sprite = new Sprite();
+				var bitmap : Bitmap = (ldr.content as Bitmap);
 				
 				spr.graphics.beginBitmapFill(bitmap.bitmapData);
 				spr.graphics.drawRect(0,0,100,100);
 				spr.graphics.endFill();
-
-				addChild(spr);
+				//addChild(spr);
 				
 			}
 			
 			private function loaded_set(e:Event) : void
 			{
 				trace("loaded_set");
-				
-				
+				cspr = resloader.getSprite("000000");
+				addChild(cspr);
 			}
 			
 
 			protected function uicomponent1_enterFrameHandler(event:Event):void
 			{
+				if (cspr != null) {				
+					cspr.x = mouseX;
+					cspr.y = mouseY;
+					cspr.nextCycFrame();
+				}
+			}
+
+
+			protected function uicomponent1_mouseWheelHandler(event:MouseEvent):void
+			{
 				// TODO Auto-generated method stub
-				if (bitmap != null) {
-//					graphics.beginBitmapFill(bitmap.bitmapData);
-//					graphics.drawRect(0,0,100,100);
-//					graphics.endFill();
+				if (cspr != null) {	
+					cspr.setCurrentFrame(cspr.getCurrentAnimate()+1, 0, false, true);
 				}
 			}
 

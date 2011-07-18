@@ -47,7 +47,7 @@ package com.cell.gameedit
 			}
 			for each (var sprset : SpriteSet in output.getSprTable()) { 
 				var sprite : CSprite = output.createCSprite(sprset, getImages(sprset.ImagesName));
-				resource_manager.put("SPR_" + sprset.Name, sprset);
+				resource_manager.put("SPR_" + sprset.Name, sprite);
 				trace("get sprite : " + sprset.Name);
 			}
 			
