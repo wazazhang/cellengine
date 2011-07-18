@@ -17,6 +17,7 @@
 			
 			var resloader : ResourceLoader;
 			var cspr : CSprite;
+			var cspr2 : CSprite;
 			
 			protected function initalize(event:FlexEvent):void
 			{
@@ -56,6 +57,11 @@
 				trace("loaded_set");
 				cspr = resloader.getSprite("000000");
 				addChild(cspr);
+				
+				cspr2 = cspr.copy();
+				cspr2.x = 100;
+				cspr2.y = 100;
+				addChild(cspr2);
 			}
 			
 
@@ -65,6 +71,7 @@
 					cspr.x = mouseX;
 					cspr.y = mouseY;
 					cspr.nextCycFrame();
+					cspr2.nextCycFrame();
 				}
 			}
 
