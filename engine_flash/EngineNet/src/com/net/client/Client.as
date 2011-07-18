@@ -117,7 +117,7 @@ package com.net.client
 		 */
 		public function clearRequests() : void
 		{
-			for each (var pnum : Object in request_listeners) { 
+			for (var pnum : Object in request_listeners) { 
 				delete request_listeners[pnum];
 			}
 		}
