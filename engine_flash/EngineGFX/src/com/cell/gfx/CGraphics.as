@@ -45,7 +45,7 @@ package com.cell.gfx
 			this.g = g;
 		}
 		
-		function getMatrix(transform:int) : Matrix
+		public function getMatrix(transform:int) : Matrix
 		{
 			switch (transform) {
 				case TRANS_NONE:
@@ -142,6 +142,7 @@ package com.cell.gfx
 		
 		//	---------------------------------------------------------------------------------------------------------------------
 		//	geometry
+	
 		
 		
 		

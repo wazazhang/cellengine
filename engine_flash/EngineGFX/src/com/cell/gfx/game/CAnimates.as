@@ -2,7 +2,6 @@ package com.cell.gfx.game
 {
 	import com.cell.gfx.CGraphics;
 	import com.cell.gfx.CImage;
-	import com.cell.gfx.CImages;
 	
 	/**
 	 * Animates contain some frame, it have a coordinate system with all part. </br>
@@ -19,17 +18,17 @@ package com.cell.gfx.game
 		protected var images : CImages;
 		
 		/**short[]*/
-		protected var SX : Array;
+		internal var SX : Array;
 		/**short[]*/
-		protected var SY : Array;
+		internal var SY : Array;
 		/**short[]*/
-		protected var SW : Array;
+		internal var SW : Array;
 		/**short[]*/
-		protected var SH : Array;
+		internal var SH : Array;
 		/**short[]*/
-		protected var STileID : Array;
+		internal var STileID : Array;
 		/**byte[]*/
-		protected var SFlip : Array;
+		internal var SFlip : Array;
 		
 		/**
 		 * Construct Animates
@@ -61,7 +60,8 @@ package com.cell.gfx.game
 		 * @param tileid part's images index value </br>
 		 * @param trans part's flip rotate paramenter
 		 * 	 */
-		public function addPart(px:int, py:int, tileid:int, trans:int) {
+		public function addPart(px:int, py:int, tileid:int, trans:int) : void
+		{
 			if (SubIndex >= SubCount) {
 				trace("Out Of Animate Max Count !");
 				return;

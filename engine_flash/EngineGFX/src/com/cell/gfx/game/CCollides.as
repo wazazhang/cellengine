@@ -14,7 +14,7 @@ package com.cell.gfx.game
 	public class CCollides extends CGroup
 	{
 		/** CCD[] */
-		protected var cds : Array;
+		internal var cds : Array;
 	
 		/**
 		 * Construct CCD group 
@@ -48,7 +48,7 @@ package com.cell.gfx.game
 		 * @param qx point 2 x
 		 * @param qy point 2 y
 		 */
-		public function addCDLine(mask:int, px:int, py:int, qx:int, qy:int) {
+		public function addCDLine(mask:int, px:int, py:int, qx:int, qy:int) : void {
 			addCD(CCD.createCDLine(mask,px,py,qx,qy));
 		}
 		
@@ -56,7 +56,7 @@ package com.cell.gfx.game
 		 * add a collision block part</br>
 		 * @param cd collision block part
 		 */
-		public function addCD(cd:CCD) {
+		public function addCD(cd:CCD) : void {
 			if (SubIndex >= SubCount) {
 				trace("Out of Max CD Count !");
 				return;

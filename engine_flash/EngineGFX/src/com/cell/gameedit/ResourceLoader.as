@@ -6,7 +6,7 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.WorldSet;
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
-	import com.cell.gfx.CImages;
+	import com.cell.gfx.game.CImages;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.util.Map;
 	

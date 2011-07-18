@@ -1,10 +1,231 @@
 package com.cell.gfx.game
 {	
+	import com.cell.gfx.CGraphics;
+	import com.cell.gfx.CImage;
+	import com.cell.util.CMath;
+	
 	import flash.display.Sprite;
 	
 	public class CSprite extends Sprite
 	{
+		protected var animates 		: CAnimates;
 		
+		protected var collides 		: CCollides;
+		
+		/**String[]*/
+		protected var AnimateNames	: Array;
+		/**short[][]*/
+		protected var FrameAnimate	: Array;
+		
+		private var CurAnimate 		: int = 0;
+		private var CurFrame	 	: int = 0;
+		
+		public function CSprite(
+			canimates:CAnimates, 
+			ccollides:CCollides,
+			animateNames:Array, 
+			frameAnimate:Array) 
+		{
+			this.animates = canimates;
+			this.collides = ccollides;
+			this.AnimateNames = animateNames;
+			this.FrameAnimate = frameAnimate;
+		}
+		
+		public function copy() : CSprite
+		{
+			var ret : CSprite = new CSprite(animates, collides, AnimateNames, FrameAnimate);
+			return ret;
+		}
+		
+		public function  getAnimates() : CAnimates{
+			return animates;
+		}
+		
+		public function  getCollides() : CCollides{
+			return collides;
+		}
+		
+		//	------------------------------------------------------------------------------------------
+		
+		public function getFrameImageCount(anim:int, frame:int) : int {
+			return animates.Frames[FrameAnimate[anim][frame]].length;
+		}
+		
+		public function getFrameImage(anim:int, frame:int, part:int) : CImage {
+			return animates.getFrameImage(FrameAnimate[anim][frame], part);
+		}
+		
+		public function getFrameImageX(anim:int, frame:int, part:int) : int {
+			return animates.getFrameX(FrameAnimate[anim][frame], part);
+		}
+		
+		public function getFrameImageY(anim:int, frame:int, sub:int) : int {
+			return animates.getFrameY(FrameAnimate[anim][frame], sub);
+		}
+		
+		public function getFrameImageWidth(anim:int, frame:int, part:int) : int {
+			return animates.getFrameW(FrameAnimate[anim][frame], part);
+		}
+		
+		public function getFrameImageHeight(anim:int, frame:int, part:int) : int {
+			return animates.getFrameH(FrameAnimate[anim][frame], part);
+		}
+		
+		public function getFrameImageTransform(anim:int, frame:int, part:int) : int {
+			return animates.getFrameTransform(FrameAnimate[anim][frame], part);
+		}
+		
+		public function getCurrentImage(part:int) : CImage {
+			return animates.getFrameImage(FrameAnimate[CurAnimate][CurFrame], part);
+		}
+		
+		//	------------------------------------------------------------------------------------------
+		
+		public function getVisibleTop() : int {
+			return animates.w_top;
+		}
+		public function getVisibleBotton() : int {
+			return animates.w_bottom;
+		}
+		public function getVisibleLeft() : int {
+			return animates.w_left;
+		}
+		public function getVisibleRight() : int {
+			return animates.w_right;
+		}
+		public function getVisibleHeight() : int {
+			return animates.w_height;
+		}
+		public function getVisibleWidth() : int {
+			return animates.w_width;
+		}
+		
+		//	------------------------------------------------------------------------------------------
+		
+		public function findAnimateIndex(animate_name:String) : int {
+			if (AnimateNames!=null) {
+				for (var i:int = 0; i<AnimateNames.length; i++) {
+					if (animate_name == (AnimateNames[i])) {
+						return i;
+					}
+				}
+			}
+			return -1;
+		}
+		
+		public function getAnimateName(anim:int) : String {
+			return AnimateNames[anim];
+		}
+		
+		public function getAnimateCount() : int {
+			return FrameAnimate.length;
+		}
+		
+		public function getFrameCount(anim:int) : int {
+			return FrameAnimate[anim].length;
+		}
+		
+		public function getCurrentFrame() : int {
+			return CurFrame;
+		}
+		
+		public function getCurrentAnimate() : int {
+			return CurAnimate;
+		}
+		
+		public function getFrameAnimateData(anim:int, frame:int) : int {
+			return FrameAnimate[anim][frame];
+		}
+		
+		
+		//	------------------------------------------------------------------------------------------
+		
+		
+		public function setCurrentAnimate(anim:int) : int {
+			return setCurrentFrame(anim, 0);
+		}
+		
+		
+		/**
+		 * 
+		 * @return
+		 *  0 : normal <br>
+		 *  1 : big than frame <br>
+		 * -1 : less than frame <br>
+		 *  2 : big than anim <br>
+		 * -2 : less than anim <br>
+		 * */
+		public function setCurrentFrame(anim:int, frame:int, restrict:Boolean=false, cyc:Boolean=false) : int {
+			if (anim != CurAnimate || CurFrame != frame) {
+				this.CurAnimate = anim;
+				this.CurFrame   = frame;
+				repaint();
+			}
+			return 0;
+		}
+		
+		public function isEndFrame() : Boolean {
+			return CurFrame == FrameAnimate[CurAnimate].length - 1;
+		}
+		
+		public function isBeginFrame() : Boolean {
+			return CurFrame == 0;
+		}
+		
+		/**
+		 * @return 是否最后一帧
+		 */
+		public function nextFrame() : Boolean {
+			setCurrentFrame(CurAnimate, CurFrame+1, true);
+			return isEndFrame();
+		}
+		
+		/**
+		 * @return 是否最后一帧
+		 */
+		public function nextCycFrame() : Boolean {
+			setCurrentFrame(CurAnimate, CurFrame+1, false, true);
+			return isEndFrame();
+		}
+		
+		/**
+		 * @return 是否第一帧
+		 */
+		public function prewFrame() : Boolean {
+			setCurrentFrame(CurAnimate, CurFrame-1, true);
+			return isBeginFrame();
+		}
+		
+		/**
+		 * @return 是否第一帧
+		 */
+		public function prewCycFrame() : Boolean {
+			setCurrentFrame(CurAnimate, CurFrame-1, false, true);
+			return isBeginFrame();
+		}
+		
+		
+		//	----------------------------------------------------------------------------------------------------
+		
+		//	----------------------------------------------------------------------------------------------------
+		
+		public function repaint() : void {
+			
+		}
+		
+		
+		public function render(g:CGraphics, x:int, y:int, anim:int, frame:int) : void 
+		{
+			if ( (anim < FrameAnimate.length) && (frame < FrameAnimate[anim].length) ) {
+				animates.render(g,FrameAnimate[anim][frame], x, y);
+			}
+		}
+		
+		
+		
+		
+
 		
 	
 	

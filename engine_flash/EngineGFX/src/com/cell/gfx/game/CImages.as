@@ -1,7 +1,9 @@
-package com.cell.gfx
+package com.cell.gfx.game
 {
 	import com.cell.gameedit.Output;
 	import com.cell.gameedit.object.ImagesSet;
+	import com.cell.gfx.CGraphics;
+	import com.cell.gfx.CImage;
 	
 
 	public class CImages
@@ -23,7 +25,16 @@ package com.cell.gfx
 		public function CImages()
 		{
 		}
-
+		
+		public function clone() : CImages
+		{
+			var ret : CImages = new CImages();
+			for each (var tile:CImage in this.tiles) {
+				ret.tiles.push(tile.clone());
+			}
+			return ret;
+		}
+		
 		public function getImage(index:int) : CImage
 		{
 			return (tiles[index] as CImage);
@@ -37,15 +48,6 @@ package com.cell.gfx
 		public function getHeight(index:int) : int
 		{
 			return (tiles[index] as CImage).height;
-		}
-		
-		public function clone() : CImages
-		{
-			var ret : CImages = new CImages();
-			for each (var tile:CImage in this.tiles) {
-				ret.tiles.push(tile.clone());
-			}
-			return ret;
 		}
 		
 		public function render(g:CGraphics, index:int, x:int, y:int, transform:int) : void {

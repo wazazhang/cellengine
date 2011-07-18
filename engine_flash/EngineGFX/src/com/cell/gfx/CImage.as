@@ -6,7 +6,6 @@ package com.cell.gfx
 	{
 		internal var src : BitmapData;
 		
-		
 		public function CImage()
 		{
 		}

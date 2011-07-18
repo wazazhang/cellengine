@@ -10,18 +10,18 @@ package com.cell.gfx.game
 	public class CGroup
 	{
 		/**short[][]*/
-		protected var Frames	: Array;
+		internal var Frames	: Array;
 		
-		protected var SubIndex	: int;
-		protected var SubCount 	: int;
+		internal var SubIndex	: int;
+		internal var SubCount 	: int;
 		
-		protected var w_left 	: int	= 0;
-		protected var w_top 	: int	= 0;
-		protected var w_bottom 	: int	= 1;
-		protected var w_right 	: int	= 1;
+		internal var w_left 	: int	= 0;
+		internal var w_top 	: int	= 0;
+		internal var w_bottom 	: int	= 1;
+		internal var w_right 	: int	= 1;
 		
-		protected var w_width 	: int	= 0;
-		protected var w_height 	: int	= 0;
+		internal var w_width 	: int	= 0;
+		internal var w_height 	: int	= 0;
 		
 		/**
 		 * @param left
