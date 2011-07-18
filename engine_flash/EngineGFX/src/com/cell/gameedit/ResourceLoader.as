@@ -39,10 +39,9 @@ package com.cell.gameedit
 		
 		private function output_complete() : void 
 		{
-			for each (var name : Object in output.getImgTable()) { 
-				var imgset : ImagesSet 	= output.getImgTable()[name] as ImagesSet;
-				var images : CImages 	= output.createCImages(imgset);
-				resource_manager.put("IMG_" + name, images);
+			for each (var imgset : ImagesSet in output.getImgTable()) { 
+				var images : CImages = output.createCImages(imgset);
+				resource_manager.put("IMG_" + imgset.Name, images);
 			}
 
 			
