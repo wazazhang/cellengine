@@ -6,11 +6,10 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.WorldSet;
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
+	import com.cell.gameedit.output.XmlOutputLoader;
 	import com.cell.gfx.game.CImages;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.util.Map;
-	
-	import com.cell.gameedit.output.XmlOutput;
 	import com.cell.util.StringUtil;
 	
 	import flash.events.Event;
@@ -32,18 +31,25 @@ package com.cell.gameedit
 		public function load(url:String) : void
 		{
 			if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
-				output = new XmlOutput(url);
+				trace("load resource : " + url);
+				output = new XmlOutputLoader(url);
 				output.load(output_complete);
 			}
 		}
 		
 		private function output_complete() : void 
 		{
+			trace("load resource complete : " + output);
 			for each (var imgset : ImagesSet in output.getImgTable()) { 
 				var images : CImages = output.createCImages(imgset);
 				resource_manager.put("IMG_" + imgset.Name, images);
+				trace("get images : " + imgset.Name);
 			}
-
+			for each (var sprset : SpriteSet in output.getSprTable()) { 
+				var sprite : CSprite = output.createCSprite(sprset, getImages(sprset.ImagesName));
+				resource_manager.put("SPR_" + sprset.Name, sprset);
+				trace("get sprite : " + sprset.Name);
+			}
 			
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.LOADED);
 			event.res = this;

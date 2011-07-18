@@ -13,13 +13,13 @@ package com.cell.gameedit.output
 
 	public class XmlDirTiles implements CImages
 	{
-		protected var output	: XmlOutput;
+		protected var output	: XmlOutputLoader;
 		protected var img		: ImagesSet;
 		protected var tiles 	: Array;
 		
 		private var loader 	: Loader;
 		
-		public function XmlDirTiles(output:XmlOutput, img:ImagesSet, clone:Boolean=false)
+		public function XmlDirTiles(output:XmlOutputLoader, img:ImagesSet, clone:Boolean=false)
 		{
 			this.output	= output;
 			this.img	= img;

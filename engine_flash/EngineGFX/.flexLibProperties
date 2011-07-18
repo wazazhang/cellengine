@@ -4,7 +4,7 @@
     <classEntry path="com.cell.net.io.MutualMessage"/>
     <classEntry path="com.cell.gameedit.object.worldset.MapObject"/>
     <classEntry path="com.cell.gameedit.object.worldset.RegionObject"/>
-    <classEntry path="com.cell.gameedit.output.XmlOutput"/>
+    <classEntry path="com.cell.gameedit.output.XmlOutputLoader"/>
     <classEntry path="com.cell.gameedit.ResourceLoader"/>
     <classEntry path="com.cell.io.TextReader"/>
     <classEntry path="com.cell.util.Arrays"/>

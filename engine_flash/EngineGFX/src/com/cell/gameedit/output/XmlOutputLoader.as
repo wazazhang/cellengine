@@ -25,9 +25,10 @@ package com.cell.gameedit.output
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.getClassByAlias;
 	import flash.utils.ByteArray;
 
-	public class XmlOutput implements OutputLoader
+	public class XmlOutputLoader implements OutputLoader
 	{
 		internal var path 		: String;
 		internal var path_root 	: String;
@@ -50,7 +51,7 @@ package com.cell.gameedit.output
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		public function XmlOutput(url:String)
+		public function XmlOutputLoader(url:String)
 		{
 			this.path 		= url.replace('\\', '/');
 			this.path_root	= path.substring(0, path.lastIndexOf("/")+1);
@@ -65,6 +66,12 @@ package com.cell.gameedit.output
 			this.complete	= complete;
 			this.loader.load(new URLRequest(path));
 		}
+		
+		public function toString() : String
+		{
+			return "[XmlOutputLoader:" + path+"]";
+		}
+		
 //		-----------------------------------------------------------------------------------------------
 		
 		private function xml_complete(e:Event) : void

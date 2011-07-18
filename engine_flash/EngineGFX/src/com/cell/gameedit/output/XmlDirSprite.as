@@ -8,7 +8,7 @@ package com.cell.gameedit.output
 
 	public class XmlDirSprite extends CSprite
 	{
-		public function XmlDirSprite(output:XmlOutput, tiles:CImages, tsprite:SpriteSet)
+		public function XmlDirSprite(output:XmlOutputLoader, tiles:CImages, tsprite:SpriteSet)
 		{
 			var scenePartCount : int = tsprite.PartTileID.length;
 			var animates : CAnimates = new CAnimates(scenePartCount, tiles);
