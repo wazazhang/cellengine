@@ -3,73 +3,55 @@ package com.cell.gfx
 	import com.cell.gameedit.Output;
 	import com.cell.gameedit.object.ImagesSet;
 	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
 
 	public class CImages
 	{
-		public const ANGLE_90		: Number = Math.PI / 2;
-		public const ANGLE_270		: Number = Math.PI * 3 / 2;
+		static public var TRANS_TABLE : Array = [
+			0,//TRANS_NONE
+			1,//TRANS_V
+			2,//TRANS_H
+			3,//TRANS_HV
+			4,//TRANS_H90
+			5,//TRANS_270
+			6,//TRANS_90
+			7 //TRANS_V90
+		];
+
 		
-		/** None Flip Rotate */
-		public const TRANS_NONE 	: int = 0;
-		
-		/** Flip Vertical */
-		public const TRANS_V 		: int = 1;
-		
-		/** Flip Horizental */
-		public const TRANS_H 		: int  = 2;
-		
-		/** Flip Horizental and Vertical */
-		public const TRANS_HV		: int = 3;
-		
-		/** anticlockwise rotate 90 angle */
-		public const TRANS_90 		: int = 6;
-		
-		/** anticlockwise rotate 270 angle */
-		public const TRANS_270 		: int = 5;
-		
-		/** first anticlockwise rotate 90 angle , second flip Horizental */
-		public const TRANS_H90 		: int = 4;
-		
-		/** first anticlockwise rotate 90 angle , second flip Vertical */
-		public const TRANS_V90 		: int = 7;
-		
-		/** 180 Rotate */
-		public const TRANS_180 		: int = 3; 
-		
-		
-//		-------------------------------------------------------------------------------------------------
-	
 		protected var tiles : Array;
 		
 		public function CImages()
 		{
 		}
 
-		public function getImage(index:int) : BitmapData
+		public function getImage(index:int) : CImage
 		{
-			return (tiles[index] as BitmapData);
+			return (tiles[index] as CImage);
 		}
 		
 		public function getWidth(index:int) : int
 		{
-			return (tiles[index] as BitmapData).width;
+			return (tiles[index] as CImage).width;
 		}
 		
 		public function getHeight(index:int) : int
 		{
-			return (tiles[index] as BitmapData).height;
+			return (tiles[index] as CImage).height;
 		}
 		
 		public function clone() : CImages
 		{
 			var ret : CImages = new CImages();
-			for each (var tile:BitmapData in this.tiles) {
+			for each (var tile:CImage in this.tiles) {
 				ret.tiles.push(tile.clone());
 			}
 			return ret;
 		}
 		
+		public function render(g:CGraphics, index:int, x:int, y:int, transform:int) : void {
+			if (tiles[index]!=null){
+				g.drawImage(tiles[index], x, y, transform);
+			}
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.cell.gfx.game
 {
+	import com.cell.gfx.CGraphics;
 	import com.cell.util.CMath;
 	
 	public class CCD
@@ -38,11 +39,11 @@ package com.cell.gfx.game
 		}
 	
 		public function getWidth() : int {
-			return X2 - X1 + 1;
+			return X2 - X1;
 		}
 		
 		public function getHeight() : int {
-			return Y2 - Y1 + 1;
+			return Y2 - Y1;
 		}
 		
 		/**
@@ -61,20 +62,20 @@ package com.cell.gfx.game
 			return -(getWidth() / 2 - (X1 + getWidth()));
 		}
 	
-		/*
-		public void render(IGraphics g, int px, int py, int color) {
-			if ( Mask == 0) return;
-			g.setColor(color);
-			switch (Type) {
-			case CD_TYPE_LINE:
-				g.drawLine(px + X1, py + Y1, px + X2, py + Y2 );
-				break;
-			case CD_TYPE_RECT:
-				g.drawRect(px + X1, py + Y1, X2 - X1 , Y2 - Y1 );
-				break;
-			}
+		public function render(g:CGraphics, px:int, py:int, color:int) : void
+		{
+//			if ( Mask == 0) return;
+//			g.setColor(color);
+//			switch (Type) {
+//			case CD_TYPE_LINE:
+//				g.drawLine(px + X1, py + Y1, px + X2, py + Y2 );
+//				break;
+//			case CD_TYPE_RECT:
+//				g.drawRect(px + X1, py + Y1, X2 - X1 , Y2 - Y1 );
+//				break;
+//			}
 		}
-		*/
+		
 		
 		static public function createCDRect(mask:int, x:int, y:int, w:int, h:int) : CCD 
 		{
@@ -83,8 +84,8 @@ package com.cell.gfx.game
 			ret.Mask = mask;
 			ret.X1 = x;
 			ret.Y1 = y;
-			ret.X2 = (x + w - 1);
-			ret.Y2 = (y + h - 1);
+			ret.X2 = (x + w);
+			ret.Y2 = (y + h);
 			return ret;
 		}
 		
