@@ -240,6 +240,19 @@ package com.cell.gfx.game
 					SFlip[idx]);
 	
 		}
+		
+		public function clone() : CAnimates	
+		{
+			var ret : CAnimates = new CAnimates(STileID.length, images.clone());
+			super.set(ret);
+			ret.SX 		= this.SX;
+			ret.SY 		= this.SY;
+			ret.SW 		= this.SW;
+			ret.SH 		= this.SH;
+			ret.STileID	= this.STileID;
+			ret.SFlip 	= this.SFlip;
+			return ret;
+		}
 	}
 }
 

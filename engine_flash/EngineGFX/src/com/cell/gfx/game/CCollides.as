@@ -223,7 +223,15 @@ package com.cell.gfx.game
 			cds[Frames[index][sub]].render(g, x, y, color);
 		}
 		
-		
+		public function clone() : CCollides
+		{
+			var ret : CCollides = new CCollides(cds.length);
+			super.set(ret);
+			for (var i:int=0; i<cds.length; i++) {
+				ret.cds[i] = this.cds[i].clone();
+			}
+			return ret;
+		}
 	}
 
 }

@@ -20,6 +20,8 @@ package com.cell.gfx.game
 		private var CurAnimate 		: int = 0;
 		private var CurFrame	 	: int = 0;
 		
+		private var cg : CGraphics;
+		
 		public function CSprite(
 			canimates:CAnimates, 
 			ccollides:CCollides,
@@ -30,6 +32,8 @@ package com.cell.gfx.game
 			this.collides = ccollides;
 			this.AnimateNames = animateNames;
 			this.FrameAnimate = frameAnimate;
+			this.cg = new CGraphics(graphics);
+			this.repaint();
 		}
 		
 		public function copy() : CSprite
@@ -211,7 +215,7 @@ package com.cell.gfx.game
 		//	----------------------------------------------------------------------------------------------------
 		
 		public function repaint() : void {
-			
+			render(cg, 0, 0, CurAnimate, CurFrame);
 		}
 		
 		

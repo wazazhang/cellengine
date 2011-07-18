@@ -10,18 +10,19 @@ package com.cell.gfx.game
 	public class CGroup
 	{
 		/**short[][]*/
-		internal var Frames	: Array;
+		internal var Frames		: Array;
 		
 		internal var SubIndex	: int;
 		internal var SubCount 	: int;
 		
 		internal var w_left 	: int	= 0;
-		internal var w_top 	: int	= 0;
+		internal var w_top 		: int	= 0;
 		internal var w_bottom 	: int	= 1;
 		internal var w_right 	: int	= 1;
 		
 		internal var w_width 	: int	= 0;
 		internal var w_height 	: int	= 0;
+		
 		
 		/**
 		 * @param left
@@ -81,6 +82,20 @@ package com.cell.gfx.game
 		 */
 		public function getComboFrameCount(index:int) : int {
 			return Frames[index].length;
+		}
+		
+		protected function set(ret:CGroup) : CGroup
+		{
+			ret.Frames		= this.Frames;
+			ret.SubIndex	= this.SubIndex;
+			ret.SubCount 	= this.SubCount;
+			ret.w_left 		= this.w_left;
+			ret.w_top 		= this.w_top;
+			ret.w_bottom 	= this.w_bottom;
+			ret.w_right 	= this.w_right;
+			ret.w_width 	= this.w_width;
+			ret.w_height 	= this.w_height;
+			return ret;
 		}
 	}
 }

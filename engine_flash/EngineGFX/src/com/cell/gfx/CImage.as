@@ -6,20 +6,21 @@ package com.cell.gfx
 	{
 		internal var src : BitmapData;
 		
-		public function CImage()
+		public function CImage(src : BitmapData)
 		{
+			this.src = src;
 		}
 		
 		public function get width() : int {
-			return 0;
+			return src.width;
 		}
 		
 		public function get height() : int {
-			return 0;
+			return src.height;
 		}
 		
 		public function clone() : CImage {
-			return this;
+			return new CImage(src);
 		}
 	}
 }
