@@ -11,6 +11,7 @@
     <classEntry path="com.cell.util.Arrays"/>
     <classEntry path="com.cell.gfx.CGraphics"/>
     <classEntry path="com.cell.gfx.CImage"/>
+    <classEntry path="com.cell.gameedit.output.XmlDirTiles"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -21,51 +21,35 @@ package com.cell.gameedit
 	[Event(name=ResourceEvent.LOADED, type="com.cell.gameedit.ResourceEvent")]  
 	public class ResourceLoader extends EventDispatcher
 	{
-		private var loader				: URLLoader		= new URLLoader();
-		private var url 				: URLRequest;
-		private var output 				: Output;
+		private var output 				: OutputLoader;
 		
 		protected var resource_manager	: Map			= new Map();
 		
 		public function ResourceLoader()
 		{
-			this.loader.addEventListener(Event.COMPLETE, complete);
 		}
 		
-		public function load(url:URLRequest) : void
+		public function load(url:String) : void
 		{
-			this.url = url;
-			this.loader.load(url);
-		}
-		
-		private function complete(e:Event) : void
-		{
-			if (StringUtil.endsOf(url.url.toLowerCase(), ".xml")) {
-				output = new XmlOutput(url.url, new XML(this.loader.data), output_complete);
+			if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
+				output = new XmlOutput(url);
+				output.load(output_complete);
 			}
 		}
 		
 		private function output_complete() : void 
 		{
+			for each (var name : Object in output.getImgTable()) { 
+				var imgset : ImagesSet 	= output.getImgTable()[name] as ImagesSet;
+				var images : CImages 	= output.createCImages(imgset);
+				resource_manager.put("IMG_" + name, images);
+			}
+
+			
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.LOADED);
 			event.res = this;
 			dispatchEvent(event);
 		}
-		
-		
-//		-------------------------------------------------------------------------------------
-		
-//		-------------------------------------------------------------------------------------
-		
-		public function getOutput() : Output {
-			return output;
-		}
-		
-		public function dispose() : void {
-			output.dispose();
-		}
-		
-//		-------------------------------------------------------------------------------------------------------------------------------
 		
 		
 		public function getImages(name:String) : CImages
@@ -77,6 +61,21 @@ package com.cell.gameedit
 		{
 			return resource_manager.get("SPR_" + name);
 		}
+		
+		
+//		-------------------------------------------------------------------------------------
+		
+//		-------------------------------------------------------------------------------------
+		
+		public function getOutput() : OutputLoader {
+			return output;
+		}
+		
+		public function dispose() : void {
+			output.dispose();
+		}
+		
+//		-------------------------------------------------------------------------------------------------------------------------------
 		
 //		-------------------------------------------------------------------------------------------------------------------------------
 		
@@ -98,16 +97,6 @@ package com.cell.gameedit
 		
 //		-------------------------------------------------------------------------------------------------------------------------------
 		
-		protected function createCImages(set:ImagesSet) : CImages
-		{
-			return null;
-		}
-		
-		protected function createCSprite(set:SpriteSet) : CSprite
-		{
-			
-			return null;
-		}
 		
 		
 	}

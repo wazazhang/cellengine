@@ -1,6 +1,6 @@
 package com.cell.gameedit.output
 {
-	import com.cell.gameedit.Output;
+	import com.cell.gameedit.OutputLoader;
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gameedit.object.SpriteSet;
@@ -9,7 +9,10 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.SpriteObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
+	import com.cell.gfx.CImage;
 	import com.cell.gfx.game.CCD;
+	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.CSprite;
 	import com.cell.io.TextDeserialize;
 	import com.cell.io.TextReader;
 	import com.cell.util.Arrays;
@@ -17,17 +20,22 @@ package com.cell.gameedit.output
 	import com.cell.util.NumberReference;
 	import com.cell.util.StringUtil;
 	
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.events.Event;
+	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 
-	public class XmlOutput implements Output
+	public class XmlOutput implements OutputLoader
 	{
-		private var path 		: String;
-		private var path_root 	: String;
-		private var file_name 	: String;
+		internal var path 		: String;
+		internal var path_root 	: String;
+		internal var file_name 	: String;
+		
 		private var complete	: Function;
+		
+		private var loader		: URLLoader;
 		
 		private var img_table	: Map = new Map();
 		private var spr_table	: Map = new Map();
@@ -42,17 +50,32 @@ package com.cell.gameedit.output
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		public function XmlOutput(url:String, xml:XML, complete:Function)
+		public function XmlOutput(url:String)
 		{
 			this.path 		= url.replace('\\', '/');
 			this.path_root	= path.substring(0, path.lastIndexOf("/")+1);
 			this.file_name	= path.substring(path_root.length);
-			this.complete	= complete;
-			init(xml);
+			
+			this.loader		= new URLLoader();
+			this.loader.addEventListener(Event.COMPLETE, xml_complete);
 		}
 		
+		public function load(complete:Function) : void
+		{
+			this.complete	= complete;
+			this.loader.load(new URLRequest(path));
+		}
 //		-----------------------------------------------------------------------------------------------
 		
+		private function xml_complete(e:Event) : void
+		{
+			init(new XML(this.loader.data));
+			this.complete.call();
+		}
+		
+		
+		
+//		-----------------------------------------------------------------------------------------------
 		
 		protected function init(xml:XML) : void
 		{
@@ -398,17 +421,16 @@ package com.cell.gameedit.output
 		 */
 		public function isTile() : Boolean 
 		{
-			return null;
+			return image_tile;
 		}
-		
+
 		/**
 		 * 是否输出整图
 		 * @return
 		 */
 		public function isGroup() : Boolean
 		{
-			return null;
-			
+			return image_group;
 		}
 		
 		/**
@@ -417,19 +439,7 @@ package com.cell.gameedit.output
 		 */
 		public function getImageExtentions() : String 
 		{
-			
-			return null;
-		}
-		
-		/**
-		 * 读取导出资源，比如图片什么的
-		 * @param name 文件名
-		 * @param percent 进度
-		 * @return
-		 */
-		public function loadRes( name:String,  percent:NumberReference) : ByteArray
-		{
-			return null;
+			return image_type;
 		}
 		
 		
@@ -456,5 +466,43 @@ package com.cell.gameedit.output
 		{
 			
 		}
+//		-----------------------------------------------------------------------------------------------
+		
+		
+		public function createCImages(set:ImagesSet) : CImages
+		{
+//			if (set != null)
+//			{
+//				var bitmap : BitmapData = new BitmapData(
+//				
+//				var ret : CImages = new CImages();
+//				var count = img.Count;
+//				for(var i:int=0; i<count; i++){
+//					stuff.addTile(
+//						img.ClipsX[i],
+//						img.ClipsY[i],
+//						img.ClipsW[i],
+//						img.ClipsH[i]);
+//				}
+//			}
+//			
+//			if(stuff!=null){
+//				//			System.out.println("SetInput : Load TilesSet ^_^!");
+//			}else{
+//				System.err.println("SetInput : Load TilesSet -_-!");
+//			}
+//			
+//			return stuff;
+			
+			return null;
+		}
+		
+		public function createCSprite(set:SpriteSet) : CSprite
+		{
+			
+			return null;
+		}
+		
+		
 	}
 }
