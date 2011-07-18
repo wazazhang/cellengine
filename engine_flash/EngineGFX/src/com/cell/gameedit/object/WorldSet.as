@@ -16,13 +16,13 @@ package com.cell.gameedit.object
 		public var Height		: int;
 		
 		/** SpriteObject[] */
-		public var Sprs 		: Map;
+		public var Sprs 		: Map	= new Map();
 		/** MapObject[] */
-		public var Maps 		: Map;
+		public var Maps 		: Map	= new Map();
 		/** WaypointObject[] */
-		public var WayPoints 	: Map;
+		public var WayPoints 	: Map	= new Map();
 		/** RegionObject[] */
-		public var Regions		: Map;
+		public var Regions		: Map	= new Map();
 	
 		public var Data			: String;
 		
