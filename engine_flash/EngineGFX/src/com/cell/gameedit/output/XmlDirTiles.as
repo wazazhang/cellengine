@@ -29,14 +29,13 @@ package com.cell.gameedit.output
 			if (!clone) {
 				for (var i:int=0; i<img.Count; i++){
 					if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
-						var tile : CImage = new CImage(new BitmapData(
+						tiles[i] = new CImage(new BitmapData(
 							img.ClipsW[i], 
 							img.ClipsH[i],
 							true));
 					}
 				}
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
-				trace(url);
 				this.loader = new Loader();
 				this.urlreq = new URLRequest(url);
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
@@ -47,7 +46,19 @@ package com.cell.gameedit.output
 		
 		private function complete(e:Event) : void
 		{
-			(loader.content as Bitmap);
+			var cimage : CImage = new CImage((loader.content as Bitmap).bitmapData);
+			for (var i:int=0; i<img.Count; i++){
+				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
+					tiles[i] = cimage.subImage(
+						img.ClipsX[i],
+						img.ClipsY[i],
+						img.ClipsW[i],
+						img.ClipsH[i]
+						);
+				}
+			}
+			this.loader = null;
+			this.urlreq = null;
 		}
 		
 		
