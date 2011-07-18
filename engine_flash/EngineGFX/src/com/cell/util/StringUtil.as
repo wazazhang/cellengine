@@ -317,7 +317,7 @@ package com.cell.util
 			 */
 			public static function getArray2D(text:String) : Array
 			{
-				text = text.replace('{', ' ');
+				text = StringUtil.replaceString(text, '{', ' ');
 				var texts : Array = StringUtil.splitString(text, "},");
 				for (var i:int=texts.length-1; i>=0; --i) {
 					texts[i] = StringUtil.trim(texts[i]);
