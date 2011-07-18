@@ -471,29 +471,9 @@ package com.cell.gameedit.output
 		
 		public function createCImages(set:ImagesSet) : CImages
 		{
-//			if (set != null)
-//			{
-//				var bitmap : BitmapData = new BitmapData(
-//				
-//				var ret : CImages = new CImages();
-//				var count = img.Count;
-//				for(var i:int=0; i<count; i++){
-//					stuff.addTile(
-//						img.ClipsX[i],
-//						img.ClipsY[i],
-//						img.ClipsW[i],
-//						img.ClipsH[i]);
-//				}
-//			}
-//			
-//			if(stuff!=null){
-//				//			System.out.println("SetInput : Load TilesSet ^_^!");
-//			}else{
-//				System.err.println("SetInput : Load TilesSet -_-!");
-//			}
-//			
-//			return stuff;
-			
+			if (set != null) {
+				return new XmlDirTiles(this, set);
+			}
 			return null;
 		}
 		

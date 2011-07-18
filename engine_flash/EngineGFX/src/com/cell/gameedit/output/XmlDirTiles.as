@@ -6,28 +6,36 @@ package com.cell.gameedit.output
 	import com.cell.gfx.game.CImages;
 	
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.net.URLRequest;
 
 	public class XmlDirTiles implements CImages
 	{
+		protected var output	: XmlOutput;
+		protected var img		: ImagesSet;
 		protected var tiles 	: Array;
 		
-		protected var output	: XmlOutput;
-		protected var set		: ImagesSet;
+		private var loader 	: Loader;
+		private var urlreq	: URLRequest;
 		
-		protected var loader 	: Loader;
-		protected var urlreq	: URLRequest;
-		
-		public function XmlDirTiles(output:XmlOutput, set:ImagesSet, clone:Boolean=false)
+		public function XmlDirTiles(output:XmlOutput, img:ImagesSet, clone:Boolean=false)
 		{
 			this.output	= output;
-			this.set	= set;
-			this.tiles	= new Array(set.Count);
+			this.img	= img;
+			this.tiles	= new Array(img.Count);
 			
 			if (!clone) {
-				var url:String = output.path_root + set.Name + "." + output.getImageExtentions();
+				for (var i:int=0; i<img.Count; i++){
+					if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
+						var tile : CImage = new CImage(new BitmapData(
+							img.ClipsW[i], 
+							img.ClipsH[i],
+							true));
+					}
+				}
+				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
 				trace(url);
 				this.loader = new Loader();
 				this.urlreq = new URLRequest(url);
@@ -45,7 +53,7 @@ package com.cell.gameedit.output
 		
 		public function clone() : CImages
 		{
-			var ret : XmlDirTiles = new XmlDirTiles(output, set, true);
+			var ret : XmlDirTiles = new XmlDirTiles(output, img, true);
 			for (var i:int=0; i<tiles.length; i++) {
 				if (this.tiles[i] != null) {
 					ret.tiles[i] = this.tiles[i].clone();
@@ -56,17 +64,26 @@ package com.cell.gameedit.output
 		
 		public function getImage(index:int) : CImage
 		{
-			return (tiles[index] as CImage);
+			if (tiles[index] != null) {
+				return (tiles[index] as CImage);
+			}
+			return null;
 		}
 		
 		public function getWidth(index:int) : int
 		{
-			return (tiles[index] as CImage).width;
+			if (tiles[index] != null) {
+				return (tiles[index] as CImage).width;
+			}
+			return 0;
 		}
 		
 		public function getHeight(index:int) : int
 		{
-			return (tiles[index] as CImage).height;
+			if (tiles[index] != null) {
+				return (tiles[index] as CImage).height;
+			}
+			return 0;
 		}
 		
 		public function render(g:CGraphics, index:int, x:int, y:int, transform:int) : void {
