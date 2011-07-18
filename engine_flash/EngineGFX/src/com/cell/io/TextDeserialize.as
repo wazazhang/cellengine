@@ -19,7 +19,11 @@ package com.cell.io
 		public static function getString(input:TextReader) : String 
 		{
 			var stringLen : int = getInt(input);
-			return input.readLen(stringLen);
+			var ret : String = input.readLen(stringLen);
+			if (input.read() != ',') {
+				trace("TextDeserialize : bad end with getString");
+			}
+			return ret;
 		}
 		
 		public static function getBoolean(input:TextReader) : Boolean
