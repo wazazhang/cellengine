@@ -7,6 +7,7 @@
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
 			import com.cell.gfx.game.CSprite;
+			import com.cell.util.CMath;
 			
 			import mx.events.FlexEvent;
 			
@@ -17,7 +18,8 @@
 			
 			var resloader : ResourceLoader;
 			var cspr : CSprite;
-			var cspr2 : CSprite;
+			
+			var cspr_list : Array = new Array();
 			
 			protected function initalize(event:FlexEvent):void
 			{
@@ -56,12 +58,20 @@
 			{
 				trace("loaded_set");
 				cspr = resloader.getSprite("000000");
+				
+				for (var i:int=0; i<1000; i++) {
+					var cspr2 : CSprite = cspr.copy();
+					cspr2.x = (width  * Math.random());
+					cspr2.y = (height * Math.random());
+					var a : int = (int)(Math.random() * cspr2.getAnimateCount());
+					var f : int = (int)(Math.random() * cspr2.getFrameCount(a));
+					cspr2.setCurrentFrame(a, f, false, true);
+					cspr_list.push(cspr2);
+					addChild(cspr2);
+				}
+				
 				addChild(cspr);
 				
-				cspr2 = cspr.copy();
-				cspr2.x = 100;
-				cspr2.y = 100;
-				addChild(cspr2);
 			}
 			
 
@@ -71,7 +81,9 @@
 					cspr.x = mouseX;
 					cspr.y = mouseY;
 					cspr.nextCycFrame();
-					cspr2.nextCycFrame();
+					for each (var o:CSprite in cspr_list) {
+						o.nextCycFrame();
+					}
 				}
 			}
 
