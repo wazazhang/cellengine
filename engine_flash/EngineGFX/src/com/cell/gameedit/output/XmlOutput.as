@@ -469,17 +469,19 @@ package com.cell.gameedit.output
 //		-----------------------------------------------------------------------------------------------
 		
 		
-		public function createCImages(set:ImagesSet) : CImages
+		public function createCImages(img:ImagesSet) : CImages
 		{
-			if (set != null) {
-				return new XmlDirTiles(this, set);
+			if (img != null) {
+				return new XmlDirTiles(this, img);
 			}
 			return null;
 		}
 		
-		public function createCSprite(set:SpriteSet) : CSprite
+		public function createCSprite(spr:SpriteSet, images:CImages) : CSprite
 		{
-			
+			if (spr != null) {
+				return new XmlDirSprite(this, images, spr);
+			}
 			return null;
 		}
 		

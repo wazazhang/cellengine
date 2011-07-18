@@ -43,7 +43,7 @@ package com.cell.gameedit
 		
 		function 		createCImages(set:ImagesSet) : CImages;
 		
-		function 		createCSprite(set:SpriteSet) : CSprite;
+		function 		createCSprite(set:SpriteSet, images:CImages) : CSprite;
 		
 		
 		/**

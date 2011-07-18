@@ -18,7 +18,6 @@ package com.cell.gameedit.output
 		protected var tiles 	: Array;
 		
 		private var loader 	: Loader;
-		private var urlreq	: URLRequest;
 		
 		public function XmlDirTiles(output:XmlOutput, img:ImagesSet, clone:Boolean=false)
 		{
@@ -37,9 +36,8 @@ package com.cell.gameedit.output
 				}
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
 				this.loader = new Loader();
-				this.urlreq = new URLRequest(url);
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
-				this.loader.load(urlreq);
+				this.loader.load(new URLRequest(url));
 			}
 			
 		}
@@ -58,7 +56,6 @@ package com.cell.gameedit.output
 				}
 			}
 			this.loader = null;
-			this.urlreq = null;
 		}
 		
 		

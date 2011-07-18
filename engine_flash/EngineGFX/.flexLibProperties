@@ -8,6 +8,7 @@
     <classEntry path="com.cell.gameedit.ResourceLoader"/>
     <classEntry path="com.cell.io.TextReader"/>
     <classEntry path="com.cell.util.Arrays"/>
+    <classEntry path="com.cell.gameedit.output.XmlDirSprite"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
