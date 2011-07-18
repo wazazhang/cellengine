@@ -23,7 +23,7 @@ import org.xml.sax.SAXParseException;
 
 import com.cell.CIO;
 import com.cell.CUtil;
-import com.cell.gameedit.Output;
+import com.cell.gameedit.OutputLoader;
 import com.cell.gameedit.object.ImagesSet;
 import com.cell.gameedit.object.MapSet;
 import com.cell.gameedit.object.SpriteSet;

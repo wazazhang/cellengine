@@ -27,7 +27,7 @@ import com.cell.gfx.game.CWayPoint;
  * 如何将编辑器资源解析成单位
  * @author WAZA
  */
-public interface Output
+public interface OutputLoader
 {
 	/***
 	 * 是否单独输出每张图

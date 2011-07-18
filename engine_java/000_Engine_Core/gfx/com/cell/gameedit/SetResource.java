@@ -41,14 +41,14 @@ abstract public class SetResource
 	final public Hashtable<String, WorldSet>		WorldTable;
 	final public Hashtable<String, TableSet>		TableGroups;
 
-	final protected Output							output_adapter;
+	final protected OutputLoader							output_adapter;
 	
 	final protected	MarkedHashtable 				resource_manager;
 //	final protected	ThreadPoolService				loading_service;
 	
 //	-------------------------------------------------------------------------------------
 	
-	public SetResource(Output adapter) throws Exception
+	public SetResource(OutputLoader adapter) throws Exception
 	{
 		this.output_adapter		= adapter;
 //		this.loading_service	= loading_service;
@@ -61,7 +61,7 @@ abstract public class SetResource
 		this.TableGroups		= output_adapter.getTableGroups();
 	}
 	
-	public Output getOutput() {
+	public OutputLoader getOutput() {
 		return output_adapter;
 	}
 	

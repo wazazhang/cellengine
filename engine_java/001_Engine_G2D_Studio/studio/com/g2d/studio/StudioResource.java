@@ -2,7 +2,7 @@ package com.g2d.studio;
 
 import java.util.Enumeration;
 
-import com.cell.gameedit.Output;
+import com.cell.gameedit.OutputLoader;
 import com.cell.gameedit.StreamTiles;
 import com.cell.gameedit.object.ImagesSet;
 import com.cell.gfx.IImages;
@@ -14,7 +14,7 @@ abstract public class StudioResource extends CellSetResource
 {
 	boolean is_load_resource = false;
 	
-	public StudioResource(Output output, String path) throws Exception {
+	public StudioResource(OutputLoader output, String path) throws Exception {
 		super(output, path);
 	}
 	

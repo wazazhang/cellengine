@@ -25,7 +25,7 @@ import java.util.zip.ZipOutputStream;
 
 import com.cell.CIO;
 import com.cell.CUtil;
-import com.cell.gameedit.Output;
+import com.cell.gameedit.OutputLoader;
 import com.cell.gameedit.StreamTiles;
 import com.cell.gameedit.object.ImagesSet;
 import com.cell.gameedit.object.MapSet;
@@ -327,7 +327,7 @@ public class EatBuilder extends Builder
 	@Override
 	public StudioResource createResource(com.g2d.studio.io.File cpj_file) {
 		try {
-			Output out = getOutputFile(cpj_file);
+			OutputLoader out = getOutputFile(cpj_file);
 			if (out != null) {
 				EatResource ret = new EatResource(out, cpj_file.getPath());
 //				System.out.println("create " + ret);
@@ -341,7 +341,7 @@ public class EatBuilder extends Builder
 	
 //	-----------------------------------------------------------------------------------------------------------
 
-	private static Output getOutputFile(com.g2d.studio.io.File cpj_file)
+	private static OutputLoader getOutputFile(com.g2d.studio.io.File cpj_file)
 	{
 		try{
 			com.g2d.studio.io.File pak = cpj_file.getParentFile().getParentFile().getChildFile(
@@ -366,7 +366,7 @@ public class EatBuilder extends Builder
 	
 	static class EatResource extends StudioResource
 	{
-		public EatResource(Output output, String path) throws Exception {
+		public EatResource(OutputLoader output, String path) throws Exception {
 			super(output, path);
 		}
 		

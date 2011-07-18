@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.cell.gameedit.Output;
+import com.cell.gameedit.OutputLoader;
 import com.cell.gameedit.SetResource;
 import com.cell.gameedit.StreamTiles;
 import com.cell.gameedit.object.ImagesSet;
@@ -36,7 +36,7 @@ public class CellSetResource extends SetResource
 		this.Path = ((OutputPropertiesDir) getOutput()).path;
 	}
 	
-	public CellSetResource(Output output, String path) throws Exception
+	public CellSetResource(OutputLoader output, String path) throws Exception
 	{
 		super(output);
 		this.Path = path;

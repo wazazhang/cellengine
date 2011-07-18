@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.cell.CUtil;
-import com.cell.gameedit.Output;
+import com.cell.gameedit.OutputLoader;
 import com.cell.gameedit.object.ImagesSet;
 import com.cell.gameedit.object.MapSet;
 import com.cell.gameedit.object.SpriteSet;
@@ -32,7 +32,7 @@ import com.cell.io.TextDeserialize;
  * 如何将编辑器资源解析成单位
  * @author WAZA
  */
-abstract public class BaseOutput implements Output
+abstract public class BaseOutput implements OutputLoader
 {
 	final Hashtable<String, ImagesSet>		ImgTable 		= new Hashtable<String, ImagesSet>();
 	final Hashtable<String, SpriteSet>		SprTable 		= new Hashtable<String, SpriteSet>();
