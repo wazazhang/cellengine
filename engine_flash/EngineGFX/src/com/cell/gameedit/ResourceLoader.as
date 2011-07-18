@@ -64,7 +64,11 @@ package com.cell.gameedit
 		
 		public function getSprite(name:String) : CSprite
 		{
-			return resource_manager.get("SPR_" + name);
+			var ret : CSprite = resource_manager.get("SPR_" + name);
+			if (ret != null) {
+				return ret.copy();
+			}
+			return ret;
 		}
 		
 		
