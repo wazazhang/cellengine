@@ -25,5 +25,11 @@ package com.cell.util
 			return this[key];
 		}
 		
+		
+		public function remove(key:*) : *
+		{
+			return delete[key];
+		}
+		
 	}
 }
