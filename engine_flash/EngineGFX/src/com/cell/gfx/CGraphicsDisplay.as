@@ -36,7 +36,7 @@ package com.cell.gfx
 		 * @param x_dest 目标X坐标。
 		 * @param y_dest 目标Y坐标。
 		 */
-		public function drawImageRegion(src:CImage,
+		public function drawImageRegion(img:CImage,
 										x_src:int,
 										y_src:int,
 										width:int, 
@@ -45,6 +45,10 @@ package com.cell.gfx
 										x_dest:int, 
 										y_dest:int) : void
 		{
+			g.beginBitmapFill(img.src, Transform.getMatrix(x_dest, y_dest, transform), false, false);
+			g.drawRect(x_dest, y_dest, width, height);
+			g.endFill();
+			
 		} 
 
 	}

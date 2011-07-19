@@ -21,7 +21,7 @@ package com.cell.gfx
 		 */
 		public function drawImage(img:CImage, x:int, y:int, transform:int) : void
 		{
-
+			img.src.draw
 		}
 		
 		
