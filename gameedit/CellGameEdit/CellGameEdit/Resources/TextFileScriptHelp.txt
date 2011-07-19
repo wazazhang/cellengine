@@ -1,34 +1,34 @@
+ï»¿//--------------------------------------------------------------------------------------------------------------
+//æŒ‡ä»¤è¯´æ˜Ž
 //--------------------------------------------------------------------------------------------------------------
-//Ö¸ÁîËµÃ÷
-//--------------------------------------------------------------------------------------------------------------
-¸ñÊ½£º 
- ËùÓÐÖ¸ÁîÃû³ÆÓÉÒ»¶Ô<>¼âÀ¨ºÅ°üÎ§£¬#<´ú±íÊý¾Ý¿é£¬
- ¸Ã½Å±¾ÊÇ¶Ô×îºóÉú³ÉÊý¾Ý¸ñÊ½µÄÒ»ÖÖÔ¼¶¨¡£
-   ÀýÈç£º
-     ÓÐÈçÏÂÔ¼¶¨
+æ ¼å¼ï¼š 
+ æ‰€æœ‰æŒ‡ä»¤åç§°ç”±ä¸€å¯¹<>å°–æ‹¬å·åŒ…å›´ï¼Œ#<ä»£è¡¨æ•°æ®å—ï¼Œ
+ è¯¥è„šæœ¬æ˜¯å¯¹æœ€åŽç”Ÿæˆæ•°æ®æ ¼å¼çš„ä¸€ç§çº¦å®šã€‚
+   ä¾‹å¦‚ï¼š
+     æœ‰å¦‚ä¸‹çº¦å®š
      #<DATA>
           data[<INDEX>] = <DATAS>;
-     #<END DATA>
-     ²¢ÇÒ³ÌÐòÀïºÍ<DATA>¶ÔÓ¦µÄÓÐ3¸öÊý¾Ý¿é£¬ÄÇÃ´×îºóÉú³ÉµÄÊý¾ÝÊÇ
+     #<END_DATA>
+     å¹¶ä¸”ç¨‹åºé‡Œå’Œ<DATA>å¯¹åº”çš„æœ‰3ä¸ªæ•°æ®å—ï¼Œé‚£ä¹ˆæœ€åŽç”Ÿæˆçš„æ•°æ®æ˜¯
      data[0] = ....;
      data[1] = ....;
      data[2] = ....;
 //--------------------------------------------------------------------------------------------------------------     
-//±äÁ¿ÁÐ±í£º
+//å˜é‡åˆ—è¡¨ï¼š
 //--------------------------------------------------------------------------------------------------------------     
-<VAR FILE NAME> /* µ±Ç°¹¤³ÌÎÄ¼þÃû */
-<VAR PATH NAME> /* µ±Ç°¹¤³ÌÂ·¾¶ */
+<VAR_FILE_NAME> /* å½“å‰å·¥ç¨‹æ–‡ä»¶å */
+<VAR_PATH_NAME> /* å½“å‰å·¥ç¨‹è·¯å¾„ */
 
      
 //--------------------------------------------------------------------------------------------------------------     
-//º¯ÊýÁÐ±í£º
+//å‡½æ•°åˆ—è¡¨ï¼š
 //--------------------------------------------------------------------------------------------------------------     
-// º¯ÊýµôÓÃÊ±£¬º¯ÊýÌåºÍ²ÎÊýÖÐ¼ä²»ÄÜ³öÏÖ¿Õ¸ñ¡£
+// å‡½æ•°æŽ‰ç”¨æ—¶ï¼Œå‡½æ•°ä½“å’Œå‚æ•°ä¸­é—´ä¸èƒ½å‡ºçŽ°ç©ºæ ¼ã€‚
 
-<CALL SUB STRING><STRING,OFFSET>        /* µÃµ½×Ó×Ö·û´® */
-<CALL SUB STRING><STRING,OFFSET,LENGTH> /* µÃµ½×Ó×Ö·û´® */
-<CALL PARSE TO INT><STRING>             /* ×Ö·û´®×ª»»³ÉÊý×Ö */
-<CALL PARSE TO DECIMAL><STRING>         /* ×Ö·û´®×ª»»³ÉÊ®½øÖÆÊý×Ö(´øÐ¡Êýµã) */
+<CALL SUB STRING><STRING,OFFSET>        /* å¾—åˆ°å­å­—ç¬¦ä¸² */
+<CALL SUB STRING><STRING,OFFSET,LENGTH> /* å¾—åˆ°å­å­—ç¬¦ä¸² */
+<CALL PARSE TO INT><STRING>             /* å­—ç¬¦ä¸²è½¬æ¢æˆæ•°å­— */
+<CALL PARSE TO DECIMAL><STRING>         /* å­—ç¬¦ä¸²è½¬æ¢æˆåè¿›åˆ¶æ•°å­—(å¸¦å°æ•°ç‚¹) */
 
 <CALL ADD><ARG0,ARG1>
 <CALL SUB><ARG0,ARG1>
@@ -36,321 +36,321 @@
 <CALL DIV><ARG0,ARG1>
 
 //--------------------------------------------------------------------------------------------------------------     
-//Í·Ö¸ÁîÁÐ±í£º
+//å¤´æŒ‡ä»¤åˆ—è¡¨ï¼š
 //--------------------------------------------------------------------------------------------------------------     
 
-<OUTPUT> ...       /* ºóÃæ¸úÊä³öµÄÎÄ¼þÃû(¾ø¶ÔÄ¿Â¼»òÕßµ±Ç°¹¤×÷¿Õ¼äµÄÏà¶ÔÄ¿Â¼) */
+<OUTPUT> ...       /* åŽé¢è·Ÿè¾“å‡ºçš„æ–‡ä»¶å(ç»å¯¹ç›®å½•æˆ–è€…å½“å‰å·¥ä½œç©ºé—´çš„ç›¸å¯¹ç›®å½•) */
  
-<IMAGE OUTPUT> ... /* Í¼Æ¬Êä³öÄ¿Â¼(¾ø¶ÔÄ¿Â¼»òÕßµ±Ç°¹¤×÷¿Õ¼äµÄÏà¶ÔÄ¿Â¼) */
-<IMAGE TYPE> ...   /* Êä³öÍ¼Æ¬¸ñÊ½(png bmp gif jpg) */
-<IMAGE TILE> ...   /* É¢Í¼Êä³ö ¿ªÆô(true) */
-<IMAGE GROUP> ...  /* ÕûÍ¼Êä³ö ¿ªÆô(true) */
+<IMAGE_OUTPUT> ... /* å›¾ç‰‡è¾“å‡ºç›®å½•(ç»å¯¹ç›®å½•æˆ–è€…å½“å‰å·¥ä½œç©ºé—´çš„ç›¸å¯¹ç›®å½•) */
+<IMAGE_TYPE> ...   /* è¾“å‡ºå›¾ç‰‡æ ¼å¼(png bmp gif jpg) */
+<IMAGE_TILE> ...   /* æ•£å›¾è¾“å‡º å¼€å¯(true) */
+<IMAGE_GROUP> ...  /* æ•´å›¾è¾“å‡º å¼€å¯(true) */
 
-<FORMAT NUMBER ARRAY 1D>    <>,     /* Êä³öµÄ1Î¬Êý×ÖÊý×é¸ñÊ½ <> ÎªÔªËØÕ¼ÓÃ£¬µ±Ç°Êä³ö¸ñÊ½Îª (a,b,c,d,...) */
-<FORMAT STRING ARRAY 1D>    "<>",   /* Êä³öµÄ1Î¬×Ö·ûÊý×é¸ñÊ½ <> ÎªÔªËØÕ¼ÓÃ£¬¸ñÊ½ËµÃ÷Í¬ÉÏ*/
-<FORMAT ARRAY 1D>           <>,     /* Êä³öµÄ1Î¬Êý×é¸ñÊ½ <> ÎªÔªËØÕ¼ÓÃ */
-<FORMAT ARRAY 2D>           {<>},   /* Êä³öµÄ2Î¬Êý×é¸ñÊ½ <> ÎªÔªËØÕ¼ÓÃ£¬µ±Ç°Êä³ö¸ñÊ½Îª ({a1,b1,c1,...},{a2,b2,c2,...},{a2,b2,c2,...}...)  */
+<FORMAT_NUMBER_ARRAY_1D>    <>,     /* è¾“å‡ºçš„1ç»´æ•°å­—æ•°ç»„æ ¼å¼ <> ä¸ºå…ƒç´ å ç”¨ï¼Œå½“å‰è¾“å‡ºæ ¼å¼ä¸º (a,b,c,d,...) */
+<FORMAT_STRING_ARRAY_1D>    "<>",   /* è¾“å‡ºçš„1ç»´å­—ç¬¦æ•°ç»„æ ¼å¼ <> ä¸ºå…ƒç´ å ç”¨ï¼Œæ ¼å¼è¯´æ˜ŽåŒä¸Š*/
+<FORMAT_ARRAY_1D>           <>,     /* è¾“å‡ºçš„1ç»´æ•°ç»„æ ¼å¼ <> ä¸ºå…ƒç´ å ç”¨ */
+<FORMAT_ARRAY_2D>           {<>},   /* è¾“å‡ºçš„2ç»´æ•°ç»„æ ¼å¼ <> ä¸ºå…ƒç´ å ç”¨ï¼Œå½“å‰è¾“å‡ºæ ¼å¼ä¸º ({a1,b1,c1,...},{a2,b2,c2,...},{a2,b2,c2,...}...)  */
 
-<FIXED STRING ARRAY>		byte,(char,)/* ÊÇ·ñÔÚÊä³öÊý×éµÄÊ±ºòÖ¸¶¨×Ö·û´®×Ö½Ú³¤¶È (¿Õ)=²»Ö¸¶¨ (·Ç¿Õ)=byte(·Ö¸ô·û) »ò char(·Ö¸ô·û) eg: zooe -> [byte count],zooe (,Îª·Ö¸ô·û)  ,*/
+<FIXED_STRING_ARRAY>		byte,(char,)/* æ˜¯å¦åœ¨è¾“å‡ºæ•°ç»„çš„æ—¶å€™æŒ‡å®šå­—ç¬¦ä¸²å­—èŠ‚é•¿åº¦ (ç©º)=ä¸æŒ‡å®š (éžç©º)=byte(åˆ†éš”ç¬¦) æˆ– char(åˆ†éš”ç¬¦) eg: zooe -> [byte count],zooe (,ä¸ºåˆ†éš”ç¬¦)  ,*/
 
 //--------------------------------------------------------------------------------------------------------------     
-#<RESOURCE>            /* ×ÊÔ´Êý¾Ý¿é ¿ªÊ¼ */ 
+#<RESOURCE>            /* èµ„æºæ•°æ®å— å¼€å§‹ */ 
 //--------------------------------------------------------------------------------------------------------------
 
-    <RES IMAGES COUNT>     /*(int) ×ÊÔ´Àï×Ü¹²µÄÍ¼Æ¬×éÊýÁ¿ */
+    <RES_IMAGES_COUNT>     /*(int) èµ„æºé‡Œæ€»å…±çš„å›¾ç‰‡ç»„æ•°é‡ */
 
-    #<IMAGES>              /* Í¼Æ¬×éÊý¾Ý¿é ¿ªÊ¼ */
+    #<IMAGES>              /* å›¾ç‰‡ç»„æ•°æ®å— å¼€å§‹ */
     
         <KEEP> ...
-		<IGNORE> ...           /*ºöÂÔÖ¸¶¨Ãû×ÖµÄÍ¼Æ¬×é£¬ºóÃæ¸úÍ¼Æ¬×éÃû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
-        <IGNORE NULL CLIP> ... /* (true or false)ºöÂÔ¿Õ¿é */
+		<IGNORE> ...           /*å¿½ç•¥æŒ‡å®šåå­—çš„å›¾ç‰‡ç»„ï¼ŒåŽé¢è·Ÿå›¾ç‰‡ç»„åå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
+        <IGNORE_NULL_CLIP> ... /* (true or false)å¿½ç•¥ç©ºå— */
         
-        <IMAGES INDEX>         /*(int) ¸ÃÍ¼Æ¬×éµÄ±àºÅ*/
-        <NAME>                 /*(str) ¸ÃÍ¼Æ¬×éµÄÃû³Æ */
-        <COUNT>                /*(int) ¸ÃÍ¼Æ¬×é°üº¬µÄÍ¼¿éÊýÁ¿£¬°üº¬¿ÕÍ¼ */
+        <IMAGES_INDEX>         /*(int) è¯¥å›¾ç‰‡ç»„çš„ç¼–å·*/
+        <NAME>                 /*(str) è¯¥å›¾ç‰‡ç»„çš„åç§° */
+        <COUNT>                /*(int) è¯¥å›¾ç‰‡ç»„åŒ…å«çš„å›¾å—æ•°é‡ï¼ŒåŒ…å«ç©ºå›¾ */
         
-        #<CLIP>                /* Ã¿Ò»¸öÍ¼Æ¬¿éµÄÊý¾Ý£¬Ã¿Ò»¸ö¶¨ÒåÁËÃ¿¸öÍ¼¿éÔÚÔ­Í¼ÖÐµÄ·¶Î§ */
-            <DATA>                 /*(str) Êý¾Ý*/
-            <INDEX>                /*(int) µ±Ç°ÊÇµÚ¼¸¿é */
-            <X>                    /*(int) µ±Ç°ClipÔÚÕûÍ¼Î»ÖÃµÄ X */ 
-            <Y>                    /*(int) µ±Ç°ClipÔÚÕûÍ¼Î»ÖÃµÄ Y */ 
-            <W>                    /*(int) µ±Ç°ClipµÄ ¿í */ 
-            <H>                    /*(int) µ±Ç°ClipµÄ ¸ß */ 
-        #<END CLIP>            /* Í¼Æ¬ÇÐ¿éÊý¾Ý¿é½áÊø */
+        #<CLIP>                /* æ¯ä¸€ä¸ªå›¾ç‰‡å—çš„æ•°æ®ï¼Œæ¯ä¸€ä¸ªå®šä¹‰äº†æ¯ä¸ªå›¾å—åœ¨åŽŸå›¾ä¸­çš„èŒƒå›´ */
+            <DATA>                 /*(str) æ•°æ®*/
+            <INDEX>                /*(int) å½“å‰æ˜¯ç¬¬å‡ å— */
+            <X>                    /*(int) å½“å‰Clipåœ¨æ•´å›¾ä½ç½®çš„ X */ 
+            <Y>                    /*(int) å½“å‰Clipåœ¨æ•´å›¾ä½ç½®çš„ Y */ 
+            <W>                    /*(int) å½“å‰Clipçš„ å®½ */ 
+            <H>                    /*(int) å½“å‰Clipçš„ é«˜ */ 
+        #<END_CLIP>            /* å›¾ç‰‡åˆ‡å—æ•°æ®å—ç»“æŸ */
         
-    #<END IMAGES>          /* Í¼Æ¬×éÊý¾Ý¿é  ½áÊø */
+    #<END_IMAGES>          /* å›¾ç‰‡ç»„æ•°æ®å—  ç»“æŸ */
      
 //--------------------------------------------------------------------------------------------------------------
 
-    <RES MAP COUNT>        /*(int) ×ÊÔ´Àï×Ü¹²µÄµØÍ¼ÊýÁ¿ */
+    <RES_MAP_COUNT>        /*(int) èµ„æºé‡Œæ€»å…±çš„åœ°å›¾æ•°é‡ */
     
-    #<MAP>                 /* µØÍ¼Êý¾Ý¿é ¿ªÊ¼ */
+    #<MAP>                 /* åœ°å›¾æ•°æ®å— å¼€å§‹ */
     
         <KEEP> ...
-		<IGNORE> ...           /*ºöÂÔÖ¸¶¨Ãû×ÖµÄµØÍ¼£¬ºóÃæ¸úµØÍ¼Ãû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+		<IGNORE> ...           /*å¿½ç•¥æŒ‡å®šåå­—çš„åœ°å›¾ï¼ŒåŽé¢è·Ÿåœ°å›¾åå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
         
-        <MAP INDEX>            /*(int) ¸ÃµØÍ¼ ±àºÅ*/
-        <NAME>                 /*(str) ¸ÃµØÍ¼ Ãû×Ö */
-        <IMAGES NAME>          /*(str) ¸ÃµØÍ¼ Ê¹ÓÃµÄÍ¼Æ¬×éÃû×Ö */
-        <X COUNT>              /*(int) ¸ÃµØÍ¼ Ë®Æ½¸ñ×ÓÊýÁ¿ */
-        <Y COUNT>              /*(int) ¸ÃµØÍ¼ ´¹Ö±¸ñ×ÓÊýÁ¿ */
-        <CELL W>               /*(int) ¸ÃµØÍ¼ Ã¿¸ñ¿í¶È */
-        <CELL H>               /*(int) ¸ÃµØÍ¼ Ã¿¸ñ¸ß¶È */
+        <MAP_INDEX>            /*(int) è¯¥åœ°å›¾ ç¼–å·*/
+        <NAME>                 /*(str) è¯¥åœ°å›¾ åå­— */
+        <IMAGES_NAME>          /*(str) è¯¥åœ°å›¾ ä½¿ç”¨çš„å›¾ç‰‡ç»„åå­— */
+        <X_COUNT>              /*(int) è¯¥åœ°å›¾ æ°´å¹³æ ¼å­æ•°é‡ */
+        <Y_COUNT>              /*(int) è¯¥åœ°å›¾ åž‚ç›´æ ¼å­æ•°é‡ */
+        <CELL_W>               /*(int) è¯¥åœ°å›¾ æ¯æ ¼å®½åº¦ */
+        <CELL_H>               /*(int) è¯¥åœ°å›¾ æ¯æ ¼é«˜åº¦ */
 
-        <SCENE PART COUNT>     /*(int) ¸ÃµØÍ¼ Ö¡²¿¼þÊýÁ¿ */
-        #<SCENE PART>          /* Ö¡²¿¼þ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸Ã²¿¼þ ºÅÂë */
-            <TILE>                 /*(int) ¸Ã²¿¼þ Í¼Æ¬Ë÷Òý */
-            <TRANS>                /*(int) ¸Ã²¿¼þ Í¼Æ¬·­×ª·½Ê½ */        
-        #<END SCENE PART>      /* Ö¡²¿¼þ ½áÊø */
+        <SCENE_PART_COUNT>     /*(int) è¯¥åœ°å›¾ å¸§éƒ¨ä»¶æ•°é‡ */
+        #<SCENE_PART>          /* å¸§éƒ¨ä»¶ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥éƒ¨ä»¶ å·ç  */
+            <TILE>                 /*(int) è¯¥éƒ¨ä»¶ å›¾ç‰‡ç´¢å¼• */
+            <TRANS>                /*(int) è¯¥éƒ¨ä»¶ å›¾ç‰‡ç¿»è½¬æ–¹å¼ */        
+        #<END_SCENE_PART>      /* å¸§éƒ¨ä»¶ ç»“æŸ */
 
-        <SCENE FRAME COUNT>    /*(int) ¸ÃµØÍ¼ Ö¡ÊýÁ¿ */
-        #<SCENE FRAME>         /* Ö¡ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸ÃÖ¡ ºÅÂë */
-            <DATA SIZE>            /*(int) ¸ÃÖ¡ ×éºÏ²¿¼þÊýÁ¿ */
-            <DATA>                 /*(int)[] ¸ÃÖ¡ ×éºÏ²¿¼þÊý×é*/
-        #<END SCENE FRAME>     /* Ö¡ ½áÊø */
+        <SCENE_FRAME_COUNT>    /*(int) è¯¥åœ°å›¾ å¸§æ•°é‡ */
+        #<SCENE_FRAME>         /* å¸§ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥å¸§ å·ç  */
+            <DATA_SIZE>            /*(int) è¯¥å¸§ ç»„åˆéƒ¨ä»¶æ•°é‡ */
+            <DATA>                 /*(int)[] è¯¥å¸§ ç»„åˆéƒ¨ä»¶æ•°ç»„*/
+        #<END_SCENE_FRAME>     /* å¸§ ç»“æŸ */
 
-        <CD PART COUNT>        /*(int) ¸ÃµØÍ¼ Åö×²²¿¼þÊýÁ¿ */
-        #<CD PART>             /* Åö×²²¿¼þ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸Ã²¿¼þ ºÅÂë */
-            <TYPE>                 /*(str) ¸Ã²¿¼þ ÀàÐÍ£¨ rect  »ò  line £© */
-            <MASK>                 /*(int32) ¸Ã²¿¼þ ÅÐ¶¨Öµ */
-            <X1>                   /*(int) ¸Ã²¿¼þ µÚÒ»µã XÎ»ÖÃ £¨¾ØÐÎ×óÉÏ½Çµã »ò ÏßµÄµÚÒ»µã£©*/
-            <Y1>                   /*(int) ¸Ã²¿¼þ µÚÒ»µã YÎ»ÖÃ £¨¾ØÐÎ×óÉÏ½Çµã »ò ÏßµÄµÚÒ»µã£©*/
-            <X2>                   /*(int) ¸Ã²¿¼þ µÚ¶þµã XÎ»ÖÃ £¨¾ØÐÎÓÒÏÂ½Çµã »ò ÏßµÄµÚ¶þµã£©*/
-            <Y2>                   /*(int) ¸Ã²¿¼þ µÚ¶þµã YÎ»ÖÃ £¨¾ØÐÎÓÒÏÂ½Çµã »ò ÏßµÄµÚ¶þµã£©*/
-            <W>                    /*(int) ¸Ã²¿¼þ ¿í£¨¿ìËÙÅÅ³â¾ØÐÎ£©*/
-            <H>                    /*(int) ¸Ã²¿¼þ ¸ß£¨¿ìËÙÅÅ³â¾ØÐÎ£©*/
-        #<END CD PART>         /* Åö×²²¿¼þ ½áÊø */
+        <CD_PART_COUNT>        /*(int) è¯¥åœ°å›¾ ç¢°æ’žéƒ¨ä»¶æ•°é‡ */
+        #<CD_PART>             /* ç¢°æ’žéƒ¨ä»¶ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥éƒ¨ä»¶ å·ç  */
+            <TYPE>                 /*(str) è¯¥éƒ¨ä»¶ ç±»åž‹ï¼ˆ rect  æˆ–  line ï¼‰ */
+            <MASK>                 /*(int32) è¯¥éƒ¨ä»¶ åˆ¤å®šå€¼ */
+            <X1>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬ä¸€ç‚¹ Xä½ç½® ï¼ˆçŸ©å½¢å·¦ä¸Šè§’ç‚¹ æˆ– çº¿çš„ç¬¬ä¸€ç‚¹ï¼‰*/
+            <Y1>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬ä¸€ç‚¹ Yä½ç½® ï¼ˆçŸ©å½¢å·¦ä¸Šè§’ç‚¹ æˆ– çº¿çš„ç¬¬ä¸€ç‚¹ï¼‰*/
+            <X2>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬äºŒç‚¹ Xä½ç½® ï¼ˆçŸ©å½¢å³ä¸‹è§’ç‚¹ æˆ– çº¿çš„ç¬¬äºŒç‚¹ï¼‰*/
+            <Y2>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬äºŒç‚¹ Yä½ç½® ï¼ˆçŸ©å½¢å³ä¸‹è§’ç‚¹ æˆ– çº¿çš„ç¬¬äºŒç‚¹ï¼‰*/
+            <W>                    /*(int) è¯¥éƒ¨ä»¶ å®½ï¼ˆå¿«é€ŸæŽ’æ–¥çŸ©å½¢ï¼‰*/
+            <H>                    /*(int) è¯¥éƒ¨ä»¶ é«˜ï¼ˆå¿«é€ŸæŽ’æ–¥çŸ©å½¢ï¼‰*/
+        #<END_CD_PART>         /* ç¢°æ’žéƒ¨ä»¶ ç»“æŸ */
 
-        <TILE MATRIX>          /*(int)[][] µØÍ¼Í¼Ïó¶þÎ¬Êý×é ¸ñÊ½Îª matrix[y count][x count] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... Êý¾ÝÎªÖ¡ºÅÂë£¨¸ÃÊý¾ÝµÄ¾ø¶ÔÖµ±íÊ¾¶ÔÓ¦µÄÖ¡ºÅÂë£¬·ûºÅÓÃÀ´Çø·Ö¶àÖØÌùÍ¼ºÍ¶¯»­£¨value<0¶à²ã  value>=0¶¯»­£©£© */
-        <FLAG MATRIX>          /*(int)[][] µØÍ¼Åö×²¶þÎ¬Êý×é ¸ñÊ½Îª matrix[y count][x count] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... Êý¾ÝÎªÅö×²²¿¼þºÅÂë */
+        <TILE_MATRIX>          /*(int)[][] åœ°å›¾å›¾è±¡äºŒç»´æ•°ç»„ æ ¼å¼ä¸º matrix[y count][x count] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... æ•°æ®ä¸ºå¸§å·ç ï¼ˆè¯¥æ•°æ®çš„ç»å¯¹å€¼è¡¨ç¤ºå¯¹åº”çš„å¸§å·ç ï¼Œç¬¦å·ç”¨æ¥åŒºåˆ†å¤šé‡è´´å›¾å’ŒåŠ¨ç”»ï¼ˆvalue<0å¤šå±‚  value>=0åŠ¨ç”»ï¼‰ï¼‰ */
+        <FLAG_MATRIX>          /*(int)[][] åœ°å›¾ç¢°æ’žäºŒç»´æ•°ç»„ æ ¼å¼ä¸º matrix[y count][x count] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... æ•°æ®ä¸ºç¢°æ’žéƒ¨ä»¶å·ç  */
 
-    #<END MAP>             /* µØÍ¼Êý¾Ý¿é ½áÊø */
+    #<END_MAP>             /* åœ°å›¾æ•°æ®å— ç»“æŸ */
      
  //--------------------------------------------------------------------------------------------------------------
     
-    <RES SPRITE COUNT>     /*(int) ×ÊÔ´Àï×Ü¹²µÄ¾«ÁéÊýÁ¿ */
+    <RES_SPRITE_COUNT>     /*(int) èµ„æºé‡Œæ€»å…±çš„ç²¾çµæ•°é‡ */
     
-    #<SPRITE>              /* ¾«ÁéÊý¾Ý¿é ¿ªÊ¼ */
+    #<SPRITE>              /* ç²¾çµæ•°æ®å— å¼€å§‹ */
     
         <KEEP> ...
-		<IGNORE> ...           /*ºöÂÔÖ¸¶¨Ãû×ÖµÄ¾«Áé£¬ºóÃæ¸ú¾«ÁéÃû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+		<IGNORE> ...           /*å¿½ç•¥æŒ‡å®šåå­—çš„ç²¾çµï¼ŒåŽé¢è·Ÿç²¾çµåå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
         
-        <SPR INDEX>            /*(int) ¸Ã¾«Áé ±àºÅ*/
-        <NAME>                 /*(str) ¸Ã¾«Áé Ãû×Ö */
-        <IMAGES NAME>          /*(str) ¸Ã¾«Áé Ê¹ÓÃµÄÍ¼Æ¬×éÃû×Ö */
+        <SPR_INDEX>            /*(int) è¯¥ç²¾çµ ç¼–å·*/
+        <NAME>                 /*(str) è¯¥ç²¾çµ åå­— */
+        <IMAGES_NAME>          /*(str) è¯¥ç²¾çµ ä½¿ç”¨çš„å›¾ç‰‡ç»„åå­— */
         
-        <SCENE PART COUNT>     /*(int) ¸Ã¾«Áé Ö¡²¿¼þÊýÁ¿ */    
-        #<SCENE PART>          /* Ö¡²¿¼þ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸Ã²¿¼þ ºÅÂë */
-            <TILE>                 /*(int) ¸Ã²¿¼þ Í¼Æ¬Ë÷Òý */
-            <X>                    /*(int) ¸Ã²¿¼þ XÎ»ÖÃ */
-            <Y>                    /*(int) ¸Ã²¿¼þ YÎ»ÖÃ */
-            <TRANS>                /*(int) ¸Ã²¿¼þ Í¼Æ¬·­×ª·½Ê½ */        
-        #<END SCENE PART>      /* Ö¡²¿¼þ ½áÊø */
+        <SCENE_PART_COUNT>     /*(int) è¯¥ç²¾çµ å¸§éƒ¨ä»¶æ•°é‡ */    
+        #<SCENE_PART>          /* å¸§éƒ¨ä»¶ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥éƒ¨ä»¶ å·ç  */
+            <TILE>                 /*(int) è¯¥éƒ¨ä»¶ å›¾ç‰‡ç´¢å¼• */
+            <X>                    /*(int) è¯¥éƒ¨ä»¶ Xä½ç½® */
+            <Y>                    /*(int) è¯¥éƒ¨ä»¶ Yä½ç½® */
+            <TRANS>                /*(int) è¯¥éƒ¨ä»¶ å›¾ç‰‡ç¿»è½¬æ–¹å¼ */        
+        #<END_SCENE_PART>      /* å¸§éƒ¨ä»¶ ç»“æŸ */
 
-        <SCENE FRAME COUNT>    /*(int) ¸Ã¾«Áé Ö¡ÊýÁ¿ */
-        #<SCENE FRAME>         /* Ö¡ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸ÃÖ¡ ºÅÂë*/
-            <DATA SIZE>            /*(int) ¸ÃÖ¡ ×éºÏ²¿¼þÊýÁ¿*/
-            <DATA>                 /*(int)[] ¸ÃÖ¡ ×éºÏ²¿¼þÊý×é£¨·Ö¸ô·ûÎª","£©*/
-        #<END SCENE FRAME>     /* Ö¡ ½áÊø */
+        <SCENE_FRAME_COUNT>    /*(int) è¯¥ç²¾çµ å¸§æ•°é‡ */
+        #<SCENE_FRAME>         /* å¸§ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥å¸§ å·ç */
+            <DATA_SIZE>            /*(int) è¯¥å¸§ ç»„åˆéƒ¨ä»¶æ•°é‡*/
+            <DATA>                 /*(int)[] è¯¥å¸§ ç»„åˆéƒ¨ä»¶æ•°ç»„ï¼ˆåˆ†éš”ç¬¦ä¸º","ï¼‰*/
+        #<END_SCENE_FRAME>     /* å¸§ ç»“æŸ */
 
-        <CD PART COUNT>        /*(int) ¸Ã¾«Áé Åö×²²¿¼þÊýÁ¿ */
-        #<CD PART>             /* Åö×²²¿¼þ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸Ã²¿¼þ ºÅÂë */
-            <TYPE>                 /*(str) ¸Ã²¿¼þ ÀàÐÍ£¨ rect  »ò  line £© */
-            <MASK>                 /*(int32) ¸Ã²¿¼þ ÅÐ¶¨Öµ*/
-            <X1>                   /*(int) ¸Ã²¿¼þ µÚÒ»µã XÎ»ÖÃ £¨¾ØÐÎ×óÉÏ½Çµã »ò ÏßµÄµÚÒ»µã£©*/
-            <Y1>                   /*(int) ¸Ã²¿¼þ µÚÒ»µã YÎ»ÖÃ £¨¾ØÐÎ×óÉÏ½Çµã »ò ÏßµÄµÚÒ»µã£©*/
-            <X2>                   /*(int) ¸Ã²¿¼þ µÚ¶þµã XÎ»ÖÃ £¨¾ØÐÎÓÒÏÂ½Çµã »ò ÏßµÄµÚ¶þµã£© */
-            <Y2>                   /*(int) ¸Ã²¿¼þ µÚ¶þµã YÎ»ÖÃ £¨¾ØÐÎÓÒÏÂ½Çµã »ò ÏßµÄµÚ¶þµã£©*/
-            <W>                    /*(int) ¸Ã²¿¼þ ¿í£¨¿ìËÙÅÅ³â¾ØÐÎ£©*/
-            <H>                    /*(int) ¸Ã²¿¼þ ¸ß£¨¿ìËÙÅÅ³â¾ØÐÎ£©*/
-        #<END CD PART>         /* Åö×²²¿¼þ ½áÊø */
+        <CD_PART_COUNT>        /*(int) è¯¥ç²¾çµ ç¢°æ’žéƒ¨ä»¶æ•°é‡ */
+        #<CD_PART>             /* ç¢°æ’žéƒ¨ä»¶ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥éƒ¨ä»¶ å·ç  */
+            <TYPE>                 /*(str) è¯¥éƒ¨ä»¶ ç±»åž‹ï¼ˆ rect  æˆ–  line ï¼‰ */
+            <MASK>                 /*(int32) è¯¥éƒ¨ä»¶ åˆ¤å®šå€¼*/
+            <X1>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬ä¸€ç‚¹ Xä½ç½® ï¼ˆçŸ©å½¢å·¦ä¸Šè§’ç‚¹ æˆ– çº¿çš„ç¬¬ä¸€ç‚¹ï¼‰*/
+            <Y1>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬ä¸€ç‚¹ Yä½ç½® ï¼ˆçŸ©å½¢å·¦ä¸Šè§’ç‚¹ æˆ– çº¿çš„ç¬¬ä¸€ç‚¹ï¼‰*/
+            <X2>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬äºŒç‚¹ Xä½ç½® ï¼ˆçŸ©å½¢å³ä¸‹è§’ç‚¹ æˆ– çº¿çš„ç¬¬äºŒç‚¹ï¼‰ */
+            <Y2>                   /*(int) è¯¥éƒ¨ä»¶ ç¬¬äºŒç‚¹ Yä½ç½® ï¼ˆçŸ©å½¢å³ä¸‹è§’ç‚¹ æˆ– çº¿çš„ç¬¬äºŒç‚¹ï¼‰*/
+            <W>                    /*(int) è¯¥éƒ¨ä»¶ å®½ï¼ˆå¿«é€ŸæŽ’æ–¥çŸ©å½¢ï¼‰*/
+            <H>                    /*(int) è¯¥éƒ¨ä»¶ é«˜ï¼ˆå¿«é€ŸæŽ’æ–¥çŸ©å½¢ï¼‰*/
+        #<END_CD_PART>         /* ç¢°æ’žéƒ¨ä»¶ ç»“æŸ */
 
-        <CD FRAME COUNT>       /*(int) ¸Ã¾«Áé Åö×²Ö¡ÊýÁ¿ */
-        #<CD FRAME>            /* Åö×²Ö¡ ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸ÃÅö×²Ö¡ ºÅÂë*/
-            <DATA SIZE>            /*(int) ¸ÃÅö×²Ö¡ ×éºÏ²¿¼þÊýÁ¿*/
-            <DATA>                 /*(int)[] ¸ÃÅö×²Ö¡ ×éºÏ²¿¼þÊý×é£¨·Ö¸ô·ûÎª","£©*/
-        #<END CD FRAME>        /* Åö×²Ö¡ ½áÊø */
+        <CD_FRAME_COUNT>       /*(int) è¯¥ç²¾çµ ç¢°æ’žå¸§æ•°é‡ */
+        #<CD_FRAME>            /* ç¢°æ’žå¸§ å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥ç¢°æ’žå¸§ å·ç */
+            <DATA_SIZE>            /*(int) è¯¥ç¢°æ’žå¸§ ç»„åˆéƒ¨ä»¶æ•°é‡*/
+            <DATA>                 /*(int)[] è¯¥ç¢°æ’žå¸§ ç»„åˆéƒ¨ä»¶æ•°ç»„ï¼ˆåˆ†éš”ç¬¦ä¸º","ï¼‰*/
+        #<END_CD_FRAME>        /* ç¢°æ’žå¸§ ç»“æŸ */
         
-        <ANIMATE COUNT>        /*(int) ¸Ã¾«Áé ¶¯»­ÊýÁ¿ */
-        <FRAME COUNTS>         /*(int)[] ¸Ã¾«Áé Ã¿¸ö¶¯»­Ö¡ÊýÁ¿Êý×é£¨·Ö¸ô·ûÎª","£©*/
-        <FRAME NAME>           /*(str)[] ¸Ã¾«Áé Ã¿¸ö¶¯»­µÄÃû×ÖÊý×é£¨·Ö¸ô·ûÎª","£©*/
-        <FRAME ANIMATE>        /*(int)[][] ¸Ã¾«Áé Í¼Æ¬¶¯»­ÐòÁÐ¶þÎ¬Êý×é ¸ñÊ½Îª frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...Êý¾ÝÎªÖ¡ºÅÂë*/
-        <FRAME CD MAP>         /*(int)[][] ¸Ã¾«Áé µØÍ¼Åö×²ÐòÁÐ¶þÎ¬Êý×é ¸ñÊ½Îª frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...Êý¾ÝÎªÅö×²Ö¡ºÅÂë*/
-        <FRAME CD ATK>         /*(int)[][] ¸Ã¾«Áé ¹¥»÷Åö×²ÐòÁÐ¶þÎ¬Êý×é ¸ñÊ½Îª frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...Êý¾ÝÎªÅö×²Ö¡ºÅÂë*/
-        <FRAME CD DEF>         /*(int)[][] ¸Ã¾«Áé ·ÀÓùÅö×²ÐòÁÐ¶þÎ¬Êý×é ¸ñÊ½Îª frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...Êý¾ÝÎªÅö×²Ö¡ºÅÂë*/
-        <FRAME CD EXT>         /*(int)[][] ¸Ã¾«Áé ÆäËûÅö×²ÐòÁÐ¶þÎ¬Êý×é ¸ñÊ½Îª frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...Êý¾ÝÎªÅö×²Ö¡ºÅÂë*/
+        <ANIMATE_COUNT>        /*(int) è¯¥ç²¾çµ åŠ¨ç”»æ•°é‡ */
+        <FRAME_COUNTS>         /*(int)[] è¯¥ç²¾çµ æ¯ä¸ªåŠ¨ç”»å¸§æ•°é‡æ•°ç»„ï¼ˆåˆ†éš”ç¬¦ä¸º","ï¼‰*/
+        <FRAME_NAME>           /*(str)[] è¯¥ç²¾çµ æ¯ä¸ªåŠ¨ç”»çš„åå­—æ•°ç»„ï¼ˆåˆ†éš”ç¬¦ä¸º","ï¼‰*/
+        <FRAME_ANIMATE>        /*(int)[][] è¯¥ç²¾çµ å›¾ç‰‡åŠ¨ç”»åºåˆ—äºŒç»´æ•°ç»„ æ ¼å¼ä¸º frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...æ•°æ®ä¸ºå¸§å·ç */
+        <FRAME_CD_MAP>         /*(int)[][] è¯¥ç²¾çµ åœ°å›¾ç¢°æ’žåºåˆ—äºŒç»´æ•°ç»„ æ ¼å¼ä¸º frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...æ•°æ®ä¸ºç¢°æ’žå¸§å·ç */
+        <FRAME_CD_ATK>         /*(int)[][] è¯¥ç²¾çµ æ”»å‡»ç¢°æ’žåºåˆ—äºŒç»´æ•°ç»„ æ ¼å¼ä¸º frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...æ•°æ®ä¸ºç¢°æ’žå¸§å·ç */
+        <FRAME_CD_DEF>         /*(int)[][] è¯¥ç²¾çµ é˜²å¾¡ç¢°æ’žåºåˆ—äºŒç»´æ•°ç»„ æ ¼å¼ä¸º frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...æ•°æ®ä¸ºç¢°æ’žå¸§å·ç */
+        <FRAME_CD_EXT>         /*(int)[][] è¯¥ç²¾çµ å…¶ä»–ç¢°æ’žåºåˆ—äºŒç»´æ•°ç»„ æ ¼å¼ä¸º frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...æ•°æ®ä¸ºç¢°æ’žå¸§å·ç */
         
-     #<END SPRITE>         /* ¾«ÁéÊý¾Ý¿é ½áÊø */
+     #<END_SPRITE>         /* ç²¾çµæ•°æ®å— ç»“æŸ */
      
 //--------------------------------------------------------------------------------------------------------------
-#<END RESOURCE>        /* ×ÊÔ´Êý¾Ý¿é ½áÊø */ 
+#<END_RESOURCE>        /* èµ„æºæ•°æ®å— ç»“æŸ */ 
 //--------------------------------------------------------------------------------------------------------------
 
 
 //--------------------------------------------------------------------------------------------------------------
-#<LEVEL>               /* ¹Ø¿¨Êý¾Ý¿é ¿ªÊ¼*/
+#<LEVEL>               /* å…³å¡æ•°æ®å— å¼€å§‹*/
 //--------------------------------------------------------------------------------------------------------------
     
-    <LEVEL WORLD COUNT>    /*(int) ×Ü¹²³¡¾°ÊýÁ¿ */
+    <LEVEL_WORLD_COUNT>    /*(int) æ€»å…±åœºæ™¯æ•°é‡ */
     
-    #<WORLD>               /* ³¡¾°Êý¾Ý¿é ¿ªÊ¼ */
+    #<WORLD>               /* åœºæ™¯æ•°æ®å— å¼€å§‹ */
     
         <KEEP> ...
-        <IGNORE> ...           /*ºöÂÔÖ¸¶¨Ãû×ÖµÄ³¡¾°£¬ºóÃæ¸ú³¡¾°Ãû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+        <IGNORE> ...           /*å¿½ç•¥æŒ‡å®šåå­—çš„åœºæ™¯ï¼ŒåŽé¢è·Ÿåœºæ™¯åå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
         
-        <WORLD INDEX>          /*(int) ¸Ã³¡¾° ±àºÅ*/
-        <NAME>                 /*(str) ¸Ã³¡¾° Ãû×Ö */
-        <DATA>                 /*(str[]) ¸Ã³¡¾° Êý¾Ý £¬ÒÔ×Ö·û´®Êý×éÐÎÊ½Êä³ö */
-        <GRID W>               /*(int) ¸Ã³¡¾° Íø¸ñ¿í */
-        <GRID H>               /*(int) ¸Ã³¡¾° Íø¸ñ¸ß */
-        <GRID X COUNT>			/*(int) ¸Ã³¡¾° ºáÏòÍø¸ñÊý*/
-        <GRID Y COUNT>			/*(int) ¸Ã³¡¾° ×ÝÏòÍø¸ñÊý*/
-        <WIDTH>					/*(int) ¸Ã³¡¾° ¿í*/
-        <HEIGHT>				/*(int) ¸Ã³¡¾° ¸ß*/
+        <WORLD_INDEX>          /*(int) è¯¥åœºæ™¯ ç¼–å·*/
+        <NAME>                 /*(str) è¯¥åœºæ™¯ åå­— */
+        <DATA>                 /*(str[]) è¯¥åœºæ™¯ æ•°æ® ï¼Œä»¥å­—ç¬¦ä¸²æ•°ç»„å½¢å¼è¾“å‡º */
+        <GRID_W>               /*(int) è¯¥åœºæ™¯ ç½‘æ ¼å®½ */
+        <GRID_H>               /*(int) è¯¥åœºæ™¯ ç½‘æ ¼é«˜ */
+        <GRID_X_COUNT>			/*(int) è¯¥åœºæ™¯ æ¨ªå‘ç½‘æ ¼æ•°*/
+        <GRID_Y_COUNT>			/*(int) è¯¥åœºæ™¯ çºµå‘ç½‘æ ¼æ•°*/
+        <WIDTH>					/*(int) è¯¥åœºæ™¯ å®½*/
+        <HEIGHT>				/*(int) è¯¥åœºæ™¯ é«˜*/
         
-        <TERRAIN>				/*(int[]) ¸Ã³¡¾°µØÐÎÊý¾Ý block[x][y] == TERRAIN[x*xcount+y] */
+        <TERRAIN>				/*(int[]) è¯¥åœºæ™¯åœ°å½¢æ•°æ® block[x][y] == TERRAIN[x*xcount+y] */
         
-        <UNIT MAP COUNT>       /*(int) ¸Ã³¡¾° °üº¬µÄµØÍ¼ÊýÁ¿ */    
-        #<UNIT MAP>            /* ³¡¾°µØÍ¼ ¿ªÊ¼ */
+        <UNIT_MAP_COUNT>       /*(int) è¯¥åœºæ™¯ åŒ…å«çš„åœ°å›¾æ•°é‡ */    
+        #<UNIT_MAP>            /* åœºæ™¯åœ°å›¾ å¼€å§‹ */
         
-            <KEEP MAP> ...
-            <IGNORE MAP> ...       /*ºöÂÔÖ¸¶¨Ãû×ÖµÄµØÍ¼£¬ºóÃæ¸úµØÍ¼Ãû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+            <KEEP_MAP> ...
+            <IGNORE_MAP> ...       /*å¿½ç•¥æŒ‡å®šåå­—çš„åœ°å›¾ï¼ŒåŽé¢è·Ÿåœ°å›¾åå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
             
-            <INDEX>                /*(int) µ±Ç°µØÍ¼ ºÅÂë */
-            <MAP NAME>             /*(str) µ±Ç°µØÍ¼ Ãû×Ö */
-            <MAP DATA[]>             /*(str[]) µ±Ç°µØÍ¼ Êý¾Ý £¬ÒÔ×Ö·û´®Êý×éÐÎÊ½Êä³ö*/
-            <IDENTIFY>             /*(str) µ±Ç°µØÍ¼ ÀàÐÍ */
-            <X>                    /*(int) µ±Ç°µØÍ¼ ³¡¾°ÖÐXÎ»ÖÃ */
-            <Y>                    /*(int) µ±Ç°µØÍ¼ ³¡¾°ÖÐYÎ»ÖÃ */
-            <SUPER>                /*(str) µ±Ç°µØÍ¼ ÓÃµÄÍ¼Æ¬×é */
-        #<END UNIT MAP>        /* ³¡¾°µØÍ¼ ½áÊø */
+            <INDEX>                /*(int) å½“å‰åœ°å›¾ å·ç  */
+            <MAP_NAME>             /*(str) å½“å‰åœ°å›¾ åå­— */
+            <MAP_DATA[]>             /*(str[]) å½“å‰åœ°å›¾ æ•°æ® ï¼Œä»¥å­—ç¬¦ä¸²æ•°ç»„å½¢å¼è¾“å‡º*/
+            <IDENTIFY>             /*(str) å½“å‰åœ°å›¾ ç±»åž‹ */
+            <X>                    /*(int) å½“å‰åœ°å›¾ åœºæ™¯ä¸­Xä½ç½® */
+            <Y>                    /*(int) å½“å‰åœ°å›¾ åœºæ™¯ä¸­Yä½ç½® */
+            <SUPER>                /*(str) å½“å‰åœ°å›¾ ç”¨çš„å›¾ç‰‡ç»„ */
+        #<END_UNIT_MAP>        /* åœºæ™¯åœ°å›¾ ç»“æŸ */
         
-        <UNIT SPRITE COUNT>    /*(int) ¸Ã³¡¾° °üº¬µÄ¾«ÁéÊýÁ¿ */     
-        #<UNIT SPRITE>         /* ³¡¾°¾«Áé ¿ªÊ¼ */
+        <UNIT_SPRITE_COUNT>    /*(int) è¯¥åœºæ™¯ åŒ…å«çš„ç²¾çµæ•°é‡ */     
+        #<UNIT_SPRITE>         /* åœºæ™¯ç²¾çµ å¼€å§‹ */
         
-            <KEEP SPR> ...
-            <IGNORE SPR> ...       /*ºöÂÔÖ¸¶¨Ãû×ÖµÄ¾«Áé£¬ºóÃæ¸ú¾«ÁéÃû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+            <KEEP_SPR> ...
+            <IGNORE_SPR> ...       /*å¿½ç•¥æŒ‡å®šåå­—çš„ç²¾çµï¼ŒåŽé¢è·Ÿç²¾çµåå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
             
-            <INDEX>                /*(int) µ±Ç°¾«Áé ºÅÂë */
-            <SPR NAME>             /*(str) µ±Ç°¾«Áé Ãû×Ö */
-            <SPR DATA>             /*(str[]) µ±Ç°¾«Áé Êý¾Ý £¬ÒÔ×Ö·û´®Êý×éÐÎÊ½Êä³ö*/
-            <IDENTIFY>             /*(str) µ±Ç°¾«Áé ÀàÐÍ */
-            <ANIMATE ID>           /*(int) µ±Ç°¾«Áé ¶¯»­ºÅ */
-            <FRAME ID>             /*(int) µ±Ç°¾«Áé Ö¡ºÅ */
-            <X>                    /*(int) µ±Ç°¾«Áé ³¡¾°ÖÐXÎ»ÖÃ */
-            <Y>                    /*(int) µ±Ç°¾«Áé ³¡¾°ÖÐYÎ»ÖÃ */
-            <SUPER>                /*(str) µ±Ç°¾«Áé ÓÃµÄÍ¼Æ¬×é */
-        #<END UNIT SPRITE>     /* ³¡¾°¾«Áé ½áÊø*/
+            <INDEX>                /*(int) å½“å‰ç²¾çµ å·ç  */
+            <SPR_NAME>             /*(str) å½“å‰ç²¾çµ åå­— */
+            <SPR_DATA>             /*(str[]) å½“å‰ç²¾çµ æ•°æ® ï¼Œä»¥å­—ç¬¦ä¸²æ•°ç»„å½¢å¼è¾“å‡º*/
+            <IDENTIFY>             /*(str) å½“å‰ç²¾çµ ç±»åž‹ */
+            <ANIMATE_ID>           /*(int) å½“å‰ç²¾çµ åŠ¨ç”»å· */
+            <FRAME_ID>             /*(int) å½“å‰ç²¾çµ å¸§å· */
+            <X>                    /*(int) å½“å‰ç²¾çµ åœºæ™¯ä¸­Xä½ç½® */
+            <Y>                    /*(int) å½“å‰ç²¾çµ åœºæ™¯ä¸­Yä½ç½® */
+            <SUPER>                /*(str) å½“å‰ç²¾çµ ç”¨çš„å›¾ç‰‡ç»„ */
+        #<END_UNIT_SPRITE>     /* åœºæ™¯ç²¾çµ ç»“æŸ*/
         
-        <WAYPOINT COUNT>       /*(int) ¸Ã³¡¾° °üº¬µÄÂ·µãÊýÁ¿ */     
-        #<WAYPOINT>            /* Â·µãÊý¾Ý ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸ÃÂ·µã ºÅÂë */
-            <PATH DATA>            /*(str[]) ¸ÃÂ·µã Êý¾Ý £¬ÒÔ×Ö·û´®Êý×éÐÎÊ½Êä³ö*/
-            <X>                    /*(int) ¸ÃÂ·µã ³¡¾°ÖÐXÎ»ÖÃ*/
-            <Y>                    /*(int) ¸ÃÂ·µã ³¡¾°ÖÐYÎ»ÖÃ*/
-        #<END WAYPOINT>        /* Â·µãÊý¾Ý ½áÊø*/ 
+        <WAYPOINT_COUNT>       /*(int) è¯¥åœºæ™¯ åŒ…å«çš„è·¯ç‚¹æ•°é‡ */     
+        #<WAYPOINT>            /* è·¯ç‚¹æ•°æ® å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥è·¯ç‚¹ å·ç  */
+            <PATH_DATA>            /*(str[]) è¯¥è·¯ç‚¹ æ•°æ® ï¼Œä»¥å­—ç¬¦ä¸²æ•°ç»„å½¢å¼è¾“å‡º*/
+            <X>                    /*(int) è¯¥è·¯ç‚¹ åœºæ™¯ä¸­Xä½ç½®*/
+            <Y>                    /*(int) è¯¥è·¯ç‚¹ åœºæ™¯ä¸­Yä½ç½®*/
+        #<END_WAYPOINT>        /* è·¯ç‚¹æ•°æ® ç»“æŸ*/ 
         
-        #<WAYPOINT LINK>       /* Â·¾¶Êý¾Ý ¿ªÊ¼*/
-            <INDEX>                /*(int) ¸ÃÂ·¾¶ ºÅÂë*/
-            <START>                /*(int) ¸ÃÂ·¾¶ ÆðÊ¼Â·µãºÅÂë*/
-            <END>                  /*(int) ¸ÃÂ·¾¶ ½áÊøÂ·µãºÅÂë*/
-        #<END WAYPOINT LINK>   /* Â·¾¶Êý¾Ý ½áÊø*/
+        #<WAYPOINT_LINK>       /* è·¯å¾„æ•°æ® å¼€å§‹*/
+            <INDEX>                /*(int) è¯¥è·¯å¾„ å·ç */
+            <START>                /*(int) è¯¥è·¯å¾„ èµ·å§‹è·¯ç‚¹å·ç */
+            <END>                  /*(int) è¯¥è·¯å¾„ ç»“æŸè·¯ç‚¹å·ç */
+        #<END_WAYPOINT_LINK>   /* è·¯å¾„æ•°æ® ç»“æŸ*/
          
-        <REGION COUNT>         /*(int) ¸Ã³¡¾° °üº¬µÄÇøÓòÊýÁ¿ */
-        #<REGION>              /* ÇøÓòÊý¾Ý ¿ªÊ¼ */
-            <INDEX>                /*(int) ¸ÃÇøÓò ºÅÂë */
-            <REGION DATA>          /*(str[]) ¸ÃÇøÓò Êý¾Ý £¬ÒÔ×Ö·û´®Êý×éÐÎÊ½Êä³ö */
-            <X>                    /*(int) ¸ÃÇøÓò ÔÚ³¡¾°ÖÐXÎ»ÖÃ */
-            <Y>                    /*(int) ¸ÃÇøÓò ÔÚ³¡¾°ÖÐYÎ»ÖÃ */
-            <W>                    /*(int) ¸ÃÇøÓò ¿í*/
-            <H>                    /*(int) ¸ÃÇøÓò ¸ß*/
-        #<END REGION>          /* ÇøÓòÊý¾Ý ½áÊø */
+        <REGION_COUNT>         /*(int) è¯¥åœºæ™¯ åŒ…å«çš„åŒºåŸŸæ•°é‡ */
+        #<REGION>              /* åŒºåŸŸæ•°æ® å¼€å§‹ */
+            <INDEX>                /*(int) è¯¥åŒºåŸŸ å·ç  */
+            <REGION_DATA>          /*(str[]) è¯¥åŒºåŸŸ æ•°æ® ï¼Œä»¥å­—ç¬¦ä¸²æ•°ç»„å½¢å¼è¾“å‡º */
+            <X>                    /*(int) è¯¥åŒºåŸŸ åœ¨åœºæ™¯ä¸­Xä½ç½® */
+            <Y>                    /*(int) è¯¥åŒºåŸŸ åœ¨åœºæ™¯ä¸­Yä½ç½® */
+            <W>                    /*(int) è¯¥åŒºåŸŸ å®½*/
+            <H>                    /*(int) è¯¥åŒºåŸŸ é«˜*/
+        #<END_REGION>          /* åŒºåŸŸæ•°æ® ç»“æŸ */
      
-    #<END WORLD>           /* ³¡¾°Êý¾Ý¿é ½áÊø */
+    #<END_WORLD>           /* åœºæ™¯æ•°æ®å— ç»“æŸ */
      
 //--------------------------------------------------------------------------------------------------------------
-#<END LEVEL>           /* ¹Ø¿¨Êý¾Ý¿é ½áÊø*/ 
+#<END_LEVEL>           /* å…³å¡æ•°æ®å— ç»“æŸ*/ 
 //--------------------------------------------------------------------------------------------------------------
 
 
 
 //--------------------------------------------------------------------------------------------------------------
-#<COMMAND>               /* ÃüÁîÊý¾Ý¿é ¿ªÊ¼*/
+#<COMMAND>               /* å‘½ä»¤æ•°æ®å— å¼€å§‹*/
 //--------------------------------------------------------------------------------------------------------------
     
-    <COMMAND TABLE GROUP COUNT>  /*(int) ±í¼¯ºÏÊýÁ¿ */
+    <COMMAND_TABLE_GROUP_COUNT>  /*(int) è¡¨é›†åˆæ•°é‡ */
     
-    #<TABLE GROUP>         /* ±í¼¯ºÏ¡¡¿ªÊ¼*/
+    #<TABLE_GROUP>         /* è¡¨é›†åˆã€€å¼€å§‹*/
     
         <KEEP> ...
-		<IGNORE> ...           /*ºöÂÔÖ¸¶¨Ãû×ÖµÄ±í¼¯ºÏ£¬ºóÃæ¸ú±í¼¯ºÏÃû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+		<IGNORE> ...           /*å¿½ç•¥æŒ‡å®šåå­—çš„è¡¨é›†åˆï¼ŒåŽé¢è·Ÿè¡¨é›†åˆåå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
         
-        <TABLE GROUP INDEX>    /*(int) ±í¼¯ºÏ±àºÅ*/
-        <TABLE GROUP NAME>     /*(str) ±í¼¯ºÏÃû×Ö*/
-        <TABLE COUNT>          /*(int) ¼¯ºÏÖÐ±íµÄÊýÁ¿ */
+        <TABLE_GROUP_INDEX>    /*(int) è¡¨é›†åˆç¼–å·*/
+        <TABLE_GROUP_NAME>     /*(str) è¡¨é›†åˆåå­—*/
+        <TABLE_COUNT>          /*(int) é›†åˆä¸­è¡¨çš„æ•°é‡ */
         
-        #<TABLE>               /* ±íÊý¾Ý¿é ¿ªÊ¼ */
+        #<TABLE>               /* è¡¨æ•°æ®å— å¼€å§‹ */
             
-            <KEEP TABLE> ...
-            <IGNORE TABLE> ...     /*ºöÂÔÖ¸¶¨Ãû×ÖµÄ±í¼¯ºÏ£¬ºóÃæ¸ú±í¼¯ºÏÃû×Ö£¬¿ÉÒÔÖ¸¶¨¶àÏî£¬Ò²¿ÉÒÔÓÃÍ¨Åä·û(?=Ò»¸ö×Ö·û,*=Ò»´®×Ö·û)*/
+            <KEEP_TABLE> ...
+            <IGNORE_TABLE> ...     /*å¿½ç•¥æŒ‡å®šåå­—çš„è¡¨é›†åˆï¼ŒåŽé¢è·Ÿè¡¨é›†åˆåå­—ï¼Œå¯ä»¥æŒ‡å®šå¤šé¡¹ï¼Œä¹Ÿå¯ä»¥ç”¨é€šé…ç¬¦(?=ä¸€ä¸ªå­—ç¬¦,*=ä¸€ä¸²å­—ç¬¦)*/
         
-            <TABLE INDEX>          /* (int)¸Ã±í±àºÅ */
-            <TABLE NAME>           /* (int)±íÃû×Ö */
-            <COLUMN COUNT>         /* (int)ÁÐÊýÁ¿ */
-            <ROW COUNT>            /* (int)ÐÐÊýÁ¿ */
+            <TABLE_INDEX>          /* (int)è¯¥è¡¨ç¼–å· */
+            <TABLE_NAME>           /* (int)è¡¨åå­— */
+            <COLUMN_COUNT>         /* (int)åˆ—æ•°é‡ */
+            <ROW_COUNT>            /* (int)è¡Œæ•°é‡ */
         
-            <TABLE MATRIX>         /*(obj)[][] ±í×Ô¶¨Òå¶þÎ¬Êý×é */
-            <TABLE MATRIX STR>     /*(str)[][] ±íÎÄ×Ö¶þÎ¬Êý×é */
-            <TABLE MATRIX NUM>     /*(int)[][] ±íÊý×Ö¶þÎ¬Êý×é */
-            <TABLE MATRIX SMART>   /*(ato)[][] ±í×Ô¶¯¶þÎ¬Êý×é (×Ô¶¯ÅÐ¶ÏÎªÊý×Ö»òÕß×Ö·û) */
+            <TABLE_MATRIX>         /*(obj)[][] è¡¨è‡ªå®šä¹‰äºŒç»´æ•°ç»„ */
+            <TABLE_MATRIX_STR>     /*(str)[][] è¡¨æ–‡å­—äºŒç»´æ•°ç»„ */
+            <TABLE_MATRIX_NUM>     /*(int)[][] è¡¨æ•°å­—äºŒç»´æ•°ç»„ */
+            <TABLE_MATRIX_SMART>   /*(ato)[][] è¡¨è‡ªåŠ¨äºŒç»´æ•°ç»„ (è‡ªåŠ¨åˆ¤æ–­ä¸ºæ•°å­—æˆ–è€…å­—ç¬¦) */
             
-            <KEEP ROW> ...         /* Ö»Êä³öÖ¸¶¨ÐÐÐÐ (¶ÀÕ¼Ò»¸öÎÄ±¾ÐÐ) */
-            <KEEP COLUMN> ...      /* Ö»Êä³öÖ¸¶¨ÐÐÁÐ (¶ÀÕ¼Ò»¸öÎÄ±¾ÐÐ) */
-            <IGNORE ROW> ...       /* ºöÂÔÖ¸¶¨ÐÐÐÐ (¶ÀÕ¼Ò»¸öÎÄ±¾ÐÐ) */
-            <IGNORE COLUMN> ...    /* ºöÂÔÖ¸¶¨ÐÐÁÐ (¶ÀÕ¼Ò»¸öÎÄ±¾ÐÐ) */
+            <KEEP_ROW> ...         /* åªè¾“å‡ºæŒ‡å®šè¡Œè¡Œ (ç‹¬å ä¸€ä¸ªæ–‡æœ¬è¡Œ) */
+            <KEEP_COLUMN> ...      /* åªè¾“å‡ºæŒ‡å®šè¡Œåˆ— (ç‹¬å ä¸€ä¸ªæ–‡æœ¬è¡Œ) */
+            <IGNORE_ROW> ...       /* å¿½ç•¥æŒ‡å®šè¡Œè¡Œ (ç‹¬å ä¸€ä¸ªæ–‡æœ¬è¡Œ) */
+            <IGNORE_COLUMN> ...    /* å¿½ç•¥æŒ‡å®šè¡Œåˆ— (ç‹¬å ä¸€ä¸ªæ–‡æœ¬è¡Œ) */
             
-            <CALL GET CELL><COLUMN,ROW> /* (º¯Êý)£¬µÃµ½Ö¸¶¨ÐÐ/ÁÐµÄ·½·¨ */
+            <CALL_GET_CELL><COLUMN,ROW> /* (å‡½æ•°)ï¼Œå¾—åˆ°æŒ‡å®šè¡Œ/åˆ—çš„æ–¹æ³• */
             
-            #<COLUMN HEAD>         /* ±íÁÐÍ·Êý¾Ý ¿ªÊ¼*/
-                <INDEX>                /* (int)ÁÐÍ· ºÅÂë */
-                <TEXT>                 /* (str)ÁÐÍ· ÎÄ±¾ */
-            #<END COLUMN HEAD>     /* ±íÁÐÍ·Êý¾Ý ½áÊø*/
+            #<COLUMN_HEAD>         /* è¡¨åˆ—å¤´æ•°æ® å¼€å§‹*/
+                <INDEX>                /* (int)åˆ—å¤´ å·ç  */
+                <TEXT>                 /* (str)åˆ—å¤´ æ–‡æœ¬ */
+            #<END_COLUMN_HEAD>     /* è¡¨åˆ—å¤´æ•°æ® ç»“æŸ*/
             
-            #<CELL>                /* ±íÔªËØ ¿ªÊ¼ µ¥¶ÀÊä³ö */
-                <ROW INDEX>            /* (int)¸ÃÔªËØ ÐÐ±àºÅ£¨ºá£© */
-                <COLUMN INDEX>         /* (int)¸ÃÔªËØ ÁÐ±àºÅ£¨Êú£© */
-                <TEXT>                 /* (str)¸ÃÔªËØ ÎÄ±¾ */
-            #<END CELL>            /* ±íÔªËØ ½áÊø */
+            #<CELL>                /* è¡¨å…ƒç´  å¼€å§‹ å•ç‹¬è¾“å‡º */
+                <ROW_INDEX>            /* (int)è¯¥å…ƒç´  è¡Œç¼–å·ï¼ˆæ¨ªï¼‰ */
+                <COLUMN_INDEX>         /* (int)è¯¥å…ƒç´  åˆ—ç¼–å·ï¼ˆç«–ï¼‰ */
+                <TEXT>                 /* (str)è¯¥å…ƒç´  æ–‡æœ¬ */
+            #<END_CELL>            /* è¡¨å…ƒç´  ç»“æŸ */
         
-            #<COLUMNS>             /* ±íÁÐÊý¾Ý ¿ªÊ¼ ×ÝÏòÊä³ö */
-                <INDEX>                /* (int)ÁÐ ºÅÂë */
-                <ARRAY>                /* (obj)[]ÁÐ Êý¾Ý*/
-                <ARRAY STR>            /* (str)[]ÁÐ Êý¾Ý*/
-                <ARRAY NUM>            /* (int)[]ÁÐ Êý¾Ý*/
-                <ARRAY SMART>          /* (ato)[]ÁÐ Êý¾Ý*/
-            #<END COLUMNS>         /* ±íÁÐÊý¾Ý ½áÊø*/
+            #<COLUMNS>             /* è¡¨åˆ—æ•°æ® å¼€å§‹ çºµå‘è¾“å‡º */
+                <INDEX>                /* (int)åˆ— å·ç  */
+                <ARRAY>                /* (obj)[]åˆ— æ•°æ®*/
+                <ARRAY_STR>            /* (str)[]åˆ— æ•°æ®*/
+                <ARRAY_NUM>            /* (int)[]åˆ— æ•°æ®*/
+                <ARRAY_SMART>          /* (ato)[]åˆ— æ•°æ®*/
+            #<END_COLUMNS>         /* è¡¨åˆ—æ•°æ® ç»“æŸ*/
             
-            #<ROWS>                /* ±íÐÐÊý¾Ý ¿ªÊ¼ ºáÏòÊä³ö */
-                <INDEX>                /* (int)ÐÐ ºÅÂë */
-                <ARRAY>                /* (obj)[]ÐÐ Êý¾Ý*/
-                <ARRAY STR>            /* (str)[]ÐÐ Êý¾Ý*/
-                <ARRAY NUM>            /* (int)[]ÐÐ Êý¾Ý*/
-                <ARRAY SMART>          /* (ato)[]ÐÐ Êý¾Ý*/
-            #<END ROWS>            /* ±íÐÐÊý¾Ý ½áÊø*/
+            #<ROWS>                /* è¡¨è¡Œæ•°æ® å¼€å§‹ æ¨ªå‘è¾“å‡º */
+                <INDEX>                /* (int)è¡Œ å·ç  */
+                <ARRAY>                /* (obj)[]è¡Œ æ•°æ®*/
+                <ARRAY_STR>            /* (str)[]è¡Œ æ•°æ®*/
+                <ARRAY_NUM>            /* (int)[]è¡Œ æ•°æ®*/
+                <ARRAY_SMART>          /* (ato)[]è¡Œ æ•°æ®*/
+            #<END_ROWS>            /* è¡¨è¡Œæ•°æ® ç»“æŸ*/
             
         
-        #<END TABLE>           /* ±íÊý¾Ý¿é ½áÊø */
+        #<END_TABLE>           /* è¡¨æ•°æ®å— ç»“æŸ */
         
-    #<END TABLE GROUP>        /* ±í¼¯ºÏ¡¡½áÊø*/
+    #<END_TABLE_GROUP>        /* è¡¨é›†åˆã€€ç»“æŸ*/
      
 //--------------------------------------------------------------------------------------------------------------
-#<END COMMAND>           /* ÃüÁîÊý¾Ý¿é ½áÊø*/ 
+#<END_COMMAND>           /* å‘½ä»¤æ•°æ®å— ç»“æŸ*/ 
 //--------------------------------------------------------------------------------------------------------------
     
