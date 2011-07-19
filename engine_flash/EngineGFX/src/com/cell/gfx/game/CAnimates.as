@@ -2,6 +2,7 @@ package com.cell.gfx.game
 {
 	import com.cell.gfx.CGraphics;
 	import com.cell.gfx.CImage;
+	import com.cell.gfx.Transform;
 	
 	/**
 	 * Animates contain some frame, it have a coordinate system with all part. </br>
@@ -74,17 +75,17 @@ package com.cell.gfx.game
 				SY[SubIndex] = py;
 				SFlip[SubIndex] = trans;
 				switch(trans){
-				case CGraphics.TRANS_NONE:
-				case CGraphics.TRANS_H:
-				case CGraphics.TRANS_V:
-				case CGraphics.TRANS_HV:
+				case Transform.TRANS_NONE:
+				case Transform.TRANS_H:
+				case Transform.TRANS_V:
+				case Transform.TRANS_HV:
 					SW[SubIndex] = images.getWidth(tileid);
 					SH[SubIndex] = images.getHeight(tileid);
 					break;
-				case CGraphics.TRANS_90:
-				case CGraphics.TRANS_270:
-				case CGraphics.TRANS_H90:
-				case CGraphics.TRANS_V90:
+				case Transform.TRANS_90:
+				case Transform.TRANS_270:
+				case Transform.TRANS_H90:
+				case Transform.TRANS_V90:
 					SW[SubIndex] = images.getHeight(tileid);
 					SH[SubIndex] = images.getWidth(tileid);
 					break;
@@ -239,6 +240,10 @@ package com.cell.gfx.game
 					y , //
 					SFlip[idx]);
 	
+		}
+		
+		public function renderTile(g:CGraphics, idx:int, x:int, y:int) : void {
+			images.render(g, STileID[idx], x , y , SFlip[idx]);
 		}
 		
 		public function clone() : CAnimates	

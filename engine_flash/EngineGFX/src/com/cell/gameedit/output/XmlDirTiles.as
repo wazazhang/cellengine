@@ -94,10 +94,32 @@ package com.cell.gameedit.output
 			return 0;
 		}
 		
-		public function render(g:CGraphics, index:int, x:int, y:int, transform:int) : void {
+		public function render(g:CGraphics, index:int, x:int, y:int, transform:int) : void 
+		{
 			if (tiles[index]!=null){
 				g.drawImage(tiles[index], x, y, transform);
 			}
 		}
+		
+		
+		public function copyTo(dst:CImage, index:int, x:int, y:int, transform:int) : void 
+		{
+			if (tiles[index]!=null){
+				
+
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }

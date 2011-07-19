@@ -16,5 +16,6 @@ package com.cell.gfx.game
 		function getHeight(index:int) : int;
 		
 		function render(g:CGraphics, index:int, x:int, y:int, transform:int) : void ;
+		
 	}
 }

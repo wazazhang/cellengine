@@ -52,7 +52,18 @@ package com.cell.gfx
 			this.loader = null;
 		}
 		
+		public function copyPixels(source:CImage, srcx:int, srcy:int, srcw:int, srch:int, dstx:int, dsty:int) : void
+		{
+			this.src.copyPixels(source.src, 
+				new Rectangle(srcx, srcy, srcw, srch), 
+				new Point(dstx, dsty), 
+				null, null, false);
+		}
 		
+		public function createGraphics() : CGraphics
+		{
+			return new CGraphicsBitmap(src);
+		}
 		
 		public static function createImageBuff(width:int, height:int) : CImage
 		{

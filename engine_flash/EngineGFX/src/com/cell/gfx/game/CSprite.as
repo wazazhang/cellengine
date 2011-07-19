@@ -1,6 +1,7 @@
 package com.cell.gfx.game
 {	
 	import com.cell.gfx.CGraphics;
+	import com.cell.gfx.CGraphicsDisplay;
 	import com.cell.gfx.CImage;
 	import com.cell.util.CMath;
 	
@@ -32,7 +33,7 @@ package com.cell.gfx.game
 			this.collides = ccollides;
 			this.AnimateNames = animateNames;
 			this.FrameAnimate = frameAnimate;
-			this.cg = new CGraphics(graphics);
+			this.cg = new CGraphicsDisplay(graphics);
 			this.repaint();
 		}
 		
