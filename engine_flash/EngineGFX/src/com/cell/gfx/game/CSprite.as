@@ -18,16 +18,16 @@ package com.cell.gfx.game
 		/**short[][]*/
 		protected var FrameAnimate	: Array;
 		
+		
 		private var CurAnimate 		: int = 0;
 		private var CurFrame	 	: int = 0;
+		private var cg 				: CGraphics;
 		
-		private var cg : CGraphics;
-		
-		public function CSprite(
+		protected function init(
 			canimates:CAnimates, 
 			ccollides:CCollides,
 			animateNames:Array, 
-			frameAnimate:Array) 
+			frameAnimate:Array) : void
 		{
 			this.animates = canimates;
 			this.collides = ccollides;
@@ -39,7 +39,8 @@ package com.cell.gfx.game
 		
 		public function copy() : CSprite
 		{
-			var ret : CSprite = new CSprite(animates, collides, AnimateNames, FrameAnimate);
+			var ret : CSprite = new CSprite();
+			ret.init(animates, collides, AnimateNames, FrameAnimate);
 			return ret;
 		}
 		

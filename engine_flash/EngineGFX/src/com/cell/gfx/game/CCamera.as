@@ -3,6 +3,8 @@ package com.cell.gfx.game
 	import com.cell.gfx.CGraphics;
 	import com.cell.gfx.CImage;
 	import com.cell.util.CMath;
+	
+	import flash.display.Sprite;
 
 	/**
 	 * a camera scrollable on a map system, view world unit on screen.</br>
@@ -121,14 +123,8 @@ package com.cell.gfx.game
 				BufW = BufBW*CellW;
 				BufH = BufBH*CellH;
 				
-//				BackBuffer = AScreen.getGfxAdapter().createImage(BufW, BufH);
-	//			BackBuffer.setMode(IImage.MODE_VRAM);
-	//			BackBuffer.createBuffer(BufW, BufH);
-				
-	//			println("Create BackBuffer : " + BufW + " x " + BufH);
-//				bg = BackBuffer.createGraphics();
-//				bg.setColor(BackColor);
-//				bg.fillRect(0, 0, BufW, BufH);
+				back_buff	= CImage.createImageBuff(BufW, BufH);
+				bg 			= back_buff.createGraphics();
 	
 				vBufX = 0;
 				vBufY = 0;

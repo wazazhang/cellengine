@@ -64,9 +64,12 @@ package com.cell.gameedit.output
 				}
 			}
 
-			super(animates, collides, tmap.CellW, tmap.CellH, tileMatrix, flagMatrix);
+			init(animates, collides, tmap.CellW, tmap.CellH, tileMatrix, flagMatrix);
 				
 			
 		}
+		
+		
+		
 	}
 }

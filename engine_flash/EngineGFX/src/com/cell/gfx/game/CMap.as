@@ -37,13 +37,13 @@ package com.cell.gfx.game
 		
 	//	----------------------------------------------------------------------------------------------
 	
-		public function CMap(
+		protected function init(
 				tiles : CAnimates, 
 				collides : CCollides,
 				cellw : int, 
 				cellh : int,
 				tile_matrix : Array, 
-				flag_matrix : Array) 
+				flag_matrix : Array) : void
 		{
 			this.isCyc 		= false;
 			
@@ -61,7 +61,8 @@ package com.cell.gfx.game
 			
 		public function copy() : CMap
 		{
-			var ret : CMap = new CMap(tiles, collides, cellW, cellH, matrixTile, matrixFlag);
+			var ret : CMap = new CMap();
+			ret.init(tiles, collides, cellW, cellH, matrixTile, matrixFlag);
 			ret.isCyc 		= this.isCyc;
 			ret.isAnimate 	= this.isAnimate;
 			ret.isCombo 	= this.isCombo;

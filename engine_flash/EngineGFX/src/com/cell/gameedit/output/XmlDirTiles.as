@@ -17,7 +17,9 @@ package com.cell.gameedit.output
 		protected var img		: ImagesSet;
 		protected var tiles 	: Array;
 		
-		private var loader 	: Loader;
+		private var loader 		: Loader;
+		
+		private var repaint_notify : Array = new Array();
 		
 		public function XmlDirTiles(output:XmlOutputLoader, img:ImagesSet, clone:Boolean=false)
 		{
@@ -55,9 +57,18 @@ package com.cell.gameedit.output
 						);
 				}
 			}
+			for each (var obj:Object in repaint_notify) {
+				obj.repaint();
+			}
+			this.repaint_notify = null;
 			this.loader = null;
 		}
 		
+		function addRepaintListener(obj:Object) : void {
+			if (loader != null) {
+				this.repaint_notify.push(obj);
+			}
+		}
 		
 		public function clone() : CImages
 		{
