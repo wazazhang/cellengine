@@ -12,6 +12,7 @@ package com.cell.gameedit.output
 	import com.cell.gfx.CImage;
 	import com.cell.gfx.game.CCD;
 	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.io.TextDeserialize;
 	import com.cell.io.TextReader;
@@ -488,6 +489,15 @@ package com.cell.gameedit.output
 		{
 			if (spr != null) {
 				return new XmlDirSprite(this, images, spr);
+			}
+			return null;
+		}
+		
+		
+		public function createCMap(map:MapSet, images:CImages) : CMap
+		{
+			if (map != null) {
+				return new XmlDirMap(this, images, map);
 			}
 			return null;
 		}

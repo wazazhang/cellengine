@@ -4,14 +4,15 @@
     <classEntry path="com.cell.net.io.MutualMessage"/>
     <classEntry path="com.cell.gameedit.object.worldset.MapObject"/>
     <classEntry path="com.cell.gameedit.object.worldset.RegionObject"/>
-    <classEntry path="com.cell.gameedit.output.XmlOutputLoader"/>
+    <classEntry path="com.cell.gfx.game.CImages"/>
     <classEntry path="com.cell.gameedit.ResourceLoader"/>
     <classEntry path="com.cell.io.TextReader"/>
     <classEntry path="com.cell.util.Arrays"/>
-    <classEntry path="com.cell.gameedit.output.XmlDirSprite"/>
-    <classEntry path="com.cell.gfx.CStage"/>
-    <classEntry path="com.cell.gfx.Transform"/>
-    <classEntry path="com.cell.gfx.CGraphicsDisplay"/>
+    <classEntry path="com.cell.gfx.CGraphics"/>
+    <classEntry path="com.cell.gfx.CImage"/>
+    <classEntry path="com.cell.gameedit.output.XmlDirTiles"/>
+    <classEntry path="com.cell.gfx.game.CScene"/>
+    <classEntry path="com.cell.gameedit.output.XmlDirMap"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -21,9 +21,13 @@ package com.cell.gfx
 		 */
 		public function drawImage(img:CImage, x:int, y:int, transform:int) : void
 		{
-			img.src.draw
+			buff.draw(img.src, 
+				Transform.getMatrix(x, y, transform), 
+				null, 
+				null, 
+				null, 
+				false);
 		}
-		
 		
 		/**
 		 * 绘制指定图像中的一部分。 
@@ -48,8 +52,6 @@ package com.cell.gfx
 			
 		} 
 		
-		//	---------------------------------------------------------------------------------------------------------------------
-		//	geometry
 
 	}
 }

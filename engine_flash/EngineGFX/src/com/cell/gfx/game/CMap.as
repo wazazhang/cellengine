@@ -27,13 +27,13 @@ package com.cell.gfx.game
 		protected var matrixTile	: Array;
 		/**short[][]*/
 		protected var matrixFlag	: Array;
+	
+		protected var width 		: int;
+		protected var height 		: int;
 		
 		protected var isCyc 		: Boolean = false;
 		protected var isAnimate 	: Boolean = false;
 		protected var isCombo 		: Boolean = false;
-		
-		protected var width 		: int;
-		protected var height 		: int;
 		
 	//	----------------------------------------------------------------------------------------------
 	
@@ -43,10 +43,9 @@ package com.cell.gfx.game
 				cellw : int, 
 				cellh : int,
 				tile_matrix : Array, 
-				flag_matrix : Array,
-				isCyc : Boolean) 
+				flag_matrix : Array) 
 		{
-			this.isCyc 		= isCyc;
+			this.isCyc 		= false;
 			
 			this.tiles 		= tiles;
 			this.collides 	= collides;
@@ -60,6 +59,15 @@ package com.cell.gfx.game
 			this.height		= matrixTile.length * cellH;
 		}
 			
+		public function copy() : CMap
+		{
+			var ret : CMap = new CMap(tiles, collides, cellW, cellH, matrixTile, matrixFlag);
+			ret.isCyc 		= this.isCyc;
+			ret.isAnimate 	= this.isAnimate;
+			ret.isCombo 	= this.isCombo;
+			return ret;
+		}
+		
 	//	----------------------------------------------------------------------------------------------------------------
 		
 		/**

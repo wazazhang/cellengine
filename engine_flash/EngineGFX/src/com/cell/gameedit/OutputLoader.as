@@ -1,8 +1,10 @@
 package com.cell.gameedit
 {
 	import com.cell.gameedit.object.ImagesSet;
+	import com.cell.gameedit.object.MapSet;
 	import com.cell.gameedit.object.SpriteSet;
 	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.util.Map;
 	import com.cell.util.NumberReference;
@@ -45,6 +47,7 @@ package com.cell.gameedit
 		
 		function 		createCSprite(set:SpriteSet, images:CImages) : CSprite;
 		
+		function 		createCMap(map:MapSet, images:CImages) : CMap;
 		
 		/**
 		 * call by {@link SetResource}.dispose()

@@ -8,6 +8,7 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.worldset.WaypointObject;
 	import com.cell.gameedit.output.XmlOutputLoader;
 	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.util.Map;
 	import com.cell.util.StringUtil;
@@ -50,7 +51,12 @@ package com.cell.gameedit
 				resource_manager.put("SPR_" + sprset.Name, sprite);
 				trace("get sprite : " + sprset.Name);
 			}
-			
+			for each (var mapset : MapSet in output.getMapTable()) { 
+				var map : CMap = output.createCMap(mapset, getImages(mapset.ImagesName));
+				resource_manager.put("MAP_" + mapset.Name, map);
+				trace("get map : " + mapset.Name);
+			}
+
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.LOADED);
 			event.res = this;
 			dispatchEvent(event);
@@ -71,6 +77,14 @@ package com.cell.gameedit
 			return ret;
 		}
 		
+		public function getMap(name:String) : CMap
+		{
+			var ret : CMap = resource_manager.get("MAP_" + name);
+			if (ret != null) {
+				return ret.copy();
+			}
+			return ret;
+		}
 		
 //		-------------------------------------------------------------------------------------
 		
