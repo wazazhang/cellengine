@@ -6,6 +6,7 @@
 		<![CDATA[
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
+			import com.cell.gfx.game.CScene;
 			import com.cell.gfx.game.CSprite;
 			import com.cell.util.CMath;
 			
@@ -17,9 +18,10 @@
 			
 			
 			var resloader : ResourceLoader;
+			
 			var cspr : CSprite;
 			
-			var cspr_list : Array = new Array();
+			var cscene : CScene;
 			
 			protected function initalize(event:FlexEvent):void
 			{
@@ -58,17 +60,20 @@
 			{
 				trace("loaded_set");
 				cspr = resloader.getSprite("000000");
-				
-				for (var i:int=0; i<1000; i++) {
+//				resloader.getMap("unamed_Map"), 400, 300
+				cscene = new CScene();
+				cscene.x = 0;
+				cscene.y = 0;
+				for (var i:int=0; i<100; i++) {
 					var cspr2 : CSprite = cspr.copy();
 					cspr2.x = (width  * Math.random());
 					cspr2.y = (height * Math.random());
 					var a : int = (int)(Math.random() * cspr2.getAnimateCount());
 					var f : int = (int)(Math.random() * cspr2.getFrameCount(a));
 					cspr2.setCurrentFrame(a, f, false, true);
-					cspr_list.push(cspr2);
-					addChild(cspr2);
+					cscene.addChild(cspr2);
 				}
+				addChild(cscene);
 				
 				addChild(cspr);
 				
@@ -81,9 +86,10 @@
 					cspr.x = mouseX;
 					cspr.y = mouseY;
 					cspr.nextCycFrame();
-					for each (var o:CSprite in cspr_list) {
-						o.nextCycFrame();
-					}
+//					for each (var o:CSprite in cspr_list) {
+//						o.nextCycFrame();
+//					}
+//					cscene.repaint();
 				}
 			}
 
