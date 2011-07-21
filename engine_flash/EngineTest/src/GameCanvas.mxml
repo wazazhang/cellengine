@@ -23,6 +23,9 @@
 			
 			var cscene : CScene;
 			
+			var bitmap : Bitmap;
+			var buffer : Bitmap = new Bitmap(new BitmapData(800, 600, false, 0xff0000));
+			
 			protected function initalize(event:FlexEvent):void
 			{
 //				var rect:Shape = new Shape();
@@ -38,7 +41,9 @@
 				resloader = new ResourceLoader();
 				resloader.addEventListener(ResourceEvent.LOADED, loaded_set);
 				resloader.load("../actor_000000/output/actor.xml");
-					
+			
+				
+				addChild(buffer);
 			}
 			
 			
@@ -47,8 +52,7 @@
 				trace("complete");
 				//addChild(ldr);
 				
-				var bitmap : Bitmap = (ldr.content as Bitmap);
-				
+				bitmap = (ldr.content as Bitmap);
 				spr.graphics.beginBitmapFill(bitmap.bitmapData);
 				spr.graphics.drawRect(0,0,100,100);
 				spr.graphics.endFill();
@@ -64,7 +68,7 @@
 				cscene = new CScene();
 				cscene.x = 0;
 				cscene.y = 0;
-				for (var i:int=0; i<100; i++) {
+				for (var i:int=0; i<1000; i++) {
 					var cspr2 : CSprite = cspr.copy();
 					cspr2.x = (width  * Math.random());
 					cspr2.y = (height * Math.random());
@@ -83,13 +87,18 @@
 			protected function uicomponent1_enterFrameHandler(event:Event):void
 			{
 				if (cspr != null) {				
-					cspr.x = mouseX;
-					cspr.y = mouseY;
-					cspr.nextCycFrame();
+//					cspr.x = mouseX;
+//					cspr.y = mouseY;
+//					cspr.nextCycFrame();
 //					for each (var o:CSprite in cspr_list) {
 //						o.nextCycFrame();
 //					}
 //					cscene.repaint();
+//					if (bitmap != null) {
+//						for (var i:int=0; i<1000; i++) {
+//							buffer.bitmapData.draw(bitmap.bitmapData);
+//						}
+//					}
 				}
 			}
 
