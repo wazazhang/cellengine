@@ -4,6 +4,7 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gfx.game.CImage;
 	import com.cell.gfx.game.IGraphics;
+	import com.cell.gfx.game.IImageObserver;
 	import com.cell.gfx.game.IImages;
 	
 	import flash.display.Bitmap;
@@ -64,8 +65,8 @@ package com.cell.gameedit.output
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.IMAGES_LOADED);
 			event.images = this;
 			event.images_set = img;
-			for each (var f:Function in loader_wait) {
-				f.call(null, event);
+			for each (var f:IImageObserver in loader_wait) {
+				f.imagesLoaded(event);
 			}
 			this.loader_wait = null;
 		}
@@ -80,7 +81,7 @@ package com.cell.gameedit.output
 			}
 			return ret;
 		}
-		public function addImagesLoadedListener(listener:Function):void
+		public function addImagesLoadedListener(listener:IImageObserver):void
 		{
 			if (loader != null) {
 				loader_wait.push(listener);

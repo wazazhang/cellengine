@@ -1,10 +1,5 @@
 package com.cell.gfx.game
 {
-	import com.cell.gameedit.OutputLoader;
-	import com.cell.gameedit.object.ImagesSet;
-	
-	import flash.events.IEventDispatcher;
-	
 	public interface IImages
 	{
 		function clone() : IImages;
@@ -17,6 +12,6 @@ package com.cell.gfx.game
 		
 		function render(g:IGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void ;
 		
-		function addImagesLoadedListener(listener:Function) : void;
+		function addImagesLoadedListener(listener:IImageObserver) : void;
 	}
 }
