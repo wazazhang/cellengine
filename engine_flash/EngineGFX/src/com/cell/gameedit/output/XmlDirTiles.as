@@ -9,6 +9,8 @@ package com.cell.gameedit.output
 	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.events.Event;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 
 	public class XmlDirTiles implements CImages
@@ -44,15 +46,14 @@ package com.cell.gameedit.output
 		
 		private function complete(e:Event) : void
 		{
-			var cimage : CImage = new CImage((loader.content as Bitmap).bitmapData);
+			var data : BitmapData = (loader.content as Bitmap).bitmapData;
 			for (var i:int=0; i<img.Count; i++){
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
-					tiles[i] = cimage.subImage(
-						img.ClipsX[i],
-						img.ClipsY[i],
-						img.ClipsW[i],
-						img.ClipsH[i]
-						);
+					(tiles[i] as CImage).getSrc().copyPixels(
+						data, 
+						new Rectangle(img.ClipsX[i], img.ClipsY[i], img.ClipsW[i], img.ClipsH[i]), 
+						new Point(0, 0), 
+						null, null, false);
 				}
 			}
 			this.loader = null;

@@ -21,16 +21,16 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-		
-			g.beginFill(0x00ff00, 0.5);
-			g.drawRect(x, y, w, h);
-			g.endFill();
-			
-		
+//		
+//			g.beginFill(0x00ff00, 0.5);
+//			g.drawRect(x, y, w, h);
+//			g.endFill();
+//			
+//		
 			g.beginBitmapFill(img.src, 
-				getMatrix(x, y, w, h, transform), 
+				Transform.getMatrix(x, y, w, h, transform), 
 				false, false);
-			g.drawRect(-200,-200,400,400);
+			g.drawRect(x, y, w, h);
 			g.endFill();
 			
 		}
@@ -55,68 +55,13 @@ package com.cell.gfx.game
 										x_dest:int, 
 										y_dest:int) : void
 		{
-	
-			
+			g.beginBitmapFill(img.src, 
+				Transform.getMatrix(-x_src, -y_src, width, height, transform), 
+				false, false);
+			g.drawRect(x_dest, y_dest, width, height);
+			g.endFill();
 		} 
 		
-		
-		static private var ANGLE_90		: Number = Math.PI / 2;
-		static private var ANGLE_180	: Number = Math.PI;
-		static private var ANGLE_270	: Number = Math.PI * 3 / 2;
-		
-		
-		static private function getMatrix(x:int, y:int, width:int, height:int, transform:int) : Matrix
-		{
-			var ret : Matrix = new Matrix();
-			switch (transform) {
-				case Transform.TRANS_NONE:
-					ret.translate(x, y);
-					break;
-				case Transform.TRANS_90:
-					ret.rotate(ANGLE_90);
-					ret.translate(width, 0);
-					ret.translate(x, y);
-					break;
-				case Transform.TRANS_180:
-					ret.rotate(ANGLE_180);
-					ret.translate(width, height);
-					ret.translate(x, y);
-					break;
-				case Transform.TRANS_270:
-					ret.rotate(ANGLE_270);
-					ret.translate(0, height);
-					ret.translate(x, y);
-					break;
-				
-				case Transform.TRANS_H:
-					ret.scale(-1, 1);
-					ret.translate(width, 0);
-					ret.translate(x, y);
-					break;
-				case Transform.TRANS_H90:
-					ret.scale(-1, 1);
-					ret.translate(height, 0);
-					ret.rotate(ANGLE_90);
-					ret.translate(width, 0);
-					ret.translate(x, y);
-					break;
-				case Transform.TRANS_H180:
-					ret.scale(-1, 1);
-					ret.translate(width, 0);
-					ret.rotate(ANGLE_180);
-					ret.translate(width, height);
-					ret.translate(x, y);
-					break;
-				case Transform.TRANS_H270:
-					ret.scale(-1, 1);
-					ret.translate(height, 0);
-					ret.rotate(ANGLE_270);
-					ret.translate(0, height);
-					ret.translate(x, y);
-					break;
-			}
-			return ret;
-		}
 		
 		
 	}

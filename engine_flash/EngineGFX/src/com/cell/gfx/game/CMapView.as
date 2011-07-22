@@ -8,13 +8,10 @@ package com.cell.gfx.game
 		protected var Map		: CMap;
 		protected var Camera	: CCamera;
 		
-		private var cg : CGraphics;
-		
 		public function CMapView(map:CMap, viewWidth:int, viewHeight:int)
 		{			
 			this.Map 	= map;
 			this.Camera = new CCamera(viewWidth, viewHeight, map);
-//			this.cg 	= new CGraphicsDisplay(graphics);		
 		}
 		
 		public function getMap() : CMap {
@@ -43,10 +40,9 @@ package com.cell.gfx.game
 			return worldY - Camera.getY();
 		}
 		
-		public function repaint() : void
+		public function render(cg:CGraphics) : void
 		{
-			//Camera.resetBuffer();
-			//Camera.render(cg);
+			Camera.render(cg);
 		}
 		
 	}

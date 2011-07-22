@@ -19,6 +19,11 @@ package com.cell.gfx.game
 			this.src = src;
 		}
 		
+		public function getSrc() : BitmapData
+		{
+			return this.src ;
+		}
+		
 		public function get width() : int {
 			return src.width;
 		}
@@ -65,9 +70,9 @@ package com.cell.gfx.game
 			return new CGraphicsBitmap(src);
 		}
 		
-		public static function createImageBuff(width:int, height:int) : CImage
+		public static function createImageBuff(width:int, height:int, color:uint=0) : CImage
 		{
-			return new CImage(new BitmapData(width, height, true, 0));
+			return new CImage(new BitmapData(width, height, true, color));
 		}
 		
 		public static function createImage(data:BitmapData) : CImage
