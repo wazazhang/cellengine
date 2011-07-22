@@ -2,7 +2,9 @@ package com.cell.gfx.game
 {
 	import com.cell.util.CMath;
 	
+	import flash.display.Graphics;
 	import flash.display.Sprite;
+	import flash.geom.Matrix;
 
 	/**
 	 * a camera scrollable on a map system, view world unit on screen.</br>
@@ -377,33 +379,33 @@ package com.cell.gfx.game
 		 */
 		public function render(g:IGraphics) : void 
 		{
-				if(Map.isEnableAnimate() && AnimateTimerOld != Map.getAnimateTimer())
-				{
-					var sbx : int = vMapX/CellW;
-					var sby : int = vMapY/CellH;
-					var dbx : int = vBufX/CellW;
-					var dby : int = vBufY/CellH;
-					
-					for(var y:int=0 ;y<BufBH;y++)
-					{
-						for(var x:int=0;x<BufBW;x++)
-						{
-							if(!Map.testSameAnimateTile(AnimateTimerOld, Map.getAnimateTimer(), sbx, sby))
-							{
-								Map.renderCell(bg, dbx*CellW, dby*CellH, sbx, sby);
-								//println("draw "+CScreen.getTimer());
-							}
-							sbx = CMath.cycNum(sbx,+1,MapBW);
-							dbx = CMath.cycNum(dbx,+1,BufBW);
-						}
-						sbx = vMapX/CellW;
-						dbx = vBufX/CellW;
-						sby = CMath.cycNum(sby,+1,MapBH);
-						dby = CMath.cycNum(dby,+1,BufBH);
-					}
-					
-					AnimateTimerOld = Map.getAnimateTimer();
-				}
+//				if(Map.isEnableAnimate() && AnimateTimerOld != Map.getAnimateTimer())
+//				{
+//					var sbx : int = vMapX/CellW;
+//					var sby : int = vMapY/CellH;
+//					var dbx : int = vBufX/CellW;
+//					var dby : int = vBufY/CellH;
+//					
+//					for(var y:int=0 ;y<BufBH;y++)
+//					{
+//						for(var x:int=0;x<BufBW;x++)
+//						{
+//							if(!Map.testSameAnimateTile(AnimateTimerOld, Map.getAnimateTimer(), sbx, sby))
+//							{
+//								Map.renderCell(bg, dbx*CellW, dby*CellH, sbx, sby);
+//								//println("draw "+CScreen.getTimer());
+//							}
+//							sbx = CMath.cycNum(sbx,+1,MapBW);
+//							dbx = CMath.cycNum(dbx,+1,BufBW);
+//						}
+//						sbx = vMapX/CellW;
+//						dbx = vBufX/CellW;
+//						sby = CMath.cycNum(sby,+1,MapBH);
+//						dby = CMath.cycNum(dby,+1,BufBH);
+//					}
+//					
+//					AnimateTimerOld = Map.getAnimateTimer();
+//				}
 				
 				var w1 : int = BufW-vBufX<=WorldW?BufW-vBufX:WorldW;
 				var h1 : int = BufH-vBufY<=WorldH?BufH-vBufY:WorldH;
@@ -424,5 +426,37 @@ package com.cell.gfx.game
 				}
 		}
 	
+		/**
+		 * draw back buffer directly (DEBUG)</br>
+		 * @param g graphics surface
+		 * @param x x
+		 * @param y y
+		 * @param c camera position debug color
+		 */
+		public function renderDebugBackBuffer(g:Graphics, x:int, y:int, color:uint=0xff0000) : void
+		{
+			var matrix : Matrix = new Matrix();
+			matrix.translate(x, y);
+			g.beginBitmapFill(back_buff.getSrc(), matrix, false, false);
+			g.drawRect(x, y, back_buff.width, back_buff.height);
+			g.endFill();
+			
+			g.lineStyle(1, color);
+			var w1 : int = BufW-vBufX<=WorldW?BufW-vBufX:WorldW;
+			var h1 : int = BufH-vBufY<=WorldH?BufH-vBufY:WorldH;
+			var w2 : int = WorldW - w1;
+			var h2 : int = WorldH - h1;
+			if (w1 > 0 && h1 > 0)
+				g.drawRect(x + vBufX, y + vBufY, w1-1, h1-1);
+			if (w2 > 0 && h2 > 0)
+				g.drawRect(x + 0, y + 0, w2-1, h2-1);
+			if (w1 > 0 && h2 > 0)
+				g.drawRect(x + vBufX, y + 0, w1-1, h2-1);
+			if (w2 > 0 && h1 > 0)
+				g.drawRect(x + 0, y + vBufY, w2-1, h1-1);
+			g.endFill();
+		}
+
+		
 	}
 }

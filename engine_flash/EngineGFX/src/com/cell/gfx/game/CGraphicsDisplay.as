@@ -56,7 +56,7 @@ package com.cell.gfx.game
 										y_dest:int) : void
 		{
 			g.beginBitmapFill(img.src, 
-				Transform.getMatrix(-x_src, -y_src, width, height, transform), 
+				Transform.getMatrix(x_dest-x_src, y_dest-y_src, width, height, transform), 
 				false, false);
 			g.drawRect(x_dest, y_dest, width, height);
 			g.endFill();
