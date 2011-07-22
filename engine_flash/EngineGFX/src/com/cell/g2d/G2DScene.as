@@ -21,9 +21,7 @@ package com.cell.g2d
 			this.map_view	= new CMapView(cmap, windowW, windowH);
 			this.cg 		= new CGraphicsDisplay(graphics);
 			this.repaint();		
-			this.map_view.getMap().getAnimates().getImages().addEventListener(
-				ResourceEvent.IMAGES_LOADED, 
-				imagesLoaded);
+			this.map_view.getMap().getAnimates().getImages().addImagesLoadedListener(imagesLoaded);
 		}
 		
 		public function getMapView() : CMapView

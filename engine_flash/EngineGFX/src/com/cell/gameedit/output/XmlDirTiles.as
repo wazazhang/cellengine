@@ -15,14 +15,14 @@ package com.cell.gameedit.output
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	
-	[Event(name=ResourceEvent.IMAGES_LOADED, type="com.cell.gameedit.ResourceEvent")]  
-	public class XmlDirTiles extends EventDispatcher implements IImages
+	public class XmlDirTiles implements IImages
 	{
 		protected var output	: XmlOutputLoader;
 		protected var img		: ImagesSet;
 		protected var tiles 	: Array;
 		
 		private var loader 		: Loader;
+		private var loader_wait	: Array;
 		
 		public function XmlDirTiles(output:XmlOutputLoader, img:ImagesSet, clone:Boolean=false)
 		{
@@ -41,6 +41,7 @@ package com.cell.gameedit.output
 				}
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
 				this.loader = new Loader();
+				this.loader_wait = new Array();
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
 				this.loader.load(new URLRequest(url));
 			}
@@ -60,11 +61,13 @@ package com.cell.gameedit.output
 				}
 			}
 			this.loader = null;
-			
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.IMAGES_LOADED);
 			event.images = this;
 			event.images_set = img;
-			dispatchEvent(event);
+			for each (var f:Function in loader_wait) {
+				f.call(null, event);
+			}
+			this.loader_wait = null;
 		}
 		
 		public function clone() : IImages
@@ -77,15 +80,10 @@ package com.cell.gameedit.output
 			}
 			return ret;
 		}
-		
-		public override function addEventListener(type:String,
-												  listener:Function,
-												  useCapture:Boolean = false, 
-												  priority:int = 0, 
-												  useWeakReference:Boolean = false):void
+		public function addImagesLoadedListener(listener:Function):void
 		{
 			if (loader != null) {
-				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+				loader_wait.push(listener);
 			}
 		}
 		

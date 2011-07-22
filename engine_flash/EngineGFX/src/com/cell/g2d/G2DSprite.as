@@ -22,9 +22,7 @@ package com.cell.g2d
 			this.spr = spr;
 			this.cg = new CGraphicsDisplay(graphics);			
 			this.repaint();
-			this.spr.getAnimates().getImages().addEventListener(
-				ResourceEvent.IMAGES_LOADED, 
-				imagesLoaded);
+			this.spr.getAnimates().getImages().addImagesLoadedListener(imagesLoaded);
 		}
 		
 		public function get src() : CSprite
