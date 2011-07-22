@@ -112,13 +112,12 @@
 
 			protected function uicomponent1_enterFrameHandler(event:Event):void
 			{
-				graphics.clear();
-				graphics.beginFill(0, 1);
-				graphics.drawRect(0, 0, width, height);
-				graphics.endFill();
+//				graphics.clear();
+//				graphics.beginFill(0, 1);
+//				graphics.drawRect(0, 0, width, height);
+//				graphics.endFill();
 				
-				cscene.getCamera().resetBuffer();
-				cscene.repaint();
+//				cscene.repaint();
 				
 				if (cspr000000 != null)
 				{
@@ -150,6 +149,8 @@
 						cspr000002.src.getCurrentAnimate()+CMath.getDirect(event.delta), 
 						0, false, true);
 				}
+				cscene.getCamera().move(0, event.delta);
+				cscene.repaint();
 			}
 
 		]]>
