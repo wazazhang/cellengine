@@ -1,6 +1,5 @@
 package com.cell.gfx.game
 {
-	import com.cell.gfx.CGraphics;
 	import com.cell.gfx.game.CCD;
 	
 	/**

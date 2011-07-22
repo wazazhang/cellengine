@@ -1,4 +1,4 @@
-package com.cell.gfx
+package com.cell.gfx.game
 {
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
@@ -19,10 +19,10 @@ package com.cell.gfx
 		 * @param y y 坐标。
 		 * @param transform 翻转方式
 		 */
-		public function drawImage(img:CImage, x:int, y:int, transform:int) : void
+		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
 			buff.draw(img.src, 
-				Transform.getMatrix(x, y, img.width, img.height, transform), 
+				null, 
 				null, 
 				null, 
 				null, 

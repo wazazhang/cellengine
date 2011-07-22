@@ -1,4 +1,4 @@
-package com.cell.gfx
+package com.cell.gfx.game
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

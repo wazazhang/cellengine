@@ -1,7 +1,7 @@
 package com.cell.g2d
 {
-	import com.cell.gfx.CGraphics;
-	import com.cell.gfx.CGraphicsDisplay;
+	import com.cell.gfx.game.CGraphics;
+	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CGameScene;
 	import com.cell.gfx.game.CSprite;
 	

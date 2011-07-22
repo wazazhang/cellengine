@@ -1,4 +1,4 @@
-package com.cell.gfx
+package com.cell.gfx.game
 {
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
@@ -12,19 +12,7 @@ package com.cell.gfx
 		 * @param y y 坐标。
 		 * @param transform 翻转方式
 		 */
-		function drawImage(img:CImage, x:int, y:int, transform:int) : void;
-		
-//		/**
-//		 * 绘制指定图像中已缩放到适合指定矩形内部的图像。 
-//		 * 图像绘制在此图形上下文坐标空间的指定矩形内部，如果需要，则进行缩放。
-//		 * @param img 要绘制的指定图像。
-//		 * @param x x 坐标。
-//		 * @param y y 坐标。
-//		 * @param w 矩形的宽度。
-//		 * @param h 矩形的高度。
-//		 * @param transform 翻转方式
-//		 */
-//		function drawImageScale(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void;
+		function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void;
 		
 		/**
 		 * 绘制指定图像中的一部分。 

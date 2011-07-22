@@ -1,7 +1,5 @@
 package com.cell.gfx.game
 {	
-	import com.cell.gfx.CGraphics;
-	import com.cell.gfx.CImage;
 	import com.cell.util.CMath;
 	
 	import flash.display.Sprite;

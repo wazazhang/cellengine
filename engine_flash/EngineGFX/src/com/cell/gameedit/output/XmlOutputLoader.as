@@ -9,7 +9,7 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.SpriteObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
-	import com.cell.gfx.CImage;
+	import com.cell.gfx.game.CImage;
 	import com.cell.gfx.game.CCD;
 	import com.cell.gfx.game.CImages;
 	import com.cell.gfx.game.CMap;

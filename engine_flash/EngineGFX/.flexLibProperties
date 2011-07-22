@@ -8,8 +8,8 @@
     <classEntry path="com.cell.gameedit.ResourceLoader"/>
     <classEntry path="com.cell.io.TextReader"/>
     <classEntry path="com.cell.util.Arrays"/>
-    <classEntry path="com.cell.gfx.CGraphics"/>
-    <classEntry path="com.cell.gfx.CImage"/>
+    <classEntry path="com.cell.gfx.game.CGraphics"/>
+    <classEntry path="com.cell.gfx.game.CImage"/>
     <classEntry path="com.cell.gameedit.output.XmlDirTiles"/>
     <classEntry path="com.cell.gfx.game.CGameScene"/>
     <classEntry path="com.cell.gameedit.output.XmlDirMap"/>

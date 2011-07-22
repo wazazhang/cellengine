@@ -1,8 +1,5 @@
 package com.cell.gfx.game
 {
-	import com.cell.gfx.CGraphics;
-	import com.cell.gfx.CImage;
-	import com.cell.gfx.Transform;
 	
 	/**
 	 * Animates contain some frame, it have a coordinate system with all part. </br>
@@ -76,16 +73,16 @@ package com.cell.gfx.game
 				SFlip[SubIndex] = trans;
 				switch(trans){
 				case Transform.TRANS_NONE:
+				case Transform.TRANS_180:
 				case Transform.TRANS_H:
-				case Transform.TRANS_V:
-				case Transform.TRANS_HV:
+				case Transform.TRANS_H180:
 					SW[SubIndex] = images.getWidth(tileid);
 					SH[SubIndex] = images.getHeight(tileid);
 					break;
 				case Transform.TRANS_90:
 				case Transform.TRANS_270:
 				case Transform.TRANS_H90:
-				case Transform.TRANS_V90:
+				case Transform.TRANS_H270:
 					SW[SubIndex] = images.getHeight(tileid);
 					SH[SubIndex] = images.getWidth(tileid);
 					break;
@@ -183,6 +180,8 @@ package com.cell.gfx.game
 						STileID[idx], 
 						x + SX[idx], //
 						y + SY[idx], //
+						SW[idx],
+						SH[idx],
 						SFlip[idx]);
 			}
 		}	
@@ -201,6 +200,8 @@ package com.cell.gfx.game
 					STileID[idx], 
 					x + SX[idx], //
 					y + SY[idx], //
+					SW[idx],
+					SH[idx],
 					SFlip[idx]);
 		}	
 		
@@ -219,6 +220,8 @@ package com.cell.gfx.game
 						STileID[idx], 
 						x , //
 						y , //
+						SW[idx],
+						SH[idx],
 						SFlip[idx]);
 			}
 		}
@@ -238,12 +241,19 @@ package com.cell.gfx.game
 					STileID[idx], 
 					x , //
 					y , //
+					SW[idx],
+					SH[idx],
 					SFlip[idx]);
 	
 		}
 		
 		public function renderTile(g:CGraphics, idx:int, x:int, y:int) : void {
-			images.render(g, STileID[idx], x , y , SFlip[idx]);
+			images.render(g, 
+				STileID[idx],
+				x , y , 
+				SW[idx],
+				SH[idx], 
+				SFlip[idx]);
 		}
 		
 		public function clone() : CAnimates	
