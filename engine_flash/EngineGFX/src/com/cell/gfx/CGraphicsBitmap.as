@@ -22,7 +22,7 @@ package com.cell.gfx
 		public function drawImage(img:CImage, x:int, y:int, transform:int) : void
 		{
 			buff.draw(img.src, 
-				Transform.getMatrix(x, y, transform), 
+				Transform.getMatrix(x, y, img.width, img.height, transform), 
 				null, 
 				null, 
 				null, 

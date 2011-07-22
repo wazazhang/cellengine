@@ -1,14 +1,15 @@
 package com.cell.gfx.game
 {	
 	import com.cell.gfx.CGraphics;
-	import com.cell.gfx.CGraphicsDisplay;
 	import com.cell.gfx.CImage;
 	import com.cell.util.CMath;
 	
 	import flash.display.Sprite;
 	
-	public class CSprite extends Sprite
+	public class CSprite
 	{
+//		----------------------------------------------------------------------
+		
 		protected var animates 		: CAnimates;
 		
 		protected var collides 		: CCollides;
@@ -21,7 +22,8 @@ package com.cell.gfx.game
 		
 		private var CurAnimate 		: int = 0;
 		private var CurFrame	 	: int = 0;
-		private var cg 				: CGraphics;
+		
+//		-----------------------------------------------------------------------
 		
 		protected function init(
 			canimates:CAnimates, 
@@ -33,8 +35,8 @@ package com.cell.gfx.game
 			this.collides = ccollides;
 			this.AnimateNames = animateNames;
 			this.FrameAnimate = frameAnimate;
-			this.cg = new CGraphicsDisplay(graphics);
-			this.repaint();
+//			this.cg = new CGraphicsDisplay(graphics);
+//			this.repaint();
 		}
 		
 		public function copy() : CSprite
@@ -148,6 +150,15 @@ package com.cell.gfx.game
 			return FrameAnimate[anim][frame];
 		}
 		
+		public function isEndFrame() : Boolean {
+			return CurFrame == FrameAnimate[CurAnimate].length - 1;
+		}
+		
+		public function isBeginFrame() : Boolean {
+			return CurFrame == 0;
+		}
+		
+		
 		
 		//	------------------------------------------------------------------------------------------
 		
@@ -155,7 +166,6 @@ package com.cell.gfx.game
 		public function setCurrentAnimate(anim:int) : int {
 			return setCurrentFrame(anim, 0);
 		}
-		
 		
 		/**
 		 * 
@@ -180,17 +190,9 @@ package com.cell.gfx.game
 						this.CurFrame = getCurrentFrameCount()-1;
 					}
 				}
-				repaint();
+//				repaint();
 			}
 			return 0;
-		}
-		
-		public function isEndFrame() : Boolean {
-			return CurFrame == FrameAnimate[CurAnimate].length - 1;
-		}
-		
-		public function isBeginFrame() : Boolean {
-			return CurFrame == 0;
 		}
 		
 		/**
@@ -230,11 +232,24 @@ package com.cell.gfx.game
 		
 		//	----------------------------------------------------------------------------------------------------
 		
-		public function repaint() : void {
-			graphics.clear();
-			render(cg, 0, 0, CurAnimate, CurFrame);
+//		public function repaint() : void 
+//		{
+//			graphics.clear();
+//			graphics.beginFill(0x00ff00, 1);
+//			graphics.drawRect(-100, -100, 200, 200);
+//			graphics.endFill();
+//			render(cg, 0, 0, CurAnimate, CurFrame);
+//			graphics.moveTo( 0, 0);
+//			if (DEBUG) {
+//				graphics.lineStyle(2, 0xffff0000, 1);
+//				graphics.lineTo(-8, 0); graphics.moveTo( 0, 0);
+//				graphics.lineTo( 8, 0); graphics.moveTo( 0, 0);
+//				graphics.lineTo( 0,-8); graphics.moveTo( 0, 0);
+//				graphics.lineTo( 0, 8); graphics.moveTo( 0, 0);
+//				graphics.endFill();
+//			}
 //			trace("a="+CurAnimate+" f="+CurFrame);
-		}
+//		}
 		
 		
 		public function render(g:CGraphics, x:int, y:int, anim:int, frame:int) : void 

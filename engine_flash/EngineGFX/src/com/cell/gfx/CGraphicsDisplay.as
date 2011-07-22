@@ -20,7 +20,9 @@ package com.cell.gfx
 		 */
 		public function drawImage(img:CImage, x:int, y:int, transform:int) : void
 		{
-			g.beginBitmapFill(img.src, Transform.getMatrix(x, y, transform), false, false);
+			g.beginBitmapFill(img.src, 
+				Transform.getMatrix(x, y, img.width, img.height, transform), 
+				false, false);
 			g.drawRect(x, y, img.width, img.height);
 			g.endFill();
 		}
@@ -45,9 +47,7 @@ package com.cell.gfx
 										x_dest:int, 
 										y_dest:int) : void
 		{
-			g.beginBitmapFill(img.src, Transform.getMatrix(x_dest, y_dest, transform), false, false);
-			g.drawRect(x_dest, y_dest, width, height);
-			g.endFill();
+	
 			
 		} 
 

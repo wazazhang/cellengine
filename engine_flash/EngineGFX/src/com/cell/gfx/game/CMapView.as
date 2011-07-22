@@ -1,11 +1,10 @@
 package com.cell.gfx.game
 {
 	import com.cell.gfx.CGraphics;
-	import com.cell.gfx.CGraphicsDisplay;
 	
 	import flash.display.Sprite;
 
-	public class CMapView extends Sprite
+	public class CMapView
 	{
 		protected var Map		: CMap;
 		protected var Camera	: CCamera;
@@ -16,7 +15,7 @@ package com.cell.gfx.game
 		{			
 			this.Map 	= map;
 			this.Camera = new CCamera(viewWidth, viewHeight, map);
-			this.cg 	= new CGraphicsDisplay(graphics);		
+//			this.cg 	= new CGraphicsDisplay(graphics);		
 		}
 		
 		public function getMap() : CMap {

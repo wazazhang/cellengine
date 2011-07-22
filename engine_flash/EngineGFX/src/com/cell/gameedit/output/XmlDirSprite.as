@@ -49,7 +49,6 @@ package com.cell.gameedit.output
 			frameAnimate	:Array) : void
 		{
 			super.init(canimates, ccollides, animateNames, frameAnimate);
-			(getAnimates().getImages() as XmlDirTiles).addRepaintListener(this);
 		}
 		
 		public override function copy() : CSprite

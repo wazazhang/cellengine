@@ -21,21 +21,27 @@ package com.cell.gameedit
 	[Event(name=ResourceEvent.LOADED, type="com.cell.gameedit.ResourceEvent")]  
 	public class ResourceLoader extends EventDispatcher
 	{
+		private var url 				: String;
 		private var output 				: OutputLoader;
+		private var resource_manager	: Map = new Map();
 		
-		protected var resource_manager	: Map			= new Map();
-		
-		public function ResourceLoader()
+		public function ResourceLoader(url:String)
 		{
+			this.url = url;
+			if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
+				this.output	= new XmlOutputLoader(url);
+			}
 		}
 		
-		public function load(url:String) : void
+		public function load() : void
 		{
-			if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
-				trace("load resource : " + url);
-				output = new XmlOutputLoader(url);
-				output.load(output_complete);
-			}
+			trace("load resource : " + url);
+			output.load(output_complete);
+		}
+		
+		public function getUrl() : String
+		{
+			return url;
 		}
 		
 		private function output_complete() : void 

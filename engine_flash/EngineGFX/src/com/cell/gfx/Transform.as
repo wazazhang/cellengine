@@ -36,7 +36,7 @@ package com.cell.gfx
 		static public const TRANS_180 		: int = 3; 
 		
 		
-		public static function getMatrix(x:int, y:int, transform:int) : Matrix
+		public static function getMatrix(x:int, y:int, width:int, height:int, transform:int) : Matrix
 		{
 			var ret : Matrix = new Matrix();
 			ret.translate(x, y);
