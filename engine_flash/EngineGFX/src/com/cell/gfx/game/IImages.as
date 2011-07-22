@@ -3,7 +3,9 @@ package com.cell.gfx.game
 	import com.cell.gameedit.OutputLoader;
 	import com.cell.gameedit.object.ImagesSet;
 	
-	public interface IImages
+	import flash.events.IEventDispatcher;
+	
+	public interface IImages extends IEventDispatcher
 	{
 		function clone() : IImages;
 		
@@ -14,6 +16,5 @@ package com.cell.gfx.game
 		function getHeight(index:int) : int;
 		
 		function render(g:IGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void ;
-		
 	}
 }

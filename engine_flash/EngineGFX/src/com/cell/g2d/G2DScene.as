@@ -1,6 +1,6 @@
 package com.cell.g2d
 {
-	import com.cell.gameedit.ImageObserver;
+	import com.cell.gameedit.ResourceEvent;
 	import com.cell.gameedit.ResourceLoader;
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gfx.game.CCamera;
@@ -11,7 +11,7 @@ package com.cell.g2d
 	
 	import flash.display.Sprite;
 
-	public class G2DScene extends Sprite implements ImageObserver
+	public class G2DScene extends Sprite
 	{
 		private var map_view	: CMapView;
 		private var cg			: IGraphics;
@@ -20,7 +20,10 @@ package com.cell.g2d
 		{
 			this.map_view	= new CMapView(cmap, windowW, windowH);
 			this.cg 		= new CGraphicsDisplay(graphics);
-			repaint();
+			this.repaint();		
+			this.map_view.getMap().getAnimates().getImages().addEventListener(
+				ResourceEvent.IMAGES_LOADED, 
+				imagesLoaded);
 		}
 		
 		public function getMapView() : CMapView
@@ -41,11 +44,11 @@ package com.cell.g2d
 			this.map_view.render(cg);
 		}
 		
-		public function imagesLoaded(res:ResourceLoader, img:ImagesSet) : void
+		public function imagesLoaded(e:ResourceEvent) : void
 		{
+//			trace(e.type + " : " + e.images_set.Name);
 			map_view.getCamera().resetBuffer();
 			repaint();
 		}
-		
 	}
 }

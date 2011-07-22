@@ -1,19 +1,22 @@
 package com.cell.gameedit.output
 {
+	import com.cell.gameedit.ResourceEvent;
 	import com.cell.gameedit.object.ImagesSet;
-	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.CImage;
+	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.IImages;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
-
-	public class XmlDirTiles implements IImages
+	
+	[Event(name=ResourceEvent.IMAGES_LOADED, type="com.cell.gameedit.ResourceEvent")]  
+	public class XmlDirTiles extends EventDispatcher implements IImages
 	{
 		protected var output	: XmlOutputLoader;
 		protected var img		: ImagesSet;
@@ -57,6 +60,11 @@ package com.cell.gameedit.output
 				}
 			}
 			this.loader = null;
+			
+			var event : ResourceEvent = new ResourceEvent(ResourceEvent.IMAGES_LOADED);
+			event.images = this;
+			event.images_set = img;
+			dispatchEvent(event);
 		}
 		
 		public function clone() : IImages
@@ -69,6 +77,18 @@ package com.cell.gameedit.output
 			}
 			return ret;
 		}
+		
+		public override function addEventListener(type:String,
+												  listener:Function,
+												  useCapture:Boolean = false, 
+												  priority:int = 0, 
+												  useWeakReference:Boolean = false):void
+		{
+			if (loader != null) {
+				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+		}
+		
 		
 		public function getImage(index:int) : CImage
 		{

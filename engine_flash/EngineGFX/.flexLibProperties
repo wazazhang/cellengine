@@ -13,7 +13,6 @@
     <classEntry path="com.cell.gfx.game.CScene"/>
     <classEntry path="com.cell.gameedit.output.XmlDirMap"/>
     <classEntry path="com.cell.gfx.game.CMapView"/>
-    <classEntry path="com.cell.gameedit.ImageObserver"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

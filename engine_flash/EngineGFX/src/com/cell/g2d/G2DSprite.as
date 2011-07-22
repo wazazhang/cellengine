@@ -1,6 +1,6 @@
 package com.cell.g2d
 {
-	import com.cell.gameedit.ImageObserver;
+	import com.cell.gameedit.ResourceEvent;
 	import com.cell.gameedit.ResourceLoader;
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gfx.game.CGameScene;
@@ -12,7 +12,7 @@ package com.cell.g2d
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
-	public class G2DSprite extends Sprite implements ImageObserver
+	public class G2DSprite extends Sprite
 	{
 		private var spr		: CSprite;
 		private var cg		: IGraphics;
@@ -20,8 +20,11 @@ package com.cell.g2d
 		public function G2DSprite(spr:CSprite)
 		{
 			this.spr = spr;
-			this.cg = new CGraphicsDisplay(graphics);
-			repaint();
+			this.cg = new CGraphicsDisplay(graphics);			
+			this.repaint();
+			this.spr.getAnimates().getImages().addEventListener(
+				ResourceEvent.IMAGES_LOADED, 
+				imagesLoaded);
 		}
 		
 		public function get src() : CSprite
@@ -49,8 +52,9 @@ package com.cell.g2d
 			}
 		}
 		
-		public function imagesLoaded(res:ResourceLoader, img:ImagesSet) : void
+		public function imagesLoaded(e:ResourceEvent) : void
 		{
+//			trace(e.type + " : " + e.images_set.Name);
 			repaint();
 		}
 		
