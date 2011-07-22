@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				xmlns:s="library://ns.adobe.com/flex/spark" 
-				xmlns:mx="library://ns.adobe.com/flex/mx" initialize="initalize(event)" enterFrame="uicomponent1_enterFrameHandler(event)" mouseWheel="uicomponent1_mouseWheelHandler(event)">
+<mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				chromeColor="#000000" enterFrame="uicomponent1_enterFrameHandler(event)"
+				initialize="initalize(event)" mouseWheel="uicomponent1_mouseWheelHandler(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.cell.g2d.G2DSprite;
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
-			import com.cell.gfx.game.CScene;
+			import com.cell.gfx.game.CMapView;
 			import com.cell.gfx.game.CSprite;
 			import com.cell.util.CMath;
 			
 			import mx.events.FlexEvent;
 			
 			
-			var ldr:Loader = new Loader();
-			var spr : Sprite = new Sprite();
+//			var ldr	: Loader = new Loader();
+//			var spr : Sprite = new Sprite();
 			
 			
-			var resloader : ResourceLoader;
+			var resloader000000 : ResourceLoader;
+			var resloader000002 : ResourceLoader;
 			
-			var cspr : CSprite;
+			var cspr000000 : G2DSprite;
+			var cspr000002 : G2DSprite;
 			
-			var cscene : CScene;
-			
-			var bitmap : Bitmap;
-			var buffer : Bitmap = new Bitmap(new BitmapData(800, 600, false, 0xff0000));
+//			var cscene : CScene;
+//			
+//			var bitmap : Bitmap;
+//			var buffer : Bitmap = new Bitmap(new BitmapData(800, 600, false, 0xff0000));
 			
 			protected function initalize(event:FlexEvent):void
 			{
@@ -34,71 +39,94 @@
 //				rect.graphics.endFill();
 //				addChild(rect);
 //				
-				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
-				ldr.load(new URLRequest("../actor_000000/output/tiles.png"));
+//				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
+//				ldr.load(new URLRequest("../actor_000000/output/tiles.png"));
 
+				resloader000000 = new ResourceLoader("../actor_000000/output/actor.xml");
+				resloader000000.addEventListener(ResourceEvent.LOADED, loaded_set);
+				resloader000000.load();
 				
-				resloader = new ResourceLoader();
-				resloader.addEventListener(ResourceEvent.LOADED, loaded_set);
-				resloader.load("../actor_000000/output/actor.xml");
-			
-				
-				addChild(buffer);
+				resloader000002 = new ResourceLoader("../actor_000002/output/actor.xml");
+				resloader000002.addEventListener(ResourceEvent.LOADED, loaded_set);
+				resloader000002.load();
+
+//				addChild(buffer);
 			}
 			
 			
-			private function complete(e:Event) : void
-			{
-				trace("complete");
-				//addChild(ldr);
-				
-				bitmap = (ldr.content as Bitmap);
-				spr.graphics.beginBitmapFill(bitmap.bitmapData);
-				spr.graphics.drawRect(0,0,100,100);
-				spr.graphics.endFill();
-				//addChild(spr);
-				
-			}
+//			private function complete(e:Event) : void
+//			{
+//				trace("complete");
+//				//addChild(ldr);
+//				bitmap = (ldr.content as Bitmap);
+//				spr.graphics.beginBitmapFill(bitmap.bitmapData);
+//				spr.graphics.drawRect(0,0,100,100);
+//				spr.graphics.endFill();
+//				//addChild(spr);
+//			}
 			
-			private function loaded_set(e:Event) : void
+			private function loaded_set(e:ResourceEvent) : void
 			{
-				trace("loaded_set");
-				cspr = resloader.getSprite("000000");
-//				resloader.getMap("unamed_Map"), 400, 300
-				cscene = new CScene();
-				cscene.x = 0;
-				cscene.y = 0;
-				for (var i:int=0; i<1000; i++) {
-					var cspr2 : CSprite = cspr.copy();
-					cspr2.x = (width  * Math.random());
-					cspr2.y = (height * Math.random());
-					var a : int = (int)(Math.random() * cspr2.getAnimateCount());
-					var f : int = (int)(Math.random() * cspr2.getFrameCount(a));
-					cspr2.setCurrentFrame(a, f, false, true);
-					cscene.addChild(cspr2);
+				trace("loaded_set : " + e.res.getUrl());
+				// ------------------------------------------
+				if (e.res.getUrl().search("actor_000000")>=0)
+				{
+//					var mapview : CMapView = new CMapView(
+//						resloader000000.getMap("unamed_Map"), 400, 300);
+//					addChild(mapview);
+					
+					cspr000000 = new G2DSprite(resloader000000.getSprite("000000"));	
+					cspr000000.x = width/4 + (width/2  * Math.random());
+					cspr000000.y = width/4 + (height/2 * Math.random());
+					addChild(cspr000000);
 				}
-				addChild(cscene);
+				else if (e.res.getUrl().search("actor_000002")>=0)
+				{
+					cspr000002 = new G2DSprite(resloader000002.getSprite("000002"));	
+					addChild(cspr000002);
+				}
+//				{
+//					cscene = new CScene();
+//					cscene.x = 0;
+//					cscene.y = 0;
+//					for (var i:int=0; i<1000; i++) {
+//						var cspr2 : CSprite = cspr.copy();
+//						cspr2.x = (width  * Math.random());
+//						cspr2.y = (height * Math.random());
+//						var a : int = (int)(Math.random() * cspr2.getAnimateCount());
+//						var f : int = (int)(Math.random() * cspr2.getFrameCount(a));
+//						cspr2.setCurrentFrame(a, f, false, true);
+//						cscene.addChild(cspr2);
+//					}
+//					addChild(cscene);
+//				
+//				}
+				// ------------------------------------------
+				// 
 				
-				addChild(cspr);
-				
+				// ------------------------------------------
+			
 			}
 			
 
 			protected function uicomponent1_enterFrameHandler(event:Event):void
 			{
-				if (cspr != null) {				
-//					cspr.x = mouseX;
-//					cspr.y = mouseY;
-//					cspr.nextCycFrame();
-//					for each (var o:CSprite in cspr_list) {
-//						o.nextCycFrame();
-//					}
-//					cscene.repaint();
-//					if (bitmap != null) {
-//						for (var i:int=0; i<1000; i++) {
-//							buffer.bitmapData.draw(bitmap.bitmapData);
-//						}
-//					}
+				graphics.clear();
+				graphics.beginFill(0, 1);
+				graphics.drawRect(0, 0, width, height);
+				graphics.endFill();
+
+				if (cspr000000 != null)
+				{
+					cspr000000.src.nextCycFrame();
+					cspr000000.repaint();
+				}
+				if (cspr000002 != null)
+				{
+					cspr000002.x = mouseX;
+					cspr000002.y = mouseY;
+					cspr000002.src.nextCycFrame();
+					cspr000002.repaint();
 				}
 			}
 
@@ -106,8 +134,17 @@
 			protected function uicomponent1_mouseWheelHandler(event:MouseEvent):void
 			{
 				// TODO Auto-generated method stub
-				if (cspr != null) {	
-					cspr.setCurrentFrame(cspr.getCurrentAnimate()+1, 0, false, true);
+				if (cspr000000 != null)
+				{
+					cspr000000.src.setCurrentFrame(
+						cspr000000.src.getCurrentAnimate()+CMath.getDirect(event.delta), 
+						0, false, true);
+				}
+				if (cspr000002 != null)
+				{	
+					cspr000002.src.setCurrentFrame(
+						cspr000002.src.getCurrentAnimate()+CMath.getDirect(event.delta), 
+						0, false, true);
 				}
 			}
 
