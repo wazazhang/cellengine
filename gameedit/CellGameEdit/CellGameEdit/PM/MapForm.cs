@@ -58,7 +58,7 @@ namespace CellGameEdit.PM
             System.Drawing.RotateFlipType.Rotate180FlipX,
             System.Drawing.RotateFlipType.Rotate90FlipX,//
         };
-
+        /*
         static public int[] flipTableJ2me = new int[]{
            Cell.Game.CImages.TRANS_NONE,
             Cell.Game.CImages.TRANS_270,
@@ -70,7 +70,7 @@ namespace CellGameEdit.PM
             Cell.Game.CImages.TRANS_V,
             Cell.Game.CImages.TRANS_H90,
 
-        };
+        };*/
         #endregion
 
         //---------------------------------------------------------
@@ -640,7 +640,7 @@ namespace CellGameEdit.PM
                         for (int i = 0; i < OutputAnimates.subGetCount(); i++)
                         {
                             string TILE = OutputAnimates.SubPart[i].ToString();
-                            string TRANS = flipTableJ2me[(int)(OutputAnimates.SubFlip[i])].ToString();
+                            string TRANS = OutputAnimates.SubFlip[i].ToString();
 
                             senceParts[i] = Util.replaceKeywordsScript(map, SC._SCENE_PART, SC._END_SCENE_PART,
                                 new string[] { SC.INDEX, SC.TILE, SC.TRANS },

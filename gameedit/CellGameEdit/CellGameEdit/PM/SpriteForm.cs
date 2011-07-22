@@ -42,7 +42,7 @@ namespace CellGameEdit.PM
         int dstPanelSize = 2048;
         int masterScale = 1;
         int srcScale = 1;
-
+        /*
         static public int[] flipTableJ2me = new int[]{
             Cell.Game.CImages.TRANS_NONE,
             Cell.Game.CImages.TRANS_270,
@@ -55,7 +55,7 @@ namespace CellGameEdit.PM
             Cell.Game.CImages.TRANS_H90,
 
         };
-
+        */
 
         //ArrayList curFrames;
         //Frame curFrame;
@@ -498,7 +498,7 @@ namespace CellGameEdit.PM
                             string X = ((int)AllFrame.SubX[i]).ToString();
                             string Y = ((int)AllFrame.SubY[i]).ToString();
                             string TILE = ((int)AllFrame.SubIndex[i]).ToString();
-                            string TRANS = (flipTableJ2me[(int)(AllFrame.SubFlip[i])]).ToString();
+                            string TRANS = AllFrame.SubFlip[i].ToString();
 
                             senceParts[i] = Util.replaceKeywordsScript(sprite, "<SCENE_PART>", "</SCENE_PART>",
                                 new string[] { "<INDEX>", "<X>", "<Y>", "<TILE>", "<TRANS>" },
