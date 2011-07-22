@@ -40,7 +40,7 @@ package com.cell.gfx.game
 			return worldY - Camera.getY();
 		}
 		
-		public function render(cg:CGraphics) : void
+		public function render(cg:IGraphics) : void
 		{
 			Camera.render(cg);
 		}

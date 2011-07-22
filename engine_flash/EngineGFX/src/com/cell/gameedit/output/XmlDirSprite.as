@@ -3,12 +3,12 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.SpriteSet;
 	import com.cell.gfx.game.CAnimates;
 	import com.cell.gfx.game.CCollides;
-	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CSprite;
 
 	public class XmlDirSprite extends CSprite
 	{
-		public function XmlDirSprite(output:XmlOutputLoader, tiles:CImages, tsprite:SpriteSet)
+		public function XmlDirSprite(output:XmlOutputLoader, tiles:IImages, tsprite:SpriteSet)
 		{
 			if (output != null) {
 				var scenePartCount : int = tsprite.PartTileID.length;

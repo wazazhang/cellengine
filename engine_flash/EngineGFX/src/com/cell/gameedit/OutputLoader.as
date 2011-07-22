@@ -3,7 +3,7 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gameedit.object.SpriteSet;
-	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.util.Map;
@@ -43,11 +43,11 @@ package com.cell.gameedit
 		function		getWorldTable() : Map;
 		
 		
-		function 		createCImages(set:ImagesSet) : CImages;
+		function 		createCImages(set:ImagesSet) : IImages;
 		
-		function 		createCSprite(set:SpriteSet, images:CImages) : CSprite;
+		function 		createCSprite(set:SpriteSet, images:IImages) : CSprite;
 		
-		function 		createCMap(map:MapSet, images:CImages) : CMap;
+		function 		createCMap(map:MapSet, images:IImages) : CMap;
 		
 		/**
 		 * call by {@link SetResource}.dispose()

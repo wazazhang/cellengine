@@ -204,7 +204,7 @@ package com.cell.gfx.game
 		 * @param y
 		 * @param color 
 		 */
-		public function render(g:CGraphics, index:int, x:int, y:int, color:int) : void {
+		public function render(g:IGraphics, index:int, x:int, y:int, color:int) : void {
 			for(var i:int=Frames[index].length-1;i>=0;i--){
 				cds[Frames[index][i]].render(g, x, y, color);
 			}
@@ -218,7 +218,7 @@ package com.cell.gfx.game
 		 * @param y
 		 * @param color 
 		 */
-		public function renderSub(g:CGraphics, index:int, sub:int, x:int, y:int, color:int) : void {
+		public function renderSub(g:IGraphics, index:int, sub:int, x:int, y:int, color:int) : void {
 			cds[Frames[index][sub]].render(g, x, y, color);
 		}
 		

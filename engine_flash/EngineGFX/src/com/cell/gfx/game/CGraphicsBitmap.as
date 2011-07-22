@@ -3,7 +3,7 @@ package com.cell.gfx.game
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 
-	public class CGraphicsBitmap implements CGraphics
+	public class CGraphicsBitmap implements IGraphics
 	{
 		private var buff : BitmapData;
 		

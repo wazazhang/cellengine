@@ -61,7 +61,7 @@ package com.cell.gfx.game
 			return -(getWidth() / 2 - (X1 + getWidth()));
 		}
 	
-		public function render(g:CGraphics, px:int, py:int, color:int) : void
+		public function render(g:IGraphics, px:int, py:int, color:int) : void
 		{
 //			if ( Mask == 0) return;
 //			g.setColor(color);

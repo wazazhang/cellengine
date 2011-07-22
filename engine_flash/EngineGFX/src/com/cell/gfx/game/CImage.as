@@ -65,7 +65,7 @@ package com.cell.gfx.game
 				null, null, false);
 		}
 		
-		public function createGraphics() : CGraphics
+		public function createGraphics() : IGraphics
 		{
 			return new CGraphicsBitmap(src);
 		}

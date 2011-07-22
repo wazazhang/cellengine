@@ -3,7 +3,7 @@ package com.cell.gfx.game
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
 
-	public class CGraphicsDisplay implements CGraphics
+	public class CGraphicsDisplay implements IGraphics
 	{
 		private var g : Graphics;
 		

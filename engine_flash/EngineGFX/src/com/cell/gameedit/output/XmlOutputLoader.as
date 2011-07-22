@@ -11,7 +11,7 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.worldset.WaypointObject;
 	import com.cell.gfx.game.CImage;
 	import com.cell.gfx.game.CCD;
-	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.io.TextDeserialize;
@@ -477,7 +477,7 @@ package com.cell.gameedit.output
 //		-----------------------------------------------------------------------------------------------
 		
 		
-		public function createCImages(img:ImagesSet) : CImages
+		public function createCImages(img:ImagesSet) : IImages
 		{
 			if (img != null) {
 				return new XmlDirTiles(this, img);
@@ -485,7 +485,7 @@ package com.cell.gameedit.output
 			return null;
 		}
 		
-		public function createCSprite(spr:SpriteSet, images:CImages) : CSprite
+		public function createCSprite(spr:SpriteSet, images:IImages) : CSprite
 		{
 			if (spr != null) {
 				return new XmlDirSprite(this, images, spr);
@@ -494,7 +494,7 @@ package com.cell.gameedit.output
 		}
 		
 		
-		public function createCMap(map:MapSet, images:CImages) : CMap
+		public function createCMap(map:MapSet, images:IImages) : CMap
 		{
 			if (map != null) {
 				return new XmlDirMap(this, images, map);

@@ -1,9 +1,9 @@
 package com.cell.gameedit.output
 {
 	import com.cell.gameedit.object.ImagesSet;
-	import com.cell.gfx.game.CGraphics;
+	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.CImage;
-	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.IImages;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -13,7 +13,7 @@ package com.cell.gameedit.output
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 
-	public class XmlDirTiles implements CImages
+	public class XmlDirTiles implements IImages
 	{
 		protected var output	: XmlOutputLoader;
 		protected var img		: ImagesSet;
@@ -59,7 +59,7 @@ package com.cell.gameedit.output
 			this.loader = null;
 		}
 		
-		public function clone() : CImages
+		public function clone() : IImages
 		{
 			var ret : XmlDirTiles = new XmlDirTiles(output, img, true);
 			for (var i:int=0; i<tiles.length; i++) {
@@ -94,7 +94,7 @@ package com.cell.gameedit.output
 			return 0;
 		}
 		
-		public function render(g:CGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void 
+		public function render(g:IGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void 
 		{
 			if (tiles[index]!=null){
 				g.drawImage(tiles[index], x, y, w, h, transform);

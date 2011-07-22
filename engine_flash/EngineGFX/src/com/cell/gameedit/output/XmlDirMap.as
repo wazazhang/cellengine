@@ -3,12 +3,12 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gfx.game.CAnimates;
 	import com.cell.gfx.game.CCollides;
-	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 
 	public class XmlDirMap extends CMap
 	{
-		public function XmlDirMap(output:XmlOutputLoader, tiles:CImages, tmap:MapSet)
+		public function XmlDirMap(output:XmlOutputLoader, tiles:IImages, tmap:MapSet)
 		{
 			var xcount	: int = tmap.XCount;
 			var ycount	: int = tmap.YCount;

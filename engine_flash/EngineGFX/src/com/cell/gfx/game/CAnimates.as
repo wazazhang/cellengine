@@ -13,7 +13,7 @@ package com.cell.gfx.game
 	 */
 	public class CAnimates extends CGroup
 	{
-		protected var images : CImages;
+		protected var images : IImages;
 		
 		/**short[]*/
 		internal var SX : Array;
@@ -33,7 +33,7 @@ package com.cell.gfx.game
 		 * @param partCount size of part </br>
 		 * @param images reference </br>
 		 */
-		public function CAnimates(partCount:int, images:CImages)
+		public function CAnimates(partCount:int, images:IImages)
 		{
 			this.SubCount 	= partCount;
 			this.SubIndex	= 0;
@@ -100,13 +100,13 @@ package com.cell.gfx.game
 	
 		//---------------------------------------------------------------------------------------------------
 		
-		public function getImages() : CImages
+		public function getImages() : IImages
 		{
 			return images;
 		}
 		
-		public function setImages(images : CImages) : CImages {
-			var ori : CImages = this.images;
+		public function setImages(images : IImages) : IImages {
+			var ori : IImages = this.images;
 			this.images = images;		
 			return ori;
 		}
@@ -173,7 +173,7 @@ package com.cell.gfx.game
 		 * @param x x on graphics surface</br>
 		 * @param y y on graphics surface</br>
 		 */
-		public function render(g:CGraphics, index:int, x:int, y:int) : void {
+		public function render(g:IGraphics, index:int, x:int, y:int) : void {
 			for(var i:int=Frames[index].length-1;i>=0;i--){
 				var idx : int = Frames[index][i];
 				images.render(g,
@@ -194,7 +194,7 @@ package com.cell.gfx.game
 		 * @param x x on graphics surface </br>�1�7
 		 * @param y y on graphics surface </br>
 		 */
-		public function renderSub(g:CGraphics, index:int, part:int, x:int, y:int) : void {
+		public function renderSub(g:IGraphics, index:int, part:int, x:int, y:int) : void {
 			var idx : int = Frames[index][part];
 			images.render(g,
 					STileID[idx], 
@@ -213,7 +213,7 @@ package com.cell.gfx.game
 		 * @param x x on graphics surface
 		 * @param y y on graphics surface
 		 */
-		public function renderSingle(g:CGraphics, index:int, x:int, y:int) : void {
+		public function renderSingle(g:IGraphics, index:int, x:int, y:int) : void {
 			for(var i:int=Frames[index].length-1;i>=0;i--){
 				var idx : int = Frames[index][i];
 				images.render(g,
@@ -235,7 +235,7 @@ package com.cell.gfx.game
 		 * @param x x on graphics surface
 		 * @param y y on graphics surface
 		 */
-		public function renderSingleSub(g:CGraphics, index:int, part:int, x:int, y:int) : void {
+		public function renderSingleSub(g:IGraphics, index:int, part:int, x:int, y:int) : void {
 			var idx : int = Frames[index][part];
 			images.render(g,
 					STileID[idx], 
@@ -247,7 +247,7 @@ package com.cell.gfx.game
 	
 		}
 		
-		public function renderTile(g:CGraphics, idx:int, x:int, y:int) : void {
+		public function renderTile(g:IGraphics, idx:int, x:int, y:int) : void {
 			images.render(g, 
 				STileID[idx],
 				x , y , 

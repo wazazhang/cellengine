@@ -30,7 +30,7 @@ package com.cell.gfx.game
 		private var Y			: int;
 		
 		private var Map			: CMap;
-		private var bg			: CGraphics;
+		private var bg			: IGraphics;
 		private var back_buff	: CImage;
 		
 		private var CellW		: int;
@@ -375,7 +375,7 @@ package com.cell.gfx.game
 		 * draw world units on graphics surface
 		 * @param g graphics surface
 		 */
-		public function render(g:CGraphics) : void 
+		public function render(g:IGraphics) : void 
 		{
 				if(Map.isEnableAnimate() && AnimateTimerOld != Map.getAnimateTimer())
 				{

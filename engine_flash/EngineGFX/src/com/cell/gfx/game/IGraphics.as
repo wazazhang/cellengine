@@ -3,7 +3,7 @@ package com.cell.gfx.game
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
 
-	public interface CGraphics
+	public interface IGraphics
 	{
 		/**
 		 * 绘制指定图像中当前可用的图像。图像的左上角位于该图形上下文坐标空间的 (x, y)。

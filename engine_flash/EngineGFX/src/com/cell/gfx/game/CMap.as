@@ -162,7 +162,7 @@ package com.cell.gfx.game
 		}
 		//	-------------------------------------------------------------------------------
 	
-		public function renderCell(g:CGraphics, x:int, y:int, cellX:int, cellY:int) : void
+		public function renderCell(g:IGraphics, x:int, y:int, cellX:int, cellY:int) : void
 		{
 			if(matrixTile[cellY][cellX]>=0)
 			{

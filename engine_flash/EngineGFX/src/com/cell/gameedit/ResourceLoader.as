@@ -7,7 +7,7 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
 	import com.cell.gameedit.output.XmlOutputLoader;
-	import com.cell.gfx.game.CImages;
+	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.util.Map;
@@ -48,7 +48,7 @@ package com.cell.gameedit
 		{
 			trace("load resource complete : " + output);
 			for each (var imgset : ImagesSet in output.getImgTable()) { 
-				var images : CImages = output.createCImages(imgset);
+				var images : IImages = output.createCImages(imgset);
 				resource_manager.put("IMG_" + imgset.Name, images);
 				trace("get images : " + imgset.Name);
 			}
@@ -69,7 +69,7 @@ package com.cell.gameedit
 		}
 		
 		
-		public function getImages(name:String) : CImages
+		public function getImages(name:String) : IImages
 		{
 			return resource_manager.get("IMG_" + name);
 		}

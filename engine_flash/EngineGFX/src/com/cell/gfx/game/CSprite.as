@@ -250,7 +250,7 @@ package com.cell.gfx.game
 //		}
 		
 		
-		public function render(g:CGraphics, x:int, y:int, anim:int, frame:int) : void 
+		public function render(g:IGraphics, x:int, y:int, anim:int, frame:int) : void 
 		{
 			if ( (anim < FrameAnimate.length) && (frame < FrameAnimate[anim].length) ) {
 				animates.render(g, FrameAnimate[anim][frame], x, y);

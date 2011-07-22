@@ -3,9 +3,9 @@ package com.cell.gfx.game
 	import com.cell.gameedit.OutputLoader;
 	import com.cell.gameedit.object.ImagesSet;
 	
-	public interface CImages
+	public interface IImages
 	{
-		function clone() : CImages;
+		function clone() : IImages;
 		
 		function getImage(index:int) : CImage;
 		
@@ -13,7 +13,7 @@ package com.cell.gfx.game
 		
 		function getHeight(index:int) : int;
 		
-		function render(g:CGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void ;
+		function render(g:IGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void ;
 		
 	}
 }
