@@ -10,6 +10,8 @@
 			import com.cell.g2d.G2DSprite;
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
+			import com.cell.gfx.game.CGraphicsDisplay;
+			import com.cell.gfx.game.CImage;
 			import com.cell.gfx.game.CMapView;
 			import com.cell.gfx.game.CSprite;
 			import com.cell.util.CMath;
@@ -17,7 +19,7 @@
 			import mx.events.FlexEvent;
 			
 			
-//			var ldr	: Loader = new Loader();
+			var ldr	: Loader = new Loader();
 //			var spr : Sprite = new Sprite();
 			
 			
@@ -28,9 +30,10 @@
 			var cspr000002 : G2DSprite;
 			
 			var cscene : G2DScene;
-//			
-//			var bitmap : Bitmap;
-			var buffer : Bitmap = new Bitmap(new BitmapData(400, 300, false, 0xff0000));
+
+			var buffer : Bitmap = new Bitmap(new BitmapData(400, 300, true, 0x80ff0000));
+			
+			var cg : CGraphicsDisplay;
 			
 			protected function initalize(event:FlexEvent):void
 			{
@@ -40,8 +43,13 @@
 //				rect.graphics.endFill();
 //				addChild(rect);
 //				
-//				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
-//				ldr.load(new URLRequest("../actor_000000/output/tiles.png"));
+				cg = new CGraphicsDisplay(graphics);
+				
+				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
+				ldr.load(new URLRequest("../actor_000000/output/tiles.png"));
+				ldr.x = 400;
+				ldr.y = 300;
+				addChild(ldr);
 
 				resloader000000 = new ResourceLoader("../actor_000000/output/actor.xml");
 				resloader000000.addEventListener(ResourceEvent.LOADED, loaded_set);
@@ -55,16 +63,10 @@
 			}
 			
 			
-//			private function complete(e:Event) : void
-//			{
-//				trace("complete");
-//				//addChild(ldr);
-//				bitmap = (ldr.content as Bitmap);
-//				spr.graphics.beginBitmapFill(bitmap.bitmapData);
-//				spr.graphics.drawRect(0,0,100,100);
-//				spr.graphics.endFill();
-//				//addChild(spr);
-//			}
+			private function complete(e:Event) : void
+			{
+				trace("complete");
+			}
 			
 			private function loaded_set(e:ResourceEvent) : void
 			{
@@ -116,8 +118,16 @@
 //				graphics.beginFill(0, 1);
 //				graphics.drawRect(0, 0, width, height);
 //				graphics.endFill();
+				if (ldr.content != null) 
+				{
+					cg.drawImageRegion(
+						new CImage((ldr.content as Bitmap).bitmapData),
+						32, 48, 32, 48, 0, 50, 350);
+				}
+				
 				
 //				cscene.repaint();
+//				cscene.getCamera().renderDebugBackBuffer(graphics, 0, 300);
 				
 				if (cspr000000 != null)
 				{
