@@ -410,20 +410,18 @@ package com.cell.gfx.game
 				var w2 : int = WorldW - w1;
 				var h2 : int = WorldH - h1;
 				
-				if (w1 > 0 && h1 > 0) 
+				if (w1 > 0 && h1 > 0) {
 					g.drawImageRegion(back_buff, vBufX, vBufY, w1, h1, 0, 0, 0);
-				
-				if (w2 > 0 && h2 > 0) 
+				}
+				if (w2 > 0 && h2 > 0) {
 					g.drawImageRegion(back_buff, 0, 0, w2, h2, 0, w1, h1);
-				
-				if (w1 > 0 && h2 > 0) 
+				}
+				if (w1 > 0 && h2 > 0) {
 					g.drawImageRegion(back_buff, vBufX, 0, w1, h2, 0, 0, h1);
-				
-				if (w2 > 0 && h1 > 0) 
+				}
+				if (w2 > 0 && h1 > 0) {
 					g.drawImageRegion(back_buff, 0, vBufY, w2, h1, 0, w1, 0);
-				
-			
-		
+				}
 		}
 	
 	}
