@@ -6,6 +6,7 @@
 				initialize="initalize(event)" mouseWheel="uicomponent1_mouseWheelHandler(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.cell.g2d.G2DScene;
 			import com.cell.g2d.G2DSprite;
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
@@ -26,10 +27,10 @@
 			var cspr000000 : G2DSprite;
 			var cspr000002 : G2DSprite;
 			
-//			var cscene : CScene;
+			var cscene : G2DScene;
 //			
 //			var bitmap : Bitmap;
-//			var buffer : Bitmap = new Bitmap(new BitmapData(800, 600, false, 0xff0000));
+			var buffer : Bitmap = new Bitmap(new BitmapData(400, 300, false, 0xff0000));
 			
 			protected function initalize(event:FlexEvent):void
 			{
@@ -50,7 +51,7 @@
 				resloader000002.addEventListener(ResourceEvent.LOADED, loaded_set);
 				resloader000002.load();
 
-//				addChild(buffer);
+				addChild(buffer);
 			}
 			
 			
@@ -71,36 +72,36 @@
 				// ------------------------------------------
 				if (e.res.getUrl().search("actor_000000")>=0)
 				{
-//					var mapview : CMapView = new CMapView(
-//						resloader000000.getMap("unamed_Map"), 400, 300);
-//					addChild(mapview);
+					
+					cscene = new G2DScene(resloader000000.getMap("unamed_Map"), 400, 300);
+					cscene.x = 400;
+					cscene.y = 0;
+					//					for (var i:int=0; i<1000; i++) {
+					//						var cspr2 : CSprite = cspr.copy();
+					//						cspr2.x = (width  * Math.random());
+					//						cspr2.y = (height * Math.random());
+					//						var a : int = (int)(Math.random() * cspr2.getAnimateCount());
+					//						var f : int = (int)(Math.random() * cspr2.getFrameCount(a));
+					//						cspr2.setCurrentFrame(a, f, false, true);
+					//						cscene.addChild(cspr2);
+					//					}
+					//					addChild(cscene);
+					addChild(cscene);
+					
 					
 					cspr000000 = new G2DSprite(resloader000000.getSprite("000000"));	
 					cspr000000.x = width/4 + (width/2  * Math.random());
 					cspr000000.y = width/4 + (height/2 * Math.random());
 					addChild(cspr000000);
+					
+					
 				}
 				else if (e.res.getUrl().search("actor_000002")>=0)
 				{
 					cspr000002 = new G2DSprite(resloader000002.getSprite("000002"));	
 					addChild(cspr000002);
 				}
-//				{
-//					cscene = new CScene();
-//					cscene.x = 0;
-//					cscene.y = 0;
-//					for (var i:int=0; i<1000; i++) {
-//						var cspr2 : CSprite = cspr.copy();
-//						cspr2.x = (width  * Math.random());
-//						cspr2.y = (height * Math.random());
-//						var a : int = (int)(Math.random() * cspr2.getAnimateCount());
-//						var f : int = (int)(Math.random() * cspr2.getFrameCount(a));
-//						cspr2.setCurrentFrame(a, f, false, true);
-//						cscene.addChild(cspr2);
-//					}
-//					addChild(cscene);
-//				
-//				}
+				
 				// ------------------------------------------
 				// 
 				
@@ -115,7 +116,10 @@
 				graphics.beginFill(0, 1);
 				graphics.drawRect(0, 0, width, height);
 				graphics.endFill();
-
+				
+				cscene.getCamera().resetBuffer();
+				cscene.repaint();
+				
 				if (cspr000000 != null)
 				{
 					cspr000000.src.nextCycFrame();
