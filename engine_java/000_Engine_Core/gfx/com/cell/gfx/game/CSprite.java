@@ -58,7 +58,7 @@ public class CSprite extends CUnit implements Serializable
 	final static public byte CD_TYPE_EXT 	= 3;
 	
 	
-	protected byte Transform = IImage.TRANS_NONE;
+//	protected byte Transform = IImage.TRANS_NONE;
 	
 	protected int CurAnimate = 0;
 	protected int CurFrame = 0;
@@ -149,7 +149,7 @@ public class CSprite extends CUnit implements Serializable
 		FrameCDDef 		= spr.FrameCDDef;
 		FrameCDExt 		= spr.FrameCDExt;
 		
-		Transform 		= spr.Transform;
+//		Transform 		= spr.Transform;
 		
 		Priority 		= spr.Priority;
 		
@@ -202,7 +202,7 @@ public class CSprite extends CUnit implements Serializable
 		
 		spr.movingIllegible	= this.movingIllegible;
 		
-		spr.Transform = this.Transform;
+//		spr.Transform = this.Transform;
 		
 		spr.CurAnimate = this.CurAnimate;
 		spr.CurFrame = this.CurFrame;
@@ -787,217 +787,217 @@ public class CSprite extends CUnit implements Serializable
 
 	
 //	------------------------------------------------------------------------------------------
+//
+//	public byte getCurTransform(){
+//		return Transform;
+//	}
+//	
+//	public void transform(byte next){
+//		int[] point1 = new int[4];
+//		Transform = transFlipNext(Transform, next);
+//		
+////		 transform image
+//		animates.w_left 	= 0;
+//		animates.w_top 		= 0;
+//		animates.w_right 	= 0;
+//		animates.w_bottom 	= 0;
+//		for (int i = animates.SFlip.length-1; i >= 0 ; i-- ) {
+//			animates.SFlip[i] = transFlipNext(animates.SFlip[i], next);
+//			point1[0] = animates.SX[i];
+//			point1[1] = animates.SY[i];
+//			point1[2] = animates.SX[i]+animates.SW[i];
+//			point1[3] = animates.SY[i]+animates.SH[i];
+//			CSprite.TransformPoint(point1, next);
+//			animates.SX[i] = (short)Math.min(point1[0],point1[2]);
+//			animates.SY[i] = (short)Math.min(point1[1],point1[3]);
+//			animates.SW[i] = (short)Math.abs(point1[0]-point1[2]);
+//			animates.SH[i] = (short)Math.abs(point1[1]-point1[3]);
+//			animates.fixArea(
+//					animates.SX[i], 
+//					animates.SY[i], 
+//					animates.SX[i]+animates.SW[i], 
+//					animates.SY[i]+animates.SH[i]);
+//		}
+//		
+////		transform collide
+//		collides.w_left 	= 0;
+//		collides.w_top 		= 0;
+//		collides.w_right 	= 0;
+//		collides.w_bottom 	= 0;
+//		for (int i = collides.cds.length-1; i >= 0 ; i-- ) {
+//			point1[0] = collides.cds[i].X1;
+//			point1[1] = collides.cds[i].Y1;
+//			point1[2] = collides.cds[i].X2;
+//			point1[3] = collides.cds[i].Y2;
+//			CSprite.TransformPoint(point1, next);
+//			collides.cds[i].X1 = (short)Math.min(point1[0],point1[2]);
+//			collides.cds[i].Y1 = (short)Math.min(point1[1],point1[3]);
+//			collides.cds[i].X2 = (short)Math.max(point1[0],point1[2]);
+//			collides.cds[i].Y2 = (short)Math.max(point1[1],point1[3]);
+//			collides.fixArea(
+//					collides.cds[i].X1, 
+//					collides.cds[i].Y1, 
+//					collides.cds[i].X2, 
+//					collides.cds[i].Y2);
+//		}
+//	}
+//	
+//	static protected byte SubSprFlipTable[][] = {
+//			{	//ScreenFlip = NONE
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_H ,
+//				IImage.TRANS_V ,
+//				IImage.TRANS_HV ,
+//				IImage.TRANS_90 ,
+//				IImage.TRANS_270 , 
+//				IImage.TRANS_H90 ,
+//				IImage.TRANS_V90 
+//			},{	
+//				//ScreenFlip = H
+//				IImage.TRANS_H ,
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_HV ,
+//				IImage.TRANS_V ,
+//				IImage.TRANS_H90 ,
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_90 , 
+//				IImage.TRANS_270 
+//			},{	
+//				//ScreenFlip = V
+//				IImage.TRANS_V ,
+//				IImage.TRANS_HV ,
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_H ,
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_H90 ,
+//				IImage.TRANS_270,
+//				IImage.TRANS_90 
+//			},{	
+////				ScreenFlip = HV
+//				IImage.TRANS_HV,
+//				IImage.TRANS_V,
+//				IImage.TRANS_H ,
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_270 ,
+//				IImage.TRANS_90 ,
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_H90 
+//			},{
+////				ScreenFlip = 90
+//				IImage.TRANS_90 ,
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_H90,
+//				IImage.TRANS_270 ,
+//				IImage.TRANS_HV ,
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_H ,
+//				IImage.TRANS_V ,		
+//			},{
+////				ScreenFlip = 270
+//				IImage.TRANS_270 ,
+//				IImage.TRANS_H90 ,
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_90,
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_HV ,
+//				IImage.TRANS_V ,
+//				IImage.TRANS_H ,
+//			},{
+////				ScreenFlip = H 90
+//				IImage.TRANS_H90 ,
+//				IImage.TRANS_270 ,	
+//				IImage.TRANS_90 ,
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_V ,
+//				IImage.TRANS_H ,
+//				IImage.TRANS_NONE ,
+//				IImage.TRANS_HV ,
+//			},{
+////				ScreenFlip = V 90
+//				IImage.TRANS_V90 ,
+//				IImage.TRANS_90 ,
+//				IImage.TRANS_270 ,
+//				IImage.TRANS_H90 ,				
+//				IImage.TRANS_H ,
+//				IImage.TRANS_V ,
+//				IImage.TRANS_HV ,
+//				IImage.TRANS_NONE ,
+//			}
+//			
+//	};
+//
+//	static protected int getFlipIndex(byte trans){
+//		switch(trans){
+//		case IImage.TRANS_NONE:
+//			return 0;
+//		case IImage.TRANS_H :
+//			return 1;
+//		case IImage.TRANS_V :
+//			return 2;
+//		case IImage.TRANS_HV :
+//			return 3;
+//		case IImage.TRANS_90 :
+//			return 4;
+//		case IImage.TRANS_270 : 
+//			return 5;
+//		case IImage.TRANS_H90 :
+//			return 6;
+//		case IImage.TRANS_V90 :
+//			return 7;
+//		}
+//		return -1;
+//	}
 
-	public byte getCurTransform(){
-		return Transform;
-	}
-	
-	public void transform(byte next){
-		int[] point1 = new int[4];
-		Transform = transFlipNext(Transform, next);
-		
-//		 transform image
-		animates.w_left 	= 0;
-		animates.w_top 		= 0;
-		animates.w_right 	= 0;
-		animates.w_bottom 	= 0;
-		for (int i = animates.SFlip.length-1; i >= 0 ; i-- ) {
-			animates.SFlip[i] = transFlipNext(animates.SFlip[i], next);
-			point1[0] = animates.SX[i];
-			point1[1] = animates.SY[i];
-			point1[2] = animates.SX[i]+animates.SW[i];
-			point1[3] = animates.SY[i]+animates.SH[i];
-			CSprite.TransformPoint(point1, next);
-			animates.SX[i] = (short)Math.min(point1[0],point1[2]);
-			animates.SY[i] = (short)Math.min(point1[1],point1[3]);
-			animates.SW[i] = (short)Math.abs(point1[0]-point1[2]);
-			animates.SH[i] = (short)Math.abs(point1[1]-point1[3]);
-			animates.fixArea(
-					animates.SX[i], 
-					animates.SY[i], 
-					animates.SX[i]+animates.SW[i], 
-					animates.SY[i]+animates.SH[i]);
-		}
-		
-//		transform collide
-		collides.w_left 	= 0;
-		collides.w_top 		= 0;
-		collides.w_right 	= 0;
-		collides.w_bottom 	= 0;
-		for (int i = collides.cds.length-1; i >= 0 ; i-- ) {
-			point1[0] = collides.cds[i].X1;
-			point1[1] = collides.cds[i].Y1;
-			point1[2] = collides.cds[i].X2;
-			point1[3] = collides.cds[i].Y2;
-			CSprite.TransformPoint(point1, next);
-			collides.cds[i].X1 = (short)Math.min(point1[0],point1[2]);
-			collides.cds[i].Y1 = (short)Math.min(point1[1],point1[3]);
-			collides.cds[i].X2 = (short)Math.max(point1[0],point1[2]);
-			collides.cds[i].Y2 = (short)Math.max(point1[1],point1[3]);
-			collides.fixArea(
-					collides.cds[i].X1, 
-					collides.cds[i].Y1, 
-					collides.cds[i].X2, 
-					collides.cds[i].Y2);
-		}
-	}
-	
-	static protected byte SubSprFlipTable[][] = {
-			{	//ScreenFlip = NONE
-				IImage.TRANS_NONE ,
-				IImage.TRANS_H ,
-				IImage.TRANS_V ,
-				IImage.TRANS_HV ,
-				IImage.TRANS_90 ,
-				IImage.TRANS_270 , 
-				IImage.TRANS_H90 ,
-				IImage.TRANS_V90 
-			},{	
-				//ScreenFlip = H
-				IImage.TRANS_H ,
-				IImage.TRANS_NONE ,
-				IImage.TRANS_HV ,
-				IImage.TRANS_V ,
-				IImage.TRANS_H90 ,
-				IImage.TRANS_V90 ,
-				IImage.TRANS_90 , 
-				IImage.TRANS_270 
-			},{	
-				//ScreenFlip = V
-				IImage.TRANS_V ,
-				IImage.TRANS_HV ,
-				IImage.TRANS_NONE ,
-				IImage.TRANS_H ,
-				IImage.TRANS_V90 ,
-				IImage.TRANS_H90 ,
-				IImage.TRANS_270,
-				IImage.TRANS_90 
-			},{	
-//				ScreenFlip = HV
-				IImage.TRANS_HV,
-				IImage.TRANS_V,
-				IImage.TRANS_H ,
-				IImage.TRANS_NONE ,
-				IImage.TRANS_270 ,
-				IImage.TRANS_90 ,
-				IImage.TRANS_V90 ,
-				IImage.TRANS_H90 
-			},{
-//				ScreenFlip = 90
-				IImage.TRANS_90 ,
-				IImage.TRANS_V90 ,
-				IImage.TRANS_H90,
-				IImage.TRANS_270 ,
-				IImage.TRANS_HV ,
-				IImage.TRANS_NONE ,
-				IImage.TRANS_H ,
-				IImage.TRANS_V ,		
-			},{
-//				ScreenFlip = 270
-				IImage.TRANS_270 ,
-				IImage.TRANS_H90 ,
-				IImage.TRANS_V90 ,
-				IImage.TRANS_90,
-				IImage.TRANS_NONE ,
-				IImage.TRANS_HV ,
-				IImage.TRANS_V ,
-				IImage.TRANS_H ,
-			},{
-//				ScreenFlip = H 90
-				IImage.TRANS_H90 ,
-				IImage.TRANS_270 ,	
-				IImage.TRANS_90 ,
-				IImage.TRANS_V90 ,
-				IImage.TRANS_V ,
-				IImage.TRANS_H ,
-				IImage.TRANS_NONE ,
-				IImage.TRANS_HV ,
-			},{
-//				ScreenFlip = V 90
-				IImage.TRANS_V90 ,
-				IImage.TRANS_90 ,
-				IImage.TRANS_270 ,
-				IImage.TRANS_H90 ,				
-				IImage.TRANS_H ,
-				IImage.TRANS_V ,
-				IImage.TRANS_HV ,
-				IImage.TRANS_NONE ,
-			}
-			
-	};
-
-	static protected int getFlipIndex(byte trans){
-		switch(trans){
-		case IImage.TRANS_NONE:
-			return 0;
-		case IImage.TRANS_H :
-			return 1;
-		case IImage.TRANS_V :
-			return 2;
-		case IImage.TRANS_HV :
-			return 3;
-		case IImage.TRANS_90 :
-			return 4;
-		case IImage.TRANS_270 : 
-			return 5;
-		case IImage.TRANS_H90 :
-			return 6;
-		case IImage.TRANS_V90 :
-			return 7;
-		}
-		return -1;
-	}
-
-	static protected byte transFlipNext(byte currentTrans,byte nextTrans){
-		return SubSprFlipTable[getFlipIndex(currentTrans)][getFlipIndex(nextTrans)];
-	}
-	
-	static protected void TransformPoint(int[] point,int transform){
-		int temp = 0;
-		for(int i=0;i<point.length;i+=2){
-			switch(transform){
-			case IImage.TRANS_NONE:
-				break;
-			case IImage.TRANS_H: 
-				point[i+0] = -point[i+0];
-				//point[i+1] = +point[i+1];
-				break;
-			case IImage.TRANS_V: 
-				//point[i+0] = +point[i+0];
-				point[i+1] = -point[i+1];
-				break;
-			case IImage.TRANS_HV: 
-				point[i+0] = -point[i+0];
-				point[i+1] = -point[i+1];
-				break;
-			case IImage.TRANS_90: 
-				temp = point[i+0];
-				point[i+0] = +point[i+1];
-				point[i+1] = -temp;
-				break;
-			case IImage.TRANS_270: 
-				temp = point[i+0];
-				point[i+0] = -point[i+1];
-				point[i+1] = +temp;
-				break;
-			case IImage.TRANS_H90: 
-				point[i+0] = -point[i+0];
-				//point[i+1] = +point[i+1];
-				temp = point[i+0];
-				point[i+0] = +point[i+1];
-				point[i+1] = -temp;
-				break;
-			case IImage.TRANS_V90: 
-				//point[i+0] = +point[i+0];
-				point[i+1] = -point[i+1];
-				temp = point[i+0];
-				point[i+0] = +point[i+1];
-				point[i+1] = -temp;
-				break;
-			}
-		}
-		
-	}
+//	static protected byte transFlipNext(byte currentTrans,byte nextTrans){
+//		return SubSprFlipTable[getFlipIndex(currentTrans)][getFlipIndex(nextTrans)];
+//	}
+//	
+//	static protected void TransformPoint(int[] point,int transform){
+//		int temp = 0;
+//		for(int i=0;i<point.length;i+=2){
+//			switch(transform){
+//			case IImage.TRANS_NONE:
+//				break;
+//			case IImage.TRANS_H: 
+//				point[i+0] = -point[i+0];
+//				//point[i+1] = +point[i+1];
+//				break;
+//			case IImage.TRANS_V: 
+//				//point[i+0] = +point[i+0];
+//				point[i+1] = -point[i+1];
+//				break;
+//			case IImage.TRANS_HV: 
+//				point[i+0] = -point[i+0];
+//				point[i+1] = -point[i+1];
+//				break;
+//			case IImage.TRANS_90: 
+//				temp = point[i+0];
+//				point[i+0] = +point[i+1];
+//				point[i+1] = -temp;
+//				break;
+//			case IImage.TRANS_270: 
+//				temp = point[i+0];
+//				point[i+0] = -point[i+1];
+//				point[i+1] = +temp;
+//				break;
+//			case IImage.TRANS_H90: 
+//				point[i+0] = -point[i+0];
+//				//point[i+1] = +point[i+1];
+//				temp = point[i+0];
+//				point[i+0] = +point[i+1];
+//				point[i+1] = -temp;
+//				break;
+//			case IImage.TRANS_V90: 
+//				//point[i+0] = +point[i+0];
+//				point[i+1] = -point[i+1];
+//				temp = point[i+0];
+//				point[i+0] = +point[i+1];
+//				point[i+1] = -temp;
+//				break;
+//			}
+//		}
+//		
+//	}
 //	------------------------------------------------------------------------------------------
 
 	public boolean includeBounds(int x, int y)

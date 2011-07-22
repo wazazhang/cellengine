@@ -8,14 +8,15 @@ public interface IGraphics
 	
 	
     public static final int TRANS_NONE = 0;
-    public static final int TRANS_ROT90 = 5;
-    public static final int TRANS_ROT180 = 3;
-    public static final int TRANS_ROT270 = 6;
-    public static final int TRANS_MIRROR = 2;
-    public static final int TRANS_MIRROR_ROT90 = 7;
-    public static final int TRANS_MIRROR_ROT180 = 1;
-    public static final int TRANS_MIRROR_ROT270 = 4;
+    public static final int TRANS_ROT90 = 1;
+    public static final int TRANS_ROT180 = 2;
+    public static final int TRANS_ROT270 = 3;
+    public static final int TRANS_MIRROR = 4;
+    public static final int TRANS_MIRROR_ROT90 = 5;
+    public static final int TRANS_MIRROR_ROT180 = 6;
+    public static final int TRANS_MIRROR_ROT270 = 7;
     
+
     public static final int BLEND_MODE_NONE = 0;
     public static final int BLEND_MODE_AVERAGE = 1;
     public static final int BLEND_MODE_MULTIPLY = 2;

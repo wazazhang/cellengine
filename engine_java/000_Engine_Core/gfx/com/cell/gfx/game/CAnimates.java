@@ -97,10 +97,10 @@ public class CAnimates extends CGroup
 			if (center){
 				addPart(-images.getWidth(i) / 2, 
 						-images.getHeight(i) / 2,
-						i, IImage.TRANS_NONE);
+						i, IGraphics.TRANS_NONE);
 			}else{
 				addPart(0, 0,
-						i, IImage.TRANS_NONE);	
+						i, IGraphics.TRANS_NONE);	
 			}
 		}
 	}
@@ -125,17 +125,17 @@ public class CAnimates extends CGroup
 			SY[SubIndex] = (short) py;
 			SFlip[SubIndex] = (byte) trans;
 			switch(trans){
-			case IImage.TRANS_NONE:
-			case IImage.TRANS_H:
-			case IImage.TRANS_V:
-			case IImage.TRANS_HV:
+			case IGraphics.TRANS_NONE:
+			case IGraphics.TRANS_ROT180:
+			case IGraphics.TRANS_MIRROR:
+			case IGraphics.TRANS_MIRROR_ROT180:
 				SW[SubIndex] = (short) images.getWidth(tileid);
 				SH[SubIndex] = (short) images.getHeight(tileid);
 				break;
-			case IImage.TRANS_90:
-			case IImage.TRANS_270:
-			case IImage.TRANS_H90:
-			case IImage.TRANS_V90:
+			case IGraphics.TRANS_ROT90:
+			case IGraphics.TRANS_ROT270:
+			case IGraphics.TRANS_MIRROR_ROT90:
+			case IGraphics.TRANS_MIRROR_ROT270:
 				SW[SubIndex] = (short) images.getHeight(tileid);
 				SH[SubIndex] = (short) images.getWidth(tileid);
 				break;

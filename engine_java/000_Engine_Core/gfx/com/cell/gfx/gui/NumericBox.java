@@ -212,7 +212,7 @@ public class NumericBox extends LabelBar
 		
 		if (IconKeySub != null)
 		{
-			g.drawImage(IconKeySub, x + W - IconKeySub.getWidth(), y, IImage.TRANS_H);
+			g.drawImage(IconKeySub, x + W - IconKeySub.getWidth(), y, IGraphics.TRANS_MIRROR);
 		}
 		else
 		{

@@ -3,33 +3,36 @@ package com.cell.gfx;
 
 public interface IImage {
 
-	/** None Flip Rotate */
-	final public static byte TRANS_NONE = 0;
-	
-	/** Flip Vertical */
-	final public static byte TRANS_V = 1;
-	
-	/** Flip Horizental */
-	final public static byte TRANS_H = 2;
-	
-	/** Flip Horizental and Vertical */
-	final public static byte TRANS_HV = 3;
-	
-	/** anticlockwise rotate 90 angle */
-	final public static byte TRANS_90 = 6;
-	
-	/** anticlockwise rotate 270 angle */
-	final public static byte TRANS_270 = 5;
-	
-	/** first anticlockwise rotate 90 angle , second flip Horizental */
-	final public static byte TRANS_H90 = 4;
-	
-	/** first anticlockwise rotate 90 angle , second flip Vertical */
-	final public static byte TRANS_V90 = 7;
-	
-	/** 180 Rotate */
-	final public static byte TRANS_180 = 3; 
+//	/** None Flip Rotate */
+//	final public static byte TRANS_NONE = 0;
+//	
+//	/** Flip Vertical */
+//	final public static byte TRANS_V = 1;
+//	
+//	/** Flip Horizental */
+//	final public static byte TRANS_H = 2;
+//	
+//	/** Flip Horizental and Vertical */
+//	final public static byte TRANS_HV = 3;
+//	
+//	/** anticlockwise rotate 90 angle */
+//	final public static byte TRANS_90 = 6;
+//	
+//	/** anticlockwise rotate 270 angle */
+//	final public static byte TRANS_270 = 5;
+//	
+//	/** first anticlockwise rotate 90 angle , second flip Horizental */
+//	final public static byte TRANS_H90 = 4;
+//	
+//	/** first anticlockwise rotate 90 angle , second flip Vertical */
+//	final public static byte TRANS_V90 = 7;
+//	
+//	/** 180 Rotate */
+//	final public static byte TRANS_180 = 3; 
 
+	
+	
+	
 	public IImage newInstance();
 	
 	//Change size with a new surface
