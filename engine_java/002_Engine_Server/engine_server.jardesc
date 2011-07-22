@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="002_Engine_Server/engine_server.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/002_Engine_Server/engine_server.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=002_Engine_Server/flash&lt;com.net.flash{FlashCrossdomainService.java[FlashCrossdomainService" manifestLocation="/020_EatWorld_Edit/lib/deploy/client.mf" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/002_Engine_Server/.classpath"/>
+        <javaElement handleIdentifier="=002_Engine_Server/src"/>
+        <javaElement handleIdentifier="=002_Engine_Server/sfs"/>
+        <javaElement handleIdentifier="=002_Engine_Server/mina"/>
+        <javaElement handleIdentifier="=002_Engine_Server/flash"/>
+        <file path="/002_Engine_Server/.project"/>
+    </selectedElements>
+</jardesc>
