@@ -79,10 +79,12 @@ package com.cell.gfx.game
 					break;
 				case Transform.TRANS_180:
 					ret.rotate(ANGLE_180);
+					ret.translate(width, height);
 					ret.translate(x, y);
 					break;
 				case Transform.TRANS_270:
 					ret.rotate(ANGLE_270);
+					ret.translate(0, height);
 					ret.translate(x, y);
 					break;
 				
@@ -92,13 +94,25 @@ package com.cell.gfx.game
 					ret.translate(x, y);
 					break;
 				case Transform.TRANS_H90:
-					ret.rotate(Math.PI/2);
 					ret.scale(-1, 1);
+					ret.translate(height, 0);
+					ret.rotate(ANGLE_90);
+					ret.translate(width, 0);
 					ret.translate(x, y);
 					break;
 				case Transform.TRANS_H180:
+					ret.scale(-1, 1);
+					ret.translate(width, 0);
+					ret.rotate(ANGLE_180);
+					ret.translate(width, height);
+					ret.translate(x, y);
 					break;
 				case Transform.TRANS_H270:
+					ret.scale(-1, 1);
+					ret.translate(height, 0);
+					ret.rotate(ANGLE_270);
+					ret.translate(0, height);
+					ret.translate(x, y);
 					break;
 			}
 			return ret;
