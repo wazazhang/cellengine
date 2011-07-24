@@ -18,8 +18,8 @@ package com.cell.gfx.game
 		protected var FrameAnimate	: Array;
 		
 		
-		private var CurAnimate 		: int = 0;
-		private var CurFrame	 	: int = 0;
+		private var CurAnimate 		: uint = 0;
+		private var CurFrame	 	: uint = 0;
 		
 //		-----------------------------------------------------------------------
 		
@@ -124,23 +124,23 @@ package com.cell.gfx.game
 			return AnimateNames[anim];
 		}
 		
-		public function getAnimateCount() : int {
+		public function getAnimateCount() : uint {
 			return FrameAnimate.length;
 		}
 		
-		public function getFrameCount(anim:int) : int {
+		public function getFrameCount(anim:int) : uint {
 			return FrameAnimate[anim].length;
 		}
 		
-		public function getCurrentFrameCount() : int {
+		public function getCurrentFrameCount() : uint {
 			return FrameAnimate[CurAnimate].length;
 		}
 		
-		public function getCurrentFrame() : int {
+		public function getCurrentFrame() : uint {
 			return CurFrame;
 		}
 		
-		public function getCurrentAnimate() : int {
+		public function getCurrentAnimate() : uint {
 			return CurAnimate;
 		}
 		
@@ -160,69 +160,80 @@ package com.cell.gfx.game
 		
 		//	------------------------------------------------------------------------------------------
 		
-		
-		public function setCurrentAnimate(anim:int) : int {
-			return setCurrentFrame(anim, 0);
-		}
-		
 		/**
-		 * 
 		 * @return
-		 *  0 : normal <br>
-		 *  1 : big than frame <br>
-		 * -1 : less than frame <br>
-		 *  2 : big than anim <br>
-		 * -2 : less than anim <br>
+		 *  0 : 无变化 <br>
+		 * >0 : 动画+ <br>
+		 * <0 : 动画- <br>
 		 * */
-		public function setCurrentFrame(anim:uint, frame:uint, restrict:Boolean=false, cyc:Boolean=false) : int {
-			if (anim != CurAnimate || CurFrame != frame) {
+		public function setCurrentAnimate(anim:uint, restrict:Boolean=false, cyc:Boolean=false) : int {
+			if (anim != CurAnimate) {
+				var old_anim : uint = CurAnimate;
 				if (cyc) {
 					this.CurAnimate = CMath.cycNum(0, anim,  getAnimateCount());
-					this.CurFrame   = CMath.cycNum(0, frame, getCurrentFrameCount());
 				}
 				else if (restrict) {
 					if (anim >= getAnimateCount()) {
 						this.CurAnimate = getAnimateCount()-1;
 					}
-					if (frame >= getCurrentFrameCount()) {
-						this.CurFrame = getCurrentFrameCount()-1;
-					}
 				}
-//				repaint();
+				return CurAnimate - old_anim;
 			}
 			return 0;
 		}
 		
 		/**
-		 * @return 是否最后一帧
-		 */
-		public function nextFrame() : Boolean {
-			setCurrentFrame(CurAnimate, CurFrame+1, true);
-			return isEndFrame();
+		 * @return
+		 *  0 : 无变化 <br>
+		 * >0 : 帧+ <br>
+		 * <0 : 帧- <br>
+		 * */
+		public function setCurrentFrame(frame:uint, restrict:Boolean=false, cyc:Boolean=false) : int {
+			if (CurFrame != frame) {
+				var old_frame : uint  = CurFrame;
+				if (cyc) {
+					this.CurFrame   = CMath.cycNum(0, frame, getCurrentFrameCount());
+				}
+				else if (restrict) {
+					if (frame >= getCurrentFrameCount()) {
+						this.CurFrame = getCurrentFrameCount()-1;
+					}
+				}
+				return CurFrame - old_frame;
+			}
+			return 0;
 		}
 		
 		/**
-		 * @return 是否最后一帧
-		 */
-		public function nextCycFrame() : Boolean {
-			setCurrentFrame(CurAnimate, CurFrame+1, false, true);
-			return isEndFrame();
-		}
-		
-		/**
+		 * @see setCurrentFrame
 		 * @return 是否第一帧
 		 */
-		public function prewFrame() : Boolean {
-			setCurrentFrame(CurAnimate, CurFrame-1, true);
-			return isBeginFrame();
+		public function nextFrame() : int {
+			return  setCurrentFrame(CurFrame+1, true);
 		}
 		
 		/**
+		 * @see setCurrentFrame
 		 * @return 是否第一帧
 		 */
-		public function prewCycFrame() : Boolean {
-			setCurrentFrame(CurAnimate, CurFrame-1, false, true);
-			return isBeginFrame();
+		public function nextCycFrame() : int {
+			return setCurrentFrame(CurFrame+1, false, true);
+		}
+		
+		/**
+		 * @see setCurrentFrame
+		 * @return 是否第一帧
+		 */
+		public function prewFrame() : int {
+			return setCurrentFrame(CurFrame-1, true);
+		}
+		
+		/**
+		 * @see setCurrentFrame
+		 * @return 是否第一帧
+		 */
+		public function prewCycFrame() : int {
+			return setCurrentFrame(CurFrame-1, false, true);
 		}
 		
 		
