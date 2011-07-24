@@ -166,16 +166,14 @@ package com.cell.gfx.game
 		 * >0 : 动画+ <br>
 		 * <0 : 动画- <br>
 		 * */
-		public function setCurrentAnimate(anim:uint, restrict:Boolean=false, cyc:Boolean=false) : int {
+		public function setCurrentAnimate(anim:uint, cyc:Boolean=false) : int {
 			if (anim != CurAnimate) {
 				var old_anim : uint = CurAnimate;
 				if (cyc) {
 					this.CurAnimate = CMath.cycNum(0, anim,  getAnimateCount());
 				}
-				else if (restrict) {
-					if (anim >= getAnimateCount()) {
-						this.CurAnimate = getAnimateCount()-1;
-					}
+				else if (anim >= getAnimateCount()) {
+					this.CurAnimate = getAnimateCount()-1;
 				}
 				return CurAnimate - old_anim;
 			}
@@ -188,16 +186,14 @@ package com.cell.gfx.game
 		 * >0 : 帧+ <br>
 		 * <0 : 帧- <br>
 		 * */
-		public function setCurrentFrame(frame:uint, restrict:Boolean=false, cyc:Boolean=false) : int {
+		public function setCurrentFrame(frame:uint, cyc:Boolean=false) : int {
 			if (CurFrame != frame) {
 				var old_frame : uint  = CurFrame;
 				if (cyc) {
 					this.CurFrame   = CMath.cycNum(0, frame, getCurrentFrameCount());
 				}
-				else if (restrict) {
-					if (frame >= getCurrentFrameCount()) {
-						this.CurFrame = getCurrentFrameCount()-1;
-					}
+				else if (frame >= getCurrentFrameCount()) {
+					this.CurFrame = getCurrentFrameCount()-1;
 				}
 				return CurFrame - old_frame;
 			}
@@ -209,7 +205,7 @@ package com.cell.gfx.game
 		 * @return 是否第一帧
 		 */
 		public function nextFrame() : int {
-			return  setCurrentFrame(CurFrame+1, true);
+			return  setCurrentFrame(CurFrame+1, false);
 		}
 		
 		/**
@@ -217,7 +213,7 @@ package com.cell.gfx.game
 		 * @return 是否第一帧
 		 */
 		public function nextCycFrame() : int {
-			return setCurrentFrame(CurFrame+1, false, true);
+			return setCurrentFrame(CurFrame+1, true);
 		}
 		
 		/**
@@ -225,7 +221,7 @@ package com.cell.gfx.game
 		 * @return 是否第一帧
 		 */
 		public function prewFrame() : int {
-			return setCurrentFrame(CurFrame-1, true);
+			return setCurrentFrame(CurFrame-1, false);
 		}
 		
 		/**
@@ -233,7 +229,7 @@ package com.cell.gfx.game
 		 * @return 是否第一帧
 		 */
 		public function prewCycFrame() : int {
-			return setCurrentFrame(CurFrame-1, false, true);
+			return setCurrentFrame(CurFrame-1, true);
 		}
 		
 		
