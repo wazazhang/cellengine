@@ -150,14 +150,12 @@
 				if (cspr000000 != null)
 				{
 					cspr000000.src.setCurrentFrame(
-						cspr000000.src.getCurrentAnimate()+CMath.getDirect(event.delta), 
-						0, false, true);
+						cspr000000.src.getCurrentAnimate()+CMath.getDirect(event.delta), true);
 				}
 				if (cspr000002 != null)
 				{	
 					cspr000002.src.setCurrentFrame(
-						cspr000002.src.getCurrentAnimate()+CMath.getDirect(event.delta), 
-						0, false, true);
+						cspr000002.src.getCurrentAnimate()+CMath.getDirect(event.delta), true);
 				}
 				cscene.getCamera().move(0, event.delta);
 				cscene.repaint();
