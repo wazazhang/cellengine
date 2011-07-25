@@ -11,13 +11,13 @@ package com.cell.gfx
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
-	public class G2DMapView extends Sprite implements IImageObserver
+	public class CellMapView extends Sprite implements IImageObserver
 	{
 		protected var Map		: CMap;
 		protected var Camera	: CCamera;
 		protected var cg		: IGraphics;
 		
-		public function G2DMapView(map:CMap, viewWidth:int, viewHeight:int)
+		public function CellMapView(map:CMap, viewWidth:int, viewHeight:int)
 		{			
 			this.cg		= new CGraphicsDisplay(graphics);
 			this.Map 	= map;

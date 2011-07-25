@@ -14,14 +14,14 @@ package com.cell.gfx
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
-	public class G2DSprite extends Sprite implements IImageObserver
+	public class CellSprite extends Sprite implements IImageObserver
 	{
 		public static var DEBUG : Boolean = true;
 		
 		private var spr		: CSprite;
 		private var cg		: IGraphics;
 		
-		public function G2DSprite(spr:CSprite)
+		public function CellSprite(spr:CSprite)
 		{
 			this.spr = spr;
 			this.cg = new CGraphicsDisplay(graphics);			

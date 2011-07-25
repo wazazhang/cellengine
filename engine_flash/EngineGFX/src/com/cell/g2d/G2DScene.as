@@ -1,4 +1,4 @@
-package com.cell.gfx
+package com.cell.g2d
 {
 	import com.cell.gameedit.OutputLoader;
 	import com.cell.gameedit.ResourceEvent;
@@ -15,6 +15,7 @@ package com.cell.gfx
 	import com.cell.gfx.game.IImageObserver;
 	
 	import flash.display.Sprite;
+	import com.cell.gfx.CellSprite;
 
 	public class G2DScene extends Sprite
 	{
@@ -29,12 +30,14 @@ package com.cell.gfx
 			this.resource = res;
 			
 			for each (var obj:SpriteObject in world.Sprs) {
-				var unit : G2DSprite = createUnit(obj);
-				unit.x = obj.X;
-				unit.y = obj.Y;
-				unit.getCSprite().setCurrentAnimate(obj.Anim);
-				unit.getCSprite().setCurrentFrame(obj.Frame);
-				addChild(unit);
+				var unit : CellSprite = createUnit(obj);
+				if (unit != null) {
+					unit.x = obj.X;
+					unit.y = obj.Y;
+					unit.getCSprite().setCurrentAnimate(obj.Anim);
+					unit.getCSprite().setCurrentFrame(obj.Frame);
+					addChild(unit);
+				}
 			}
 		}
 		
@@ -43,11 +46,14 @@ package com.cell.gfx
 			return resource;
 		}
 		
-		protected function createUnit(obj:SpriteObject) : G2DSprite {
+		protected function createUnit(obj:SpriteObject) : CellSprite 
+		{
 			var cspr : CSprite = resource.getSprite(obj.SprID);
-			var ret : G2DSprite = new G2DSprite(cspr);
+			var ret : CellSprite = new CellSprite(cspr);
 			return ret;
 		}
+		
+		
 	}
 	
 	

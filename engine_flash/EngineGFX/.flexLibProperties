@@ -12,7 +12,8 @@
     <classEntry path="com.cell.gameedit.output.XmlDirTiles"/>
     <classEntry path="com.cell.gfx.game.CScene"/>
     <classEntry path="com.cell.gameedit.output.XmlDirMap"/>
-    <classEntry path="com.cell.gfx.G2DMapView"/>
+    <classEntry path="com.cell.gfx.CellMapView"/>
+    <classEntry path="com.cell.gfx.CellScene"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
