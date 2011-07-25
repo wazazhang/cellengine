@@ -108,7 +108,7 @@ namespace CellGameEdit.PM
 
         
         
-        public void initDeepNodes()
+        private void initDeepNodes()
         {
             if (MapClip != null)
             {
@@ -148,7 +148,8 @@ namespace CellGameEdit.PM
                 }
             }
         }
-        public DeepNode putTileDeep(int dx, int dy, int srcTile, int srcFlip)
+
+        private DeepNode putTileDeep(int dx, int dy, int srcTile, int srcFlip)
         {
             String key = srcTile + "_" + srcFlip;
             DeepNode value = new DeepNode(dx, dy);
@@ -165,7 +166,8 @@ namespace CellGameEdit.PM
 
             return value;
         }
-        public DeepNode getTileDeep(int tile, int flip) 
+
+        private DeepNode getTileDeep(int tile, int flip) 
         {
             try
             {
@@ -177,7 +179,7 @@ namespace CellGameEdit.PM
 
 
 
-        public void initFixNodes()
+        private void initFixNodes()
         {
             if (MapClip != null)
             {
@@ -228,7 +230,7 @@ namespace CellGameEdit.PM
                 }
             }
         }
-        public FixNode putFixNode(int sx, int sy, int dx, int dy, int tile, int flip)
+        private FixNode putFixNode(int sx, int sy, int dx, int dy, int tile, int flip)
         {
             String key = sx + "_" + sy + "_" + dx + "_" + dy;
             FixNode value = new FixNode(tile, flip);
@@ -240,7 +242,7 @@ namespace CellGameEdit.PM
             return value;
 
         }
-        public FixNode getFixNode(int sx, int sy, int dx, int dy)
+        private FixNode getFixNode(int sx, int sy, int dx, int dy)
         {
             try
             {
@@ -286,15 +288,14 @@ namespace CellGameEdit.PM
                             int dstFlip = map.getTileFlip(dbx, dby);
                             DeepNode dstDeep = getTileDeep(dstTile, dstFlip);
 
-                            //if (dstDeep == null)
+                            if (dstDeep == null)
                             {
                                 srcTile = MapClip.getTileID(x, y);
                                 srcFlip = MapClip.getTileFlip(x, y);
                                 map.putTile(srcTile, dbx, dby);
                                 map.putFlip(srcFlip, dbx, dby);
                             }
-                            //else
-                            if (false)
+                            else
                             {
                                 if (dstDeep.Len < srcDeep.Len)//联合
                                 {
@@ -316,6 +317,7 @@ namespace CellGameEdit.PM
 
                                             if (fix != null)
                                             {
+                                               // Console.WriteLine("联合 : " + x + ", " + y);
                                                 map.putTile(fix.Tile, dbx, dby);
                                                 map.putFlip(fix.Flip, dbx, dby);
                                             }
@@ -338,6 +340,7 @@ namespace CellGameEdit.PM
                                         }
                                     }
 
+                                   // Console.WriteLine("覆盖 : " + x + ", " + y);
                                     if (fix != null)
                                     {
                                         map.putTile(fix.Tile, dbx, dby);
@@ -354,6 +357,8 @@ namespace CellGameEdit.PM
                                 {
                                     if (srcTile != dstTile || srcFlip != dstFlip)//冲突
                                     {
+                                       // 
+
                                         if (srcDeep.Len == 0 || dstDeep.Len == 0)
                                         {
                                             map.putTile(srcTile, dbx, dby);
@@ -361,18 +366,36 @@ namespace CellGameEdit.PM
                                         }
                                         else
                                         {
-                                            FixNode fix = getFixNode(srcDeep.DX, srcDeep.DY, dstDeep.DX, dstDeep.DY);
+                                            FixNode fix = null;
+//冲突 : 0, 1
+//srcDeep : -1, 0
+//dstDeep : 0, 1
 
+//冲突 : 1, 0
+//srcDeep : 0, -1
+//dstDeep : 1, 0
+
+                                            Console.WriteLine("冲突 : " + x + ", " + y);
+                                            Console.WriteLine("srcDeep : " + srcDeep.DX + ", " + srcDeep.DY);
+                                            Console.WriteLine("dstDeep : " + dstDeep.DX + ", " + dstDeep.DY);
+
+                                            if (x != 0 && y != 0)
+                                            {
+                                                fix = getFixNode(srcDeep.DX, srcDeep.DY, dstDeep.DX, dstDeep.DY);
+                                            }
+                                           
                                             if (fix != null)
                                             {
                                                 map.putTile(fix.Tile, dbx, dby);
                                                 map.putFlip(fix.Flip, dbx, dby);
                                             }
-                                            //if (srcDeep.DX != 0 && srcDeep.DX == -dstDeep.DX &&
-                                            //    srcDeep.DY != 0 && srcDeep.DY == -dstDeep.DY)
-                                            //{
+                                            /*
+                                            if (srcDeep.DX != 0 && srcDeep.DX == -dstDeep.DX &&
+                                                srcDeep.DY != 0 && srcDeep.DY == -dstDeep.DY)
+                                            {
                                                
-                                            //}
+                                            }
+                                            */
                                             else
                                             {
                                                 int sdx = x;
@@ -412,7 +435,7 @@ namespace CellGameEdit.PM
         }
 
 
-        public void refreshRegion()
+        private void refreshRegion()
         {
             if (MapClip != null)
             {
