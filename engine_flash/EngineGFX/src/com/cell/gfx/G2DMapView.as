@@ -3,11 +3,13 @@ package com.cell.gfx
 	
 	import com.cell.gameedit.ResourceEvent;
 	import com.cell.gfx.game.CCamera;
+	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.IImageObserver;
 	
 	import flash.display.Sprite;
+	import flash.geom.Rectangle;
 
 	public class G2DMapView extends Sprite implements IImageObserver
 	{
@@ -17,10 +19,12 @@ package com.cell.gfx
 		
 		public function G2DMapView(map:CMap, viewWidth:int, viewHeight:int)
 		{			
+			this.cg		= new CGraphicsDisplay(graphics);
 			this.Map 	= map;
 			this.Camera = new CCamera(viewWidth, viewHeight, map);
 			this.repaint();		
 			this.Map.getAnimates().getImages().addImageObserver(this);
+			this.scrollRect = new Rectangle(0, 0, viewWidth, viewHeight);
 		}
 		
 		public function getMap() : CMap {
