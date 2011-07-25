@@ -19,9 +19,9 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="EngineTest.mxml"/>
     <application path="EngineTestSFS.mxml"/>
-    <application path="TestGFX.mxml"/>
+    <application path="EngineTestGFX.mxml"/>
+    <application path="EngineTest.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

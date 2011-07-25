@@ -1,0 +1,1370 @@
+<entry>
+<!--
+<OUTPUT>		.\output\scene.xml
+<IMAGE_OUTPUT>	.\output\
+<FORMAT_NUMBER_ARRAY_1D>    <>,
+<FORMAT_STRING_ARRAY_1D>	<>,
+<FORMAT_ARRAY_1D>			<>,
+<FORMAT_ARRAY_2D>			{<>},
+<FIXED_STRING_ARRAY>		char,
+-->
+<IMAGE_TYPE>png
+</IMAGE_TYPE>
+<IMAGE_TILE>false
+</IMAGE_TILE>
+<IMAGE_GROUP>true
+</IMAGE_GROUP>
+
+
+<resource images_count="2" map_count="0" sprite_count="44" >
+	
+	<images index="0" name="jpg" size="36">
+		<clip index="0" x="0" y="0" width="512" height="512" data="" />
+		<clip index="1" x="512" y="0" width="512" height="512" data="" />
+		<clip index="2" x="1024" y="0" width="512" height="512" data="" />
+		<clip index="3" x="1536" y="0" width="512" height="512" data="" />
+		<clip index="4" x="0" y="512" width="512" height="512" data="" />
+		<clip index="5" x="512" y="512" width="512" height="512" data="" />
+		<clip index="6" x="1024" y="512" width="512" height="512" data="" />
+		<clip index="7" x="1536" y="512" width="512" height="512" data="" />
+		<clip index="8" x="0" y="1024" width="512" height="512" data="" />
+		<clip index="9" x="512" y="1024" width="512" height="512" data="" />
+		<clip index="10" x="1024" y="1024" width="512" height="512" data="" />
+		<clip index="11" x="1536" y="1024" width="512" height="512" data="" />
+		<clip index="12" x="0" y="0" width="0" height="0" data="" />
+		<clip index="13" x="0" y="0" width="0" height="0" data="" />
+		<clip index="14" x="0" y="0" width="0" height="0" data="" />
+		<clip index="15" x="0" y="0" width="0" height="0" data="" />
+		<clip index="16" x="0" y="0" width="0" height="0" data="" />
+		<clip index="17" x="0" y="0" width="0" height="0" data="" />
+		<clip index="18" x="0" y="0" width="0" height="0" data="" />
+		<clip index="19" x="0" y="0" width="0" height="0" data="" />
+		<clip index="20" x="0" y="0" width="0" height="0" data="" />
+		<clip index="21" x="0" y="0" width="0" height="0" data="" />
+		<clip index="22" x="0" y="0" width="0" height="0" data="" />
+		<clip index="23" x="0" y="0" width="0" height="0" data="" />
+		<clip index="24" x="0" y="0" width="0" height="0" data="" />
+		<clip index="25" x="0" y="0" width="0" height="0" data="" />
+		<clip index="26" x="0" y="0" width="0" height="0" data="" />
+		<clip index="27" x="0" y="0" width="0" height="0" data="" />
+		<clip index="28" x="0" y="0" width="0" height="0" data="" />
+		<clip index="29" x="0" y="0" width="0" height="0" data="" />
+		<clip index="30" x="0" y="0" width="0" height="0" data="" />
+		<clip index="31" x="0" y="0" width="0" height="0" data="" />
+		<clip index="32" x="0" y="0" width="0" height="0" data="" />
+		<clip index="33" x="0" y="0" width="0" height="0" data="" />
+		<clip index="34" x="0" y="0" width="0" height="0" data="" />
+		<clip index="35" x="0" y="0" width="0" height="0" data="" />
+	</images>
+<images index="1" name="png" size="36">
+		<clip index="0" x="609" y="1087" width="77" height="240" data="" />
+		<clip index="1" x="450" y="1237" width="152" height="108" data="" />
+		<clip index="2" x="462" y="1033" width="147" height="204" data="" />
+		<clip index="3" x="732" y="958" width="212" height="266" data="" />
+		<clip index="4" x="944" y="985" width="100" height="341" data="" />
+		<clip index="5" x="0" y="1049" width="91" height="324" data="" />
+		<clip index="6" x="1044" y="985" width="429" height="421" data="" />
+		<clip index="7" x="0" y="1373" width="80" height="119" data="" />
+		<clip index="8" x="0" y="0" width="0" height="0" data="" />
+		<clip index="9" x="0" y="0" width="0" height="0" data="" />
+		<clip index="10" x="0" y="0" width="0" height="0" data="" />
+		<clip index="11" x="0" y="0" width="0" height="0" data="" />
+		<clip index="12" x="0" y="0" width="135" height="365" data="" />
+		<clip index="13" x="135" y="0" width="249" height="328" data="" />
+		<clip index="14" x="384" y="0" width="313" height="385" data="" />
+		<clip index="15" x="697" y="0" width="446" height="498" data="" />
+		<clip index="16" x="135" y="328" width="248" height="175" data="" />
+		<clip index="17" x="1143" y="0" width="184" height="272" data="" />
+		<clip index="18" x="1143" y="272" width="145" height="210" data="" />
+		<clip index="19" x="1327" y="0" width="247" height="261" data="" />
+		<clip index="20" x="271" y="503" width="96" height="98" data="" />
+		<clip index="21" x="0" y="0" width="0" height="0" data="" />
+		<clip index="22" x="91" y="1137" width="359" height="395" data="" />
+		<clip index="23" x="0" y="503" width="271" height="236" data="" />
+		<clip index="24" x="383" y="385" width="150" height="385" data="" />
+		<clip index="25" x="533" y="385" width="150" height="362" data="" />
+		<clip index="26" x="683" y="498" width="162" height="404" data="" />
+		<clip index="27" x="845" y="498" width="136" height="460" data="" />
+		<clip index="28" x="0" y="739" width="157" height="310" data="" />
+		<clip index="29" x="981" y="498" width="426" height="487" data="" />
+		<clip index="30" x="1407" y="261" width="264" height="440" data="" />
+		<clip index="31" x="157" y="739" width="85" height="194" data="" />
+		<clip index="32" x="242" y="770" width="220" height="367" data="" />
+		<clip index="33" x="462" y="770" width="167" height="263" data="" />
+		<clip index="34" x="629" y="902" width="103" height="185" data="" />
+		<clip index="35" x="1473" y="701" width="252" height="480" data="" />
+	</images>
+
+	
+	
+	
+	
+	<sprite index="0" name="tile01_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="0" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="1" name="tile02_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="1" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="2" name="tile03_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="2" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="3" name="tile04_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="3" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="4" name="tile05_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="4" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="5" name="tile06_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="5" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="6" name="tile07_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="6" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="7" name="tile08_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="7" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="8" name="tile09_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="8" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="9" name="tile10_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="9" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="10" name="tile11_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="10" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="11" name="tile12_Copy"
+		images_name="jpg"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="11" x="0" y="0" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="12" name="object01"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="12" x="0" y="-365" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="13" name="object02"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="13" x="0" y="-328" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="14" name="object03"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="14" x="0" y="-385" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="15" name="object04"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="15" x="0" y="-497" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="16" name="object05"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="17" x="0" y="-272" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="17" name="object06"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="18" x="0" y="-210" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="18" name="object07"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="19" x="0" y="-261" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="19" name="object08"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="22" x="0" y="-395" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="20" name="object09"
+		images_name="png"
+		scene_part_count="4"
+		scene_frame_count="2"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="2">
+		
+		
+		<scene_part index="0" tile="0" x="8" y="-174" trans="0" />
+		<scene_part index="1" tile="21" x="1" y="-406" trans="4" />
+		<scene_part index="2" tile="0" x="39" y="-172" trans="0" />
+		<scene_part index="3" tile="21" x="1" y="-405" trans="0" />
+		
+		<scene_frame index="0" data_size="2" data="0,1," />
+		<scene_frame index="1" data_size="2" data="2,3," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1,1," 
+			names="4,0000,4,0001," 
+			animates="{0,},{1,},"
+			cd_map="{0,},{0,},"
+			cd_atk="{0,},{0,},"
+			cd_def="{0,},{0,},"
+			cd_ext="{0,},{0,},"
+		/>
+
+	</sprite>
+<sprite index="21" name="object10"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="16" x="0" y="-175" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="22" name="object11"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="23" x="0" y="-236" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="23" name="object12"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="20" x="0" y="-98" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="24" name="object13"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="24" x="0" y="-385" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="25" name="object14"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="25" x="0" y="-362" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="26" name="object15"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="26" x="0" y="-404" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="27" name="object16"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="27" x="0" y="-460" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="28" name="object17"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="29" x="0" y="-487" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="29" name="object18"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="30" x="0" y="-440" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="30" name="object19"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="35" x="0" y="-480" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="31" name="object20"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="28" x="0" y="-310" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="32" name="object21"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="31" x="0" y="-194" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="33" name="object22"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="32" x="0" y="-367" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="34" name="object23"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="33" x="0" y="-263" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="35" name="object24"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="34" x="0" y="-185" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="36" name="object25"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="6" x="0" y="-421" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="37" name="object26"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="2" x="0" y="-204" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="38" name="object27"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="4" x="0" y="-341" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="39" name="object28"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="3" x="0" y="-266" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="40" name="object29"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="6" x="2" y="-421" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="41" name="object30"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="0" x="0" y="-240" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="42" name="object31"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="5" x="0" y="-324" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+<sprite index="43" name="object32"
+		images_name="png"
+		scene_part_count="1"
+		scene_frame_count="1"
+		cd_part_count="0"
+		cd_frame_count="1"
+		animate_count="1">
+		
+		
+		<scene_part index="0" tile="7" x="0" y="-119" trans="0" />
+		
+		<scene_frame index="0" data_size="1" data="0," />
+		
+		
+		<cd_frame index="0" data_size="0" data="" />
+		
+		<frames 
+			counts="1," 
+			names="4,0000," 
+			animates="{0,},"
+			cd_map="{0,},"
+			cd_atk="{0,},"
+			cd_def="{0,},"
+			cd_ext="{0,},"
+		/>
+
+	</sprite>
+
+	
+</resource>
+
+
+
+<level world_count="1">
+
+	
+	<world index="0" name="000000" 
+		grid_x_count="64"
+		grid_y_count="48"
+		grid_w="32"
+		grid_h="32"
+		width="2048"
+		height="1536"
+		unit_count_map="0"
+		unit_count_sprite="32"
+		waypoint_count="0"
+		region_count="0"
+		data="0,,"
+		terrain="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,-65536,-65536,-65536,-65536,0,0,0,0,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,0,0,0,0,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,0,0,0,0,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,0,-65536,-65536,0,-65536,-65536,0,0,0,0,0,0,-65536,-65536,0,-65536,-65536,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,0,-65536,-65536,0,-65536,-65536,0,0,-65536,-65536,-65536,0,-65536,-65536,0,-65536,-65536,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,-65536,-65536,0,-65536,-65536,0,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,-65536,-65536,0,-65536,-65536,0,-65536,0,0,-65536,0,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,-65536,-65536,0,-65536,-65536,0,-65536,0,0,-65536,0,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,-65536,-65536,-65536,-65536,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,-65536,-65536,0,0,-65536,-65536,0,0,0,-65536,-65536,-65536,-65536,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,-65536,-65536,0,0,-65536,-65536,0,0,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,-65536,-65536,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,0,-65536,-65536,0,0,-65536,0,0,0,0,-65536,-65536,-65536,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,0,0,-65536,0,0,0,0,-65536,-65536,-65536,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,0,0,-65536,0,0,0,0,-65536,-65536,-65536,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,-8355712,-8355712,0,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,-65536,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,0,0,0,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-8355712,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,-65536,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-65536,-65536,-65536,-65536,-65536,-65536,-65536,">
+		
+		
+		<unit_sprite index="0" spr_name="S016_tile04_Copy" id="tile04_Copy" animate_id="0" frame_id="0" x="1536" y="0" images="jpg" spr_data="0,," />
+		<unit_sprite index="1" spr_name="S015_tile03_Copy" id="tile03_Copy" animate_id="0" frame_id="0" x="1024" y="0" images="jpg" spr_data="0,," />
+		<unit_sprite index="2" spr_name="S014_tile02_Copy" id="tile02_Copy" animate_id="0" frame_id="0" x="512" y="0" images="jpg" spr_data="0,," />
+		<unit_sprite index="3" spr_name="S013_tile01_Copy" id="tile01_Copy" animate_id="0" frame_id="0" x="0" y="0" images="jpg" spr_data="0,," />
+		<unit_sprite index="4" spr_name="S012_object03" id="object03" animate_id="0" frame_id="0" x="756" y="386" images="png" spr_data="0,," />
+		<unit_sprite index="5" spr_name="S013_object04" id="object04" animate_id="0" frame_id="0" x="1480" y="507" images="png" spr_data="0,," />
+		<unit_sprite index="6" spr_name="S020_tile08_Copy" id="tile08_Copy" animate_id="0" frame_id="0" x="1536" y="512" images="jpg" spr_data="0,," />
+		<unit_sprite index="7" spr_name="S019_tile07_Copy" id="tile07_Copy" animate_id="0" frame_id="0" x="1024" y="512" images="jpg" spr_data="0,," />
+		<unit_sprite index="8" spr_name="S018_tile06_Copy" id="tile06_Copy" animate_id="0" frame_id="0" x="512" y="512" images="jpg" spr_data="0,," />
+		<unit_sprite index="9" spr_name="S017_tile05_Copy" id="tile05_Copy" animate_id="0" frame_id="0" x="0" y="512" images="jpg" spr_data="0,," />
+		<unit_sprite index="10" spr_name="S023_object22" id="object22" animate_id="0" frame_id="0" x="1798" y="648" images="png" spr_data="0,," />
+		<unit_sprite index="11" spr_name="S024_object08" id="object08" animate_id="0" frame_id="0" x="0" y="693" images="png" spr_data="0,," />
+		<unit_sprite index="12" spr_name="S017_object15" id="object15" animate_id="0" frame_id="0" x="571" y="802" images="png" spr_data="0,," />
+		<unit_sprite index="13" spr_name="S016_object14" id="object14" animate_id="0" frame_id="0" x="421" y="874" images="png" spr_data="0,," />
+		<unit_sprite index="14" spr_name="S027_object30" id="object30" animate_id="0" frame_id="0" x="869" y="875" images="png" spr_data="0,," />
+		<unit_sprite index="15" spr_name="S018_object16" id="object16" animate_id="0" frame_id="0" x="733" y="875" images="png" spr_data="0,," />
+		<unit_sprite index="16" spr_name="S015_object13" id="object13" animate_id="0" frame_id="0" x="271" y="936" images="png" spr_data="0,," />
+		<unit_sprite index="17" spr_name="S014_object11" id="object11" animate_id="0" frame_id="0" x="0" y="936" images="png" spr_data="0,," />
+		<unit_sprite index="18" spr_name="S019_object17" id="object17" animate_id="0" frame_id="0" x="945" y="1001" images="png" spr_data="0,," />
+		<unit_sprite index="19" spr_name="S020_object18" id="object18" animate_id="0" frame_id="0" x="1371" y="1021" images="png" spr_data="0,," />
+		<unit_sprite index="20" spr_name="S024_tile12_Copy" id="tile12_Copy" animate_id="0" frame_id="0" x="1536" y="1024" images="jpg" spr_data="0,," />
+		<unit_sprite index="21" spr_name="S023_tile11_Copy" id="tile11_Copy" animate_id="0" frame_id="0" x="1024" y="1024" images="jpg" spr_data="0,," />
+		<unit_sprite index="22" spr_name="S022_tile10_Copy" id="tile10_Copy" animate_id="0" frame_id="0" x="512" y="1024" images="jpg" spr_data="0,," />
+		<unit_sprite index="23" spr_name="S021_tile09_Copy" id="tile09_Copy" animate_id="0" frame_id="0" x="0" y="1024" images="jpg" spr_data="0,," />
+		<unit_sprite index="24" spr_name="S022_object21" id="object21" animate_id="0" frame_id="0" x="1635" y="1054" images="png" spr_data="0,," />
+		<unit_sprite index="25" spr_name="" id="object20" animate_id="0" frame_id="0" x="1229" y="1159" images="png" spr_data="0,," />
+		<unit_sprite index="26" spr_name="S031_object32" id="object32" animate_id="0" frame_id="0" x="1968" y="1329" images="png" spr_data="0,," />
+		<unit_sprite index="27" spr_name="S025_object25" id="object25" animate_id="0" frame_id="0" x="31" y="1441" images="png" spr_data="0,," />
+		<unit_sprite index="28" spr_name="S030_object31" id="object31" animate_id="0" frame_id="0" x="499" y="1512" images="png" spr_data="0,," />
+		<unit_sprite index="29" spr_name="" id="object27" animate_id="0" frame_id="0" x="590" y="1535" images="png" spr_data="0,," />
+		<unit_sprite index="30" spr_name="S029_object28" id="object28" animate_id="0" frame_id="0" x="287" y="1536" images="png" spr_data="0,," />
+		<unit_sprite index="31" spr_name="" id="object26" animate_id="0" frame_id="0" x="689" y="1536" images="png" spr_data="0,," />
+		
+		
+		
+	
+	</world>
+	
+
+	
+	
+	
+</level>
+
+
+
+
+</entry>
+
+
+
+
+

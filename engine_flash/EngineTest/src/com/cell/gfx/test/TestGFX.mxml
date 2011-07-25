@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				chromeColor="#000000" enterFrame="uicomponent1_enterFrameHandler(event)"
+				initialize="initalize(event)" mouseWheel="uicomponent1_mouseWheelHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import com.cell.gameedit.ResourceEvent;
+			import com.cell.gameedit.ResourceLoader;
+			import com.cell.gfx.CellMapView;
+			import com.cell.gfx.CellSprite;
+			import com.cell.gfx.game.CGraphicsDisplay;
+			import com.cell.gfx.game.CImage;
+			import com.cell.gfx.game.CSprite;
+			import com.cell.util.CMath;
+			
+			import mx.events.FlexEvent;
+			
+			var cg : CGraphicsDisplay;
+			
+			var res_actor000000 : ResourceLoader;
+			
+			var cspr000000 : CellSprite;
+			
+			var cmapview : CellMapView;
+			
+//			var buffer : Bitmap = new Bitmap(new BitmapData(400, 300, true, 0x80ff0000));
+			
+			protected function initalize(event:FlexEvent):void
+			{
+				graphics.beginFill(0xffFF0000, 1);
+				graphics.drawRect(0, 0, 400, 300);
+				graphics.endFill();
+				cg = new CGraphicsDisplay(graphics);
+				
+//				ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
+//				ldr.load(new URLRequest("../actor_000000/output/tiles.png"));
+//				ldr.x = 400;
+//				ldr.y = 300;
+//				addChild(ldr);
+
+				res_actor000000 = new ResourceLoader("../actor_000000/output/actor.xml");
+				res_actor000000.addEventListener(ResourceEvent.LOADED, loaded_set);
+				res_actor000000.load();
+			}
+			
+			
+			private function complete(e:Event) : void
+			{
+				trace("complete");
+			}
+			
+			private function loaded_set(e:ResourceEvent) : void
+			{
+				trace("loaded_set : " + e.res.getUrl());
+				// ------------------------------------------
+				if (e.res == res_actor000000)
+				{
+					
+					cmapview = new CellMapView(res_actor000000.getMap("unamed_Map"), 400, 300);
+					cmapview.x = 400;
+					cmapview.y = 0;
+					addChild(cmapview);
+					
+					
+					cspr000000 = new CellSprite(res_actor000000.getSprite("000000"));	
+					cspr000000.x = width/4 + (width/2  * Math.random());
+					cspr000000.y = width/4 + (height/2 * Math.random());
+					addChild(cspr000000);
+				}
+				
+			}
+			
+
+			protected function uicomponent1_enterFrameHandler(event:Event):void
+			{
+//				graphics.clear();
+//				graphics.beginFill(0, 1);
+//				graphics.drawRect(0, 0, width, height);
+//				graphics.endFill();
+//				if (ldr.content != null) 
+//				{
+//					cg.drawImageRegion(
+//						new CImage((ldr.content as Bitmap).bitmapData),
+//						32, 48, 32, 48, 0, 50, 350);
+//				}
+				
+				
+//				cscene.repaint();
+//				cscene.getCamera().renderDebugBackBuffer(graphics, 0, 300);
+				
+				if (cspr000000 != null)
+				{
+					cspr000000.src.nextCycFrame();
+					cspr000000.repaint();
+				}
+			}
+
+
+			protected function uicomponent1_mouseWheelHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (cspr000000 != null)
+				{
+					cspr000000.src.setCurrentAnimate(
+						cspr000000.src.getCurrentAnimate()+CMath.getDirect(event.delta), true);
+				}
+				if (cmapview != null)
+				{
+					cmapview.getCamera().move(0, event.delta);
+					cmapview.repaint();
+				}
+			
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+</mx:UIComponent>
