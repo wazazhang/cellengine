@@ -13,6 +13,7 @@ package com.cell.gfx
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
 
 	public class CellSprite extends Sprite implements IImageObserver
 	{
@@ -20,6 +21,7 @@ package com.cell.gfx
 		
 		private var spr		: CSprite;
 		private var cg		: IGraphics;
+		private var pos		: Vector3D;
 		
 		public function CellSprite(spr:CSprite)
 		{
