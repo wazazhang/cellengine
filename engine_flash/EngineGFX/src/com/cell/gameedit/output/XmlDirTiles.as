@@ -81,7 +81,7 @@ package com.cell.gameedit.output
 			}
 			return ret;
 		}
-		public function addImagesLoadedListener(listener:IImageObserver):void
+		public function addImageObserver(listener:IImageObserver):void
 		{
 			if (loader != null) {
 				loader_wait.push(listener);

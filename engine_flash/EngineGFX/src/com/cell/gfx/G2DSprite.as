@@ -16,6 +16,8 @@ package com.cell.gfx
 
 	public class G2DSprite extends Sprite implements IImageObserver
 	{
+		public static var DEBUG : Boolean = true;
+		
 		private var spr		: CSprite;
 		private var cg		: IGraphics;
 		
@@ -24,7 +26,7 @@ package com.cell.gfx
 			this.spr = spr;
 			this.cg = new CGraphicsDisplay(graphics);			
 			this.repaint();
-			this.spr.getAnimates().getImages().addImagesLoadedListener(this);
+			this.spr.getAnimates().getImages().addImageObserver(this);
 		}
 		
 		public function get src() : CSprite
@@ -42,8 +44,8 @@ package com.cell.gfx
 			graphics.clear();
 			spr.render(cg, 0, 0, spr.getCurrentAnimate(), spr.getCurrentFrame());
 			graphics.moveTo( 0, 0);
-			{
-				graphics.lineStyle(2, 0xffff0000, 1);
+			if (DEBUG) {
+				graphics.lineStyle(1, 0xffff0000, 1);
 				graphics.lineTo(-8, 0); graphics.moveTo( 0, 0);
 				graphics.lineTo( 8, 0); graphics.moveTo( 0, 0);
 				graphics.lineTo( 0,-8); graphics.moveTo( 0, 0);
