@@ -3,6 +3,8 @@ package com.cell.util
 	public class Arrays
 	{
 		
+		
+		
 		public static function arrayCopy(
 			src:Array, src_pos:uint, 
 			dst:Array, dst_pos:uint, 
@@ -42,9 +44,6 @@ package com.cell.util
 			return true;
 		}
 		
-		
-		
-		
 		public static function newArray2D(r:uint, c:uint=0) : Array
 		{
 			var ret : Array = new Array(r);
@@ -53,5 +52,6 @@ package com.cell.util
 			}
 			return ret;
 		}
+		
 	}
 }

@@ -15,6 +15,9 @@ package com.cell.g2d
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.IImageObserver;
 	
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Scene;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
@@ -22,6 +25,7 @@ package com.cell.g2d
 	{
 		private var resource 	: ResourceLoader;
 		private var world_data	: WorldSet;
+		private var cur_time	: int = 0;
 		
 		public function G2DScene(
 			res:ResourceLoader,
@@ -40,12 +44,8 @@ package com.cell.g2d
 //			var bmpData:BitmapData = new BitmapData(1, 1);
 //			bmpData.draw(mc);
 			for each (var obj:SpriteObject in world.Sprs) {
-				var unit : CellSprite = createUnit(obj);
+				var unit : G2DUnit = createUnit(obj);
 				if (unit != null) {
-					unit.x = obj.X;
-					unit.y = obj.Y;
-					unit.getCSprite().setCurrentAnimate(obj.Anim);
-					unit.getCSprite().setCurrentFrame(obj.Frame);
 					addChild(unit);
 				}
 			}
@@ -64,11 +64,15 @@ package com.cell.g2d
 			return world_data;
 		}
 		
-		protected function createUnit(obj:SpriteObject) : CellSprite 
+		protected function createUnit(obj:SpriteObject) : G2DUnit 
 		{
 			var cspr : CSprite = resource.getSprite(obj.SprID);
-			var ret : CellSprite = new CellSprite(cspr);
-			return ret;
+			var unit : G2DCSprite = new G2DCSprite(cspr);
+			unit.x = obj.X;
+			unit.y = obj.Y;
+			unit.getCSprite().setCurrentAnimate(obj.Anim);
+			unit.getCSprite().setCurrentFrame(obj.Frame);
+			return unit;
 		}
 		
 		public function getCameraX() : int
@@ -146,6 +150,18 @@ package com.cell.g2d
 		public function moveCamera(dx:int, dy:int) : void 
 		{
 			locateCamera(getCameraX() + dx, getCameraY() + dy);
+		}
+		
+		/**
+		 * 每帧调用一次
+		 */
+		public function update() : void {
+			for (var i:int = 0; i<numChildren; i++) {
+				var s : DisplayObject = getChildAt(i);
+				if (s is G2DUnit) {
+					(s as G2DUnit).update();
+				}
+			}
 		}
 	}
 	
