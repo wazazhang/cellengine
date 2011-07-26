@@ -8,7 +8,9 @@
 				mouseWheel="uicomponent1_mouseWheelHandler(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.cell.g2d.G2DCSprite;
 			import com.cell.g2d.G2DScene;
+			import com.cell.g2d.intention.Motion;
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
 			import com.cell.gfx.CellMapView;
@@ -25,7 +27,7 @@
 			var res_scene000000 : ResourceLoader;
 			var res_actor000002 : ResourceLoader;
 			
-			var cspr000002 : CellSprite;
+			var cspr000002 : G2DCSprite;
 						
 			var cscene : G2DScene;
 
@@ -61,7 +63,7 @@
 				}
 				else if (e.res == res_actor000002)
 				{
-					cspr000002 = new CellSprite(res_actor000002.getSprite("000002"));	
+					cspr000002 = new G2DCSprite(res_actor000002.getSprite("000002"));	
 					cscene.addChild(cspr000002);
 				}
 			}
@@ -78,6 +80,7 @@
 					cspr000002.repaint();
 					
 					cscene.locateCameraCenter(cspr000002.x, cspr000002.y);
+					cscene.update();
 				}
 				
 			}
@@ -118,8 +121,12 @@
 					trace("evt  : " + cscene.mouseX + "," + cscene.mouseY);
 					trace("size : " + cscene.width + "," + cscene.height);
 					//cscene.locateCameraCenter(cscene.mouseX, cscene.mouseY);
-					cspr000002.x = cscene.mouseX;
-					cspr000002.y = cscene.mouseY;
+//					cspr000002.x = cscene.mouseX;
+//					cspr000002.y = cscene.mouseY;
+					cspr000002.addIntention(
+						"motion", 
+						new Motion().beginMove(cscene.mouseX, cscene.mouseY));
+					
 //					cscene.moveCamera(10, 0);
 				}
 			}
