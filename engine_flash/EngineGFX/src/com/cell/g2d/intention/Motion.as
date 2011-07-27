@@ -31,9 +31,10 @@ package com.cell.g2d.intention
 			var interval : int = cur_time - update_time;
 			update_time = cur_time;
 			if (target_pos != null)
-			{interval = 50;
+			{
+//				interval = 50;
 				var distance : Number = MathVector.getDistanceSpeed(move_speed, interval);
-				trace("interval:"+interval + "  distance:"+distance);
+//				trace("interval:"+interval + "  distance:"+distance);
 				if (MathVector.moveTo(unit, 
 					target_pos.getVectorX(), 
 					target_pos.getVectorY(), 
