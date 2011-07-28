@@ -19,6 +19,11 @@
     <classEntry path="com.cell.g2d.intention.Motion"/>
     <classEntry path="com.cell.g2d.intention.IIntention"/>
     <classEntry path="com.cell.g2d.G2DCSprite"/>
+    <classEntry path="com.cell.bms.file.HeadInfo"/>
+    <classEntry path="com.cell.bms.file.HeadDefine"/>
+    <classEntry path="com.cell.bms.file.DataCommand"/>
+    <classEntry path="com.cell.bms.file.NoteDefine"/>
+    <classEntry path="com.cell.bms.file.Note"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
