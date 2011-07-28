@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   enterFrame="enterFrameHandler(event)"
+			   initialize="initializeHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Accelerometer;
+			
+			import mx.events.FlexEvent;
+			
+			var acc1:Accelerometer = new Accelerometer();
+			var isSupported:Boolean = Accelerometer.isSupported;
+			
+			var accVector : Vector3D = new Vector3D();
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				checksupport();
+			}
+			
+			
+			
+			function checksupport():void {
+				if (isSupported) {
+					myTextField.text = "Accelerometer feature supported";
+					acc1.addEventListener(AccelerometerEvent.UPDATE, updateHandler);
+				} else {
+					myTextField.text = "Accelerometer feature not supported";
+				}
+			}
+			
+			function updateHandler(evt:AccelerometerEvent):void
+			{
+				var info : String = "at: " + evt.timestamp + "\n" + 
+					"acceleration X: " + evt.accelerationX + "\n" + 
+					"acceleration Y: " + evt.accelerationY + "\n" + 
+					"acceleration Z: " + evt.accelerationZ;
+				myTextField.text = String(info);
+				accVector.x = -evt.accelerationX;
+				accVector.y = evt.accelerationY;
+				accVector.z = evt.accelerationZ;
+				trace(info);
+			}
+			
+			
+			
+			protected function enterFrameHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				
+				var r : int = Math.min(canvas.width/2, canvas.height/2) - 10;
+				
+				canvas.graphics.clear();
+				canvas.graphics.beginFill(0xff808080, 1);
+				canvas.graphics.drawCircle(canvas.width/2, canvas.height/2, r);
+				canvas.graphics.endFill();
+				canvas.graphics.beginFill(0xffff8080, 1);
+				canvas.graphics.drawCircle(canvas.width/2, canvas.height/2, r*accVector.z);
+				canvas.graphics.endFill();
+				
+				canvas.graphics.moveTo(canvas.width/2, canvas.height/2);
+				canvas.graphics.lineStyle(1, 0xff00ff00, 1);
+				canvas.graphics.lineTo(
+					canvas.width/2 + accVector.x*r, 
+					canvas.height/2+ accVector.y*r);
+				canvas.graphics.endFill();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:TextArea id="myTextField" top="10" width="460" height="282" horizontalCenter="0"/>
+	<s:Group id="canvas" x="10" y="300" width="460" height="373">
+	</s:Group>
+</s:Application>
