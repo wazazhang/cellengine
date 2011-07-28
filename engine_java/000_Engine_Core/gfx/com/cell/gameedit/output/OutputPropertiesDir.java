@@ -41,7 +41,7 @@ public class OutputPropertiesDir extends OutputProperties
 		this.file_name	= path.substring(root.length());
 
 		// 读入基础属性
-		byte[] conf_data = loadRes(file, null);
+		byte[] conf_data = loadRes(file_name, null);
 		if (conf_data == null) {
 			throw new FileNotFoundException(file);
 		}
