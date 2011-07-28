@@ -75,8 +75,6 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 	public void removed(DisplayObjectContainer parent) {
 		super.removed(parent);
 		player.stop();
-		player.getBMSFile().dispose();
-		PlayerManager.mute();
 	}
 	
 	@Override

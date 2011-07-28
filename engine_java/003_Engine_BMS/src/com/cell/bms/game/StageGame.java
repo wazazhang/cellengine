@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 import com.cell.bms.BMSFile;
 import com.cell.bms.BMSPlayer;
+import com.cell.bms.PlayerManager;
 
 import com.g2d.Canvas;
 import com.g2d.Graphics2D;
@@ -40,6 +41,7 @@ public class StageGame extends Stage
 
 	public void removed(DisplayObjectContainer parent) {
 		bms_file.dispose();
+		PlayerManager.mute();
 	}
 	
 	public void update() {
