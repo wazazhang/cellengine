@@ -23,4 +23,10 @@ public class PlayerManager
 			return player;
 		}
 	}
+	
+	static public void mute() {
+		for (IPlayer player : players) {
+			player.stop();
+		}
+	}
 }

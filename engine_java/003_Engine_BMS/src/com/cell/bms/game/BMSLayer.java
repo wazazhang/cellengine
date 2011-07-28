@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.cell.bms.BMSPlayer;
 import com.cell.bms.BMSPlayerListener;
 import com.cell.bms.IDefineImage;
+import com.cell.bms.PlayerManager;
 import com.cell.bms.BMSFile.Note;
 import com.cell.gameedit.object.WorldSet;
 import com.cell.gameedit.object.WorldSet.SpriteObject;
@@ -68,6 +69,14 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 			setSize(parent.getWidth(), parent.getHeight());
 			player.start();
 		} 
+	}
+	
+	@Override
+	public void removed(DisplayObjectContainer parent) {
+		super.removed(parent);
+		player.stop();
+		player.getBMSFile().dispose();
+		PlayerManager.mute();
 	}
 	
 	@Override
