@@ -53,7 +53,7 @@
 				// ------------------------------------------
 				if (e.res == res_scene000000)
 				{
-					cscene = new G2DScene(res_scene000000, res_scene000000.getSetWorld("000000"), 400, 300);
+					cscene = new G2DScene(res_scene000000, res_scene000000.getSetWorld("000000"), 800, 600);
 					cscene.addEventListener(MouseEvent.MOUSE_DOWN, scene_mouseDown);
 					cscene.addEventListener(MouseEvent.MOUSE_OVER, scene_mouseOver);
 					addChild(cscene);
@@ -76,11 +76,10 @@
 //					cspr000002.x = mouseX;
 //					cspr000002.y = mouseY;
 					
+					cscene.update();
+					cscene.locateCameraCenter(cspr000002.x, cspr000002.y);
 					cspr000002.src.nextCycFrame();
 					cspr000002.repaint();
-					
-					cscene.locateCameraCenter(cspr000002.x, cspr000002.y);
-					cscene.update();
 				}
 				
 			}
