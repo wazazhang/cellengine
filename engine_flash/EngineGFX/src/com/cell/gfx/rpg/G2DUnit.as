@@ -1,6 +1,6 @@
-package com.cell.g2d
+package com.cell.gfx.rpg
 {
-	import com.cell.g2d.intention.IIntention;
+	import com.cell.gfx.rpg.intention.IIntention;
 	import com.cell.gfx.CellSprite;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.math.IVector2D;

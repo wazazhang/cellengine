@@ -14,11 +14,11 @@
     <classEntry path="com.cell.gameedit.output.XmlDirMap"/>
     <classEntry path="com.cell.gfx.CellMapView"/>
     <classEntry path="com.cell.gfx.CellScene"/>
-    <classEntry path="com.cell.g2d.G2DUnit"/>
+    <classEntry path="com.cell.gfx.rpg.G2DUnit"/>
     <classEntry path="com.cell.math.TVector2D"/>
-    <classEntry path="com.cell.g2d.intention.Motion"/>
-    <classEntry path="com.cell.g2d.intention.IIntention"/>
-    <classEntry path="com.cell.g2d.G2DCSprite"/>
+    <classEntry path="com.cell.gfx.rpg.intention.Motion"/>
+    <classEntry path="com.cell.gfx.rpg.intention.IIntention"/>
+    <classEntry path="com.cell.gfx.rpg.G2DCSprite"/>
     <classEntry path="com.cell.bms.file.HeadInfo"/>
     <classEntry path="com.cell.bms.file.HeadDefine"/>
     <classEntry path="com.cell.bms.file.DataCommand"/>

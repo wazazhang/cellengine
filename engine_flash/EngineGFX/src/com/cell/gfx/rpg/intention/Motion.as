@@ -1,6 +1,6 @@
-package com.cell.g2d.intention
+package com.cell.gfx.rpg.intention
 {
-	import com.cell.g2d.G2DUnit;
+	import com.cell.gfx.rpg.G2DUnit;
 	import com.cell.math.IVector2D;
 	import com.cell.math.MathVector;
 	import com.cell.math.TVector2D;

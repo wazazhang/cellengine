@@ -1,4 +1,4 @@
-package com.cell.g2d
+package com.cell.gfx.rpg
 {
 	import com.cell.gameedit.ResourceEvent;
 	import com.cell.gfx.game.CGraphicsDisplay;
@@ -8,7 +8,7 @@ package com.cell.g2d
 
 	public class G2DCSprite extends G2DUnit implements IImageObserver
 	{
-		public static var DEBUG : Boolean = true;
+		public static var DEBUG : Boolean = false;
 		
 		private var spr		: CSprite;
 		private var cg		: IGraphics;

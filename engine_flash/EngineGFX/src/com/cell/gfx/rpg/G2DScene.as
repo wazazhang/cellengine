@@ -1,4 +1,4 @@
-package com.cell.g2d
+package com.cell.gfx.rpg
 {
 	import com.cell.gameedit.OutputLoader;
 	import com.cell.gameedit.ResourceEvent;
