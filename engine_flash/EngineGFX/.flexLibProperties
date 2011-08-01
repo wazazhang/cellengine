@@ -24,6 +24,8 @@
     <classEntry path="com.cell.bms.file.DataCommand"/>
     <classEntry path="com.cell.bms.file.NoteDefine"/>
     <classEntry path="com.cell.bms.file.Note"/>
+    <classEntry path="com.cell.bms.BMSLoader"/>
+    <classEntry path="com.cell.bms.file.IDefineResourceManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

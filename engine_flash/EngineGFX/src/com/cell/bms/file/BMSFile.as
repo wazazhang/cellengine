@@ -84,13 +84,17 @@ package com.cell.bms.file
 		/**HashMap<DataCommand, ArrayList<Note>> */
 		private var data_note_table : Map	= new Map();
 		
+		private var res_manager		: IDefineResourceManager;
+		
 	//	--------------------------------------------------------------------------------------------------------------
 	
-		public function BMSFile(properties:String, line_div:int=256)
+		public function BMSFile(properties:String, 
+								res_manager:IDefineResourceManager,
+								line_div:int=256)
 		{
 			this.LINE_SPLIT_DIV		= line_div;
 			this.BEAT_DIV			= line_div / 4;
-			
+			this.res_manager		= res_manager;
 			for each (var cmd : String in DataCommand.values()) {
 				data_note_table.put(cmd, new Array());
 			}
@@ -166,10 +170,10 @@ package com.cell.bms.file
 				var	index		: String		= k.substring(k.length-2);
 				var value_res 	: IDefineResource	= null;
 				if (define == HeadDefine.BMP) {
-					value_res = createDefineResource(define, index);
+					value_res = res_manager.createDefineResource(define, index);
 				}
 				else if (define == HeadDefine.WAV) {
-					value_res = createDefineResource(define, index);
+					value_res = res_manager.createDefineResource(define, index);
 				}
 				var	note_value : NoteDefine	= new NoteDefine(define, index, v, value_res);
 				switch(define)
@@ -215,12 +219,7 @@ package com.cell.bms.file
 			return false;
 		}
 		
-		public function createDefineResource(
-			command: String,
-			value: String) : IDefineResource
-		{
-			return null;
-		}
+		
 		
 		public function createNote(
 			line : int,
@@ -231,7 +230,7 @@ package com.cell.bms.file
 			value : String) : Note
 		{
 			var note_define : NoteDefine = null;
-			var begin_pos	: Number	= getNotePosition(line, npos, ncount);
+			var begin_pos	: Number = getNotePosition(line, npos, ncount);
 			switch(command)
 			{
 				case DataCommand.INDEX_BMP_BG:
