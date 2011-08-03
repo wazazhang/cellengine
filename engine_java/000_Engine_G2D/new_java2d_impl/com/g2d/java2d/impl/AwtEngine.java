@@ -24,10 +24,6 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import sun.awt.Win32GraphicsConfig;
-import sun.java2d.d3d.D3DGraphicsConfig;
-import sun.java2d.opengl.WGLGraphicsConfig;
-
 import com.cell.exception.NotImplementedException;
 import com.cell.gfx.IImage;
 import com.cell.gfx.IPalette;
@@ -151,16 +147,17 @@ public class AwtEngine extends Engine
 	@Override
 	public String getGraphicConfigurationName()
 	{
-		if (gc instanceof D3DGraphicsConfig)
-			return "Hardware AWT D3D";
-		
-		if (gc instanceof WGLGraphicsConfig)
-			return "Hardware AWT OpenGL";
-
-		if (gc instanceof Win32GraphicsConfig)
-			return "Software";
-		
-		return "Unknown";
+//		if (gc instanceof D3DGraphicsConfig)
+//			return "Hardware AWT D3D";
+//		
+//		if (gc instanceof WGLGraphicsConfig)
+//			return "Hardware AWT OpenGL";
+//
+//		if (gc instanceof Win32GraphicsConfig)
+//			return "Software";
+//		
+//		return "Unknown";
+		return gc.getClass().getCanonicalName();
 	}
 
 	public Font createFont(String name, int style, int size) {
