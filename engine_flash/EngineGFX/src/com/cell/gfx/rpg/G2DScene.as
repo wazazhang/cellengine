@@ -7,6 +7,7 @@ package com.cell.gfx.rpg
 	import com.cell.gameedit.object.SpriteSet;
 	import com.cell.gameedit.object.WorldSet;
 	import com.cell.gameedit.object.worldset.SpriteObject;
+	import com.cell.gfx.CellScene;
 	import com.cell.gfx.CellSprite;
 	import com.cell.gfx.game.CCamera;
 	import com.cell.gfx.game.CGraphicsDisplay;
@@ -21,7 +22,7 @@ package com.cell.gfx.rpg
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
-	public class G2DScene extends Sprite
+	public class G2DScene extends CellScene
 	{
 		private var resource 	: ResourceLoader;
 		private var world_data	: WorldSet;
@@ -33,25 +34,15 @@ package com.cell.gfx.rpg
 			viewWidth:int, 
 			viewHeight:int)
 		{
-//			graphics.beginFill(0x00ff00, 1);
-//			graphics.drawRect(0, 0, world.Width, world.Height);
-//			graphics.endFill();			
+			super(viewWidth, viewHeight);
 			this.resource = res;
 			this.world_data = world;
-			this.scrollRect = new Rectangle(0, 0, viewWidth, viewHeight);
-//			this.opaqueBackground  = false;
-//			// Force DisplayObject update dimensions
-//			var bmpData:BitmapData = new BitmapData(1, 1);
-//			bmpData.draw(mc);
 			for each (var obj:SpriteObject in world.Sprs) {
 				var unit : G2DUnit = createUnit(obj);
 				if (unit != null) {
 					addChild(unit);
 				}
 			}
-//			unit_pan.width = world.Width;
-//			unit_pan.height = world.Height;
-//			this.cacheAsBitmap = true;
 		}
 		
 		public function getResource() : ResourceLoader
@@ -75,27 +66,7 @@ package com.cell.gfx.rpg
 			return unit;
 		}
 		
-		public function getCameraX() : int
-		{
-			return this.scrollRect.x;
-		}
-		
-		public function getCameraY() : int
-		{
-			return this.scrollRect.y;
-		}
-		
-		public function getCameraWidth()  : int
-		{
-			return this.scrollRect.width;
-		}
-		
-		public function getCameraHeight() : int
-		{
-			return this.scrollRect.height;
-		}
-		
-		public function setCameraSize(w:int, h:int) : void
+		override public function setCameraSize(w:int, h:int) : void
 		{
 			var rect : Rectangle = scrollRect;
 			
@@ -117,7 +88,7 @@ package com.cell.gfx.rpg
 			}
 		}
 		
-		public function locateCamera(x:int, y:int) : void 
+		override public function locateCamera(x:int, y:int) : void 
 		{
 			var rect : Rectangle = scrollRect;
 			
@@ -140,16 +111,6 @@ package com.cell.gfx.rpg
 				
 				this.scrollRect = rect;
 			}
-		}
-		
-		public function locateCameraCenter(x:int, y:int) : void 
-		{
-			locateCamera(x - scrollRect.width/2, y - scrollRect.height/2);
-		}
-		
-		public function moveCamera(dx:int, dy:int) : void 
-		{
-			locateCamera(getCameraX() + dx, getCameraY() + dy);
 		}
 		
 		/**
