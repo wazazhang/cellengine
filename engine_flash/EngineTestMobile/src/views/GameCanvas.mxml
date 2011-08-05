@@ -7,8 +7,8 @@
 				touchMove="touchMoveHandler(event)" touchTap="touchTapHandler(event)">
 	<fx:Script>
 		<![CDATA[
-			import com.cell.g2d.G2DCSprite;
-			import com.cell.g2d.G2DScene;
+			import com.cell.gfx.rpg.G2DCSprite;
+			import com.cell.gfx.rpg.G2DScene;
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
 			import com.cell.gfx.game.CGraphicsDisplay;
