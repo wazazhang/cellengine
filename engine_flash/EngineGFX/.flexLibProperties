@@ -30,6 +30,7 @@
     <classEntry path="com.cell.gfx.CellScreenManager"/>
     <classEntry path="com.cell.gfx.IScreenAdapter"/>
     <classEntry path="com.cell.gfx.CellScreen"/>
+    <classEntry path="com.cell.gfx.transition.AlphaTransition"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

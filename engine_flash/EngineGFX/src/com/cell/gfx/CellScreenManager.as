@@ -1,5 +1,7 @@
 package com.cell.gfx
 {
+	import com.cell.gfx.transition.AlphaTransition;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.getTimer;
@@ -20,13 +22,13 @@ package com.cell.gfx
 		private var next_screen_name	: String;
 		private var next_screen_args	: Array;
 		
-		private var transition			: IScreenTransition;
+		private var transition			: IScreenTransition ;
 				
-		public function CellScreenManager(adapter:IScreenAdapter)
+		public function CellScreenManager(width:int, height:int, adapter:IScreenAdapter)
 		{
 			this.adapter = adapter;
-			super.addEventListener(Event.ENTER_FRAME, onUpdate);
-			super.addEventListener(Event.EXIT_FRAME, onLastUpdate);
+			this.addEventListener(Event.ENTER_FRAME, onUpdate);
+			this.transition = new AlphaTransition(width, height, 0xffffff, 30);
 		}
 		
 		protected function onUpdate(e:Event) : void
@@ -43,12 +45,25 @@ package com.cell.gfx
 			if (next_screen_name != null) {
 				tryChangeStage();
 			}
-		}
-		
-		protected function onLastUpdate(e:Event) : void
-		{
-			if (this.transition != null) {
-				this.transition.render(this);
+			
+			if (isTransition()) {
+				if (contains(this.transition.asSprite())) {
+					var index : int = this.getChildIndex(this.transition.asSprite())
+					if (index != this.numChildren-1) {
+						this.swapChildrenAt(index, this.numChildren-1);
+					}
+					this.transition.render(this);
+				} else {
+					addChild(this.transition.asSprite());
+					trace("transition on : " + this.transition);
+				}
+			} else if (this.transition != null) {
+				if (contains(this.transition.asSprite())) {
+					if (next_screen_name == null) {
+						removeChild(this.transition.asSprite());
+						trace("transition off : " + this.transition);
+					}
+				}
 			}
 		}
 		
@@ -124,6 +139,10 @@ package com.cell.gfx
 		public function changeScreen(screen_name:String, args:Array=null) : void
 		{
 			this.next_screen_name = screen_name;
+			this.next_screen_args = args;
+			if (this.transition != null) {
+				this.transition.startTransitionOut();
+			}
 		}
 	}
 }

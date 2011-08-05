@@ -1,10 +1,13 @@
 package com.cell.gfx
 {
 	import flash.display.Graphics;
+	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
 	public interface IScreenTransition
 	{
+		function asSprite() : Sprite;
+		
 		/**开始进入当前屏幕*/
 		function startTransitionIn() : void;
 		
