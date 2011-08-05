@@ -159,6 +159,19 @@ package com.cell.gfx.game
 		
 		
 		//	------------------------------------------------------------------------------------------
+		/**
+		 * @return
+		 *  0 : 无变化 <br>
+		 * >0 : 动画+ <br>
+		 * <0 : 动画- <br>
+		 * */
+		public function setCurrentAnimateName(anim_name:String) : int {
+			var anim : int = findAnimateIndex(anim_name);
+			if (anim >= 0) {
+				return setCurrentAnimate(anim)
+			}
+			return 0;
+		}
 		
 		/**
 		 * @return
@@ -174,6 +187,9 @@ package com.cell.gfx.game
 				}
 				else if (anim >= getAnimateCount()) {
 					this.CurAnimate = getAnimateCount()-1;
+				} 
+				else {
+					this.CurAnimate = anim;
 				}
 				return CurAnimate - old_anim;
 			}
@@ -194,6 +210,9 @@ package com.cell.gfx.game
 				}
 				else if (frame >= getCurrentFrameCount()) {
 					this.CurFrame = getCurrentFrameCount()-1;
+				}
+				else {
+					this.CurFrame = frame;
 				}
 				return CurFrame - old_frame;
 			}

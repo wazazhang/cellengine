@@ -27,6 +27,9 @@
     <classEntry path="com.cell.bms.BMSLoader"/>
     <classEntry path="com.cell.bms.file.IDefineResourceManager"/>
     <classEntry path="com.cell.gfx.CellUnit"/>
+    <classEntry path="com.cell.gfx.CellScreenManager"/>
+    <classEntry path="com.cell.gfx.IScreenAdapter"/>
+    <classEntry path="com.cell.gfx.CellScreen"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
