@@ -12,7 +12,7 @@ package com.cell.gfx.game
 	 * @since 2006-11-29 
 	 * @version 1.0
 	 */
-	public class CCamera
+	public class CCamera extends CWorldCamera
 	{
 //		private var WindowX		: int;
 //		private var WindowY		: int;
@@ -90,6 +90,8 @@ package com.cell.gfx.game
 //			WindowW = windowW;
 //			WindowH = windowH;
 			
+			super(windowW, windowH);
+			
 			Map = map;
 			
 			CellW = map.getCellW();
@@ -158,7 +160,17 @@ package com.cell.gfx.game
 		}
 	
 		//----------------------------------------------------------------------------------------------------
-	
+		
+		override public function get x() : Number
+		{
+			return X;
+		}
+		
+		override public function get y() : Number
+		{
+			return Y;
+		}
+		
 		/**
 		 * get x within map </br>
 		 * @return x coordinate
@@ -194,7 +206,8 @@ package com.cell.gfx.game
 		 * @param x x 
 		 * @param y y
 		 */
-		public function setPos(x:int, y:int) : void {
+		override public function setPos(x:Number, y:Number) : void 
+		{
 			move(x - X, y - Y);
 		}
 	
@@ -204,7 +217,7 @@ package com.cell.gfx.game
 		 * @param px offset x
 		 * @param py offset y
 		 */
-		public function move(x:int, y:int) : void
+		override public function move(x:Number, y:Number) : void
 		{
 			var px : int = 0; 
 			var py : int = 0;
@@ -413,16 +426,16 @@ package com.cell.gfx.game
 				var h2 : int = WorldH - h1;
 				
 				if (w1 > 0 && h1 > 0) {
-					g.drawImageRegion(back_buff, vBufX, vBufY, w1, h1, 0, 0, 0);
+					g.drawImageRegion(back_buff, vBufX, vBufY, w1, h1, 0, 0);
 				}
 				if (w2 > 0 && h2 > 0) {
-					g.drawImageRegion(back_buff, 0, 0, w2, h2, 0, w1, h1);
+					g.drawImageRegion(back_buff, 0, 0, w2, h2, w1, h1);
 				}
 				if (w1 > 0 && h2 > 0) {
-					g.drawImageRegion(back_buff, vBufX, 0, w1, h2, 0, 0, h1);
+					g.drawImageRegion(back_buff, vBufX, 0, w1, h2, 0, h1);
 				}
 				if (w2 > 0 && h1 > 0) {
-					g.drawImageRegion(back_buff, 0, vBufY, w2, h1, 0, w1, 0);
+					g.drawImageRegion(back_buff, 0, vBufY, w2, h1, w1, 0);
 				}
 		}
 	

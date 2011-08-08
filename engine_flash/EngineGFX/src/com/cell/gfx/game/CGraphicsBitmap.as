@@ -2,6 +2,8 @@ package com.cell.gfx.game
 {
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 
 	public class CGraphicsBitmap implements IGraphics
 	{
@@ -21,12 +23,13 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-			buff.draw(img.src, 
-				Transform.getMatrix(x, y, w, h, transform), 
-				null, 
-				null, 
-				null, 
-				false);
+			if (transform == Transform.TRANS_NONE) {
+				buff.copyPixels(img.src, 
+					new Rectangle(x, y, w, h), 
+					new Point(0, 0));
+			} else {
+				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
+			}
 		}
 		
 		/**
@@ -45,11 +48,12 @@ package com.cell.gfx.game
 										y_src:int,
 										width:int, 
 										height:int, 
-										transform:int, 
 										x_dest:int, 
 										y_dest:int) : void
 		{
-			
+			buff.copyPixels(src.src, 
+				new Rectangle(x_src, y_src, width, height), 
+				new Point(x_dest, y_dest));
 		} 
 		
 

@@ -21,12 +21,6 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-//		
-//			g.beginFill(0x00ff00, 0.5);
-//			g.drawRect(x, y, w, h);
-//			g.endFill();
-//			
-//		
 			g.beginBitmapFill(img.src, 
 				Transform.getMatrix(x, y, w, h, transform), 
 				false, false);
@@ -51,13 +45,10 @@ package com.cell.gfx.game
 										y_src:int,
 										width:int, 
 										height:int, 
-										transform:int, 
 										x_dest:int, 
 										y_dest:int) : void
 		{
-			g.beginBitmapFill(img.src, 
-				Transform.getMatrix(x_dest-x_src, y_dest-y_src, width, height, transform), 
-				false, false);
+			g.beginBitmapFill(img.src, null, false, false);
 			g.drawRect(x_dest, y_dest, width, height);
 			g.endFill();
 		} 

@@ -21,7 +21,6 @@ package com.cell.gfx.game
 		 * @param y_src 原图片部分的Y位置
 		 * @param width 原图片矩形的宽度。
 		 * @param height 原图片矩形的高度。
-		 * @param transform 翻转方式
 		 * @param x_dest 目标X坐标。
 		 * @param y_dest 目标Y坐标。
 		 */
@@ -30,7 +29,6 @@ package com.cell.gfx.game
 								   y_src:int,
 								   width:int, 
 								   height:int, 
-								   transform:int, 
 								   x_dest:int, 
 								   y_dest:int) : void;
 		
