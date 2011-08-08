@@ -29,12 +29,18 @@ package com.cell.gfx.game
 			animateNames:Array, 
 			frameAnimate:Array) : void
 		{
-			this.animates = canimates;
-			this.collides = ccollides;
-			this.AnimateNames = animateNames;
-			this.FrameAnimate = frameAnimate;
-//			this.cg = new CGraphicsDisplay(graphics);
-//			this.repaint();
+			this.animates		= canimates;
+			this.collides		= ccollides;
+			this.AnimateNames	= animateNames;
+			this.FrameAnimate	= frameAnimate;
+		}
+		
+		protected function init2(spr:CSprite) : void
+		{
+			this.animates 		= spr.animates;
+			this.collides 		= spr.collides;
+			this.AnimateNames 	= spr.AnimateNames;
+			this.FrameAnimate 	= spr.FrameAnimate;
 		}
 		
 		public function copy() : CSprite

@@ -15,13 +15,13 @@ package com.cell.gfx.game
 		internal var SubIndex	: int;
 		internal var SubCount 	: int;
 		
-		internal var w_left 	: int	= 0;
-		internal var w_top 		: int	= 0;
-		internal var w_bottom 	: int	= 1;
-		internal var w_right 	: int	= 1;
+		public var w_left 		: int	= 0;
+		public var w_top 		: int	= 0;
+		public var w_bottom 	: int	= 1;
+		public var w_right 		: int	= 1;
 		
-		internal var w_width 	: int	= 0;
-		internal var w_height 	: int	= 0;
+		public var w_width 		: int	= 0;
+		public var w_height 	: int	= 0;
 		
 		
 		/**

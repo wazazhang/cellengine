@@ -25,8 +25,8 @@ package com.cell.gfx.game
 		{
 			if (transform == Transform.TRANS_NONE) {
 				buff.copyPixels(img.src, 
-					new Rectangle(x, y, w, h), 
-					new Point(0, 0));
+					new Rectangle(0, 0, w, h), 
+					new Point(x, y));
 			} else {
 				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
 			}

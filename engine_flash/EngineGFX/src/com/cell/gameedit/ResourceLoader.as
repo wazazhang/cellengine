@@ -74,6 +74,11 @@ package com.cell.gameedit
 			return resource_manager.get("IMG_" + name);
 		}
 		
+		public function getSpriteTemplate(name:String) : CSprite
+		{
+			return resource_manager.get("SPR_" + name);
+		}
+		
 		public function getSprite(name:String) : CSprite
 		{
 			var ret : CSprite = resource_manager.get("SPR_" + name);
