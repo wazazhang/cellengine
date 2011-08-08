@@ -28,17 +28,18 @@ package com.cell.gfx
 		{
 			this.adapter = adapter;
 			this.addEventListener(Event.ENTER_FRAME, onUpdate);
+//			this.addEventListener(Event.EXIT_FRAME, onLastUpdate);
 			this.transition = new AlphaTransition(width, height, 0xffffff, 30);
 		}
 		
 		protected function onUpdate(e:Event) : void
 		{
-			var cur_time : int = getTimer();
-			var interval : int = cur_time - update_time;
-			this.update_time = cur_time;
+			var cur_time : int 	= getTimer();
+			this.frame_interval	= cur_time - update_time;
+			this.update_time 	= cur_time;
 		
 			if (current_screen != null) {
-				current_screen._interval = interval;
+				current_screen._interval = frame_interval;
 				current_screen.update();
 			}
 				
@@ -66,6 +67,14 @@ package com.cell.gfx
 				}
 			}
 		}
+		
+//		protected function onLastUpdate(e:Event) : void
+//		{
+//			this.graphics.beginFill(0xffffff, 1);
+//			this.graphics.drawRect(200, 300, 100, 100);
+//			this.graphics.endFill();
+//			
+//		}
 		
 		/**设置切换屏幕时的特效*/
 		public function setTransition(t:IScreenTransition) : void
@@ -143,6 +152,23 @@ package com.cell.gfx
 			if (this.transition != null) {
 				this.transition.startTransitionOut();
 			}
+		}
+		
+		
+		/**
+		 * 获得当前帧和上一帧的时间间隔
+		 */
+		public function getInterval() : int
+		{
+			return frame_interval;
+		}
+		
+		/**
+		 * 获得当前帧和上一帧的时间间隔
+		 */
+		public function getFPS() : int
+		{
+			return 1000 / frame_interval;
 		}
 	}
 }

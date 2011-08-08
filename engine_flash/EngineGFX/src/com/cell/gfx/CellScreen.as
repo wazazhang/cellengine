@@ -11,6 +11,7 @@ package com.cell.gfx
 		
 		public function CellScreen()
 		{
+			
 		}
 		
 		public function getParent() : CellScreenManager

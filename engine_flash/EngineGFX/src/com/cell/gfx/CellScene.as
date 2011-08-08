@@ -1,5 +1,6 @@
 package com.cell.gfx
 {
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
@@ -66,5 +67,12 @@ package com.cell.gfx
 			locateCamera(getCameraX() + dx, getCameraY() + dy);
 		}
 		
+		public function containsInCamera(spr:DisplayObject) : Boolean
+		{
+			if (scrollRect.intersects(spr.getBounds(this))) {
+				return true;
+			}
+			return false;
+		}
 	}
 }
