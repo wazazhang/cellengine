@@ -13,7 +13,6 @@
     <classEntry path="com.cell.gfx.game.CScene"/>
     <classEntry path="com.cell.gameedit.output.XmlDirMap"/>
     <classEntry path="com.cell.gfx.CellMapView"/>
-    <classEntry path="com.cell.gfx.CellScene"/>
     <classEntry path="com.cell.gfx.rpg.G2DUnit"/>
     <classEntry path="com.cell.math.TVector2D"/>
     <classEntry path="com.cell.gfx.rpg.intention.Motion"/>
@@ -26,7 +25,6 @@
     <classEntry path="com.cell.bms.file.Note"/>
     <classEntry path="com.cell.bms.BMSLoader"/>
     <classEntry path="com.cell.bms.file.IDefineResourceManager"/>
-    <classEntry path="com.cell.gfx.CellUnit"/>
     <classEntry path="com.cell.gfx.CellScreenManager"/>
     <classEntry path="com.cell.gfx.IScreenAdapter"/>
     <classEntry path="com.cell.gfx.CellScreen"/>
