@@ -14,7 +14,6 @@
 			import com.cell.gameedit.ResourceEvent;
 			import com.cell.gameedit.ResourceLoader;
 			import com.cell.gfx.CellMapView;
-			import com.cell.gfx.CellSprite;
 			import com.cell.gfx.game.CGraphicsDisplay;
 			import com.cell.gfx.game.CImage;
 			import com.cell.gfx.game.CSprite;
