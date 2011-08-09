@@ -30,7 +30,7 @@ package com.cell.gfx
 			this.addEventListener(Event.ENTER_FRAME, onUpdate);
 //			this.addEventListener(Event.EXIT_FRAME, onLastUpdate);
 			this.transition = new AlphaTransition(width, height, 0xffffff, 30);
-			this.mouseEnabled = false;
+			//this.mouseEnabled = false;
 		}
 		
 		protected function onUpdate(e:Event) : void
