@@ -1,20 +1,30 @@
 package com.cell.gfx.game.world
 {
+	import com.cell.gfx.game.CSprite;
 	import com.cell.math.IVector2D;
 	import com.cell.math.MathVector;
-	import com.cell.gfx.game.CSprite;
 
 	public class CWorldSprite extends CSprite implements IVector2D
 	{
 		public var x : Number = 0;
 		public var y : Number = 0;
 		
+		internal var _parent : CWorld;
 		
 		public function CWorldSprite(spr:CSprite)
 		{
 			super.init2(spr);
 		}
 		
+		public function get parent() : CWorld
+		{
+			return _parent;
+		}
+		
+		public function update() : void 
+		{
+			
+		}
 		
 		public function move(dx:Number, dy:Number) : void {
 			this.x += dx;

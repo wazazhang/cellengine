@@ -106,7 +106,9 @@ package com.cell.gfx.game.world
 		
 		public function update() : void
 		{
-		
+			for each (var spr : CWorldSprite in sprites) {
+				spr.update();
+			}
 		}
 		
 		public function render() : void
@@ -119,19 +121,25 @@ package com.cell.gfx.game.world
 		
 		public function addSprite(spr:CWorldSprite) : Boolean 
 		{
-			if (this.sprites.indexOf(spr)<0) {
-				this.sprites.push(spr);
-				return true;
+			if (spr._parent == null) {
+				if (this.sprites.indexOf(spr)<0) {
+					this.sprites.push(spr);
+					spr._parent = this;
+					return true;
+				}
 			}
 			return false;
 		}
 		
 		public function removeSprite(spr:CWorldSprite) : Boolean 
 		{
-			var index : int = sprites.indexOf(spr);
-			if (index >= 0) {
-				this.sprites.splice(index, 1);
-				return true;
+			if (spr._parent == this) {
+				var index : int = sprites.indexOf(spr);
+				if (index >= 0) {
+					this.sprites.splice(index, 1);
+					spr._parent = null;
+					return true;
+				}
 			}
 			return false;
 		}

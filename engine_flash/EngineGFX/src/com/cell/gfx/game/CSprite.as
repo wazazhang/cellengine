@@ -88,6 +88,11 @@ package com.cell.gfx.game
 			return animates.getFrameTransform(FrameAnimate[anim][frame], part);
 		}
 		
+		public function getFrameBounds(anim:int, frame:int) : CCD
+		{
+			return animates.getFrameBounds(FrameAnimate[anim][frame]);
+		}
+		
 		public function getCurrentImage(part:int) : CImage {
 			return animates.getFrameImage(FrameAnimate[CurAnimate][CurFrame], part);
 		}
