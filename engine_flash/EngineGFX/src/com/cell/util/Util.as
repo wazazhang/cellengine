@@ -17,7 +17,10 @@ package com.cell.util
 			return ret;
 		}
 		
-		
+		public static function getRandom( min:Number,  max:Number) : Number
+		{
+			return min + Math.random() * (max - min);
+		}
 		
 	}
 }
