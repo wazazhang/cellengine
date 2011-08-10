@@ -22,5 +22,9 @@ package com.cell.util
 			return min + Math.random() * (max - min);
 		}
 		
+		public static function getRandomInt( min:int,  max:int) : int
+		{
+			return min + Math.round(Math.random() * (max - min));
+		}
 	}
 }
