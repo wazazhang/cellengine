@@ -25,13 +25,6 @@
     <classEntry path="com.cell.bms.file.Note"/>
     <classEntry path="com.cell.bms.BMSLoader"/>
     <classEntry path="com.cell.bms.file.IDefineResourceManager"/>
-    <classEntry path="com.cell.gfx.CellScreenManager"/>
-    <classEntry path="com.cell.gfx.IScreenAdapter"/>
-    <classEntry path="com.cell.gfx.CellScreen"/>
-    <classEntry path="com.cell.gfx.transition.AlphaTransition"/>
-    <classEntry path="com.cell.gfx.game.CWorldCamera"/>
-    <classEntry path="com.cell.gfx.game.world.CWorldSprite"/>
-    <classEntry path="com.cell.gfx.game.world.CWorldSpriteEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
