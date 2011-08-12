@@ -1,0 +1,448 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FB30151E13F24B4B00594366 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30151D13F24B4B00594366 /* UIKit.framework */; };
+		FB30152013F24B4B00594366 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30151F13F24B4B00594366 /* Foundation.framework */; };
+		FB30152213F24B4B00594366 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30152113F24B4B00594366 /* CoreGraphics.framework */; };
+		FB30152413F24B4B00594366 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30152313F24B4B00594366 /* QuartzCore.framework */; };
+		FB30152613F24B4B00594366 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30152513F24B4B00594366 /* OpenGLES.framework */; };
+		FB30152C13F24B4B00594366 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB30152A13F24B4B00594366 /* InfoPlist.strings */; };
+		FB30152F13F24B4B00594366 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FB30152E13F24B4B00594366 /* main.m */; };
+		FB30153213F24B4B00594366 /* engine_iosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB30153113F24B4B00594366 /* engine_iosAppDelegate.m */; };
+		FB30153513F24B4B00594366 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB30153313F24B4B00594366 /* MainWindow.xib */; };
+		FB30153713F24B4B00594366 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FB30153613F24B4B00594366 /* Shader.fsh */; };
+		FB30153913F24B4B00594366 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FB30153813F24B4B00594366 /* Shader.vsh */; };
+		FB30153C13F24B4B00594366 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB30153B13F24B4B00594366 /* EAGLView.m */; };
+		FB30153F13F24B4B00594366 /* engine_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB30153E13F24B4B00594366 /* engine_iosViewController.m */; };
+		FB30154213F24B4B00594366 /* engine_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB30154013F24B4B00594366 /* engine_iosViewController.xib */; };
+		FB30157613F24B6B00594366 /* libgtlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30156213F24B6A00594366 /* libgtlib.a */; };
+		FB30157713F24B6B00594366 /* libgtlibd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30156313F24B6A00594366 /* libgtlibd.a */; };
+		FB30157813F24B6B00594366 /* libgtlibs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30156413F24B6A00594366 /* libgtlibs.a */; };
+		FB30157913F24B6B00594366 /* libgtlibsd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB30156513F24B6A00594366 /* libgtlibsd.a */; };
+		FB30157A13F24B6B00594366 /* GTBlock.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156713F24B6A00594366 /* GTBlock.mm */; };
+		FB30157B13F24B6B00594366 /* GTCollide.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156813F24B6A00594366 /* GTCollide.mm */; };
+		FB30157C13F24B6B00594366 /* GTCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156913F24B6A00594366 /* GTCore.mm */; };
+		FB30157D13F24B6B00594366 /* GTFont.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156A13F24B6A00594366 /* GTFont.mm */; };
+		FB30157E13F24B6B00594366 /* GTGameManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156B13F24B6A00594366 /* GTGameManager.mm */; };
+		FB30157F13F24B6B00594366 /* GTGfx.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156C13F24B6A00594366 /* GTGfx.mm */; };
+		FB30158013F24B6B00594366 /* GTImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156D13F24B6A00594366 /* GTImage.mm */; };
+		FB30158113F24B6B00594366 /* GTImageGL.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156E13F24B6A00594366 /* GTImageGL.mm */; };
+		FB30158213F24B6B00594366 /* GTParticle.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30156F13F24B6A00594366 /* GTParticle.mm */; };
+		FB30158313F24B6B00594366 /* GTScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30157013F24B6A00594366 /* GTScreen.mm */; };
+		FB30158413F24B6B00594366 /* GTSound.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30157113F24B6A00594366 /* GTSound.mm */; };
+		FB30158513F24B6B00594366 /* GTSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30157213F24B6A00594366 /* GTSprite.mm */; };
+		FB30158613F24B6B00594366 /* GTStorage.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30157313F24B6A00594366 /* GTStorage.mm */; };
+		FB30158713F24B6B00594366 /* GTTiles.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30157413F24B6A00594366 /* GTTiles.mm */; };
+		FB30158813F24B6B00594366 /* GTType.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB30157513F24B6A00594366 /* GTType.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FB30151913F24B4B00594366 /* engine_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = engine_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB30151D13F24B4B00594366 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FB30151F13F24B4B00594366 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FB30152113F24B4B00594366 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FB30152313F24B4B00594366 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		FB30152513F24B4B00594366 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		FB30152913F24B4B00594366 /* engine_ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "engine_ios-Info.plist"; sourceTree = "<group>"; };
+		FB30152B13F24B4B00594366 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FB30152D13F24B4B00594366 /* engine_ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "engine_ios-Prefix.pch"; sourceTree = "<group>"; };
+		FB30152E13F24B4B00594366 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FB30153013F24B4B00594366 /* engine_iosAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = engine_iosAppDelegate.h; sourceTree = "<group>"; };
+		FB30153113F24B4B00594366 /* engine_iosAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = engine_iosAppDelegate.m; sourceTree = "<group>"; };
+		FB30153413F24B4B00594366 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		FB30153613F24B4B00594366 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		FB30153813F24B4B00594366 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		FB30153A13F24B4B00594366 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
+		FB30153B13F24B4B00594366 /* EAGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
+		FB30153D13F24B4B00594366 /* engine_iosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = engine_iosViewController.h; sourceTree = "<group>"; };
+		FB30153E13F24B4B00594366 /* engine_iosViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = engine_iosViewController.m; sourceTree = "<group>"; };
+		FB30154113F24B4B00594366 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/engine_iosViewController.xib; sourceTree = "<group>"; };
+		FB30155113F24B6A00594366 /* GTBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBlock.h; sourceTree = "<group>"; };
+		FB30155213F24B6A00594366 /* GTCollide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCollide.h; sourceTree = "<group>"; };
+		FB30155313F24B6A00594366 /* GTCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCore.h; sourceTree = "<group>"; };
+		FB30155413F24B6A00594366 /* GTFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFont.h; sourceTree = "<group>"; };
+		FB30155513F24B6A00594366 /* GTGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTGameManager.h; sourceTree = "<group>"; };
+		FB30155613F24B6A00594366 /* GTGfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTGfx.h; sourceTree = "<group>"; };
+		FB30155713F24B6A00594366 /* GTImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTImage.h; sourceTree = "<group>"; };
+		FB30155813F24B6A00594366 /* GTImageGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTImageGL.h; sourceTree = "<group>"; };
+		FB30155913F24B6A00594366 /* GTInc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTInc.h; sourceTree = "<group>"; };
+		FB30155A13F24B6A00594366 /* GTParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTParticle.h; sourceTree = "<group>"; };
+		FB30155B13F24B6A00594366 /* GTScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTScreen.h; sourceTree = "<group>"; };
+		FB30155C13F24B6A00594366 /* GTSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSound.h; sourceTree = "<group>"; };
+		FB30155D13F24B6A00594366 /* GTSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSprite.h; sourceTree = "<group>"; };
+		FB30155E13F24B6A00594366 /* GTStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTStorage.h; sourceTree = "<group>"; };
+		FB30155F13F24B6A00594366 /* GTTiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTTiles.h; sourceTree = "<group>"; };
+		FB30156013F24B6A00594366 /* GTType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTType.h; sourceTree = "<group>"; };
+		FB30156213F24B6A00594366 /* libgtlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgtlib.a; sourceTree = "<group>"; };
+		FB30156313F24B6A00594366 /* libgtlibd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgtlibd.a; sourceTree = "<group>"; };
+		FB30156413F24B6A00594366 /* libgtlibs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgtlibs.a; sourceTree = "<group>"; };
+		FB30156513F24B6A00594366 /* libgtlibsd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgtlibsd.a; sourceTree = "<group>"; };
+		FB30156713F24B6A00594366 /* GTBlock.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTBlock.mm; sourceTree = "<group>"; };
+		FB30156813F24B6A00594366 /* GTCollide.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTCollide.mm; sourceTree = "<group>"; };
+		FB30156913F24B6A00594366 /* GTCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTCore.mm; sourceTree = "<group>"; };
+		FB30156A13F24B6A00594366 /* GTFont.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTFont.mm; sourceTree = "<group>"; };
+		FB30156B13F24B6A00594366 /* GTGameManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTGameManager.mm; sourceTree = "<group>"; };
+		FB30156C13F24B6A00594366 /* GTGfx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTGfx.mm; sourceTree = "<group>"; };
+		FB30156D13F24B6A00594366 /* GTImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTImage.mm; sourceTree = "<group>"; };
+		FB30156E13F24B6A00594366 /* GTImageGL.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTImageGL.mm; sourceTree = "<group>"; };
+		FB30156F13F24B6A00594366 /* GTParticle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTParticle.mm; sourceTree = "<group>"; };
+		FB30157013F24B6A00594366 /* GTScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTScreen.mm; sourceTree = "<group>"; };
+		FB30157113F24B6A00594366 /* GTSound.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTSound.mm; sourceTree = "<group>"; };
+		FB30157213F24B6A00594366 /* GTSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTSprite.mm; sourceTree = "<group>"; };
+		FB30157313F24B6A00594366 /* GTStorage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTStorage.mm; sourceTree = "<group>"; };
+		FB30157413F24B6A00594366 /* GTTiles.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTTiles.mm; sourceTree = "<group>"; };
+		FB30157513F24B6A00594366 /* GTType.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GTType.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FB30151613F24B4B00594366 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB30151E13F24B4B00594366 /* UIKit.framework in Frameworks */,
+				FB30152013F24B4B00594366 /* Foundation.framework in Frameworks */,
+				FB30152213F24B4B00594366 /* CoreGraphics.framework in Frameworks */,
+				FB30152413F24B4B00594366 /* QuartzCore.framework in Frameworks */,
+				FB30152613F24B4B00594366 /* OpenGLES.framework in Frameworks */,
+				FB30157613F24B6B00594366 /* libgtlib.a in Frameworks */,
+				FB30157713F24B6B00594366 /* libgtlibd.a in Frameworks */,
+				FB30157813F24B6B00594366 /* libgtlibs.a in Frameworks */,
+				FB30157913F24B6B00594366 /* libgtlibsd.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FB30150E13F24B4B00594366 = {
+			isa = PBXGroup;
+			children = (
+				FB30155013F24B6A00594366 /* inc */,
+				FB30156113F24B6A00594366 /* lib */,
+				FB30156613F24B6A00594366 /* src */,
+				FB30152713F24B4B00594366 /* engine_ios */,
+				FB30151C13F24B4B00594366 /* Frameworks */,
+				FB30151A13F24B4B00594366 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FB30151A13F24B4B00594366 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FB30151913F24B4B00594366 /* engine_ios.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FB30151C13F24B4B00594366 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB30151D13F24B4B00594366 /* UIKit.framework */,
+				FB30151F13F24B4B00594366 /* Foundation.framework */,
+				FB30152113F24B4B00594366 /* CoreGraphics.framework */,
+				FB30152313F24B4B00594366 /* QuartzCore.framework */,
+				FB30152513F24B4B00594366 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB30152713F24B4B00594366 /* engine_ios */ = {
+			isa = PBXGroup;
+			children = (
+				FB30153013F24B4B00594366 /* engine_iosAppDelegate.h */,
+				FB30153113F24B4B00594366 /* engine_iosAppDelegate.m */,
+				FB30153313F24B4B00594366 /* MainWindow.xib */,
+				FB30153613F24B4B00594366 /* Shader.fsh */,
+				FB30153813F24B4B00594366 /* Shader.vsh */,
+				FB30153A13F24B4B00594366 /* EAGLView.h */,
+				FB30153B13F24B4B00594366 /* EAGLView.m */,
+				FB30153D13F24B4B00594366 /* engine_iosViewController.h */,
+				FB30153E13F24B4B00594366 /* engine_iosViewController.m */,
+				FB30154013F24B4B00594366 /* engine_iosViewController.xib */,
+				FB30152813F24B4B00594366 /* Supporting Files */,
+			);
+			path = engine_ios;
+			sourceTree = "<group>";
+		};
+		FB30152813F24B4B00594366 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FB30152913F24B4B00594366 /* engine_ios-Info.plist */,
+				FB30152A13F24B4B00594366 /* InfoPlist.strings */,
+				FB30152D13F24B4B00594366 /* engine_ios-Prefix.pch */,
+				FB30152E13F24B4B00594366 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FB30155013F24B6A00594366 /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				FB30155113F24B6A00594366 /* GTBlock.h */,
+				FB30155213F24B6A00594366 /* GTCollide.h */,
+				FB30155313F24B6A00594366 /* GTCore.h */,
+				FB30155413F24B6A00594366 /* GTFont.h */,
+				FB30155513F24B6A00594366 /* GTGameManager.h */,
+				FB30155613F24B6A00594366 /* GTGfx.h */,
+				FB30155713F24B6A00594366 /* GTImage.h */,
+				FB30155813F24B6A00594366 /* GTImageGL.h */,
+				FB30155913F24B6A00594366 /* GTInc.h */,
+				FB30155A13F24B6A00594366 /* GTParticle.h */,
+				FB30155B13F24B6A00594366 /* GTScreen.h */,
+				FB30155C13F24B6A00594366 /* GTSound.h */,
+				FB30155D13F24B6A00594366 /* GTSprite.h */,
+				FB30155E13F24B6A00594366 /* GTStorage.h */,
+				FB30155F13F24B6A00594366 /* GTTiles.h */,
+				FB30156013F24B6A00594366 /* GTType.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		FB30156113F24B6A00594366 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				FB30156213F24B6A00594366 /* libgtlib.a */,
+				FB30156313F24B6A00594366 /* libgtlibd.a */,
+				FB30156413F24B6A00594366 /* libgtlibs.a */,
+				FB30156513F24B6A00594366 /* libgtlibsd.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		FB30156613F24B6A00594366 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB30156713F24B6A00594366 /* GTBlock.mm */,
+				FB30156813F24B6A00594366 /* GTCollide.mm */,
+				FB30156913F24B6A00594366 /* GTCore.mm */,
+				FB30156A13F24B6A00594366 /* GTFont.mm */,
+				FB30156B13F24B6A00594366 /* GTGameManager.mm */,
+				FB30156C13F24B6A00594366 /* GTGfx.mm */,
+				FB30156D13F24B6A00594366 /* GTImage.mm */,
+				FB30156E13F24B6A00594366 /* GTImageGL.mm */,
+				FB30156F13F24B6A00594366 /* GTParticle.mm */,
+				FB30157013F24B6A00594366 /* GTScreen.mm */,
+				FB30157113F24B6A00594366 /* GTSound.mm */,
+				FB30157213F24B6A00594366 /* GTSprite.mm */,
+				FB30157313F24B6A00594366 /* GTStorage.mm */,
+				FB30157413F24B6A00594366 /* GTTiles.mm */,
+				FB30157513F24B6A00594366 /* GTType.mm */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FB30151813F24B4B00594366 /* engine_ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB30154513F24B4B00594366 /* Build configuration list for PBXNativeTarget "engine_ios" */;
+			buildPhases = (
+				FB30151513F24B4B00594366 /* Sources */,
+				FB30151613F24B4B00594366 /* Frameworks */,
+				FB30151713F24B4B00594366 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = engine_ios;
+			productName = engine_ios;
+			productReference = FB30151913F24B4B00594366 /* engine_ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FB30151013F24B4B00594366 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = FB30151313F24B4B00594366 /* Build configuration list for PBXProject "engine_ios" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FB30150E13F24B4B00594366;
+			productRefGroup = FB30151A13F24B4B00594366 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FB30151813F24B4B00594366 /* engine_ios */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FB30151713F24B4B00594366 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB30152C13F24B4B00594366 /* InfoPlist.strings in Resources */,
+				FB30153513F24B4B00594366 /* MainWindow.xib in Resources */,
+				FB30153713F24B4B00594366 /* Shader.fsh in Resources */,
+				FB30153913F24B4B00594366 /* Shader.vsh in Resources */,
+				FB30154213F24B4B00594366 /* engine_iosViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FB30151513F24B4B00594366 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB30152F13F24B4B00594366 /* main.m in Sources */,
+				FB30153213F24B4B00594366 /* engine_iosAppDelegate.m in Sources */,
+				FB30153C13F24B4B00594366 /* EAGLView.m in Sources */,
+				FB30153F13F24B4B00594366 /* engine_iosViewController.m in Sources */,
+				FB30157A13F24B6B00594366 /* GTBlock.mm in Sources */,
+				FB30157B13F24B6B00594366 /* GTCollide.mm in Sources */,
+				FB30157C13F24B6B00594366 /* GTCore.mm in Sources */,
+				FB30157D13F24B6B00594366 /* GTFont.mm in Sources */,
+				FB30157E13F24B6B00594366 /* GTGameManager.mm in Sources */,
+				FB30157F13F24B6B00594366 /* GTGfx.mm in Sources */,
+				FB30158013F24B6B00594366 /* GTImage.mm in Sources */,
+				FB30158113F24B6B00594366 /* GTImageGL.mm in Sources */,
+				FB30158213F24B6B00594366 /* GTParticle.mm in Sources */,
+				FB30158313F24B6B00594366 /* GTScreen.mm in Sources */,
+				FB30158413F24B6B00594366 /* GTSound.mm in Sources */,
+				FB30158513F24B6B00594366 /* GTSprite.mm in Sources */,
+				FB30158613F24B6B00594366 /* GTStorage.mm in Sources */,
+				FB30158713F24B6B00594366 /* GTTiles.mm in Sources */,
+				FB30158813F24B6B00594366 /* GTType.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FB30152A13F24B4B00594366 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB30152B13F24B4B00594366 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FB30153313F24B4B00594366 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB30153413F24B4B00594366 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		FB30154013F24B4B00594366 /* engine_iosViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB30154113F24B4B00594366 /* en */,
+			);
+			name = engine_iosViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FB30154313F24B4B00594366 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FB30154413F24B4B00594366 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		FB30154613F24B4B00594366 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "engine_ios/engine_ios-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = "engine_ios/engine_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FB30154713F24B4B00594366 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "engine_ios/engine_ios-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = "engine_ios/engine_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FB30151313F24B4B00594366 /* Build configuration list for PBXProject "engine_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB30154313F24B4B00594366 /* Debug */,
+				FB30154413F24B4B00594366 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB30154513F24B4B00594366 /* Build configuration list for PBXNativeTarget "engine_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB30154613F24B4B00594366 /* Debug */,
+				FB30154713F24B4B00594366 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FB30151013F24B4B00594366 /* Project object */;
+}
