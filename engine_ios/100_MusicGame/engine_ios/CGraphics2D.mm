@@ -68,7 +68,23 @@ namespace com_cell
 		m_color = color;
 	}
 	
-	
+    Color Graphics2D::getColor()
+    {
+        return m_color;
+    }
+    
+    void Graphics2D::pushColor()
+    {
+        m_stack_color.push_back(m_color);
+    }
+
+    void Graphics2D::popColor()
+    {
+        m_color = m_stack_color.back();
+        m_stack_color.pop_back();
+    }
+
+
 	
 	
 	
@@ -317,7 +333,7 @@ namespace com_cell
 	
 	void Graphics2D::drawString(std::string const &src, float x, float y, float charw, float charh, int align)
 	{
-        
+        // TODO
 	}
 	
 	void Graphics2D::drawString(char const *src, float x, float y, float charw, float charh, int align)
@@ -339,14 +355,16 @@ namespace com_cell
         glTranslatef(x, y, 0);
     }
     
-    void Graphics2D::rotate(float degree)
+    void Graphics2D::rotate(float angle)
     {
-        glRotatef(degree, 0, 0, 0);
+        glRotatef(angle, 0, 0, 1);
     }
     
-    void Graphics2D::rotate(float degree, float dx, float dy)
+    void Graphics2D::rotate(float angle, float dx, float dy)
     {
-        glRotatef(degree, dx, dy, 0);
+        glTranslatef(dx, dy, 0);
+        glRotatef(angle, 0, 0, 1);
+        glTranslatef(-dx, -dy, 0);
     }
     
     void Graphics2D::scale(float sx, float sy)
@@ -373,12 +391,54 @@ namespace com_cell
         glBlendFunc(m_blend.sfactor, m_blend.dfactor);
     }
     
+    Blend Graphics2D::getBlend()
+    {
+        return m_blend;
+    }
+    
+	void Graphics2D::pushBlend()
+    {
+        m_stack_blend.push_back(m_blend);
+    }
+    
+    void Graphics2D::popBlend()
+    {
+        m_blend = m_stack_blend.back();
+        glBlendFunc(m_blend.sfactor, m_blend.dfactor);
+        m_stack_blend.pop_back();
+    }
+	
+    
     void Graphics2D::setAlpha(float alpha)
     {
         m_alpha = alpha;
-        
     }
-
-	
-	
+    
+    float   Graphics2D::getAlpha()
+    {
+        return m_alpha;
+    }
+    
+    void    Graphics2D::pushAlpha()
+    {
+        m_stack_alpha.push_back(m_alpha);
+    }
+    
+    void    Graphics2D::popAlpha()
+    {
+        m_alpha = m_stack_alpha.back();
+        m_stack_alpha.pop_back();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 };

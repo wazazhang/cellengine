@@ -6,6 +6,7 @@
  *  Copyright 2008 __MyCompanyName__. All rights reserved.
  *
  */
+#include "CMath.h"
 #include "Screens.h"
 
 #include "ScreenLogo.h"
@@ -18,13 +19,14 @@ namespace gt_teris
         //printf("init\n");
         
         pSprite = new Image("/Sprite.png");
-        degree = 0;
+        angle = 0;
     }
 	
     void ScreenLogo::update() 
     {
         //printf("update\n");
         
+        angle += 1.0f;
     }
     
     void ScreenLogo::render(Graphics2D &g) 
@@ -32,7 +34,7 @@ namespace gt_teris
         g.setBlend(BLEND_NORMAL);
         g.setAlpha(1);
         
-        g.setColor(1, 0, 0, 1);
+        g.setColor(1, 0, 0, 0);
         g.fillScreen();
         
         //printf("render %d\n", getTimer());
@@ -40,17 +42,35 @@ namespace gt_teris
         g.fillRect(10, 10, 100, 100);
         
         g.setColor(1, 1, 1, 1);
-        g.fillRect(20, 20, 100, 100);
+        g.fillRect(20, 20, 100, 100);     
+        
+        g.drawImage(pSprite, 32, 32);
+        g.drawImage(pSprite, 64, 64);
+
+        g.setAlpha(.5f);
+        g.drawImage(pSprite, 96, 96);
         
         g.setBlend(BLEND_SCREEN);
-        g.translate(300, 300);
-        //g.rotate(degree);
+        g.translate(getScreenWidth()/2, getScreenHeight()/2);
         g.setAlpha(.5f);
-        g.drawImage(pSprite, 0, 0);
+        g.drawImage(pSprite, 
+                    10*sinf(angle/10), 
+                    10*cosf(angle/10));
         g.drawImage(pSprite, 32, 32);
         g.drawImage(pSprite, -32, -32);
-        g.translate(-300, -300);
-        //printf("degree %f", degree);
+
+        
+        g.setBlend(BLEND_NORMAL);
+        g.pushTransform();
+        {
+            g.setAlpha(0.5+sinf(angle/10)/2);
+            g.scale(2*sinf(angle/25), 2*sinf(angle/25));
+            g.rotate(angle);
+            g.drawImage(pSprite, -pSprite->getWidth()/2, -pSprite->getHeight()/2);
+        }
+        g.popTransform();
+        
+        // printf("degree %f", degree);
     }
     
     void ScreenLogo::notifyPause()

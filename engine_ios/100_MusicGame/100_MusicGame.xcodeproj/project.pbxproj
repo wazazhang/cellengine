@@ -51,6 +51,7 @@
 		FB3015CD13F26E8A00594366 /* Screens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Screens.h; sourceTree = "<group>"; };
 		FB3947E313F5643A007045B4 /* MusicGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MusicGame.xib; sourceTree = "<group>"; };
 		FB3947E713F56498007045B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		FB3947F513F57A1E007045B4 /* CMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMath.h; sourceTree = "<group>"; };
 		FB866C5F13F51AFF00E2D0A2 /* CBlend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBlend.h; sourceTree = "<group>"; };
 		FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100_MusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -103,6 +104,7 @@
 				FB3015AB13F2572500594366 /* CScreenManager.mm */,
 				FB30159D13F24F6A00594366 /* CType.h */,
 				FB30159F13F24FD000594366 /* CUtil.h */,
+				FB3947F513F57A1E007045B4 /* CMath.h */,
 				FB3015AC13F2572500594366 /* CUtil.mm */,
 				FBFC4F9313F3AE030084DFF5 /* CColor.h */,
 				FB866C5F13F51AFF00E2D0A2 /* CBlend.h */,

@@ -22,7 +22,8 @@
 #include "CImage.h"
 #include "CColor.h"
 #include "CBlend.h"
-
+#include <iostream>
+#include <vector>
 
 namespace com_cell
 {
@@ -38,10 +39,13 @@ namespace com_cell
         
         
     private:
-		CGRect			m_bounds;
-        Color			m_color;
-        float           m_alpha;
-		Blend           m_blend;
+		CGRect              m_bounds;
+        Color               m_color;
+        float               m_alpha;
+		Blend               m_blend;
+        std::vector<Blend>  m_stack_blend;
+        std::vector<float>  m_stack_alpha;
+        std::vector<Color>  m_stack_color;
         
 	public:
         Graphics2D();
@@ -51,34 +55,44 @@ namespace com_cell
 		void beginRender(CGRect bounds);
 		
 		void endRender();
-
         
-        
+        //////////////////////////////////////////////////////////////////////////////////
 		// color
+        
 		void        setColor(float a, float r, float g, float b);	
 		void        setColor(Color color);	
 		Color       getColor();		
-		
-		// rectangle
-		void fillScreen();
+		void        pushColor();
+        void        popColor();
         
         //////////////////////////////////////////////////////////////////////////////////
         // gemo
+        
+		void fillScreen();
+        
         void drawLine(float x1, float y1, float x2, float y2);
+        
 		void fillRect(float x, float y, float w, float h);
+        
 		void drawRect(float x, float y, float w, float h);
         
         void drawArc(float x, float y, float width, float height, float startDegree, float arcDegree);
+        
         void fillArc(float x, float y, float width, float height, float startDegree, float arcDegree);
         
         void drawOval(float x, float y, float width, float height);        
+        
         void fillOval(float x, float y, float width, float height);        
+        
         void drawPolyline(float xPoints[], float yPoints[], float nPoints);
+        
         void drawPolygon(float xPoints[], float yPoints[], float nPoints);
+        
         void fillPolygon(float xPoints[], float yPoints[], float nPoints);
         
         //////////////////////////////////////////////////////////////////////////////////
 		// image
+        
 		void drawImage(Image *src, float x, float y);
 		
 		void drawImageSize(Image *src, float x, float y, float w, float h);
@@ -112,12 +126,12 @@ namespace com_cell
         void translate(float x, float y);
         
         // 旋转变换
-        // degree 弧度
-        void rotate(float degree);
+        // degree 角度
+        void rotate(float angle);
         
         // 旋转变换
-        // degree 弧度
-        void rotate(float degree, float dx, float dy);
+        // degree 角度
+        void rotate(float angle, float dx, float dy);
         
         // 缩放变换
         void scale(float sx, float sy);
@@ -125,21 +139,38 @@ namespace com_cell
         // 推入几何变换
         void pushTransform();
         
-        // 恢复几何变换
+        // 弹出几何变换
         void popTransform();
         
         ///////////////////////////////////////////////////////////////////////////////
         // blend
         
-        void setBlend(Blend blend);
+        // 设置渲染方式
+        void    setBlend(Blend blend);
         
-        void setAlpha(float alpha);
+        // 获取渲染模式
+        Blend   getBlend();
         
-        void pushComposite();
+        // 推入渲染模式
+        void    pushBlend();
         
-        void popComposite();
+        // 弹出渲染模式
+        void    popBlend();
         
-	private:
+        
+        // 设置全局alpha混合
+        void    setAlpha(float alpha);
+        
+        // 获得全局alpha混合
+        float   getAlpha();
+        
+        // 推入全局alpha混合
+        void    pushAlpha();
+        
+        // 弹出全局alpha混合
+        void    popAlpha();
+        
+        
 		
 		
 	};

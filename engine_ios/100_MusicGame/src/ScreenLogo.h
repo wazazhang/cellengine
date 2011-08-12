@@ -24,7 +24,7 @@ namespace gt_teris
 	{
     private:
         Image* pSprite;
-        float degree;
+        float angle;
         
 	public:
 			

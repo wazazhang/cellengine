@@ -55,4 +55,4 @@ namespace com_cell
 }; // namespace com.cell
 
 
-#endif // #define _COM_CELL_CUTIL
+#endif // #define _COM_CELL_UTIL
