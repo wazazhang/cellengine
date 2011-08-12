@@ -1,0 +1,380 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FB3014F613F2483F00594366 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3014F413F2483F00594366 /* MainWindow.xib */; };
+		FB3014FA13F249B700594366 /* GLSpriteAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3014F913F249B700594366 /* GLSpriteAppDelegate.m */; };
+		FB3014FC13F24A0400594366 /* Sprite.png in Resources */ = {isa = PBXBuildFile; fileRef = FB3014FB13F24A0400594366 /* Sprite.png */; };
+		FB3015AD13F2572500594366 /* CScreenManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015AB13F2572500594366 /* CScreenManager.mm */; };
+		FB3015AE13F2572500594366 /* CUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015AC13F2572500594366 /* CUtil.mm */; };
+		FB3015B113F25E6500594366 /* CGraphics2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015B013F25E6500594366 /* CGraphics2D.mm */; };
+		FB3015B513F2641E00594366 /* CImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015B413F2641E00594366 /* CImage.mm */; };
+		FB3015D113F26E8A00594366 /* ScreenGame.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015C813F26E8A00594366 /* ScreenGame.mm */; };
+		FB3015D213F26E8A00594366 /* ScreenLogo.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015CA13F26E8A00594366 /* ScreenLogo.mm */; };
+		FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E313F5643A007045B4 /* MusicGame.xib */; };
+		FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E613F56498007045B4 /* MainWindow-iPad.xib */; };
+		FBF1A7C513EA4B7B00D51C20 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */; };
+		FBF1A7C713EA4B7B00D51C20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */; };
+		FBF1A7C913EA4B7B00D51C20 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C813EA4B7B00D51C20 /* CoreGraphics.framework */; };
+		FBF1A7CB13EA4B7B00D51C20 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7CA13EA4B7B00D51C20 /* QuartzCore.framework */; };
+		FBF1A7CD13EA4B7B00D51C20 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7CC13EA4B7B00D51C20 /* OpenGLES.framework */; };
+		FBF1A7D313EA4B7B00D51C20 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FBF1A7D113EA4B7B00D51C20 /* InfoPlist.strings */; };
+		FBF1A7D613EA4B7B00D51C20 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FBF1A7D513EA4B7B00D51C20 /* main.m */; };
+		FBF1A7E313EA4B7B00D51C20 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBF1A7E213EA4B7B00D51C20 /* EAGLView.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FB3014F513F2483F00594366 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		FB3014F813F249B700594366 /* GLSpriteAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSpriteAppDelegate.h; sourceTree = "<group>"; };
+		FB3014F913F249B700594366 /* GLSpriteAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSpriteAppDelegate.m; sourceTree = "<group>"; };
+		FB3014FB13F24A0400594366 /* Sprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sprite.png; sourceTree = "<group>"; };
+		FB30158D13F24D7900594366 /* CScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScreen.h; sourceTree = "<group>"; };
+		FB30159A13F24DCC00594366 /* CScreenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScreenManager.h; sourceTree = "<group>"; };
+		FB30159D13F24F6A00594366 /* CType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CType.h; sourceTree = "<group>"; };
+		FB30159F13F24FD000594366 /* CUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUtil.h; sourceTree = "<group>"; };
+		FB3015AB13F2572500594366 /* CScreenManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CScreenManager.mm; sourceTree = "<group>"; };
+		FB3015AC13F2572500594366 /* CUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CUtil.mm; sourceTree = "<group>"; };
+		FB3015AF13F25E4A00594366 /* CGraphics2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGraphics2D.h; sourceTree = "<group>"; };
+		FB3015B013F25E6500594366 /* CGraphics2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CGraphics2D.mm; sourceTree = "<group>"; };
+		FB3015B213F2618500594366 /* CDisplayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDisplayObject.h; sourceTree = "<group>"; };
+		FB3015B313F263EC00594366 /* CImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImage.h; sourceTree = "<group>"; };
+		FB3015B413F2641E00594366 /* CImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CImage.mm; sourceTree = "<group>"; };
+		FB3015C713F26E8A00594366 /* ScreenGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenGame.h; sourceTree = "<group>"; };
+		FB3015C813F26E8A00594366 /* ScreenGame.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScreenGame.mm; sourceTree = "<group>"; };
+		FB3015C913F26E8A00594366 /* ScreenLogo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenLogo.h; sourceTree = "<group>"; };
+		FB3015CA13F26E8A00594366 /* ScreenLogo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScreenLogo.mm; sourceTree = "<group>"; };
+		FB3015CD13F26E8A00594366 /* Screens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Screens.h; sourceTree = "<group>"; };
+		FB3947E313F5643A007045B4 /* MusicGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MusicGame.xib; sourceTree = "<group>"; };
+		FB3947E713F56498007045B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		FB866C5F13F51AFF00E2D0A2 /* CBlend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBlend.h; sourceTree = "<group>"; };
+		FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100_MusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FBF1A7C813EA4B7B00D51C20 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FBF1A7CA13EA4B7B00D51C20 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		FBF1A7CC13EA4B7B00D51C20 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		FBF1A7D013EA4B7B00D51C20 /* 100_MusicGame-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "100_MusicGame-Info.plist"; sourceTree = "<group>"; };
+		FBF1A7D213EA4B7B00D51C20 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FBF1A7D413EA4B7B00D51C20 /* 100_MusicGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "100_MusicGame-Prefix.pch"; sourceTree = "<group>"; };
+		FBF1A7D513EA4B7B00D51C20 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FBF1A7E113EA4B7B00D51C20 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
+		FBF1A7E213EA4B7B00D51C20 /* EAGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
+		FBFC4F9313F3AE030084DFF5 /* CColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CColor.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FBF1A7BD13EA4B7B00D51C20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBF1A7C513EA4B7B00D51C20 /* UIKit.framework in Frameworks */,
+				FBF1A7C713EA4B7B00D51C20 /* Foundation.framework in Frameworks */,
+				FBF1A7C913EA4B7B00D51C20 /* CoreGraphics.framework in Frameworks */,
+				FBF1A7CB13EA4B7B00D51C20 /* QuartzCore.framework in Frameworks */,
+				FBF1A7CD13EA4B7B00D51C20 /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FB3014FD13F24A6100594366 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB3015C713F26E8A00594366 /* ScreenGame.h */,
+				FB3015C813F26E8A00594366 /* ScreenGame.mm */,
+				FB3015C913F26E8A00594366 /* ScreenLogo.h */,
+				FB3015CA13F26E8A00594366 /* ScreenLogo.mm */,
+				FB3015CD13F26E8A00594366 /* Screens.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		FB30158C13F24D6C00594366 /* engine_ios */ = {
+			isa = PBXGroup;
+			children = (
+				FB30158D13F24D7900594366 /* CScreen.h */,
+				FB30159A13F24DCC00594366 /* CScreenManager.h */,
+				FB3015AB13F2572500594366 /* CScreenManager.mm */,
+				FB30159D13F24F6A00594366 /* CType.h */,
+				FB30159F13F24FD000594366 /* CUtil.h */,
+				FB3015AC13F2572500594366 /* CUtil.mm */,
+				FBFC4F9313F3AE030084DFF5 /* CColor.h */,
+				FB866C5F13F51AFF00E2D0A2 /* CBlend.h */,
+				FB3015AF13F25E4A00594366 /* CGraphics2D.h */,
+				FB3015B013F25E6500594366 /* CGraphics2D.mm */,
+				FB3015B213F2618500594366 /* CDisplayObject.h */,
+				FB3015B313F263EC00594366 /* CImage.h */,
+				FB3015B413F2641E00594366 /* CImage.mm */,
+			);
+			path = engine_ios;
+			sourceTree = "<group>";
+		};
+		FB3947E513F56497007045B4 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				FB3947E613F56498007045B4 /* MainWindow-iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		FBF1A7B513EA4B7B00D51C20 = {
+			isa = PBXGroup;
+			children = (
+				FB30158C13F24D6C00594366 /* engine_ios */,
+				FB3014FD13F24A6100594366 /* src */,
+				FB3014FB13F24A0400594366 /* Sprite.png */,
+				FBF1A7CE13EA4B7B00D51C20 /* 100_MusicGame */,
+				FBF1A7C313EA4B7B00D51C20 /* Frameworks */,
+				FBF1A7C113EA4B7B00D51C20 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FBF1A7C113EA4B7B00D51C20 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FBF1A7C313EA4B7B00D51C20 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */,
+				FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */,
+				FBF1A7C813EA4B7B00D51C20 /* CoreGraphics.framework */,
+				FBF1A7CA13EA4B7B00D51C20 /* QuartzCore.framework */,
+				FBF1A7CC13EA4B7B00D51C20 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FBF1A7CE13EA4B7B00D51C20 /* 100_MusicGame */ = {
+			isa = PBXGroup;
+			children = (
+				FB3947E513F56497007045B4 /* iPad */,
+				FB3014F813F249B700594366 /* GLSpriteAppDelegate.h */,
+				FB3014F913F249B700594366 /* GLSpriteAppDelegate.m */,
+				FBF1A7E113EA4B7B00D51C20 /* EAGLView.h */,
+				FBF1A7E213EA4B7B00D51C20 /* EAGLView.mm */,
+				FBF1A7CF13EA4B7B00D51C20 /* Supporting Files */,
+			);
+			path = 100_MusicGame;
+			sourceTree = "<group>";
+		};
+		FBF1A7CF13EA4B7B00D51C20 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FB3014F413F2483F00594366 /* MainWindow.xib */,
+				FBF1A7D013EA4B7B00D51C20 /* 100_MusicGame-Info.plist */,
+				FBF1A7D113EA4B7B00D51C20 /* InfoPlist.strings */,
+				FBF1A7D413EA4B7B00D51C20 /* 100_MusicGame-Prefix.pch */,
+				FBF1A7D513EA4B7B00D51C20 /* main.m */,
+				FB3947E313F5643A007045B4 /* MusicGame.xib */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FBF1A7BF13EA4B7B00D51C20 /* 100_MusicGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBF1A7EC13EA4B7B00D51C20 /* Build configuration list for PBXNativeTarget "100_MusicGame" */;
+			buildPhases = (
+				FBF1A7BC13EA4B7B00D51C20 /* Sources */,
+				FBF1A7BD13EA4B7B00D51C20 /* Frameworks */,
+				FBF1A7BE13EA4B7B00D51C20 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = 100_MusicGame;
+			productName = 100_MusicGame;
+			productReference = FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FBF1A7B713EA4B7B00D51C20 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = FBF1A7BA13EA4B7B00D51C20 /* Build configuration list for PBXProject "100_MusicGame" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FBF1A7B513EA4B7B00D51C20;
+			productRefGroup = FBF1A7C113EA4B7B00D51C20 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FBF1A7BF13EA4B7B00D51C20 /* 100_MusicGame */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FBF1A7BE13EA4B7B00D51C20 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBF1A7D313EA4B7B00D51C20 /* InfoPlist.strings in Resources */,
+				FB3014F613F2483F00594366 /* MainWindow.xib in Resources */,
+				FB3014FC13F24A0400594366 /* Sprite.png in Resources */,
+				FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */,
+				FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FBF1A7BC13EA4B7B00D51C20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBF1A7D613EA4B7B00D51C20 /* main.m in Sources */,
+				FBF1A7E313EA4B7B00D51C20 /* EAGLView.mm in Sources */,
+				FB3014FA13F249B700594366 /* GLSpriteAppDelegate.m in Sources */,
+				FB3015AD13F2572500594366 /* CScreenManager.mm in Sources */,
+				FB3015AE13F2572500594366 /* CUtil.mm in Sources */,
+				FB3015B113F25E6500594366 /* CGraphics2D.mm in Sources */,
+				FB3015B513F2641E00594366 /* CImage.mm in Sources */,
+				FB3015D113F26E8A00594366 /* ScreenGame.mm in Sources */,
+				FB3015D213F26E8A00594366 /* ScreenLogo.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FB3014F413F2483F00594366 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB3014F513F2483F00594366 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		FB3947E613F56498007045B4 /* MainWindow-iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB3947E713F56498007045B4 /* en */,
+			);
+			name = "MainWindow-iPad.xib";
+			sourceTree = "<group>";
+		};
+		FBF1A7D113EA4B7B00D51C20 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBF1A7D213EA4B7B00D51C20 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FBF1A7EA13EA4B7B00D51C20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		FBF1A7EB13EA4B7B00D51C20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		FBF1A7ED13EA4B7B00D51C20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "100_MusicGame/100_MusicGame-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = "100_MusicGame/100_MusicGame-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FBF1A7EE13EA4B7B00D51C20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "100_MusicGame/100_MusicGame-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = "100_MusicGame/100_MusicGame-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FBF1A7BA13EA4B7B00D51C20 /* Build configuration list for PBXProject "100_MusicGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBF1A7EA13EA4B7B00D51C20 /* Debug */,
+				FBF1A7EB13EA4B7B00D51C20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FBF1A7EC13EA4B7B00D51C20 /* Build configuration list for PBXNativeTarget "100_MusicGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBF1A7ED13EA4B7B00D51C20 /* Debug */,
+				FBF1A7EE13EA4B7B00D51C20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FBF1A7B713EA4B7B00D51C20 /* Project object */;
+}
