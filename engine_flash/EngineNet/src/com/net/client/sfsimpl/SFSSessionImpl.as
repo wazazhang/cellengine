@@ -12,7 +12,6 @@ package com.net.client.sfsimpl
 	import com.smartfoxserver.v2.requests.ExtensionRequest;
 	import com.smartfoxserver.v2.requests.JoinRoomRequest;
 	import com.smartfoxserver.v2.requests.LoginRequest;
-	import com.smartfoxserver.v2.requests.ObjectMessageRequest;
 	
 	import flash.events.Event;
 	import flash.utils.ByteArray;
