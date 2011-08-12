@@ -48,7 +48,8 @@ namespace com_cell
         setBlend(BLEND_NORMAL);
         setColor(COLOR_BLACK);
         setAlpha(1);
-
+        
+        glEnableClientState (GL_VERTEX_ARRAY);
 	}
 	
 	void Graphics2D::endRender()
@@ -99,51 +100,25 @@ namespace com_cell
 	void Graphics2D::fillRect(float x, float y, float w, float h)
 	{
 		GLfloat vertices[] = {0, 0, w, 0, 0, h, w, h,};
-		GLfloat colors[] = {
-            m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-		};
         
 		glTranslatef(x, y, 0);
 		{
 			glVertexPointer(2, GL_FLOAT, 0, vertices);
-            glEnableClientState (GL_VERTEX_ARRAY);
-            
-            glColorPointer(4, GL_FLOAT, 0, colors);
-            glEnableClientState (GL_COLOR_ARRAY);
-            
+            glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-            
-            glDisableClientState(GL_COLOR_ARRAY);
-            glDisableClientState(GL_VERTEX_ARRAY);
 		}
 		glTranslatef(-x, -y, 0);		
 	}
 	
 	void Graphics2D::drawRect(float x, float y, float w, float h)
 	{
-		GLfloat vertices[] = {0, 0, w, 0, 0, h, w, h,};
-		GLfloat colors[] = {
-            m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-		};
+		GLfloat vertices[] = {0, 0, w, 0, w, h, 0, h,};
 		
 		glTranslatef(x, y, 0);
 		{
-			glVertexPointer(2, GL_FLOAT, 0, vertices);
-            glEnableClientState (GL_VERTEX_ARRAY);
-            
-			glColorPointer(4, GL_FLOAT, 0, colors);
-            glEnableClientState (GL_COLOR_ARRAY);
-            
-			glDrawArrays(GL_LINE_STRIP, 0, 4);
-            
-            glDisableClientState(GL_COLOR_ARRAY);
-            glDisableClientState(GL_VERTEX_ARRAY);
+			glVertexPointer(2, GL_FLOAT, 0, vertices);            
+            glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
+			glDrawArrays(GL_LINE_LOOP, 0, 4);
 		}
 		glTranslatef(-x, -y, 0);		
         
@@ -151,64 +126,94 @@ namespace com_cell
 	
 	void Graphics2D::drawLine(float x1, float y1, float x2, float y2)
 	{
-		
-		GLfloat vertices[] = {0, 0, x2-x1, y1-y2};
-		GLfloat colors[] = {
-            m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-			m_color.R, m_color.G, m_color.B, m_color.A * m_alpha,
-		};
-		
-		glTranslatef(x1, y1, 0);
-		{
-			glVertexPointer(2, GL_FLOAT, 0, vertices);
-            glEnableClientState (GL_VERTEX_ARRAY);
-            
-			glColorPointer(2, GL_FLOAT, 0, colors);
-            glEnableClientState (GL_COLOR_ARRAY);
-            
-			glDrawArrays(GL_LINE_STRIP, 0, 2);
-            
-            glDisableClientState(GL_COLOR_ARRAY);
-            glDisableClientState(GL_VERTEX_ARRAY);
-		}
-		glTranslatef(-x1, -y1, 0);		
-		
+		GLfloat vertices[] = {x1, y1, x2, y2};
+        glVertexPointer(2, GL_FLOAT, 0, vertices);        
+        glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
+        glDrawArrays(GL_LINE_STRIP, 0, 2);
 	}
 	
-    void Graphics2D::drawArc(float x, float y, float width, float height, float startDegree, float arcDegree)
+    void Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)
     {
+        int point_count = MAX(width, height);
+        GLfloat sw = width / 2;
+        GLfloat sh = height / 2;
+        GLfloat sx = x + sw;
+        GLfloat sy = y + sh;
         
+        GLfloat vertices[point_count*2];
+        
+        GLfloat degree_start = Math::toDegree(startAngle);
+        GLfloat degree_delta = M_PI * 2 / point_count;
+        for (int i=0; i<point_count; i++) {
+            float idegree = degree_start+i*degree_delta;
+            vertices[i*2+0] = cosf(idegree)*sw;
+            vertices[i*2+1] = sinf(idegree)*sh;
+        }
+                
+		glTranslatef(sx, sy, 0);
+		{
+			glVertexPointer(2, GL_FLOAT, 0, vertices);            
+            glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
+			glDrawArrays(GL_LINE_LOOP, 0, point_count);
+		}
+		glTranslatef(-sx, -sy, 0);		
+
     }
     
-    void Graphics2D::fillArc(float x, float y, float width, float height, float startDegree, float arcDegree)
+    void Graphics2D::fillArc(float x, float y, float width, float height, float startAngle, float angle)
     {
+        int point_count = MAX(width, height);
+        GLfloat sw = width / 2;
+        GLfloat sh = height / 2;
+        GLfloat sx = x + sw;
+        GLfloat sy = y + sh;
         
+        GLfloat vertices[point_count*2+4];
+        vertices[0] = 0;
+        vertices[1] = 0;
+        GLfloat degree_start = Math::toDegree(startAngle);
+        GLfloat degree_delta = M_PI * 2 / point_count;
+        for (int i=0; i<point_count; i++) {
+            float idegree = degree_start+i*degree_delta;
+            vertices[2+i*2+0] = cosf(idegree)*sw;
+            vertices[2+i*2+1] = sinf(idegree)*sh;
+        }
+        vertices[2+point_count*2] = vertices[2];
+        vertices[3+point_count*2] = vertices[3];
+
+		glTranslatef(sx, sy, 0);
+		{
+			glVertexPointer(2, GL_FLOAT, 0, vertices);            
+            glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
+			glDrawArrays(GL_TRIANGLE_FAN, 0, point_count+2);
+		}
+		glTranslatef(-sx, -sy, 0);		
+
     }
     
     
     void Graphics2D::drawOval(float x, float y, float width, float height)
     {
-        
+        drawArc(x, y, width, height, 0, 360);
     }
     
     void Graphics2D::fillOval(float x, float y, float width, float height)
     {
+        fillArc(x, y, width, height, 0, 360);
+    }
         
+    void Graphics2D::drawPolygon(float points[], float nPoints)
+    {
+        glVertexPointer(2, GL_FLOAT, 0, points);            
+        glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
+        glDrawArrays(GL_LINE_LOOP, 0, nPoints);
     }
     
-    void Graphics2D::drawPolyline(float xPoints[], float yPoints[], float nPoints)
+    void Graphics2D::fillPolygon(float points[], float nPoints)
     {
-        
-    }
-    
-    void Graphics2D::drawPolygon(float xPoints[], float yPoints[], float nPoints)
-    {
-        
-    }
-    
-    void Graphics2D::fillPolygon(float xPoints[], float yPoints[], float nPoints)
-    {
-        
+        glVertexPointer(2, GL_FLOAT, 0, points);            
+        glColor4f(m_color.R, m_color.G, m_color.B, m_color.A * m_alpha);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, nPoints);
     }
     
     
@@ -232,32 +237,22 @@ namespace com_cell
         if (src==NULL || src->getTextureID()==0) return;
 		GLfloat vertices[] = {0, 0, w, 0, 0, h, w, h,};
 		GLshort texcoords[8] = {0, 0, 1, 0, 0, 1, 1, 1,};
-        GLfloat colors[] = {
-            1, 1, 1, m_alpha,
-			1, 1, 1, m_alpha,
-			1, 1, 1, m_alpha,
-			1, 1, 1, m_alpha,
-		};
+
 		glTranslatef(x, y, 0);
 		{
 			glVertexPointer(2, GL_FLOAT, 0, vertices);          
-            glEnableClientState (GL_VERTEX_ARRAY);
-
-            glColorPointer(4, GL_FLOAT, 0, colors);
-            glEnableClientState (GL_COLOR_ARRAY);
             
 			glTexCoordPointer(2, GL_SHORT, 0, texcoords);
             glEnableClientState (GL_TEXTURE_COORD_ARRAY);
             
             glEnable(GL_TEXTURE_2D);
             {
+                glColor4f(1, 1, 1, m_alpha);
                 glBindTexture(GL_TEXTURE_2D, src->getTextureID());
                 glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
             }
             glDisable(GL_TEXTURE_2D);	
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableClientState(GL_COLOR_ARRAY);
-            glDisableClientState(GL_VERTEX_ARRAY);
 		}
 		glTranslatef(-x, -y, 0);	
 	}
@@ -286,32 +281,22 @@ namespace com_cell
 		
 		GLfloat vertices[] = {0, 0, w, 0, 0, h, w, h,};
 		GLshort texcoords[8] = {0, 0, 1, 0, 0, 1, 1, 1,};
-		GLfloat colors[] = {
-			maskR, maskG, maskB, 1,
-			maskR, maskG, maskB, 1,
-			maskR, maskG, maskB, 1,
-			maskR, maskG, maskB, 1,
-		};
+
 		glTranslatef(x, y, 0);
 		{
 			glVertexPointer(2, GL_FLOAT, 0, vertices);       
-            glEnableClientState (GL_VERTEX_ARRAY);
-            
-            glColorPointer(4, GL_FLOAT, 0, colors);
-            glEnableClientState (GL_COLOR_ARRAY);
 
 			glTexCoordPointer(2, GL_SHORT, 0, texcoords);
             glEnableClientState (GL_TEXTURE_COORD_ARRAY);
             
             glEnable(GL_TEXTURE_2D);
             {
+                glColor4f(maskR, maskG, maskB, m_alpha);
                 glBindTexture(GL_TEXTURE_2D, src->getTextureID());
                 glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             }
             glDisable(GL_TEXTURE_2D);	
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableClientState(GL_COLOR_ARRAY);
-            glDisableClientState(GL_VERTEX_ARRAY);
 		}
 		glTranslatef(-x, -y, 0);		
 	}
@@ -358,13 +343,6 @@ namespace com_cell
     void Graphics2D::rotate(float angle)
     {
         glRotatef(angle, 0, 0, 1);
-    }
-    
-    void Graphics2D::rotate(float angle, float dx, float dy)
-    {
-        glTranslatef(dx, dy, 0);
-        glRotatef(angle, 0, 0, 1);
-        glTranslatef(-dx, -dy, 0);
     }
     
     void Graphics2D::scale(float sx, float sy)

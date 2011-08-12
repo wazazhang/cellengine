@@ -37,12 +37,19 @@ namespace gt_teris
         g.setColor(1, 0, 0, 0);
         g.fillScreen();
         
-        //printf("render %d\n", getTimer());
+        
         g.setColor(1, 1, 0, 0);
         g.fillRect(10, 10, 100, 100);
         
         g.setColor(1, 1, 1, 1);
-        g.fillRect(20, 20, 100, 100);     
+        g.fillRect(20, 20, 100, 100);    
+        
+        g.setColor(1, 1, 1, 0);
+        g.drawRect(30, 330, 100, 100);   
+        
+        g.drawLine(0, 0, getScreenWidth(), getScreenHeight());   
+
+        
         
         g.drawImage(pSprite, 32, 32);
         g.drawImage(pSprite, 64, 64);
@@ -69,6 +76,15 @@ namespace gt_teris
             g.drawImage(pSprite, -pSprite->getWidth()/2, -pSprite->getHeight()/2);
         }
         g.popTransform();
+        
+        
+        
+        g.setAlpha(1);
+        g.setColor(1, 1, 1, 1);
+        g.drawArc(0, 0, 200, 200, 0, 360);
+        
+        g.setColor(1, 1, 0, 0);
+        g.fillArc(0, 200, 200, 100, 0, 360);
         
         // printf("degree %f", degree);
     }

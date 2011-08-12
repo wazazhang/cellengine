@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "engine_ios/CGraphics2D.h"
-         timestampString = "334822116.276415"
+         timestampString = "334866441.645469"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "45"
-         endingLineNumber = "45"
+         startingLineNumber = "46"
+         endingLineNumber = "46"
          landmarkName = "class Graphics2D"
          landmarkType = "3">
       </FileBreakpoint>
@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "engine_ios/CGraphics2D.mm"
-         timestampString = "334850101.871118"
+         timestampString = "334867809.69578"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "80"
-         endingLineNumber = "80"
+         startingLineNumber = "81"
+         endingLineNumber = "81"
          landmarkName = "Graphics2D::fillScreen()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -57,6 +57,90 @@
          startingLineNumber = "27"
          endingLineNumber = "27"
          landmarkName = "Graphics2D::beginRender(CGRect bounds)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/CGraphics2D.mm"
+         timestampString = "334867886.285137"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "137"
+         endingLineNumber = "137"
+         landmarkName = "Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/CGraphics2D.mm"
+         timestampString = "334867886.285137"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "143"
+         endingLineNumber = "143"
+         landmarkName = "Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/CGraphics2D.mm"
+         timestampString = "334867886.285137"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "153"
+         endingLineNumber = "153"
+         landmarkName = "Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/CGraphics2D.mm"
+         timestampString = "334867886.285137"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "145"
+         endingLineNumber = "145"
+         landmarkName = "Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/CGraphics2D.mm"
+         timestampString = "334867886.285137"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "148"
+         endingLineNumber = "148"
+         landmarkName = "Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/CGraphics2D.mm"
+         timestampString = "334867886.285137"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "149"
+         endingLineNumber = "149"
+         landmarkName = "Graphics2D::drawArc(float x, float y, float width, float height, float startAngle, float angle)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

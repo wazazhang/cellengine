@@ -19,6 +19,7 @@
 #import <OpenGLES/ES1/glext.h>
 
 #include "CType.h"
+#include "CMath.h"
 #include "CImage.h"
 #include "CColor.h"
 #include "CBlend.h"
@@ -76,19 +77,21 @@ namespace com_cell
         
 		void drawRect(float x, float y, float w, float h);
         
-        void drawArc(float x, float y, float width, float height, float startDegree, float arcDegree);
+        void drawArc(float x, float y, float width, float height, float startAngle, float angle);
         
-        void fillArc(float x, float y, float width, float height, float startDegree, float arcDegree);
+        void fillArc(float x, float y, float width, float height, float startAngle, float angle);
         
         void drawOval(float x, float y, float width, float height);        
         
         void fillOval(float x, float y, float width, float height);        
         
-        void drawPolyline(float xPoints[], float yPoints[], float nPoints);
+        // 绘制多边形
+        // points[x0,y0,x1,y1...]
+        void drawPolygon(float points[], float nPoints);
         
-        void drawPolygon(float xPoints[], float yPoints[], float nPoints);
-        
-        void fillPolygon(float xPoints[], float yPoints[], float nPoints);
+        // 填充多边形
+        // points[x0,y0,x1,y1...]
+        void fillPolygon(float points[], float nPoints);
         
         //////////////////////////////////////////////////////////////////////////////////
 		// image
@@ -128,10 +131,6 @@ namespace com_cell
         // 旋转变换
         // degree 角度
         void rotate(float angle);
-        
-        // 旋转变换
-        // degree 角度
-        void rotate(float angle, float dx, float dy);
         
         // 缩放变换
         void scale(float sx, float sy);
