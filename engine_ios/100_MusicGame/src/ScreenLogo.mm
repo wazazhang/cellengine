@@ -8,6 +8,7 @@
  */
 #include "CMath.h"
 #include "Screens.h"
+#include "CSoundInfo.h"
 
 #include "ScreenLogo.h"
 #include "ScreenGame.h"
