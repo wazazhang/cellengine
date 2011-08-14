@@ -4,6 +4,7 @@ package com.cell.gfx
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
 	/**
@@ -31,6 +32,7 @@ package com.cell.gfx
 //			this.addEventListener(Event.EXIT_FRAME, onLastUpdate);
 			this.transition = new AlphaTransition(width, height, 0xffffff, 30);
 			//this.mouseEnabled = false;
+			this.scrollRect = new Rectangle(0, 0, width, height);
 		}
 		
 		protected function onUpdate(e:Event) : void
