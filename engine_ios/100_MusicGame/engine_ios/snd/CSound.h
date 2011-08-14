@@ -18,7 +18,7 @@ namespace com_cell
     class Sound
     {
     private:
-        ALuint*     m_pBuffer;
+        ALuint		m_buffer_id;
         SoundInfo*  m_pData;
         
     public:

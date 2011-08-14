@@ -14,9 +14,9 @@ namespace com_cell
     
     Sound::Sound(SoundInfo* sound_info)
 	{
+		m_buffer_id = 0;
         m_pData = sound_info;
-        m_pBuffer = NULL;
-        
+
 		if (m_pData != NULL) 
 		{
 			int format = AL_FORMAT_MONO16;
@@ -34,23 +34,22 @@ namespace com_cell
 				}
 			}
             
-            alGenBuffers(1, m_pBuffer);
+            alGenBuffers(1, &m_buffer_id);
 			if (SoundManager::checkError()) {
 				NSLog(@"Error generating OpenAL buffers");
-                m_pBuffer = NULL;
                 return;
 			}
 
 			// variables to load into
-			alBufferData(*m_pBuffer, format, 
+			alBufferData(m_buffer_id, format, 
                          sound_info->getData(),
                          sound_info->getDataSize(), 
                          sound_info->getFrameRate());
 			// Do another error check and return.
 			if (SoundManager::checkError()) {
-				alDeleteBuffers(1, m_pBuffer);
-                m_pBuffer = NULL;
+				alDeleteBuffers(1, &m_buffer_id);
 				if (SoundManager::checkError()) {}
+				m_buffer_id = 0;
 			}
 		}
 	}
@@ -62,24 +61,21 @@ namespace com_cell
 	
 	void Sound::destory() 
 	{
-		if (m_pBuffer != NULL) {
-			alDeleteBuffers(1, m_pBuffer);
+		if (isEnable()) {
+			alDeleteBuffers(1, &m_buffer_id);
             if (SoundManager::checkError()) {
-                NSLog(@"Error delete OpenAL buffers : %d", *m_pBuffer);
+                NSLog(@"Error delete OpenAL buffers : %d", m_buffer_id);
             }
-            m_pBuffer = NULL;
+            m_buffer_id = 0;
 		}
 	}
 
 	ALuint Sound::getBufferID() {
-        if (m_pBuffer != NULL) {
-            return *m_pBuffer;
-        }
-        return 0;
+		return m_buffer_id;
 	}
     
 	bool Sound::isEnable() {
-		return m_pBuffer != NULL;
+		return m_buffer_id != 0;
 	}
 	
     

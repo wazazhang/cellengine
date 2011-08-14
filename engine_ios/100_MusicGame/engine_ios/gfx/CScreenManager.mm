@@ -73,13 +73,6 @@ namespace com_cell
 	{
 		clearKey();
 		
-		if(m_pScreenFactory!=NULL)
-		{
-			delete(m_pScreenFactory);
-			
-			m_pScreenFactory = NULL;
-		}
-		
 		if(m_pCurSubScreen!=NULL)
 		{
 			m_pCurSubScreen->destory();
@@ -95,13 +88,20 @@ namespace com_cell
          m_BackBuffer = NULL;
          }
          */
+		
+		if(m_pScreenFactory!=NULL)
+		{
+			delete(m_pScreenFactory);
+			
+			m_pScreenFactory = NULL;
+		}
+		
 		if (pCurGraphics!=NULL)
 		{
 			delete(pCurGraphics);
 			
 			pCurGraphics = NULL;
 		}
-		
 	} 	
 	
 	/********************************************************************************************************************/

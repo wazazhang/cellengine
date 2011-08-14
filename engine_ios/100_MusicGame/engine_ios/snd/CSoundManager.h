@@ -50,7 +50,12 @@ namespace com_cell
         /**
          * suffix .wav or .ogg are supported
          */
-        SoundInfo*      createSoundInfo(std::string const &resource);  
+        SoundInfo*      createSoundInfo(std::string const &filepath);  
+		
+		/**
+         * suffix .wav or .ogg are supported
+         */
+        SoundInfo*      createStreamSoundInfo(std::string const &filepath); 
         
         Sound*          createSound(SoundInfo *info);
         

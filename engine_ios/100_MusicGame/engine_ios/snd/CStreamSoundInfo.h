@@ -1,24 +1,24 @@
 //
-//  CSoundInfo.h
+//  CStreamSoundInfo.h
 //  100_MusicGame
 //
-//  Created by wazazhang on 11-8-13.
+//  Created by wazazhang on 11-8-14.
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
-#ifndef _COM_CELL_SOUND_INFO
-#define _COM_CELL_SOUND_INFO
+#ifndef _COM_CELL_STREAM_SOUND_INFO
+#define _COM_CELL_STREAM_SOUND_INFO
 
 #include <string>
 #include "CUtil.h"
 
 namespace com_cell 
 {
-    class SoundInfo
+    class StreamSoundInfo : public SoundInfo
     {
     public:
         
         virtual std::string		getFilePath() = 0;
-		
+        
         /** stereo mono , 1, 2*/
         virtual int             getChannels() = 0;
         
@@ -53,20 +53,9 @@ namespace com_cell
         virtual void            resetData() = 0;
         
         
-        inline std::string toString() {
-            std::string sb = std::string("SoundInfo : ");
-            sb.append(getFilePath()).append("\n")
-            .append("\t  channels : ").append(intToString(getChannels())).append("\n")
-            .append("\tbit_length : ").append(intToString(getBitLength())).append("\n")
-            .append("\tframe_rate : ").append(intToString(getFrameRate())).append("\n")
-            .append(getComment());
-            return sb;
-        }
-        
     };
     
     
 }; // namespcace 
 
-#endif // _COM_CELL_SOUND_INFO
-
+#endif // _COM_CELL_STREAM_SOUND_INFO

@@ -40,16 +40,6 @@ namespace com_cell
         init(image);
     }
     
-    Image::Image(CGImageRef image)
-    {
-        if (image == NULL) {
-            printf("image is null");
-            return;
-        }
-        init(image);
-    }
-    
-    
     Image::~Image()
     {
         if (m_texture_id != 0) 
@@ -75,7 +65,13 @@ namespace com_cell
         GLubyte *spriteData = (GLubyte *) malloc(m_texture_w * m_texture_h * 4);
         
         // Uses the bitmatp creation function provided by the Core Graphics framework. 
-        CGContextRef spriteContext = CGBitmapContextCreate(spriteData, m_texture_w, m_texture_h, 8, m_texture_w * 4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+        CGContextRef spriteContext = CGBitmapContextCreate(spriteData, 
+														   m_texture_w, 
+														   m_texture_h, 
+														   8, 
+														   m_texture_w * 4, 
+														   CGImageGetColorSpace(spriteImage), 
+														   kCGImageAlphaPremultipliedLast);
         // After you create the context, you can draw the sprite image to the context.
         CGContextDrawImage(spriteContext, CGRectMake(0.0, 0.0, m_texture_w, m_texture_h), spriteImage);
         // You don't need the context at this point, so you need to release it to avoid memory leaks.

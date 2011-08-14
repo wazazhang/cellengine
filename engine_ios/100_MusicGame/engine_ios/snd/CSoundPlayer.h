@@ -20,7 +20,7 @@ namespace com_cell
     class SoundPlayer
     {
     private:
-        ALuint*     m_pSource;
+        ALuint  m_source_id;
         
     public:
         

@@ -23,9 +23,13 @@ namespace gt_teris
 	class ScreenLogo : public IScreen
 	{
     private:
-        Image* pSprite;
-        float angle;
+        Image*			pSprite;
+        float			angle;
         
+		SoundInfo*		pSoundInfo;
+		Sound*			pSound;
+		SoundPlayer*	pSoundPlayer;
+		
 	public:
 			
 		virtual void init() ;

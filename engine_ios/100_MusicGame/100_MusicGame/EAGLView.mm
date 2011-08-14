@@ -14,6 +14,7 @@
 #import "EAGLView.h"
 
 
+#include "CSoundManager.h"
 #include "CScreenManager.h"
 #include "Screens.h"
 
@@ -72,12 +73,29 @@
 		[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / 30)];
 		[[UIAccelerometer sharedAccelerometer] setDelegate:self];
 		
-		// Initialization code.
+		// Initialization code.		
 		com_cell::ScreenManager::init(new gt_teris::Screens());	
 	}		
     
 	return self;
 }
+
+
+- (void)dealloc {
+	
+	[self stopAnimation];
+	
+	if ([EAGLContext currentContext] == context) {
+		[EAGLContext setCurrentContext:nil];
+	}
+	
+	[context release];	
+	[super dealloc];
+	
+	// delete screen
+	com_cell::ScreenManager::destory();
+}
+
 
 
 - (void)layoutSubviews {
@@ -161,24 +179,6 @@
 		[self startAnimation];
 	}
 }
-
-
-- (void)dealloc {
-	
-	[self stopAnimation];
-	
-	if ([EAGLContext currentContext] == context) {
-		[EAGLContext setCurrentContext:nil];
-	}
-	
-	[context release];	
-	[super dealloc];
-	
-	// delete screen
-	com_cell::ScreenManager::destory();
-	
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // touch events

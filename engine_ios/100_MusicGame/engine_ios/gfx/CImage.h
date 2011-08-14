@@ -41,7 +41,6 @@ namespace com_cell
     public:
         
         Image(char const *file);
-        Image(CGImageRef image);
         
         ~Image();
         

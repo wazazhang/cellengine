@@ -14,65 +14,70 @@ namespace com_cell
 {
     SoundPlayer::SoundPlayer()
 	{
-        m_pSource = NULL;
 
         // Bind buffer with a source.
-        alGenSources(1, m_pSource);
+        alGenSources(1, &m_source_id);
         
         if (SoundManager::checkError()) {
             NSLog(@"Error generating OpenAL source !");
-            m_pSource = NULL;
+			m_source_id = 0;
             return;
         }
-            
+		
         float zero_v[] = { 0.0f, 0.0f, 0.0f };
 			
-        alSourcefv(*m_pSource,  AL_POSITION,        zero_v);
-        alSourcefv(*m_pSource,  AL_VELOCITY,        zero_v);
-        alSourcefv(*m_pSource,  AL_DIRECTION,       zero_v);
+        alSourcefv(m_source_id,  AL_POSITION,			zero_v);
+        alSourcefv(m_source_id,  AL_VELOCITY,			zero_v);
+        alSourcefv(m_source_id,  AL_DIRECTION,			zero_v);
         
-        alSourcef(*m_pSource,   AL_PITCH,			1.0f);
-        alSourcef(*m_pSource,   AL_GAIN,			1.0f);
-        alSourcef(*m_pSource,   AL_ROLLOFF_FACTOR,  0.0f);
+        alSourcef(m_source_id,   AL_PITCH,				1.0f);
+        alSourcef(m_source_id,   AL_GAIN,				1.0f);
+        alSourcef(m_source_id,   AL_ROLLOFF_FACTOR,	0.0f);
             
-		alSourcei(*m_pSource,   AL_SOURCE_RELATIVE, AL_TRUE);
-		alSourcei(*m_pSource,   AL_LOOPING,			0);
+		alSourcei(m_source_id,   AL_SOURCE_RELATIVE,	AL_TRUE);
+		alSourcei(m_source_id,   AL_LOOPING,			0);
 			
         SoundManager::checkError();
 		
-        NSLog(@"AL: Create player : %d\n", *m_pSource);
+        NSLog(@"AL: Create player : %d\n", m_source_id);
+	}
+	
+	SoundPlayer::~SoundPlayer()
+	{
+		destory();
 	}
 	
 	void SoundPlayer::destory()
 	{
-		if (m_pSource != NULL) {
+		if (isEnable()) {
             // clearAllSound();
-            alDeleteSources(1, m_pSource);
+            alDeleteSources(1, &m_source_id);
             SoundManager::checkError();
-            NSLog(@"AL: Destory player : %d\n", *m_pSource);			
+            NSLog(@"AL: Destory player : %d\n", m_source_id);		
+			m_source_id = 0;	
 		}
 	}
     
-    bool SoundPlayer::isEnable()
+    inline bool SoundPlayer::isEnable()
     {
-        return m_pSource != NULL;
+        return m_source_id != 0;
     }
     
 	void SoundPlayer::setVolume(float value)
     {
-		if (m_pSource != NULL) {
+		if (isEnable()) {
 			value = MIN(1.0f, value);
 			value = MAX(0.0f, value);
-			alSourcef(*m_pSource, AL_GAIN, value);
+			alSourcef(m_source_id, AL_GAIN, value);
 			SoundManager::checkError();
 		}
 	}
 	
 	float SoundPlayer::getVolume()
     {
-		if (m_pSource != NULL) {
+		if (isEnable()) {
 			ALfloat ret[1] = {0};
-			alGetSourcef(*m_pSource, AL_GAIN, ret);
+			alGetSourcef(m_source_id, AL_GAIN, ret);
 			SoundManager::checkError();
 			return ret[0];
 		} else {
@@ -82,11 +87,11 @@ namespace com_cell
 	
 	void SoundPlayer::play(int loop_count)
     {
-		if (m_pSource != NULL) {
+		if (isEnable()) {
             loop_count = MAX(loop_count, 0);
-			alSourcei(*m_pSource, AL_LOOPING, loop_count);
+			alSourcei(m_source_id, AL_LOOPING, loop_count);
 			if (!SoundManager::checkError()) {
-                alSourcePlay(*m_pSource);
+                alSourcePlay(m_source_id);
                 SoundManager::checkError();
 			}
 		}
@@ -94,33 +99,33 @@ namespace com_cell
 	
 	void SoundPlayer::pause() 
     {
-		if (m_pSource != NULL) {
-			alSourcePause(*m_pSource);
+		if (isEnable()) {
+			alSourcePause(m_source_id);
 			SoundManager::checkError();
 		}
 	}
 	
 	void SoundPlayer::resume() 
     {
-		if (m_pSource != NULL) {
-			alSourcePlay(*m_pSource);
+		if (isEnable()) {
+			alSourcePlay(m_source_id);
 			SoundManager::checkError();
 		}
 	}
 	
 	void SoundPlayer::stop() 
     {
-		if (m_pSource != NULL) {
-			alSourceStop(*m_pSource);
+		if (isEnable()) {
+			alSourceStop(m_source_id);
 			SoundManager::checkError();
 		}
 	}
     
 	bool SoundPlayer::isPlaying() 
     {
-		if (m_pSource != NULL) {
+		if (isEnable()) {
 			ALint state[1] = {0};
-			alGetSourcei(*m_pSource, AL_SOURCE_STATE, state);
+			alGetSourcei(m_source_id, AL_SOURCE_STATE, state);
 			if (SoundManager::checkError()) {
 				return false;
 			}
@@ -142,14 +147,14 @@ namespace com_cell
 
 	void SoundPlayer::clearQueued() 
 	{
-        if (m_pSource == NULL) return;
+        if (!isEnable()) return;
         
         int processed[1] = {0};
-        alGetSourcei(*m_pSource, AL_BUFFERS_PROCESSED, processed);
+        alGetSourcei(m_source_id, AL_BUFFERS_PROCESSED, processed);
         SoundManager::checkError();
         
 		ALuint buffers[processed[0]];
-        alSourceUnqueueBuffers(*m_pSource, processed[0], buffers);
+        alSourceUnqueueBuffers(m_source_id, processed[0], buffers);
         
         int error_code = alGetError();
         if (error_code != AL_NO_ERROR) {
@@ -172,14 +177,14 @@ namespace com_cell
 	
 	void SoundPlayer::clearSound() 
 	{
-		if (m_pSource != NULL) 
+		if (isEnable()) 
         {
 			// stop all sound
-			alSourceStop(*m_pSource);
+			alSourceStop(m_source_id);
 			SoundManager::checkError();
 			
 			// clean all sound
-			alSourceRewind(*m_pSource);
+			alSourceRewind(m_source_id);
 			SoundManager::checkError();
             
 			// clean all processed sound
@@ -188,7 +193,7 @@ namespace com_cell
 			// clean all queued sound
 			// 
 			
-			alSourcei(*m_pSource, AL_BUFFER, 0);
+			alSourcei(m_source_id, AL_BUFFER, 0);
 			SoundManager::checkError();
             
 		}
@@ -197,9 +202,9 @@ namespace com_cell
 	
 	void SoundPlayer::setSound(Sound* sound)
 	{
-		if (m_pSource != NULL) {
+		if (isEnable()) {
             if (sound->isEnable()) {
-                alSourcei(*m_pSource, AL_BUFFER, sound->getBufferID());
+                alSourcei(m_source_id, AL_BUFFER, sound->getBufferID());
                 SoundManager::checkError();
             }
 		}
@@ -207,10 +212,10 @@ namespace com_cell
     
 	void SoundPlayer::queue(Sound* sound) 
 	{
-		if (m_pSource != NULL) {
+		if (isEnable()) {
             if (sound->isEnable()) {
 				ALuint buffers[] = {sound->getBufferID()};
-				alSourceQueueBuffers(*m_pSource, 1, buffers);
+				alSourceQueueBuffers(m_source_id, 1, buffers);
 				SoundManager::checkError();
             }	
 		}

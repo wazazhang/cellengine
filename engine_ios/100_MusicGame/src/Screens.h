@@ -34,7 +34,17 @@ namespace gt_teris
 		static const int SCREEN_LOGO	= 2;
 		
 	public:
-	
+		Screens()
+		{
+			com_cell::SoundManager::getInstance();
+		}
+		
+		~Screens()
+		{
+			com_cell::SoundManager::destoryInstance();
+		}
+		
+		
 		inline virtual int getRootScreen() {
             return SCREEN_LOGO;
         }

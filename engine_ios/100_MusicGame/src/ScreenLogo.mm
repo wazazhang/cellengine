@@ -15,13 +15,30 @@ namespace gt_teris
 {
     void ScreenLogo::init() 
     {
-        //printf("init\n");
+        printf("init\n");
         
-        pSprite = new Image("/Sprite.png");
-        angle = 0;
+        pSprite		= new Image("/Sprite.png");
+        angle		= 0;
 		
-		SoundManager::getInstance();
+    
+//		pSoundInfo	= SoundManager::getInstance()->createSoundInfo("/res/bgm.wav");
+//		pSound		= SoundManager::getInstance()->createSound(pSoundInfo);
+//		pSoundPlayer= SoundManager::getInstance()->createPlayer();
+//		
+//		pSoundPlayer->setSound(pSound);
+//		
+//		pSoundPlayer->play(100);
+	}
+	
+    void ScreenLogo::destory() 
+    {
+        printf("notifyDestory\n");
+//        delete pSoundPlayer;
+//        delete pSound;
+//        delete pSoundInfo;
+		delete pSprite;
     }
+	
 	
     void ScreenLogo::update() 
     {
@@ -102,11 +119,6 @@ namespace gt_teris
         
     }
     
-    void ScreenLogo::destory() 
-    {
-        //printf("notifyDestory\n");
-        
-    }
 	
 }; // namespace gt_teris
 
