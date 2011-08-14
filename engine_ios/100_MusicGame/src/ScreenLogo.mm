@@ -8,8 +8,6 @@
  */
 #include "CMath.h"
 #include "Screens.h"
-#include "CSoundInfo.h"
-
 #include "ScreenLogo.h"
 #include "ScreenGame.h"
 
@@ -21,6 +19,8 @@ namespace gt_teris
         
         pSprite = new Image("/Sprite.png");
         angle = 0;
+		
+		SoundManager::getInstance();
     }
 	
     void ScreenLogo::update() 

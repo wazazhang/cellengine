@@ -23,29 +23,17 @@ namespace com_cell
 {
     class SoundManager
     {  
-    private:
-        static SoundManager *p_instance;
     public:
-        static SoundManager* getInstance() {
-            if (p_instance == NULL) {
-                p_instance = new SoundManager();
-            }
-            return p_instance;
-        }
-        static void destoryInstance() { 
-            if (p_instance != NULL) {
-                delete p_instance;
-            }
-        }
-        static bool checkError() {
-            int code = alGetError();
-            if (code != AL_NO_ERROR) {
-                NSLog(@"ALError: OpenAL error code : %x", code);
-                return true;
-            }
-            return false;
-        }
-///////////////////////////////////////////////////////////////////////////////
+        static SoundManager* getInstance() ;
+		
+        static void destoryInstance() ;
+		
+        static bool checkError() ;
+		
+    private:
+        static SoundManager* g_instance;
+		
+		///////////////////////////////////////////////////////////////////////////////
     private:
         ALCcontext*				context;
         ALCdevice*				device;
@@ -53,8 +41,6 @@ namespace com_cell
         SoundManager();
         ~SoundManager();
         
-        SoundInfo* initWav(std::string const &resource);        
-        SoundInfo* initOgg(std::string const &resource);
     public:
         
         void setVolume(float volume);

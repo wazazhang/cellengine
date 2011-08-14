@@ -9,6 +9,8 @@
 #define _COM_CELL_SOUND
 
 #include <string>
+#import <OpenAL/al.h>
+#import <OpenAL/alc.h>
 #include "CSoundInfo.h"
 
 namespace com_cell 
@@ -16,7 +18,7 @@ namespace com_cell
     class Sound
     {
     private:
-        
+        ALuint*     m_pBuffer;
         SoundInfo*  m_pData;
         
     public:
@@ -25,11 +27,11 @@ namespace com_cell
         
         ~Sound();
         
-        int         getBufferID() ;        
+        ALuint      getBufferID() ;        
         
         bool        isEnable() ;        
         
-        void        dispose() ;        
+        void        destory() ;        
 
         SoundInfo*  getSoundInfo();        
 

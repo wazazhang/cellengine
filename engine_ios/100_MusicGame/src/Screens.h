@@ -13,8 +13,10 @@
 
 
 #include "CType.h"
-#include "CScreen.h"
+#include "CSoundManager.h"
 #include "CScreenManager.h"
+
+#include "CScreen.h"
 #include "ScreenLogo.h"
 #include "ScreenGame.h"
 

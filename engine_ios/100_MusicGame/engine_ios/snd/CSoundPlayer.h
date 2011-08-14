@@ -8,6 +8,8 @@
 #ifndef _COM_CELL_SOUND_PLAYER
 #define _COM_CELL_SOUND_PLAYER
 
+#import <OpenAL/al.h>
+#import <OpenAL/alc.h>
 #include <string>
 #include "CSound.h"
 #include "CSoundInfo.h"
@@ -17,7 +19,15 @@ namespace com_cell
 {
     class SoundPlayer
     {
+    private:
+        ALuint*     m_pSource;
+        
     public:
+        
+        SoundPlayer();
+        ~SoundPlayer();
+        
+        bool    isEnable();
         
         /**
          * 播放
@@ -33,7 +43,7 @@ namespace com_cell
         
         bool 	isPlaying();
         
-        void 	dispose() ;
+        void 	destory() ;
         
         void	setVolume(float value);
         
@@ -46,6 +56,12 @@ namespace com_cell
          * @param sound
          */
         void    queue(Sound* sound);
+        
+        void    clearSound();
+        
+        void    clearQueued();
+        
+    protected:
         
     };    
     

@@ -20,6 +20,9 @@
 		FB3015D213F26E8A00594366 /* ScreenLogo.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB3015CA13F26E8A00594366 /* ScreenLogo.mm */; };
 		FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E313F5643A007045B4 /* MusicGame.xib */; };
 		FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E613F56498007045B4 /* MainWindow-iPad.xib */; };
+		FB452DF313F7D68A00D3F3B1 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */; };
+		FBA4048D13F7611E0002B80E /* CSoundDecode.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048C13F7611E0002B80E /* CSoundDecode.mm */; };
+		FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048F13F761D90002B80E /* CSoundPlayer.mm */; };
 		FBBAEDF113F6B787003AAE6E /* CSound.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBAEDF013F6B787003AAE6E /* CSound.mm */; };
 		FBF1A7C513EA4B7B00D51C20 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */; };
 		FBF1A7C713EA4B7B00D51C20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */; };
@@ -63,6 +66,9 @@
 		FB3015CD13F26E8A00594366 /* Screens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Screens.h; sourceTree = "<group>"; };
 		FB3947E313F5643A007045B4 /* MusicGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MusicGame.xib; sourceTree = "<group>"; };
 		FB3947E713F56498007045B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		FBA4048C13F7611E0002B80E /* CSoundDecode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundDecode.mm; sourceTree = "<group>"; };
+		FBA4048F13F761D90002B80E /* CSoundPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundPlayer.mm; sourceTree = "<group>"; };
 		FBBAEDEE13F6B47A003AAE6E /* CSoundDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSoundDecode.h; sourceTree = "<group>"; };
 		FBBAEDF013F6B787003AAE6E /* CSound.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSound.mm; sourceTree = "<group>"; };
 		FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100_MusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,9 +130,11 @@
 				FB05913913F6679F0068E4E7 /* CSound.h */,
 				FBBAEDF013F6B787003AAE6E /* CSound.mm */,
 				FB05913E13F6756D0068E4E7 /* CSoundPlayer.h */,
+				FBA4048F13F761D90002B80E /* CSoundPlayer.mm */,
 				FB05913A13F668500068E4E7 /* CSoundManager.h */,
 				FB05913B13F66E060068E4E7 /* CSoundManager.mm */,
 				FBBAEDEE13F6B47A003AAE6E /* CSoundDecode.h */,
+				FBA4048C13F7611E0002B80E /* CSoundDecode.mm */,
 			);
 			path = snd;
 			sourceTree = "<group>";
@@ -196,6 +204,7 @@
 		FBF1A7CE13EA4B7B00D51C20 /* 100_MusicGame */ = {
 			isa = PBXGroup;
 			children = (
+				FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */,
 				FB3947E513F56497007045B4 /* iPad */,
 				FB3014F813F249B700594366 /* GLSpriteAppDelegate.h */,
 				FB3014F913F249B700594366 /* GLSpriteAppDelegate.m */,
@@ -271,6 +280,7 @@
 				FB3014FC13F24A0400594366 /* Sprite.png in Resources */,
 				FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */,
 				FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */,
+				FB452DF313F7D68A00D3F3B1 /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +302,8 @@
 				FB05913613F65DD40068E4E7 /* CUtil.mm in Sources */,
 				FB05913C13F66E060068E4E7 /* CSoundManager.mm in Sources */,
 				FBBAEDF113F6B787003AAE6E /* CSound.mm in Sources */,
+				FBA4048D13F7611E0002B80E /* CSoundDecode.mm in Sources */,
+				FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +341,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = 100_MusicGame/Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -338,6 +351,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -347,13 +361,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = 100_MusicGame/Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -363,6 +379,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = 100_MusicGame/Entitlements.plist;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -380,6 +397,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = 100_MusicGame/Entitlements.plist;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "100_MusicGame/100_MusicGame-Prefix.pch";

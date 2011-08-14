@@ -6,20 +6,17 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
+#include "CSoundManager.h"
 #include "CSound.h"
-#import <OpenAL/al.h>
-#import <OpenAL/alc.h>
-
 
 namespace com_cell 
 {
     
-    
-	
     Sound::Sound(SoundInfo* sound_info)
 	{
         m_pData = sound_info;
-		
+        m_pBuffer = NULL;
+        
 		if (m_pData != NULL) 
 		{
 			int format = AL_FORMAT_MONO16;
@@ -37,70 +34,65 @@ namespace com_cell
 				}
 			}
             
-			int[] buffer = new int[1];
-			al.alGenBuffers(1, buffer, 0);
-			if (JALSoundManager.checkError(al)) {
-				throw new Exception("Error generating OpenAL buffers : " + toString());
-			} else {
-				this.buffer = buffer;
+            alGenBuffers(1, m_pBuffer);
+			if (SoundManager::checkError()) {
+				NSLog(@"Error generating OpenAL buffers");
+                m_pBuffer = NULL;
+                return;
 			}
-			
+
 			// variables to load into
-			al.alBufferData(buffer[0], format, bytes, size, info.getFrameRate());
+			alBufferData(*m_pBuffer, format, 
+                         sound_info->getData(),
+                         sound_info->getDataSize(), 
+                         sound_info->getFrameRate());
 			// Do another error check and return.
-			if (JALSoundManager.checkError(al)) {
-				al.alDeleteBuffers(1, buffer, 0);
-				if (JALSoundManager.checkError(al)) {}
-				this.buffer = null;
-				throw new Exception("Error generating OpenAL buffers : " + toString());
+			if (SoundManager::checkError()) {
+				alDeleteBuffers(1, m_pBuffer);
+                m_pBuffer = NULL;
+				if (SoundManager::checkError()) {}
 			}
-		}
-	}
-	
-	synchronized int getBufferID() {
-		if (buffer != null) {
-			return buffer[0];
-		}
-		return 0;
-	}
-	synchronized boolean isEnable() {
-		return buffer != null;
-	}
-	
-	
-	synchronized public void dispose() 
-	{
-		if (buffer != null) {
-			al.alDeleteBuffers(1, buffer, 0);
-			if (JALSoundManager.checkError(al)) {
-				System.err.println("buffer id : " + buffer[0]);
-			}
-			buffer = null;
-            //			System.out.println("unbind sound !");
 		}
 	}
     
-	@Override
-	public SoundInfo getSoundInfo() {
-		return info;
-	}
+    Sound::~Sound()
+    {
+        destory();
+    }
 	
-	@Override
-	public int getSize() {
-		return size;
-	}
-	
-	@Override
-	public String toString() {
-		return getClass().getName() + " : " + CUtil.getBytesSizeString(size);
-	}
-	
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		dispose();
+	void Sound::destory() 
+	{
+		if (m_pBuffer != NULL) {
+			alDeleteBuffers(1, m_pBuffer);
+            if (SoundManager::checkError()) {
+                NSLog(@"Error delete OpenAL buffers : %d", *m_pBuffer);
+            }
+            m_pBuffer = NULL;
+		}
 	}
 
+	ALuint Sound::getBufferID() {
+        if (m_pBuffer != NULL) {
+            return *m_pBuffer;
+        }
+        return 0;
+	}
     
+	bool Sound::isEnable() {
+		return m_pBuffer != NULL;
+	}
+	
+    
+	SoundInfo* Sound::getSoundInfo()
+    {
+		return m_pData;
+	}
+	
+	int Sound::getSize() {
+        if (m_pData != NULL) {
+            return m_pData->getDataSize();
+        }
+        return 0;
+	}
     
 }; // namespcace 
