@@ -4,8 +4,8 @@ package com.cell.gfx.game
 
 	public class CWorldCamera implements IVector2D
 	{
-		private var _x : Number;
-		private var _y : Number;
+		private var _x : Number = 0;
+		private var _y : Number = 0;
 		private var _w : Number;
 		private var _h : Number;
 		

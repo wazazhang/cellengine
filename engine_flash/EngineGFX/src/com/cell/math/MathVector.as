@@ -153,7 +153,10 @@ package com.cell.math
 			return Math.atan2(v.getVectorY(), v.getVectorX());
 		}
 		
-		
+		public static function getDirect(v:Number) : Number 
+		{
+			return v==0?0:(v>0?1:-1);
+		}
 		
 	}
 }
