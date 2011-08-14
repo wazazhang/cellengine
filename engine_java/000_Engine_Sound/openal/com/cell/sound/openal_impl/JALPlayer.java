@@ -137,21 +137,12 @@ public class JALPlayer implements IPlayer, IStreamPlayer
 //	int[] queued = new int[1];
 //	al.alGetSourcei(source[0], AL.AL_BUFFERS_QUEUED, queued, 0);
 //	JALSoundManager.checkError(al);
-	
-	protected void clearQueued(List<Integer> buffers) 
+
+	protected void clearQueued(int count) 
 	{
-		int[] buffersi = CUtil.toIntArray(buffers);
-		clearQueued(buffersi);
-	}
-	
-	protected void clearQueued(int[] buffers) 
-	{
-		if (buffers == null) {
-			return;
-		}
-		for (int n = 0; n < buffers.length; n++) {
-			al.alSourceUnqueueBuffers(source[0], 1, buffers, n);
-//			JALSoundManager.logger.info("openal clearQueued : " + buffers[n]);
+		int[] buffers = new int[count];
+			al.alSourceUnqueueBuffers(source[0], count, buffers, 0);
+			JALSoundManager.logger.info("openal clearQueued : " + CUtil.arrayToString(buffers));
 			int error_code = al.alGetError();
 			if (error_code != AL.AL_NO_ERROR) {
 				switch (error_code) {
@@ -172,7 +163,7 @@ public class JALPlayer implements IPlayer, IStreamPlayer
 							"OpenAL error code : 0x" + Integer.toString(error_code, 16));
 				}
 			}
-		}
+		
 	}
 	
 	protected void clearAllSound() 
@@ -190,13 +181,13 @@ public class JALPlayer implements IPlayer, IStreamPlayer
 			int[] processed = new int[1];
 			al.alGetSourcei(source[0], AL.AL_BUFFERS_PROCESSED, processed, 0);
 			JALSoundManager.checkError(al);
-			clearQueued(processed);
+			clearQueued(processed[0]);
 			
 			// clean all queued sound
-			int[] queued = new int[1];
-			al.alGetSourcei(source[0], AL.AL_BUFFERS_QUEUED, queued, 0);
-			JALSoundManager.checkError(al);
-			clearQueued(queued);
+//			int[] queued = new int[1];
+//			al.alGetSourcei(source[0], AL.AL_BUFFERS_QUEUED, queued, 0);
+//			JALSoundManager.checkError(al);
+//			clearQueued(queued[0]);
 			
 			al.alSourcei(source[0], AL.AL_BUFFER, 0);
 			if (JALSoundManager.checkError(al)) {}
