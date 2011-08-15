@@ -35,6 +35,22 @@ namespace com_cell
 		
 		virtual void notifyResume() = 0;
 		
+		
+	public:
+		static bool isPointerHoldLag(int id);
+		
+		static bool isPointerHold(int id);
+		
+		static bool isPointerDown(int id) ;
+		
+		static bool isPointerUp(int id);
+		
+		static bool isPointerDrag(int id) ;
+		
+		static float getPointerX(int id);
+		
+		static float getPointerY(int id);
+
 	};
 	
 	

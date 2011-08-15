@@ -17,26 +17,26 @@ namespace com_cell
     {
 	private:
 		
-		char*		file_path;
+		char	const	*file_path;
 		
 		ALsizei		channels;
 		ALsizei		bitlength;
 		ALsizei		freq;
 		
 		ALsizei		size;
-		void*		data;
+		void		*data;
 		
 		
     public:
         
-		inline StaticSoundInfo(char* const filepath, 
+		inline StaticSoundInfo(char const *file, 
 							   ALsizei achannels, 
 							   ALsizei abitlength,
 							   ALsizei afreq, 
 							   ALsizei asize,
 							   void* adata)
 		{
-			file_path	= filepath;
+			file_path	= file;
 			channels	= achannels;
 			bitlength	= abitlength;
 			freq		= afreq;
@@ -51,7 +51,7 @@ namespace com_cell
 			}
 		}
 		
-		inline virtual char* getFilePath() 
+		inline virtual  char const * getFilePath() 
 		{
 			return file_path;
 		}
@@ -112,6 +112,7 @@ namespace com_cell
             .append("\t  channels : ").append(intToString(getChannels())).append("\n")
             .append("\tbit_length : ").append(intToString(getBitLength())).append("\n")
             .append("\tframe_rate : ").append(intToString(getFrameRate())).append("\n")
+            .append("\t      size : ").append(intToString(getDataSize())).append("\n")
             .append(getComment());
             return sb;
         }

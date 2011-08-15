@@ -89,20 +89,20 @@ namespace com_cell
     {
         const ALCchar* device_spec = alcGetString(device, ALC_DEVICE_SPECIFIER);
 		
-        ALCint frequency, monosources, refresh, stereosources, sync;
-        alcGetIntegerv(device, ALC_FREQUENCY,      	1, &frequency); 
-        alcGetIntegerv(device, ALC_MONO_SOURCES,   	1, &monosources); 
-        alcGetIntegerv(device, ALC_REFRESH,        	1, &refresh); 
-        alcGetIntegerv(device, ALC_STEREO_SOURCES,	1, &stereosources); 
-        alcGetIntegerv(device, ALC_SYNC, 			1, &sync); 
+//        ALCint frequency, monosources, refresh, stereosources, sync;
+//        alcGetIntegerv(device, ALC_FREQUENCY,      	1, &frequency); 
+//        alcGetIntegerv(device, ALC_MONO_SOURCES,   	1, &monosources); 
+//        alcGetIntegerv(device, ALC_REFRESH,        	1, &refresh); 
+//        alcGetIntegerv(device, ALC_STEREO_SOURCES,	1, &stereosources); 
+//        alcGetIntegerv(device, ALC_SYNC, 			1, &sync); 
         
         std::string sb = std::string("AL : Current OpenAL Device !\n");
         sb.append("\t  OpenAL Device : ").append(device_spec).append("\n");
-        sb.append("\t      Frequency : ").append(intToString(frequency)).append("\n");
-        sb.append("\t   Mono sources : ").append(intToString(monosources)).append("\n");
-        sb.append("\t        Refresh : ").append(intToString(refresh)).append("\n");
-        sb.append("\t Stereo sources : ").append(intToString(stereosources)).append("\n");
-        sb.append("\t           Sync : ").append(intToString(sync));
+//        sb.append("\t      Frequency : ").append(intToString(frequency)).append("\n");
+//        sb.append("\t   Mono sources : ").append(intToString(monosources)).append("\n");
+//        sb.append("\t        Refresh : ").append(intToString(refresh)).append("\n");
+//        sb.append("\t Stereo sources : ").append(intToString(stereosources)).append("\n");
+//        sb.append("\t           Sync : ").append(intToString(sync));
         return sb;
     }
 
@@ -120,12 +120,12 @@ namespace com_cell
         return ret[0];
     }
     
-    SoundInfo* SoundManager::createSoundInfo(char* const filepath) 
+    SoundInfo* SoundManager::createSoundInfo(char const *file) 
     {
-		return createStaticSound(filepath);
+		return createStaticSound(file);
     }
 
-    SoundInfo* SoundManager::createStreamSoundInfo(char* const filepath) 
+    SoundInfo* SoundManager::createStreamSoundInfo(char const *file) 
     {
         return NULL;
     }

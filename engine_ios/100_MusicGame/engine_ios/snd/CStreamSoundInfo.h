@@ -17,7 +17,7 @@ namespace com_cell
     {
     public:
         
-        virtual char*			getFilePath() = 0;
+        virtual char const		*getFilePath() = 0;
         
         /** stereo mono , 1, 2*/
         virtual int             getChannels() = 0;

@@ -18,7 +18,7 @@
 namespace com_cell 
 {
 	//////////////////////////////////////////////////////////////////////////////////////
-	SoundInfo* createStaticSound(char* const filepath)
+	SoundInfo* createStaticSound(char const *file)
 	{		
 		ALsizei		channels;
 		ALsizei		bitlength;
@@ -27,24 +27,25 @@ namespace com_cell
 		void*		data	= NULL;
 		
 		NSBundle*	bundle	= [NSBundle mainBundle];		
-		NSString*	path	= [bundle pathForResource:[NSString stringWithUTF8String:filepath] ofType:nil];
+		NSString*	path	= [bundle pathForResource:[NSString stringWithUTF8String:file] ofType:nil];
 		// get some audio data from a wave file
-		//			CFURLRef fileURL = (CFURLRef)[[NSURL fileURLWithPath: [bundle 
-		//			    pathForResource:[NSString stringWithUTF8String:name.c_str()] 
-		//			             ofType:[NSString stringWithUTF8String:ext.c_str()]]] retain];
 		CFURLRef fileURL = (CFURLRef)[NSURL fileURLWithPath:path];
 		
 		if (fileURL)
 		{	
-			if (stringEndWidth(filepath, "caf")) {
+			if (stringEndWidth(file, "caf")) {
 				data = loadCafSound(fileURL, &size, &channels, &bitlength, &freq);
 			}
-			if (stringEndWidth(filepath, "wav")) {
+			else if (stringEndWidth(file, "wav")) {
 				data = loadWavSound(fileURL, &size, &channels, &bitlength, &freq);
 			}
-			CFRelease(fileURL);
+			//CFRelease(fileURL);
 			if (data != NULL) {
-				StaticSoundInfo* ret = new StaticSoundInfo(filepath, channels, bitlength, freq, size, data);
+				StaticSoundInfo* ret = new StaticSoundInfo(file, 
+														   channels,
+														   bitlength, 
+														   freq, 
+														   size, data);
 				cout << ret->toString() << endl;
 				return ret;
 			} else {
@@ -60,7 +61,79 @@ namespace com_cell
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	
-	void* loadWavSound(CFURLRef const &inFileURL, 
+	void* loadCaf(char* const filepath)
+	{
+		NSBundle*	bundle	= [NSBundle mainBundle];		
+		NSString*	path	= [bundle pathForResource:[NSString stringWithUTF8String:filepath] ofType:nil];
+		
+		OSStatus	result;
+		
+		// first, open the file  
+		AudioFileID fileID;
+		{
+			// use the NSURl instead of a cfurlref cuz it is easier     
+			NSURL * afUrl = [NSURL fileURLWithPath:path]; 
+			// do some platform specific stuff..  
+			result = AudioFileOpenURL((CFURLRef)afUrl, kAudioFileReadPermission, 0, &fileID);  
+			if (result != 0) {
+				NSLog(@"cannot openf file: %@", path);   
+				return NULL;
+			}
+		}
+		UInt32 outDataSize;   
+		UInt32 outChannels;    
+		UInt32 outBitlength;   
+		UInt32 outSampleRate; 
+		{  
+			UInt32 thePropSize = sizeof(UInt32);    
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertyAudioDataByteCount, 
+										  &thePropSize, 
+										  &outDataSize);
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertyChannelLayout, 
+										  &thePropSize, 
+										  &outChannels);   
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertySourceBitDepth, 
+										  &thePropSize, 
+										  &outBitlength);   
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertyBitRate, 
+										  &thePropSize, 
+										  &outSampleRate);   
+			NSLog(@"outDataSize=%d outSampleRate=%d outChannels=%d outBitlength=%d\n",
+				  outDataSize,
+				  outSampleRate,
+				  outChannels,
+				  outBitlength);
+			if(result != 0) {
+				AudioFileClose(fileID);   //close the file 
+				NSLog(@"cannot find file size");    
+				return NULL;
+			}
+		}
+		// this is where the audio data will live for the moment  
+		void * outData = malloc(outDataSize);
+		{
+			// this where we actually get the bytes from the file and put them  
+			// into the data buffer  
+			OSStatus result = noErr;  
+			result = AudioFileReadBytes(fileID, false, 0, &outDataSize, outData);  
+			AudioFileClose(fileID);   //close the file 
+			if (result != 0) {
+				NSLog(@"cannot load effect: %@",path);  
+				return NULL;
+			}
+		}
+		
+		return outData;
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	void* loadWavSound(CFURLRef const inFileURL, 
 					   ALsizei*	outDataSize, 
 					   ALsizei*	outChannels, 
 					   ALsizei*	outBitlength, 
@@ -159,6 +232,11 @@ namespace com_cell
 				*outSampleRate	= (ALsizei)theOutputFormat.mSampleRate;
 				*outChannels	= (ALsizei)theOutputFormat.mChannelsPerFrame;
 				*outBitlength	= (ALsizei)theOutputFormat.mBitsPerChannel;
+				NSLog(@"load wav sound : outDataSize=%d outSampleRate=%d outChannels=%d outBitlength=%d\n",
+					  *outDataSize,
+					  *outSampleRate,
+					  *outChannels,
+					  *outBitlength);
 			}
 			else 
 			{ 
@@ -175,7 +253,7 @@ namespace com_cell
 	
 	
 	
-	void* loadCafSound(CFURLRef const &inFileURL, 
+	void* loadCafSound(CFURLRef const inFileURL, 
 					   ALsizei*	outDataSize, 
 					   ALsizei*	outChannels, 
 					   ALsizei*	outBitlength, 
@@ -271,6 +349,12 @@ namespace com_cell
 				*outSampleRate	= (ALsizei)theOutputFormat.mSampleRate;
 				*outChannels	= (ALsizei)theOutputFormat.mChannelsPerFrame;
 				*outBitlength	= (ALsizei)theOutputFormat.mBitsPerChannel;
+				NSLog(@"load caf sound : outDataSize=%d outSampleRate=%d outChannels=%d outBitlength=%d\n",
+					  *outDataSize,
+					  *outSampleRate,
+					  *outChannels,
+					  *outBitlength);
+
 			}
 			else 
 			{ 

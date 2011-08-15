@@ -25,6 +25,7 @@
 		FBBAEDF113F6B787003AAE6E /* CSound.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBAEDF013F6B787003AAE6E /* CSound.mm */; };
 		FBBE9A1F13F8C6E30072FD11 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBE9A1E13F8C6E30072FD11 /* Default.png */; };
 		FBBE9A2313F8F5F20072FD11 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = FBBE9A2213F8F5F10072FD11 /* sound.caf */; };
+		FBBE9A2513F981FC0072FD11 /* CScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBE9A2413F981FC0072FD11 /* CScreen.mm */; };
 		FBF1A7C513EA4B7B00D51C20 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */; };
 		FBF1A7C713EA4B7B00D51C20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */; };
 		FBF1A7C913EA4B7B00D51C20 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C813EA4B7B00D51C20 /* CoreGraphics.framework */; };
@@ -94,6 +95,7 @@
 		FBBAEDF013F6B787003AAE6E /* CSound.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSound.mm; sourceTree = "<group>"; };
 		FBBE9A1E13F8C6E30072FD11 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		FBBE9A2213F8F5F10072FD11 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
+		FBBE9A2413F981FC0072FD11 /* CScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CScreen.mm; sourceTree = "<group>"; };
 		FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100_MusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -170,6 +172,7 @@
 				FB05912A13F65DD40068E4E7 /* CImage.h */,
 				FB05912B13F65DD40068E4E7 /* CImage.mm */,
 				FB05912D13F65DD40068E4E7 /* CScreen.h */,
+				FBBE9A2413F981FC0072FD11 /* CScreen.mm */,
 				FB05912E13F65DD40068E4E7 /* CScreenManager.h */,
 				FB05912F13F65DD40068E4E7 /* CScreenManager.mm */,
 			);
@@ -428,6 +431,7 @@
 				FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */,
 				FBF2CE2E13F853360018C832 /* CUtil.mm in Sources */,
 				FBF2CE3013F853500018C832 /* CFile.mm in Sources */,
+				FBBE9A2513F981FC0072FD11 /* CScreen.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

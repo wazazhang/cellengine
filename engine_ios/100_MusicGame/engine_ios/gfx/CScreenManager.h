@@ -21,6 +21,7 @@ namespace com_cell
 	
 //  ----------------------------------------------------------------------------------------------------------------------------//
 //  game screen maker
+	
 	class IScreenFactory
 	{
 	public:
@@ -41,12 +42,12 @@ namespace com_cell
 	class ScreenManager
 	{
 	public:
-		static void init(IScreenFactory *factory);
-		static ScreenManager* getInstance();
-		static void destory();
+		static void				init(IScreenFactory *factory);
+		static ScreenManager*	getInstance();
+		static void				destory();
         
 	private:
-		static ScreenManager* g_pScreenManagerInstance;	
+		static ScreenManager*	g_pScreenManagerInstance;	
 		
 		
 	protected:

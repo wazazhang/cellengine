@@ -47,9 +47,9 @@ namespace com_cell
         
         float getVolume();
         
-        SoundInfo*      createSoundInfo(char* const filepath);  
+        SoundInfo*      createSoundInfo(char const *file);  
 		
-        SoundInfo*      createStreamSoundInfo(char* const filepath); 
+        SoundInfo*      createStreamSoundInfo(char const *file); 
         
         Sound*          createSound(SoundInfo *info);
         

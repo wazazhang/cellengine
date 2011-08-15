@@ -205,11 +205,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "engine_ios/gfx/CScreenManager.mm"
-         timestampString = "335042536.828401"
+         timestampString = "335120739.958112"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "33"
-         endingLineNumber = "33"
+         startingLineNumber = "32"
+         endingLineNumber = "32"
          landmarkName = "ScreenManager::init(com_cell::IScreenFactory *factory)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -240,6 +240,34 @@
          endingLineNumber = "18"
          landmarkName = "Sound::Sound(SoundInfo* sound_info)"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/snd/CSoundDecode.mm"
+         timestampString = "335117389.071352"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "24"
+         endingLineNumber = "24"
+         landmarkName = "createStaticSound(char* const filepath)"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/snd/CSoundDecode.mm"
+         timestampString = "335117498.856155"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "36"
+         endingLineNumber = "36"
+         landmarkName = "createStaticSound(char* const filepath)"
+         landmarkType = "7">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

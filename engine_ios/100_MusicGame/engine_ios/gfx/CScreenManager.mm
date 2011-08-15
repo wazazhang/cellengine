@@ -6,7 +6,6 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 #include "CUtil.h"
-#include "CScreen.h"
 #include "CScreenManager.h"
 #include "CGraphics2D.h"
 
@@ -15,9 +14,9 @@ namespace com_cell
 
 //  ----------------------------------------------------------------------------------------
     
-	ScreenManager* ScreenManager::g_pScreenManagerInstance;
+	ScreenManager * ScreenManager::g_pScreenManagerInstance;
     
-	ScreenManager* ScreenManager::getInstance()
+	ScreenManager * ScreenManager::getInstance()
 	{
 		return g_pScreenManagerInstance;
 	}

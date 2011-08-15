@@ -85,11 +85,11 @@ namespace com_cell
 		}
 	}
 	
-	void SoundPlayer::play(int loop_count)
+	void SoundPlayer::play(bool loop)
     {
 		if (isEnable()) {
-            loop_count = loop_count>0?1:0;
-			alSourcei(m_source_id, AL_LOOPING, loop_count);
+            ALint aloop = loop?AL_TRUE:AL_FALSE;
+			alSourcei(m_source_id, AL_LOOPING, aloop);
 			if (!SoundManager::checkError()) {
                 alSourcePlay(m_source_id);
                 SoundManager::checkError();

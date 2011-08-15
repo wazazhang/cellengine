@@ -31,9 +31,9 @@ namespace com_cell
         
         /**
          * 播放
-         * @param loop_count 播放循环次数，小于等于0表示无限循环
+         * @param loop 播放无限循环
          */
-        void 	play(int loop_count);
+        void 	play(bool loop);
         
         void	pause();
         
