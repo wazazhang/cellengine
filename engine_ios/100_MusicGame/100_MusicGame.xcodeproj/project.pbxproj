@@ -23,6 +23,8 @@
 		FBA4048D13F7611E0002B80E /* CSoundDecode.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048C13F7611E0002B80E /* CSoundDecode.mm */; };
 		FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048F13F761D90002B80E /* CSoundPlayer.mm */; };
 		FBBAEDF113F6B787003AAE6E /* CSound.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBAEDF013F6B787003AAE6E /* CSound.mm */; };
+		FBBE9A1F13F8C6E30072FD11 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBE9A1E13F8C6E30072FD11 /* Default.png */; };
+		FBBE9A2313F8F5F20072FD11 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = FBBE9A2213F8F5F10072FD11 /* sound.caf */; };
 		FBF1A7C513EA4B7B00D51C20 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */; };
 		FBF1A7C713EA4B7B00D51C20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */; };
 		FBF1A7C913EA4B7B00D51C20 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C813EA4B7B00D51C20 /* CoreGraphics.framework */; };
@@ -35,7 +37,6 @@
 		FBF2CDB213F8223C0018C832 /* bgm.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CD9E13F8223C0018C832 /* bgm.wav */; };
 		FBF2CDB313F8223C0018C832 /* Clips.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CD9F13F8223C0018C832 /* Clips.png */; };
 		FBF2CDB413F8223C0018C832 /* ClipsTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA013F8223C0018C832 /* ClipsTitle.png */; };
-		FBF2CDB513F8223C0018C832 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA113F8223C0018C832 /* Default.png */; };
 		FBF2CDB613F8223C0018C832 /* edit.ini in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA213F8223C0018C832 /* edit.ini */; };
 		FBF2CDB713F8223C0018C832 /* fonts.ini in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA313F8223C0018C832 /* fonts.ini */; };
 		FBF2CDB813F8223C0018C832 /* fonts.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA413F8223C0018C832 /* fonts.png */; };
@@ -91,6 +92,8 @@
 		FBA4048F13F761D90002B80E /* CSoundPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundPlayer.mm; sourceTree = "<group>"; };
 		FBBAEDEE13F6B47A003AAE6E /* CSoundDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSoundDecode.h; sourceTree = "<group>"; };
 		FBBAEDF013F6B787003AAE6E /* CSound.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSound.mm; sourceTree = "<group>"; };
+		FBBE9A1E13F8C6E30072FD11 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		FBBE9A2213F8F5F10072FD11 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100_MusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -224,9 +227,11 @@
 		FBF1A7B513EA4B7B00D51C20 = {
 			isa = PBXGroup;
 			children = (
+				FBBE9A1E13F8C6E30072FD11 /* Default.png */,
 				FB30158C13F24D6C00594366 /* engine_ios */,
 				FB3014FD13F24A6100594366 /* src */,
 				FB3014FB13F24A0400594366 /* Sprite.png */,
+				FBBE9A2213F8F5F10072FD11 /* sound.caf */,
 				FBF2CD9C13F8223C0018C832 /* res */,
 				FBF1A7CE13EA4B7B00D51C20 /* 100_MusicGame */,
 				FBF1A7C313EA4B7B00D51C20 /* Frameworks */,
@@ -382,7 +387,6 @@
 				FBF2CDB213F8223C0018C832 /* bgm.wav in Resources */,
 				FBF2CDB313F8223C0018C832 /* Clips.png in Resources */,
 				FBF2CDB413F8223C0018C832 /* ClipsTitle.png in Resources */,
-				FBF2CDB513F8223C0018C832 /* Default.png in Resources */,
 				FBF2CDB613F8223C0018C832 /* edit.ini in Resources */,
 				FBF2CDB713F8223C0018C832 /* fonts.ini in Resources */,
 				FBF2CDB813F8223C0018C832 /* fonts.png in Resources */,
@@ -398,6 +402,8 @@
 				FBF2CDC213F8223C0018C832 /* s7.wav in Resources */,
 				FBF2CDC313F8223C0018C832 /* s8.wav in Resources */,
 				FBF2CDC413F8223C0018C832 /* save.txt in Resources */,
+				FBBE9A1F13F8C6E30072FD11 /* Default.png in Resources */,
+				FBBE9A2313F8F5F20072FD11 /* sound.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,7 +512,7 @@
 				INFOPLIST_FILE = "100_MusicGame/100_MusicGame-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -523,7 +529,7 @@
 				INFOPLIST_FILE = "100_MusicGame/100_MusicGame-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

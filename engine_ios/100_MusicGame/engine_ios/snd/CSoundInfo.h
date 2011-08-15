@@ -17,7 +17,7 @@ namespace com_cell
     {
     public:
         
-        virtual std::string		getFilePath() = 0;
+        virtual char*			getFilePath() = 0;
 		
         /** stereo mono , 1, 2*/
         virtual int             getChannels() = 0;
@@ -40,6 +40,9 @@ namespace com_cell
         /**获得数据长度，字节*/
         virtual int             getDataSize() = 0;
         
+		/**是否时静态数据*/
+		virtual bool			isStatic() = 0;
+		
         /**
          * if the raw stream has remain data <br>
          * 该缓冲区是否有新数据。
@@ -53,16 +56,7 @@ namespace com_cell
         virtual void            resetData() = 0;
         
         
-        inline std::string toString() {
-            std::string sb = std::string("SoundInfo : ");
-            sb.append(getFilePath()).append("\n")
-            .append("\t  channels : ").append(intToString(getChannels())).append("\n")
-            .append("\tbit_length : ").append(intToString(getBitLength())).append("\n")
-            .append("\tframe_rate : ").append(intToString(getFrameRate())).append("\n")
-            .append(getComment());
-            return sb;
-        }
-        
+        virtual std::string		toString() = 0;        
     };
     
     

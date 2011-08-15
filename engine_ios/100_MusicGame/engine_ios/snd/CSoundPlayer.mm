@@ -88,7 +88,7 @@ namespace com_cell
 	void SoundPlayer::play(int loop_count)
     {
 		if (isEnable()) {
-            loop_count = MAX(loop_count, 0);
+            loop_count = loop_count>0?1:0;
 			alSourcei(m_source_id, AL_LOOPING, loop_count);
 			if (!SoundManager::checkError()) {
                 alSourcePlay(m_source_id);

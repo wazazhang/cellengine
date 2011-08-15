@@ -47,15 +47,9 @@ namespace com_cell
         
         float getVolume();
         
-        /**
-         * suffix .wav or .ogg are supported
-         */
-        SoundInfo*      createSoundInfo(std::string const &filepath);  
+        SoundInfo*      createSoundInfo(char* const filepath);  
 		
-		/**
-         * suffix .wav or .ogg are supported
-         */
-        SoundInfo*      createStreamSoundInfo(std::string const &filepath); 
+        SoundInfo*      createStreamSoundInfo(char* const filepath); 
         
         Sound*          createSound(SoundInfo *info);
         

@@ -120,25 +120,12 @@ namespace com_cell
         return ret[0];
     }
     
-    /**
-     * suffix .wav or .ogg are supported
-     */
-    SoundInfo* SoundManager::createSoundInfo(std::string const &filepath) 
+    SoundInfo* SoundManager::createSoundInfo(char* const filepath) 
     {
-        if (stringEndWidth(filepath, "wav")) {
-            return createWavSound(filepath);
-        } else if (stringEndWidth(filepath, "ogg")) {
-            return createOggSound(filepath);
-        } else {
-            NSLog(@"only \'.wav\' or \'.ogg\' support");
-        }
-        return NULL;
+		return createStaticSound(filepath);
     }
 
-	/**
-     * suffix .wav or .ogg are supported
-     */
-    SoundInfo* SoundManager::createStreamSoundInfo(std::string const &filepath) 
+    SoundInfo* SoundManager::createStreamSoundInfo(char* const filepath) 
     {
         return NULL;
     }

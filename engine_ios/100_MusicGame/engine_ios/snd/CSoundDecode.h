@@ -16,17 +16,19 @@
 
 namespace com_cell 
 {
-    extern SoundInfo* createWavSound(std::string const &filepath);
-    
-    extern SoundInfo* createOggSound(std::string const &filepath);
-    
+	extern SoundInfo* createStaticSound(char* const filepath);
 	
-	typedef ALvoid	AL_APIENTRY	(*alBufferDataStaticProcPtr) (const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
+	extern void* loadCafSound(CFURLRef const &inFileURL, 
+					   ALsizei*	outDataSize, 
+					   ALsizei*	outChannels, 
+					   ALsizei*	outBitlength, 
+					   ALsizei*	outSampleRate);
 	
-	ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
-	
-	void* MyGetOpenALAudioData(CFURLRef inFileURL, ALsizei *outDataSize, ALenum *outDataFormat, ALsizei*	outSampleRate);
-
+	extern void* loadWavSound(CFURLRef const &inFileURL, 
+					   ALsizei*	outDataSize, 
+					   ALsizei*	outChannels, 
+					   ALsizei*	outBitlength, 
+					   ALsizei*	outSampleRate);
 }; // namespcace 
 
 #endif // _COM_CELL_SOUND_DECODE

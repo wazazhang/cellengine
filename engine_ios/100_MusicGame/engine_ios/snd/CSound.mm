@@ -6,12 +6,13 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#include "CSoundManager.h"
 #include "CSound.h"
+#include "CSoundManager.h"
+#include "CSoundDecode.h"
 
 namespace com_cell 
 {
-    
+	
     Sound::Sound(SoundInfo* sound_info)
 	{
 		m_buffer_id = 0;
@@ -39,12 +40,21 @@ namespace com_cell
 				NSLog(@"Error generating OpenAL buffers");
                 return;
 			}
-
+			//**
 			// variables to load into
 			alBufferData(m_buffer_id, format, 
                          sound_info->getData(),
                          sound_info->getDataSize(), 
                          sound_info->getFrameRate());
+			//*/
+			/*
+			// use the static buffer data API
+			alBufferDataStaticProc(m_buffer_id, format, 
+								   sound_info->getData(),
+								   sound_info->getDataSize(), 
+								   sound_info->getFrameRate());
+			//*/
+			
 			// Do another error check and return.
 			if (SoundManager::checkError()) {
 				alDeleteBuffers(1, &m_buffer_id);

@@ -38,7 +38,7 @@ namespace com_cell
         int         getSize() ;       
         
     };    
-    
+
 }; // namespcace 
 
 #endif // _COM_CELL_SOUND

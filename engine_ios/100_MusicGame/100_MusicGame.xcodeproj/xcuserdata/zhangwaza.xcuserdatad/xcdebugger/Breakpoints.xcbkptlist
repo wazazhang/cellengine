@@ -163,25 +163,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "engine_ios/snd/CStaticSoundInfo.h"
-         timestampString = "335041890.877126"
+         timestampString = "335085032.575804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "31"
-         endingLineNumber = "31"
-         landmarkName = "StaticSoundInfo(std::string const &amp;name, std::string const &amp;ext)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "engine_ios/snd/CStaticSoundInfo.h"
-         timestampString = "335041637.959347"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "41"
-         endingLineNumber = "41"
+         startingLineNumber = "44"
+         endingLineNumber = "44"
          landmarkName = "StaticSoundInfo(std::string const &amp;name, std::string const &amp;ext)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -239,6 +225,20 @@
          startingLineNumber = "86"
          endingLineNumber = "86"
          landmarkName = "-dealloc"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "engine_ios/snd/CSound.mm"
+         timestampString = "335076323.507714"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "18"
+         endingLineNumber = "18"
+         landmarkName = "Sound::Sound(SoundInfo* sound_info)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

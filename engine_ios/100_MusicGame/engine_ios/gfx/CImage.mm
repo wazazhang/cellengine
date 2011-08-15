@@ -62,8 +62,10 @@ namespace com_cell
         m_image_h       = CGImageGetHeight(spriteImage);
         
         // Allocated memory needed for the bitmap context
-        GLubyte *spriteData = (GLubyte *) malloc(m_texture_w * m_texture_h * 4);
-        
+		size_t dataSize = m_texture_w * m_texture_h * 4;
+        GLubyte *spriteData = (GLubyte *) malloc(dataSize);
+		// 不将数据清0的话会有花屏
+        memset(spriteData, 0, dataSize);
         // Uses the bitmatp creation function provided by the Core Graphics framework. 
         CGContextRef spriteContext = CGBitmapContextCreate(spriteData, 
 														   m_texture_w, 
@@ -77,15 +79,21 @@ namespace com_cell
         // You don't need the context at this point, so you need to release it to avoid memory leaks.
         CGContextRelease(spriteContext);
         
-        // Use OpenGL ES to generate a name for the texture.
-        glGenTextures(1, &m_texture_id);
-        // Bind the texture name. 
-        glBindTexture(GL_TEXTURE_2D, m_texture_id);
-        // Speidfy a 2D texture image, provideing the a pointer to the image data in memory
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_texture_w, m_texture_h, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-        // Set the texture parameters to use a minifying filter and a linear filer (weighted average)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        
+		glEnable(GL_TEXTURE_2D);
+		{
+			// Use OpenGL ES to generate a name for the texture.
+			glGenTextures(1, &m_texture_id);
+			// Bind the texture name. 
+			glBindTexture(GL_TEXTURE_2D, m_texture_id);
+			// Speidfy a 2D texture image, provideing the a pointer to the image data in memory
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 
+						 m_texture_w, m_texture_h, 
+						 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+			// Set the texture parameters to use a minifying filter and a linear filer (weighted average)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        }
+		glDisable(GL_TEXTURE_2D);	
+		
         // Release the image data
         free(spriteData);
         

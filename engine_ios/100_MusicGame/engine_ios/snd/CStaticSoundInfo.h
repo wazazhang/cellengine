@@ -16,71 +16,32 @@ namespace com_cell
     class StaticSoundInfo : public SoundInfo
     {
 	private:
-		int			channels;
-		int			bitlength;
-		ALsizei		size;
+		
+		char*		file_path;
+		
+		ALsizei		channels;
+		ALsizei		bitlength;
 		ALsizei		freq;
-		ALenum		format;
+		
+		ALsizei		size;
 		void*		data;
-		std::string file_path;
+		
 		
     public:
         
-		inline StaticSoundInfo(std::string const &filepath)
+		inline StaticSoundInfo(char* const filepath, 
+							   ALsizei achannels, 
+							   ALsizei abitlength,
+							   ALsizei afreq, 
+							   ALsizei asize,
+							   void* adata)
 		{
-			file_path			= filepath;
-			data				= NULL;
-			ALenum		error	= AL_NO_ERROR;
-			NSBundle*	bundle	= [NSBundle mainBundle];		
-			NSString*	path	= [bundle pathForResource:@"bgm.wav" ofType:nil];
-			// get some audio data from a wave file
-//			CFURLRef fileURL = (CFURLRef)[[NSURL fileURLWithPath: [bundle 
-//			    pathForResource:[NSString stringWithUTF8String:name.c_str()] 
-//			             ofType:[NSString stringWithUTF8String:ext.c_str()]]] retain];
-			CFURLRef fileURL = (CFURLRef)[NSURL fileURLWithPath:path];
-			
-			if (fileURL)
-			{	
-				data = MyGetOpenALAudioData(fileURL, &size, &format, &freq);
-				CFRelease(fileURL);
-				
-				if((error = alGetError()) != AL_NO_ERROR) {
-					NSLog(@"error loading sound: %x\n", error);
-					data = NULL;
-				} else {
-					switch (format) {
-						case AL_FORMAT_STEREO16:
-							channels = 2;
-							bitlength = 16;
-							break;
-						case AL_FORMAT_STEREO8:
-							channels = 2;
-							bitlength = 8;
-							break;
-						case AL_FORMAT_MONO16:
-							channels = 1;
-							bitlength = 16;
-							break;
-						case AL_FORMAT_MONO8:
-							channels = 1;
-							bitlength = 8;
-							break;
-						default:
-							channels = 0;
-							bitlength = 0;
-							break;
-					}
-				}
-				//// use the static buffer data API
-				//alBufferDataStaticProc(buffer, format, data, size, freq);
-				//
-				//if((error = alGetError()) != AL_NO_ERROR) {
-				//	NSLog(@"error attaching audio to buffer: %x\n", error);
-				//}		
-			}
-			else {
-				NSLog(@"Could not find file!\n");
-			}
+			file_path	= filepath;
+			channels	= achannels;
+			bitlength	= abitlength;
+			freq		= afreq;
+			size		= asize;
+			data		= adata;
 		}
 		
 		inline ~StaticSoundInfo()
@@ -90,7 +51,7 @@ namespace com_cell
 			}
 		}
 		
-		inline virtual std::string getFilePath() 
+		inline virtual char* getFilePath() 
 		{
 			return file_path;
 		}
@@ -124,6 +85,13 @@ namespace com_cell
 		{
 			return size;
 		}
+		
+		//////////////////////////////////////////////////////////////
+		
+		inline virtual bool isStatic()
+		{
+			return true;
+		}
         
 		// not impl
         inline virtual bool hasData()
@@ -136,8 +104,18 @@ namespace com_cell
 		{
 			
 		}
-        
-        
+		
+        inline virtual std::string toString()
+		{
+            std::string sb = std::string("SoundInfo : ");
+            sb.append(getFilePath()).append("\n")
+            .append("\t  channels : ").append(intToString(getChannels())).append("\n")
+            .append("\tbit_length : ").append(intToString(getBitLength())).append("\n")
+            .append("\tframe_rate : ").append(intToString(getFrameRate())).append("\n")
+            .append(getComment());
+            return sb;
+        }
+
     };
     
     

@@ -21,13 +21,14 @@ namespace gt_teris
         angle		= 0;
 		
     
-//		pSoundInfo	= SoundManager::getInstance()->createSoundInfo("/res/bgm.wav");
-//		pSound		= SoundManager::getInstance()->createSound(pSoundInfo);
-//		pSoundPlayer= SoundManager::getInstance()->createPlayer();
-//		
-//		pSoundPlayer->setSound(pSound);
-//		
-//		pSoundPlayer->play(100);
+//		pSoundInfo	= SoundManager::getInstance()->createSoundInfo("sound.caf");
+		pSoundInfo	= SoundManager::getInstance()->createSoundInfo("bgm.wav");
+		pSound		= SoundManager::getInstance()->createSound(pSoundInfo);
+		pSoundPlayer= SoundManager::getInstance()->createPlayer();
+		
+		pSoundPlayer->setSound(pSound);
+		
+		pSoundPlayer->play(100);
 	}
 	
     void ScreenLogo::destory() 
