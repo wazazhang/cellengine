@@ -10,8 +10,14 @@
 
 #include <Foundation/NSData.h>
 
+#include "RegexKitLite.h"
+
 namespace com_cell
 {
+	
+	///////////////////////////////////////////////////////////////////////////////////////
+	// time date
+	///////////////////////////////////////////////////////////////////////////////////////
 	
 	double getCurrentTime()
 	{
@@ -20,76 +26,217 @@ namespace com_cell
 		return (double)time;
 	}
   
-	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	bool stringEquals(std::string const &src, std::string const &dst)
+	///////////////////////////////////////////////////////////////////////////////////////
+	// string util
+	///////////////////////////////////////////////////////////////////////////////////////
+	
+	bool stringEquals(string const &src, string const &dst)
 	{
 		return src.compare(dst) == 0;
 	}
 
-	
-	std::vector<std::string> stringSplit(std::string const &str, std::string const &separator)
+	vector<string> stringSplit(string const &str, 
+										 string const &separator)
 	{
-		std::vector<std::string> lines;
+		return stringSplit(str, separator, INT32_MAX);
+	}
+	
+	vector<string> stringSplit(string const &str, 
+										 string const &separator,
+										 int limit)
+	{
+		int count = 0;
+		vector<string> lines;
         
         for(int index=0, i=0; i<str.length(); i++)
         {
-            i = str.find(separator, index);
-            
-            if(i != std::string::npos)
-            {
-                const std::string &line = str.substr(index, i-index);
-                lines.push_back(line);
-                index = i + 1;
-                
-                continue;
-            }
-            else
-            {
-                const std::string &line = str.substr(index, str.length()-index);
-                lines.push_back(line);
+			if (count < limit) 
+			{
+				i = str.find(separator, index);
 				
-                break;
-            }
+				if(i != string::npos)
+				{
+					const string &line = str.substr(index, i-index);
+					lines.push_back(line);
+					index = i + 1;
+					continue;
+				}
+				else
+				{
+					const string &line = str.substr(index, str.length()-index);
+					lines.push_back(line);
+					break;
+				}
+			}
+			else 
+			{
+				lines.push_back(subString(str, i, str.length()));
+				break;
+			}
         }
         
 		return lines;
-        
 	}
-    
-	std::string intToString(long value)
+	
+	
+	string stringReplace(string const &str,
+						 string const &target,
+						 string const &replace)
+	{
+		return stringReplace(str, target, replace, INT32_MAX);
+	}
+	
+	string stringReplace(string const &str,
+						 string const &target,
+						 string const &replace, 
+						 int limit)
+	{
+		if (str.find(target) == string::npos) {
+			return str;
+		}
+		
+		int count = 0;
+		
+		string sb;
+		
+		for (size_t i = 0; i < str.length(); i++)
+		{
+			if (count < limit) {
+				size_t dst = str.find(target, i);
+				if (dst != string::npos) {
+					sb.append(subString(str, i, dst)).append(replace);
+					i = dst + target.length() - 1;
+					count++;
+				} else {
+					sb.append(subString(str, i));
+					break;
+				}
+			} else {
+				sb.append(subString(str, i));
+				break;
+			}
+		}
+		
+		return sb;
+		
+	}
+	
+	////////////////////////////////////////////////////////////
+	
+	vector<string>	stringSplitRegx(string const &str, 
+									string const &regex)
+	{
+		vector<string> ret;
+		
+		NSString *csample	= [NSString stringWithUTF8String:str.c_str()];
+		NSString *cregex	= [NSString stringWithUTF8String:regex.c_str()];
+		NSArray *cresults	= [csample componentsSeparatedByRegex:cregex];
+		//NSLog(@"results: %@", cresults);
+		
+		for (NSString* obj in cresults)
+		{
+			ret.push_back([obj UTF8String]);
+		}
+		
+		return ret;
+	}
+	
+	string stringReplaceRegx(string const &str,
+							 string const &regex,
+							 string const &replace)
+	{
+		NSString *cresult;
+		NSString *csample	= [NSString stringWithUTF8String:str.c_str()];
+		NSString *cregex	= [NSString stringWithUTF8String:regex.c_str()];
+		NSString *creplace	= [NSString stringWithUTF8String:replace.c_str()];
+		
+		cresult = [csample stringByReplacingOccurrencesOfRegex:cregex withString:creplace];
+		
+		return [cresult UTF8String];
+	}
+	
+	////////////////////////////////////////////////////////////
+	
+	string intToString(long value)
 	{
 		return _INT2STR(value);
 	}
 	
-	std::string floatToString(double value)
+	string floatToString(double value)
 	{
 		return _FLOAT2STR(value);
 	}
     
-	int stringToInt(std::string const &str, long &value)
+	bool stringToInt(string const &str, long &out_value)
 	{
-		NSString *nsstr = [NSString stringWithUTF8String:str.c_str()];
-		value = [nsstr intValue];
-		//[nsstr release];
-		return 1;
+		long ret = 0;
+		long b = 1;
+		for (int i=str.length()-1; i>=0; --i) {
+			char ch = str[i];
+			if (ch >= '0' && ch <= '9') {
+				ret += (ch - '0') * b;
+				b *= 10;
+			} else {
+				return false;
+			}
+		}
+		out_value = ret;
+		return true;
 	}
 	
-	int stringToFloat(std::string const &str, double &value)
+	bool stringToPoint(string const &str, double &out_value)
 	{
-		NSString *nsstr = [NSString stringWithUTF8String:str.c_str()];
-		value = [nsstr floatValue];
-		//[nsstr release];
-		return 1;
+		double ret = 0;
+		double b = 0.1;
+		for (int i=0; i<str.length(); ++i) {
+			char ch = str[i];
+			if (ch >= '0' && ch <= '9') {
+				ret += (ch - '0') * b;
+				b /= 10;
+			} else {
+				return false;
+			}
+		}
+		out_value = ret;
+		return true;
 	}
 	
-	std::string stringTrim(std::string const &str)
+	
+	bool stringToFloat(string const &str, double &out_value)
+	{	
+		if (str.find(".") != string::npos) {
+			vector<string> kv = stringSplit(str, ".");
+			if (kv.size() > 1) {
+//				printf("%s - %s \n", kv[0].c_str(), kv[1].c_str());
+				long intvalue = 0;
+				if (!stringToInt(kv[0], intvalue)) {
+					return false;
+				}
+				double pointvalue = 0;
+				if (!stringToPoint(kv[1], pointvalue)) {
+					return false;
+				}
+				out_value = intvalue + pointvalue;
+				return true;
+			}
+			return false;
+		}
+		else {
+			long intvalue = 0;
+			bool ret = stringToInt(str, intvalue);
+			out_value = intvalue;
+			return ret;
+		}
+	}
+	
+	string stringTrim(string const &str)
 	{
 		NSString *nsstr = [NSString stringWithUTF8String:str.c_str()];
 		
 		nsstr = [nsstr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		
-		const std::string &ret = [nsstr UTF8String];
+		const string &ret = [nsstr UTF8String];
         
 		//[nsstr release];
         
@@ -97,13 +244,13 @@ namespace com_cell
 	}
 	
 	
-	int stringGetKeyValue(std::string const &s, std::string const &k, std::string const &separator, std::string &v)
+	int stringGetKeyValue(string const &s, string const &k, string const &separator, string &v)
 	{
 		int loc1 = s.find(k);
-		if (loc1 != std::string::npos)
+		if (loc1 != string::npos)
 		{
 			int loc2 = s.find(separator, loc1+k.length());
-			if (loc2 != std::string::npos)
+			if (loc2 != string::npos)
 			{
 				if (loc1 + k.length() == loc2)
 				{
@@ -113,19 +260,33 @@ namespace com_cell
 				}
 			}
 		}
-		return std::string::npos;
+		return string::npos;
 	}
     
-    bool stringStartWidth(std::string const &str, std::string const &prefix)
+    bool stringStartWith(string const &str, string const &prefix)
     {
         return str.find(prefix) == 0;
     }
     
-    bool stringEndWidth(std::string const &str, std::string const &suffix)
+    bool stringEndWith(string const &str, string const &suffix)
     {
         return str.rfind(suffix) == str.length() - suffix.length();
     }
+	
+	
+	string	subString(string const &str, int begin_index, int end_index)
+	{
+		return str.substr(begin_index, end_index - begin_index);
+	}
+	
+	string subString(string const &str, int begin_index)
+	{
+		return subString(str, begin_index, str.length());
+	}
 
+	///////////////////////////////////////////////////////////////////////////////////////
+	// random and Number
+	///////////////////////////////////////////////////////////////////////////////////////
 	
 	int randomInt()
 	{

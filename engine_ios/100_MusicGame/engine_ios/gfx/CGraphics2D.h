@@ -32,14 +32,7 @@ namespace com_cell
     
 	class Graphics2D
 	{
-        
-	public:
-		static const int TEXT_ALIGN_LEFT	= UITextAlignmentLeft;
-		static const int TEXT_ALIGN_CENTER	= UITextAlignmentCenter;
-		static const int TEXT_ALIGN_RIGHT	= UITextAlignmentRight;
-        
-        
-    private:
+    protected:
 		CGRect              m_bounds;
         Color               m_color;
         float               m_alpha;
@@ -48,15 +41,15 @@ namespace com_cell
         std::vector<float>  m_stack_alpha;
         std::vector<Color>  m_stack_color;
         
-	public:
+	protected:
+		
         Graphics2D();
 		
 		~Graphics2D();
+
 		
-		void beginRender(CGRect bounds);
+	public:
 		
-		void endRender();
-        
         //////////////////////////////////////////////////////////////////////////////////
 		// color
         

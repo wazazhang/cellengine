@@ -10,26 +10,14 @@
 
 #include <UIKit/UIKit.h>
 
-#include "CScreen.h"
 #include "CType.h"
 #include "CUtil.h"
-#include "CGraphics2D.h"
+#include "CScreenGraphics2D.h"
+#include "CScreen.h"
 
 namespace com_cell
 {
 
-	
-//  ----------------------------------------------------------------------------------------------------------------------------//
-//  game screen maker
-	
-	class IScreenFactory
-	{
-	public:
-		virtual int         getRootScreen() = 0;
-		virtual IScreen*    createScreen(int ScreenType) = 0;
-		
-	};
-	
 	
 //  ----------------------------------------------------------------------------------------------------------------------------//
 //  game screen manager
@@ -50,38 +38,34 @@ namespace com_cell
 		static ScreenManager*	g_pScreenManagerInstance;	
 		
 		
-	protected:
-		
-		ScreenManager();		
-		~ScreenManager();
-		
     private:
             
-		int         width;
-		int         height;
+		int					width;
+		int					height;
 		
 		// save screen state	
-		bool        KeyEnable ;
-		bool        LogicEnable ;
-		bool        RenderEnable ;
-		bool        TransitionEnable ;
-		float       TransitionMaxTime ;
-		int         timer;
+		bool				KeyEnable ;
+		bool				LogicEnable ;
+		bool				RenderEnable ;
+		bool				TransitionEnable ;
+		float				TransitionMaxTime ;
+		int					timer;
 		
-		int         HoldEventLagTime;
+		int					HoldEventLagTime;
 		
-		Graphics2D  *pCurGraphics;
+		Vector3D			m_accelerometer;
 		
-		Vector3D    m_accelerometer;
-		
-		double      m_startTime;
-		double      m_fps;
+		double				m_startTime;
+		double				m_fps;
         
+		// gfx
+		ScreenGraphics2D*	pCurGraphics;
+		
 		
 		//sub screen
-		IScreenFactory* m_pScreenFactory;
-		IScreen*		m_pCurSubScreen;
-		int				m_NextScreenType;
+		IScreenFactory*		m_pScreenFactory;
+		IScreen*			m_pCurSubScreen;
+		int					m_NextScreenType;
 		
 		// save key state
 		bool m_PointerState[KEY_COUNT];
@@ -107,8 +91,13 @@ namespace com_cell
 		float		g_transitionTime ;
 		float		g_transitionAlpha ;
 		
+    private:
+		
+		ScreenManager();		
+		
+		~ScreenManager();
+		
 		void setFactory(IScreenFactory *factory);
-        
         
         // methods 
 	public:

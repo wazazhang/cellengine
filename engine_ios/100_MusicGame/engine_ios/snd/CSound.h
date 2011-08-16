@@ -23,7 +23,7 @@ namespace com_cell
         
     public:
         
-        Sound(SoundInfo* sound_info);
+        Sound(SoundInfo *info);
         
         ~Sound();
         

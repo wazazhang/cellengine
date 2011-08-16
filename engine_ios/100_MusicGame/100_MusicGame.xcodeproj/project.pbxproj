@@ -20,6 +20,10 @@
 		FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E313F5643A007045B4 /* MusicGame.xib */; };
 		FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E613F56498007045B4 /* MainWindow-iPad.xib */; };
 		FB452DF313F7D68A00D3F3B1 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */; };
+		FB9EF15113FA208D00F65C98 /* res in Resources */ = {isa = PBXBuildFile; fileRef = FB9EF15013FA208D00F65C98 /* res */; };
+		FB9EF15413FA275E00F65C98 /* BMSFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF15313FA275E00F65C98 /* BMSFile.mm */; };
+		FB9EF16313FA6F5E00F65C98 /* CScreenGraphics2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */; };
+		FB9EF17813FACE9A00F65C98 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */; };
 		FBA4048D13F7611E0002B80E /* CSoundDecode.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048C13F7611E0002B80E /* CSoundDecode.mm */; };
 		FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048F13F761D90002B80E /* CSoundPlayer.mm */; };
 		FBBAEDF113F6B787003AAE6E /* CSound.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBAEDF013F6B787003AAE6E /* CSound.mm */; };
@@ -34,25 +38,6 @@
 		FBF1A7D313EA4B7B00D51C20 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FBF1A7D113EA4B7B00D51C20 /* InfoPlist.strings */; };
 		FBF1A7D613EA4B7B00D51C20 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FBF1A7D513EA4B7B00D51C20 /* main.m */; };
 		FBF1A7E313EA4B7B00D51C20 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBF1A7E213EA4B7B00D51C20 /* EAGLView.mm */; };
-		FBF2CDB113F8223C0018C832 /* 25.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CD9D13F8223C0018C832 /* 25.png */; };
-		FBF2CDB213F8223C0018C832 /* bgm.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CD9E13F8223C0018C832 /* bgm.wav */; };
-		FBF2CDB313F8223C0018C832 /* Clips.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CD9F13F8223C0018C832 /* Clips.png */; };
-		FBF2CDB413F8223C0018C832 /* ClipsTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA013F8223C0018C832 /* ClipsTitle.png */; };
-		FBF2CDB613F8223C0018C832 /* edit.ini in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA213F8223C0018C832 /* edit.ini */; };
-		FBF2CDB713F8223C0018C832 /* fonts.ini in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA313F8223C0018C832 /* fonts.ini */; };
-		FBF2CDB813F8223C0018C832 /* fonts.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA413F8223C0018C832 /* fonts.png */; };
-		FBF2CDB913F8223C0018C832 /* Heads.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA513F8223C0018C832 /* Heads.png */; };
-		FBF2CDBA13F8223C0018C832 /* help.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA613F8223C0018C832 /* help.png */; };
-		FBF2CDBB13F8223C0018C832 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA713F8223C0018C832 /* icon.png */; };
-		FBF2CDBC13F8223C0018C832 /* s1.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA813F8223C0018C832 /* s1.wav */; };
-		FBF2CDBD13F8223C0018C832 /* s2.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDA913F8223C0018C832 /* s2.wav */; };
-		FBF2CDBE13F8223C0018C832 /* s3.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDAA13F8223C0018C832 /* s3.wav */; };
-		FBF2CDBF13F8223C0018C832 /* s4.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDAB13F8223C0018C832 /* s4.wav */; };
-		FBF2CDC013F8223C0018C832 /* s5.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDAC13F8223C0018C832 /* s5.wav */; };
-		FBF2CDC113F8223C0018C832 /* s6.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDAD13F8223C0018C832 /* s6.wav */; };
-		FBF2CDC213F8223C0018C832 /* s7.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDAE13F8223C0018C832 /* s7.wav */; };
-		FBF2CDC313F8223C0018C832 /* s8.wav in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDAF13F8223C0018C832 /* s8.wav */; };
-		FBF2CDC413F8223C0018C832 /* save.txt in Resources */ = {isa = PBXBuildFile; fileRef = FBF2CDB013F8223C0018C832 /* save.txt */; };
 		FBF2CE2413F837FB0018C832 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF2CE2113F837FB0018C832 /* AudioToolbox.framework */; };
 		FBF2CE2513F837FB0018C832 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF2CE2213F837FB0018C832 /* MediaPlayer.framework */; };
 		FBF2CE2613F837FB0018C832 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF2CE2313F837FB0018C832 /* CoreMedia.framework */; };
@@ -64,7 +49,6 @@
 		FB0590FD13F651B10068E4E7 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		FB05912513F65DD40068E4E7 /* CBlend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBlend.h; sourceTree = "<group>"; };
 		FB05912613F65DD40068E4E7 /* CColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CColor.h; sourceTree = "<group>"; };
-		FB05912713F65DD40068E4E7 /* CDisplayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDisplayObject.h; sourceTree = "<group>"; };
 		FB05912813F65DD40068E4E7 /* CGraphics2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGraphics2D.h; sourceTree = "<group>"; };
 		FB05912913F65DD40068E4E7 /* CGraphics2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CGraphics2D.mm; sourceTree = "<group>"; };
 		FB05912A13F65DD40068E4E7 /* CImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImage.h; sourceTree = "<group>"; };
@@ -89,6 +73,14 @@
 		FB3947E313F5643A007045B4 /* MusicGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MusicGame.xib; sourceTree = "<group>"; };
 		FB3947E713F56498007045B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		FB9EF15013FA208D00F65C98 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		FB9EF15213FA274D00F65C98 /* BMSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSFile.h; sourceTree = "<group>"; };
+		FB9EF15313FA275E00F65C98 /* BMSFile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMSFile.mm; sourceTree = "<group>"; };
+		FB9EF15813FA66DC00F65C98 /* CGFXManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGFXManager.h; sourceTree = "<group>"; };
+		FB9EF16113FA6F4A00F65C98 /* CScreenGraphics2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScreenGraphics2D.h; sourceTree = "<group>"; };
+		FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CScreenGraphics2D.mm; sourceTree = "<group>"; };
+		FB9EF17613FACE9A00F65C98 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		FBA4048C13F7611E0002B80E /* CSoundDecode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundDecode.mm; sourceTree = "<group>"; };
 		FBA4048F13F761D90002B80E /* CSoundPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundPlayer.mm; sourceTree = "<group>"; };
 		FBBAEDEE13F6B47A003AAE6E /* CSoundDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSoundDecode.h; sourceTree = "<group>"; };
@@ -108,26 +100,6 @@
 		FBF1A7D513EA4B7B00D51C20 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FBF1A7E113EA4B7B00D51C20 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		FBF1A7E213EA4B7B00D51C20 /* EAGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
-		FBF2CD9D13F8223C0018C832 /* 25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 25.png; sourceTree = "<group>"; };
-		FBF2CD9E13F8223C0018C832 /* bgm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bgm.wav; sourceTree = "<group>"; };
-		FBF2CD9F13F8223C0018C832 /* Clips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Clips.png; sourceTree = "<group>"; };
-		FBF2CDA013F8223C0018C832 /* ClipsTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipsTitle.png; sourceTree = "<group>"; };
-		FBF2CDA113F8223C0018C832 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		FBF2CDA213F8223C0018C832 /* edit.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = edit.ini; sourceTree = "<group>"; };
-		FBF2CDA313F8223C0018C832 /* fonts.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fonts.ini; sourceTree = "<group>"; };
-		FBF2CDA413F8223C0018C832 /* fonts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fonts.png; sourceTree = "<group>"; };
-		FBF2CDA513F8223C0018C832 /* Heads.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heads.png; sourceTree = "<group>"; };
-		FBF2CDA613F8223C0018C832 /* help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help.png; sourceTree = "<group>"; };
-		FBF2CDA713F8223C0018C832 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		FBF2CDA813F8223C0018C832 /* s1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s1.wav; sourceTree = "<group>"; };
-		FBF2CDA913F8223C0018C832 /* s2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s2.wav; sourceTree = "<group>"; };
-		FBF2CDAA13F8223C0018C832 /* s3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s3.wav; sourceTree = "<group>"; };
-		FBF2CDAB13F8223C0018C832 /* s4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s4.wav; sourceTree = "<group>"; };
-		FBF2CDAC13F8223C0018C832 /* s5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s5.wav; sourceTree = "<group>"; };
-		FBF2CDAD13F8223C0018C832 /* s6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s6.wav; sourceTree = "<group>"; };
-		FBF2CDAE13F8223C0018C832 /* s7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s7.wav; sourceTree = "<group>"; };
-		FBF2CDAF13F8223C0018C832 /* s8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s8.wav; sourceTree = "<group>"; };
-		FBF2CDB013F8223C0018C832 /* save.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = save.txt; sourceTree = "<group>"; };
 		FBF2CDC813F824790018C832 /* CStaticSoundInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStaticSoundInfo.h; sourceTree = "<group>"; };
 		FBF2CDC913F824EB0018C832 /* CStreamSoundInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStreamSoundInfo.h; sourceTree = "<group>"; };
 		FBF2CE2113F837FB0018C832 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -166,15 +138,17 @@
 			children = (
 				FB05912513F65DD40068E4E7 /* CBlend.h */,
 				FB05912613F65DD40068E4E7 /* CColor.h */,
-				FB05912713F65DD40068E4E7 /* CDisplayObject.h */,
-				FB05912813F65DD40068E4E7 /* CGraphics2D.h */,
-				FB05912913F65DD40068E4E7 /* CGraphics2D.mm */,
 				FB05912A13F65DD40068E4E7 /* CImage.h */,
 				FB05912B13F65DD40068E4E7 /* CImage.mm */,
+				FB05912813F65DD40068E4E7 /* CGraphics2D.h */,
+				FB05912913F65DD40068E4E7 /* CGraphics2D.mm */,
 				FB05912D13F65DD40068E4E7 /* CScreen.h */,
 				FBBE9A2413F981FC0072FD11 /* CScreen.mm */,
 				FB05912E13F65DD40068E4E7 /* CScreenManager.h */,
 				FB05912F13F65DD40068E4E7 /* CScreenManager.mm */,
+				FB9EF16113FA6F4A00F65C98 /* CScreenGraphics2D.h */,
+				FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */,
+				FB9EF15813FA66DC00F65C98 /* CGFXManager.h */,
 			);
 			path = gfx;
 			sourceTree = "<group>";
@@ -212,9 +186,11 @@
 		FB30158C13F24D6C00594366 /* engine_ios */ = {
 			isa = PBXGroup;
 			children = (
+				FB9EF17513FACE9900F65C98 /* lib */,
 				FBF2CE2813F853360018C832 /* core */,
 				FB05912413F65DD40068E4E7 /* gfx */,
 				FB05913713F65DDA0068E4E7 /* snd */,
+				FB9EF14E13FA0DFE00F65C98 /* bms */,
 			);
 			path = engine_ios;
 			sourceTree = "<group>";
@@ -227,15 +203,33 @@
 			name = iPad;
 			sourceTree = "<group>";
 		};
+		FB9EF14E13FA0DFE00F65C98 /* bms */ = {
+			isa = PBXGroup;
+			children = (
+				FB9EF15213FA274D00F65C98 /* BMSFile.h */,
+				FB9EF15313FA275E00F65C98 /* BMSFile.mm */,
+			);
+			path = bms;
+			sourceTree = "<group>";
+		};
+		FB9EF17513FACE9900F65C98 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				FB9EF17613FACE9A00F65C98 /* RegexKitLite.h */,
+				FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		FBF1A7B513EA4B7B00D51C20 = {
 			isa = PBXGroup;
 			children = (
-				FBBE9A1E13F8C6E30072FD11 /* Default.png */,
 				FB30158C13F24D6C00594366 /* engine_ios */,
 				FB3014FD13F24A6100594366 /* src */,
 				FB3014FB13F24A0400594366 /* Sprite.png */,
+				FBBE9A1E13F8C6E30072FD11 /* Default.png */,
 				FBBE9A2213F8F5F10072FD11 /* sound.caf */,
-				FBF2CD9C13F8223C0018C832 /* res */,
+				FB9EF15013FA208D00F65C98 /* res */,
 				FBF1A7CE13EA4B7B00D51C20 /* 100_MusicGame */,
 				FBF1A7C313EA4B7B00D51C20 /* Frameworks */,
 				FBF1A7C113EA4B7B00D51C20 /* Products */,
@@ -291,33 +285,6 @@
 				FB3947E313F5643A007045B4 /* MusicGame.xib */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FBF2CD9C13F8223C0018C832 /* res */ = {
-			isa = PBXGroup;
-			children = (
-				FBF2CD9D13F8223C0018C832 /* 25.png */,
-				FBF2CD9E13F8223C0018C832 /* bgm.wav */,
-				FBF2CD9F13F8223C0018C832 /* Clips.png */,
-				FBF2CDA013F8223C0018C832 /* ClipsTitle.png */,
-				FBF2CDA113F8223C0018C832 /* Default.png */,
-				FBF2CDA213F8223C0018C832 /* edit.ini */,
-				FBF2CDA313F8223C0018C832 /* fonts.ini */,
-				FBF2CDA413F8223C0018C832 /* fonts.png */,
-				FBF2CDA513F8223C0018C832 /* Heads.png */,
-				FBF2CDA613F8223C0018C832 /* help.png */,
-				FBF2CDA713F8223C0018C832 /* icon.png */,
-				FBF2CDA813F8223C0018C832 /* s1.wav */,
-				FBF2CDA913F8223C0018C832 /* s2.wav */,
-				FBF2CDAA13F8223C0018C832 /* s3.wav */,
-				FBF2CDAB13F8223C0018C832 /* s4.wav */,
-				FBF2CDAC13F8223C0018C832 /* s5.wav */,
-				FBF2CDAD13F8223C0018C832 /* s6.wav */,
-				FBF2CDAE13F8223C0018C832 /* s7.wav */,
-				FBF2CDAF13F8223C0018C832 /* s8.wav */,
-				FBF2CDB013F8223C0018C832 /* save.txt */,
-			);
-			path = res;
 			sourceTree = "<group>";
 		};
 		FBF2CE2813F853360018C832 /* core */ = {
@@ -386,27 +353,9 @@
 				FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */,
 				FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */,
 				FB452DF313F7D68A00D3F3B1 /* Entitlements.plist in Resources */,
-				FBF2CDB113F8223C0018C832 /* 25.png in Resources */,
-				FBF2CDB213F8223C0018C832 /* bgm.wav in Resources */,
-				FBF2CDB313F8223C0018C832 /* Clips.png in Resources */,
-				FBF2CDB413F8223C0018C832 /* ClipsTitle.png in Resources */,
-				FBF2CDB613F8223C0018C832 /* edit.ini in Resources */,
-				FBF2CDB713F8223C0018C832 /* fonts.ini in Resources */,
-				FBF2CDB813F8223C0018C832 /* fonts.png in Resources */,
-				FBF2CDB913F8223C0018C832 /* Heads.png in Resources */,
-				FBF2CDBA13F8223C0018C832 /* help.png in Resources */,
-				FBF2CDBB13F8223C0018C832 /* icon.png in Resources */,
-				FBF2CDBC13F8223C0018C832 /* s1.wav in Resources */,
-				FBF2CDBD13F8223C0018C832 /* s2.wav in Resources */,
-				FBF2CDBE13F8223C0018C832 /* s3.wav in Resources */,
-				FBF2CDBF13F8223C0018C832 /* s4.wav in Resources */,
-				FBF2CDC013F8223C0018C832 /* s5.wav in Resources */,
-				FBF2CDC113F8223C0018C832 /* s6.wav in Resources */,
-				FBF2CDC213F8223C0018C832 /* s7.wav in Resources */,
-				FBF2CDC313F8223C0018C832 /* s8.wav in Resources */,
-				FBF2CDC413F8223C0018C832 /* save.txt in Resources */,
 				FBBE9A1F13F8C6E30072FD11 /* Default.png in Resources */,
 				FBBE9A2313F8F5F20072FD11 /* sound.caf in Resources */,
+				FB9EF15113FA208D00F65C98 /* res in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +381,9 @@
 				FBF2CE2E13F853360018C832 /* CUtil.mm in Sources */,
 				FBF2CE3013F853500018C832 /* CFile.mm in Sources */,
 				FBBE9A2513F981FC0072FD11 /* CScreen.mm in Sources */,
+				FB9EF15413FA275E00F65C98 /* BMSFile.mm in Sources */,
+				FB9EF16313FA6F5E00F65C98 /* CScreenGraphics2D.mm in Sources */,
+				FB9EF17813FACE9A00F65C98 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +431,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-licucore";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -497,6 +450,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-licucore";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;

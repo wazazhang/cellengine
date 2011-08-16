@@ -29,15 +29,9 @@ namespace com_cell
         255,   0, 255, 255,
 	};
 	
-    Image::Image(char const *file)
+    Image::Image(CGImageRef image_ref)
     {	
-        // Creates a Core Graphics image from an image file
-        CGImageRef image = [UIImage imageNamed:[NSString stringWithUTF8String:file]].CGImage;
-        if (image == NULL) {
-            printf("image file not found : %s", file);
-            return;
-        }
-        init(image);
+        init(image_ref);
     }
     
     Image::~Image()

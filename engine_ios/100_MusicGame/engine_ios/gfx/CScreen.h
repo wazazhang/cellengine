@@ -14,8 +14,7 @@
 #include "CGraphics2D.h"
 
 namespace com_cell
-{
-    
+{	    
 	//----------------------------------------------------------------------------------------------------------------------------//
 	// game screen object
 	class IScreen
@@ -54,6 +53,19 @@ namespace com_cell
 	};
 	
 	
+	//  ----------------------------------------------------------------------------------------------------------------------------//
+	//  game screen maker
+	
+	class IScreenFactory
+	{
+	public:
+		virtual int         getRootScreen() = 0;
+		virtual IScreen*    createScreen(int ScreenType) = 0;
+		
+	};
+	
+	
+
 };
 
 #endif // #define _COM_CELL_GFX_SCREEN

@@ -7,30 +7,50 @@
  *
  */
 #include "CMath.h"
+#include "CFile.h"
+#include "CGFXManager.h"
+
 #include "Screens.h"
 #include "ScreenLogo.h"
 #include "ScreenGame.h"
 
 namespace gt_teris
 {
-	using namespace com_cell;
+	using namespace com_cell;	
+	using namespace com_cell_bms;
+
 	
     void ScreenLogo::init() 
     {
         printf("init\n");
         
-        pSprite		= new Image("/Sprite.png");
+		stringSplitRegx("what is the matrix", "\\s");
+		
+		double fvalue = 0;
+		if (stringToFloat("0123233.14159", fvalue)) {
+			printf(" %lf\n", fvalue);
+		}
+		
+		long ivalue = 0;
+		if (stringToInt("1234", ivalue)) {
+			printf(" %ld\n", ivalue);
+		}
+		
+        pSprite		= GFXManager::createImage("/Sprite.png");
         angle		= 0;
 		
-///*	
+		
+		pBmsFile	= new BMSFile("/res/btm_er/er-5.bms", NULL);
+		delete pBmsFile;
+/*	
 		pSoundInfo1	= SoundManager::getInstance()->createSoundInfo("sound.caf");
-		pSoundInfo2	= SoundManager::getInstance()->createSoundInfo("bgm.wav");
-		pSoundInfo3	= SoundManager::getInstance()->createSoundInfo("s1.wav");
-		pSoundInfo4	= SoundManager::getInstance()->createSoundInfo("s2.wav");
-		pSoundInfo5	= SoundManager::getInstance()->createSoundInfo("s3.wav");
-		pSoundInfo6	= SoundManager::getInstance()->createSoundInfo("s4.wav");
-		pSoundInfo7	= SoundManager::getInstance()->createSoundInfo("s5.wav");
-		pSoundInfo8	= SoundManager::getInstance()->createSoundInfo("s6.wav");
+		pSoundInfo2	= SoundManager::getInstance()->createSoundInfo("res/bgm.wav");
+		pSoundInfo3	= SoundManager::getInstance()->createSoundInfo("res/s1.wav");
+		pSoundInfo4	= SoundManager::getInstance()->createSoundInfo("res/s2.wav");
+		pSoundInfo5	= SoundManager::getInstance()->createSoundInfo("res/s3.wav");
+		pSoundInfo6	= SoundManager::getInstance()->createSoundInfo("res/s4.wav");
+		pSoundInfo7	= SoundManager::getInstance()->createSoundInfo("res/s5.wav");
+		pSoundInfo8	= SoundManager::getInstance()->createSoundInfo("res/s6.wav");
 		
 ///*		
 		pSound1		= SoundManager::getInstance()->createSound(pSoundInfo1);
@@ -81,9 +101,9 @@ namespace gt_teris
         
         angle += 1.0f;
 		
-		if (com_cell::IScreen::isPointerDown(0)) {
-			pSoundPlayer3->play(false);	
-		}
+//		if (com_cell::IScreen::isPointerDown(0)) {
+//			pSoundPlayer3->play(false);	
+//		}
     }
     
     void ScreenLogo::render(Graphics2D &g) 

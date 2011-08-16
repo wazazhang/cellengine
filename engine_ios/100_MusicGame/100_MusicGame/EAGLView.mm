@@ -80,6 +80,10 @@
 	return self;
 }
 
+- (void)terminate 
+{
+}
+
 
 - (void)dealloc {
 	
@@ -89,11 +93,11 @@
 		[EAGLContext setCurrentContext:nil];
 	}
 	
-	[context release];	
-	[super dealloc];
-	
 	// delete screen
 	com_cell::ScreenManager::destory();
+	
+	[context release];	
+	[super dealloc];
 }
 
 

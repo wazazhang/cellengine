@@ -40,14 +40,14 @@ namespace com_cell
 				NSLog(@"Error generating OpenAL buffers");
                 return;
 			}
-			//**
+			
+			//*//将内存交给openAL管理
 			// variables to load into
 			alBufferData(m_buffer_id, format, 
                          sound_info->getData(),
                          sound_info->getDataSize(), 
                          sound_info->getFrameRate());
-			//*/
-			/*
+			/*//手动管理内存
 			// use the static buffer data API
 			alBufferDataStaticProc(m_buffer_id, format, 
 								   sound_info->getData(),

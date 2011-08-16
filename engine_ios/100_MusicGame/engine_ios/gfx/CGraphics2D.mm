@@ -12,50 +12,17 @@
 namespace com_cell
 {
 	
-	
 	Graphics2D::Graphics2D()
-	{		
-        
+	{
+		
 	}
 	
 	Graphics2D::~Graphics2D()
 	{
+		
 	}
 	
-	void Graphics2D::beginRender(CGRect bounds)
-	{		
-        m_bounds = bounds;
-        
-        glPushMatrix();
-        
-		glViewport(0, 0, m_bounds.size.width, m_bounds.size.height);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity(); 
-        
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT); 
-        glScalef(1, -1, 1);
-        glOrthof(0, m_bounds.size.width, 0, m_bounds.size.height, -1, 1);
 
-        
-        glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        
-        setBlend(BLEND_NORMAL);
-        setColor(COLOR_BLACK);
-        setAlpha(1);
-        
-        glEnableClientState (GL_VERTEX_ARRAY);
-	}
-	
-	void Graphics2D::endRender()
-	{
-        glPopMatrix();
-	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// color

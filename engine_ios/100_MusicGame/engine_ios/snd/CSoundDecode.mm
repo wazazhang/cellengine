@@ -16,7 +16,13 @@
 
 
 namespace com_cell 
-{
+{		
+	extern void* loadWavSound(CFURLRef const inFileURL, 
+							  ALsizei*	outDataSize, 
+							  ALsizei*	outChannels, 
+							  ALsizei*	outBitlength, 
+							  ALsizei*	outSampleRate);
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	SoundInfo* createStaticSound(char const *file)
 	{		
@@ -28,25 +34,25 @@ namespace com_cell
 		
 		NSBundle*	bundle	= [NSBundle mainBundle];		
 		NSString*	path	= [bundle pathForResource:[NSString stringWithUTF8String:file] ofType:nil];
+		if (path == NULL) {
+			return NULL;
+		}
 		// get some audio data from a wave file
-		CFURLRef fileURL = (CFURLRef)[NSURL fileURLWithPath:path];
+		CFURLRef fileURL = (CFURLRef)[[NSURL fileURLWithPath:path] retain];
 		
 		if (fileURL)
 		{	
-			if (stringEndWidth(file, "caf")) {
-				data = loadCafSound(fileURL, &size, &channels, &bitlength, &freq);
-			}
-			else if (stringEndWidth(file, "wav")) {
+			if (stringEndWith(file, "caf")) {
 				data = loadWavSound(fileURL, &size, &channels, &bitlength, &freq);
 			}
-			//CFRelease(fileURL);
+			else if (stringEndWith(file, "wav")) {
+				data = loadWavSound(fileURL, &size, &channels, &bitlength, &freq);
+			}
+			CFRelease(fileURL);
 			if (data != NULL) {
-				StaticSoundInfo* ret = new StaticSoundInfo(file, 
-														   channels,
-														   bitlength, 
-														   freq, 
-														   size, data);
-				cout << ret->toString() << endl;
+				StaticSoundInfo* ret = 
+				new StaticSoundInfo(file, channels, bitlength, freq, size, data);
+				//cout << ret->toString() << endl;
 				return ret;
 			} else {
 				NSLog(@"only .caf .wav support");
@@ -60,76 +66,6 @@ namespace com_cell
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////
-	
-	void* loadCaf(char* const filepath)
-	{
-		NSBundle*	bundle	= [NSBundle mainBundle];		
-		NSString*	path	= [bundle pathForResource:[NSString stringWithUTF8String:filepath] ofType:nil];
-		
-		OSStatus	result;
-		
-		// first, open the file  
-		AudioFileID fileID;
-		{
-			// use the NSURl instead of a cfurlref cuz it is easier     
-			NSURL * afUrl = [NSURL fileURLWithPath:path]; 
-			// do some platform specific stuff..  
-			result = AudioFileOpenURL((CFURLRef)afUrl, kAudioFileReadPermission, 0, &fileID);  
-			if (result != 0) {
-				NSLog(@"cannot openf file: %@", path);   
-				return NULL;
-			}
-		}
-		UInt32 outDataSize;   
-		UInt32 outChannels;    
-		UInt32 outBitlength;   
-		UInt32 outSampleRate; 
-		{  
-			UInt32 thePropSize = sizeof(UInt32);    
-			result = AudioFileGetProperty(fileID, 
-										  kAudioFilePropertyAudioDataByteCount, 
-										  &thePropSize, 
-										  &outDataSize);
-			result = AudioFileGetProperty(fileID, 
-										  kAudioFilePropertyChannelLayout, 
-										  &thePropSize, 
-										  &outChannels);   
-			result = AudioFileGetProperty(fileID, 
-										  kAudioFilePropertySourceBitDepth, 
-										  &thePropSize, 
-										  &outBitlength);   
-			result = AudioFileGetProperty(fileID, 
-										  kAudioFilePropertyBitRate, 
-										  &thePropSize, 
-										  &outSampleRate);   
-			NSLog(@"outDataSize=%d outSampleRate=%d outChannels=%d outBitlength=%d\n",
-				  outDataSize,
-				  outSampleRate,
-				  outChannels,
-				  outBitlength);
-			if(result != 0) {
-				AudioFileClose(fileID);   //close the file 
-				NSLog(@"cannot find file size");    
-				return NULL;
-			}
-		}
-		// this is where the audio data will live for the moment  
-		void * outData = malloc(outDataSize);
-		{
-			// this where we actually get the bytes from the file and put them  
-			// into the data buffer  
-			OSStatus result = noErr;  
-			result = AudioFileReadBytes(fileID, false, 0, &outDataSize, outData);  
-			AudioFileClose(fileID);   //close the file 
-			if (result != 0) {
-				NSLog(@"cannot load effect: %@",path);  
-				return NULL;
-			}
-		}
-		
-		return outData;
-	}
-	
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	
@@ -173,7 +109,7 @@ namespace com_cell
 			if (extRef) ExtAudioFileDispose(extRef);
 			return theData;
 		}
-		
+
 		// Set the client format to 16 bit signed integer (native-endian) data
 		// Maintain the channel count and sample rate of the original source format
 		theOutputFormat.mSampleRate			= theFileFormat.mSampleRate;
@@ -215,6 +151,7 @@ namespace com_cell
 		// Read all the data into memory
 		UInt32		dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;;
 		theData = malloc(dataSize);
+		memset(theData, 0, dataSize);
 		if (theData)
 		{
 			AudioBufferList		theDataBuffer;
@@ -232,11 +169,6 @@ namespace com_cell
 				*outSampleRate	= (ALsizei)theOutputFormat.mSampleRate;
 				*outChannels	= (ALsizei)theOutputFormat.mChannelsPerFrame;
 				*outBitlength	= (ALsizei)theOutputFormat.mBitsPerChannel;
-				NSLog(@"load wav sound : outDataSize=%d outSampleRate=%d outChannels=%d outBitlength=%d\n",
-					  *outDataSize,
-					  *outSampleRate,
-					  *outChannels,
-					  *outBitlength);
 			}
 			else 
 			{ 
@@ -252,122 +184,6 @@ namespace com_cell
 	}
 	
 	
-	
-	void* loadCafSound(CFURLRef const inFileURL, 
-					   ALsizei*	outDataSize, 
-					   ALsizei*	outChannels, 
-					   ALsizei*	outBitlength, 
-					   ALsizei*	outSampleRate)
-	{
-		OSStatus						err = noErr;	
-		SInt64							theFileLengthInFrames = 0;
-		AudioStreamBasicDescription		theFileFormat;
-		UInt32							thePropertySize = sizeof(theFileFormat);
-		ExtAudioFileRef					extRef = NULL;
-		void*							theData = NULL;
-		AudioStreamBasicDescription		theOutputFormat;
-		
-		// Open a file with ExtAudioFileOpen()
-		err = ExtAudioFileOpenURL(inFileURL, &extRef);
-		if(err) { 
-			printf("MyGetOpenALAudioData: ExtAudioFileOpenURL FAILED, Error = %ld\n", err); 
-			// Dispose the ExtAudioFileRef, it is no longer needed
-			if (extRef) ExtAudioFileDispose(extRef);
-			return theData;
-		}
-		
-		// Get the audio data format
-		err = ExtAudioFileGetProperty(extRef, 
-									  kExtAudioFileProperty_FileDataFormat, 
-									  &thePropertySize, 
-									  &theFileFormat);
-		if(err) { 
-			printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileDataFormat) FAILED, Error = %ld\n", err); 
-			// Dispose the ExtAudioFileRef, it is no longer needed
-			if (extRef) ExtAudioFileDispose(extRef);
-			return theData;
-		}
-		if (theFileFormat.mChannelsPerFrame > 2)  { 
-			printf("MyGetOpenALAudioData - Unsupported Format, channel count is greater than stereo\n"); 
-			// Dispose the ExtAudioFileRef, it is no longer needed
-			if (extRef) ExtAudioFileDispose(extRef);
-			return theData;
-		}
-		
-		// Set the client format to 16 bit signed integer (native-endian) data
-		// Maintain the channel count and sample rate of the original source format
-		theOutputFormat.mSampleRate			= theFileFormat.mSampleRate;
-		theOutputFormat.mChannelsPerFrame	= theFileFormat.mChannelsPerFrame;		
-		theOutputFormat.mFormatID			= kAudioFormatLinearPCM;
-		theOutputFormat.mBitsPerChannel		= 16;
-		theOutputFormat.mBytesPerPacket		= 2 * theOutputFormat.mChannelsPerFrame;
-		theOutputFormat.mFramesPerPacket	= 1;		
-		theOutputFormat.mBytesPerFrame		= 2 * theOutputFormat.mChannelsPerFrame;	
-		theOutputFormat.mFormatFlags		= (kAudioFormatFlagsNativeEndian | 
-											   kAudioFormatFlagIsPacked |
-											   kAudioFormatFlagIsSignedInteger);
-		
-		// Set the desired client (output) data format
-		err = ExtAudioFileSetProperty(extRef, 
-									  kExtAudioFileProperty_ClientDataFormat, 
-									  sizeof(theOutputFormat), 
-									  &theOutputFormat);
-		if(err) { 
-			printf("MyGetOpenALAudioData: ExtAudioFileSetProperty(kExtAudioFileProperty_ClientDataFormat) FAILED, Error = %ld\n", err); 
-			// Dispose the ExtAudioFileRef, it is no longer needed
-			if (extRef) ExtAudioFileDispose(extRef);
-			return theData;
-		}
-		
-		// Get the total frame count
-		thePropertySize = sizeof(theFileLengthInFrames);
-		err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileLengthFrames, &thePropertySize, &theFileLengthInFrames);
-		if(err) {
-			printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) FAILED, Error = %ld\n", err);
-			// Dispose the ExtAudioFileRef, it is no longer needed
-			if (extRef) ExtAudioFileDispose(extRef);
-			return theData;
-		}
-		
-		// Read all the data into memory
-		UInt32		dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;;
-		theData = malloc(dataSize);
-		if (theData)
-		{
-			AudioBufferList		theDataBuffer;
-			theDataBuffer.mNumberBuffers = 1;
-			theDataBuffer.mBuffers[0].mDataByteSize		= dataSize;
-			theDataBuffer.mBuffers[0].mNumberChannels	= theOutputFormat.mChannelsPerFrame;
-			theDataBuffer.mBuffers[0].mData				= theData;
-			
-			// Read the data into an AudioBufferList
-			err = ExtAudioFileRead(extRef, (UInt32*)&theFileLengthInFrames, &theDataBuffer);
-			if(err == noErr)
-			{
-				// success
-				*outDataSize	= (ALsizei)dataSize;
-				*outSampleRate	= (ALsizei)theOutputFormat.mSampleRate;
-				*outChannels	= (ALsizei)theOutputFormat.mChannelsPerFrame;
-				*outBitlength	= (ALsizei)theOutputFormat.mBitsPerChannel;
-				NSLog(@"load caf sound : outDataSize=%d outSampleRate=%d outChannels=%d outBitlength=%d\n",
-					  *outDataSize,
-					  *outSampleRate,
-					  *outChannels,
-					  *outBitlength);
-
-			}
-			else 
-			{ 
-				// failure
-				free (theData);
-				theData = NULL; // make sure to return NULL
-				printf("MyGetOpenALAudioData: ExtAudioFileRead FAILED, Error = %ld\n", err); 
-			}	
-		}
-		// Dispose the ExtAudioFileRef, it is no longer needed
-		if (extRef) ExtAudioFileDispose(extRef);
-		return theData;
-	}
 	
 //  beat detect
 //	{
@@ -432,6 +248,71 @@ namespace com_cell
 //		}
 //		
 //	}
+	
+	void* loadCaf(char* const filepath)
+	{
+		NSBundle*	bundle	= [NSBundle mainBundle];		
+		NSString*	path	= [bundle pathForResource:[NSString stringWithUTF8String:filepath] ofType:nil];
+		
+		OSStatus	result;
+		
+		// first, open the file  
+		AudioFileID fileID;
+		{
+			// use the NSURl instead of a cfurlref cuz it is easier     
+			NSURL * afUrl = [NSURL fileURLWithPath:path]; 
+			// do some platform specific stuff..  
+			result = AudioFileOpenURL((CFURLRef)afUrl, kAudioFileReadPermission, 0, &fileID);  
+			if (result != 0) {
+				NSLog(@"cannot openf file: %@", path);   
+				return NULL;
+			}
+		}
+		UInt32 outDataSize;   
+		UInt32 outChannels;    
+		UInt32 outBitlength;   
+		UInt32 outSampleRate; 
+		{  
+			UInt32 thePropSize = sizeof(UInt32);    
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertyAudioDataByteCount, 
+										  &thePropSize, 
+										  &outDataSize);
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertyChannelLayout, 
+										  &thePropSize, 
+										  &outChannels);   
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertySourceBitDepth, 
+										  &thePropSize, 
+										  &outBitlength);   
+			result = AudioFileGetProperty(fileID, 
+										  kAudioFilePropertyBitRate, 
+										  &thePropSize, 
+										  &outSampleRate);   
+			if(result != 0) {
+				AudioFileClose(fileID);   //close the file 
+				NSLog(@"cannot find file size");    
+				return NULL;
+			}
+		}
+		// this is where the audio data will live for the moment  
+		void * outData = malloc(outDataSize);
+		{
+			// this where we actually get the bytes from the file and put them  
+			// into the data buffer  
+			OSStatus result = noErr;  
+			result = AudioFileReadBytes(fileID, false, 0, &outDataSize, outData);  
+			AudioFileClose(fileID);   //close the file 
+			if (result != 0) {
+				NSLog(@"cannot load effect: %@",path);  
+				return NULL;
+			}
+		}
+		
+		return outData;
+	}
+	
 	
 	
 	

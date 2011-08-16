@@ -18,18 +18,6 @@ namespace com_cell
 {
 	extern SoundInfo* createStaticSound(char const *filepath);
 	
-	extern void* loadCafSound(CFURLRef const inFileURL, 
-					   ALsizei*	outDataSize, 
-					   ALsizei*	outChannels, 
-					   ALsizei*	outBitlength, 
-					   ALsizei*	outSampleRate);
-	
-	extern void* loadWavSound(CFURLRef const inFileURL, 
-					   ALsizei*	outDataSize, 
-					   ALsizei*	outChannels, 
-					   ALsizei*	outBitlength, 
-					   ALsizei*	outSampleRate);
-	
 }; // namespcace 
 
 #endif // _COM_CELL_SOUND_DECODE

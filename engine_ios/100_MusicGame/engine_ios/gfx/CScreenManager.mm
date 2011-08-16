@@ -65,7 +65,7 @@ namespace com_cell
         
 		clearKey();
 		
-		pCurGraphics		= new Graphics2D();
+		pCurGraphics		= new ScreenGraphics2D();
 	} 
     
 	ScreenManager::~ScreenManager()

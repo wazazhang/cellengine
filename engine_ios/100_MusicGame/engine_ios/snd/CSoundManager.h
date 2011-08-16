@@ -47,6 +47,9 @@ namespace com_cell
         
         float getVolume();
         
+        std::string     toString();
+		
+		
         SoundInfo*      createSoundInfo(char const *file);  
 		
         SoundInfo*      createStreamSoundInfo(char const *file); 
@@ -55,8 +58,9 @@ namespace com_cell
         
         SoundPlayer*    createPlayer() ;        
         
+		/**尽可能的播放，加入有空闲的声道的话*/
+		void			playSound(Sound *sound);
         
-        std::string     toString();
         
     };
 

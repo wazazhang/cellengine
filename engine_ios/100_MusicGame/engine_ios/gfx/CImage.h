@@ -8,8 +8,6 @@
 #ifndef _COM_CELL_IMAGE
 #define _COM_CELL_IMAGE
 
-#import <UIKit/UIKit.h>
-
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
@@ -37,10 +35,14 @@ namespace com_cell
         //Texture2D     *m_Texture2D;
         
         CGImageRef      spriteImage;
-        
+		
+    private:
+		
+		friend class GFXManager;
+		
+        Image(CGImageRef image_ref);
+		
     public:
-        
-        Image(char const *file);
         
         ~Image();
         

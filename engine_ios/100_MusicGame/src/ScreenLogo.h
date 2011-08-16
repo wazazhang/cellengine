@@ -14,16 +14,19 @@
 
 #include <math.h>
 #include "Screens.h"
+#include "BMSFile.h"
 
 
 namespace gt_teris
 {
-	using namespace com_cell;
+	using namespace com_cell;	
+	using namespace com_cell_bms;
+
 
 	class ScreenLogo : public IScreen
 	{
     private:
-        Image*			pSprite;
+        Image			*pSprite;
         float			angle;
         
 		SoundInfo*		pSoundInfo1;
@@ -52,6 +55,8 @@ namespace gt_teris
 		SoundPlayer*	pSoundPlayer6;
 		SoundPlayer*	pSoundPlayer7;
 		SoundPlayer*	pSoundPlayer8;
+		
+		BMSFile*		pBmsFile;
 		
 	public:
 			

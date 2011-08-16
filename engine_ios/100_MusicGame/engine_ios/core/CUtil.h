@@ -12,10 +12,13 @@
 #include <vector>
 #include <fstream>
 
+
 #include "CType.h"
 
 namespace com_cell
 {
+	using namespace std;
+	
     template <typename T, int N>
 	struct Format
 	{
@@ -39,37 +42,82 @@ namespace com_cell
     
 	///////////////////////////////////////////////////////////////////////////////////////
 	// time date
+	///////////////////////////////////////////////////////////////////////////////////////
+	
 	extern double       getCurrentTime();
     
+	
 	///////////////////////////////////////////////////////////////////////////////////////
 	// string util
-	extern bool			stringEquals		(std::string const &src, 
-											 std::string const &dst);
+	///////////////////////////////////////////////////////////////////////////////////////
 	
-	extern std::vector<std::string> 
-                        stringSplit			(std::string const &str, 
-											 std::string const &separator);
+	extern bool				stringEquals(string const &src, string const &dst);
 	
-	extern std::string  intToString			(long value);
-	extern std::string  floatToString		(double value);
 	
-	extern int          stringToInt			(std::string const &str, long &value);
-	extern int          stringToFloat		(std::string const &str, double &value);
+	////////////////////////////////////////////////////////////
+	// split and replace
+	extern vector<string>	stringSplit(string const &str, 
+										string const &separator);
+
+	extern vector<string>	stringSplit(string const &str, 
+										string const &separator, 
+										int limit);
 	
-	extern std::string  stringTrim			(std::string const &str);
+	extern string			stringReplace(string const &str,
+										  string const &target,
+										  string const &replace);
 	
-    extern bool         stringStartWidth	(std::string const &str, std::string const &prefix);
-    extern bool         stringEndWidth		(std::string const &str, std::string const &suffix);
+	extern string			stringReplace(string const &str,
+										  string const &target,
+										  string const &replace,
+										  int limit);
+	////////////////////////////////////////////////////////////
+	// regex split and replace
+	extern vector<string>	stringSplitRegx(string const &str, 
+											string const &regex);
+
+	extern string			stringReplaceRegx(string const &str,
+											  string const &regex,
+											  string const &replace);
+	
+	////////////////////////////////////////////////////////////
+	// convert
+	
+	extern string			intToString(long value);
+	
+	extern string			floatToString(double value);
+	
+	// 数字转换整型
+	extern bool				stringToInt(string const &str, long &out_value);
+	// 数字转换成小数
+	extern bool				stringToPoint(string const &str, double &out_value);
+	// 数字转换成浮点数
+	extern bool				stringToFloat(string const &str, double &out_value);
+	
+	
+	////////////////////////////////////////////////////////////
+	
+	extern string			stringTrim(string const &str);
+	
+    extern bool				stringStartWith(string const &str, string const &prefix);
+	
+    extern bool				stringEndWith(string const &str, string const &suffix);
     
-	extern int          stringGetKeyValue	(std::string const &s, 
-											 std::string const &k, 
-											 std::string const &separator, 
-											 std::string &v);
+	extern int				stringGetKeyValue(string const &s, 
+											  string const &k, 
+											  string const &separator, 
+											  string &v);
 	
+	////////////////////////////////////////////////////////////
+	/**左闭右开， subString(“0123”, 1, 3) = "12"*/
+	extern string	subString(string const &str, int begin_index, int end_index);
 	
+	extern string	subString(string const &str, int begin_index);
 	
 	///////////////////////////////////////////////////////////////////////////////////////
-	// random
+	// random and Number
+	///////////////////////////////////////////////////////////////////////////////////////
+	
 	extern int          randomInt();
     
 	extern void         randomSeed(int seed);			

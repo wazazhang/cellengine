@@ -166,7 +166,7 @@ namespace com_cell
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	void* loadData(char const *filename, int &size)
+	void* loadData(char const *filename, int &out_size)
 	{
 		NSBundle		*bundle		= [NSBundle mainBundle];
 		NSFileManager	*manager	= [NSFileManager defaultManager];
@@ -174,12 +174,12 @@ namespace com_cell
 		NSData			*data		= [manager contentsAtPath:filePath];
 		
 		void* datas = NULL;
-		size = 0;
+		out_size = 0;
 		
 		if(data != nil)
 		{
-			size = [data length];
-			datas = (char*)malloc(size);
+			out_size = [data length];
+			datas = (char*)malloc(out_size);
 			
 			[data getBytes: datas];
 		}
