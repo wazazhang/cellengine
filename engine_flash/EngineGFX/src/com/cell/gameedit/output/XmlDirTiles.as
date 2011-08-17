@@ -41,6 +41,9 @@ package com.cell.gameedit.output
 					}
 				}
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
+				if (output.url_wrapper!=null) {
+					url = output.url_wrapper.getResourceUrl(url);
+				}
 				this.loader = new Loader();
 				this.loader_wait = new Array();
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  

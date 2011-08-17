@@ -7,9 +7,9 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
 	import com.cell.gameedit.output.XmlOutputLoader;
-	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
+	import com.cell.gfx.game.IImages;
 	import com.cell.util.Map;
 	import com.cell.util.StringUtil;
 	
@@ -22,14 +22,17 @@ package com.cell.gameedit
 	public class ResourceLoader extends EventDispatcher
 	{
 		private var url 				: String;
+		private var url_wrapper			: ResourceURL;
 		private var output 				: OutputLoader;
 		private var resource_manager	: Map = new Map();
 		
-		public function ResourceLoader(url:String)
+		
+		public function ResourceLoader(url:String, url_wrapper:ResourceURL = null)
 		{
 			this.url = url;
+			this.url_wrapper = url_wrapper;
 			if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
-				this.output	= new XmlOutputLoader(url);
+				this.output	= new XmlOutputLoader(url, url_wrapper);
 			}
 		}
 		

@@ -1,6 +1,7 @@
 package com.cell.gameedit.output
 {
 	import com.cell.gameedit.OutputLoader;
+	import com.cell.gameedit.ResourceURL;
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gameedit.object.SpriteSet;
@@ -9,11 +10,11 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.SpriteObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
-	import com.cell.gfx.game.CImage;
 	import com.cell.gfx.game.CCD;
-	import com.cell.gfx.game.IImages;
+	import com.cell.gfx.game.CImage;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
+	import com.cell.gfx.game.IImages;
 	import com.cell.io.TextDeserialize;
 	import com.cell.io.TextReader;
 	import com.cell.util.Arrays;
@@ -34,6 +35,7 @@ package com.cell.gameedit.output
 		internal var path 		: String;
 		internal var path_root 	: String;
 		internal var file_name 	: String;
+		internal var url_wrapper: ResourceURL;
 		
 		private var complete	: Function;
 		
@@ -52,8 +54,9 @@ package com.cell.gameedit.output
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		public function XmlOutputLoader(url:String)
+		public function XmlOutputLoader(url:String, url_wrapper:ResourceURL)
 		{
+			this.url_wrapper= url_wrapper;
 			this.path 		= url.replace('\\', '/');
 			this.path_root	= path.substring(0, path.lastIndexOf("/")+1);
 			this.file_name	= path.substring(path_root.length);
@@ -65,7 +68,11 @@ package com.cell.gameedit.output
 		public function load(complete:Function) : void
 		{
 			this.complete	= complete;
-			this.loader.load(new URLRequest(path));
+			if (url_wrapper != null) {
+				this.loader.load(new URLRequest(url_wrapper.getResourceUrl(path)));
+			} else {
+				this.loader.load(new URLRequest(path));
+			}
 		}
 		
 		public function toString() : String
