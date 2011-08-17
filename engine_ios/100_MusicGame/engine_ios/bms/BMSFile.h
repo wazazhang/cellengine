@@ -5,8 +5,8 @@
 //  Created by wazazhang on 11-8-16.
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
-#ifndef _COM_CELL_BMS_BMS_FILE
-#define _COM_CELL_BMS_BMS_FILE
+#ifndef _COM_CELL_BMS_FILE
+#define _COM_CELL_BMS_FILE
 
 #include <string>
 #include <vector>

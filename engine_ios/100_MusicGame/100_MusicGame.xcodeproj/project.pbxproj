@@ -20,6 +20,7 @@
 		FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E313F5643A007045B4 /* MusicGame.xib */; };
 		FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E613F56498007045B4 /* MainWindow-iPad.xib */; };
 		FB452DF313F7D68A00D3F3B1 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */; };
+		FB92BAB013FBBB3900FA7BD1 /* BMSPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */; };
 		FB9EF15113FA208D00F65C98 /* res in Resources */ = {isa = PBXBuildFile; fileRef = FB9EF15013FA208D00F65C98 /* res */; };
 		FB9EF15413FA275E00F65C98 /* BMSFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF15313FA275E00F65C98 /* BMSFile.mm */; };
 		FB9EF16313FA6F5E00F65C98 /* CScreenGraphics2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */; };
@@ -73,6 +74,8 @@
 		FB3947E313F5643A007045B4 /* MusicGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MusicGame.xib; sourceTree = "<group>"; };
 		FB3947E713F56498007045B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		FB92BAAD13FBBB2700FA7BD1 /* BMSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSPlayer.h; sourceTree = "<group>"; };
+		FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMSPlayer.mm; sourceTree = "<group>"; };
 		FB9EF15013FA208D00F65C98 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		FB9EF15213FA274D00F65C98 /* BMSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSFile.h; sourceTree = "<group>"; };
 		FB9EF15313FA275E00F65C98 /* BMSFile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMSFile.mm; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 			children = (
 				FB9EF15213FA274D00F65C98 /* BMSFile.h */,
 				FB9EF15313FA275E00F65C98 /* BMSFile.mm */,
+				FB92BAAD13FBBB2700FA7BD1 /* BMSPlayer.h */,
+				FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */,
 			);
 			path = bms;
 			sourceTree = "<group>";
@@ -384,6 +389,7 @@
 				FB9EF15413FA275E00F65C98 /* BMSFile.mm in Sources */,
 				FB9EF16313FA6F5E00F65C98 /* CScreenGraphics2D.mm in Sources */,
 				FB9EF17813FACE9A00F65C98 /* RegexKitLite.m in Sources */,
+				FB92BAB013FBBB3900FA7BD1 /* BMSPlayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
