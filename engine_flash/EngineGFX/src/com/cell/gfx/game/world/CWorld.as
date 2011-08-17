@@ -144,6 +144,18 @@ package com.cell.gfx.game.world
 			return false;
 		}
 		
+		public function removeAllSprite() : int
+		{
+			var count : int = 0;
+			while (sprites.length > 0) {
+				var spr : CWorldSprite = sprites.pop();
+				if (removeSprite(spr)) {
+					count ++;
+				}
+			}
+			return count;
+		}
+		
 		public function getSprite(index:int) : CWorldSprite {
 			return sprites[index];
 		}
