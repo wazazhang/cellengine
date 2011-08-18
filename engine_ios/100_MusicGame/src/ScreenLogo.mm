@@ -23,75 +23,65 @@ namespace gt_teris
     void ScreenLogo::init() 
     {
         printf("init\n");
-        
+		
+		angle		= 0;
+		getTimer();
 		stringSplitRegx("what is the matrix", "\\s");
 		
 		double fvalue = 0;
-		if (stringToFloat("0123233.14159", fvalue)) {
+		if (stringToDouble("0123233.14159", fvalue)) {
 			printf(" %lf\n", fvalue);
 		}
 		
 		long ivalue = 0;
-		if (stringToInt("1234", ivalue)) {
+		if (stringToLong("1234", ivalue)) {
 			printf(" %ld\n", ivalue);
 		}
 		
         pSprite		= GFXManager::createImage("/Sprite.png");
-        angle		= 0;
-		
-		
-		pBmsFile	= new BMSFile("/res/btm_er/er-5.bms", NULL);
-		delete pBmsFile;
-/*	
+
 		pSoundInfo1	= SoundManager::getInstance()->createSoundInfo("sound.caf");
 		pSoundInfo2	= SoundManager::getInstance()->createSoundInfo("res/bgm.wav");
 		pSoundInfo3	= SoundManager::getInstance()->createSoundInfo("res/s1.wav");
-		pSoundInfo4	= SoundManager::getInstance()->createSoundInfo("res/s2.wav");
-		pSoundInfo5	= SoundManager::getInstance()->createSoundInfo("res/s3.wav");
-		pSoundInfo6	= SoundManager::getInstance()->createSoundInfo("res/s4.wav");
-		pSoundInfo7	= SoundManager::getInstance()->createSoundInfo("res/s5.wav");
-		pSoundInfo8	= SoundManager::getInstance()->createSoundInfo("res/s6.wav");
+
 		
-///*		
 		pSound1		= SoundManager::getInstance()->createSound(pSoundInfo1);
 		pSound2		= SoundManager::getInstance()->createSound(pSoundInfo2);
 		pSound3		= SoundManager::getInstance()->createSound(pSoundInfo3);
-		pSound4		= SoundManager::getInstance()->createSound(pSoundInfo4);
-		pSound5		= SoundManager::getInstance()->createSound(pSoundInfo5);
-		pSound6		= SoundManager::getInstance()->createSound(pSoundInfo6);
-		pSound7		= SoundManager::getInstance()->createSound(pSoundInfo7);
-		pSound8		= SoundManager::getInstance()->createSound(pSoundInfo8);
 
 		pSoundPlayer1= SoundManager::getInstance()->createPlayer();
 		pSoundPlayer2= SoundManager::getInstance()->createPlayer();
 		pSoundPlayer3= SoundManager::getInstance()->createPlayer();
-		pSoundPlayer4= SoundManager::getInstance()->createPlayer();
-		pSoundPlayer5= SoundManager::getInstance()->createPlayer();
-		pSoundPlayer6= SoundManager::getInstance()->createPlayer();
-		pSoundPlayer7= SoundManager::getInstance()->createPlayer();
-		pSoundPlayer8= SoundManager::getInstance()->createPlayer();
 		
 		pSoundPlayer1->setSound(pSound1);
 		pSoundPlayer2->setSound(pSound2);
 		pSoundPlayer3->setSound(pSound3);
-		pSoundPlayer4->setSound(pSound4);
-		pSoundPlayer5->setSound(pSound5);
-		pSoundPlayer6->setSound(pSound6);
-		pSoundPlayer7->setSound(pSound7);
-		pSoundPlayer8->setSound(pSound8);
 		
 		pSoundPlayer1->play(false);		
 		pSoundPlayer2->play(true);
-//*/
+
 	}
 	
     void ScreenLogo::destory() 
     {
-        printf("notifyDestory\n");
-//		delete pSoundPlayer;
-//		delete pSound;
-//		delete pSoundInfo;
+        printf("destory\n");
+
+		delete pSoundPlayer1;
+		delete pSoundPlayer2;
+		delete pSoundPlayer3;
+		
+		delete pSound1;
+		delete pSound2;
+		delete pSound3;
+		
+		delete pSoundInfo1;
+		delete pSoundInfo2;
+		delete pSoundInfo3;
+		
 		delete pSprite;
+		
+		
+
     }
 	
 	
@@ -101,9 +91,10 @@ namespace gt_teris
         
         angle += 1.0f;
 		
-//		if (com_cell::IScreen::isPointerDown(0)) {
-//			pSoundPlayer3->play(false);	
-//		}
+		if (com_cell::IScreen::isPointerDown(0)) {
+			pSoundPlayer3->play(false);	
+			getScreenManager()->changeScreen(Screens::SCREEN_GAME);
+		}
     }
     
     void ScreenLogo::render(Graphics2D &g) 
