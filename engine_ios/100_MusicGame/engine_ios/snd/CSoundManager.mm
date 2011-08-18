@@ -140,12 +140,6 @@ namespace com_cell
     {
         return new SoundPlayer();
     }
-    
-	/**尽可能的播放，加入有空闲的声道的话*/
-	void SoundManager::playSound(Sound *sound)
-	{
-		
-	}
     /////////////////////////////////////////////////////////////////////////////
     
     

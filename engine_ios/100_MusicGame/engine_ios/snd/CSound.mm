@@ -10,8 +10,21 @@
 #include "CSoundManager.h"
 #include "CSoundDecode.h"
 
+#import <OpenAL/oalStaticBufferExtension.h>
+
 namespace com_cell 
 {
+	typedef ALvoid	AL_APIENTRY	(*alBufferDataStaticProcPtr) (const ALint bid, 
+															  ALenum format,
+															  ALvoid* data, 
+															  ALsizei size,
+															  ALsizei freq);
+	ALvoid  alBufferDataStaticProc(const ALint bid, 
+								   ALenum format, 
+								   ALvoid* data, 
+								   ALsizei size, 
+								   ALsizei freq);
+
 	
     Sound::Sound(SoundInfo* sound_info)
 	{
@@ -43,11 +56,11 @@ namespace com_cell
 			
 			//*//将内存交给openAL管理
 			// variables to load into
-			alBufferData(m_buffer_id, format, 
-                         sound_info->getData(),
-                         sound_info->getDataSize(), 
-                         sound_info->getFrameRate());
-			/*//手动管理内存
+//			alBufferData(m_buffer_id, format, 
+//                         sound_info->getData(),
+//                         sound_info->getDataSize(), 
+//                         sound_info->getFrameRate());
+			//手动管理内存
 			// use the static buffer data API
 			alBufferDataStaticProc(m_buffer_id, format, 
 								   sound_info->getData(),
@@ -101,4 +114,21 @@ namespace com_cell
         return 0;
 	}
     
+	
+	
+	ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
+	{
+		static	alBufferDataStaticProcPtr	proc = NULL;
+		
+		if (proc == NULL) {
+			proc = (alBufferDataStaticProcPtr) alcGetProcAddress(NULL, (const ALCchar*) "alBufferDataStatic");
+		}
+		
+		if (proc)
+			proc(bid, format, data, size, freq);
+		
+		return;
+	}
+
+	
 }; // namespcace 

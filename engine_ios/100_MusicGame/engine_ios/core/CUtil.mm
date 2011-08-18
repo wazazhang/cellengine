@@ -23,7 +23,7 @@ namespace com_cell
 	{
 		CFTimeInterval time = CFAbsoluteTimeGetCurrent();
 		
-		return (double)time;
+		return (double)time*1000;
 	}
   
 	
@@ -167,8 +167,18 @@ namespace com_cell
 	{
 		return _FLOAT2STR(value);
 	}
-    
-	bool stringToInt(string const &str, long &out_value)
+	
+    bool stringToInt(string const &str, int &out_value)
+	{
+		long v = 0;
+		if (stringToLong(str, v)) {
+			out_value = v;
+			return true;
+		}
+		return false;
+	}
+	
+	bool stringToLong(string const &str, long &out_value)
 	{
 		long ret = 0;
 		long b = 1;
@@ -202,15 +212,24 @@ namespace com_cell
 		return true;
 	}
 	
-	
-	bool stringToFloat(string const &str, double &out_value)
+	bool stringToFloat(string const &str, float &out_value)
+	{
+		double v = 0;
+		if (stringToDouble(str, v)) {
+			out_value = v;
+			return true;
+		}
+		return false;
+	}
+
+	bool stringToDouble(string const &str, double &out_value)
 	{	
 		if (str.find(".") != string::npos) {
 			vector<string> kv = stringSplit(str, ".");
 			if (kv.size() > 1) {
 //				printf("%s - %s \n", kv[0].c_str(), kv[1].c_str());
 				long intvalue = 0;
-				if (!stringToInt(kv[0], intvalue)) {
+				if (!stringToLong(kv[0], intvalue)) {
 					return false;
 				}
 				double pointvalue = 0;
@@ -224,7 +243,7 @@ namespace com_cell
 		}
 		else {
 			long intvalue = 0;
-			bool ret = stringToInt(str, intvalue);
+			bool ret = stringToLong(str, intvalue);
 			out_value = intvalue;
 			return ret;
 		}

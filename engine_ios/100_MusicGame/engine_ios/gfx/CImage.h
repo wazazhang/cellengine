@@ -34,7 +34,7 @@ namespace com_cell
         
         //Texture2D     *m_Texture2D;
         
-        CGImageRef      spriteImage;
+        CGImageRef		spriteImage ;
 		
     private:
 		

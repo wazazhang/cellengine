@@ -23,8 +23,9 @@ namespace com_cell
         ALuint  m_source_id;
         
     public:
-        
+
         SoundPlayer();
+		
         ~SoundPlayer();
         
         bool    isEnable();

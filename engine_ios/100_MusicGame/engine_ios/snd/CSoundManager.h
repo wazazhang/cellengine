@@ -58,8 +58,6 @@ namespace com_cell
         
         SoundPlayer*    createPlayer() ;        
         
-		/**尽可能的播放，加入有空闲的声道的话*/
-		void			playSound(Sound *sound);
         
         
     };

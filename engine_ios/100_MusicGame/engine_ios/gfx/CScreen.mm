@@ -11,6 +11,16 @@
 
 namespace com_cell
 {
+	
+	int IScreen::getWidth(){
+		return ScreenManager::getInstance()->getWidth();
+	}
+	
+	int IScreen::getHeight() {
+		return ScreenManager::getInstance()->getHeight();
+	}
+
+	
 
 	bool IScreen::isPointerHoldLag(int id)
 	{

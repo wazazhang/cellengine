@@ -19,9 +19,9 @@ namespace com_cell_bms
 	// Gobal 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	double G_LINE_SPLIT_DIV = 256;
+	float G_LINE_SPLIT_DIV = 256;
 
-	void setLineSplitDIV(double div)
+	void setLineSplitDIV(float div)
 	{
 		if (div >= 32) {
 			G_LINE_SPLIT_DIV = div;
@@ -172,9 +172,9 @@ namespace com_cell_bms
 		//printf("delete sound : %s\n", filepath);
 	}
 	
-	void IDefineSound::play()
+	Sound* IDefineSound::getSound()
 	{
-		SoundManager::getInstance()->playSound(pSound);
+		return pSound;
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,7 @@ namespace com_cell_bms
 	
 	/////////////////////////////////////////////////////////////////////////////
 	
-	IDefineNumber::IDefineNumber(double n)
+	IDefineNumber::IDefineNumber(float n)
 	{
 		number = n;
 	}
@@ -237,14 +237,24 @@ namespace com_cell_bms
 //			   m_value.c_str());
 	}
 	
+	HeaderDefineEnum&	HeadDefine::getDefineType()
+	{
+		return m_define;
+	}
+	
+	IDefineResource*	HeadDefine::getDefineResource()
+	{
+		return m_pValueObject;
+	}
+
 	
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Note class
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	Note::Note(CommandEnum const &command,
-			   long line, 
-			   long track, 
+			   int line, 
+			   int track, 
 			   double begin_position,
 			   double end_position,
 			   HeadDefine *pHeadDefine,
@@ -271,6 +281,30 @@ namespace com_cell_bms
 
 	}
 	
+	CommandEnum&	Note::getCommand()
+	{
+		return m_command;
+	}
+	
+	HeadDefine*		Note::getHeadDefine()
+	{
+		return m_pHeadDefine;
+	}
+	
+	std::string&	Note::getTrackValue()
+	{
+		return m_track_value;
+	}
+
+	
+	int Note::getTrack(){
+		return m_track;
+	}
+	
+	int Note::getLine(){
+		return m_line;
+	}
+
 	double Note::getBeginPosition() {
 		return m_begin_position;
 	}
@@ -299,11 +333,7 @@ namespace com_cell_bms
 	bool Note::isLongKey() {
 		return m_begin_position != m_end_position;
 	}
-	
-	int Note::compareTo(Note const *o) {
-		return (int)(m_begin_position - o->m_begin_position);
-	}
-	
+
 	std::string Note::toString() {
 		return std::string("Note").
 		append(": line=").append(intToString(m_line)).
@@ -314,7 +344,9 @@ namespace com_cell_bms
 		append(", end=").append(intToString(m_end_position));
 	}
 	
-	
+	bool compareNote(Note *a, Note *b) {
+		return b->getBeginPosition() > a->getBeginPosition();
+	}
 	
 	
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -365,7 +397,7 @@ namespace com_cell_bms
 						if (kv.size() > 1) {
 							if (initHeadInfo(kv[0], kv[1]) || 
 								initHeadMap (kv[0], kv[1])) {
-								cout << "#" << kv[0] << " = " << kv[1] << endl;
+								//cout << "#" << kv[0] << " = " << kv[1] << endl;
 							}
 						}
 					}
@@ -375,7 +407,7 @@ namespace com_cell_bms
 						const std::vector<std::string> &kv = stringSplit(line, ":", 2);
 						if (kv.size() > 1) {
 							if (initDataLine(kv[0], kv[1])) {
-								cout << "#" << kv[0] << " = " << kv[1] << endl;
+								//cout << "#" << kv[0] << " = " << kv[1] << endl;
 							}
 						}
 					}
@@ -394,6 +426,14 @@ namespace com_cell_bms
 		if (listener!=NULL) {
 			listener->endLoading();
 		}
+		
+		for (std::map<CommandEnum, std::vector<Note*> >::iterator it=data_note_table.begin(); 
+			 it!=data_note_table.end(); ++it) 
+		{
+			std::vector<Note*> &tlist = (it->second);
+			std::sort( tlist.begin(), tlist.end() , compareNote);
+		}
+
 		
 		cout << "done init : " << m_bms_file << "\n" <<
 		"	totoal_define_resource_count - "<<totoal_define_resource_count<<"\n"<<
@@ -440,9 +480,28 @@ namespace com_cell_bms
 	
 	/////////////////////////////////////////////////////////////////////////////////////
 	
+	
+	float BMSFile::getLineSplitDiv()
+	{
+		return m_line_split_div;
+	}
+	
+	float BMSFile::getBeatDiv()
+	{
+		return m_beat_div;
+	}
+	
 	std::string BMSFile::getHeadInfo(HeaderInfoEnum const &head)
 	{
 		return header_info[head];
+	}
+	
+	double BMSFile::getHeadInfoAsNumber(HeaderInfoEnum const &head)
+	{
+		std::string info = header_info[head];
+		double ret = 0;
+		stringToDouble(info, ret);
+		return ret;
 	}
 	
 	HeadDefine * BMSFile::getHeadDefine(CommandEnum const &command, std::string const &track_value)
@@ -494,16 +553,21 @@ namespace com_cell_bms
 				ret.push_back(*st);
 			}
 		}
+		
+		std::sort( ret.begin(), ret.end() , compareNote);
+		
 		return ret;
 	}
 	
-	double BMSFile::timeToPosition(double deta_time_ms, double bpm)
+
+	
+	double BMSFile::timeToPosition(float deta_time_ms, float bpm)
 	{
-		double	deta_min = (deta_time_ms/60000);
+		float	deta_min = (deta_time_ms/60000);
 		return deta_min * bpm * m_beat_div;
 	}
 	
-	double BMSFile::barToPosition(int line, double npos, double ncount) 
+	double BMSFile::barToPosition(int line, float npos, float ncount) 
 	{
 		return (line * m_line_split_div) + m_line_split_div * npos / ncount;
 	}
@@ -553,12 +617,12 @@ namespace com_cell_bms
 	{
 		if (c.length()==5)
 		{
-			long line = 0;
+			int line = 0;
 			if (stringToInt(c.substr(0, 3), line)) {
 				std::string cmd = c.substr(3, 2);
 				CommandEnum command;
 				if (valueOfDataCommand(cmd, command)) {
-					long track;
+					int track;
 					if (stringToInt(cmd, track)) {
 						int ncount = (v.length()>>1);
 						for (int npos = 0; npos < ncount; npos++) {
@@ -593,7 +657,7 @@ namespace com_cell_bms
 		}
 		if (stringEquals(HEAD_DEFINE_BPM, def) ||
 			stringEquals(HEAD_DEFINE_STOP, def)) {
-			double n = 0;
+			float n = 0;
 			if (stringToFloat(value, n)) {
 				totoal_define_resource_count++;
 				return new IDefineNumber(n);
@@ -617,8 +681,8 @@ namespace com_cell_bms
 	
 	Note* BMSFile::createNote(CommandEnum const &command,
 							  std::string const &track_value,
-							  long line, 
-							  long track, 
+							  int line, 
+							  int track, 
 							  int npos, 
 							  int ncount)
 	{

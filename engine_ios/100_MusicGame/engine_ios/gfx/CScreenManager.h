@@ -12,6 +12,7 @@
 
 #include "CType.h"
 #include "CUtil.h"
+#include "CGeometry.h"
 #include "CScreenGraphics2D.h"
 #include "CScreen.h"
 
@@ -49,14 +50,17 @@ namespace com_cell
 		bool				RenderEnable ;
 		bool				TransitionEnable ;
 		float				TransitionMaxTime ;
+		
 		int					timer;
+		
+		double				interval_ms;
+		double				last_update_time_ms;
+		double				m_fps;
 		
 		int					HoldEventLagTime;
 		
 		Vector3D			m_accelerometer;
 		
-		double				m_startTime;
-		double				m_fps;
         
 		// gfx
 		ScreenGraphics2D*	pCurGraphics;
@@ -108,6 +112,8 @@ namespace com_cell
         
         inline int          getTimer() { return timer; }
         
+		inline float		getIntervalMS() { return interval_ms;} 
+		
         inline Vector3D     getAccelerometer() { return m_accelerometer; }
         
 		inline double       getFPS(){return m_fps;}
@@ -233,6 +239,11 @@ namespace com_cell
 	}
 	
 	inline int getTimer()
+	{
+		return ScreenManager::getInstance()->getTimer();
+	}
+	
+	inline float getIntervalMS()
 	{
 		return ScreenManager::getInstance()->getTimer();
 	}

@@ -36,6 +36,11 @@ namespace com_cell
 		
 		
 	public:
+		
+		int getWidth();
+		
+		int getHeight();
+		
 		static bool isPointerHoldLag(int id);
 		
 		static bool isPointerHold(int id);

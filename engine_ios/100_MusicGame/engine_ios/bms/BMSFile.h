@@ -80,7 +80,7 @@ namespace com_cell_bms
 	 * 设置将每小节分割为多少份来处理	
 	 * 将每BEAT分割为多少份来处理 (4 BEAT = 1 LINE)
 	 */
-	extern void setLineSplitDIV(double div);
+	extern void setLineSplitDIV(float div);
 	
     ////////////////////////////////////////////////////////////////////////////////
 	
@@ -162,7 +162,7 @@ namespace com_cell_bms
 	public:
 		IDefineSound(char const *file);
 		~IDefineSound();
-		void play();
+		Sound* getSound();
 	};
 
 	// Head Define 图片
@@ -183,7 +183,7 @@ namespace com_cell_bms
 	public:
 		double number;
 	public:
-		IDefineNumber(double n);
+		IDefineNumber(float n);
 		~IDefineNumber();		
 	};
 
@@ -198,7 +198,7 @@ namespace com_cell_bms
 	 */
 	class HeadDefine
 	{
-	public:
+	private:
 		// #[WAV]XX sound.caf
 		HeaderDefineEnum	m_define;
 		// #WAV[XX] sound.caf
@@ -215,6 +215,10 @@ namespace com_cell_bms
 				   IDefineResource *m_pValueObject) ;
 		
 		~HeadDefine() ;
+		
+		HeaderDefineEnum&	getDefineType();
+		
+		IDefineResource*	getDefineResource();
 	};
 	
 	
@@ -233,9 +237,9 @@ namespace com_cell_bms
 		// #010[01]:00010000
 		CommandEnum			m_command;
 		// #[010]01:00010000
-		long				m_line;
+		int					m_line;
 		// #010[01]:00010000
-		long				m_track;
+		int					m_track;
 		// #01001:00[01]0000
 		std::string			m_track_value;
 
@@ -247,14 +251,24 @@ namespace com_cell_bms
 	public:
 		
 		Note(CommandEnum const &command,
-			 long line, 
-			 long track, 
+			 int line, 
+			 int track, 
 			 double begin_position,
 			 double end_position,
 			 HeadDefine	*pHeadDefine,
 			 std::string const &track_value);
 		
 		~Note();
+		
+		CommandEnum&	getCommand();
+		
+		HeadDefine*		getHeadDefine();
+		
+		std::string&	getTrackValue();
+
+		int			getTrack();
+		
+		int			getLine();
 		
 		double		getBeginPosition() ;		
 		
@@ -263,12 +277,17 @@ namespace com_cell_bms
 		bool		validate();
 		
 		bool		isLongKey();
-		
-		int			compareTo(Note const *o) ;		
+			
 		
 		std::string toString() ;
 	};
 	
+	//	bool cmp( int a, int b ) {
+	//		return a > b;
+	//	}
+
+	extern bool compareNote(Note *a, Note *b) ;	
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 	// LoadingListener class
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -297,10 +316,10 @@ namespace com_cell_bms
 		std::string m_bms_dir;
 		
 		/** 将每小节分割为多少份来处理 */
-		double		m_line_split_div;
+		float		m_line_split_div;
 		
 		/** 将每BEAT分割为多少份来处理 (4 BEAT = 1 LINE)*/
-		double 		m_beat_div;
+		float 		m_beat_div;
 		
 		std::map<HeaderInfoEnum, std::string>		header_info;
 		
@@ -325,10 +344,15 @@ namespace com_cell_bms
 		
 		~BMSFile();
 		
+		float				getLineSplitDiv();
+		float				getBeatDiv();
+		
 		char const*			getBmsFile();
 		
 		// 获取文件信息
 		std::string			getHeadInfo(HeaderInfoEnum const &head);
+		
+		double				getHeadInfoAsNumber(HeaderInfoEnum const &head);
 		
 		// 获得头元素定义的值
 		HeadDefine*			getHeadDefine(CommandEnum const &command, std::string const &track_value);
@@ -339,13 +363,13 @@ namespace com_cell_bms
 		// 获取所有轨道的音符信息
 		std::vector<Note*>	getAllNoteList() ;	
 		
+		// 
+		double timeToPosition(float deta_time_ms, float bpm);
+		
+		// 
+		double barToPosition(int line, float npos, float ncount);
+
 	protected:
-		
-		// 
-		double barToPosition(int line, double npos, double ncount);
-		
-		// 
-		double timeToPosition(double deta_time_ms, double bpm);
 		
 
 		bool initHeadInfo	(std::string const &k, std::string const &v);		
@@ -361,8 +385,8 @@ namespace com_cell_bms
 		
 		Note*				createNote(CommandEnum const &command,
 									   std::string const &track_value,
-									   long line, 
-									   long track, 
+									   int line, 
+									   int track, 
 									   int npos, 
 									   int ncount);
 		

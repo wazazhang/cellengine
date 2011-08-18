@@ -32,10 +32,10 @@ namespace com_cell
         
         alSourcef(m_source_id,   AL_PITCH,				1.0f);
         alSourcef(m_source_id,   AL_GAIN,				1.0f);
-        alSourcef(m_source_id,   AL_ROLLOFF_FACTOR,	0.0f);
+        alSourcef(m_source_id,   AL_ROLLOFF_FACTOR,		0.0f);
             
 		alSourcei(m_source_id,   AL_SOURCE_RELATIVE,	AL_TRUE);
-		alSourcei(m_source_id,   AL_LOOPING,			0);
+		alSourcei(m_source_id,   AL_LOOPING,			AL_FALSE);
 			
         SoundManager::checkError();
 		
@@ -76,10 +76,10 @@ namespace com_cell
 	float SoundPlayer::getVolume()
     {
 		if (isEnable()) {
-			ALfloat ret[1] = {0};
-			alGetSourcef(m_source_id, AL_GAIN, ret);
+			ALfloat ret = 0;
+			alGetSourcef(m_source_id, AL_GAIN, &ret);
 			SoundManager::checkError();
-			return ret[0];
+			return ret;
 		} else {
 			return 0;
 		}
@@ -124,12 +124,12 @@ namespace com_cell
 	bool SoundPlayer::isPlaying() 
     {
 		if (isEnable()) {
-			ALint state[1] = {0};
-			alGetSourcei(m_source_id, AL_SOURCE_STATE, state);
+			ALint state;
+			alGetSourcei(m_source_id, AL_SOURCE_STATE, &state);
 			if (SoundManager::checkError()) {
 				return false;
 			}
-			return state[0] == AL_PLAYING;
+			return state == AL_PLAYING;
 		}
 		return true;
 	}

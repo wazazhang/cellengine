@@ -42,8 +42,8 @@ namespace com_cell
         }
         if (spriteImage != NULL)
         {
-            CGImageRelease(spriteImage);
-        }
+			CGImageRelease(spriteImage);
+		}
     }
         
     void Image::init(CGImageRef image)
@@ -54,10 +54,12 @@ namespace com_cell
         m_texture_h     = 256;
         m_image_w       = CGImageGetWidth(spriteImage);
         m_image_h       = CGImageGetHeight(spriteImage);
-        
+		
+		CGImageRetain(spriteImage);
+		
         // Allocated memory needed for the bitmap context
 		size_t dataSize = m_texture_w * m_texture_h * 4;
-        GLubyte *spriteData = (GLubyte *) malloc(dataSize);
+        GLubyte *spriteData = (GLubyte *) calloc(dataSize, sizeof(GLubyte));
 		// 不将数据清0的话会有花屏
         memset(spriteData, 0, dataSize);
         // Uses the bitmatp creation function provided by the Core Graphics framework. 
@@ -73,20 +75,20 @@ namespace com_cell
         // You don't need the context at this point, so you need to release it to avoid memory leaks.
         CGContextRelease(spriteContext);
         
-		glEnable(GL_TEXTURE_2D);
-		{
+//		glEnable(GL_TEXTURE_2D);
+		{		
 			// Use OpenGL ES to generate a name for the texture.
 			glGenTextures(1, &m_texture_id);
 			// Bind the texture name. 
 			glBindTexture(GL_TEXTURE_2D, m_texture_id);
+			// Set the texture parameters to use a minifying filter and a linear filer (weighted average)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			// Speidfy a 2D texture image, provideing the a pointer to the image data in memory
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 
 						 m_texture_w, m_texture_h, 
 						 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-			// Set the texture parameters to use a minifying filter and a linear filer (weighted average)
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         }
-		glDisable(GL_TEXTURE_2D);	
+//		glDisable(GL_TEXTURE_2D);	
 		
         // Release the image data
         free(spriteData);

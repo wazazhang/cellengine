@@ -88,11 +88,13 @@ namespace com_cell
 	extern string			floatToString(double value);
 	
 	// 数字转换整型
-	extern bool				stringToInt(string const &str, long &out_value);
+	extern bool				stringToInt(string const &str, int &out_value);
+	extern bool				stringToLong(string const &str, long &out_value);
 	// 数字转换成小数
 	extern bool				stringToPoint(string const &str, double &out_value);
 	// 数字转换成浮点数
-	extern bool				stringToFloat(string const &str, double &out_value);
+	extern bool				stringToFloat(string const &str, float &out_value);
+	extern bool				stringToDouble(string const &str, double &out_value);
 	
 	
 	////////////////////////////////////////////////////////////

@@ -7,7 +7,6 @@
 //
 #include "CUtil.h"
 #include "CScreenManager.h"
-#include "CGraphics2D.h"
 
 namespace com_cell
 {
@@ -43,8 +42,10 @@ namespace com_cell
 	{
 		//m_BackBuffer		= NULL;
 		
-        
-		
+        last_update_time_ms	= getCurrentTime();
+		interval_ms = 1;
+		timer = 0;
+
 		m_pScreenFactory	= NULL;
 		m_pCurSubScreen		= NULL;
 		
@@ -102,9 +103,110 @@ namespace com_cell
 			pCurGraphics = NULL;
 		}
 	} 	
+
+	
+	///////////////////////////////////////////////////////////////////////////
+
+	// update in game loop
+	void ScreenManager::call_Update(CGRect rect)
+	{
+		pCurGraphics->beginRender(rect);
+		
+		// get fps
+		interval_ms = com_cell::getCurrentTime() - last_update_time_ms;
+		last_update_time_ms = com_cell::getCurrentTime();
+		m_fps = 1 / interval_ms;
+        
+		// get screen size
+		width  = rect.size.width;
+		height = rect.size.height;
+		
+		// test change screen 
+		_tryChangeSubScreen();
+		
+		// query key state
+		_queryKey();
+		
+		if (!KeyEnable){
+			clearKey();
+		}
+		
+		
+		if( m_pCurSubScreen != NULL )
+		{
+			if(LogicEnable) {
+				// main screen logic call
+				m_pCurSubScreen->update();
+			}
+			if(RenderEnable) {
+				// main screen render call
+				pCurGraphics->pushTransform();
+				m_pCurSubScreen->render(*pCurGraphics);
+				pCurGraphics->popTransform();
+			}
+		}
+		
+		if(TransitionEnable)
+		{
+			pCurGraphics->pushTransform();
+			_transition(*pCurGraphics);
+			pCurGraphics->popTransform();
+		}
+		
+		pCurGraphics->endRender();
+		timer ++;
+		
+	}
 	
 	/********************************************************************************************************************/
 	// methods 
+
+	void ScreenManager::_tryChangeSubScreen()
+	{
+		if(m_NextScreenType != 0)
+		{
+			if (TransitionEnable==false || g_isTransitionOut==false )
+			{
+				if(m_pCurSubScreen!=NULL)
+				{
+					//notifyDdestory prew screen
+					m_pCurSubScreen->destory();
+					delete(m_pCurSubScreen);
+				}
+				
+				IScreen *pNext = m_pScreenFactory->createScreen(m_NextScreenType);
+				
+				if(pNext != NULL)
+				{
+                    
+					m_pCurSubScreen = pNext;
+					
+					// init new screen
+					m_pCurSubScreen->init();
+					
+				}
+				else
+				{
+					//printf([NSString stringWithFormat:@"Error create screen type : %d !" , m_NextScreenType]);
+					printf("Error create screen type : %d !" , m_NextScreenType);
+				}
+				
+				last_update_time_ms = com_cell::getCurrentTime();
+				interval_ms = 1;
+				timer = 0;
+				
+				_setTransitionIn();
+				
+				m_NextScreenType = 0;
+                
+			}
+            
+		}
+		
+	}
+	
+	/********************************************************************************************************************/
+	//	methods 
 	
 	bool ScreenManager::isPointerHoldLag(int id)
 	{		
@@ -194,7 +296,7 @@ namespace com_cell
         m_accelerometer.y = y;
         m_accelerometer.z = z;
     }
-
+	
 	
 	// when system key pressed or pointer pressed
 	void ScreenManager::call_PointerPressed(int id, float x, float y)
@@ -252,59 +354,6 @@ namespace com_cell
 		}
 	}
 	
-	// update in game loop
-	void ScreenManager::call_Update(CGRect rect)
-	{
-		pCurGraphics->beginRender(rect);
-		
-		// get fps
-		double dtime = com_cell::getCurrentTime() - m_startTime;
-		m_startTime = com_cell::getCurrentTime();
-		m_fps = 1 / dtime;
-        
-		// get screen size
-		width  = rect.size.width;
-		height = rect.size.height;
-		
-		// test change screen 
-		_tryChangeSubScreen();
-		
-		// query key state
-		_queryKey();
-		if(!KeyEnable)clearKey();
-		
-		
-		if( m_pCurSubScreen != NULL )
-		{
-			if(LogicEnable)
-			{
-				// main screen logic call
-				m_pCurSubScreen->update();
-			}
-			
-			if(RenderEnable)
-			{
-				// main screen render call
-				m_pCurSubScreen->render(*pCurGraphics);
-			}
-			
-		}
-		
-		if(TransitionEnable)
-		{
-			_transition(*pCurGraphics);
-		}
-		
-		
-		
-		pCurGraphics->endRender();
-		
-		timer ++;
-		
-	}
-	
-	
-	
 	/********************************************************************************************************************/
 	// util
 	
@@ -322,51 +371,6 @@ namespace com_cell
 			m_PointerDragState[i]			= false;
 		}
 	}
-	
-	void ScreenManager::_tryChangeSubScreen()
-	{
-		if(m_NextScreenType != 0)
-		{
-			if (TransitionEnable==false || g_isTransitionOut==false )
-			{
-				if(m_pCurSubScreen!=NULL)
-				{
-					//notifyDdestory prew screen
-					m_pCurSubScreen->destory();
-					delete(m_pCurSubScreen);
-				}
-				
-				IScreen *pNext = m_pScreenFactory->createScreen(m_NextScreenType);
-				
-				if(pNext != NULL)
-				{
-                    
-					m_pCurSubScreen = pNext;
-					
-					// init new screen
-					m_pCurSubScreen->init();
-					
-				}
-				else
-				{
-					//printf([NSString stringWithFormat:@"Error create screen type : %d !" , m_NextScreenType]);
-					printf("Error create screen type : %d !" , m_NextScreenType);
-				}
-				
-				
-				
-				timer = 0;
-				
-				_setTransitionIn();
-				
-				m_NextScreenType = 0;
-                
-			}
-            
-		}
-		
-	}
-	
 	
 	
     //---------------------------------------------------------------------------------------------------------------------------------
@@ -419,9 +423,10 @@ namespace com_cell
                 g_isTransitionIn = false;
                 g_isTransitionOut = false;
             }
-            
+            g.pushColor();
             g.setColor(g_transitionAlpha, 0, 0, 0);
             g.fillScreen();
+			g.popColor();
         }
     }	
     

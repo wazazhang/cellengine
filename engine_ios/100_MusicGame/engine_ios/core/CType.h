@@ -27,7 +27,7 @@ namespace com_cell
         float z;
         
     } Vector3D ;
-	
+
 	
 }; // namespace gametiler
 
