@@ -6,6 +6,13 @@ package com.cell.gfx.game
 	
 	public class CSprite
 	{
+		static public const CD_TYPE_MAP 	: int  	= 0;
+		static public const CD_TYPE_ATK  	: int 	= 1;
+		static public const CD_TYPE_DEF  	: int 	= 2;
+		static public const CD_TYPE_EXT  	: int 	= 3;
+		
+
+		
 //		----------------------------------------------------------------------
 		
 		protected var animates 		: CAnimates;
@@ -16,7 +23,11 @@ package com.cell.gfx.game
 		protected var AnimateNames	: Array;
 		/**short[][]*/
 		protected var FrameAnimate	: Array;
-		
+		protected var FrameCDMap	: Array;
+		protected var FrameCDAtk	: Array;
+		protected var FrameCDDef	: Array;
+		protected var FrameCDExt	: Array;
+
 		
 		private var CurAnimate 		: uint = 0;
 		private var CurFrame	 	: uint = 0;
@@ -26,13 +37,22 @@ package com.cell.gfx.game
 		protected function init(
 			canimates:CAnimates, 
 			ccollides:CCollides,
-			animateNames:Array, 
-			frameAnimate:Array) : void
+			animateNames: Array, 
+			frameAnimate: Array,                     
+			frameCDMap	: Array,
+			frameCDAtk	: Array,
+			frameCDDef	: Array,
+			frameCDExt	: Array
+		) : void
 		{
 			this.animates		= canimates;
 			this.collides		= ccollides;
 			this.AnimateNames	= animateNames;
 			this.FrameAnimate	= frameAnimate;
+			this.FrameCDMap		= frameCDMap;
+			this.FrameCDAtk		= frameCDAtk;
+			this.FrameCDDef		= frameCDDef;
+			this.FrameCDExt		= frameCDExt;
 		}
 		
 		protected function init2(spr:CSprite) : void
@@ -41,12 +61,16 @@ package com.cell.gfx.game
 			this.collides 		= spr.collides;
 			this.AnimateNames 	= spr.AnimateNames;
 			this.FrameAnimate 	= spr.FrameAnimate;
+			this.FrameCDMap		= spr.FrameCDMap;
+			this.FrameCDAtk		= spr.FrameCDAtk;
+			this.FrameCDDef		= spr.FrameCDDef;
+			this.FrameCDExt		= spr.FrameCDExt;
 		}
 		
 		public function copy() : CSprite
 		{
 			var ret : CSprite = new CSprite();
-			ret.init(animates, collides, AnimateNames, FrameAnimate);
+			ret.init2(this);
 			return ret;
 		}
 		
@@ -88,16 +112,9 @@ package com.cell.gfx.game
 			return animates.getFrameTransform(FrameAnimate[anim][frame], part);
 		}
 		
-		public function getFrameBounds(anim:int, frame:int) : CCD
-		{
-			return animates.getFrameBounds(FrameAnimate[anim][frame]);
-		}
-		
 		public function getCurrentImage(part:int) : CImage {
 			return animates.getFrameImage(FrameAnimate[CurAnimate][CurFrame], part);
 		}
-		
-		//	------------------------------------------------------------------------------------------
 		
 		public function getVisibleTop() : int {
 			return animates.w_top;
@@ -117,6 +134,106 @@ package com.cell.gfx.game
 		public function getVisibleWidth() : int {
 			return animates.w_width;
 		}
+		
+		public function getFrameImageBounds( anim:uint,  frame:uint) : CCD 
+		{
+			var bounds : CCD = CCD.createCDRect(CCD.CD_TYPE_RECT, 0,0,0,0);
+			bounds.X1 = int.MAX_VALUE;
+			bounds.Y1 = int.MAX_VALUE; 
+			bounds.X2 = int.MIN_VALUE;
+			bounds.Y2 = int.MIN_VALUE;
+			if (anim < FrameAnimate.length && frame < FrameAnimate[anim].length)
+			{
+				var frameid : int = FrameAnimate[anim][frame];
+				var count : int = animates.getComboFrameCount(frameid);
+				for (var i:int=0; i<count; i++) {
+					bounds.X1 = Math.min(bounds.X1, animates.getFrameX(frameid, i));
+					bounds.Y1 = Math.min(bounds.Y1, animates.getFrameY(frameid, i));
+					bounds.X2 = Math.max(bounds.X2, animates.getFrameX(frameid, i)+animates.getFrameW(frameid, i)-1);
+					bounds.Y2 = Math.max(bounds.Y2, animates.getFrameY(frameid, i)+animates.getFrameH(frameid, i)-1);
+				}				
+			}
+			return bounds;
+		}
+
+		//	------------------------------------------------------------------------------------------
+		
+		
+		public function getFrameCDCount( anim:int,  frame:int,  type:int) : int {
+			switch(type){
+				case CD_TYPE_MAP:
+					return collides.Frames[FrameCDMap[anim][frame]].length;
+				case CD_TYPE_ATK:
+					return collides.Frames[FrameCDAtk[anim][frame]].length;
+				case CD_TYPE_DEF:
+					return collides.Frames[FrameCDDef[anim][frame]].length;
+				case CD_TYPE_EXT:
+					return collides.Frames[FrameCDExt[anim][frame]].length;
+			}
+			return -1;
+		}
+		
+		public function getFrameCD( anim:int,  frame:int,  type:int, sub:int) : CCD {
+			switch(type){
+				case CD_TYPE_MAP:
+					return collides.getFrameCD(FrameCDMap[anim][frame], sub);
+				case CD_TYPE_ATK:
+					return collides.getFrameCD(FrameCDAtk[anim][frame], sub);
+				case CD_TYPE_DEF:
+					return collides.getFrameCD(FrameCDDef[anim][frame], sub);
+				case CD_TYPE_EXT:
+					return collides.getFrameCD(FrameCDExt[anim][frame], sub);
+			}
+			return null;
+		}
+		
+		public function getFrameCDBounds(anim:int,  frame:int,  type:int) : CCD {
+			var bounds : CCD = CCD.createCDRect(CCD.CD_TYPE_RECT, 0,0,0,0);
+			bounds.X1 = int.MAX_VALUE;
+			bounds.Y1 = int.MAX_VALUE; 
+			bounds.X2 = int.MIN_VALUE;
+			bounds.Y2 = int.MIN_VALUE;
+			var count : int = getFrameCDCount(anim, frame, type);
+			for (var i:int=0; i<count; i++) {
+				var cd : CCD = getFrameCD( anim,  frame,  type, i);
+				bounds.X1 = Math.min(bounds.X1, cd.X1);
+				bounds.Y1 = Math.min(bounds.Y1, cd.Y1);
+				bounds.X2 = Math.max(bounds.X2, cd.X2);
+				bounds.Y2 = Math.max(bounds.Y2, cd.Y2);
+			}
+			return bounds;
+		}
+		
+		public function getCurrentCD(type:int, sub:int ) : CCD {
+			switch(type){
+				case CD_TYPE_MAP:
+					return collides.getFrameCD(FrameCDMap[CurAnimate][CurFrame], sub);
+				case CD_TYPE_ATK:
+					return collides.getFrameCD(FrameCDAtk[CurAnimate][CurFrame], sub);
+				case CD_TYPE_DEF:
+					return collides.getFrameCD(FrameCDDef[CurAnimate][CurFrame], sub);
+				case CD_TYPE_EXT:
+					return collides.getFrameCD(FrameCDExt[CurAnimate][CurFrame], sub);
+			}
+			return null;
+		}
+		
+		public function getCDTop() : int {
+			return collides.w_top;
+		}
+		public function getCDBotton() : int {
+			return collides.w_bottom;
+		}
+		public function getCDLeft() : int {
+			return collides.w_left;
+		}
+		public function getCDRight() : int {
+			return collides.w_right;
+		}
+		
+		
+		
+		
 		
 		//	------------------------------------------------------------------------------------------
 		

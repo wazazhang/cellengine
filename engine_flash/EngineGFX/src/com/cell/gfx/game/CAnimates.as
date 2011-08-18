@@ -149,22 +149,22 @@ package com.cell.gfx.game
 			return SFlip[Frames[frame][sub]];
 		}
 		
-		public function getFrameBounds(frame:int) : CCD
-		{
-			var left	: int = int.MAX_VALUE;
-			var right	: int = int.MIN_VALUE; 
-			var top		: int = int.MAX_VALUE;
-			var bottom	: int = int.MIN_VALUE;
-			
-			for (var i:int=0; i<SX.length; i++)
-			{
-				left	= Math.min(getFrameX(frame, i), left);
-				right	= Math.max(getFrameX(frame, i) + getFrameW(frame, i), right);
-				top		= Math.min(getFrameY(frame, i), top);
-				bottom	= Math.max(getFrameY(frame, i) + getFrameH(frame, i), bottom);
-			}
-			return CCD.createCDRect2Point(0, left, top, right, bottom);
-		}
+//		public function getFrameBounds(frame:int) : CCD
+//		{
+//			var left	: int = int.MAX_VALUE;
+//			var right	: int = int.MIN_VALUE; 
+//			var top		: int = int.MAX_VALUE;
+//			var bottom	: int = int.MIN_VALUE;
+//			
+//			for (var i:int=0; i<SX.length; i++)
+//			{
+//				left	= Math.min(getFrameX(frame, i), left);
+//				right	= Math.max(getFrameX(frame, i) + getFrameW(frame, i), right);
+//				top		= Math.min(getFrameY(frame, i), top);
+//				bottom	= Math.max(getFrameY(frame, i) + getFrameH(frame, i), bottom);
+//			}
+//			return CCD.createCDRect2Point(0, left, top, right, bottom);
+//		}
 		
 		/**
 		 * Draw one frame with specify frame id</br>

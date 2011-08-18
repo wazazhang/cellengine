@@ -37,7 +37,11 @@ package com.cell.gameedit.output
 					animates, 
 					collides, 
 					tsprite.AnimateNames,
-					tsprite.FrameAnimate
+					tsprite.FrameAnimate,
+					tsprite.FrameCDMap,
+					tsprite.FrameCDAtk,
+					tsprite.FrameCDDef,
+					tsprite.FrameCDExt
 				);
 			}
 		}
@@ -46,19 +50,19 @@ package com.cell.gameedit.output
 			canimates		:CAnimates, 
 			ccollides		:CCollides,
 			animateNames	:Array, 
-			frameAnimate	:Array) : void
+			frameAnimate	:Array,
+			frameCDMap	: Array,
+			frameCDAtk	: Array,
+			frameCDDef	: Array,
+			frameCDExt	: Array) : void
 		{
-			super.init(canimates, ccollides, animateNames, frameAnimate);
+			super.init(canimates, ccollides, animateNames, frameAnimate, frameCDMap, frameCDAtk, frameCDDef, frameCDExt);
 		}
 		
 		public override function copy() : CSprite
 		{
 			var ret : XmlDirSprite = new XmlDirSprite(null, null, null);
-			ret.init(
-				this.getAnimates(), 
-				this.getCollides(), 
-				this.AnimateNames, 
-				this.FrameAnimate);
+			ret.init2(this);
 			return ret;
 		}
 	}
