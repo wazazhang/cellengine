@@ -7,12 +7,14 @@
 //
 
 #include "CSoundPlayerPool.h"
+#import <OpenAL/al.h>
+#import <OpenAL/alc.h>
 
 namespace com_cell 
 {
-	SoundPlayerPool::SoundPlayerPool()
+	SoundPlayerPool::SoundPlayerPool(unsigned int size)
 	{
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<size; i++) {
 			SoundPlayer* player = SoundManager::getInstance()->createPlayer();
 			if (player != NULL) {
 				if (!player->isEnable()) {
@@ -34,66 +36,92 @@ namespace com_cell
 			delete p;
 		}
 	}
-
-	/**尽可能的播放，加入有空闲的声道的话*/
-	void SoundPlayerPool::playSound(Sound *sound, bool loop)
+	
+	/////////////////////////////////////////////////////////////////////////
+	
+	bool SoundPlayerPool::playSoundImmediately(Sound *sound, bool loop)
+	{
+		bool ret = false;
+		SoundPlayer* free = getImmediatePlayer(ret);
+		if (free != NULL) {
+			free->setSound(sound);
+			free->play(loop);
+		}
+		return ret;
+	}
+	
+	bool SoundPlayerPool::playSound(Sound *sound, bool loop)
 	{
 		SoundPlayer* free = getFreePlayer();
 		if (free != NULL) {
 			free->setSound(sound);
 			free->play(loop);
 		}
+		return free != NULL;
 	}
 	
-	/**得到空闲的播放器*/
+	/////////////////////////////////////////////////////////////////////////
+	
 	SoundPlayer* SoundPlayerPool::getFreePlayer()
+	{		
+		// find the free player
+		for (std::vector<SoundPlayer*>::iterator it=m_list_playing.begin(); 
+			 it!=m_list_playing.end(); ++it) {
+			SoundPlayer* p = (*it);
+			if (!p->isPlaying()) {
+				return p;
+			}
+		}
+		
+		return NULL;
+	}
+
+	SoundPlayer* SoundPlayerPool::getImmediatePlayer(bool &out_is_cut_another)
 	{
-		SoundPlayer* player = NULL;
+		int min_size_player = INT32_MAX;
+		SoundPlayer* min_player = NULL;
 		
 		// find the free player
-		if (player == NULL) 
-		{
-			for (std::vector<SoundPlayer*>::iterator it=m_list_playing.begin(); 
-				 it!=m_list_playing.end(); ++it) {
-				SoundPlayer* p = (*it);
-				if (!p->isPlaying()) {
-					player = p;
-					break;
+		for (std::vector<SoundPlayer*>::iterator it=m_list_playing.begin(); 
+			 it!=m_list_playing.end(); ++it) {
+			SoundPlayer* p = (*it);
+			if (!p->isPlaying()) {
+				out_is_cut_another = false;
+				return p;
+			} else {
+				ALint buffer_id;
+				alGetSourcei(p -> getSourceID(), AL_BUFFER, &buffer_id);
+				if (!SoundManager::checkError()) {
+					if (alIsBuffer(buffer_id)) {
+						ALint size;
+						alGetBufferi(buffer_id, AL_SIZE, &size);
+						if (!SoundManager::checkError()) {
+							if (size < min_size_player) {
+								min_player = p;
+								min_size_player = size;
+							}
+						}
+					}
 				}
 			}
 		}
-		
-		// create a new player
-		if (player == NULL) 
-		{
-			player = SoundManager::getInstance()->createPlayer();
-			if (player != NULL) {
-				if (!player->isEnable()) {
-					delete player;
-					player = NULL;
-				} else {
-					m_list_playing.push_back(player);
-				}
+		out_is_cut_another = true;
+		return min_player;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////
+	
+	int SoundPlayerPool::getFreePlayerCount()
+	{
+		int ret = 0;
+		for (std::vector<SoundPlayer*>::iterator it=m_list_playing.begin(); 
+			 it!=m_list_playing.end(); ++it) {
+			SoundPlayer* p = (*it);
+			if (!p->isPlaying()) {
+				ret++;
 			}
 		}
-		
-		// stop an playing sound
-		if (player == NULL) {
-			std::vector<SoundPlayer*>::iterator it=m_list_playing.begin();
-			if (it != m_list_playing.end()) {
-				SoundPlayer* p = (*it);
-				player = p;
-				printf("cut a playing player!\n");
-			}
-		}
-		
-		if (player != NULL) 
-		{
-			player->stop();
-			player->clearSound();
-		}
-		
-		return player;
+		return ret;
 	}
 
 	

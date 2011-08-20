@@ -86,7 +86,7 @@ namespace com_cell_bms
 
 	public:
 		
-		BMSPlayer(BMSFile *bms) ;	
+		BMSPlayer(BMSFile *bms, unsigned int max_sound) ;	
 		
 		~BMSPlayer() ;	
 		

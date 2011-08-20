@@ -17,25 +17,28 @@ namespace com_cell
 {
     class Sound
     {
+		friend class SoundManager;
+		
     private:
         ALuint		m_buffer_id;
-        SoundInfo*  m_pData;
         
-    public:
-        
+		int			m_format;
+		int			m_size;
+		int			m_framerate;
+		
         Sound(SoundInfo *info);
+		
+    public:
         
         ~Sound();
         
         ALuint      getBufferID() ;        
         
         bool        isEnable() ;        
-        
-        void        destory() ;        
 
-        SoundInfo*  getSoundInfo();        
-
-        int         getSize() ;       
+		int         getSize() ;    
+		int         getFormat() ;   
+		int         getFrameRate() ;      
         
     };    
 

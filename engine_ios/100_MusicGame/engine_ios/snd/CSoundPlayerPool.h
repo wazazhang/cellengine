@@ -22,17 +22,25 @@ namespace com_cell
 		
     public:
         
-        SoundPlayerPool();
+        SoundPlayerPool(unsigned int size);
         
         ~SoundPlayerPool();
         
-		/**尽可能的播放，加入有空闲的声道的话*/
-		void playSound(Sound *sound, bool loop);
+		/**尽可能的播放，可能切断其他正在播放的音源
+		 @return 是否切断其他音源*/
+		bool			playSoundImmediately(Sound *sound, bool loop);
 
+		/**尽可能的播放，如果没有可用音源，则放弃
+		 @return 是否播放成功*/
+		bool			playSound(Sound *sound, bool loop);
 		
-		/**得到空闲的播放器*/
-		SoundPlayer* getFreePlayer();
+		/**得到空闲的音源*/
+		SoundPlayer*	getFreePlayer();
 		
+		/**得到空闲或快播放完的音源*/
+		SoundPlayer*	getImmediatePlayer(bool &out_is_cut_another);
+		
+		int				getFreePlayerCount();
     };    
 	
 }; // namespcace 

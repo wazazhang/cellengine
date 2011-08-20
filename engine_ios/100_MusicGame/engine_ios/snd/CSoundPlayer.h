@@ -19,15 +19,18 @@ namespace com_cell
 {
     class SoundPlayer
     {
+		friend class SoundManager;
     private:
         ALuint  m_source_id;
         
-    public:
-
         SoundPlayer();
 		
+    public:
+
         ~SoundPlayer();
         
+		ALuint	getSourceID();
+		
         bool    isEnable();
         
         /**
@@ -43,9 +46,7 @@ namespace com_cell
         void 	stop();
         
         bool 	isPlaying();
-        
-        void 	destory() ;
-        
+                
         void	setVolume(float value);
         
         float	getVolume();

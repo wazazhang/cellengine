@@ -246,6 +246,16 @@ namespace com_cell_bms
 	{
 		return m_pValueObject;
 	}
+	
+	std::string&		HeadDefine::getIndex()
+	{
+		return m_index;
+	}
+	
+	std::string&		HeadDefine::getValue()
+	{
+		return m_value;
+	}
 
 	
     /////////////////////////////////////////////////////////////////////////////////////////////////////

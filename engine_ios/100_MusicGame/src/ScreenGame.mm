@@ -24,7 +24,7 @@ namespace gt_teris
 	{
         pSprite		= GFXManager::createImage("/Sprite.png");
 		pBmsFile	= new BMSFile("/res/btm_er/er-5.bms", NULL);
-		pBmsPlayer	= new BMSPlayer(pBmsFile);
+		pBmsPlayer	= new BMSPlayer(pBmsFile, 30);
 		pBmsPlayer->setListener(this);
 		pBmsPlayer->start();
 		bpm_pop		= 0;

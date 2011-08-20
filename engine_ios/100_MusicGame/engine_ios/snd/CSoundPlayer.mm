@@ -36,7 +36,9 @@ namespace com_cell
             
 		alSourcei(m_source_id,   AL_SOURCE_RELATIVE,	AL_TRUE);
 		alSourcei(m_source_id,   AL_LOOPING,			AL_FALSE);
-			
+		
+		alSourcei(m_source_id,   AL_BUFFER,				AL_NONE);
+
         SoundManager::checkError();
 		
         NSLog(@"AL: Create player : %d\n", m_source_id);
@@ -44,21 +46,24 @@ namespace com_cell
 	
 	SoundPlayer::~SoundPlayer()
 	{
-		destory();
-	}
-	
-	void SoundPlayer::destory()
-	{
 		if (isEnable()) {
-            // clearAllSound();
+            // clearAllSound();				
+			// make sure it is clean by resetting the source buffer to 0
+			alSourcei(m_source_id, AL_BUFFER, AL_NONE);
             alDeleteSources(1, &m_source_id);
             SoundManager::checkError();
             NSLog(@"AL: Destory player : %d\n", m_source_id);		
 			m_source_id = 0;	
 		}
 	}
-    
-    inline bool SoundPlayer::isEnable()
+	
+	ALuint SoundPlayer::getSourceID()
+	{
+		return m_source_id;
+	}
+
+	
+    bool SoundPlayer::isEnable()
     {
         return m_source_id != 0;
     }
@@ -135,6 +140,29 @@ namespace com_cell
 	}
 	
     
+	void SoundPlayer::setSound(Sound* sound)
+	{
+		if (isEnable()) {				
+			// make sure it is clean by resetting the source buffer to 0
+			alSourcei(m_source_id, AL_BUFFER, AL_NONE);
+            if (sound->isEnable()) {
+                alSourcei(m_source_id, AL_BUFFER, sound->getBufferID());
+                SoundManager::checkError();
+            }
+		}
+	}
+    
+	void SoundPlayer::queue(Sound* sound) 
+	{
+		if (isEnable()) {
+            if (sound->isEnable()) {
+				ALuint buffers[] = {sound->getBufferID()};
+				alSourceQueueBuffers(m_source_id, 1, buffers);
+				SoundManager::checkError();
+            }	
+		}
+	}
+	
     //	// clean all processed sound
     //	int[] processed = new int[1];
     //	al.alGetSourcei(source[0], AL.AL_BUFFERS_PROCESSED, processed, 0);
@@ -149,14 +177,14 @@ namespace com_cell
 	{
         if (!isEnable()) return;
         
-        int processed[1] = {0};
-        alGetSourcei(m_source_id, AL_BUFFERS_PROCESSED, processed);
+        ALint processed;
+        alGetSourcei(m_source_id, AL_BUFFERS_PROCESSED, &processed);
         SoundManager::checkError();
         
-		ALuint buffers[processed[0]];
-        alSourceUnqueueBuffers(m_source_id, processed[0], buffers);
+		ALuint buffers[processed];
+        alSourceUnqueueBuffers(m_source_id, processed, buffers);
         
-        int error_code = alGetError();
+        ALenum error_code = alGetError();
         if (error_code != AL_NO_ERROR) {
             switch (error_code) {
             case AL_INVALID_VALUE:
@@ -186,40 +214,18 @@ namespace com_cell
 			// clean all sound
 			alSourceRewind(m_source_id);
 			SoundManager::checkError();
-            
+			
+			alSourcei(m_source_id, AL_BUFFER, AL_NONE);
+			SoundManager::checkError();
+
 			// clean all processed sound
             clearQueued();
 			
-			// clean all queued sound
-			// 
-			
-			alSourcei(m_source_id, AL_BUFFER, 0);
-			SoundManager::checkError();
             
 		}
 	}
 	
 	
-	void SoundPlayer::setSound(Sound* sound)
-	{
-		if (isEnable()) {
-            if (sound->isEnable()) {
-                alSourcei(m_source_id, AL_BUFFER, sound->getBufferID());
-                SoundManager::checkError();
-            }
-		}
-	}
-    
-	void SoundPlayer::queue(Sound* sound) 
-	{
-		if (isEnable()) {
-            if (sound->isEnable()) {
-				ALuint buffers[] = {sound->getBufferID()};
-				alSourceQueueBuffers(m_source_id, 1, buffers);
-				SoundManager::checkError();
-            }	
-		}
-	}
     
     
 };

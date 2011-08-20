@@ -26,33 +26,36 @@ namespace com_cell
 								   ALsizei freq);
 
 	
-    Sound::Sound(SoundInfo* sound_info)
+    Sound::Sound(SoundInfo* data)
 	{
 		m_buffer_id = 0;
-        m_pData = sound_info;
 
-		if (m_pData != NULL) 
+		if (data != NULL) 
 		{
-			int format = AL_FORMAT_MONO16;
-			if (m_pData->getBitLength() == 16) {
-				if (m_pData->getChannels()==1) {
-					format = AL_FORMAT_MONO16;
-				} else {
-					format = AL_FORMAT_STEREO16;
-				}
-			} else if (m_pData->getBitLength() == 8) {
-				if (m_pData->getChannels()==1) {
-					format = AL_FORMAT_MONO8;
-				} else {
-					format = AL_FORMAT_STEREO8;
-				}
-			}
-            
             alGenBuffers(1, &m_buffer_id);
 			if (SoundManager::checkError()) {
 				NSLog(@"Error generating OpenAL buffers");
+				m_buffer_id = 0;
                 return;
 			}
+			
+			m_format = AL_FORMAT_MONO16;
+			if (data->getBitLength() == 16) {
+				if (data->getChannels()==1) {
+					m_format = AL_FORMAT_MONO16;
+				} else {
+					m_format = AL_FORMAT_STEREO16;
+				}
+			} else if (data->getBitLength() == 8) {
+				if (data->getChannels()==1) {
+					m_format = AL_FORMAT_MONO8;
+				} else {
+					m_format = AL_FORMAT_STEREO8;
+				}
+			}
+            
+			m_size		= data->getDataSize();
+			m_framerate = data->getFrameRate();
 			
 			//*//将内存交给openAL管理
 			// variables to load into
@@ -62,10 +65,11 @@ namespace com_cell
 //                         sound_info->getFrameRate());
 			//手动管理内存
 			// use the static buffer data API
-			alBufferDataStaticProc(m_buffer_id, format, 
-								   sound_info->getData(),
-								   sound_info->getDataSize(), 
-								   sound_info->getFrameRate());
+			alBufferDataStaticProc(m_buffer_id, 
+								   m_format, 
+								   data->getData(),
+								   m_size, 
+								   m_framerate);
 			//*/
 			
 			// Do another error check and return.
@@ -74,24 +78,21 @@ namespace com_cell
 				if (SoundManager::checkError()) {}
 				m_buffer_id = 0;
 			}
+			
+			//printf("buffer : %s \n", data->toString().c_str() );
 		}
 	}
     
     Sound::~Sound()
     {
-        destory();
-    }
-	
-	void Sound::destory() 
-	{
-		if (isEnable()) {
+        if (isEnable()) {
 			alDeleteBuffers(1, &m_buffer_id);
             if (SoundManager::checkError()) {
                 NSLog(@"Error delete OpenAL buffers : %d", m_buffer_id);
             }
             m_buffer_id = 0;
 		}
-	}
+    }
 
 	ALuint Sound::getBufferID() {
 		return m_buffer_id;
@@ -102,26 +103,31 @@ namespace com_cell
 	}
 	
     
-	SoundInfo* Sound::getSoundInfo()
-    {
-		return m_pData;
-	}
-	
 	int Sound::getSize() {
-        if (m_pData != NULL) {
-            return m_pData->getDataSize();
-        }
-        return 0;
+		return m_size;
 	}
-    
 	
+	int Sound::getFormat()  {
+		return m_format;
+	}
 	
-	ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
+	int Sound::getFrameRate() {
+		return m_framerate;
+	}
+  
+
+	
+	ALvoid  alBufferDataStaticProc(const ALint bid, 
+								   ALenum format, 
+								   ALvoid* data, 
+								   ALsizei size, 
+								   ALsizei freq)
 	{
 		static	alBufferDataStaticProcPtr	proc = NULL;
 		
 		if (proc == NULL) {
-			proc = (alBufferDataStaticProcPtr) alcGetProcAddress(NULL, (const ALCchar*) "alBufferDataStatic");
+			proc = (alBufferDataStaticProcPtr)
+			alcGetProcAddress(NULL, (const ALCchar*) "alBufferDataStatic");
 		}
 		
 		if (proc)

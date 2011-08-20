@@ -112,16 +112,29 @@ namespace com_cell
 
 		// Set the client format to 16 bit signed integer (native-endian) data
 		// Maintain the channel count and sample rate of the original source format
+		{
+//		theOutputFormat.mSampleRate			= theFileFormat.mSampleRate;
+//		theOutputFormat.mChannelsPerFrame	= theFileFormat.mChannelsPerFrame;		
+//		theOutputFormat.mFormatID			= kAudioFormatLinearPCM;
+//		theOutputFormat.mBitsPerChannel		= 16;
+//		theOutputFormat.mBytesPerPacket		= 2 * theOutputFormat.mChannelsPerFrame;
+//		theOutputFormat.mFramesPerPacket	= 1;		
+//		theOutputFormat.mBytesPerFrame		= 2 * theOutputFormat.mChannelsPerFrame;	
+//		theOutputFormat.mFormatFlags		= (kAudioFormatFlagsNativeEndian | 
+//											   kAudioFormatFlagIsPacked |
+//											   kAudioFormatFlagIsSignedInteger);
+		}{
 		theOutputFormat.mSampleRate			= theFileFormat.mSampleRate;
-		theOutputFormat.mChannelsPerFrame	= theFileFormat.mChannelsPerFrame;		
+		theOutputFormat.mChannelsPerFrame	= 1;		
 		theOutputFormat.mFormatID			= kAudioFormatLinearPCM;
 		theOutputFormat.mBitsPerChannel		= 16;
-		theOutputFormat.mBytesPerPacket		= 2 * theOutputFormat.mChannelsPerFrame;
+		theOutputFormat.mBytesPerPacket		= 2;
 		theOutputFormat.mFramesPerPacket	= 1;		
-		theOutputFormat.mBytesPerFrame		= 2 * theOutputFormat.mChannelsPerFrame;	
+		theOutputFormat.mBytesPerFrame		= 2;	
 		theOutputFormat.mFormatFlags		= (kAudioFormatFlagsNativeEndian | 
 											   kAudioFormatFlagIsPacked |
 											   kAudioFormatFlagIsSignedInteger);
+		}
 		
 		// Set the desired client (output) data format
 		err = ExtAudioFileSetProperty(extRef, 

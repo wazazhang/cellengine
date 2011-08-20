@@ -33,7 +33,7 @@ namespace com_cell
 	
 	bool SoundManager::checkError()
 	{
-		int code = alGetError();
+		ALenum code = alGetError();
 		if (code != AL_NO_ERROR) {
 			NSLog(@"ALError: OpenAL error code : %x", code);
 			return true;
@@ -77,7 +77,7 @@ namespace com_cell
         alListenerfv(AL_ORIENTATION, 	listenerOri);
         
         checkError();
-    }
+	}
 
 	SoundManager::~SoundManager()
 	{

@@ -12,13 +12,13 @@
 namespace com_cell_bms
 {
 	
-	BMSPlayer::BMSPlayer(BMSFile *bms)
+	BMSPlayer::BMSPlayer(BMSFile *bms, unsigned int max_sound)
 	{	
 		m_pBmsFile				= bms;
 		m_listener				= NULL;
 		m_is_auto_play			= true;		
 		m_play_drop_length		= m_pBmsFile->getLineSplitDiv();
-		m_source_pool			= new SoundPlayerPool();
+		m_source_pool			= new SoundPlayerPool(max_sound);
 	}
 	
 	BMSPlayer::~BMSPlayer()
@@ -218,7 +218,16 @@ namespace com_cell_bms
 	
 	void BMSPlayer::onPlaySound(Note *note, Sound* sound)
 	{
-		m_source_pool->playSound(sound, false);
+		if (stringEquals(note->getCommand(), CMD_INDEX_WAV_BG)) {
+			if (m_source_pool->playSoundImmediately(sound, false)) {
+				printf("cut an another source!\n");
+			}	
+		} else {
+			if (!m_source_pool->playSound(sound, false)) {
+				printf("no free source to play : %s\n", 
+					   note->getHeadDefine()->getValue().c_str());
+			}
+		}
 	}
 	
 	//	-------------------------------------------------------------------------------------------------

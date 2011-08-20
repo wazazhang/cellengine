@@ -19,60 +19,60 @@ namespace com_cell_bms
 {
 	using namespace com_cell;
 	/**
-	 ---------------------- HEADER FIELD ----------------------<br>
-	 #PLAYER		WAZA<br>
-	 #GENRE		WAZA<br>
-	 #TITLE		song title<br>
-	 #ARTIST		waza<br>
-	 #BPM		120<br>
-	 #PLAYLEVEL	1<br>
-	 #RANK		3<br>
-	 #TOTAL		123<br>
-	 #VOLWAV		123<br>
-	 #STAGEFILE	123<br>
-	 <br>
-	 #WAV01		Ba_b_4.wav<br>
-	 #WAV02		Ba_b_8.wav<br>
-	 #WAV03		Ba_c#_4.wav<br>
-	 <br>
-	 #BMP00		bg.bmp<br>
-	 #BMP01		back.bmp<br>
-	 #BMP02		end01.bmp<br>
-	 #BMP03		Fade01.bmp<br>
-	 <br>
-	 #BPM01		256<br>
-	 <br>
-	 #STOP01		123<br>
-	 <br>
-	 <br>
-	 ---------------------- MAIN DATA FIELD ----------------------<br>
-	 - XXXCC:0001<br>
-	 - 	XXX 	= 小节标记<br>
-	 - 	CC 		= 指令<br>
-	 -	0001	= 值(音符或者图片)<br>
-	 <br>
-	 #00008:0001			- 在2/2小节处，改变的BPM索引为01，也就是#BPM01对应的值<br>
-	 #00009:00010000		- <br>
-	 #00022:00010000		- <br>
-	 #00061:01<br>
-	 <br>
-	 #00161:01<br>
-	 <br>
-	 <br>
-	 ---------------------- MAIN DATA COMMAND ----------------------<br>
-	 01 = 背景NOTE音。<br>
-	 03 = 0~255（0h~FFh）整数BPM变化。<br>
-	 04 = 改变BGA的图片索引。<br>
-	 06 = 改变POOR的图片索引。<br>
-	 07 = 改变Layer的图片索引。<br>
-	 08 = 改变的BPM索引。表示小数的BPM变化或者大于255的BPM。（前方定义的 #BPMXX）<br>
-	 09 = STOP停止的时间索引。（前方定义的 #STOPXX）<br>
-	 <br>
-	 11~19 = 1P KEY<br>
-	 21~29 = 2P KEY<br>
-	 51~59 = 1P LONG KEY<br>
-	 61~69 = 2P LONG KEY<br>
-	 <br>
+	 ---------------------- HEADER FIELD ----------------------
+	 #PLAYER		WAZA
+	 #GENRE		WAZA
+	 #TITLE		song title
+	 #ARTIST		waza
+	 #BPM		120
+	 #PLAYLEVEL	1
+	 #RANK		3
+	 #TOTAL		123
+	 #VOLWAV		123
+	 #STAGEFILE	123
+	 
+	 #WAV01		Ba_b_4.wav
+	 #WAV02		Ba_b_8.wav
+	 #WAV03		Ba_c#_4.wav
+	 
+	 #BMP00		bg.bmp
+	 #BMP01		back.bmp
+	 #BMP02		end01.bmp
+	 #BMP03		Fade01.bmp
+	 
+	 #BPM01		256
+	 
+	 #STOP01		123
+	 
+	 
+	 ---------------------- MAIN DATA FIELD ----------------------
+	 - XXXCC:0001
+	 - 	XXX 	= 小节标记
+	 - 	CC 		= 指令
+	 -	0001	= 值(音符或者图片)
+	 
+	 #00008:0001			- 在2/2小节处，改变的BPM索引为01，也就是#BPM01对应的值
+	 #00009:00010000		- 
+	 #00022:00010000		- 
+	 #00061:01
+	 
+	 #00161:01
+	 
+	 
+	 ---------------------- MAIN DATA COMMAND ----------------------
+	 01 = 背景NOTE音。
+	 03 = 0~255（0h~FFh）整数BPM变化。
+	 04 = 改变BGA的图片索引。
+	 06 = 改变POOR的图片索引。
+	 07 = 改变Layer的图片索引。
+	 08 = 改变的BPM索引。表示小数的BPM变化或者大于255的BPM。（前方定义的 #BPMXX）
+	 09 = STOP停止的时间索引。（前方定义的 #STOPXX）
+	 
+	 11~19 = 1P KEY
+	 21~29 = 2P KEY
+	 51~59 = 1P LONG KEY
+	 61~69 = 2P LONG KEY
+	 
 	 */
 	////////////////////////////////////////////////////////////////////////////////
 	
@@ -219,6 +219,10 @@ namespace com_cell_bms
 		HeaderDefineEnum&	getDefineType();
 		
 		IDefineResource*	getDefineResource();
+		
+		std::string&		getIndex();
+		
+		std::string&		getValue();
 	};
 	
 	
