@@ -31,7 +31,7 @@ namespace com_cell
         m_color = Color(a, r, g, b);
 	}
 	
-    void Graphics2D::setColor(Color color)
+    void Graphics2D::setColor(Color const &color)
 	{
 		m_color = color;
 	}

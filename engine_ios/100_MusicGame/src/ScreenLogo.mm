@@ -8,6 +8,7 @@
  */
 #include "CMath.h"
 #include "CFile.h"
+#include "CXml.h"
 #include "CGFXManager.h"
 
 #include "Screens.h"
@@ -24,6 +25,8 @@ namespace gt_teris
     {
         printf("init\n");
 		
+		parseXML("/edit/actor/output/Project.xml");
+
 		angle		= 0;
 		getTimer();
 		stringSplitRegx("what is the matrix", "\\s");

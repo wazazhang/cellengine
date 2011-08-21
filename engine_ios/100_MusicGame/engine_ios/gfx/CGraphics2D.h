@@ -54,7 +54,7 @@ namespace com_cell
 		// color
         
 		void        setColor(float a, float r, float g, float b);	
-		void        setColor(Color color);	
+		void        setColor(Color const &color);	
 		Color       getColor();		
 		void        pushColor();
         void        popColor();

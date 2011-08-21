@@ -20,6 +20,9 @@
 		FB3947E413F5643A007045B4 /* MusicGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E313F5643A007045B4 /* MusicGame.xib */; };
 		FB3947E813F56498007045B4 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3947E613F56498007045B4 /* MainWindow-iPad.xib */; };
 		FB452DF313F7D68A00D3F3B1 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */; };
+		FB5C0A5314013BB900F1F7A2 /* edit in Resources */ = {isa = PBXBuildFile; fileRef = FB5C0A5214013BB900F1F7A2 /* edit */; };
+		FB5C0A571401431C00F1F7A2 /* CXMLOutputLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB5C0A561401431C00F1F7A2 /* CXMLOutputLoader.mm */; };
+		FB5C0A5A14014AA900F1F7A2 /* CXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB5C0A5914014AA900F1F7A2 /* CXml.mm */; };
 		FB92BAB013FBBB3900FA7BD1 /* BMSPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */; };
 		FB9EF15113FA208D00F65C98 /* res in Resources */ = {isa = PBXBuildFile; fileRef = FB9EF15013FA208D00F65C98 /* res */; };
 		FB9EF15413FA275E00F65C98 /* BMSFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF15313FA275E00F65C98 /* BMSFile.mm */; };
@@ -27,10 +30,15 @@
 		FB9EF17813FACE9A00F65C98 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */; };
 		FBA4048D13F7611E0002B80E /* CSoundDecode.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048C13F7611E0002B80E /* CSoundDecode.mm */; };
 		FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048F13F761D90002B80E /* CSoundPlayer.mm */; };
+		FBA4569213FF93BD00E6BA98 /* CCellResource.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4569113FF93BD00E6BA98 /* CCellResource.mm */; };
+		FBA456A213FFB17300E6BA98 /* CGameObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA456A113FFB17300E6BA98 /* CGameObject.mm */; };
+		FBA9985914010F7A0067BDCB /* CSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA9985814010F7A0067BDCB /* CSprite.mm */; };
 		FBBAEDF113F6B787003AAE6E /* CSound.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBAEDF013F6B787003AAE6E /* CSound.mm */; };
 		FBBE9A1F13F8C6E30072FD11 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBE9A1E13F8C6E30072FD11 /* Default.png */; };
 		FBBE9A2313F8F5F20072FD11 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = FBBE9A2213F8F5F10072FD11 /* sound.caf */; };
 		FBBE9A2513F981FC0072FD11 /* CScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBE9A2413F981FC0072FD11 /* CScreen.mm */; };
+		FBEF8F7E13FCBAE0001D5B45 /* CMath.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBEF8F7D13FCBAE0001D5B45 /* CMath.mm */; };
+		FBEF8F8A13FDA399001D5B45 /* CSoundPlayerPool.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBEF8F8913FDA399001D5B45 /* CSoundPlayerPool.mm */; };
 		FBF1A7C513EA4B7B00D51C20 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */; };
 		FBF1A7C713EA4B7B00D51C20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */; };
 		FBF1A7C913EA4B7B00D51C20 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF1A7C813EA4B7B00D51C20 /* CoreGraphics.framework */; };
@@ -74,6 +82,11 @@
 		FB3947E313F5643A007045B4 /* MusicGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MusicGame.xib; sourceTree = "<group>"; };
 		FB3947E713F56498007045B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		FB452DF213F7D68A00D3F3B1 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		FB5C0A5214013BB900F1F7A2 /* edit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = edit; sourceTree = "<group>"; };
+		FB5C0A551401402A00F1F7A2 /* CXMLOutputLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLOutputLoader.h; sourceTree = "<group>"; };
+		FB5C0A561401431C00F1F7A2 /* CXMLOutputLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CXMLOutputLoader.mm; sourceTree = "<group>"; };
+		FB5C0A5814014A9900F1F7A2 /* CXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXml.h; sourceTree = "<group>"; };
+		FB5C0A5914014AA900F1F7A2 /* CXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CXml.mm; sourceTree = "<group>"; };
 		FB92BAAD13FBBB2700FA7BD1 /* BMSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSPlayer.h; sourceTree = "<group>"; };
 		FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMSPlayer.mm; sourceTree = "<group>"; };
 		FB9EF15013FA208D00F65C98 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
@@ -86,11 +99,21 @@
 		FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		FBA4048C13F7611E0002B80E /* CSoundDecode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundDecode.mm; sourceTree = "<group>"; };
 		FBA4048F13F761D90002B80E /* CSoundPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundPlayer.mm; sourceTree = "<group>"; };
+		FBA4569013FF93A600E6BA98 /* CCellResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCellResource.h; sourceTree = "<group>"; };
+		FBA4569113FF93BD00E6BA98 /* CCellResource.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCellResource.mm; sourceTree = "<group>"; };
+		FBA4569F13FFB16000E6BA98 /* CGameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGameObject.h; sourceTree = "<group>"; };
+		FBA456A113FFB17300E6BA98 /* CGameObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CGameObject.mm; sourceTree = "<group>"; };
+		FBA9985614010F270067BDCB /* CSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSprite.h; sourceTree = "<group>"; };
+		FBA9985814010F7A0067BDCB /* CSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSprite.mm; sourceTree = "<group>"; };
 		FBBAEDEE13F6B47A003AAE6E /* CSoundDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSoundDecode.h; sourceTree = "<group>"; };
 		FBBAEDF013F6B787003AAE6E /* CSound.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSound.mm; sourceTree = "<group>"; };
 		FBBE9A1E13F8C6E30072FD11 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		FBBE9A2213F8F5F10072FD11 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		FBBE9A2413F981FC0072FD11 /* CScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CScreen.mm; sourceTree = "<group>"; };
+		FBEF8F7C13FCB92C001D5B45 /* CGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGeometry.h; sourceTree = "<group>"; };
+		FBEF8F7D13FCBAE0001D5B45 /* CMath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CMath.mm; sourceTree = "<group>"; };
+		FBEF8F8813FDA382001D5B45 /* CSoundPlayerPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSoundPlayerPool.h; sourceTree = "<group>"; };
+		FBEF8F8913FDA399001D5B45 /* CSoundPlayerPool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundPlayerPool.mm; sourceTree = "<group>"; };
 		FBF1A7C013EA4B7B00D51C20 /* 100_MusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100_MusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBF1A7C413EA4B7B00D51C20 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FBF1A7C613EA4B7B00D51C20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -170,6 +193,8 @@
 				FBA4048C13F7611E0002B80E /* CSoundDecode.mm */,
 				FBF2CDC813F824790018C832 /* CStaticSoundInfo.h */,
 				FBF2CDC913F824EB0018C832 /* CStreamSoundInfo.h */,
+				FBEF8F8813FDA382001D5B45 /* CSoundPlayerPool.h */,
+				FBEF8F8913FDA399001D5B45 /* CSoundPlayerPool.mm */,
 			);
 			path = snd;
 			sourceTree = "<group>";
@@ -177,10 +202,10 @@
 		FB3014FD13F24A6100594366 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				FB3015C713F26E8A00594366 /* ScreenGame.h */,
-				FB3015C813F26E8A00594366 /* ScreenGame.mm */,
 				FB3015C913F26E8A00594366 /* ScreenLogo.h */,
 				FB3015CA13F26E8A00594366 /* ScreenLogo.mm */,
+				FB3015C713F26E8A00594366 /* ScreenGame.h */,
+				FB3015C813F26E8A00594366 /* ScreenGame.mm */,
 				FB3015CD13F26E8A00594366 /* Screens.h */,
 			);
 			path = src;
@@ -192,6 +217,7 @@
 				FB9EF17513FACE9900F65C98 /* lib */,
 				FBF2CE2813F853360018C832 /* core */,
 				FB05912413F65DD40068E4E7 /* gfx */,
+				FBA4568E13FF935300E6BA98 /* game */,
 				FB05913713F65DDA0068E4E7 /* snd */,
 				FB9EF14E13FA0DFE00F65C98 /* bms */,
 			);
@@ -226,6 +252,21 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		FBA4568E13FF935300E6BA98 /* game */ = {
+			isa = PBXGroup;
+			children = (
+				FBA4569F13FFB16000E6BA98 /* CGameObject.h */,
+				FBA456A113FFB17300E6BA98 /* CGameObject.mm */,
+				FBA9985614010F270067BDCB /* CSprite.h */,
+				FBA9985814010F7A0067BDCB /* CSprite.mm */,
+				FBA4569013FF93A600E6BA98 /* CCellResource.h */,
+				FBA4569113FF93BD00E6BA98 /* CCellResource.mm */,
+				FB5C0A551401402A00F1F7A2 /* CXMLOutputLoader.h */,
+				FB5C0A561401431C00F1F7A2 /* CXMLOutputLoader.mm */,
+			);
+			path = game;
+			sourceTree = "<group>";
+		};
 		FBF1A7B513EA4B7B00D51C20 = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +275,7 @@
 				FB3014FB13F24A0400594366 /* Sprite.png */,
 				FBBE9A1E13F8C6E30072FD11 /* Default.png */,
 				FBBE9A2213F8F5F10072FD11 /* sound.caf */,
+				FB5C0A5214013BB900F1F7A2 /* edit */,
 				FB9EF15013FA208D00F65C98 /* res */,
 				FBF1A7CE13EA4B7B00D51C20 /* 100_MusicGame */,
 				FBF1A7C313EA4B7B00D51C20 /* Frameworks */,
@@ -299,8 +341,12 @@
 				FBF2CE2913F853360018C832 /* CFile.h */,
 				FBF2CE2F13F853500018C832 /* CFile.mm */,
 				FBF2CE2A13F853360018C832 /* CMath.h */,
+				FBEF8F7D13FCBAE0001D5B45 /* CMath.mm */,
 				FBF2CE2C13F853360018C832 /* CUtil.h */,
 				FBF2CE2D13F853360018C832 /* CUtil.mm */,
+				FBEF8F7C13FCB92C001D5B45 /* CGeometry.h */,
+				FB5C0A5814014A9900F1F7A2 /* CXml.h */,
+				FB5C0A5914014AA900F1F7A2 /* CXml.mm */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -361,6 +407,7 @@
 				FBBE9A1F13F8C6E30072FD11 /* Default.png in Resources */,
 				FBBE9A2313F8F5F20072FD11 /* sound.caf in Resources */,
 				FB9EF15113FA208D00F65C98 /* res in Resources */,
+				FB5C0A5314013BB900F1F7A2 /* edit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +437,13 @@
 				FB9EF16313FA6F5E00F65C98 /* CScreenGraphics2D.mm in Sources */,
 				FB9EF17813FACE9A00F65C98 /* RegexKitLite.m in Sources */,
 				FB92BAB013FBBB3900FA7BD1 /* BMSPlayer.mm in Sources */,
+				FBEF8F7E13FCBAE0001D5B45 /* CMath.mm in Sources */,
+				FBEF8F8A13FDA399001D5B45 /* CSoundPlayerPool.mm in Sources */,
+				FBA4569213FF93BD00E6BA98 /* CCellResource.mm in Sources */,
+				FBA456A213FFB17300E6BA98 /* CGameObject.mm in Sources */,
+				FBA9985914010F7A0067BDCB /* CSprite.mm in Sources */,
+				FB5C0A571401431C00F1F7A2 /* CXMLOutputLoader.mm in Sources */,
+				FB5C0A5A14014AA900F1F7A2 /* CXml.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,8 +527,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "100_MusicGame/100_MusicGame-Prefix.pch";
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "$(SDK_DIR)/usr/include/libxml2/**";
 				INFOPLIST_FILE = "100_MusicGame/100_MusicGame-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -490,8 +550,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "100_MusicGame/100_MusicGame-Prefix.pch";
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "$(SDK_DIR)/usr/include/libxml2/**";
 				INFOPLIST_FILE = "100_MusicGame/100_MusicGame-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

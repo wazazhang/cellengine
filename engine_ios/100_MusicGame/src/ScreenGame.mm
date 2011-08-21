@@ -10,6 +10,7 @@
 #include <string>
 #include <math.h>
 
+#include "CXml.h"
 #include "CGFXManager.h"
 
 #include "ScreenGame.h"

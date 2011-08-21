@@ -96,6 +96,21 @@ namespace com_cell
 	extern bool				stringToFloat(string const &str, float &out_value);
 	extern bool				stringToDouble(string const &str, double &out_value);
 	
+	extern bool				stringToBool(string const &str, bool &out_value);
+
+	
+	// 数字转换整型
+	extern int				stringToInt(string const &str);
+	extern long				stringToLong(string const &str);
+	// 数字转换成小数
+	extern double			stringToPoint(string const &str);
+	// 数字转换成浮点数
+	extern float			stringToFloat(string const &str);
+	extern double			stringToDouble(string const &str);
+	
+	extern bool				stringToBool(string const &str);
+
+	
 	
 	////////////////////////////////////////////////////////////
 	

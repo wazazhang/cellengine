@@ -249,6 +249,59 @@ namespace com_cell
 		}
 	}
 	
+	bool stringToBool(string const &str, bool &out_value)
+	{
+		out_value = str[0] == 'T' || str[0] == 't';
+		return true;
+	}
+
+	
+	int		stringToInt(string const &str)
+	{
+		int ret = 0;
+		stringToInt(str, ret);
+		return ret;
+	}
+	
+	long		stringToLong(string const &str)
+	{
+		long ret = 0;
+		stringToLong(str, ret);
+		return ret;
+	}
+
+	double		stringToPoint(string const &str)
+	{
+		double ret = 0;
+		stringToPoint(str, ret);
+		return ret;
+	}
+
+	float		stringToFloat(string const &str)
+	{
+		float ret = 0;
+		stringToFloat(str, ret);
+		return ret;
+	}
+	
+	double		stringToDouble(string const &str)
+	{
+		double ret = 0;
+		stringToDouble(str, ret);
+		return ret;
+	}
+	
+	bool		stringToBool(string const &str)
+	{
+		bool ret = 0;
+		stringToBool(str, ret);
+		return ret;
+	}
+
+
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	string stringTrim(string const &str)
 	{
 		NSString *nsstr = [NSString stringWithUTF8String:str.c_str()];

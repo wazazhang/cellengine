@@ -15,6 +15,7 @@
 
 #include "CType.h"
 
+
 namespace com_cell
 {
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -40,8 +41,8 @@ namespace com_cell
 	// >0 is OK
 	extern int          loadAllTextLine(char const *filename, std::vector<std::string> &lines);
 	
-	
 }; // namespace com.cell
+
 
 
 #endif // #define _COM_CELL_FILE
