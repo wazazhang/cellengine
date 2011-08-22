@@ -15,7 +15,7 @@ package com.cell.gfx.transition
 		
 		private var color 				: int;
 		
-		public function AlphaTransition(width:int, height:int, color:int=0xff000000, max_time:int=10) 
+		public function AlphaTransition(width:int, height:int, color:Number=0xff000000, max_time:int=10) 
 		{
 			this.mouseChildren = false;
 			this.mouseEnabled = false;
