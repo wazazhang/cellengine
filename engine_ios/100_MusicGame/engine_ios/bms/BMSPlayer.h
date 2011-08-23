@@ -106,6 +106,8 @@ namespace com_cell_bms
 		
 		void			getPlayTracks(float length, std::vector<Note*> &out_list);
 		
+		void			getPlayKeyTracks(float length, std::vector<Note*> &out_list);
+		
 		double			getPlayPosition();
 		
 		Image*			getPlayBGImage() ;		

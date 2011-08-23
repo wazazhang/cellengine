@@ -264,6 +264,26 @@ namespace com_cell_bms
 		}
 	}
 	
+	void BMSPlayer::getPlayKeyTracks(float length, std::vector<Note*> &out_list)
+	{
+		if (m_is_running) {
+			for (std::vector<Note*>::iterator it=m_play_tracks.begin();
+				 it!=m_play_tracks.end(); ++it) {
+				Note* note = (*it);
+				if (note->getBeginPosition() - m_play_position < length) {
+					if (stringEquals(note->getCommand(), CMD_INDEX_WAV_KEY_1P_) ||
+						stringEquals(note->getCommand(), CMD_INDEX_WAV_KEY_2P_) ||
+						stringEquals(note->getCommand(), CMD_INDEX_WAV_LONG_KEY_1P_) ||
+						stringEquals(note->getCommand(), CMD_INDEX_WAV_LONG_KEY_2P_)) {
+						out_list.push_back(note);
+					}
+				} else {
+					break;
+				}
+			}
+		}
+	}
+	
 	double BMSPlayer::getPlayPosition() {
 		return m_play_position;
 	}
