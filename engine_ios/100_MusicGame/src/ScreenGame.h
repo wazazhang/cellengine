@@ -15,6 +15,11 @@
 #include "CScreen.h"
 #include "CScreenManager.h"
 #include "CGraphics2D.h"
+#include "CGFXManager.h"
+#include "CCellResource.h"
+#include "CSprite.h"
+
+#include "BMSFile.h"
 
 #include "BMSPlayer.h"
 #include "BMSFile.h"
@@ -24,6 +29,7 @@ namespace gt_teris
 	
 	using namespace com_cell;
 	using namespace com_cell_bms;
+	using namespace com_cell_game;
 	
 
 	class ScreenGame : public IScreen, public BMSPlayerListener
@@ -31,13 +37,19 @@ namespace gt_teris
 
 	public:
 		
+		CellResource	*pResource;
+		
+		CSprite			*pActor;
+		
 		Image			*pSprite;
 
-		BMSFile*		pBmsFile;
+		BMSFile			*pBmsFile;
 						
-		BMSPlayer*		pBmsPlayer;
+		BMSPlayer		*pBmsPlayer;
 		
 		int				bpm_pop;
+		
+
 		
 	public:
 		

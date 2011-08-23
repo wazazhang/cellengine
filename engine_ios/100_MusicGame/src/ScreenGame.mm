@@ -18,11 +18,17 @@
 
 namespace gt_teris
 {
+	using namespace std;
 	using namespace com_cell;
 	using namespace com_cell_bms;
+	using namespace com_cell_game;
 
 	void ScreenGame::init() 
 	{
+		pResource	= new CellResource("/edit/actor/output/Project.xml");
+		pActor		= pResource->createSprite("Actor00");
+		
+		
         pSprite		= GFXManager::createImage("/Sprite.png");
 		pBmsFile	= new BMSFile("/res/btm_er/er-5.bms", NULL);
 		pBmsPlayer	= new BMSPlayer(pBmsFile, 30);
@@ -36,6 +42,9 @@ namespace gt_teris
 		delete pSprite;
 		delete pBmsPlayer;
 		delete pBmsFile;
+		
+		delete pActor;
+		delete pResource;
 	}
 	
 	
@@ -56,9 +65,30 @@ namespace gt_teris
 		if (pBmsPlayer->getPlayBGImage() != NULL) 
 		{
 			g.drawImageSize(pBmsPlayer->getPlayBGImage(), 0, 0, getWidth(), getHeight());
-			
-//			g.drawImage(pBmsPlayer->getPlayBGImage(), 0, 0);
+			//g.drawImage(pBmsPlayer->getPlayBGImage(), 0, 0);
 		}
+		
+		// paint notes
+		{
+			vector<Note *> note_list;
+			pBmsPlayer->getPlayKeyTracks(pBmsFile->getLineSplitDiv(), note_list);
+			
+			for (vector<Note *>::const_iterator it = note_list.begin(); 
+				 it != note_list.end(); ++it)
+			{
+				Note *note = (*it);
+				float x = 12*note->getTrack();
+				float y = (pBmsPlayer->getPlayPosition() - note->getBeginPosition()) + getHeight();
+				g.setColor(COLOR_DARK_GRAY);
+				g.fillRect(x-1, y-1, 12, 4);	
+				g.setColor(COLOR_WHITE);
+				g.fillRect(x, y, 10, 2);
+			}
+		}
+
+		
+		
+		// debug bpm
 		{
 			g.translate(getScreenWidth()/2, getScreenHeight()/2);
 		        
