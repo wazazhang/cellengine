@@ -33,6 +33,7 @@ namespace com_cell_game
 		int		Index;
 		string	Name;
 		
+		virtual ~SetObject(){}
 	};
 	
 	//-------------------------------------------------------------------------------------	
@@ -54,6 +55,11 @@ namespace com_cell_game
 		{
 			Index = index;
 			Name = name;
+		}
+		
+		ImagesSet()
+		{
+			
 		}
 	};
 	
@@ -98,6 +104,10 @@ namespace com_cell_game
 			Index = index;
 			Name = name;
 		}
+		MapSet()
+		{
+			
+		}
 		
 		inline int getLayerImagesIndex(int x, int y, int layer)
 		{
@@ -118,26 +128,28 @@ namespace com_cell_game
 		
 		string ImagesName;
 		
-		vector<short> PartX;
-		vector<short> PartY;
-		vector<short> PartTileID;
-		vector<short> PartTileTrans;
-		vector<vector<short> > Parts;
+		vector<int> PartX;
+		vector<int> PartY;
+		vector<int> PartTileID;
+		vector<char> PartTileTrans;
+		vector<vector<int> > Parts;
 		
 		vector<int> BlocksMask;
-		vector<short> BlocksX1;
-		vector<short> BlocksY1;
-		vector<short> BlocksW;
-		vector<short> BlocksH;
+		vector<int> BlocksX1;
+		vector<int> BlocksY1;
+		vector<int> BlocksW;
+		vector<int> BlocksH;
 		vector<vector<int> > Blocks;
 		
 		int AnimateCount;
 		vector<string> AnimateNames;
-		vector<vector<short> > FrameAnimate;
-		vector<vector<short> > FrameCDMap;
-		vector<vector<short> > FrameCDAtk;
-		vector<vector<short> > FrameCDDef;
-		vector<vector<short> > FrameCDExt;
+		vector<vector<int> > FrameAnimate;
+		vector<vector<int> > FrameCDMap;
+		vector<vector<int> > FrameCDAtk;
+		vector<vector<int> > FrameCDDef;
+		vector<vector<int> > FrameCDExt;
+		
+		
 		
 	public:
 		
@@ -146,13 +158,17 @@ namespace com_cell_game
 			Index = index;
 			Name = name;
 		}
+		SpriteSet()
+		{
+			
+		}
 		
 		// images[PartTileID[Parts[FrameAnimate[anim][frame]][subpart]]];
 		int getPartImageIndex(int anim, int frame, int subpart) {
 			return PartTileID[Parts[FrameAnimate[anim][frame]][subpart]];
 		}
 		
-		int getPartTrans(int anim, int frame, int subpart) {
+		char getPartTrans(int anim, int frame, int subpart) {
 			return PartTileTrans[Parts[FrameAnimate[anim][frame]][subpart]];
 		}
 		
@@ -243,6 +259,10 @@ namespace com_cell_game
 			Name = name;
 		}
 		
+		WorldSet() 
+		{
+		}
+		
 		int getTerrainCell(int grid_x, int grid_y)
 		{
 			return Terrian[grid_x][grid_y];
@@ -263,7 +283,10 @@ namespace com_cell_game
 	 */
 	class OutputLoader
 	{
+		friend class CellResource;
+		
 	public:
+		virtual ~OutputLoader(){}
 		/***
 		 * 是否单独输出每张图
 		 * @return
@@ -288,15 +311,21 @@ namespace com_cell_game
 									map<string, MapSet>		&maps,
 									map<string, WorldSet>	&worlds) = 0;
 		
+	protected:
+		
+		virtual CTiles*	createImagesFromSet(ImagesSet const &img) = 0;
+		
+		CSpriteMeta*	createSpriteFromSet(SpriteSet const &tsprite, CTiles *tiles);
+		
 	public:
 		
 		/**
 		 * input "{1234},{5678}"
 		 * return [1234][5678]
 		 */
-		static vector<string> getArray2D(string text)
+		static vector<string> getArray2D(string const &src)
 		{
-			text = stringReplace(text, "{", "");
+			string text = stringReplace(src, "{", "");
 			vector<string> texts = stringSplit(text, "},");
 			for (int i=texts.size()-1; i>=0; --i) {
 				texts[i] = stringTrim(texts[i]);
@@ -304,14 +333,14 @@ namespace com_cell_game
 			return texts;
 		}
 		
-		/**
-		 * input 3,123,4,5678
-		 * return [123] [5678]
-		 * @param text
-		 * @return
-		 */
-		static vector<string> getArray1D(string text)
-		{
+//		/**
+//		 * input 3,123,4,5678
+//		 * return [123] [5678]
+//		 * @param text
+//		 * @return
+//		 */
+//		static vector<string> getArray1D(string text)
+//		{
 //			StringReader reader = new StringReader(text);
 //			ArrayList<String> list = new ArrayList<String>();
 //			try{
@@ -321,7 +350,7 @@ namespace com_cell_game
 //				}
 //			}catch (Exception e) {}
 //			return list.toArray(new String[list.size()]);
-		}
+//		}
 
 	};
 
@@ -345,23 +374,16 @@ namespace com_cell_game
 		map<string, WorldSet>			WorldTable;
 //		map<string, TableSet>			TableGroups;
 		
-		map<string, ICellResource*>		resource_manager;
+		map<string, CTiles*>			res_map_tiles;
+		map<string, CSpriteMeta*>		res_map_sprites;
 		
 	public:
 		
-		CellResource(OutputLoader *adapter)
-		{
-			output_adapter		= adapter;
-			output_adapter->getSetObjects(ImgTable, SprTable, MapTable, WorldTable);
-		}
+		CellResource(OutputLoader *adapter);		
 		
-		~CellResource() {
-			for (map<string, ICellResource*>::iterator it = resource_manager.begin(); 
-				 it!=resource_manager.end(); ++it) {
-				ICellResource* obj = (it->second);
-				delete obj;
-			}
-		}
+		CellResource(const char *filename);	
+		
+		~CellResource();
 		
 		//	-------------------------------------------------------------------------------------------------------------------------------
 		//	Set Object in <setfile>.properties
@@ -382,18 +404,9 @@ namespace com_cell_game
 		
 		CSprite*		createSprite	(string const &name);
 		
-		
-		//	--------------------------------------------------------------------------------------------------------------------------------------------------
-		//	utils
-		//	--------------------------------------------------------------------------------------------------------------------------------------------------
-		
 	protected:
 		
-		CTiles*			createImagesFromSet(ImagesSet const &img);
-		
-		
-		CSpriteMeta*	createSpriteFromSet(SpriteSet const &tsprite, CTiles *tiles);
-
+		void init(OutputLoader *adapter);
 	};
 
 	

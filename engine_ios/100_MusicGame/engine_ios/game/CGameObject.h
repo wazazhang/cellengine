@@ -23,7 +23,8 @@ namespace com_cell_game
 	
 	class ICellResource
 	{
-		
+	public:
+		virtual ~ICellResource(){}
 		
 		
 	};// class ICellResource
@@ -34,7 +35,11 @@ namespace com_cell_game
 	
 	class CTiles : public ICellResource
 	{
-	public:
+	public:	
+		static const float ANGLE_90		= M_PI / 2;
+		static const float ANGLE_180	= M_PI ;
+		static const float ANGLE_270	= M_PI * 3 / 2;
+
 		static const int TRANS_NONE = 0;
 		static const int TRANS_ROT90 = 1;
 		static const int TRANS_ROT180 = 2;
@@ -56,6 +61,10 @@ namespace com_cell_game
 		virtual int		getCount() = 0;
 				
 		virtual void	render(Graphics2D &g, int Index, float PosX, float PosY, int Trans) = 0;
+		
+	protected:
+		
+		void transform(Graphics2D &g, int width, int height, int Trans);
 		
 	}; // class CTiles
 	
@@ -92,6 +101,8 @@ namespace com_cell_game
 		float Y2;
 		
 	public:
+		
+		CCD();
 		
 		float getWidth();
 		
@@ -136,7 +147,7 @@ namespace com_cell_game
 	{		
 	protected:
 		
-		vector<vector<short> > Frames;
+		vector<vector<int> > Frames;
 		
 		int SubIndex;
 		int SubCount;
@@ -156,17 +167,17 @@ namespace com_cell_game
 		 * e.g. : animates's image id ; collides's CCD object ;</br>
 		 * @param frames frames[frame id][part id]
 		 */
-		void setFrames(vector<vector<short> > const &frames);	
+		void setFrames(vector<vector<int> > const &frames);	
 		
 		// 
-		vector<vector<short> >& getFramesRef();		
+		vector<vector<int> >& getFramesRef();		
 		
 		/**
 		 * set part sequence specify frame index</br>
 		 * @param frame frames[frame id][part id]
 		 * @param index frame id
 		 */
-		void setComboFrame(vector<short> const &frame, int index);
+		void setComboFrame(vector<int> const &frame, int index);
 		
 		/**
 		 * get frames count</br>
@@ -222,7 +233,7 @@ namespace com_cell_game
 		
 		CCollides(int cdCount);		
 		
-		CCollides();	
+		CCollides(){};	
 		
 		/**
 		 * add a rectangle collision block part </br>
@@ -376,11 +387,11 @@ namespace com_cell_game
 		
 		CTiles *tiles;
 		
-		vector<short>	SX;
-		vector<short>	SY;
-		vector<short>	SW;
-		vector<short>	SH;
-		vector<short>	STileID;
+		vector<int>		SX;
+		vector<int>		SY;
+		vector<int>		SW;
+		vector<int>		SH;
+		vector<int>		STileID;
 		vector<char>	SFlip;
 		
 	public:
@@ -391,7 +402,7 @@ namespace com_cell_game
 		 */
 		CAnimates(int partCount, CTiles *tils);
 		
-		CAnimates();
+		CAnimates(){};
 		
 		/**
 		 * Add an image part form construct images reference</br>
@@ -400,7 +411,7 @@ namespace com_cell_game
 		 * @param tileid part's images index value </br>
 		 * @param trans part's flip rotate paramenter
 		 * 	 */
-		void addPart(int px, int py, int tileid, int trans) ;
+		void addPart(int px, int py, int tileid, char trans) ;
 		
 		CTiles* getTiles();
 		

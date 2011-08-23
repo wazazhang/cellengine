@@ -224,25 +224,28 @@ namespace com_cell
 		glTranslatef(-x, -y, 0);	
 	}
     
-	void Graphics2D::drawImageMask(Image *src, float x, float y, float maskR, float maskG, float maskB)
+	void Graphics2D::drawImageMask(Image *src, float x, float y,
+								   Color const &maskColor)
 	{
         if (src==NULL) return;
 		drawImageMaskSize(src, x, y, 
                           src->getWidth(), 
                           src->getHeight(),
-                          maskR, maskG, maskB);
+                          maskColor);
 	}
 	
-	void Graphics2D::drawImageMaskScale(Image *src, float x, float y, float scale_w, float scale_h, float maskR, float maskG, float maskB)
+	void Graphics2D::drawImageMaskScale(Image *src, float x, float y, float scale_w, float scale_h,
+										Color const &maskColor)
 	{
 		if (src==NULL) return;
 		drawImageMaskSize(src, x, y, 
                           src->getWidth()*scale_w, 
                           src->getHeight()*scale_h,
-                          maskR, maskG, maskB);
+                          maskColor);
 	}
 	
-	void Graphics2D::drawImageMaskSize(Image *src, float x, float y, float w, float h, float maskR, float maskG, float maskB)
+	void Graphics2D::drawImageMaskSize(Image *src, float x, float y, float w, float h,
+									   Color const &maskColor)
 	{
 		if (src==NULL || src->getTextureID()==0) return;
 		
@@ -258,7 +261,7 @@ namespace com_cell
             
             glEnable(GL_TEXTURE_2D);
             {
-                glColor4f(maskR, maskG, maskB, m_alpha);
+                glColor4f(maskColor.R, maskColor.G, maskColor.B, m_alpha);
                 glBindTexture(GL_TEXTURE_2D, src->getTextureID());
                 glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             }

@@ -187,7 +187,11 @@ namespace com_cell
 			if (ch >= '0' && ch <= '9') {
 				ret += (ch - '0') * b;
 				b *= 10;
-			} else {
+			} 
+			else if (ch == '-') {
+				ret *= -1;
+			}
+			else {
 				return false;
 			}
 		}
@@ -204,7 +208,11 @@ namespace com_cell
 			if (ch >= '0' && ch <= '9') {
 				ret += (ch - '0') * b;
 				b /= 10;
-			} else {
+			} 	
+			else if (ch == '-') {
+				ret *= -1;
+			}
+			else {
 				return false;
 			}
 		}

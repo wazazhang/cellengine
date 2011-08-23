@@ -40,7 +40,7 @@ namespace com_cell
 		
 		XMLNode								*parent;
 		
-		std::map<std::string, XMLNode*>		childs;
+		std::vector<XMLNode*>				childs;
 		
 	public:
 		
@@ -52,17 +52,21 @@ namespace com_cell
 		
 		XMLNode* getParent();
 		
-		std::map<std::string, XMLNode*>::iterator childBegin();
+		std::vector<XMLNode*>::const_iterator childBegin();
 		
-		std::map<std::string, XMLNode*>::iterator childEnd();
-
-		XMLNode* getChild(std::string const &name);
+		std::vector<XMLNode*>::const_iterator childEnd();
 		
-		XMLNode* addChild(XMLNode* child);
+		void addChild(XMLNode* child);
 		
 		const std::string&	getAttribute(std::string const &name);
 		
 		int getAttributeAsInt(std::string const &name);
+		
+		std::string toString();
+		
+	private:
+		
+		void getString(std::string &str, int deep);
 		
 	};
 		
@@ -74,9 +78,9 @@ namespace com_cell
 // XMLHelper
 //////////////////////////////////////////////////////////////////////////////////
 @interface XMLHelper : NSObject <NSXMLParserDelegate> {
-@private
 	com_cell::XMLNode *current;
 }
+- (id) init ;
 - (void)parse:(NSData *)data ;
 - (com_cell::XMLNode *)getRoot;
 @end

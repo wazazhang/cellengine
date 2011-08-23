@@ -60,7 +60,7 @@ namespace com_cell_game
 	
 	//	------------------------------------------------------------------------------------------
 	
-	vector<vector<short> >* CSpriteMeta::getCDAnimates(char type)
+	vector<vector<int> >* CSpriteMeta::getCDAnimates(char type)
 	{
 		switch(type){
 			case CD_TYPE_MAP:
@@ -77,7 +77,7 @@ namespace com_cell_game
 	
 	int CSpriteMeta::getFrameCDCount(int anim, int frame, char type)
 	{
-		vector<vector<short> > *out_animates = getCDAnimates(type);
+		vector<vector<int> > *out_animates = getCDAnimates(type);
 		if (out_animates != NULL) {
 			return out_animates->size();
 		}
@@ -86,7 +86,7 @@ namespace com_cell_game
 	
 	bool CSpriteMeta::getFrameCD(int anim, int frame, char type, int sub, CCD &outcd)
 	{
-		vector<vector<short> > *out_animates = getCDAnimates(type);
+		vector<vector<int> > *out_animates = getCDAnimates(type);
 		if (out_animates != NULL) {
 			return collides.getFrameCD((*out_animates)[anim][frame], sub, outcd);
 		}
@@ -156,7 +156,7 @@ namespace com_cell_game
 	}
 	
 	int CSpriteMeta::getAnimateIndex(string animate_name) {
-		for (int i = 0; i<AnimateNames.size(); i++) {
+		for (int i = AnimateNames.size()-1; i>=0; --i) {
 			if (stringEquals(AnimateNames[i], animate_name)) {
 				return i;
 			}
@@ -223,7 +223,13 @@ namespace com_cell_game
 	int CSprite::getCurrentAnimate() {
 		return CurAnimate;
 	}
-
+	
+	void CSprite::setCurrentAnimate(string const &anim_name) {
+		int anim	= meta->getAnimateIndex(anim_name);
+		if (anim >= 0) {
+			setCurrentAnimate(anim);
+		}
+	}
 	
 	void	CSprite::setCurrentAnimate(int anim) {
 		CurAnimate	= anim;

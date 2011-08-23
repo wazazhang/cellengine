@@ -31,6 +31,23 @@ namespace com_cell
 			return new Image(image);		
 		}
 
+//		inline static Image* createImage(u32 width, u32 height, Color const &c)
+//		{
+//			CGImageRef image = [CGImageCreate(width, 
+//											  height,
+//											  8,
+//											  <#size_t bitsPerPixel#>,
+//											  <#size_t bytesPerRow#>, 
+//											  <#CGColorSpaceRef space#>,
+//											  <#CGBitmapInfo bitmapInfo#>,
+//											  <#CGDataProviderRef provider#>,
+//											  <#const CGFloat *decode#>,
+//											  <#bool shouldInterpolate#>,
+//											  <#CGColorRenderingIntent intent#>)];
+//			
+//
+//			
+//		}
 	};
     
 };

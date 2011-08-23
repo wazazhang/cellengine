@@ -22,13 +22,14 @@ namespace com_cell
 	XMLNode::XMLNode(std::string const &n)
 	{
 		name = n;
+		parent = NULL;
 	}
 	
 	XMLNode::~XMLNode()
 	{
-		for (std::map<std::string, XMLNode*>::iterator it = childs.begin(); 
+		for (std::vector<XMLNode*>::iterator it = childs.begin(); 
 			 it != childs.end(); ++it) {
-			XMLNode* c = (it->second);
+			XMLNode* c = (*it);
 			delete c;
 		}
 	}
@@ -43,27 +44,20 @@ namespace com_cell
 		return parent;
 	}
 	
-	std::map<std::string, XMLNode*>::iterator XMLNode::childBegin()
+	std::vector<XMLNode*>::const_iterator XMLNode::childBegin()
 	{
 		return childs.begin();
 	}
 	
-	std::map<std::string, XMLNode*>::iterator XMLNode::childEnd()
+	std::vector<XMLNode*>::const_iterator XMLNode::childEnd()
 	{
 		return childs.end();
 	}
-	
-	XMLNode* XMLNode::getChild(std::string const &name)
+		
+	void XMLNode::addChild(XMLNode* child)
 	{
-		return childs[name];
-	}
-	
-	XMLNode* XMLNode::addChild(XMLNode* child)
-	{
-		XMLNode* old = childs[child->name];
-		childs[child->name] = child;
+		childs.push_back(child);
 		child->parent = this;
-		return old;
 	}
 	
 	const std::string&	XMLNode::getAttribute(std::string const &name)
@@ -76,16 +70,55 @@ namespace com_cell
 		return stringToInt(attributes[name]);
 	}
 	
+	
+	std::string XMLNode::toString()
+	{
+		std::string str;
+		getString(str, 0);
+		return str;
+	}
+	
+	
+	void XMLNode::getString(std::string &str, int deep)
+	{
+		string tb("");
+		for (int i=0; i<deep; i++) {
+			tb += "\t";
+		}
+		// name
+		str += tb + "<" + name;
+		for (std::map<std::string, std::string>::const_iterator it=attributes.begin();
+			 it != attributes.end(); ++it) {
+			str += " " + (it->first) + "=\"" + (it->second) + "\"";
+		}
+		str += + ">\n";
+		// value
+		if (value.length() > 0) {
+			str += tb + "\t" + value + "\n";
+		}
+		// childs
+		for (std::vector<XMLNode*>::const_iterator it=childs.begin();
+			 it!=childs.end(); ++it) {
+			XMLNode* s = (*it);
+			s->getString(str, deep+1);
+		}
+		str += tb + "</" + name + ">\n";
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
+	
 	XMLNode* parseXML(char const* filename)
 	{
 		int		ssize;
 		void*	sdata = loadData(filename, ssize);				
 		if (sdata != NULL) {
+			NSLog(@"read size %d", ssize);
 			NSData			*data	= [NSData dataWithBytes:sdata length:ssize];
-			XMLHelper		*helper = [XMLHelper alloc];
+			XMLHelper		*helper = [[XMLHelper alloc] init];
 			[helper parse:data]; //设置XML数据
+			XMLNode* ret = [helper getRoot];
 			free(sdata);
-			return [helper getRoot];
+			return ret;
 		}
 		else {
 			NSLog(@"can not found xml data : %s\n", filename);
@@ -102,6 +135,13 @@ namespace com_cell
 @implementation XMLHelper
 
 using namespace com_cell;
+
+- (id) init {
+    [super init];   // 必須呼叫父類的init
+	// do something here ...
+	current = NULL;
+    return self;
+}
 
 // 首先设置XML数据，并初始化NSXMLParser
 - (void)parse:(NSData *)data 
@@ -124,29 +164,39 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName 
 	attributes:(NSDictionary *)attributeDict
 {
-	NSLog(@"begin: %@",elementName);
-	std::string name = [elementName UTF8String];
-	if (current == NULL) {
-		current = new XMLNode(name);
-	} else {
-		XMLNode* next = new XMLNode(name);
-		current->addChild(next);
-		current = next;
+	elementName = [elementName stringByTrimmingCharactersInSet:
+				   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([elementName length] > 0) {
+		//NSLog(@"begin: <%@>",elementName);
+		std::string name = string([elementName UTF8String]);
+		if (current == NULL) {
+			current = new XMLNode(name);
+		} else {
+			XMLNode* next = new XMLNode(name);
+			current->addChild(next);
+			current = next;
+		}
+		for (id key in attributeDict) {
+			NSString *k = key;
+			NSString *v = [attributeDict objectForKey:key];
+//			string k = [((NSString)key) UTF8String];
+//			string v = [((NSString)[attributeDict objectForKey:key]) UTF8String];
+			//NSLog(@" attr: %@=%@",key,[attributeDict objectForKey:key]);
+			current->attributes[string([k UTF8String])] = string([v UTF8String]);
+		}
 	}
 	
-	for (id key in attributeDict) {
-		NSLog(@" attr: %@=%@",key,[attributeDict objectForKey:key]);
-	}
 }
 
 //当xml节点有值时，则进入此句 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)vstr
 {
-	vstr = [vstr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	vstr = [vstr stringByTrimmingCharactersInSet:
+			[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if ([vstr length] > 0) {
-		std::string value = [vstr UTF8String];
 		if (current != NULL) {
-			NSLog(@"value: %@", vstr);
+			current->value = string([vstr UTF8String]);
+			//NSLog(@"value: %@", vstr);
 		}
 	}
 }
@@ -158,10 +208,14 @@ didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qName
 {
-	std::string name = [elementName UTF8String];
-	if (current != NULL) {
-		current = current->getParent();
-		NSLog(@"  end: %@",elementName);	
+	elementName = [elementName stringByTrimmingCharactersInSet:
+				   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([elementName length] > 0) {
+		//std::string name = [elementName UTF8String];
+		if (current != NULL && current->getParent()!=NULL) {
+			current = current->getParent();
+			//NSLog(@"  end: </%@>",elementName);	
+		}
 	}
 }	
 

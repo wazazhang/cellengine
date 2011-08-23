@@ -11,96 +11,155 @@
 
 namespace com_cell_game
 {	  
+	using namespace com_cell;
+	using namespace std;
 	
-	void XMLOutputLoader::init(XMLNode &doc)
+	XMLOutputLoader::XMLOutputLoader(char const *filename)
 	{
-		for (map<string, XMLNode*>::iterator it=doc.childBegin(); 
-			 it!=doc.childEnd(); ++it) 
+		m_filepath	= filename;
+		m_filedir	= subString(m_filepath, 0, m_filepath.rfind("/"));
+		
+		NSLog(@"init cpj project file : %s", filename);
+		
+		XMLNode* node = parseXML(filename);
+		init(node);
+//		NSLog(@"\n%s", node->toString().c_str());
+		delete node;
+	}
+	
+	XMLOutputLoader::~XMLOutputLoader()
+	{
+		
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////
+	
+	bool XMLOutputLoader::isTile()
+	{
+		return m_image_tile;
+	}
+	
+	bool XMLOutputLoader::isGroup()
+	{
+		return m_image_group;
+	}
+	
+	string XMLOutputLoader::getImageExtentions()
+	{
+		return m_image_type;
+	}
+	
+	void  XMLOutputLoader::getSetObjects(map<string, ImagesSet>	&images,
+										 map<string, SpriteSet>	&sprites,
+										 map<string, MapSet>	&maps,
+										 map<string, WorldSet>	&worlds)
+	{
+		images	= m_images;
+		sprites = m_sprites;
+		maps	= m_maps;
+		worlds	= m_worlds;
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////
+	
+	void XMLOutputLoader::init(XMLNode *doc)
+	{
+		m_images.clear();
+		m_sprites.clear();
+		m_maps.clear();
+		m_worlds.clear();
+		
+		for (vector<XMLNode*>::const_iterator it=doc->childBegin(); 
+			 it!=doc->childEnd(); ++it) 
 		{
-			XMLNode &child = *(it->second);
+			XMLNode *child = (*it);
 			
-			if (stringEquals(child.getName(), "IMAGE_TYPE")) {
-				image_type = child.value;
+			if (stringEquals(child->getName(), "IMAGE_TYPE")) {
+				m_image_type = child->value;
 			}
-			else if (stringEquals(child.getName(), "IMAGE_TILE")) {
-				stringToBool(child.getName(), image_tile);
+			else if (stringEquals(child->getName(), "IMAGE_TILE")) {
+				m_image_tile = stringToBool(child->value);
 			}
-			else if (stringEquals(child.getName(), "IMAGE_GROUP")) {
-				stringToBool(child.getName(), image_group);
+			else if (stringEquals(child->getName(), "IMAGE_GROUP")) {
+				m_image_group = stringToBool(child->value);
 			}
-			else if (stringEquals(child.getName(), "level")) {
+			else if (stringEquals(child->getName(), "level")) {
 				initLevel(child);
 			}
-			else if (stringEquals(child.getName(), "resource")) {
+			else if (stringEquals(child->getName(), "resource")) {
 				initResource(child);
 			}
 		}
 	}
+
 	
-	void XMLOutputLoader::initResource(XMLNode &resource)
+	void XMLOutputLoader::initResource(XMLNode *resource)
 	{
 		//		Integer.parseInt(resource.getAttribute("images_count"));
 		//		Integer.parseInt(resource.getAttribute("map_count"));
 		//		Integer.parseInt(resource.getAttribute("sprite_count"));
 		
-		for (map<string, XMLNode*>::iterator it=resource.childBegin(); 
-			 it!=resource.childEnd(); ++it) 
+		for (vector<XMLNode*>::const_iterator it=resource->childBegin(); 
+			 it!=resource->childEnd(); ++it) 
 		{
-			XMLNode &e = *(it->second);
+			XMLNode *e = (*it);
 			
-			if (stringEquals(e.getName(), "images")) {
+			if (stringEquals(e->getName(), "images")) {
 				initImages(e);
 			}
-			else if (stringEquals(e.getName(), "map")) {
+			else if (stringEquals(e->getName(), "map")) {
 				initMap(e);
 			}
-			else if (stringEquals(e.getName(), "sprite")) {
+			else if (stringEquals(e->getName(), "sprite")) {
 				initSprite(e);
 			}
 		}
 	}
 	
-	void XMLOutputLoader::initImages(XMLNode &images)
+	void XMLOutputLoader::initImages(XMLNode *images)
 	{
-		ImagesSet set(images.getAttributeAsInt("index"),
-					  images.getAttribute("name"));
+		ImagesSet set(images->getAttributeAsInt("index"),
+					  images->getAttribute("name"));
 	
-		set.Count = images.getAttributeAsInt("size");
+		set.Count = images->getAttributeAsInt("size");
 		set.ClipsX.resize(set.Count);
 		set.ClipsY.resize(set.Count);
 		set.ClipsW.resize(set.Count);
 		set.ClipsH.resize(set.Count);
 		set.ClipsKey.resize(set.Count);
 
-		for (map<string, XMLNode*>::iterator it=images.childBegin(); 
-			 it!=images.childEnd(); ++it) 
+		for (vector<XMLNode*>::const_iterator it=images->childBegin(); 
+			 it!=images->childEnd(); ++it) 
 		{
-			XMLNode &e = *(it->second);
-			if (stringEquals(e.getName(), "clip")) {
-				int i = e.getAttributeAsInt("index");
-				set.ClipsX[i] 	= e.getAttributeAsInt("x");
-				set.ClipsY[i] 	= e.getAttributeAsInt("y");
-				set.ClipsW[i] 	= e.getAttributeAsInt("width");
-				set.ClipsH[i] 	= e.getAttributeAsInt("height");
-				set.ClipsKey[i] = e.getAttribute("data");
+			XMLNode *e = (*it);
+			
+			if (stringEquals(e->getName(), "clip")) {
+				int i = e->getAttributeAsInt("index");
+				set.ClipsX[i] 	= e->getAttributeAsInt("x");
+				set.ClipsY[i] 	= e->getAttributeAsInt("y");
+				set.ClipsW[i] 	= e->getAttributeAsInt("width");
+				set.ClipsH[i] 	= e->getAttributeAsInt("height");
+				set.ClipsKey[i] = e->getAttribute("data");
 			}
 		}
+		
+		m_images[set.Name] = set;
 	}
 	
-	void XMLOutputLoader::initMap(XMLNode &doc)
+	void XMLOutputLoader::initMap(XMLNode *doc)
 	{
-		MapSet set(doc.getAttributeAsInt("index"), 
-				   doc.getAttribute("name"));
+		MapSet set(doc->getAttributeAsInt("index"), 
+				   doc->getAttribute("name"));
 		
-		set.ImagesName 		= doc.getAttribute("images_name");
-		set.XCount 			= doc.getAttributeAsInt("xcount");
-		set.YCount 			= doc.getAttributeAsInt("ycount");
-		set.CellW 			= doc.getAttributeAsInt("cellw");
-		set.CellH 			= doc.getAttributeAsInt("cellh");
+		set.ImagesName 		= doc->getAttribute("images_name");
+		set.XCount 			= doc->getAttributeAsInt("xcount");
+		set.YCount 			= doc->getAttributeAsInt("ycount");
+		set.CellW 			= doc->getAttributeAsInt("cellw");
+		set.CellH 			= doc->getAttributeAsInt("cellh");
 		
-		int scenePartCount 	= doc.getAttributeAsInt("scene_part_count");
-		int animateCount 	= doc.getAttributeAsInt("scene_frame_count");
-		int cdCount 		= doc.getAttributeAsInt("cd_part_count");
+		int scenePartCount 	= doc->getAttributeAsInt("scene_part_count");
+		int animateCount 	= doc->getAttributeAsInt("scene_frame_count");
+		int cdCount 		= doc->getAttributeAsInt("cd_part_count");
 		
 		set.TileID			.resize(scenePartCount);
 		set.TileTrans		.resize(scenePartCount);
@@ -123,45 +182,47 @@ namespace com_cell_game
 		}
 		
 		
-		for (map<string, XMLNode*>::iterator it=doc.childBegin(); 
-			 it!=doc.childEnd(); ++it) 
+		for (vector<XMLNode*>::const_iterator it=doc->childBegin(); 
+			 it!=doc->childEnd(); ++it) 
 		{
-			XMLNode &e = *(it->second);
-			if (stringEquals(e.getName(), "scene_part")) 
+			XMLNode *e = (*it);
+			
+			if (stringEquals(e->getName(), "scene_part")) 
 			{
-				int index 			= e.getAttributeAsInt("index");
-				set.TileID[index]	= e.getAttributeAsInt("tile");
-				set.TileTrans[index]= e.getAttributeAsInt("trans");
+				int index 			= e->getAttributeAsInt("index");
+				set.TileID[index]	= e->getAttributeAsInt("tile");
+				set.TileTrans[index]= e->getAttributeAsInt("trans");
 			}
-			else if (stringEquals(e.getName(), "scene_frame")) 
+			else if (stringEquals(e->getName(), "scene_frame")) 
 			{
-				int index		= e.getAttributeAsInt("index");
-				int frameCount	= e.getAttributeAsInt("data_size");
+				int index		= e->getAttributeAsInt("index");
+				int frameCount	= e->getAttributeAsInt("data_size");
 				set.Animates[index].resize(frameCount);
 				if (frameCount > 0) {
-					vector<string> data = stringSplit(e.getAttribute("data"), ",");
+					vector<string> data = stringSplit(e->getAttribute("data"), ",");
 					for (int f = 0; f < frameCount; f++) {
 						set.Animates[index][f] = stringToInt(data[f]);
 					}
 				}
 			}
-			else if (stringEquals(e.getName(), "cd_part")) 
+			else if (stringEquals(e->getName(), "cd_part")) 
 			{
-				int index				= e.getAttributeAsInt("index");
-				set.BlocksType[index]	= stringEquals(e.getAttribute("type"), "rect") ?
-											CCD::CD_TYPE_RECT : CCD::CD_TYPE_LINE;
-				set.BlocksMask[index]	= e.getAttributeAsInt("mask");
-				set.BlocksX1[index] 	= e.getAttributeAsInt("x1");
-				set.BlocksY1[index] 	= e.getAttributeAsInt("y1");
-				set.BlocksX2[index] 	= e.getAttributeAsInt("x2");
-				set.BlocksY2[index] 	= e.getAttributeAsInt("y2");
-				set.BlocksW[index] 		= e.getAttributeAsInt("width");
-				set.BlocksH[index] 		= e.getAttributeAsInt("height");
+				int index				= e->getAttributeAsInt("index");
+//				set.BlocksType[index]	= stringEquals(e.getAttribute("type"), "rect") ?
+//											(CCD::CD_TYPE_RECT) : (CCD::CD_TYPE_LINE);
+				set.BlocksType[index]	= CCD::CD_TYPE_RECT;
+				set.BlocksMask[index]	= e->getAttributeAsInt("mask");
+				set.BlocksX1[index] 	= e->getAttributeAsInt("x1");
+				set.BlocksY1[index] 	= e->getAttributeAsInt("y1");
+				set.BlocksX2[index] 	= e->getAttributeAsInt("x2");
+				set.BlocksY2[index] 	= e->getAttributeAsInt("y2");
+				set.BlocksW[index] 		= e->getAttributeAsInt("width");
+				set.BlocksH[index] 		= e->getAttributeAsInt("height");
 			}
-			else if (stringEquals(e.getName(), "matrix")) 
+			else if (stringEquals(e->getName(), "matrix")) 
 			{
-				vector<string> tile_matrix	= getArray2D(e.getAttribute("tile_matrix"));
-				vector<string> cd_matrix 	= getArray2D(e.getAttribute("flag_matrix"));
+				vector<string> tile_matrix	= getArray2D(e->getAttribute("tile_matrix"));
+				vector<string> cd_matrix 	= getArray2D(e->getAttribute("flag_matrix"));
 				for (int y = 0; y < set.YCount; y++) {
 					vector<string> tline = stringSplit(tile_matrix[y], ",");
 					vector<string> cline = stringSplit(cd_matrix[y],   ",");
@@ -173,21 +234,22 @@ namespace com_cell_game
 			}
 		}
 		
+		m_maps[set.Name] = set;
 		
 	}
 	
-	void XMLOutputLoader::initSprite(XMLNode &sprite)
+	void XMLOutputLoader::initSprite(XMLNode *sprite)
 	{
-		SpriteSet set(sprite.getAttributeAsInt("index"), 
-					  sprite.getAttribute("name"));
+		SpriteSet set(sprite->getAttributeAsInt("index"), 
+					  sprite->getAttribute("name"));
 		
-		set.ImagesName		= sprite.getAttribute("images_name");
+		set.ImagesName		= sprite->getAttribute("images_name");
 		
-		int scenePartCount 	= (sprite.getAttributeAsInt("scene_part_count"));
-		int sceneFrameCount = (sprite.getAttributeAsInt("scene_frame_count"));
-		int cdCount 		= (sprite.getAttributeAsInt("cd_part_count"));
-		int collidesCount 	= (sprite.getAttributeAsInt("cd_frame_count"));
-		int animateCount 	= (sprite.getAttributeAsInt("animate_count"));
+		int scenePartCount 	= (sprite->getAttributeAsInt("scene_part_count"));
+		int sceneFrameCount = (sprite->getAttributeAsInt("scene_frame_count"));
+		int cdCount 		= (sprite->getAttributeAsInt("cd_part_count"));
+		int collidesCount 	= (sprite->getAttributeAsInt("cd_frame_count"));
+		int animateCount 	= (sprite->getAttributeAsInt("animate_count"));
 		
 		set.PartX 			.resize(scenePartCount);
 		set.PartY 			.resize(scenePartCount);
@@ -208,118 +270,120 @@ namespace com_cell_game
 		set.FrameCDDef 		.resize(animateCount);
 		set.FrameCDExt 		.resize(animateCount);
 				
-		for (map<string, XMLNode*>::iterator it=sprite.childBegin(); 
-			 it!=sprite.childEnd(); ++it) 
+		for (vector<XMLNode*>::const_iterator it=sprite->childBegin(); 
+			 it!=sprite->childEnd(); ++it) 
 		{
-			XMLNode &e = *(it->second);
+			XMLNode *e = (*it);
 
-			if (stringEquals(e.getName(), "scene_part")) 
+			if (stringEquals(e->getName(), "scene_part")) 
 			{
-				int index = e.getAttributeAsInt("index");
-				set.PartTileID[index] 		= e.getAttributeAsInt("tile");
-				set.PartX[index] 			= e.getAttributeAsInt("x");
-				set.PartY[index] 			= e.getAttributeAsInt("y");
-				set.PartTileTrans[index]	= e.getAttributeAsInt("trans");
+				int index = e->getAttributeAsInt("index");
+				set.PartTileID[index] 		= e->getAttributeAsInt("tile");
+				set.PartX[index] 			= e->getAttributeAsInt("x");
+				set.PartY[index] 			= e->getAttributeAsInt("y");
+				set.PartTileTrans[index]	= e->getAttributeAsInt("trans");
 			}
-			else if (stringEquals(e.getName(), "scene_frame")) 
+			else if (stringEquals(e->getName(), "scene_frame")) 
 			{
-				int index = Integer.parseInt(e.getAttribute("index"));
-				int frameCount = Integer.parseInt(e.getAttribute("data_size"));
-				set.Parts[index] = new short[frameCount];
+				int index		= e->getAttributeAsInt("index");
+				int frameCount	= e->getAttributeAsInt("data_size");
+				set.Parts[index].resize(frameCount);
 				if (frameCount > 0) {
-					String[] data = CUtil.splitString(e.getAttribute("data"), ",");
+					vector<string> data = stringSplit(e->getAttribute("data"), ",");
 					for (int f = 0; f < frameCount; f++) {
-						set.Parts[index][f] = Short.parseShort(data[f]);
+						set.Parts[index][f] = stringToInt(data[f]);
 					}
 				}
 			}
-			else if (stringEquals(e.getName(), "cd_part")) 
+			else if (stringEquals(e->getName(), "cd_part")) 
 			{
-				int index = Integer.parseInt(e.getAttribute("index"));
-				set.BlocksMask[index]	= Integer.parseInt(e.getAttribute("mask"));
-				set.BlocksX1[index] 	= Short.parseShort(e.getAttribute("x1"));
-				set.BlocksY1[index] 	= Short.parseShort(e.getAttribute("y1"));
-				set.BlocksW[index] 		= Short.parseShort(e.getAttribute("width"));
-				set.BlocksH[index] 		= Short.parseShort(e.getAttribute("height"));
+				int index = e->getAttributeAsInt("index");
+				set.BlocksMask[index]	= (e->getAttributeAsInt("mask"));
+				set.BlocksX1[index] 	= (e->getAttributeAsInt("x1"));
+				set.BlocksY1[index] 	= (e->getAttributeAsInt("y1"));
+				set.BlocksW[index] 		= (e->getAttributeAsInt("width"));
+				set.BlocksH[index] 		= (e->getAttributeAsInt("height"));
 			}
-			else if (stringEquals(e.getName(), "cd_frame")) 
+			else if (stringEquals(e->getName(), "cd_frame")) 
 			{
-				int index = Integer.parseInt(e.getAttribute("index"));
-				int frameCount = Integer.parseInt(e.getAttribute("data_size"));
-				set.Blocks[index] = new short[frameCount];
+				int index = (e->getAttributeAsInt("index"));
+				int frameCount = (e->getAttributeAsInt("data_size"));
+				set.Blocks[index] .resize(frameCount);
 				if (frameCount > 0) {
-					String[] data = CUtil.splitString(e.getAttribute("data"), ",");
+					vector<string> data = stringSplit(e->getAttribute("data"), ",");
 					for (int f = 0; f < frameCount; f++) {
-						set.Blocks[index][f] = Short.parseShort(data[f]);
+						set.Blocks[index][f] = stringToInt(data[f]);
 					}
 				}
 			}
-			else if (stringEquals(e.getName(), "frames"))
+			else if (stringEquals(e->getName(), "frames"))
 			{
-				StringReader AnimateNamesReader = new StringReader(e.getAttribute("names"));
-				String frame_counts[] 	= CUtil.splitString(e.getAttribute("counts"), ",");
-				String frame_animate[] 	= getArray2D(e.getAttribute("animates"));
-				String frame_cd_map[] 	= getArray2D(e.getAttribute("cd_map"));
-				String frame_cd_atk[] 	= getArray2D(e.getAttribute("cd_atk"));
-				String frame_cd_def[] 	= getArray2D(e.getAttribute("cd_def"));
-				String frame_cd_ext[] 	= getArray2D(e.getAttribute("cd_ext"));
+				TextReader AnimateNamesReader(e->getAttribute("names"));
+				vector<string> frame_counts 	= stringSplit(e->getAttribute("counts"), ",");
+				vector<string> frame_animate 	= getArray2D(e->getAttribute("animates"));
+				vector<string> frame_cd_map 	= getArray2D(e->getAttribute("cd_map"));
+				vector<string> frame_cd_atk 	= getArray2D(e->getAttribute("cd_atk"));
+				vector<string> frame_cd_def 	= getArray2D(e->getAttribute("cd_def"));
+				vector<string> frame_cd_ext 	= getArray2D(e->getAttribute("cd_ext"));
 				
 				for (int i = 0; i < animateCount; i++) {
-					set.AnimateNames[i] = TextDeserialize.getString(AnimateNamesReader);
-					int frameCount = Integer.parseInt(frame_counts[i]);
-					String[] animate = CUtil.splitString(frame_animate[i], ",");
-					String[] cd_map = CUtil.splitString(frame_cd_map[i], ",");
-					String[] cd_atk = CUtil.splitString(frame_cd_atk[i], ",");
-					String[] cd_def = CUtil.splitString(frame_cd_def[i], ",");
-					String[] cd_ext = CUtil.splitString(frame_cd_ext[i], ",");
-					set.FrameAnimate[i] = new short[frameCount];
-					set.FrameCDMap[i] = new short[frameCount];
-					set.FrameCDAtk[i] = new short[frameCount];
-					set.FrameCDDef[i] = new short[frameCount];
-					set.FrameCDExt[i] = new short[frameCount];
+					set.AnimateNames[i] = TextDeserialize::getString(AnimateNamesReader);
+					int frameCount = stringToInt(frame_counts[i]);
+					vector<string> animate = stringSplit(frame_animate[i], ",");
+					vector<string> cd_map = stringSplit(frame_cd_map[i], ",");
+					vector<string> cd_atk = stringSplit(frame_cd_atk[i], ",");
+					vector<string> cd_def = stringSplit(frame_cd_def[i], ",");
+					vector<string> cd_ext = stringSplit(frame_cd_ext[i], ",");
+					set.FrameAnimate[i] .resize(frameCount);
+					set.FrameCDMap[i] .resize(frameCount);
+					set.FrameCDAtk[i] .resize(frameCount);
+					set.FrameCDDef[i] .resize(frameCount);
+					set.FrameCDExt[i] .resize(frameCount);
 					for (int f = 0; f < frameCount; f++) {
-						set.FrameAnimate[i][f] = Short.parseShort(animate[f]);
-						set.FrameCDMap[i][f] = Short.parseShort(cd_map[f]);
-						set.FrameCDAtk[i][f] = Short.parseShort(cd_atk[f]);
-						set.FrameCDDef[i][f] = Short.parseShort(cd_def[f]);
-						set.FrameCDExt[i][f] = Short.parseShort(cd_ext[f]);
+						set.FrameAnimate[i][f] = stringToInt(animate[f]);
+						set.FrameCDMap[i][f] = stringToInt(cd_map[f]);
+						set.FrameCDAtk[i][f] = stringToInt(cd_atk[f]);
+						set.FrameCDDef[i][f] = stringToInt(cd_def[f]);
+						set.FrameCDExt[i][f] = stringToInt(cd_ext[f]);
 					}
 				}
 				
 			}
 		}
+		m_sprites[set.Name] = set;
 	}
 	
-	private void initLevel(Element level)  throws IOException 
+	void XMLOutputLoader::initLevel(XMLNode *level)
 	{
 		//		Integer.parseInt(level.getAttribute("world_count"));
-		
-		NodeList list = level.getChildNodes();
-		
-		for (int i = list.getLength() - 1; i >= 0; --i) {
-			Node node = list.item(i);
-			if (node instanceof Element) {
-				Element e = (Element)node;
-				if (e.getNodeName().equals("world")) {
-					initWorld(e);
-				}
+				
+		for (vector<XMLNode*>::const_iterator it=level->childBegin(); 
+			 it!=level->childEnd(); ++it) 
+		{
+			XMLNode *e = (*it);
+			if (stringEquals(e->getName(), "world")) {
+				initWorld(e);
 			}
 		}
 	}
 	
-	
-	private void initWorld(Element world) throws IOException 
+	void XMLOutputLoader::initWorld(XMLNode *world)
 	{
-		WorldSet set = new WorldSet(
-									Integer.parseInt(world.getAttribute("index")), 
-									world.getAttribute("name"));
 		
-		set.GridXCount	= Integer.parseInt(world.getAttribute("grid_x_count"));
-		set.GridYCount	= Integer.parseInt(world.getAttribute("grid_y_count"));
-		set.GridW		= Integer.parseInt(world.getAttribute("grid_w"));
-		set.GridH		= Integer.parseInt(world.getAttribute("grid_h"));
-		set.Width		= Integer.parseInt(world.getAttribute("width"));
-		set.Height		= Integer.parseInt(world.getAttribute("height"));
+	}
+	
+	/*
+	void XMLOutputLoader::initWorld(XMLNode &world)
+	{
+		WorldSet set(world.getAttributeAsInt("index"), 
+					 world.getAttribute("name"));
+		
+		set.GridXCount	= (world.getAttributeAsInt("grid_x_count"));
+		set.GridYCount	= (world.getAttributeAsInt("grid_y_count"));
+		set.GridW		= (world.getAttributeAsInt("grid_w"));
+		set.GridH		= (world.getAttributeAsInt("grid_h"));
+		set.Width		= (world.getAttributeAsInt("width"));
+		set.Height		= (world.getAttributeAsInt("height"));
 		
 		//		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
 		//		int sprs_count	= Integer.parseInt(world.getAttribute("unit_count_sprite"));
@@ -329,7 +393,7 @@ namespace com_cell_game
 		set.Data		= world.getAttribute("data");
 		
 		int terrains_count = set.GridXCount * set.GridYCount;
-		set.Terrian = new int[set.GridXCount][set.GridYCount];
+		set.Terrian .resize(set.GridXCount);//= new int[set.GridXCount][set.GridYCount];
 		String terrains[] = CUtil.splitString(world.getAttribute("terrain"), ",");
 		for (int i = 0; i < terrains_count; i++) {
 			int x = i / set.GridYCount;
@@ -406,30 +470,101 @@ namespace com_cell_game
 			}
 		}
 	}
+	*/
 	
-	//	------------------------------------------------------------------------------------------------
 	
-	@Override
-	public String getImageExtentions() {
-		return image_type;
+	CTiles* XMLOutputLoader::createImagesFromSet(ImagesSet const &img)
+	{
+		return new XMLTiles(img, this);
 	}
 	
-	@Override
-	public boolean isGroup() {
-		return image_group;
+	//-------------------------------------------------------------------------------------------------------
+	// XMLTiles
+	//-------------------------------------------------------------------------------------------------------
+	
+	XMLTiles::XMLTiles(ImagesSet const &img, XMLOutputLoader *output)
+	{
+		int count = img.Count;
+		tiles.resize(count);
+		
+		std::string img_path = std::string(output->m_filedir)
+		.append("/")
+		.append(img.Name)
+		.append(".")
+		.append(output->getImageExtentions());
+		
+		Image* src_img = GFXManager::createImage(img_path.c_str());
+		
+		for(int i=0; i<count; i++)
+		{
+			if (img.ClipsW[i] != 0 && img.ClipsH[i] != 0) 
+			{
+				tiles[i] = src_img->subImage(img.ClipsX[i], 
+											 img.ClipsY[i],
+											 img.ClipsW[i], 
+											 img.ClipsH[i]);
+			}
+		}
+		
+		delete src_img;
 	}
 	
-	@Override
-	public boolean isTile() {
-		return image_tile;
+	XMLTiles::~XMLTiles()
+	{
+		for (vector<Image*>::iterator it=tiles.begin(); 
+			 it!=tiles.end(); ++it) {
+			Image* img = (*it);
+			if (img != NULL) {
+				delete img;
+			}
+		}
 	}
 	
-	@Override
-	public void dispose() 
-	{}
+	Image*	XMLTiles::getImage(int index)
+	{
+		return tiles[index];
+	}
 	
+	int		XMLTiles::getWidth(int index)
+	{
+		Image* img = tiles[index];
+		if (img != NULL) {
+			return img->getWidth();
+		}
+		return 0;
+	}
 	
+	int		XMLTiles::getHeight(int index)
+	{
+		Image* img = tiles[index];
+		if (img != NULL) {
+			return img->getHeight();
+		}
+		return 0;
+	}
 	
+	int		XMLTiles::getCount()
+	{
+		return tiles.size();
+	}
 	
+	void	XMLTiles::render(Graphics2D &g, int index, float PosX, float PosY, int Trans)
+	{
+		Image* img = tiles[index];
+		if (img != NULL) {
+			if (Trans != TRANS_NONE) {
+				g.pushTransform();
+				transform(g, img->getWidth(), img->getHeight(), Trans);
+				g.drawImage(img, PosX, PosY);
+				g.popTransform();
+			} else {
+				g.drawImage(img, PosX, PosY);
+			}
+		}
+	}
 
+	
+	
+	
+	
 }; // namespace

@@ -35,19 +35,16 @@ namespace com_cell_game
 		//frameAnimate[animate id][frame id] = canimate frame index.
 		vector<string>			AnimateNames;
 		//
-		vector<vector<short> >	FrameAnimate;
+		vector<vector<int> >	FrameAnimate;
 		// frameAnimate[animate id][frame id] = ccollide frame index.
-		vector<vector<short> >	FrameCDMap;
+		vector<vector<int> >	FrameCDMap;
 		// frameAnimate[animate id][frame id] = ccollide frame index.
-		vector<vector<short> >	FrameCDAtk;
+		vector<vector<int> >	FrameCDAtk;
 		// frameAnimate[animate id][frame id] = ccollide frame index.
-		vector<vector<short> >	FrameCDDef;
+		vector<vector<int> >	FrameCDDef;
 		// frameAnimate[animate id][frame id] = ccollide frame index.
-		vector<vector<short> >	FrameCDExt;
+		vector<vector<int> >	FrameCDExt;
 
-		vector<vector<short> >* getCDAnimates(char type);
-		
-		
 	public:
 		
 		CAnimates*	getAnimates();	
@@ -55,6 +52,7 @@ namespace com_cell_game
 		CCollides*	getCollides();	
 		
 		CTiles*		getTiles();
+		
 		
 		/////////////////////////////////////////////////////////////////
 		// images
@@ -70,6 +68,8 @@ namespace com_cell_game
 		// cds
 		int		getFrameCDCount(int anim, int frame, char type);
 		bool	getFrameCD(int anim, int frame, char type, int sub, CCD &outcd);
+		
+		vector<vector<int> >* getCDAnimates(char type);
 		
 		/////////////////////////////////////////////////////////////////
 		// bounds
@@ -132,8 +132,9 @@ namespace com_cell_game
 		
 		int		getCurrentFrame() ;
 		int		getCurrentAnimate();
+		void	setCurrentAnimate(string const &anim) ;	
 		void	setCurrentAnimate(int anim) ;		
-		void	setCurrentFrame(int id, int index);	
+		void	setCurrentFrame(int anim, int index);	
 		
 		bool	isEndFrame() ;		
 		bool	nextFrame() ;		

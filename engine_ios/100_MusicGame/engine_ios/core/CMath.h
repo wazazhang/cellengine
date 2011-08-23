@@ -10,6 +10,7 @@
 #ifndef _COM_CELL_MATH
 #define _COM_CELL_MATH
 
+#include <math.h>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -22,7 +23,6 @@ namespace com_cell
     class Math
     {
     public:
-		
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////
 		// 

@@ -117,7 +117,6 @@ namespace com_cell
 		{
 			size = [data length];
 			datas = (void*)malloc(size);
-			
 			[data getBytes: datas];
 		}
 		
@@ -180,7 +179,6 @@ namespace com_cell
 		{
 			out_size = [data length];
 			datas = (char*)malloc(out_size);
-			
 			[data getBytes: datas];
 		}
 		

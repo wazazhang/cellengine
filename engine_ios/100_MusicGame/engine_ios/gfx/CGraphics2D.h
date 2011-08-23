@@ -45,7 +45,7 @@ namespace com_cell
 		
         Graphics2D();
 		
-		~Graphics2D();
+		virtual ~Graphics2D();
 
 		
 	public:
@@ -95,11 +95,14 @@ namespace com_cell
 		
 		void drawImageScale(Image *src, float x, float y, float rate_w, float rate_h);
 		
-		void drawImageMask(Image *src, float x, float y, float maskR, float maskG, float maskB);
+		void drawImageMask(Image *src, float x, float y,
+						   Color const &maskColor);
 		
-		void drawImageMaskSize(Image *src, float x, float y, float w, float h, float maskR, float maskG, float maskB);
+		void drawImageMaskSize(Image *src, float x, float y, float w, float h, 
+							   Color const &maskColor);
 		
-		void drawImageMaskScale(Image *src, float x, float y, float scale_w, float scale_h, float maskR, float maskG, float maskB);
+		void drawImageMaskScale(Image *src, float x, float y, float scale_w, float scale_h, 
+								Color const &maskColor);
 		
 		
         /////////////////////////////////////////////////////////////////////////////////

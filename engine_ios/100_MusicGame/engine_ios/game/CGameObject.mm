@@ -19,8 +19,51 @@ namespace com_cell_game
 	// Tiles
 	//------------------------------------------------------------------------------------------------
 	
-
-	
+	void CTiles::transform(Graphics2D &g, int width, int height, int Trans)
+	{
+		switch (Trans) 
+		{
+			case TRANS_ROT90: {
+				g.translate(height, 0);
+				g.rotate(ANGLE_90);
+				break;
+			}
+			case TRANS_ROT180: {
+				g.translate(width, height);
+				g.rotate(ANGLE_180);
+				break;
+			}
+			case TRANS_ROT270: {
+				g.translate(0, width);
+				g.rotate(ANGLE_270);
+				break;
+			}
+			case TRANS_MIRROR: {
+				g.translate(width, 0);
+				g.scale(-1, 1);
+				break;
+			}
+			case TRANS_MIRROR_ROT90: {
+				g.translate(height, 0);
+				g.rotate(ANGLE_90);
+				g.translate(width, 0);
+				g.scale(-1, 1);
+				break;
+			}
+			case TRANS_MIRROR_ROT180: {
+				g.translate(width, 0);
+				g.scale(-1, 1);
+				g.translate(width, height);
+				g.rotate(ANGLE_180);
+				break;
+			}
+			case TRANS_MIRROR_ROT270: {
+				g.rotate(ANGLE_270);
+				g.scale(-1, 1);
+				break;
+			}
+		}
+	}
 	
 	//------------------------------------------------------------------------------------------------
 	// CCD
@@ -60,6 +103,16 @@ namespace com_cell_game
 		ret.X2 = qx;
 		ret.Y2 = qy;
 		return ret;
+	}
+	
+	CCD::CCD()
+	{
+		Type = CD_TYPE_RECT;
+		Mask = 0;
+		X1 = 0;
+		Y1 = 0;
+		X2 = 0;
+		Y2 = 0;
 	}
 	
 	float CCD::getWidth() 
@@ -218,17 +271,17 @@ namespace com_cell_game
 		outcd.Y2 = w_bottom;
 	}
 	
-	void CGroup::setFrames(vector<vector<short> > const &frames)
+	void CGroup::setFrames(vector<vector<int> > const &frames)
 	{
 		Frames = frames;
 	}
 	
-	vector<vector<short> >& CGroup::getFramesRef()
+	vector<vector<int> >& CGroup::getFramesRef()
 	{
 		return Frames;
 	}
 	
-	void CGroup::setComboFrame(vector<short> const &frame, int index)
+	void CGroup::setComboFrame(vector<int> const &frame, int index)
 	{
 		Frames[index] = frame;
 	}
@@ -272,7 +325,8 @@ namespace com_cell_game
 	{
 		SubIndex = 0;
 		SubCount = cdCount;
-		Frames = vector<vector<short> >(cdCount);
+		Frames.resize(cdCount);
+		cds.resize(cdCount);
 	}
 	
 	void CCollides::addCDRect(int mask, float x, float y, float w, float h)
@@ -293,7 +347,7 @@ namespace com_cell_game
 		}		
 		cds[SubIndex] = cd;
 		fixArea(cd.X1, cd.Y1, cd.X2, cd.Y2);
-		Frames[SubIndex] = vector<short>(1);
+		Frames[SubIndex] = vector<int>(1);
 		Frames[SubIndex].push_back(SubIndex);
 		SubIndex++;
 	}
@@ -390,26 +444,38 @@ namespace com_cell_game
 	//------------------------------------------------------------------------------------------------
 	// CAnimates
 	//------------------------------------------------------------------------------------------------
-
+//	this.images = images;
+//	SubCount = (short) partCount;
+//	SubIndex = 0;
+//	
+//	STileID = new short[partCount];
+//	SFlip = new byte[partCount];
+//	
+//	SW = new short[partCount];
+//	SH = new short[partCount];
+//	SX = new short[partCount];
+//	SY = new short[partCount];
+//	
+//	Frames = new short[partCount][];
 	
 	CAnimates::CAnimates(int partCount, CTiles *tils)
 	{
-		tiles = tils;
-		SubCount = partCount;
-		SubIndex = 0;
+		tiles		= tils;
+		SubCount	= partCount;
+		SubIndex	= 0;
 		
-		STileID = vector<short>(partCount);
-		SFlip = vector<char>(partCount);
+		STileID	.resize(partCount);
+		SFlip	.resize(partCount);
 		
-		SW = vector<short>(partCount);
-		SH = vector<short>(partCount);
-		SX = vector<short>(partCount);
-		SY = vector<short>(partCount);
+		SW		.resize(partCount);
+		SH		.resize(partCount);
+		SX		.resize(partCount);
+		SY		.resize(partCount);
 		
-		Frames = vector<vector<short> >(partCount);
+		Frames	.resize(partCount);
 	}
 	
-	void CAnimates::addPart(int px, int py, int tileid, int trans) 
+	void CAnimates::addPart(int px, int py, int tileid, char trans) 
 	{
 		if (SubIndex >= SubCount) {
 			//				System.err.println("Out Of Animate Max Count !");
@@ -442,7 +508,7 @@ namespace com_cell_game
 				SX[SubIndex] + SW[SubIndex],
 				SY[SubIndex] + SH[SubIndex]);
 		
-		Frames[SubIndex] = vector<short>(1);
+		Frames[SubIndex] = vector<int>(1);
 		Frames[SubIndex].push_back(SubIndex);
 		SubIndex++;
 		

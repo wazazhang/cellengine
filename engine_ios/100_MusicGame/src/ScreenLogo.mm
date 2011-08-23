@@ -9,7 +9,6 @@
 #include "CMath.h"
 #include "CFile.h"
 #include "CXml.h"
-#include "CGFXManager.h"
 
 #include "Screens.h"
 #include "ScreenLogo.h"
@@ -19,27 +18,37 @@ namespace gt_teris
 {
 	using namespace com_cell;	
 	using namespace com_cell_bms;
+	using namespace com_cell_game;
 
 	
     void ScreenLogo::init() 
     {
         printf("init\n");
 		
-		parseXML("/edit/actor/output/Project.xml");
-
-		angle		= 0;
-		getTimer();
-		stringSplitRegx("what is the matrix", "\\s");
-		
-		double fvalue = 0;
-		if (stringToDouble("0123233.14159", fvalue)) {
-			printf(" %lf\n", fvalue);
+		{
+			getTimer();
+			
+			parseXML("/edit/actor/output/Project.xml");
+			
+			stringSplitRegx("what is the matrix", "\\s");
+			
+			double fvalue = 0;
+			if (stringToDouble("0123233.14159", fvalue)) {
+				printf(" %lf\n", fvalue);
+			}
+			
+			long ivalue = 0;
+			if (stringToLong("1234", ivalue)) {
+				printf(" %ld\n", ivalue);
+			}
 		}
 		
-		long ivalue = 0;
-		if (stringToLong("1234", ivalue)) {
-			printf(" %ld\n", ivalue);
-		}
+		resource	= new CellResource("/edit/actor/output/Project.xml");
+	
+		actor		= resource->createSprite("Actor00");
+		actor		->setCurrentAnimate("jump_roll");
+		actor		->IsDebug = true;
+		
 		
         pSprite		= GFXManager::createImage("/Sprite.png");
 
@@ -83,7 +92,9 @@ namespace gt_teris
 		
 		delete pSprite;
 		
+		delete actor;
 		
+		delete resource;
 
     }
 	
@@ -92,8 +103,6 @@ namespace gt_teris
     {
         //printf("update\n");
         
-        angle += 1.0f;
-		
 		if (com_cell::IScreen::isPointerDown(0)) {
 			pSoundPlayer3->play(false);	
 			getScreenManager()->changeScreen(Screens::SCREEN_GAME);
@@ -132,8 +141,8 @@ namespace gt_teris
         g.translate(getScreenWidth()/2, getScreenHeight()/2);
         g.setAlpha(.5f);
         g.drawImage(pSprite, 
-                    10*sinf(angle/10), 
-                    10*cosf(angle/10));
+                    10*sinf(getTimer()/10.0), 
+                    10*cosf(getTimer()/10.0));
         g.drawImage(pSprite, 32, 32);
         g.drawImage(pSprite, -32, -32);
 
@@ -141,9 +150,9 @@ namespace gt_teris
         g.setBlend(BLEND_NORMAL);
         g.pushTransform();
         {
-            g.setAlpha(0.5+sinf(angle/10)/2);
-            g.scale(2*sinf(angle/25), 2*sinf(angle/25));
-            g.rotate(angle);
+            g.setAlpha(0.5+sinf(getTimer()/10.0)/2);
+            g.scale(2*sinf(getTimer()/25.0), 2*sinf(getTimer()/25.0));
+            g.rotate(getTimer());
             g.drawImage(pSprite, -pSprite->getWidth()/2, -pSprite->getHeight()/2);
         }
         g.popTransform();
@@ -157,6 +166,13 @@ namespace gt_teris
         g.setColor(1, 1, 0, 0);
         g.fillArc(0, 200, 200, 100, 0, 360);
         
+		if (getTimer()%4==0) {
+			actor->nextCycFrame();
+		}
+		actor->render(g, 0, 0);
+		
+		
+		
         // printf("degree %f", degree);
     }
     

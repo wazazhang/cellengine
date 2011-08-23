@@ -59,17 +59,17 @@ namespace com_cell
 			
 			//*//将内存交给openAL管理
 			// variables to load into
-//			alBufferData(m_buffer_id, format, 
-//                         sound_info->getData(),
-//                         sound_info->getDataSize(), 
-//                         sound_info->getFrameRate());
+			alBufferData(m_buffer_id, m_format, 
+                         data->getData(),
+                         m_size, 
+                         m_framerate);
 			//手动管理内存
 			// use the static buffer data API
-			alBufferDataStaticProc(m_buffer_id, 
-								   m_format, 
-								   data->getData(),
-								   m_size, 
-								   m_framerate);
+//			alBufferDataStaticProc(m_buffer_id, 
+//								   m_format, 
+//								   data->getData(),
+//								   m_size, 
+//								   m_framerate);
 			//*/
 			
 			// Do another error check and return.
@@ -77,8 +77,10 @@ namespace com_cell
 				alDeleteBuffers(1, &m_buffer_id);
 				if (SoundManager::checkError()) {}
 				m_buffer_id = 0;
+				return;
 			}
 			
+			NSLog(@"AL: Create buffer : %d\n", m_buffer_id);
 			//printf("buffer : %s \n", data->toString().c_str() );
 		}
 	}
@@ -88,8 +90,10 @@ namespace com_cell
         if (isEnable()) {
 			alDeleteBuffers(1, &m_buffer_id);
             if (SoundManager::checkError()) {
-                NSLog(@"Error delete OpenAL buffers : %d", m_buffer_id);
-            }
+                NSLog(@"Error delete OpenAL buffer : %d", m_buffer_id);
+            } else {
+				NSLog(@"AL: Destory buffer : %d\n", m_buffer_id);
+			}
             m_buffer_id = 0;
 		}
     }

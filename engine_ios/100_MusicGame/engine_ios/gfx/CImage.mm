@@ -100,28 +100,21 @@ namespace com_cell
     }
 
     
-//    void Image::render(float x, float y, float scale_w, float scale_h, float angle)
-//    {
-//        if (m_texture_id==0) return;
-//
-//        glTranslatef(x, -y, 0);
-//        
-//        glVertexPointer(2, GL_FLOAT, 0, m_Vertices);
-//        glEnableClientState(GL_VERTEX_ARRAY);
-//        
-//        //glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
-//        //glEnableClientState(GL_COLOR_ARRAY);
-//        
-//        glTexCoordPointer(2, GL_SHORT, 0, g_SpriteTexcoords);
-//        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-//        glBindTexture(GL_TEXTURE_2D, m_texture_id);
-//        glEnable(GL_TEXTURE_2D);
-//        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-//        
-//        glTranslatef(-x, y, 0);
-//    }
-  
+	Image* Image::subImage(int x, int y, int w, int h)
+	{
+		if (spriteImage != NULL) {
+			CGRect rect;
+			rect.origin.x = x;
+			rect.origin.y = y;
+			rect.size.width = w;
+			rect.size.height = h;
+			CGImageRef sub = CGImageCreateWithImageInRect(spriteImage, rect);
+			return new Image(sub);
+		}
+		return NULL;
+	}
     
-    
+   
+
     
 }; // namespcace gt

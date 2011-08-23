@@ -471,7 +471,8 @@ namespace com_cell_bms
 		
 		for (std::vector<HeadDefine*>::iterator it=resources.begin(); 
 			 it!=resources.end(); ++it) {
-			delete (*it);
+			HeadDefine* def = (*it);
+			delete def;
 			delete_define_resource_count++;
 		}
 		

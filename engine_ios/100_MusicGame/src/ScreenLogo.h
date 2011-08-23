@@ -13,20 +13,26 @@
 
 
 #include <math.h>
+#include "CGFXManager.h"
+#include "CCellResource.h"
 #include "BMSFile.h"
+
 
 
 namespace gt_teris
 {
 	using namespace com_cell;	
 	using namespace com_cell_bms;
-
+	using namespace com_cell_game;
 
 	class ScreenLogo : public IScreen
 	{
     private:
+		CellResource	*resource;
+		CSprite			*actor;
+		
+		
         Image			*pSprite;
-        float			angle;
         
 		SoundInfo*		pSoundInfo1;
 		SoundInfo*		pSoundInfo2;

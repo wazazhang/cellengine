@@ -11,6 +11,7 @@
 
 #include "CUtil.h"
 #include "CFile.h"
+#include "CIO.h"
 #include "CXml.h"
 #include "CGameObject.h"
 #include "CCellResource.h"
@@ -23,13 +24,27 @@ namespace com_cell_game
 {	    
 	using namespace com_cell;
 	using namespace std;
-
+	
+	//-------------------------------------------------------------------------------------
+	// XMLOutputLoader
+	//-------------------------------------------------------------------------------------
+	
 	class XMLOutputLoader : public OutputLoader
 	{
+		friend class XMLTiles;
+		
 	private:
-		string	image_type;
-		bool	image_tile;
-		bool	image_group;
+		string					m_image_type;
+		bool					m_image_tile;
+		bool					m_image_group;
+		map<string, ImagesSet>	m_images;
+		map<string, SpriteSet>	m_sprites;
+		map<string, MapSet>		m_maps;
+		map<string, WorldSet>	m_worlds;
+		
+		string					m_filepath;
+		string					m_filedir;
+		
 	public:
 		
 		XMLOutputLoader(char const *filename);
@@ -48,20 +63,54 @@ namespace com_cell_game
 		
 	protected:
 		
-		void init			(XMLNode &doc);
+		void init			(XMLNode *doc);
 		
-		void initResource	(XMLNode &resource);
+		void initResource	(XMLNode *resource);
 		
-		void initLevel		(XMLNode &level);
+		void initImages		(XMLNode *images);
 		
-		void initImages		(XMLNode &images);
+		void initMap		(XMLNode *map);
 		
-		void initMap		(XMLNode &map);
-		
-		void initSprite		(XMLNode &sprite);
+		void initSprite		(XMLNode *sprite);
 		
 		
+		void initLevel		(XMLNode *level);
+		
+		void initWorld		(XMLNode *world);
+		
+		CTiles* createImagesFromSet(ImagesSet const &img);
+		
+		
+				
 	}; // class XMLOutputLoader
+	
+	
+	//-------------------------------------------------------------------------------------------------------
+	// XMLTiles
+	//-------------------------------------------------------------------------------------------------------
+	
+	class XMLTiles : public CTiles
+	{
+	private:
+		vector<Image*> tiles;
+		
+	public:
+		
+		XMLTiles(ImagesSet const &img, XMLOutputLoader *output);
+		
+		~XMLTiles();
+		
+		virtual Image*	getImage(int index);
+		
+		virtual int		getWidth(int Index);
+		
+		virtual int		getHeight(int Index);
+		
+		virtual int		getCount();
+		
+		virtual void	render(Graphics2D &g, int Index, float PosX, float PosY, int Trans);
+		
+	}; // class XMLTiles
 	
 }; // namespace
 

@@ -23,6 +23,8 @@ namespace com_cell_bms
 	class BMSPlayerListener
 	{
 	public:
+		virtual ~BMSPlayerListener(){}
+		
 		virtual void onBeat(int beat_count) = 0;
 		
 		virtual void onDropNote(Note *note) = 0;

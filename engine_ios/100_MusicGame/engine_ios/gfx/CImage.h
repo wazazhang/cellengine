@@ -46,11 +46,6 @@ namespace com_cell
         
         ~Image();
         
-        //void    render(float x, float y, float scale_w, float scale_h, float angle);	
-        
-        Image   subImage(int x, int y, int w, int h);
-        
-        
         inline int getWidth()
         {
             return m_image_w;
@@ -65,6 +60,8 @@ namespace com_cell
         {
             return m_texture_id;
         }
+        
+		Image*   subImage(int x, int y, int w, int h);
         
         
         

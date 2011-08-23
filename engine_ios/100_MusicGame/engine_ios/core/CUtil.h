@@ -138,9 +138,7 @@ namespace com_cell
 	extern int          randomInt();
     
 	extern void         randomSeed(int seed);			
-    
-	
-	
+    	
 }; // namespace com.cell
 
 

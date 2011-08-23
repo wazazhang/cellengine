@@ -17,6 +17,8 @@ namespace com_cell
     {
     public:
         
+		virtual ~SoundInfo(){}
+		
         virtual  char const		*getFilePath()  = 0;
 		
         /** stereo mono , 1, 2*/

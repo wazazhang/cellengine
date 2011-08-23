@@ -15,7 +15,8 @@ namespace com_cell
 {
 	class Shape
 	{
-		
+	public:
+		virtual ~Shape(){}
 	};
 	
 	class Point2D : public Shape

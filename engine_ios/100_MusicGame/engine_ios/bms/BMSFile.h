@@ -151,6 +151,8 @@ namespace com_cell_bms
 	// Head Define 定义的资源
 	class IDefineResource 
 	{
+	public:
+		virtual ~IDefineResource(){}
 	};
 	
 	// Head Define 声音
@@ -162,6 +164,7 @@ namespace com_cell_bms
 	public:
 		IDefineSound(char const *file);
 		~IDefineSound();
+		
 		Sound* getSound();
 	};
 
@@ -299,6 +302,7 @@ namespace com_cell_bms
 	class BMSLoadListener 
 	{
 	public:
+		virtual ~BMSLoadListener(){}
 		virtual void beginLoading() = 0;
 		virtual void endLoading() = 0;
 		virtual void loadline(int max, int current, std::string const &line_data) = 0;

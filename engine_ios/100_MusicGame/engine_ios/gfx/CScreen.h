@@ -20,6 +20,7 @@ namespace com_cell
 	class IScreen
 	{
 	public:
+		virtual ~IScreen(){}
 		
 		virtual void init() = 0;
 		
@@ -64,6 +65,7 @@ namespace com_cell
 	class IScreenFactory
 	{
 	public:
+		virtual ~IScreenFactory(){}
 		virtual int         getRootScreen() = 0;
 		virtual IScreen*    createScreen(int ScreenType) = 0;
 		
