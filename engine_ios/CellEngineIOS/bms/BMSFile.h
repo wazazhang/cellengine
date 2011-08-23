@@ -11,6 +11,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <list>
+#include <deque>
+
 
 #include "CSoundManager.h"
 #include "CImage.h"
@@ -366,10 +369,10 @@ namespace com_cell_bms
 		HeadDefine*			getHeadDefine(CommandEnum const &command, std::string const &track_value);
 		
 		// 获取某个轨道所有的音符
-		std::vector<Note*>	getNoteList(CommandEnum const &track);		
+		std::list<Note*>	getNoteList(CommandEnum const &track);		
 		
 		// 获取所有轨道的音符信息
-		std::vector<Note*>	getAllNoteList() ;	
+		std::list<Note*>	getAllNoteList() ;	
 		
 		// 
 		double timeToPosition(float deta_time_ms, float bpm);

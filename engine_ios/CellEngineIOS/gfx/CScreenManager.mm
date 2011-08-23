@@ -110,7 +110,6 @@ namespace com_cell
 	// update in game loop
 	void ScreenManager::call_Update(CGRect rect)
 	{
-		pCurGraphics->beginRender(rect);
 		
 		// get fps
 		interval_ms = com_cell::getCurrentTime() - last_update_time_ms;
@@ -131,7 +130,7 @@ namespace com_cell
 			clearKey();
 		}
 		
-		
+		pCurGraphics->beginRender(rect);
 		if( m_pCurSubScreen != NULL )
 		{
 			if(LogicEnable) {
@@ -140,20 +139,18 @@ namespace com_cell
 			}
 			if(RenderEnable) {
 				// main screen render call
-				pCurGraphics->pushTransform();
 				m_pCurSubScreen->render(*pCurGraphics);
-				pCurGraphics->popTransform();
 			}
 		}
+		pCurGraphics->endRender();
 		
 		if(TransitionEnable)
 		{
-			pCurGraphics->pushTransform();
+			pCurGraphics->beginRenderTransition(rect);
 			_transition(*pCurGraphics);
-			pCurGraphics->popTransform();
+			pCurGraphics->endRenderTransition();
 		}
 		
-		pCurGraphics->endRender();
 		timer ++;
 		
 	}
@@ -423,10 +420,8 @@ namespace com_cell
                 g_isTransitionIn = false;
                 g_isTransitionOut = false;
             }
-            g.pushColor();
             g.setColor(g_transitionAlpha, 0, 0, 0);
             g.fillScreen();
-			g.popColor();
         }
     }	
     

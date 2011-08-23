@@ -9,6 +9,7 @@
 #define _COM_CELL_BMS_PLAYER
 
 #include <string>
+#include <list>
 
 #include "CSoundManager.h"
 #include "CSoundPlayerPool.h"
@@ -55,19 +56,21 @@ namespace com_cell_bms
 	
 	class BMSPlayer
 	{
+	public:
+		/** 是否自动演奏 */
+		bool					m_is_auto_play;
+		
 	private:
 		
 		BMSFile					*m_pBmsFile;
 		BMSPlayerListener		*m_listener;
-		/** 是否自动演奏 */
-		bool					m_is_auto_play;
 		/** 丢弃Note单位的检查范围  */
 		float					m_play_drop_length;
 		
 		//////////////////////////////////////////////////
 		// dynamic
-		std::vector<Note*>		m_play_tracks;
-		std::vector<Note*>		m_play_removed;
+		std::list<Note*>		m_play_tracks;
+		std::list<Note*>		m_play_removed;
 		double					m_play_bpm;
 		double					m_play_position;	
 		double					m_play_stop_time;
@@ -94,15 +97,21 @@ namespace com_cell_bms
 		
 		BMSFile* getBMSFile();		
 		
-		void	setListener(BMSPlayerListener *listener) ;
-				
-		void	start();		
+		void			setListener(BMSPlayerListener *listener) ;
 		
-		void	stop() ;	
+		void			setDropLength(float len);
 		
-		void	update();
+		//-------------------------
 		
-		bool	isRunning();
+		void			start();		
+		
+		void			stop() ;	
+		
+		void			update();
+		
+		bool			isRunning();
+		
+		//--------------------------
 		
 		void			getPlayTracks(float length, std::vector<Note*> &out_list);
 		

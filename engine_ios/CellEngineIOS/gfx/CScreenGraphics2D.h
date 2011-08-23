@@ -37,7 +37,10 @@ namespace com_cell
 		
 		void endRender();
         
+		void beginRenderTransition(CGRect bounds);
 		
+		void endRenderTransition();
+
 	};
     
 	

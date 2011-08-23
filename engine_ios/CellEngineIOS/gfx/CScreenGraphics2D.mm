@@ -27,20 +27,19 @@ namespace com_cell
 	{		
         m_bounds = bounds;
         
-        glPushMatrix();
-        
 		glViewport(0, 0, m_bounds.size.width, m_bounds.size.height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity(); 
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        
+		
+        glPushMatrix();
+		
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT); 
         glScalef(1, -1, 1);
         glOrthof(0, m_bounds.size.width, 0, m_bounds.size.height, -1, 1);
 		
-        
         glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
@@ -57,5 +56,24 @@ namespace com_cell
 	{
         glPopMatrix();
 	}
+	
+	void ScreenGraphics2D::beginRenderTransition(CGRect bounds)
+	{		
+        m_bounds = bounds;
+		
+		glOrthof(0, m_bounds.size.width, 0, m_bounds.size.height, -1, 1);        
+		
+		glEnable(GL_BLEND);                
+        setBlend(BLEND_NORMAL);
+		setAlpha(1);
+
+        glPushMatrix();
+	}
+	
+	void ScreenGraphics2D::endRenderTransition()
+	{
+        glPopMatrix();
+	}
+
 	
 };

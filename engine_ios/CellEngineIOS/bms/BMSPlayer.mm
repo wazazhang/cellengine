@@ -16,8 +16,8 @@ namespace com_cell_bms
 	{	
 		m_pBmsFile				= bms;
 		m_listener				= NULL;
-		m_is_auto_play			= true;		
-		m_play_drop_length		= m_pBmsFile->getLineSplitDiv();
+		m_is_auto_play			= false;		
+		m_play_drop_length		= m_pBmsFile->getBeatDiv();
 		m_source_pool			= new SoundPlayerPool(max_sound);
 	}
 	
@@ -35,6 +35,11 @@ namespace com_cell_bms
 	void BMSPlayer::setListener(BMSPlayerListener *listener) 
 	{
 		m_listener = listener;
+	}
+	
+	void BMSPlayer::setDropLength(float len)
+	{
+		m_play_drop_length = len;
 	}
 	
 	void BMSPlayer::start()
@@ -80,16 +85,28 @@ namespace com_cell_bms
 		m_play_pre_record_time	= cur_time;
 		
 		// 已缓冲的音符
+//		std::list< int> List;
+//		std::list< int>::iterator itList;
+//		for( itList = List.begin(); itList != List.end(); )
+//		{
+//            if( WillDelete( *itList) )
+//            {
+//				itList = List.erase( itList);
+//            }
+//            else
+//				itList++;
+//		}
 		{
-			std::vector<std::vector<Note*>::iterator> removed;
+//			std::deque<std::deque<Note*>::iterator> removed;
 			
-			for (std::vector<Note*>::iterator it=m_play_tracks.begin(); it!=m_play_tracks.end(); ++it) 
+			for (std::list<Note*>::iterator it=m_play_tracks.begin(); it!=m_play_tracks.end(); ) 
 			{
 				Note* note = (*it);
 				
 				// 如果该音符过丢弃线
 				if (note->getBeginPosition() <= m_play_position - m_play_drop_length) {
-					removed.push_back(it);
+					m_play_removed.push_back(note);
+					it = m_play_tracks.erase(it);
 					onDropedNote(note);
 					continue;
 				}
@@ -97,14 +114,19 @@ namespace com_cell_bms
 				else if (note->getBeginPosition() <= m_play_position) {
 					if (processSystemNote(note)) {
 						// 如果是系统命令，则立即处理
-						removed.push_back(it);
+						m_play_removed.push_back(note);
+						it = m_play_tracks.erase(it);
 						continue;
 					}
 					// 如果自动演奏，则提供一个命令
 					else if (m_is_auto_play && processAutoHit(note)) {
 						// 如果是按键命令，则立即处理
-						removed.push_back(it);
+						m_play_removed.push_back(note);
+						it = m_play_tracks.erase(it);
 						continue;
+					}
+					else {
+						++it;
 					}
 				}
 				// 未到线的音符
@@ -113,13 +135,20 @@ namespace com_cell_bms
 				}
 			}
 			
-			for (std::vector<std::vector<Note*>::iterator>::iterator it=removed.begin(); 
-				 it!=removed.end(); ++it) 
-			{
-				std::vector<Note*>::iterator sit = (*it);
-				m_play_tracks.erase(sit);
-				m_play_removed.push_back((*sit));
-			}
+//			for (std::deque<std::deque<Note*>::iterator>::iterator it=removed.begin(); 
+//				 it!=removed.end(); ++it) 
+//			{
+//				std::deque<Note*>::iterator sit = (*it);
+//				m_play_removed.push_back((*sit));
+//			}
+//			
+//			if (removed.size()>0)
+//			{
+//				std::deque<Note*>::iterator first = *(removed.begin());
+//				std::deque<Note*>::iterator last = *(removed.end());
+//				m_play_tracks.erase(first, last);
+//			}
+
 		}
 		
 		double deta_position = m_pBmsFile->timeToPosition(deta_time, m_play_bpm);
@@ -252,7 +281,7 @@ namespace com_cell_bms
 	void BMSPlayer::getPlayTracks(float length, std::vector<Note*> &out_list)
 	{
 		if (m_is_running) {
-			for (std::vector<Note*>::iterator it=m_play_tracks.begin();
+			for (std::list<Note*>::iterator it=m_play_tracks.begin();
 				 it!=m_play_tracks.end(); ++it) {
 				Note* note = (*it);
 				if (note->getBeginPosition() - m_play_position < length) {
@@ -267,7 +296,7 @@ namespace com_cell_bms
 	void BMSPlayer::getPlayKeyTracks(float length, std::vector<Note*> &out_list)
 	{
 		if (m_is_running) {
-			for (std::vector<Note*>::iterator it=m_play_tracks.begin();
+			for (std::list<Note*>::iterator it=m_play_tracks.begin();
 				 it!=m_play_tracks.end(); ++it) {
 				Note* note = (*it);
 				if (note->getBeginPosition() - m_play_position < length) {

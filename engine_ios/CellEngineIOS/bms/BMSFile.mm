@@ -540,32 +540,39 @@ namespace com_cell_bms
 		}
 	}
 	
-	std::vector<Note*> BMSFile::getNoteList(CommandEnum const &track) 
+	std::list<Note*> BMSFile::getNoteList(CommandEnum const &track) 
 	{
+		std::list<Note*> ret;
+		
 		std::map<CommandEnum, std::vector<Note*> >::iterator it = data_note_table.find(track);
 		
 		if (it != data_note_table.end()) {
-			return (it->second);
+			std::vector<Note*> &track = (it->second);
+			for (std::vector<Note*>::iterator st = track.begin(); st!=track.end(); ++st) {
+				ret.push_back(*st);
+			}
 		}
 
-		return std::vector<Note*>();
+		return ret;
 	}
 	
-	std::vector<Note*> BMSFile::getAllNoteList()
+	std::list<Note*> BMSFile::getAllNoteList()
 	{
-		std::vector<Note*> ret;
+		std::list<Note*> ret;
 		
 		for (std::map<CommandEnum, std::vector<Note*> >::iterator it=data_note_table.begin(); 
 			 it!=data_note_table.end(); 
 			 ++it) 
 		{
-			std::vector<Note*> &tlist = (it->second);
-			for (std::vector<Note*>::iterator st = tlist.begin(); st!=tlist.end(); ++st) {
+			std::vector<Note*> &track = (it->second);
+			for (std::vector<Note*>::iterator st = track.begin(); st!=track.end(); ++st) {
 				ret.push_back(*st);
 			}
 		}
 		
-		std::sort( ret.begin(), ret.end() , compareNote);
+		//std::sort( ret.begin(), ret.end() , compareNote);
+		
+		ret.sort(compareNote);
 		
 		return ret;
 	}
