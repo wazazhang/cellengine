@@ -23,11 +23,13 @@
 		FB5C0A5314013BB900F1F7A2 /* edit in Resources */ = {isa = PBXBuildFile; fileRef = FB5C0A5214013BB900F1F7A2 /* edit */; };
 		FB5C0A571401431C00F1F7A2 /* CXMLOutputLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB5C0A561401431C00F1F7A2 /* CXMLOutputLoader.mm */; };
 		FB5C0A5A14014AA900F1F7A2 /* CXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB5C0A5914014AA900F1F7A2 /* CXml.mm */; };
+		FB8AAFAB14038DDF009B69BF /* CDisplayObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB8AAFAA14038DDE009B69BF /* CDisplayObject.mm */; };
 		FB92BAB013FBBB3900FA7BD1 /* BMSPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */; };
 		FB9EF15113FA208D00F65C98 /* res in Resources */ = {isa = PBXBuildFile; fileRef = FB9EF15013FA208D00F65C98 /* res */; };
 		FB9EF15413FA275E00F65C98 /* BMSFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF15313FA275E00F65C98 /* BMSFile.mm */; };
 		FB9EF16313FA6F5E00F65C98 /* CScreenGraphics2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */; };
 		FB9EF17813FACE9A00F65C98 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */; };
+		FB9F2F4A140207120060CB9F /* CIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB9F2F49140207120060CB9F /* CIO.mm */; };
 		FBA4048D13F7611E0002B80E /* CSoundDecode.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048C13F7611E0002B80E /* CSoundDecode.mm */; };
 		FBA4049013F761D90002B80E /* CSoundPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4048F13F761D90002B80E /* CSoundPlayer.mm */; };
 		FBA4569213FF93BD00E6BA98 /* CCellResource.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBA4569113FF93BD00E6BA98 /* CCellResource.mm */; };
@@ -87,6 +89,9 @@
 		FB5C0A561401431C00F1F7A2 /* CXMLOutputLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CXMLOutputLoader.mm; sourceTree = "<group>"; };
 		FB5C0A5814014A9900F1F7A2 /* CXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXml.h; sourceTree = "<group>"; };
 		FB5C0A5914014AA900F1F7A2 /* CXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CXml.mm; sourceTree = "<group>"; };
+		FB8AAFA914038DC8009B69BF /* CDisplayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDisplayObject.h; sourceTree = "<group>"; };
+		FB8AAFAA14038DDE009B69BF /* CDisplayObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CDisplayObject.mm; sourceTree = "<group>"; };
+		FB8AAFAC14038FC2009B69BF /* BMSGameSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSGameSample.h; sourceTree = "<group>"; };
 		FB92BAAD13FBBB2700FA7BD1 /* BMSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMSPlayer.h; sourceTree = "<group>"; };
 		FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMSPlayer.mm; sourceTree = "<group>"; };
 		FB9EF15013FA208D00F65C98 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
@@ -97,6 +102,8 @@
 		FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CScreenGraphics2D.mm; sourceTree = "<group>"; };
 		FB9EF17613FACE9A00F65C98 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		FB9EF17713FACE9A00F65C98 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		FB9F2F47140206A90060CB9F /* CIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIO.h; sourceTree = "<group>"; };
+		FB9F2F49140207120060CB9F /* CIO.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CIO.mm; sourceTree = "<group>"; };
 		FBA4048C13F7611E0002B80E /* CSoundDecode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundDecode.mm; sourceTree = "<group>"; };
 		FBA4048F13F761D90002B80E /* CSoundPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSoundPlayer.mm; sourceTree = "<group>"; };
 		FBA4569013FF93A600E6BA98 /* CCellResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCellResource.h; sourceTree = "<group>"; };
@@ -175,6 +182,8 @@
 				FB9EF16113FA6F4A00F65C98 /* CScreenGraphics2D.h */,
 				FB9EF16213FA6F5E00F65C98 /* CScreenGraphics2D.mm */,
 				FB9EF15813FA66DC00F65C98 /* CGFXManager.h */,
+				FB8AAFA914038DC8009B69BF /* CDisplayObject.h */,
+				FB8AAFAA14038DDE009B69BF /* CDisplayObject.mm */,
 			);
 			path = gfx;
 			sourceTree = "<group>";
@@ -239,6 +248,7 @@
 				FB9EF15313FA275E00F65C98 /* BMSFile.mm */,
 				FB92BAAD13FBBB2700FA7BD1 /* BMSPlayer.h */,
 				FB92BAAF13FBBB3900FA7BD1 /* BMSPlayer.mm */,
+				FB8AAFAC14038FC2009B69BF /* BMSGameSample.h */,
 			);
 			path = bms;
 			sourceTree = "<group>";
@@ -344,6 +354,8 @@
 				FBEF8F7D13FCBAE0001D5B45 /* CMath.mm */,
 				FBF2CE2C13F853360018C832 /* CUtil.h */,
 				FBF2CE2D13F853360018C832 /* CUtil.mm */,
+				FB9F2F47140206A90060CB9F /* CIO.h */,
+				FB9F2F49140207120060CB9F /* CIO.mm */,
 				FBEF8F7C13FCB92C001D5B45 /* CGeometry.h */,
 				FB5C0A5814014A9900F1F7A2 /* CXml.h */,
 				FB5C0A5914014AA900F1F7A2 /* CXml.mm */,
@@ -444,6 +456,8 @@
 				FBA9985914010F7A0067BDCB /* CSprite.mm in Sources */,
 				FB5C0A571401431C00F1F7A2 /* CXMLOutputLoader.mm in Sources */,
 				FB5C0A5A14014AA900F1F7A2 /* CXml.mm in Sources */,
+				FB9F2F4A140207120060CB9F /* CIO.mm in Sources */,
+				FB8AAFAB14038DDF009B69BF /* CDisplayObject.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
