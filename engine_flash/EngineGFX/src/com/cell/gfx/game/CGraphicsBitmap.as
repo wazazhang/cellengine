@@ -9,9 +9,16 @@ package com.cell.gfx.game
 	{
 		private var buff : BitmapData;
 		
+		private var dst_rect : Rectangle;		
+		private var src_rect : Rectangle;
+		private var dst_point : Point;
+		
 		public function CGraphicsBitmap(buff : BitmapData)
 		{
 			this.buff = buff;
+			this.src_rect = new Rectangle(0, 0, buff.width, buff.height);
+			this.dst_rect = new Rectangle(0, 0, buff.width, buff.height);
+			this.dst_point = new Point(0, 0);
 		}
 		
 		/**
@@ -23,13 +30,36 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-			if (transform == Transform.TRANS_NONE) {
-				buff.copyPixels(img.src, 
-					new Rectangle(0, 0, w, h), 
-					new Point(x, y));
-			} else {
-				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
-			}
+			buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
+			
+//			if (transform == Transform.TRANS_NONE) 
+//			{
+////				this.dst_point.x = x;
+////				this.dst_point.y = y;
+////				
+////				this.src_rect.x = 0;
+////				this.src_rect.y = 0;
+////				this.src_rect.width = w;
+////				this.src_rect.height = h;
+////				
+////				this.dst_rect.x = -x;
+////				this.dst_rect.y = -y;
+////				var ins_rect : Rectangle = src_rect.intersection(dst_rect);
+////				trace("=======================================");
+////				trace("src rect " + src_rect);
+////				trace("dst rect " + dst_rect);
+////				trace("ins rect " + ins_rect);
+////				if (ins_rect.width > 0) {
+//////					buff.copyPixels(img.src, ins_rect, dst_point, null, null ,true);
+//////					buff.copyPixels(img.src, src_rect, dst_point, null, null ,true);
+//////					buff.fillRect(new Rectangle(x+1, y+1, w-2, h-2), 0xffff0000);
+////				}
+//				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
+//			}
+//			else 
+//			{
+//				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
+//			}
 		}
 		
 		/**
@@ -51,9 +81,15 @@ package com.cell.gfx.game
 										x_dest:int, 
 										y_dest:int) : void
 		{
-			buff.copyPixels(src.src, 
-				new Rectangle(x_src, y_src, width, height), 
-				new Point(x_dest, y_dest));
+			this.src_rect.x = x_src;
+			this.src_rect.y = y_src;
+			this.src_rect.width = width;
+			this.src_rect.height = height;
+			
+			this.dst_point.x = x_dest;
+			this.dst_point.y = y_dest;
+			
+			buff.copyPixels(src.src, src_rect, dst_point);
 		} 
 		
 
