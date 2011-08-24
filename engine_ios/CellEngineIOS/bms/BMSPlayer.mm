@@ -49,7 +49,7 @@ namespace com_cell_bms
 		m_play_bpm					= m_pBmsFile->getHeadInfoAsNumber(HEAD_INFO_BPM);
 		m_play_position				= 0;
 		m_play_pre_beat_position	= 0;
-		m_play_pre_record_time		= getCurrentTime();
+//		m_play_pre_record_time		= getCurrentTime();
 		m_play_stop_time			= 0;
 		m_play_beat_count			= 0;
 		m_is_running				= true;
@@ -74,15 +74,15 @@ namespace com_cell_bms
 		return m_is_running;
 	}
 	
-	void BMSPlayer::update()
+	void BMSPlayer::update(double deta_time)
 	{
 		if (!m_is_running) {
 			return;
 		}
 		
-		double	cur_time		= getCurrentTime();
-		double	deta_time		= cur_time - m_play_pre_record_time; 
-		m_play_pre_record_time	= cur_time;
+//		double	cur_time		= getCurrentTime();
+//		double	deta_time		= cur_time - m_play_pre_record_time; 
+//		m_play_pre_record_time	= cur_time;
 		
 		// 已缓冲的音符
 //		std::list< int> List;
@@ -162,6 +162,13 @@ namespace com_cell_bms
 				onOneBeat(m_play_beat_count);
 			}
 		}
+		
+		
+//		double pos = m_play_position;
+//		int line_dtime = (int)(pos / m_pBmsFile->getLineSplitDiv());
+//		double line_pos_offset = line_dtime  * m_pBmsFile->getLineSplitDiv();
+//
+//		NSLog(@"update interval : %lf - %lf - %lf - %lf", deta_time, deta_position, line_pos_offset, pos);
 	}
 	
 	//	-------------------------------------------------------------------------------------------------
@@ -313,9 +320,28 @@ namespace com_cell_bms
 		}
 	}
 	
-	double BMSPlayer::getPlayPosition() {
+	
+	
+	double BMSPlayer::getPlayPosition() 
+	{
 		return m_play_position;
 	}
+
+	double BMSPlayer::getNextLinePosition(double pos) 
+	{
+		int cur_div_time = (int)(pos / m_pBmsFile->getLineSplitDiv()) + 1;
+		
+		return cur_div_time * m_pBmsFile->getLineSplitDiv();
+	}
+	
+	/**得到此位置之前最近的一条线(小节)的位置*/
+	double BMSPlayer::getPrewLinePosition(double pos)
+	{
+		int cur_div_time = (int)(pos / m_pBmsFile->getLineSplitDiv());
+		
+		return cur_div_time * m_pBmsFile->getLineSplitDiv();
+	}
+	
 	
 	Image*	BMSPlayer::getPlayBGImage() {
 		return m_play_bg_image;

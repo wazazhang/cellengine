@@ -181,6 +181,10 @@ namespace com_cell_game
 	{
 		if ( (anim < FrameAnimate.size()) && (frame < FrameAnimate[anim].size()) )
 		{
+//			for (int i=0; i<FrameAnimate[anim].size(); i++) {
+//				printf("%d,", FrameAnimate[anim][i]);
+//			}
+//			printf("\n");
 			animates.render(g, FrameAnimate[anim][frame], x, y);
 		}
 	}

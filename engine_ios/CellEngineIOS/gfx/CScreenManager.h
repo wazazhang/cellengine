@@ -245,7 +245,7 @@ namespace com_cell
 	
 	inline float getIntervalMS()
 	{
-		return ScreenManager::getInstance()->getTimer();
+		return ScreenManager::getInstance()->getIntervalMS();
 	}
 	
 	inline int getScreenWidth()

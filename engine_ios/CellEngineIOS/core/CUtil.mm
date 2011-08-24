@@ -49,23 +49,21 @@ namespace com_cell
 		int count = 0;
 		vector<string> lines;
         
-        for(int index=0, i=0; i<str.length(); i++)
+        for (int i=0; i<str.length(); i++)
         {
 			if (count < limit) 
-			{
-				i = str.find(separator, index);
+			{				
+				int dst = str.find(separator, i);
 				
-				if(i != string::npos)
-				{
-					const string &line = str.substr(index, i-index);
-					lines.push_back(line);
-					index = i + 1;
-					continue;
+				if (dst != string::npos)
+				{					
+					lines.push_back(subString(str, i, dst));
+					i = dst + separator.length() - 1;
+					count ++;
 				}
 				else
 				{
-					const string &line = str.substr(index, str.length()-index);
-					lines.push_back(line);
+					lines.push_back(subString(str, i, str.length()));
 					break;
 				}
 			}
@@ -79,6 +77,21 @@ namespace com_cell
 		return lines;
 	}
 	
+//	if (count < limit) {
+//		int dst = text.indexOf(separator, i);
+//		if (dst >= 0) {
+//			lines.addElement(text.substring(i, dst));
+//			i = dst + separator.length() - 1;
+//			count ++;
+//		} else {
+//			lines.addElement(text.substring(i, text.length()));
+//			break;
+//		}
+//	} else {
+//		lines.addElement(text.substring(i, text.length()));
+//		break;
+//	}
+
 	
 	string stringReplace(string const &str,
 						 string const &target,

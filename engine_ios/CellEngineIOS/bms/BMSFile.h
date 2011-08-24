@@ -375,7 +375,7 @@ namespace com_cell_bms
 		std::list<Note*>	getAllNoteList() ;	
 		
 		// 
-		double timeToPosition(float deta_time_ms, float bpm);
+		double timeToPosition(double deta_time_ms, double bpm);
 		
 		// 
 		double barToPosition(int line, float npos, float ncount);

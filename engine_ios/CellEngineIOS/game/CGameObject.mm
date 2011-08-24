@@ -325,7 +325,7 @@ namespace com_cell_game
 	{
 		SubIndex = 0;
 		SubCount = cdCount;
-		Frames.resize(cdCount);
+//		Frames.resize(cdCount);
 		cds.resize(cdCount);
 	}
 	
@@ -347,8 +347,8 @@ namespace com_cell_game
 		}		
 		cds[SubIndex] = cd;
 		fixArea(cd.X1, cd.Y1, cd.X2, cd.Y2);
-		Frames[SubIndex] = vector<int>(1);
-		Frames[SubIndex].push_back(SubIndex);
+//		Frames[SubIndex] = vector<int>(1);
+//		Frames[SubIndex].push_back(SubIndex);
 		SubIndex++;
 	}
 	
@@ -472,7 +472,7 @@ namespace com_cell_game
 		SX		.resize(partCount);
 		SY		.resize(partCount);
 		
-		Frames	.resize(partCount);
+//		Frames	.resize(partCount);
 	}
 	
 	void CAnimates::addPart(int px, int py, int tileid, char trans) 
@@ -508,8 +508,8 @@ namespace com_cell_game
 				SX[SubIndex] + SW[SubIndex],
 				SY[SubIndex] + SH[SubIndex]);
 		
-		Frames[SubIndex] = vector<int>(1);
-		Frames[SubIndex].push_back(SubIndex);
+//		Frames[SubIndex] = vector<int>(1);
+//		Frames[SubIndex].push_back(SubIndex);
 		SubIndex++;
 		
 	}

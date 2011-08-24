@@ -76,7 +76,7 @@ namespace com_cell_bms
 		double					m_play_stop_time;
 		double					m_play_pre_beat_position;
 		int						m_play_beat_count;
-		double					m_play_pre_record_time;
+//		double					m_play_pre_record_time;
 		bool					m_is_running;
 		
 		Image*					m_play_bg_image;
@@ -95,7 +95,7 @@ namespace com_cell_bms
 		
 		~BMSPlayer() ;	
 		
-		BMSFile* getBMSFile();		
+		BMSFile*		getBMSFile();		
 		
 		void			setListener(BMSPlayerListener *listener) ;
 		
@@ -107,7 +107,7 @@ namespace com_cell_bms
 		
 		void			stop() ;	
 		
-		void			update();
+		void			update(double deta_time);
 		
 		bool			isRunning();
 		
@@ -118,6 +118,12 @@ namespace com_cell_bms
 		void			getPlayKeyTracks(float length, std::vector<Note*> &out_list);
 		
 		double			getPlayPosition();
+		
+		/**得到此位置之后最近的一条线(小节)的位置*/
+		double			getNextLinePosition(double pos);
+		
+		/**得到此位置之前最近的一条线(小节)的位置*/
+		double			getPrewLinePosition(double pos);
 		
 		Image*			getPlayBGImage() ;		
 		

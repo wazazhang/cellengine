@@ -112,8 +112,9 @@ namespace com_cell
 	{
 		
 		// get fps
-		interval_ms = com_cell::getCurrentTime() - last_update_time_ms;
-		last_update_time_ms = com_cell::getCurrentTime();
+		double curtime = com_cell::getCurrentTime();
+		interval_ms = curtime - last_update_time_ms;
+		last_update_time_ms = curtime;
 		m_fps = 1 / interval_ms;
         
 		// get screen size

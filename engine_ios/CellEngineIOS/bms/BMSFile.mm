@@ -19,7 +19,7 @@ namespace com_cell_bms
 	// Gobal 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	float G_LINE_SPLIT_DIV = 256;
+	float G_LINE_SPLIT_DIV = 512.0;
 
 	void setLineSplitDIV(float div)
 	{
@@ -579,7 +579,7 @@ namespace com_cell_bms
 	
 
 	
-	double BMSFile::timeToPosition(float deta_time_ms, float bpm)
+	double BMSFile::timeToPosition(double deta_time_ms, double bpm)
 	{
 		float	deta_min = (deta_time_ms/60000);
 		return deta_min * bpm * m_beat_div;
