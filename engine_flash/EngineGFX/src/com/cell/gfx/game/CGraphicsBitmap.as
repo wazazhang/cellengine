@@ -30,36 +30,36 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-			buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
-			
 //			if (transform == Transform.TRANS_NONE) 
 //			{
-////				this.dst_point.x = x;
-////				this.dst_point.y = y;
-////				
-////				this.src_rect.x = 0;
-////				this.src_rect.y = 0;
-////				this.src_rect.width = w;
-////				this.src_rect.height = h;
-////				
-////				this.dst_rect.x = -x;
-////				this.dst_rect.y = -y;
-////				var ins_rect : Rectangle = src_rect.intersection(dst_rect);
+//				this.dst_point.x = x;
+//				this.dst_point.y = y;
+//				
+//				this.src_rect.x = 0;
+//				this.src_rect.y = 0;
+//				this.src_rect.width = w;
+//				this.src_rect.height = h;
+//				
+//				this.dst_rect.x = -x;
+//				this.dst_rect.y = -y;
+//				var ins_rect : Rectangle = src_rect.intersection(dst_rect);
 ////				trace("=======================================");
 ////				trace("src rect " + src_rect);
 ////				trace("dst rect " + dst_rect);
 ////				trace("ins rect " + ins_rect);
-////				if (ins_rect.width > 0) {
-//////					buff.copyPixels(img.src, ins_rect, dst_point, null, null ,true);
-//////					buff.copyPixels(img.src, src_rect, dst_point, null, null ,true);
-//////					buff.fillRect(new Rectangle(x+1, y+1, w-2, h-2), 0xffff0000);
-////				}
-//				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
+//				if (ins_rect.width > 0) {
+//					buff.copyPixels(img.src, src_rect, dst_point, null, null ,true);
+//				}
 //			}
 //			else 
-//			{
-//				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, null, false);
-//			}
+			{
+				this.dst_rect.x = x;
+				this.dst_rect.y = y;			
+				this.dst_rect.width = w;
+				this.dst_rect.height = h;
+				
+				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, dst_rect, false);
+			}
 		}
 		
 		/**

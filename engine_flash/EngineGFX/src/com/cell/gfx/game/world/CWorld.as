@@ -18,53 +18,66 @@ package com.cell.gfx.game.world
 	 */
 	public class CWorld extends Bitmap
 	{	
-		protected var 	cg				: IGraphics;
-		protected var 	camera			: CWorldCamera;
+		private var _cg				: IGraphics;
+		private var _camera			: CWorldCamera;
 		
-		protected var	sprites			: Vector.<CWorldSprite> 		= new Vector.<CWorldSprite>();
+		private var	_sprites		: Vector.<CWorldSprite> 		= new Vector.<CWorldSprite>();
 		
 		
 		public function CWorld(viewWidth:int, viewHeight:int)
 		{		
 			super(new BitmapData(viewWidth, viewHeight, false));
-			this.camera		= new CWorldCamera(viewWidth, viewHeight);
-			this.cg			= new CGraphicsBitmap(bitmapData);
+			this._camera		= new CWorldCamera(viewWidth, viewHeight);
+			this._cg			= new CGraphicsBitmap(bitmapData);
 		}
 		
 //		------------------------------------------------------------------------------------------------------
 		
+		public function get cg() : IGraphics
+		{
+			return _cg;
+		}
+		
+		public function get camera() : CWorldCamera
+		{
+			return _camera;
+		}
+
+		
+//		------------------------------------------------------------------------------------------------------
+		
 		public function getCamera() : CWorldCamera {
-			return camera;
+			return _camera;
 		}
 		
 		public function getCameraX() : Number
 		{
-			return this.camera.x;
+			return this._camera.x;
 		}
 		
 		public function getCameraY() : Number
 		{
-			return this.camera.y;
+			return this._camera.y;
 		}
 		
 		public function getCameraWidth()  : Number
 		{
-			return this.camera.w;
+			return this._camera.w;
 		}
 		
 		public function getCameraHeight() : Number
 		{
-			return this.camera.h;
+			return this._camera.h;
 		}
 		
 		public function locateCamera(x:Number, y:Number) : void 
 		{
-			camera.setPos(x, y);
+			_camera.setPos(x, y);
 		}
 		
 		public function moveCamera(dx:Number, dy:Number) : void 
 		{
-			camera.move(dx, dy);
+			_camera.move(dx, dy);
 		}
 		
 //		------------------------------------------------------------------------------------------------------
@@ -104,16 +117,31 @@ package com.cell.gfx.game.world
 		
 //		------------------------------------------------------------------------------------------------------
 		
-		public function update() : void
+		final public function update() : void
 		{
-			for each (var spr : CWorldSprite in sprites) {
+			for each (var spr : CWorldSprite in _sprites) {
 				spr.update();
+			}
+			onUpdate();
+		}
+		
+		final public function render() : void
+		{
+			bitmapData.lock();
+			try {
+				renderSprites(_cg, _sprites);
+				onRender(cg);
+			} finally {
+				bitmapData.unlock();
 			}
 		}
 		
-		public function render() : void
-		{
-			renderSprites(cg, sprites);
+		protected function onUpdate() : void {
+			
+		}
+		
+		protected function onRender(cg:IGraphics) : void {
+			
 		}
 		
 //		------------------------------------------------------------------------------------------------------
@@ -122,8 +150,8 @@ package com.cell.gfx.game.world
 		public function addSprite(spr:CWorldSprite) : Boolean 
 		{
 			if (spr._parent == null) {
-				if (this.sprites.indexOf(spr)<0) {
-					this.sprites.push(spr);
+				if (this._sprites.indexOf(spr)<0) {
+					this._sprites.push(spr);
 					spr._parent = this;
 					return true;
 				}
@@ -134,9 +162,9 @@ package com.cell.gfx.game.world
 		public function removeSprite(spr:CWorldSprite) : Boolean 
 		{
 			if (spr._parent == this) {
-				var index : int = sprites.indexOf(spr);
+				var index : int = _sprites.indexOf(spr);
 				if (index >= 0) {
-					this.sprites.splice(index, 1);
+					this._sprites.splice(index, 1);
 					spr._parent = null;
 					return true;
 				}
@@ -147,8 +175,8 @@ package com.cell.gfx.game.world
 		public function removeAllSprite() : int
 		{
 			var count : int = 0;
-			while (sprites.length > 0) {
-				var spr : CWorldSprite = sprites.pop();
+			while (_sprites.length > 0) {
+				var spr : CWorldSprite = _sprites.pop();
 				if (removeSprite(spr)) {
 					count ++;
 				}
@@ -157,15 +185,15 @@ package com.cell.gfx.game.world
 		}
 		
 		public function getSprite(index:int) : CWorldSprite {
-			return sprites[index];
+			return _sprites[index];
 		}
 		
 		public function getSpriteCount() : int {
-			return sprites.length;
+			return _sprites.length;
 		}
 		
 		public function getSpriteIndex(spr:CWorldSprite) : int {
-			return sprites.indexOf(spr);
+			return _sprites.indexOf(spr);
 		}
 		
 		
