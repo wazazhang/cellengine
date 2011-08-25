@@ -119,14 +119,8 @@ package com.cell.gfx.game.world
 		
 		final public function update() : void
 		{
-			var	copylist : Vector.<CWorldSprite> = new Vector.<CWorldSprite>(_sprites.length);
-			
 			for each (var o : CWorldSprite in _sprites) {
-				copylist.push(o);
-			}
-
-			for each (var spr : CWorldSprite in copylist) {
-				spr.update();
+				o.update();
 			}
 			onUpdate();
 		}
