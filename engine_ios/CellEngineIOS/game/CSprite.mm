@@ -219,6 +219,10 @@ namespace com_cell_game
 		IsDebug			= false;
 	}
 	
+	CSpriteMeta* CSprite::getMeta()
+	{
+		return meta;
+	}
 	
 	int CSprite::getCurrentFrame() {
 		return CurFrame;

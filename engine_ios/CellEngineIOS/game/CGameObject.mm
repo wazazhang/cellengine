@@ -19,8 +19,9 @@ namespace com_cell_game
 	// Tiles
 	//------------------------------------------------------------------------------------------------
 	
-	void CTiles::transform(Graphics2D &g, int width, int height, int Trans)
+	void CTiles::transform(Graphics2D &g, float x, float y, float width, float height, int Trans)
 	{
+		g.translate(x, y);
 		switch (Trans) 
 		{
 			case TRANS_ROT90: {

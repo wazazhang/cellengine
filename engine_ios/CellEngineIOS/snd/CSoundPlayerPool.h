@@ -41,6 +41,8 @@ namespace com_cell
 		SoundPlayer*	getImmediatePlayer(bool &out_is_cut_another);
 		
 		int				getFreePlayerCount();
+		
+		bool			isAllFree();
     };    
 	
 }; // namespcace 

@@ -78,7 +78,94 @@ namespace com_cell_bms
 	 
 	 */
 	////////////////////////////////////////////////////////////////////////////////
-	
+	/*
+	 //    01 = BG NOTE 
+	 //
+	 //    03 = 0~255（0h~FFh） BPM 
+	 //
+	 //    04 = BGA   Image Index
+	 //    06 = POOR  Image Index 
+	 //    07 = Layer Image Index
+	 //
+	 //    08 = BPM index ,decimal BPM or big than 255 BPM （index of #BPMXX define）
+	 //    09 = STOP Time （index of #STOPXX）
+	 //
+	 //    11 = 1P KEY 1
+	 //    12 = 1P KEY 2
+	 //    13 = 1P KEY 3
+	 //    14 = 1P KEY 4
+	 //    15 = 1P KEY 5
+	 //    16 = 1P KEY SC
+	 //    18 = 1P KEY 6
+	 //    19 = 1P KEY 7
+	 //
+	 //    21 = 2P KEY 1
+	 //    22 = 2P KEY 2
+	 //    23 = 2P KEY 3
+	 //    24 = 2P KEY 4
+	 //    25 = 2P KEY 5
+	 //    26 = 2P KEY SC
+	 //    28 = 2P KEY 6
+	 //    29 = 2P KEY 7
+	 //
+	 //    51 = 1P LONG KEY 1
+	 //    52 = 1P LONG KEY 2
+	 //    53 = 1P LONG KEY 3
+	 //    54 = 1P LONG KEY 4
+	 //    55 = 1P LONG KEY 5
+	 //    56 = 1P LONG KEY SC
+	 //    58 = 1P LONG KEY 6
+	 //    59 = 1P LONG KEY 7
+	 //
+	 //    61 = 2P LONG KEY 1
+	 //    62 = 2P LONG KEY 2
+	 //    63 = 2P LONG KEY 3
+	 //    64 = 2P LONG KEY 4
+	 //    65 = 2P LONG KEY 5
+	 //    66 = 2P LONG KEY SC
+	 //    68 = 2P LONG KEY 6
+	 //    69 = 2P LONG KEY 7
+	 
+	 //    *---------------------- HEADER FIELD
+	 //
+	 //    #PLAYER 2
+	 //    #GENRE 123
+	 //    #TITLE 123
+	 //    #ARTIST 123
+	 //    #BPM 120
+	 //    #PLAYLEVEL 1
+	 //    #RANK 3
+	 //    #TOTAL 123
+	 //    #VOLWAV 123
+	 //    #STAGEFILE 123
+	 //
+	 //    #WAV01 Ba_b_4.wav
+	 //    #WAV02 Ba_b_8.wav
+	 //    #WAV03 Ba_c#_4.wav
+	 //
+	 //    #BMP00 123
+	 //    #BMP01 back.bmp
+	 //    #BMP02 end01.bmp
+	 //    #BMP03 Fade01.bmp
+	 //
+	 //
+	 //    #BPM01 256
+	 //
+	 //    #STOP01 123
+	 //
+	 //
+	 //
+	 //
+	 //    *---------------------- MAIN DATA FIELD
+	 //
+	 //    #00008:0001
+	 //    #00009:00010000
+	 //    #00022:00010000
+	 //    #00061:01
+	 //
+	 //    #00161:01
+
+	 */
 	/** 
 	 * 设置将每小节分割为多少份来处理	
 	 * 将每BEAT分割为多少份来处理 (4 BEAT = 1 LINE)

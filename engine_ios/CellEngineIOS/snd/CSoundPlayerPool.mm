@@ -124,6 +124,19 @@ namespace com_cell
 		return ret;
 	}
 
+	bool SoundPlayerPool::isAllFree()
+	{
+		for (std::vector<SoundPlayer*>::iterator it=m_list_playing.begin(); 
+			 it!=m_list_playing.end(); ++it) {
+			SoundPlayer* p = (*it);
+			if (p->isPlaying()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 	
 }; // namespcace 
 

@@ -18,7 +18,9 @@ namespace com_cell_bms
 		m_listener				= NULL;
 		m_is_auto_play			= false;		
 		m_play_drop_length		= m_pBmsFile->getBeatDiv();
+		m_hit_range				= m_pBmsFile->getBeatDiv();
 		m_source_pool			= new SoundPlayerPool(max_sound);
+		m_is_mute_bgm			= false;
 	}
 	
 	BMSPlayer::~BMSPlayer()
@@ -32,6 +34,8 @@ namespace com_cell_bms
 		return m_pBmsFile;
 	}
 	
+//	----------------------------------------------------------------------------------------
+
 	void BMSPlayer::setListener(BMSPlayerListener *listener) 
 	{
 		m_listener = listener;
@@ -42,6 +46,23 @@ namespace com_cell_bms
 		m_play_drop_length = len;
 	}
 	
+	float BMSPlayer::getDropLength()
+	{
+		return m_play_drop_length;
+	}
+	
+	void BMSPlayer::setHitRange(float range) 
+	{
+		m_hit_range = range;
+	}
+	
+	float BMSPlayer::getHitRange() 
+	{
+		return m_hit_range;
+	}
+
+//	----------------------------------------------------------------------------------------
+
 	void BMSPlayer::start()
 	{
 		m_play_tracks				= m_pBmsFile->getAllNoteList();
@@ -56,7 +77,6 @@ namespace com_cell_bms
 		m_play_bg_image				= NULL;
 		m_play_poor_image			= NULL;
 		m_play_layer_image			= NULL;
-
 	}
 	
 	void BMSPlayer::stop() 
@@ -73,6 +93,16 @@ namespace com_cell_bms
 	{
 		return m_is_running;
 	}
+	
+	bool BMSPlayer::isEnd()
+	{
+		if (m_play_tracks.size() <= 0) {
+			return m_source_pool->isAllFree();
+		}
+		return false;
+	}
+	
+	//	----------------------------------------------------------------------------------------
 	
 	void BMSPlayer::update(double deta_time)
 	{
@@ -96,60 +126,43 @@ namespace com_cell_bms
 //            else
 //				itList++;
 //		}
+					
+		for (std::list<Note*>::iterator it=m_play_tracks.begin(); it!=m_play_tracks.end(); ) 
 		{
-//			std::deque<std::deque<Note*>::iterator> removed;
+			Note* note = (*it);
 			
-			for (std::list<Note*>::iterator it=m_play_tracks.begin(); it!=m_play_tracks.end(); ) 
-			{
-				Note* note = (*it);
-				
-				// 如果该音符过丢弃线
-				if (note->getBeginPosition() <= m_play_position - m_play_drop_length) {
+			// 如果该音符过丢弃线
+			if (note->getBeginPosition() <= m_play_position - m_play_drop_length) {
+				m_play_removed.push_back(note);
+				it = m_play_tracks.erase(it);
+				onDropedNote(note);
+				continue;
+			}
+			// 如果该音符过线
+			else if (note->getBeginPosition() <= m_play_position) {
+				if (processSystemNote(note)) {
+					// 如果是系统命令，则立即处理
 					m_play_removed.push_back(note);
 					it = m_play_tracks.erase(it);
-					onDropedNote(note);
 					continue;
 				}
-				// 如果该音符过线
-				else if (note->getBeginPosition() <= m_play_position) {
-					if (processSystemNote(note)) {
-						// 如果是系统命令，则立即处理
-						m_play_removed.push_back(note);
-						it = m_play_tracks.erase(it);
-						continue;
-					}
-					// 如果自动演奏，则提供一个命令
-					else if (m_is_auto_play && processAutoHit(note)) {
-						// 如果是按键命令，则立即处理
-						m_play_removed.push_back(note);
-						it = m_play_tracks.erase(it);
-						continue;
-					}
-					else {
-						++it;
-					}
+				// 如果自动演奏，则提供一个命令
+				else if (processAutoHit(note)) {
+					// 如果是按键命令，则立即处理
+					m_play_removed.push_back(note);
+					it = m_play_tracks.erase(it);
+					continue;
 				}
-				// 未到线的音符
 				else {
-					break;
+					++it;
 				}
 			}
-			
-//			for (std::deque<std::deque<Note*>::iterator>::iterator it=removed.begin(); 
-//				 it!=removed.end(); ++it) 
-//			{
-//				std::deque<Note*>::iterator sit = (*it);
-//				m_play_removed.push_back((*sit));
-//			}
-//			
-//			if (removed.size()>0)
-//			{
-//				std::deque<Note*>::iterator first = *(removed.begin());
-//				std::deque<Note*>::iterator last = *(removed.end());
-//				m_play_tracks.erase(first, last);
-//			}
-
+			// 未到线的音符
+			else {
+				break;
+			}
 		}
+			
 		
 		double deta_position = m_pBmsFile->timeToPosition(deta_time, m_play_bpm);
 		if (m_play_stop_time>0) {
@@ -171,7 +184,66 @@ namespace com_cell_bms
 //		NSLog(@"update interval : %lf - %lf - %lf - %lf", deta_time, deta_position, line_pos_offset, pos);
 	}
 	
-	//	-------------------------------------------------------------------------------------------------
+	bool BMSPlayer::hit(int track, HitInfo &out_info)
+	{
+		for (std::list<Note*>::iterator it=m_play_tracks.begin(); it!=m_play_tracks.end(); ++it) 
+		{
+			Note* note = (*it);
+			if (note->getBeginPosition() > m_play_position + m_hit_range) {
+				break;
+			}
+			if (note->getTrack() == track) {
+				float offset = m_play_position - note->getBeginPosition();
+				if (ABS(offset) <= m_hit_range) {
+					printf("note=%lf pos=%lf off=%lf \n", 
+						   note->getBeginPosition(),
+						   m_play_position,
+						   offset);
+					m_play_removed.push_back(note);
+					it = m_play_tracks.erase(it);
+					IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
+															   getDefineResource());
+					onPlaySound(note, define_snd->getSound());
+					out_info.hit_note = note;
+					out_info.hit_deta = offset;
+					if (m_listener!=NULL) {
+						m_listener->onHit(out_info);
+					}
+					return true;
+				}
+ 			}
+		}
+		return false;
+	}
+	
+	bool BMSPlayer::hit(Note* note, HitInfo &out_info)
+	{
+		for (std::list<Note*>::iterator it=m_play_tracks.begin(); it!=m_play_tracks.end(); ++it) 
+		{
+			if (note == (*it))
+			{
+				float offset = m_play_position - note->getBeginPosition();
+				if (ABS(offset) <= m_hit_range) {
+					m_play_removed.push_back(note);
+					it = m_play_tracks.erase(it);
+					IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
+															   getDefineResource());
+					onPlaySound(note, define_snd->getSound());
+					out_info.hit_note = note;
+					out_info.hit_deta = offset;
+					if (m_listener!=NULL) {
+						m_listener->onHit(out_info);
+					}
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	
+//	-------------------------------------------------------------------------------------------------
 	
 	bool BMSPlayer::processSystemNote(Note *note) 
 	{
@@ -223,9 +295,11 @@ namespace com_cell_bms
 			// play sound
 			else if (stringEquals(note->getCommand(), CMD_INDEX_WAV_BG)) 
 			{
-				IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
-														getDefineResource());
-				onPlaySound(note, define_snd->getSound());
+				if (!m_is_mute_bgm) {
+					IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
+															   getDefineResource());
+					onPlaySound(note, define_snd->getSound());
+				}
 			}
 			else
 			{
@@ -238,12 +312,19 @@ namespace com_cell_bms
 	
 	bool BMSPlayer::processAutoHit(Note *note) 
 	{
+		if (!m_is_auto_play) {
+			if (!isAutoPlayTrack(note->getTrack())) {
+				return false;
+			}
+		}
 		if (stringEquals(note->getCommand(), CMD_INDEX_WAV_KEY_1P_) ||
 			stringEquals(note->getCommand(), CMD_INDEX_WAV_KEY_2P_)) 
 		{
-			IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
-													   getDefineResource());
-			onPlaySound(note, define_snd->getSound());
+			if (!m_is_mute_bgm) {
+				IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
+														   getDefineResource());
+				onPlaySound(note, define_snd->getSound());
+			}
 			if (m_listener != NULL) {
 				m_listener->onAutoHit(note);
 			}
@@ -251,6 +332,8 @@ namespace com_cell_bms
 		}
 		return false;
 	}
+	
+//	----------------------------------------------------------------------------------------------------
 	
 	void BMSPlayer::onPlaySound(Note *note, Sound* sound)
 	{
@@ -266,7 +349,7 @@ namespace com_cell_bms
 		}
 	}
 	
-	//	-------------------------------------------------------------------------------------------------
+//	-------------------------------------------------------------------------------------------------
 	
 	void BMSPlayer::onDropedNote(Note *note)
 	{
@@ -283,7 +366,7 @@ namespace com_cell_bms
 	}
 	
 	
-	//	-------------------------------------------------------------------------------------------------
+//	-------------------------------------------------------------------------------------------------
 	
 	void BMSPlayer::getPlayTracks(float length, std::vector<Note*> &out_list)
 	{
@@ -321,6 +404,30 @@ namespace com_cell_bms
 	}
 	
 	
+	
+	//	----------------------------------------------------------------------------------------
+	
+	
+	void BMSPlayer::setAutoPlayTrack(int track, bool v)
+	{
+		m_auto_play_track_map[track] = v;
+	}
+	
+	void BMSPlayer::setAutoPlay(bool v)
+	{
+		m_is_auto_play = v;
+	}
+	
+	bool BMSPlayer::isAutoPlayTrack(int track)
+	{
+		map<int, bool>::const_iterator it = m_auto_play_track_map.find(track);
+		if (it != m_auto_play_track_map.end()) {
+			return it->second;
+		}
+		return false;
+	}
+	
+	//	----------------------------------------------------------------------------------------
 	
 	double BMSPlayer::getPlayPosition() 
 	{
@@ -361,6 +468,14 @@ namespace com_cell_bms
 		return false;
 	}
 	
-	
+	float BMSPlayer::getDropNoteDisappear(Note* note)
+	{		
+		double nlen = m_play_position - note->getBeginPosition();
+		
+		double tlen = MAX(m_play_drop_length - nlen, 0);
+		
+		return (float)MIN(1, tlen / m_play_drop_length);
+	}
+
 	
 }; // namespcace 

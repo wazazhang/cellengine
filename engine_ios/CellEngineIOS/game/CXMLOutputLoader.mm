@@ -554,8 +554,8 @@ namespace com_cell_game
 		if (img != NULL) {
 			if (Trans != TRANS_NONE) {
 				g.pushTransform();
-				transform(g, img->getWidth(), img->getHeight(), Trans);
-				g.drawImage(img, PosX, PosY);
+				transform(g, PosX, PosY, img->getWidth(), img->getHeight(), Trans);
+				g.drawImage(img, 0, 0);
 				g.popTransform();
 			} else {
 				g.drawImage(img, PosX, PosY);

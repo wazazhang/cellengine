@@ -64,7 +64,7 @@ namespace com_cell_game
 		
 	protected:
 		
-		void transform(Graphics2D &g, int width, int height, int Trans);
+		void transform(Graphics2D &g, float x, float y, float width, float height, int Trans);
 		
 	}; // class CTiles
 	
