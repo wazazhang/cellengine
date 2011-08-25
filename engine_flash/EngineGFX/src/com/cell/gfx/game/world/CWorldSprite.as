@@ -16,7 +16,7 @@ package com.cell.gfx.game.world
 			super.init2(spr);
 		}
 		
-		public function get parent() : CWorld
+		public function get world() : CWorld
 		{
 			return _parent;
 		}

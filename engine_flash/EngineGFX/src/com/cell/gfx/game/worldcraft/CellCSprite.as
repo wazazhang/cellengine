@@ -47,10 +47,10 @@ package com.cell.gfx.game.worldcraft
 		{	
 			onUpdate();
 			
-			if (old_anim  != _spr.getCurrentAnimate() || 
-				old_frame != _spr.getCurrentFrame()){
+//			if (old_anim  != _spr.getCurrentAnimate() || 
+//				old_frame != _spr.getCurrentFrame()){
 				repaint();
-			}
+//			}
 			old_anim  = _spr.getCurrentAnimate();
 			old_frame : _spr.getCurrentFrame();
 		}
@@ -58,7 +58,7 @@ package com.cell.gfx.game.worldcraft
 		public function repaint() : void
 		{
 			graphics.clear();
-			spr.render(cg, 0, 0, spr.getCurrentAnimate(), spr.getCurrentFrame());
+			render(_cg, 0, 0, spr.getCurrentAnimate(), spr.getCurrentFrame());
 			graphics.moveTo( 0, 0);
 //			if (DEBUG) {
 //				graphics.lineStyle(1, 0xffff0000, 1);
@@ -70,9 +70,13 @@ package com.cell.gfx.game.worldcraft
 //			}
 		}
 		
+		public function render(g:IGraphics, x:int, y:int, anim:int, frame:int) : void 
+		{
+			spr.render(g, 0, 0, anim, frame);
+		}
+
 		public function imagesLoaded(e:ResourceEvent) : void
 		{
-			//			trace(e.type + " : " + e.images_set.Name);
 			repaint();
 		}
 		
