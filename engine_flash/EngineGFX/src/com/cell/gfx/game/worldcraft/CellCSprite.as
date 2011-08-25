@@ -12,16 +12,18 @@ package com.cell.gfx.game.worldcraft
 
 	public class CellCSprite extends CellUnit implements IImageObserver
 	{
+		public static var DEBUG : Boolean = false;
+		
 		private var _spr		: CSprite;
 		private var _cg		: IGraphics;
 		private var old_anim : int = 0;
 		private var old_frame : int = 0;
-		
+		private var _repaint	: Boolean;
 		
 		public function CellCSprite(spr:CSprite)
 		{
 			this._cg = new CGraphicsDisplay(graphics);			
-			this._spr = spr;
+			this._spr = spr.copy();
 			this.repaint();
 			this.spr.getAnimates().getImages().addImageObserver(this);
 			this.mouseEnabled = false;
@@ -43,36 +45,44 @@ package com.cell.gfx.game.worldcraft
 			return _cg;
 		}
 		
-		internal override function update(world:CellWorld) : void 
+		public function repaint() : void
+		{
+			_repaint = true;
+		}
+		
+		internal override function updateIn(world:CellWorld) : void 
 		{	
 			onUpdate();
 			
-//			if (old_anim  != _spr.getCurrentAnimate() || 
-//				old_frame != _spr.getCurrentFrame()){
-				repaint();
-//			}
-			old_anim  = _spr.getCurrentAnimate();
-			old_frame : _spr.getCurrentFrame();
 		}
 
-		public function repaint() : void
+		internal override function renderIn() : void 
 		{
-			graphics.clear();
-			render(_cg, 0, 0, spr.getCurrentAnimate(), spr.getCurrentFrame());
-			graphics.moveTo( 0, 0);
-//			if (DEBUG) {
-//				graphics.lineStyle(1, 0xffff0000, 1);
-//				graphics.lineTo(-8, 0); graphics.moveTo( 0, 0);
-//				graphics.lineTo( 8, 0); graphics.moveTo( 0, 0);
-//				graphics.lineTo( 0,-8); graphics.moveTo( 0, 0);
-//				graphics.lineTo( 0, 8); graphics.moveTo( 0, 0);
-//				graphics.endFill();
-//			}
+			if (_repaint || 
+				old_anim  != _spr.getCurrentAnimate() || 
+				old_frame != _spr.getCurrentFrame()) 
+			{
+				graphics.clear();
+				render(_cg, 0, 0, _spr.getCurrentAnimate(), _spr.getCurrentFrame());
+				graphics.moveTo( 0, 0);
+				if (DEBUG) {
+					graphics.lineStyle(1, 0xffff0000, 1);
+					graphics.lineTo(-8, 0); graphics.moveTo( 0, 0);
+					graphics.lineTo( 8, 0); graphics.moveTo( 0, 0);
+					graphics.lineTo( 0,-8); graphics.moveTo( 0, 0);
+					graphics.lineTo( 0, 8); graphics.moveTo( 0, 0);
+					graphics.endFill();
+				}
+//				trace("repaint "+ this);
+			}				
+			_repaint 	= false;
+			old_anim  	= _spr.getCurrentAnimate();
+			old_frame 	= _spr.getCurrentFrame();
 		}
-		
+
 		public function render(g:IGraphics, x:int, y:int, anim:int, frame:int) : void 
 		{
-			spr.render(g, 0, 0, anim, frame);
+			spr.render(g, x, y, anim, frame);
 		}
 
 		public function imagesLoaded(e:ResourceEvent) : void

@@ -13,23 +13,28 @@ package com.cell.gfx.game.worldcraft
 	
 		}
 		
+//		--------------------------------------------------------------------------------------------------------
+		
 		public function get world() : CellWorld
 		{
 			return parent as CellWorld;
 		}
 		
-//		--------------------------------------------------------------------------------------------------------
 		
-		
-		internal function update(world:CellWorld) : void {
+		internal function updateIn(world:CellWorld) : void {
 			onUpdate();
 		}
 		
+		internal function renderIn() : void {
+
+		}
+
 		/**
 		 * 每帧调用一次
 		 */
 		protected function onUpdate() : void {}
-		
+
+
 //		--------------------------------------------------------------------------------------------------------
 		
 		public function move(dx:Number, dy:Number) : void {

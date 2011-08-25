@@ -27,7 +27,6 @@
     <classEntry path="com.cell.bms.file.IDefineResourceManager"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellCSprite"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellWorld"/>
-    <classEntry path="com.cell.gfx.game.worldcraft.CellUnit"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellWorldCamera"/>
   </includeClasses>
   <includeResources/>

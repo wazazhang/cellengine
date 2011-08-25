@@ -1,6 +1,8 @@
 package com.cell.gfx.game.worldcraft
 {
+	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CWorldCamera;
+	import com.cell.gfx.game.IGraphics;
 	import com.cell.util.CMath;
 	
 	import flash.display.DisplayObject;
@@ -11,13 +13,16 @@ package com.cell.gfx.game.worldcraft
 	{
 		private var cur_time	: int = 0;
 		private var _camera		: CellWorldCamera;
+		private var _cg			: CGraphicsDisplay;
 		
 		public function CellWorld(
 			viewWidth:int, 
 			viewHeight:int)
-		{		
+		{					
 			this.mouseEnabled = false;
 			this.mouseChildren = false;
+
+			this._cg 		= new CGraphicsDisplay(graphics);
 			this._camera	= new CellWorldCamera(viewWidth, viewHeight);
 			this.scrollRect = _camera.rect;
 		}
@@ -106,7 +111,7 @@ package com.cell.gfx.game.worldcraft
 			for (var i:int = 0; i<numChildren; i++) {
 				var s : DisplayObject = getChildAt(i);
 				if (s is CellUnit) {
-					(s as CellUnit).update(this);
+					(s as CellUnit).updateIn(this);
 				}
 			}
 			
@@ -114,10 +119,27 @@ package com.cell.gfx.game.worldcraft
 			
 			onUpdate();
 		}
-				
+		
+		final public function render() : void
+		{
+			for (var i:int = 0; i<numChildren; i++) {
+				var s : DisplayObject = getChildAt(i);
+				if (s is CellUnit) {
+					(s as CellUnit).renderIn();
+				}
+			}
+			onRender(_cg);
+		}
+	
 		protected function onUpdate() : void {
 			
 		}
+		
+		protected function onRender(cg:IGraphics) : void {
+			
+		}
+		
+
 		
 		//		------------------------------------------------------------------------------------------------------
 		
