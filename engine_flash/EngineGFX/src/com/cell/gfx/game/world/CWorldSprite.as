@@ -21,7 +21,12 @@ package com.cell.gfx.game.world
 			return _parent;
 		}
 		
-		public function update() : void 
+		internal function update() : void
+		{
+			onUpdate();
+		}
+		
+		protected function onUpdate() : void 
 		{
 			
 		}
