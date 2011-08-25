@@ -10,6 +10,8 @@ package com.cell.gfx.game.world
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.PixelSnapping;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
 	/**
@@ -18,6 +20,7 @@ package com.cell.gfx.game.world
 	 */
 	public class CWorld extends Bitmap
 	{	
+		private var _buffer			: BitmapData;
 		private var _cg				: IGraphics;
 		private var _camera			: CWorldCamera;
 		
@@ -26,9 +29,10 @@ package com.cell.gfx.game.world
 		
 		public function CWorld(viewWidth:int, viewHeight:int)
 		{		
-			super(new BitmapData(viewWidth, viewHeight, false));
+			this._buffer 		= new BitmapData(viewWidth, viewHeight, false, 0xff000000);
 			this._camera		= new CWorldCamera(viewWidth, viewHeight);
-			this._cg			= new CGraphicsBitmap(bitmapData);
+			this._cg			= new CGraphicsBitmap(_buffer);		
+			super(_buffer, PixelSnapping.NEVER, false);
 		}
 		
 //		------------------------------------------------------------------------------------------------------
@@ -127,12 +131,12 @@ package com.cell.gfx.game.world
 		
 		final public function render() : void
 		{
-			bitmapData.lock();
+			_buffer.lock();
 			try {
 				renderSprites(_cg, _sprites);
 				onRender(cg);
 			} finally {
-				bitmapData.unlock();
+				_buffer.unlock();
 			}
 		}
 		

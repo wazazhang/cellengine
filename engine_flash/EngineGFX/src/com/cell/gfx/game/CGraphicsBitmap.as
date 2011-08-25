@@ -30,28 +30,28 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-//			if (transform == Transform.TRANS_NONE) 
-//			{
-//				this.dst_point.x = x;
-//				this.dst_point.y = y;
-//				
-//				this.src_rect.x = 0;
-//				this.src_rect.y = 0;
-//				this.src_rect.width = w;
-//				this.src_rect.height = h;
-//				
-//				this.dst_rect.x = -x;
-//				this.dst_rect.y = -y;
-//				var ins_rect : Rectangle = src_rect.intersection(dst_rect);
-////				trace("=======================================");
-////				trace("src rect " + src_rect);
-////				trace("dst rect " + dst_rect);
-////				trace("ins rect " + ins_rect);
-//				if (ins_rect.width > 0) {
-//					buff.copyPixels(img.src, src_rect, dst_point, null, null ,true);
-//				}
-//			}
-//			else 
+			if (transform == Transform.TRANS_NONE) 
+			{
+				this.dst_point.x = x;
+				this.dst_point.y = y;
+				
+				this.src_rect.x = 0;
+				this.src_rect.y = 0;
+				this.src_rect.width = w + 1;
+				this.src_rect.height = h + 1;
+				
+				this.dst_rect.x = -x;
+				this.dst_rect.y = -y;
+				var ins_rect : Rectangle = src_rect.intersection(dst_rect);
+//				trace("=======================================");
+//				trace("src rect " + src_rect);
+//				trace("dst rect " + dst_rect);
+//				trace("ins rect " + ins_rect);
+				if (ins_rect.width > 0) {
+					buff.copyPixels(img.src, ins_rect, dst_point, null, null ,true);
+				}
+			}
+			else 
 			{
 				this.dst_rect.x = x;
 				this.dst_rect.y = y;			
