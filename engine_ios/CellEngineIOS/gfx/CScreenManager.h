@@ -24,10 +24,6 @@ namespace com_cell
 //  game screen manager
 	
 	
-	const int KEY_COUNT			= 2;
-	const int KEY_POINTER_1		= 0;
-	const int KEY_POINTER_2		= 1;
-	
 	class ScreenManager
 	{
 	public:
@@ -57,7 +53,7 @@ namespace com_cell
 		double				last_update_time_ms;
 		double				m_fps;
 		
-		int					HoldEventLagTime;
+//		int					HoldEventLagTime;
 		
 		Vector3D			m_accelerometer;
 		
@@ -70,22 +66,22 @@ namespace com_cell
 		IScreenFactory*		m_pScreenFactory;
 		IScreen*			m_pCurSubScreen;
 		int					m_NextScreenType;
-		
+		std::vector<void*>	m_NextScreenArgs;
 		// save key state
-		bool m_PointerState[KEY_COUNT];
-		bool m_PointerDragState[KEY_COUNT];
-		bool m_PointerDownState[KEY_COUNT];
-		bool m_PointerUpState[KEY_COUNT];
-		
-		bool m_CurPointerState[KEY_COUNT];
-		bool m_CurPointerDragState[KEY_COUNT];
-		bool m_CurPointerDownState[KEY_COUNT];
-		bool m_CurPointerUpState[KEY_COUNT];
-		
-		float m_PointerX[KEY_COUNT];
-		float m_PointerY[KEY_COUNT];
-		
-		int         m_HoldEventTimer;
+//		std::vector<bool> m_PointerStates;
+//		std::vector<bool> m_PointerDragStates;
+//		std::vector<bool> m_PointerDownStates;
+//		std::vector<bool> m_PointerUpStates;
+//		
+//		std::vector<bool> m_CurPointerStates;
+//		std::vector<bool> m_CurPointerDragStates;
+//		std::vector<bool> m_CurPointerDownStates;
+//		std::vector<bool> m_CurPointerUpStates;
+//		
+//		std::vector<bool> m_PointerXs;
+//		std::vector<bool> m_PointerYs;
+//		
+//		int         m_HoldEventTimer;
 		
 		// fade in fade out effect
 		bool		g_isTransition ;
@@ -106,6 +102,8 @@ namespace com_cell
         // methods 
 	public:
 		
+		inline bool			isTransition() {return g_isTransition;}
+		
         inline int          getWidth() {return width;}
         
         inline int          getHeight() { return height;}
@@ -118,40 +116,43 @@ namespace com_cell
         
 		inline double       getFPS(){return m_fps;}
         
-        
-        
-		bool isPointerHoldLag(int id);
+//        u32	getPointerCount();
+//        
+//		bool isPointerHoldLag(u32 pid);
+//		
+//		bool isPointerHold(u32 pid);
+//		
+//		bool isPointerDown(u32 pid) ;
+//		
+//		bool isPointerUp(u32 pid);
+//		
+//		bool isPointerDrag(u32 pid) ;
+//		
+//		float getPointerX(u32 pid);
+//		
+//		float getPointerY(u32 pid);
+//		
+//		void clearKey();
 		
-		bool isPointerHold(int id);
-		
-		bool isPointerDown(int id) ;
-		
-		bool isPointerUp(int id);
-		
-		bool isPointerDrag(int id) ;
-		
-		float getPointerX(int id);
-		
-		float getPointerY(int id);
-		
-		void clearKey();
-		
+		void changeScreen(int nextScreenType, std::vector<void*> const &args);
 		void changeScreen(int nextScreenType);
-		
 		
 		
         // system call 
 	public:
-		
         
 		// when system key pressed or pointer pressed
-		void call_PointerPressed(int id, float x, float y);
+		void call_PointerPressed(NSSet const *touches, UIView  *view);
 		
 		// when system key released or pointer released
-		void call_PointerReleased(int id, float x, float y);
+		void call_PointerReleased(NSSet const *touches, UIView  *view);
 		
 		// when system key holded or pointer moved
-		void call_PointerDragged(int id, float x, float y) ;
+		void call_PointerDragged(NSSet const *touches, UIView  *view) ;
+		
+        // accelerometer
+        void call_Accelerometer(Vector3D const &vector);
+
 		
 		// when app background with other app
 		void call_Pause();
@@ -161,20 +162,20 @@ namespace com_cell
 		
 		// update in game loop
 		void call_Update(CGRect bounds);
-		
-        // accelerometer
-        void call_Accelerometer(float x, float y, float z);
         
+		
+		
         // util
 	protected:
 		
-		void _queryKey();
+		//		void _queryKey();
+		//        u32 _addKeyPointer();
+		
 		void _tryChangeSubScreen();
 		
 		void _setTransitionIn();
 		void _setTransitionOut();
 		void _transition(Graphics2D &g);
-        
         
         
         
@@ -206,37 +207,42 @@ namespace com_cell
 		return ScreenManager::getInstance()->getFPS();
 	}
     
-	inline bool isPointerHoldLag(int id){
-		return getScreenManager()->isPointerHoldLag(id);
-	}
-    
-	inline bool isPointerHold(int id) {
-		return getScreenManager()->isPointerHold(id);
-	}
 	
-	
-	inline bool isPointerDown(int id) {
-		return getScreenManager()->isPointerDown(id);
-	}
-	
-	
-	inline bool isPointerUp(int id) {
-		return getScreenManager()->isPointerUp(id);
-	}
-	
-	
-	inline bool isPointerDrag(int id) {
-		return getScreenManager()->isPointerDrag(id);
-	}
-	
-	
-	inline float getPointerX(int id){
-		return getScreenManager()->getPointerX(id);
-	}
-	
-	inline float getPointerY(int id){
-		return getScreenManager()->getPointerY(id);
-	}
+//	inline u32 getPointerCount(){
+//		return getScreenManager()->getPointerCount();
+//	}
+//	
+//	inline bool isPointerHoldLag(u32 pid){
+//		return getScreenManager()->isPointerHoldLag(pid);
+//	}
+//    
+//	inline bool isPointerHold(u32 pid) {
+//		return getScreenManager()->isPointerHold(pid);
+//	}
+//	
+//	
+//	inline bool isPointerDown(u32 pid) {
+//		return getScreenManager()->isPointerDown(pid);
+//	}
+//	
+//	
+//	inline bool isPointerUp(u32 pid) {
+//		return getScreenManager()->isPointerUp(pid);
+//	}
+//	
+//	
+//	inline bool isPointerDrag(u32 pid) {
+//		return getScreenManager()->isPointerDrag(pid);
+//	}
+//	
+//	
+//	inline float getPointerX(u32 pid){
+//		return getScreenManager()->getPointerX(pid);
+//	}
+//	
+//	inline float getPointerY(u32 pid){
+//		return getScreenManager()->getPointerY(pid);
+//	}
 	
 	inline int getTimer()
 	{

@@ -137,6 +137,14 @@ namespace com_cell
 	}
 	
 	
+	void SoundPlayerPool::stopAllSound()
+	{
+		for (std::vector<SoundPlayer*>::iterator it=m_list_playing.begin(); 
+			 it!=m_list_playing.end(); ++it) {
+			SoundPlayer* p = (*it);
+			p->stop();
+		}
+	}
 	
 }; // namespcace 
 

@@ -381,6 +381,11 @@ namespace com_cell
 	// random and Number
 	///////////////////////////////////////////////////////////////////////////////////////
 	
+	int randomInt(int min, int max)
+	{
+		return (max==min)?max:(ABS(rand() % (max-min+1)) + min);
+	}
+	
 	int randomInt()
 	{
 		return (int)rand();

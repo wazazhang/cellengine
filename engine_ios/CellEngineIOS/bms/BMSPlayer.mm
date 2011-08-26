@@ -87,6 +87,7 @@ namespace com_cell_bms
 		m_play_bg_image				= NULL;
 		m_play_poor_image			= NULL;
 		m_play_layer_image			= NULL;
+		m_source_pool				->stopAllSound();
 	}
 	
 	bool BMSPlayer::isRunning()
@@ -193,19 +194,19 @@ namespace com_cell_bms
 				break;
 			}
 			if (note->getTrack() == track) {
-				float offset = m_play_position - note->getBeginPosition();
-				if (ABS(offset) <= m_hit_range) {
-					printf("note=%lf pos=%lf off=%lf \n", 
-						   note->getBeginPosition(),
-						   m_play_position,
-						   offset);
+				float offset = ABS(m_play_position - note->getBeginPosition());
+				if (offset <= m_hit_range) {
+//					printf("note=%lf pos=%lf off=%lf \n", 
+//						   note->getBeginPosition(),
+//						   m_play_position,
+//						   offset);
 					m_play_removed.push_back(note);
 					it = m_play_tracks.erase(it);
 					IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
 															   getDefineResource());
 					onPlaySound(note, define_snd->getSound());
 					out_info.hit_note = note;
-					out_info.hit_deta = offset;
+					out_info.hit_precision = offset / m_hit_range;
 					if (m_listener!=NULL) {
 						m_listener->onHit(out_info);
 					}
@@ -222,15 +223,15 @@ namespace com_cell_bms
 		{
 			if (note == (*it))
 			{
-				float offset = m_play_position - note->getBeginPosition();
-				if (ABS(offset) <= m_hit_range) {
+				float offset = ABS(m_play_position - note->getBeginPosition());
+				if (offset <= m_hit_range) {
 					m_play_removed.push_back(note);
 					it = m_play_tracks.erase(it);
 					IDefineSound* define_snd = (IDefineSound*)(note->getHeadDefine()->
 															   getDefineResource());
 					onPlaySound(note, define_snd->getSound());
 					out_info.hit_note = note;
-					out_info.hit_deta = offset;
+					out_info.hit_precision = offset / m_hit_range;
 					if (m_listener!=NULL) {
 						m_listener->onHit(out_info);
 					}

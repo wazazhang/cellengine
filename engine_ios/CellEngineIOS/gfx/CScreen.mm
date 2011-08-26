@@ -20,46 +20,51 @@ namespace com_cell
 		return ScreenManager::getInstance()->getHeight();
 	}
 
-	
-
-	bool IScreen::isPointerHoldLag(int id)
-	{
-		return ScreenManager::getInstance()->isPointerHoldLag(id);
-	}
-
-	bool IScreen::isPointerHold(int id)
-	{
-		return ScreenManager::getInstance()->isPointerHold(id);
-	}
-
-
-	bool IScreen::isPointerDown(int id) 
-	{
-		return ScreenManager::getInstance()->isPointerDown(id);
-	}
-
-
-	bool IScreen::isPointerUp(int id)
-	{
-		return ScreenManager::getInstance()->isPointerUp(id);
-	}
-
-
-	bool IScreen::isPointerDrag(int id) 
-	{
-		return ScreenManager::getInstance()->isPointerDrag(id);
-	}
-
-
-	float IScreen::getPointerX(int id)
-	{
-		return ScreenManager::getInstance()->getPointerX(id);
-	}
-
-
-	float IScreen::getPointerY(int id)
-	{
-		return ScreenManager::getInstance()->getPointerY(id);
-	}
+//	u32 IScreen::getPointerCount()
+//	{
+//		return ScreenManager::getInstance()->getPointerCount();
+//	}
+//
+//	
+//
+//	bool IScreen::isPointerHoldLag(u32 pid)
+//	{
+//		return ScreenManager::getInstance()->isPointerHoldLag(pid);
+//	}
+//
+//	bool IScreen::isPointerHold(u32 pid)
+//	{
+//		return ScreenManager::getInstance()->isPointerHold(pid);
+//	}
+//
+//
+//	bool IScreen::isPointerDown(u32 pid) 
+//	{
+//		return ScreenManager::getInstance()->isPointerDown(pid);
+//	}
+//
+//
+//	bool IScreen::isPointerUp(u32 pid)
+//	{
+//		return ScreenManager::getInstance()->isPointerUp(pid);
+//	}
+//
+//
+//	bool IScreen::isPointerDrag(u32 pid) 
+//	{
+//		return ScreenManager::getInstance()->isPointerDrag(pid);
+//	}
+//
+//
+//	float IScreen::getPointerX(u32 pid)
+//	{
+//		return ScreenManager::getInstance()->getPointerX(pid);
+//	}
+//
+//
+//	float IScreen::getPointerY(u32 pid)
+//	{
+//		return ScreenManager::getInstance()->getPointerY(pid);
+//	}
 
 };

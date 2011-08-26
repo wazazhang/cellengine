@@ -51,12 +51,7 @@ namespace com_cell
 		 */
 		static int cycMod(int value, int div) ;		
 		
-		/**
-		 * @param value 
-		 * @return 1 or 0 or -1
-		 */
-		static int getDirect(int value) ;		
-		
+
 		/**
 		 * comput round mod roundMode(33,8) = 5 => 33/8 + (33%8==0?:0:1)
 		 * @param value
@@ -64,6 +59,13 @@ namespace com_cell
 		 * @return 
 		 */
 		static int roundMod(int value, int div) ;		
+		
+		
+		/**
+		 * @param value 
+		 * @return 1 or 0 or -1
+		 */
+		static int getDirect(int value);		
 		
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////

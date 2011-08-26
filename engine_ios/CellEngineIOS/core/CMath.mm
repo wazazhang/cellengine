@@ -33,14 +33,13 @@ namespace com_cell
 		return (value/div) + (value<0?-1:0);
 	}
 	
-	int Math::getDirect(int value) {
-		return value==0?0:(value>0?1:-1);
-	}
-	
 	int Math::roundMod(int value, int div) {
 		return (value/div) + (value%div==0?0:(1*getDirect(value)));
 	}
-		
+	
+	int Math::getDirect(int value) {
+		return value==0?0:(value>0?1:-1);
+	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// line intersect

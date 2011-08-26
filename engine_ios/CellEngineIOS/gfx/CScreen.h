@@ -17,12 +17,16 @@ namespace com_cell
 {	    
 	//----------------------------------------------------------------------------------------------------------------------------//
 	// game screen object
+	//----------------------------------------------------------------------------------------------------------------------------//
+
 	class IScreen
 	{
+		friend class ScreenManager;
+		
 	public:
 		virtual ~IScreen(){}
 		
-		virtual void init() = 0;
+		virtual void init(std::vector<void*> const &args) = 0;
 		
 		virtual void update()  = 0;
 		
@@ -42,26 +46,37 @@ namespace com_cell
 		
 		int getHeight();
 		
-		static bool isPointerHoldLag(int id);
+	protected:
 		
-		static bool isPointerHold(int id);
+		virtual void onTouchBegan(float x, float y){}
+		virtual void onTouchMoved(float x, float y){}
+		virtual void onTouchEnded(float x, float y){}
 		
-		static bool isPointerDown(int id) ;
-		
-		static bool isPointerUp(int id);
-		
-		static bool isPointerDrag(int id) ;
-		
-		static float getPointerX(int id);
-		
-		static float getPointerY(int id);
+//	public:
+//		
+//		static u32 getPointerCount();
+//		
+//		static bool isPointerHoldLag(u32 pid);
+//		
+//		static bool isPointerHold(u32 pid);
+//		
+//		static bool isPointerDown(u32 pid) ;
+//		
+//		static bool isPointerUp(u32 pid);
+//		
+//		static bool isPointerDrag(u32 pid) ;
+//		
+//		static float getPointerX(u32 pid);
+//		
+//		static float getPointerY(u32 pid);
 
 	};
 	
 	
-	//  ----------------------------------------------------------------------------------------------------------------------------//
-	//  game screen maker
-	
+	//----------------------------------------------------------------------------------------------------------------------------//
+	// game screen maker
+	//----------------------------------------------------------------------------------------------------------------------------//
+
 	class IScreenFactory
 	{
 	public:
@@ -71,6 +86,19 @@ namespace com_cell
 		
 	};
 	
+//	//----------------------------------------------------------------------------------------------------------------------------//
+//	// 
+//	//----------------------------------------------------------------------------------------------------------------------------//
+//	
+//	class ITouchListener
+//	{
+//	public:
+//		virtual ~ITouchListener(){}
+//		virtual void onTouchBegan() = 0;
+//		virtual void onTouchMoved() = 0;
+//		virtual void onTouchEnded() = 0;
+//	};
+
 	
 
 };

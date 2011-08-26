@@ -29,8 +29,8 @@ namespace com_cell_bms
 	{
 		/** 击打到的音符 */
 		Note	*hit_note;
-		/** 绝对值越小，则代表越完美 */
-		float	hit_deta;
+		/** 绝对值越接近0，则代表越完美(0.0~1.0) */
+		float	hit_precision;
 	} HitInfo;
 
 	

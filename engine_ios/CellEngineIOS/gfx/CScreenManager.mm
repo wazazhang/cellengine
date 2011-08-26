@@ -62,16 +62,16 @@ namespace com_cell
 		g_transitionTime	= 0;
 		g_transitionAlpha	= 0;
         
-		HoldEventLagTime	= 10;
+//		HoldEventLagTime	= 10;
         
-		clearKey();
+//		clearKey();
 		
 		pCurGraphics		= new ScreenGraphics2D();
 	} 
     
 	ScreenManager::~ScreenManager()
 	{
-		clearKey();
+//		clearKey();
 		
 		if(m_pCurSubScreen!=NULL)
 		{
@@ -125,11 +125,11 @@ namespace com_cell
 		_tryChangeSubScreen();
 		
 		// query key state
-		_queryKey();
+//		_queryKey();
 		
-		if (!KeyEnable){
-			clearKey();
-		}
+//		if (!KeyEnable){
+//			clearKey();
+//		}
 		
 		pCurGraphics->beginRender(rect);
 		if( m_pCurSubScreen != NULL )
@@ -180,7 +180,7 @@ namespace com_cell
 					m_pCurSubScreen = pNext;
 					
 					// init new screen
-					m_pCurSubScreen->init();
+					m_pCurSubScreen->init(m_NextScreenArgs);
 					
 				}
 				else
@@ -188,7 +188,7 @@ namespace com_cell
 					//printf([NSString stringWithFormat:@"Error create screen type : %d !" , m_NextScreenType]);
 					printf("Error create screen type : %d !" , m_NextScreenType);
 				}
-				
+				m_NextScreenArgs.clear();
 				last_update_time_ms = com_cell::getCurrentTime();
 				interval_ms = 1;
 				timer = 0;
@@ -206,75 +206,83 @@ namespace com_cell
 	/********************************************************************************************************************/
 	//	methods 
 	
-	bool ScreenManager::isPointerHoldLag(int id)
-	{		
-		if(m_HoldEventTimer==0 || m_HoldEventTimer > HoldEventLagTime)
-		{
-			m_HoldEventTimer++;
-			return isPointerHold(id);
-		}
-		m_HoldEventTimer++;
-		return false;
+//	u32	ScreenManager::getPointerCount()
+//	{
+//		return m_PointerStates.size();
+//	}
+//	
+//	bool ScreenManager::isPointerHoldLag(u32 pid)
+//	{		
+//		if(m_HoldEventTimer==0 || m_HoldEventTimer > HoldEventLagTime)
+//		{
+//			m_HoldEventTimer++;
+//			return isPointerHold(pid);
+//		}
+//		m_HoldEventTimer++;
+//		return false;
+//	}
+//	
+//	bool ScreenManager::isPointerHold(u32 pid) {
+//		if(pid >= m_PointerStates.size()) return false;
+//		return isPointerDown(pid) || (m_CurPointerStates[pid]);
+//	}
+//	
+//	
+//	bool ScreenManager::isPointerDown(u32 pid) {
+//		if(pid >= m_PointerStates.size()) return false;
+//		return (m_CurPointerDownStates[pid]);
+//	}
+//	
+//	
+//	bool ScreenManager::isPointerUp(u32 pid) {
+//		if(pid >= m_PointerStates.size()) return false;
+//		return (m_CurPointerUpStates[pid]);
+//	}
+//	
+//	
+//	bool ScreenManager::isPointerDrag(u32 pid) {
+//		if(pid >= m_PointerStates.size()) return false;
+//		return (m_CurPointerDragStates[pid]);
+//	}
+//	
+//	
+//	float ScreenManager::getPointerX(u32 pid){
+//		if(pid >= m_PointerStates.size()) return 0;
+//		return m_PointerXs[pid];
+//	}
+//	
+//	
+//	float ScreenManager::getPointerY(u32 pid){
+//		if(pid >= m_PointerStates.size()) return 0;
+//		return m_PointerYs[pid];
+//	}
+//	
+//	
+//	void ScreenManager::clearKey()
+//	{
+//		m_CurPointerStates.clear();
+//		m_CurPointerDragStates.clear();
+//		m_CurPointerDownStates.clear();
+//		m_CurPointerUpStates.clear();
+//		
+//		m_PointerDownStates.clear();
+//		m_PointerUpStates.clear();
+//		m_PointerDragStates.clear();
+//		
+//		m_HoldEventTimer = 0;
+//
+//	}
+	
+	void ScreenManager::changeScreen(int nextScreenType){
+		m_NextScreenType = nextScreenType;
+		m_NextScreenArgs.clear();
+		_setTransitionOut();
 	}
 	
-	bool ScreenManager::isPointerHold(int id) {
-		if(id >= KEY_COUNT) return false;
-		return isPointerDown(id) || (m_CurPointerState[id]);
-	}
-	
-	
-	bool ScreenManager::isPointerDown(int id) {
-		if(id >= KEY_COUNT) return false;
-		return (m_CurPointerDownState[id]);
-	}
-	
-	
-	bool ScreenManager::isPointerUp(int id) {
-		if(id >= KEY_COUNT) return false;
-		return (m_CurPointerUpState[id]);
-	}
-	
-	
-	bool ScreenManager::isPointerDrag(int id) {
-		if(id >= KEY_COUNT) return false;
-		return (m_CurPointerDragState[id]);
-	}
-	
-	
-	float ScreenManager::getPointerX(int id){
-		if(id >= KEY_COUNT) return 0;
-		return m_PointerX[id];
-	}
-	
-	
-	float ScreenManager::getPointerY(int id){
-		if(id >= KEY_COUNT) return 0;
-		return m_PointerY[id];
-	}
-	
-	
-	void ScreenManager::clearKey()
-	{
-		for( int i=0; i<KEY_COUNT; i++)
-		{
-			m_CurPointerState[i]		= false;
-			m_CurPointerDragState[i]	= false;
-			m_CurPointerDownState[i]	= false;
-			m_CurPointerUpState[i]		= false;
-			
-			m_PointerDownState[i]		= false;
-			m_PointerUpState[i]			= false;
-			m_PointerDragState[i]		= false;
-			
-			m_HoldEventTimer = 0;
-		}
-	}
-	
-	
-	void ScreenManager::changeScreen(int nextScreenType)
+	void ScreenManager::changeScreen(int nextScreenType, std::vector<void*> const &args)
 	{
 		m_NextScreenType = nextScreenType;
-		
+		m_NextScreenArgs = args;
 		_setTransitionOut();
 	}
 	
@@ -288,51 +296,105 @@ namespace com_cell
 	
 	/********************************************************************************************************************/
 	// system call 
-    // accelerometer
-    void ScreenManager::call_Accelerometer(float x, float y, float z) {
-        m_accelerometer.x = x;
-        m_accelerometer.y = y;
-        m_accelerometer.z = z;
+	
+	// -----------------------------------------------------------------------------------
+	// accelerometer
+    void ScreenManager::call_Accelerometer(Vector3D const &vector) 
+	{
+        m_accelerometer = vector;
     }
 	
+	// -----------------------------------------------------------------------------------
+	// touch event
 	
 	// when system key pressed or pointer pressed
-	void ScreenManager::call_PointerPressed(int id, float x, float y)
+	void ScreenManager::call_PointerPressed(NSSet const *touches, UIView  *view)
 	{
-		if(id >= KEY_COUNT) return;
+//		NSSet *allTouches = [event allTouches];  
+//		UITouch *touchOne = [[allTouches allObjects]objectAtIndex:0];  
+//		UITouch *touchTwo = [[allTouches allObjects]objectAtIndex:1];  
 		
-		m_HoldEventTimer = 0;
-		
-		m_PointerState[id] = true;
-		m_PointerDownState[id] = true;
-		m_PointerDragState[id] = false;
-		m_PointerX[id] = x;
-		m_PointerY[id] = y;
+		if (m_pCurSubScreen != NULL) {
+			int count = [touches count];
+			NSArray* objects = [touches allObjects];
+			for (int i=0; i<count; i++) {
+				UITouch *touch = [objects objectAtIndex:i];  
+				CGPoint	location		= [touch locationInView:view];
+				CGPoint lastLocation	= [touch previousLocationInView:view];
+				m_pCurSubScreen->onTouchBegan(location.x, location.y);
+			}
+		}
+
+//		u32 pid = 0;
+//		if (pid >= m_PointerStates.size()) {
+//			pid = _addKeyPointer();
+//		}
+//		
+//		m_HoldEventTimer = 0;
+//		
+//		m_PointerStates[pid] = true;
+//		m_PointerDownStates[pid] = true;
+//		m_PointerDragStates[pid] = false;
+//		m_PointerXs[pid] = location.x;
+//		m_PointerYs[pid] = location.y;
 	}
 	
 	// when system key released or pointer released
-	void ScreenManager::call_PointerReleased(int id, float x, float y)
+	void ScreenManager::call_PointerReleased(NSSet const *touches, UIView  *view)
 	{
-		if(id >= KEY_COUNT) return;
+//		CGPoint	location		= [touch locationInView:view];
+//		CGPoint lastLocation	= [touch previousLocationInView:view];
 		
-		m_HoldEventTimer = 0;
+		if (m_pCurSubScreen != NULL) {
+			int count = [touches count];
+			NSArray* objects = [touches allObjects];
+			for (int i=0; i<count; i++) {
+				UITouch *touch = [objects objectAtIndex:i];  
+				CGPoint	location		= [touch locationInView:view];
+				CGPoint lastLocation	= [touch previousLocationInView:view];
+				m_pCurSubScreen->onTouchEnded(location.x, location.y);
+			}
+		}
 		
-		m_PointerState[id] = false;
-		m_PointerUpState[id] = true;
-		m_PointerDragState[id] = false;
-		m_PointerX[id] = x;
-		m_PointerY[id] = y;
+//		u32 pid = 0;
+//		if(pid >= m_PointerStates.size()) return;
+//		
+//		m_HoldEventTimer = 0;
+//		
+//		m_PointerStates[pid] = false;
+//		m_PointerUpStates[pid] = true;
+//		m_PointerDragStates[pid] = false;
+//		m_PointerXs[pid] = location.x;
+//		m_PointerYs[pid] = location.y;
+
 	}
 	
 	// when system key holded or pointer moved
-	void ScreenManager::call_PointerDragged(int id, float x, float y) 
+	void ScreenManager::call_PointerDragged(NSSet const *touches, UIView  *view) 
 	{
-		if(id >= KEY_COUNT) return;
+//		CGPoint	location		= [touch locationInView:view];
+//		CGPoint lastLocation	= [touch previousLocationInView:view];
 		
-		m_PointerDragState[id] = true;
-		m_PointerX[id] = x;
-		m_PointerY[id] = y;
+		if (m_pCurSubScreen != NULL) {
+			int count = [touches count];
+			NSArray* objects = [touches allObjects];
+			for (int i=0; i<count; i++) {
+				UITouch *touch = [objects objectAtIndex:i];  
+				CGPoint	location		= [touch locationInView:view];
+				CGPoint lastLocation	= [touch previousLocationInView:view];
+				m_pCurSubScreen->onTouchMoved(location.x, location.y);
+			}
+		}
+
+//		u32 pid = 0;
+//		if(pid >= m_PointerStates.size()) return;
+//		
+//		m_PointerDragStates[pid] = true;
+//		m_PointerXs[pid] = location.x;
+//		m_PointerYs[pid] = location.y;
 	}
+	
+	// -----------------------------------------------------------------------------------
 	
 	// when app background with other app
 	void ScreenManager::call_Pause()
@@ -355,21 +417,36 @@ namespace com_cell
 	/********************************************************************************************************************/
 	// util
 	
-	void ScreenManager::_queryKey()
-	{
-		for( int i=0; i<KEY_COUNT; i++)
-		{
-			m_CurPointerState[i]			= m_PointerState[i];
-			m_CurPointerDragState[i]		= m_PointerDragState[i];
-			m_CurPointerDownState[i]		= m_PointerDownState[i];
-			m_CurPointerUpState[i]			= m_PointerUpState[i];
-			
-			m_PointerDownState[i]			= false;
-			m_PointerUpState[i]				= false;
-			m_PointerDragState[i]			= false;
-		}
-	}
-	
+//	void ScreenManager::_queryKey()
+//	{
+//		m_CurPointerStates			= m_PointerStates;
+//		m_CurPointerDragStates		= m_PointerDragStates;
+//		m_CurPointerDownStates		= m_PointerDownStates;
+//		m_CurPointerUpStates		= m_PointerUpStates;
+//		
+//		m_PointerDownStates.clear();
+//		m_PointerUpStates.clear();
+//		m_PointerDragStates.clear();
+//
+//	}
+//	
+//	u32 ScreenManager::_addKeyPointer()
+//	{
+//		m_PointerStates		.push_back(false);
+//		m_PointerDragStates	.push_back(false);
+//		m_PointerDownStates	.push_back(false);
+//		m_PointerUpStates	.push_back(false);
+//		
+//		m_CurPointerStates		.push_back(false);
+//		m_CurPointerDragStates	.push_back(false);
+//		m_CurPointerDownStates	.push_back(false);
+//		m_CurPointerUpStates	.push_back(false);
+//		
+//		m_PointerXs	.push_back(false);
+//		m_PointerYs	.push_back(false);
+//		
+//		return m_PointerStates.size() - 1;
+//	}
 	
     //---------------------------------------------------------------------------------------------------------------------------------
     // transition

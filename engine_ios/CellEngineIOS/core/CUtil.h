@@ -135,6 +135,8 @@ namespace com_cell
 	// random and Number
 	///////////////////////////////////////////////////////////////////////////////////////
 	
+	extern int          randomInt(int min, int max);
+	
 	extern int          randomInt();
     
 	extern void         randomSeed(int seed);			

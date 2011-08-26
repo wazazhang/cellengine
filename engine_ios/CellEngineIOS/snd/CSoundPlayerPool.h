@@ -43,6 +43,8 @@ namespace com_cell
 		int				getFreePlayerCount();
 		
 		bool			isAllFree();
+		
+		void			stopAllSound();
     };    
 	
 }; // namespcace 
