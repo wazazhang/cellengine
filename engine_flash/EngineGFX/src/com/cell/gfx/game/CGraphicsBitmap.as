@@ -32,32 +32,38 @@ package com.cell.gfx.game
 		{
 			if (transform == Transform.TRANS_NONE) 
 			{				
+				this.dst_point.x = x;
+				this.dst_point.y = y;
+
+				
 				this.src_rect.width = w;
 				this.src_rect.height = h;
 				this.src_rect.x = 0;
 				this.src_rect.y = 0;
 				
-				this.dst_rect.x = -x;
-				this.dst_rect.y = -y;
-				var src_ins_rect : Rectangle = intersection(src_rect, dst_rect);
-				
-				this.src_rect.x = 0;
-				this.src_rect.y = 0;
-				this.dst_rect.x = x;
-				this.dst_rect.y = y;
-				var dst_ins_rect : Rectangle = intersection(src_rect, dst_rect);
-				
-				this.dst_point.x = dst_ins_rect.x;
-				this.dst_point.y = dst_ins_rect.y;
+				buff.copyPixels(img.src, src_rect, dst_point, null, null ,true);
+//				
+//				this.dst_rect.x = -x;
+//				this.dst_rect.y = -y;
+//				var src_ins_rect : Rectangle = intersection(src_rect, dst_rect);
+//				
+//				this.src_rect.x = 0;
+//				this.src_rect.y = 0;
+//				this.dst_rect.x = x;
+//				this.dst_rect.y = y;
+//				var dst_ins_rect : Rectangle = intersection(src_rect, dst_rect);
+//				
+//				this.dst_point.x = dst_ins_rect.x;
+//				this.dst_point.y = dst_ins_rect.y;
 //				trace("=======================================");
 //				trace("src rect " + src_rect);
 //				trace("dst rect " + dst_rect);
 //				trace("ins rect " + ins_rect);
-				if (src_ins_rect.width != 0) {
+//				if (src_ins_rect.width != 0) {
 //					buff.copyPixels(img.src, ins_rect, dst_point, null, null ,true);
 //					buff.fillRect(new Rectangle(x,y,ins_rect.width, ins_rect.height), 0);
-					buff.copyPixels(img.src, src_ins_rect, dst_point, null, null ,true);
-				}
+//					buff.copyPixels(img.src, src_ins_rect, dst_point, null, null ,true);
+//				}
 			}
 			else 
 			{
