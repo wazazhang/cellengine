@@ -12,7 +12,7 @@ package com.cell.gfx.game
 	 * @since 2006-11-29 
 	 * @version 1.0
 	 */
-	public class CCamera extends CWorldCamera
+	public class CCamera implements ICamera
 	{
 //		private var WindowX		: int;
 //		private var WindowY		: int;
@@ -90,7 +90,7 @@ package com.cell.gfx.game
 //			WindowW = windowW;
 //			WindowH = windowH;
 			
-			super(windowW, windowH);
+			//super(windowW, windowH);
 			
 			Map = map;
 			
@@ -161,16 +161,48 @@ package com.cell.gfx.game
 	
 		//----------------------------------------------------------------------------------------------------
 		
-		override public function get x() : Number
+	 	public function get x() : Number
 		{
 			return X;
 		}
 		
-		override public function get y() : Number
+		public function get y() : Number
 		{
 			return Y;
 		}
 		
+		public function get w() : Number
+		{
+			return WorldW;
+		}
+		
+		public function get h() : Number
+		{
+			return WorldH;
+		}
+
+		
+		public function getVectorX() : Number {
+			return X;
+		}
+		public function getVectorY() : Number {
+			return Y;
+		}
+		
+		public function setVectorX(x : Number) : void {
+			setPos(x, this.Y);
+		}
+		public function setVectorY(y : Number) : void {
+			setPos(this.X, y);
+		}
+		
+		public function addVectorX(dx : Number) : void {
+			move(dx, 0);
+		}
+		public function addVectorY(dy : Number) : void {
+			move(0, dy);
+		}
+
 		/**
 		 * get x within map </br>
 		 * @return x coordinate
@@ -206,7 +238,7 @@ package com.cell.gfx.game
 		 * @param x x 
 		 * @param y y
 		 */
-		override public function setPos(x:Number, y:Number) : void 
+		public function setPos(x:Number, y:Number) : void 
 		{
 			move(x - X, y - Y);
 		}
@@ -217,7 +249,7 @@ package com.cell.gfx.game
 		 * @param px offset x
 		 * @param py offset y
 		 */
-		override public function move(x:Number, y:Number) : void
+		public function move(x:Number, y:Number) : void
 		{
 			var px : int = 0; 
 			var py : int = 0;

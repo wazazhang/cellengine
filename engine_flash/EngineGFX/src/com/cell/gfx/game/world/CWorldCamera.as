@@ -1,8 +1,8 @@
-package com.cell.gfx.game
+package com.cell.gfx.game.world
 {
-	import com.cell.math.IVector2D;
+	import com.cell.gfx.game.ICamera;
 
-	public class CWorldCamera implements IVector2D
+	public class CWorldCamera implements ICamera
 	{
 		private var _x : Number = 0;
 		private var _y : Number = 0;
@@ -54,7 +54,7 @@ package com.cell.gfx.game
 		public function getVectorY() : Number {
 			return this._y;
 		}
-
+		
 		
 		/**
 		 * set position within map</br>

@@ -26,6 +26,8 @@
     <classEntry path="com.cell.math.TVector2D"/>
     <classEntry path="com.cell.net.io.MutualMessage"/>
     <classEntry path="com.cell.util.Arrays"/>
+    <classEntry path="com.cell.gfx.game.worldcraft.CellMap"/>
+    <classEntry path="com.cell.gfx.game.world.CWorldCamera"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

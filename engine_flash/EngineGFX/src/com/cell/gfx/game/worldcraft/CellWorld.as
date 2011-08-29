@@ -1,7 +1,7 @@
 package com.cell.gfx.game.worldcraft
 {
 	import com.cell.gfx.game.CGraphicsDisplay;
-	import com.cell.gfx.game.CWorldCamera;
+	import com.cell.gfx.game.ICamera;
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.util.CMath;
 	
@@ -13,7 +13,6 @@ package com.cell.gfx.game.worldcraft
 	{
 		private var cur_time	: int = 0;
 		private var _camera		: CellWorldCamera;
-		private var _cg			: CGraphicsDisplay;
 		
 		public function CellWorld(
 			viewWidth:int, 
@@ -22,7 +21,6 @@ package com.cell.gfx.game.worldcraft
 			this.mouseEnabled = false;
 			this.mouseChildren = false;
 
-			this._cg 		= new CGraphicsDisplay(graphics);
 			this._camera	= new CellWorldCamera(viewWidth, viewHeight);
 			this.scrollRect = _camera.rect;
 		}
@@ -30,12 +28,12 @@ package com.cell.gfx.game.worldcraft
 		
 		//		------------------------------------------------------------------------------------------------------
 		
-		public function get camera() : CWorldCamera
+		public function get camera() : ICamera
 		{
 			return _camera;
 		}
 		
-		public function getCamera() : CWorldCamera {
+		public function getCamera() : ICamera {
 			return _camera;
 		}
 		
@@ -106,7 +104,7 @@ package com.cell.gfx.game.worldcraft
 		/**
 		 * 每帧调用一次
 		 */
-		final public function update() : void 
+		public function update() : void 
 		{
 			for (var i:int = 0; i<numChildren; i++) {
 				var s : DisplayObject = getChildAt(i);
@@ -120,7 +118,7 @@ package com.cell.gfx.game.worldcraft
 			onUpdate();
 		}
 		
-		final public function render() : void
+		public function render() : void
 		{
 			for (var i:int = 0; i<numChildren; i++) {
 				var s : DisplayObject = getChildAt(i);
@@ -128,16 +126,15 @@ package com.cell.gfx.game.worldcraft
 					(s as CellUnit).renderIn();
 				}
 			}
-			onRender(_cg);
 		}
 	
 		protected function onUpdate() : void {
 			
 		}
 		
-		protected function onRender(cg:IGraphics) : void {
-			
-		}
+//		protected function onRender(cg:IGraphics) : void {
+//			
+//		}
 		
 
 		

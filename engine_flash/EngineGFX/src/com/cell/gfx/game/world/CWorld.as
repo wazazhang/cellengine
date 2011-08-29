@@ -4,7 +4,7 @@ package com.cell.gfx.game.world
 	import com.cell.gameedit.ResourceEvent;
 	import com.cell.gfx.game.CGraphicsBitmap;
 	import com.cell.gfx.game.CSprite;
-	import com.cell.gfx.game.CWorldCamera;
+	import com.cell.gfx.game.ICamera;
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.util.CMath;
 	
