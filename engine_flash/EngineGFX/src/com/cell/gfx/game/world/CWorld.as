@@ -134,7 +134,7 @@ package com.cell.gfx.game.world
 			_buffer.lock();
 			try {
 				renderSprites(_cg, _sprites);
-				onRender(cg);
+//				onRender(cg);
 			} finally {
 				_buffer.unlock();
 			}
@@ -144,9 +144,9 @@ package com.cell.gfx.game.world
 			
 		}
 		
-		protected function onRender(cg:IGraphics) : void {
-			
-		}
+//		protected function onRender(cg:IGraphics) : void {
+//			
+//		}
 		
 //		------------------------------------------------------------------------------------------------------
 		
