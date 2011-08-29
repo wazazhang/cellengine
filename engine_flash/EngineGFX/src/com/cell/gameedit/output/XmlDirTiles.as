@@ -34,7 +34,7 @@ package com.cell.gameedit.output
 			if (!clone) {
 				for (var i:int=0; i<img.Count; i++){
 					if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
-						tiles[i] = createTileImage(i, img.ClipsW[i], img.ClipsH[i], img.ClipsH[i]);
+						tiles[i] = createTileImage(i, img.ClipsW[i], img.ClipsH[i], img.ClipsKey[i]);
 //						new CImage(new BitmapData(
 //							img.ClipsW[i], 
 //							img.ClipsH[i],
