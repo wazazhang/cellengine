@@ -33,6 +33,9 @@ package com.cell.gfx
 			this.transition = new AlphaTransition(width, height, 0xffffff, 10);
 			//this.mouseEnabled = false;
 			this.scrollRect = new Rectangle(0, 0, width, height);
+			this.graphics.beginFill(0xff808000, 1);
+			this.graphics.drawRect(0, 0, width, height);
+			this.graphics.endFill();
 		}
 		
 		protected function onUpdate(e:Event) : void
