@@ -40,8 +40,7 @@ package com.cell.gfx.game
 				this.src_rect.height = h;
 				this.src_rect.x = 0;
 				this.src_rect.y = 0;
-				
-				buff.copyPixels(img.src, src_rect, dst_point, null, null ,true);
+				buff.copyPixels(img.src, src_rect, dst_point, null, null, img.src.transparent);
 //				
 //				this.dst_rect.x = -x;
 //				this.dst_rect.y = -y;
