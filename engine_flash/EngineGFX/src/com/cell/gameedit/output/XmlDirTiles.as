@@ -34,10 +34,11 @@ package com.cell.gameedit.output
 			if (!clone) {
 				for (var i:int=0; i<img.Count; i++){
 					if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
-						tiles[i] = new CImage(new BitmapData(
-							img.ClipsW[i], 
-							img.ClipsH[i],
-							true));
+						tiles[i] = createTileImage(i, img.ClipsW[i], img.ClipsH[i], img.ClipsH[i]);
+//						new CImage(new BitmapData(
+//							img.ClipsW[i], 
+//							img.ClipsH[i],
+//							true));
 					}
 				}
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
@@ -50,6 +51,14 @@ package com.cell.gameedit.output
 				this.loader.load(new URLRequest(url));
 			}
 			
+		}
+		
+		protected function createTileImage(tileid:int, width:int, height:int, key:String) : CImage
+		{
+			return new CImage(new BitmapData(
+				width, 
+				height,
+				true));
 		}
 		
 		private function complete(e:Event) : void
