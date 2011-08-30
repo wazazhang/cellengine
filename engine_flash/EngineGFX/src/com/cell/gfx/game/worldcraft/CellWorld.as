@@ -20,10 +20,14 @@ package com.cell.gfx.game.worldcraft
 			this.mouseEnabled = false;
 			this.mouseChildren = false;
 
-			this._camera	= new CellWorldCamera(viewWidth, viewHeight);
+			this._camera	= createCamera(viewWidth, viewHeight);
 			this.scrollRect = _camera.bounds;
 		}
 		
+		protected function createCamera(w:int, h:int) : ICamera
+		{
+			return new CellWorldCamera(w, h);
+		}
 		
 		//		------------------------------------------------------------------------------------------------------
 		
@@ -105,20 +109,18 @@ package com.cell.gfx.game.worldcraft
 		 */
 		public function update() : void 
 		{
+			onUpdate();
 			for (var i:int = 0; i<numChildren; i++) {
 				var s : DisplayObject = getChildAt(i);
 				if (s is CellUnit) {
 					(s as CellUnit).updateIn(this);
 				}
 			}
-			
-			this.scrollRect = _camera.bounds;
-			
-			onUpdate();
 		}
 		
 		public function render() : void
 		{
+			this.scrollRect = _camera.bounds;
 			for (var i:int = 0; i<numChildren; i++) {
 				var s : DisplayObject = getChildAt(i);
 				if (s is CellUnit) {

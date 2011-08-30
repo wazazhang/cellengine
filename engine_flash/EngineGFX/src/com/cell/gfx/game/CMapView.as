@@ -19,6 +19,10 @@ package com.cell.gfx.game
 		protected var Camera	: CCamera;
 		protected var cg		: IGraphics;
 		
+		private var old_cx		: int;
+		private var old_cy		: int;
+		
+		
 		public function CMapView(map:CMap, viewWidth:int, viewHeight:int)
 		{			
 			super(new BitmapData(viewWidth, viewHeight, false, 0xff000000));
@@ -26,6 +30,10 @@ package com.cell.gfx.game
 			this.Map 	= map;
 			this.Camera = new CCamera(viewWidth, viewHeight, map);
 			this.Map.getAnimates().getImages().addImageObserver(this);
+			
+			this.Camera.resetBuffer();
+			this.Camera.render(cg);
+
 		}
 		
 		public function getMap() : CMap {
@@ -54,9 +62,19 @@ package com.cell.gfx.game
 			return worldY - Camera.getY();
 		}
 		
-		public function update() : void
+		public function render() : void
 		{
-			this.Camera.render(cg);
+			if (old_cx != Camera.getX() || old_cy != Camera.getY()) 
+			{
+				this.bitmapData.lock();
+				try {
+					this.Camera.render(cg);
+				} finally {
+					this.bitmapData.unlock();
+				}
+				this.old_cx = Camera.getX();
+				this.old_cy = Camera.getY();
+			}
 		}
 		
 		public function imagesLoaded(e:ResourceEvent) : void
