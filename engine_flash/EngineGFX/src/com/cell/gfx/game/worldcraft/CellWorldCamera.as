@@ -13,7 +13,7 @@ package com.cell.gfx.game.worldcraft
 			_rect = new Rectangle(0,0,w,h);
 		}
 		
-		internal function get rect() : Rectangle
+		public function get bounds() : Rectangle
 		{
 			return _rect;
 		}

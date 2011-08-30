@@ -11,8 +11,7 @@ package com.cell.gfx.game.worldcraft
 
 	public class CellWorld extends Sprite
 	{
-		private var cur_time	: int = 0;
-		private var _camera		: CellWorldCamera;
+		internal var _camera		: ICamera;
 		
 		public function CellWorld(
 			viewWidth:int, 
@@ -22,7 +21,7 @@ package com.cell.gfx.game.worldcraft
 			this.mouseChildren = false;
 
 			this._camera	= new CellWorldCamera(viewWidth, viewHeight);
-			this.scrollRect = _camera.rect;
+			this.scrollRect = _camera.bounds;
 		}
 		
 		
@@ -113,7 +112,7 @@ package com.cell.gfx.game.worldcraft
 				}
 			}
 			
-			this.scrollRect = _camera.rect;
+			this.scrollRect = _camera.bounds;
 			
 			onUpdate();
 		}

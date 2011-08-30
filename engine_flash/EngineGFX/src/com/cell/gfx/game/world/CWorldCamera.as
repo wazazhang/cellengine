@@ -1,58 +1,60 @@
 package com.cell.gfx.game.world
 {
 	import com.cell.gfx.game.ICamera;
+	
+	import flash.geom.Rectangle;
 
 	public class CWorldCamera implements ICamera
 	{
-		private var _x : Number = 0;
-		private var _y : Number = 0;
-		private var _w : Number;
-		private var _h : Number;
-		
+		private var _rect : Rectangle;		
 		
 		public function CWorldCamera(w:int, h:int)
 		{
-			this._w = w;
-			this._h = h;
+			_rect = new Rectangle(0,0,w,h);
+		}
+		
+		public function get bounds() : Rectangle
+		{
+			return _rect;
 		}
 		
 		public function get x() : Number
 		{
-			return _x;
+			return _rect.x;
 		}
 		
 		public function get y() : Number
 		{
-			return _y;
+			return _rect.y;
 		}
 		
 		public function get w() : Number
 		{
-			return _w;
+			return _rect.width;
 		}
 		
 		public function get h() : Number
 		{
-			return _h;
+			return _rect.height;
 		}
 		
 		public function addVectorX(dx:Number) : void {
-			this._x += dx;
+			this._rect.x += dx;
 		}
 		public function addVectorY(dy:Number) : void {
-			this._y += dy;
+			this._rect.y += dy;
 		}
 		public function setVectorX(x:Number) : void {
-			this._x = x;
+			this._rect.x = x;
 		}
 		public function setVectorY(y:Number) : void {
-			this._y = y;
+			this._rect.y = y;
 		}
 		public function getVectorX() : Number {
-			return this._x;
+			return this._rect.x;
 		}
 		public function getVectorY() : Number {
-			return this._y;
+			return this._rect.y;
 		}
 		
 		
@@ -62,8 +64,8 @@ package com.cell.gfx.game.world
 		 * @param y y
 		 */
 		public function setPos(x:Number, y:Number) : void {
-			this._x = x;
-			this._y = y;
+			this._rect.x = x;
+			this._rect.y = y;
 		}
 		
 		
@@ -74,8 +76,9 @@ package com.cell.gfx.game.world
 		 */
 		public function move(x:Number, y:Number) : void
 		{
-			this._x += x;
-			this._y += y;
+			this._rect.x += x;
+			this._rect.y += y;
 		}
+
 	}
 }

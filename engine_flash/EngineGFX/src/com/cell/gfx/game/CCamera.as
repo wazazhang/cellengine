@@ -5,6 +5,7 @@ package com.cell.gfx.game
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 
 	/**
 	 * a camera scrollable on a map system, view world unit on screen.</br>
@@ -181,6 +182,10 @@ package com.cell.gfx.game
 			return WorldH;
 		}
 
+		public function get bounds() : Rectangle
+		{
+			return new Rectangle(X, Y, WorldW, WorldH);
+		}
 		
 		public function getVectorX() : Number {
 			return X;

@@ -1,6 +1,8 @@
 package com.cell.gfx.game
 {
 	import com.cell.math.IVector2D;
+	
+	import flash.geom.Rectangle;
 
 	public interface ICamera extends IVector2D
 	{
@@ -16,5 +18,6 @@ package com.cell.gfx.game
 		
 		 function move(x:Number, y:Number) : void;
 		
+		 function get bounds() : Rectangle;
 	}
 }
