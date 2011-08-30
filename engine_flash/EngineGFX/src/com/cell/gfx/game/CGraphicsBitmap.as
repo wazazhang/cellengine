@@ -107,7 +107,6 @@ package com.cell.gfx.game
 		 * @param y_src 原图片部分的Y位置
 		 * @param width 原图片矩形的宽度。
 		 * @param height 原图片矩形的高度。
-		 * @param transform 翻转方式
 		 * @param x_dest 目标X坐标。
 		 * @param y_dest 目标Y坐标。
 		 */
@@ -127,7 +126,7 @@ package com.cell.gfx.game
 			this.dst_point.x = x_dest;
 			this.dst_point.y = y_dest;
 			
-			buff.copyPixels(src.src, src_rect, dst_point);
+			buff.copyPixels(src.src, src_rect, dst_point, null, null, src.src.transparent);
 		} 
 		
 
