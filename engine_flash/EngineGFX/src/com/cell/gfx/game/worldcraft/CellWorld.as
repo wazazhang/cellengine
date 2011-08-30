@@ -120,13 +120,13 @@ package com.cell.gfx.game.worldcraft
 		
 		public function render() : void
 		{
-			this.scrollRect = _camera.bounds;
 			for (var i:int = 0; i<numChildren; i++) {
 				var s : DisplayObject = getChildAt(i);
 				if (s is CellUnit) {
 					(s as CellUnit).renderIn();
 				}
-			}
+			}		
+			this.scrollRect = _camera.bounds;
 		}
 	
 		protected function onUpdate() : void {

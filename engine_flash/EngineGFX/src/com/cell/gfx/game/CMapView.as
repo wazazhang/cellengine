@@ -69,12 +69,13 @@ package com.cell.gfx.game
 				this.bitmapData.lock();
 				try {
 					this.Camera.render(cg);
+					this.old_cx = Camera.getX();
+					this.old_cy = Camera.getY();
 				} finally {
 					this.bitmapData.unlock();
 				}
-				this.old_cx = Camera.getX();
-				this.old_cy = Camera.getY();
 			}
+			
 		}
 		
 		public function imagesLoaded(e:ResourceEvent) : void

@@ -30,11 +30,11 @@ package com.cell.gfx.game.worldcraft
 		}
 		
 		override public function render() : void
-		{
+		{					
 			_map_view.render();
 			_map_view.x = _map_view.getCamera().getX();
 			_map_view.y = _map_view.getCamera().getY();
-			super.render();
+			super.render();			
 		}
 
 	}
