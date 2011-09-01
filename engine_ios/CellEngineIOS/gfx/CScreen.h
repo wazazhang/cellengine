@@ -26,7 +26,7 @@ namespace com_cell
 	public:
 		virtual ~IScreen(){}
 		
-		virtual void init(std::vector<void*> const &args) = 0;
+		virtual void init() = 0;
 		
 		virtual void update()  = 0;
 		
@@ -84,6 +84,9 @@ namespace com_cell
 		virtual int         getRootScreen() = 0;
 		virtual IScreen*    createScreen(int ScreenType) = 0;
 		
+		// 一般用于初始化文字等变量
+		virtual void		beginRender(Graphics2D &g) = 0;
+
 	};
 	
 //	//----------------------------------------------------------------------------------------------------------------------------//

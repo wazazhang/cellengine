@@ -63,6 +63,9 @@ namespace com_cell
 										string const &separator, 
 										int limit);
 	
+	extern vector<string>	stringSplitBlank(string const &str, 
+											 int limit);
+	
 	extern string			stringReplace(string const &str,
 										  string const &target,
 										  string const &replace);
@@ -71,6 +74,9 @@ namespace com_cell
 										  string const &target,
 										  string const &replace,
 										  int limit);
+	
+	
+	
 	////////////////////////////////////////////////////////////
 	// regex split and replace
 	extern vector<string>	stringSplitRegx(string const &str, 

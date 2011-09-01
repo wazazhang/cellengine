@@ -12,6 +12,112 @@
 #include "CUtil.h"
 #include <Foundation/NSData.h>
 
+//////////////////////////////////////////////////////////////////////////////////
+// XMLHelper
+//////////////////////////////////////////////////////////////////////////////////
+@interface XMLHelper : NSObject <NSXMLParserDelegate> {
+	com_cell::XMLNode *current;
+}
+- (id) init ;
+- (void)parse:(NSData *)data ;
+- (com_cell::XMLNode *)getRoot;
+@end
+///////////////////////////////////////////////////////////////////
+
+@implementation XMLHelper
+
+using namespace com_cell;
+
+- (id) init {
+    [super init];   // 必須呼叫父類的init
+	// do something here ...
+	current = NULL;
+    return self;
+}
+
+// 首先设置XML数据，并初始化NSXMLParser
+- (void)parse:(NSData *)data 
+{
+	current = NULL;
+	
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data]; //设置XML数据
+	[parser setShouldProcessNamespaces:NO];
+	[parser setShouldReportNamespacePrefixes:NO];
+	[parser setShouldResolveExternalEntities:NO];
+	
+	[parser setDelegate:self];
+	[parser parse];
+}
+
+//遍例xml的节点
+- (void)parser:(NSXMLParser *)parser
+didStartElement:(NSString *)elementName 
+  namespaceURI:(NSString *)namespaceURI 
+ qualifiedName:(NSString *)qName 
+	attributes:(NSDictionary *)attributeDict
+{
+	elementName = [elementName stringByTrimmingCharactersInSet:
+				   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([elementName length] > 0) {
+		//NSLog(@"begin: <%@>",elementName);
+		std::string name = string([elementName UTF8String]);
+		if (current == NULL) {
+			current = new XMLNode(name);
+		} else {
+			XMLNode* next = new XMLNode(name);
+			current->addChild(next);
+			current = next;
+		}
+		for (id key in attributeDict) {
+			NSString *k = key;
+			NSString *v = [attributeDict objectForKey:key];
+			//			string k = [((NSString)key) UTF8String];
+			//			string v = [((NSString)[attributeDict objectForKey:key]) UTF8String];
+			//NSLog(@" attr: %@=%@",key,[attributeDict objectForKey:key]);
+			current->attributes[string([k UTF8String])] = string([v UTF8String]);
+		}
+	}
+	
+}
+
+//当xml节点有值时，则进入此句 
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)vstr
+{
+	vstr = [vstr stringByTrimmingCharactersInSet:
+			[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([vstr length] > 0) {
+		if (current != NULL) {
+			current->value = string([vstr UTF8String]);
+			//NSLog(@"value: %@", vstr);
+		}
+	}
+}
+
+
+//当遇到结束标记时，进入此句
+- (void)parser:(NSXMLParser *)parser 
+ didEndElement:(NSString *)elementName 
+  namespaceURI:(NSString *)namespaceURI 
+ qualifiedName:(NSString *)qName
+{
+	elementName = [elementName stringByTrimmingCharactersInSet:
+				   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([elementName length] > 0) {
+		//std::string name = [elementName UTF8String];
+		if (current != NULL && current->getParent()!=NULL) {
+			current = current->getParent();
+			//NSLog(@"  end: </%@>",elementName);	
+		}
+	}
+}	
+
+- (XMLNode *)getRoot 
+{
+	return current;
+}
+
+@end
+////////////////////////////////////////////////////////////////////////////////////
 
 namespace com_cell
 {
@@ -127,104 +233,5 @@ namespace com_cell
 	}
 	
 }; // namespace
-
-
-//////////////////////////////////////////////////////////////////////////////////
-// XMLHelper
-//////////////////////////////////////////////////////////////////////////////////
-@implementation XMLHelper
-
-using namespace com_cell;
-
-- (id) init {
-    [super init];   // 必須呼叫父類的init
-	// do something here ...
-	current = NULL;
-    return self;
-}
-
-// 首先设置XML数据，并初始化NSXMLParser
-- (void)parse:(NSData *)data 
-{
-	current = NULL;
-	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data]; //设置XML数据
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
-	
-	[parser setDelegate:self];
-	[parser parse];
-}
-
-//遍例xml的节点
-- (void)parser:(NSXMLParser *)parser
-didStartElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qName 
-	attributes:(NSDictionary *)attributeDict
-{
-	elementName = [elementName stringByTrimmingCharactersInSet:
-				   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	if ([elementName length] > 0) {
-		//NSLog(@"begin: <%@>",elementName);
-		std::string name = string([elementName UTF8String]);
-		if (current == NULL) {
-			current = new XMLNode(name);
-		} else {
-			XMLNode* next = new XMLNode(name);
-			current->addChild(next);
-			current = next;
-		}
-		for (id key in attributeDict) {
-			NSString *k = key;
-			NSString *v = [attributeDict objectForKey:key];
-//			string k = [((NSString)key) UTF8String];
-//			string v = [((NSString)[attributeDict objectForKey:key]) UTF8String];
-			//NSLog(@" attr: %@=%@",key,[attributeDict objectForKey:key]);
-			current->attributes[string([k UTF8String])] = string([v UTF8String]);
-		}
-	}
-	
-}
-
-//当xml节点有值时，则进入此句 
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)vstr
-{
-	vstr = [vstr stringByTrimmingCharactersInSet:
-			[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	if ([vstr length] > 0) {
-		if (current != NULL) {
-			current->value = string([vstr UTF8String]);
-			//NSLog(@"value: %@", vstr);
-		}
-	}
-}
-
-
-//当遇到结束标记时，进入此句
-- (void)parser:(NSXMLParser *)parser 
- didEndElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qName
-{
-	elementName = [elementName stringByTrimmingCharactersInSet:
-				   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	if ([elementName length] > 0) {
-		//std::string name = [elementName UTF8String];
-		if (current != NULL && current->getParent()!=NULL) {
-			current = current->getParent();
-			//NSLog(@"  end: </%@>",elementName);	
-		}
-	}
-}	
-
-- (XMLNode *)getRoot 
-{
-	return current;
-}
-
-@end
-////////////////////////////////////////////////////////////////////////////////////
 
 

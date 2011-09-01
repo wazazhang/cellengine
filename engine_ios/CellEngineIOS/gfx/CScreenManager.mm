@@ -62,11 +62,16 @@ namespace com_cell
 		g_transitionTime	= 0;
 		g_transitionAlpha	= 0;
         
-//		HoldEventLagTime	= 10;
-        
-//		clearKey();
+		//sub screen
+		m_pScreenFactory	= NULL;
+		m_pCurSubScreen		= NULL;
+		m_NextScreenType	= 0;
+
 		
 		pCurGraphics		= new ScreenGraphics2D();
+
+
+
 	} 
     
 	ScreenManager::~ScreenManager()
@@ -131,27 +136,34 @@ namespace com_cell
 //			clearKey();
 //		}
 		
-		pCurGraphics->beginRender(rect);
-		if( m_pCurSubScreen != NULL )
+		if (m_pScreenFactory != NULL)
 		{
-			if(LogicEnable) {
-				// main screen logic call
-				m_pCurSubScreen->update();
-			}
-			if(RenderEnable) {
-				// main screen render call
-				m_pCurSubScreen->render(*pCurGraphics);
-			}
-		}
-		pCurGraphics->endRender();
+			m_pScreenFactory->beginRender(*pCurGraphics);
 		
-		if(TransitionEnable)
-		{
-			pCurGraphics->beginRenderTransition(rect);
-			_transition(*pCurGraphics);
-			pCurGraphics->endRenderTransition();
-		}
+			pCurGraphics->beginRender(rect);
+			if( m_pCurSubScreen != NULL )
+			{
+				if(LogicEnable) {
+					// main screen logic call
+					m_pCurSubScreen->update();
+				}
+				if(RenderEnable) {
+					// main screen render call
+					m_pCurSubScreen->render(*pCurGraphics);
+				}
+			}
+			pCurGraphics->endRender();
 		
+		
+			if(TransitionEnable)
+			{
+				pCurGraphics->beginRenderTransition(rect);
+				_transition(*pCurGraphics);
+				pCurGraphics->endRenderTransition();
+			}
+			
+//			m_pScreenFactory->endRender(*pCurGraphics);
+		}
 		timer ++;
 		
 	}
@@ -180,7 +192,7 @@ namespace com_cell
 					m_pCurSubScreen = pNext;
 					
 					// init new screen
-					m_pCurSubScreen->init(m_NextScreenArgs);
+					m_pCurSubScreen->init();
 					
 				}
 				else
@@ -188,7 +200,7 @@ namespace com_cell
 					//printf([NSString stringWithFormat:@"Error create screen type : %d !" , m_NextScreenType]);
 					printf("Error create screen type : %d !" , m_NextScreenType);
 				}
-				m_NextScreenArgs.clear();
+//				m_NextScreenArgs.clear();
 				last_update_time_ms = com_cell::getCurrentTime();
 				interval_ms = 1;
 				timer = 0;
@@ -275,16 +287,16 @@ namespace com_cell
 	
 	void ScreenManager::changeScreen(int nextScreenType){
 		m_NextScreenType = nextScreenType;
-		m_NextScreenArgs.clear();
+//		m_NextScreenArgs.clear();
 		_setTransitionOut();
 	}
 	
-	void ScreenManager::changeScreen(int nextScreenType, std::vector<void*> const &args)
-	{
-		m_NextScreenType = nextScreenType;
-		m_NextScreenArgs = args;
-		_setTransitionOut();
-	}
+//	void ScreenManager::changeScreen(int nextScreenType, std::vector<void*> const &args)
+//	{
+//		m_NextScreenType = nextScreenType;
+////		m_NextScreenArgs = args;
+//		_setTransitionOut();
+//	}
 	
 	void ScreenManager::setFactory(IScreenFactory *factory)
 	{

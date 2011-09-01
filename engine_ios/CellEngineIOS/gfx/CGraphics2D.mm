@@ -14,7 +14,7 @@ namespace com_cell
 	
 	Graphics2D::Graphics2D()
 	{
-		
+		m_font_size = 20;
 	}
 	
 	Graphics2D::~Graphics2D()
@@ -234,7 +234,8 @@ namespace com_cell
                           maskColor);
 	}
 	
-	void Graphics2D::drawImageMaskScale(Image *src, float x, float y, float scale_w, float scale_h,
+	void Graphics2D::drawImageMaskScale(Image *src, float x, float y,
+										float scale_w, float scale_h,
 										Color const &maskColor)
 	{
 		if (src==NULL) return;
@@ -244,7 +245,8 @@ namespace com_cell
                           maskColor);
 	}
 	
-	void Graphics2D::drawImageMaskSize(Image *src, float x, float y, float w, float h,
+	void Graphics2D::drawImageMaskSize(Image *src, float x, float y, 
+									   float w, float h,
 									   Color const &maskColor)
 	{
 		if (src==NULL || src->getTextureID()==0) return;
@@ -274,31 +276,72 @@ namespace com_cell
     ///////////////////////////////////////////////////////////////////////////////
 	// string
 	
+	void Graphics2D::setFont(Font *font)
+	{
+		m_font = font;
+	}
+	
+	void Graphics2D::setFontSize(float size)
+	{
+		m_font_size = size;
+	}
+
+	Font* Graphics2D::getFont()
+	{
+		return m_font;
+	}
+	
+	void Graphics2D::pushFont()
+	{
+		m_stack_font.push_back(m_font);
+	}
+	
+	void Graphics2D::popFont()
+	{
+		m_font = m_stack_font.back();
+		m_stack_font.pop_back();
+	}
 	
 	float Graphics2D::stringWidth(std::string const &src)
 	{
-        return 1;
+        return m_font->getWidth(src);
 	}
 	
 	float Graphics2D::stringHeight()
 	{
-        return 1;
+        return m_font->getHeight();
 	}
 	
 	
-	void Graphics2D::drawString(std::string const &src, float x, float y, float charw, float charh, int align)
-	{
-        // TODO
+	void Graphics2D::drawString(std::string const &src, 
+								float x, float y, int align)
+	{		
+		float xpos = x;
+		float scale = m_font_size / m_font->getHeight();
+		switch (align)
+		{
+			case TEXT_ALIGN_LEFT: 
+				break;
+			case TEXT_ALIGN_RIGHT: 
+				xpos = x - m_font->getWidth(src) * scale;
+				break;
+			case TEXT_ALIGN_CENTER:
+				xpos = x - m_font->getWidth(src) * scale/2;
+				break;
+		}
+		
+		for (std::string::const_iterator it=src.begin(); it!=src.end(); ++it)
+		{
+			Image* ci = m_font->getFontImage(*it);
+			drawImageMaskScale(ci, xpos, y, scale, scale, m_color);
+//			drawImage(ci, xpos, y);
+			xpos += (ci->getWidth())*scale;
+		}
 	}
 	
-	void Graphics2D::drawString(char const *src, float x, float y, float charw, float charh, int align)
+	void Graphics2D::drawString(char const *src, float x, float y, int align)
 	{
-		drawString(std::string(src), x, y, charw, charh, align);
-	}
-	
-	void Graphics2D::drawString(NSString const *src, float x, float y, float charw, float charh, int align)
-	{
-		drawString(std::string([src UTF8String]), x, y, charw, charh, align);
+		drawString(std::string(src), x, y, align);
 	}
 	
 	

@@ -40,7 +40,17 @@ namespace com_cell
 		void beginRenderTransition(CGRect bounds);
 		
 		void endRenderTransition();
-
+		
+	private:
+		
+		static Font* default_font;
+		
+	public:
+		
+		inline static void setDefaultFont(Font* font) 
+		{
+			default_font = font;
+		}
 	};
     
 	

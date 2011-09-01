@@ -77,6 +77,50 @@ namespace com_cell
 		return lines;
 	}
 	
+	vector<string>	stringSplitBlank(string const &str, int limit)
+	{
+		int count = 1;
+		vector<string> lines;
+        
+        for (int i=0; i<str.length(); i++)
+        {
+			if (count < limit) 
+			{				
+				int dst = str.find(' ', i);
+				if (dst == string::npos) {
+					dst = str.find('\t', i);
+				}
+				if (dst == string::npos) {
+					dst = str.find('\n', i);
+				}
+				if (dst == string::npos) {
+					dst = str.find('\r', i);
+				}
+				if (dst != string::npos)
+				{					
+					lines.push_back(subString(str, i, dst));
+					i = dst;
+					count ++;
+				}
+				else
+				{
+					lines.push_back(subString(str, i, str.length()));
+					break;
+				}
+			}
+			else 
+			{
+				string last = subString(str, i, str.length());
+				lines.push_back(stringTrim(last));
+				break;
+			}
+        }
+        
+		return lines;
+
+	}
+
+	
 //	if (count < limit) {
 //		int dst = text.indexOf(separator, i);
 //		if (dst >= 0) {

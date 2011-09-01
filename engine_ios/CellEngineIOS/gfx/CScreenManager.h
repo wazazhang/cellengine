@@ -66,7 +66,7 @@ namespace com_cell
 		IScreenFactory*		m_pScreenFactory;
 		IScreen*			m_pCurSubScreen;
 		int					m_NextScreenType;
-		std::vector<void*>	m_NextScreenArgs;
+//		std::vector<void*>	m_NextScreenArgs;
 		// save key state
 //		std::vector<bool> m_PointerStates;
 //		std::vector<bool> m_PointerDragStates;
@@ -134,7 +134,7 @@ namespace com_cell
 //		
 //		void clearKey();
 		
-		void changeScreen(int nextScreenType, std::vector<void*> const &args);
+//		void changeScreen(int nextScreenType, std::vector<void*> const &args);
 		void changeScreen(int nextScreenType);
 		
 		

@@ -14,6 +14,8 @@
 
 namespace com_cell
 {
+	Font*  ScreenGraphics2D::default_font;
+	
 	ScreenGraphics2D::ScreenGraphics2D()
 	{		
         
@@ -50,6 +52,10 @@ namespace com_cell
         setAlpha(1);
         
         glEnableClientState (GL_VERTEX_ARRAY);
+		
+		if (default_font != NULL) {
+			setFont(default_font);
+		}
 	}
 	
 	void ScreenGraphics2D::endRender()

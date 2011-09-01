@@ -402,7 +402,7 @@ namespace com_cell_bms
 					// header field
 					if (line.find(":") == std::string::npos) 
 					{					
-						const std::vector<std::string> &kv = stringSplitRegx(line, "\\s");
+						const std::vector<std::string> &kv = stringSplitBlank(line, 2);
 
 						if (kv.size() > 1) {
 							if (initHeadInfo(kv[0], kv[1]) || 
@@ -433,17 +433,17 @@ namespace com_cell_bms
 			}
 		}
 		
-		if (listener!=NULL) {
-			listener->endLoading();
-		}
-		
 		for (std::map<CommandEnum, std::vector<Note*> >::iterator it=data_note_table.begin(); 
 			 it!=data_note_table.end(); ++it) 
 		{
 			std::vector<Note*> &tlist = (it->second);
 			std::sort( tlist.begin(), tlist.end() , compareNote);
 		}
-
+		
+		if (listener!=NULL) {
+			listener->endLoading();
+		}
+		
 		
 		cout << "done init : " << m_bms_file << "\n" <<
 		"	totoal_define_resource_count - "<<totoal_define_resource_count<<"\n"<<

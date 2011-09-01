@@ -22,6 +22,7 @@
 #include "CMath.h"
 #include "CImage.h"
 #include "CColor.h"
+#include "CFont.h"
 #include "CBlend.h"
 #include <iostream>
 #include <vector>
@@ -31,15 +32,25 @@ namespace com_cell
     
     
 	class Graphics2D
-	{
+	{	
+	public:
+		static const int TEXT_ALIGN_LEFT	= 0;
+		static const int TEXT_ALIGN_CENTER	= 1;
+		static const int TEXT_ALIGN_RIGHT	= 2;
+
     protected:
 		CGRect              m_bounds;
         Color               m_color;
         float               m_alpha;
 		Blend               m_blend;
+		
+		Font*				m_font;
+		float				m_font_size;
+		
         std::vector<Blend>  m_stack_blend;
         std::vector<float>  m_stack_alpha;
         std::vector<Color>  m_stack_color;
+        std::vector<Font*>  m_stack_font;
         
 	protected:
 		
@@ -108,15 +119,20 @@ namespace com_cell
         /////////////////////////////////////////////////////////////////////////////////
 		// string
         
-		void drawString(NSString const *src, float x, float y, float charw, float charh, int align);
+		void	setFont(Font *font);		
+		void	setFontSize(float size);
 		
-		void drawString(char const *src, float x, float y, float charw, float charh, int align);
+		Font*	getFont();
+        void	pushFont();
+        void	popFont();
+		float	stringWidth(std::string const &src);
+		float	stringHeight();
+
 		
-		void drawString(std::string const &src, float x, float y, float charw, float charh, int align);
+		void drawString(char const *src, float x, float y, int align);
 		
-		float stringWidth(std::string const &src);
+		void drawString(std::string const &src, float x, float y, int align);
 		
-		float stringHeight();
 		
         ///////////////////////////////////////////////////////////////////////////////
         // transform

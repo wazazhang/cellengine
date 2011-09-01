@@ -10,6 +10,7 @@
 
 #include <UIKit/UIKit.h>
 #include "CImage.h"
+#include "CFont.h"
 
 namespace com_cell
 {
@@ -30,7 +31,33 @@ namespace com_cell
 			}
 			return new Image(image);		
 		}
-
+		
+		/**
+		 * 创建等宽图片字体
+		 * @param 字体文件
+		 * @param 每行有多少字
+		 * @param 总共多少列
+		 * 文字按照从左到右，从上到下顺序排列
+		 */
+		inline static Font* createBandwidthFont(char const *file, int xcount, int ycount)
+		{
+			Image* src = createImage(file);
+			if (src != NULL) {
+				std::vector<Image*> tiles;
+				int cellw = src->getWidth()  / xcount;
+				int cellh = src->getHeight() / ycount;
+				for (int y=0; y<ycount; y++) {
+					for (int x=0; x<xcount; x++) {
+						Image* tile = src->subImage(x*cellw, y*cellh, cellw, cellh);
+						tiles.push_back(tile);
+					}
+				}
+				delete src;
+				return new ImageFontBW(tiles);
+			}
+			return NULL;
+		}
+		
 //		inline static Image* createImage(u32 width, u32 height, Color const &c)
 //		{
 //			CGImageRef image = [CGImageCreate(width, 
