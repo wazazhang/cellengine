@@ -12,15 +12,15 @@ package com.cell.ui
 
 		private var value : Boolean = false;
 		
-		public function TouchToggleButton(ch1:DisplayObject, ch2:DisplayObject)
+		public function TouchToggleButton(unsel:DisplayObject, sel:DisplayObject)
 		{
-			img_chk_next1 = ch1;
-			img_chk_next2 = ch2;
+			img_chk_next1 = unsel;
+			img_chk_next2 = sel;
 			img_chk_next1.visible = !value;
 			img_chk_next2.visible = value;
 			this.addEventListener(MouseEvent.CLICK, onMouseClick);
-			addChild(ch1);
-			addChild(ch2);
+			addChild(img_chk_next1);
+			addChild(img_chk_next2);
 		}
 		
 		public function setSelected(v:Boolean) : void
