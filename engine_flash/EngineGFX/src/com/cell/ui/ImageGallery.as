@@ -19,13 +19,14 @@ package com.cell.ui
 				var loader : Loader = new Loader();
 				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaded);
 				loader.load(new URLRequest(str));
+				this.addChildW(loader);
 			}
 		}
 		
 		private function loaded(e:Event) : void
 		{
-			this.addChildW((e.target as LoaderInfo).content);
-			
+//			this.addChildW((e.target as LoaderInfo).content);
+			setMode(mode);
 		}
 
 	}

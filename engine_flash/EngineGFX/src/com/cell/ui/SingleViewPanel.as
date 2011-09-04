@@ -45,7 +45,7 @@ package com.cell.ui
 			var sx : int = 0;
 			var sy : int = 0;
 			this.mode = m;
-			for (var i:int=numChildren-1; i>=0; --i) {
+			for (var i:int=0; i<numChildren; ++i) {
 				var o:DisplayObject = getChildAt(i);
 				o.x = sx;
 				o.y = sy;
