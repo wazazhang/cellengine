@@ -29,6 +29,8 @@
     <classEntry path="com.cell.gfx.game.world.CWorldCamera"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellMapWorld"/>
     <classEntry path="com.cell.gfx.game.CMapView"/>
+    <classEntry path="com.cell.ui.TouchScrollPanel"/>
+    <classEntry path="com.cell.ui.BasePanel"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
