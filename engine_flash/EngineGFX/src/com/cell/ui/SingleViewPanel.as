@@ -1,0 +1,120 @@
+package com.cell.ui
+{
+	import com.cell.math.IVector2D;
+	import com.cell.math.MathVector;
+	import com.cell.math.TVector2D;
+	import com.cell.util.CMath;
+	
+	import flash.display.DisplayObject;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
+
+	public class SingleViewPanel extends BasePanel
+	{		
+		public static const MODE_HORIZONTAL	: int = 0;
+		public static const MODE_VERTICAL	: int = 1;
+
+		protected var start_point			: Vector3D;
+		
+		protected var start_camera_point 	: Vector3D = new Vector3D();
+		
+		protected var speed					: Number = 16;
+		private var view_index 				: int = 0;
+		
+		protected var mode					: int = MODE_HORIZONTAL;
+		
+		private var next_camera_point		: Vector3D;
+		
+		public function SingleViewPanel(width:int, height:int)
+		{
+			super(width, height);
+			
+			addEventListener(MouseEvent.MOUSE_DOWN,	onMouseDown);
+			addEventListener(MouseEvent.MOUSE_MOVE,	onMouseMove);
+			addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
+			addEventListener(MouseEvent.MOUSE_OUT, 	onMouseUp);
+			
+			addEventListener(Event.ENTER_FRAME, update);
+		}
+
+		public function setMode(m:int) : void
+		{
+			this.mode = m;
+		}
+		
+		public function getMode() : int
+		{
+			return this.mode;	
+		}
+		public function getViewIndex() : int
+		{
+			return view_index;
+		}
+		
+		protected function onMouseDown(e:MouseEvent) : void 
+		{
+			start_point = new Vector3D();
+			start_point.x = (parent.mouseX);
+			start_point.y = (parent.mouseY);	
+			start_camera_point.x = scrollRect.x;
+			start_camera_point.y = scrollRect.y;
+			next_camera_point = null;
+		}
+		
+		protected function onMouseMove(e:MouseEvent) : void {
+			if (start_point != null) {
+				setCamera(
+					start_camera_point.x + (start_point.x - parent.mouseX),
+					start_camera_point.y + (start_point.y - parent.mouseY)
+				);
+			}
+		}
+		
+		protected function onMouseUp(e:MouseEvent) : void {
+			if (start_point != null) {
+				var dx : int = CMath.getDirect(start_point.x - parent.mouseX);
+				var dy : int = CMath.getDirect(start_point.y - parent.mouseY);
+				if (dx != 0 || dy != 0) {
+					var co : DisplayObject = getChildAt(view_index);
+					if (mode == MODE_HORIZONTAL) {
+						if (dx > 0 && view_index < numChildren-1) {
+							view_index ++;
+						} else if (dx < 0 && view_index>0) {
+							view_index --;
+						}
+						speed = co.width / 8;
+					}
+					else if (mode == MODE_VERTICAL) {
+						if (dy > 0 && view_index < numChildren-1) {
+							view_index ++;
+						} else if (dy < 0 && view_index>0) {
+							view_index --;
+						}
+						speed = co.height / 8;
+					} 
+					var no : DisplayObject = getChildAt(view_index);
+					next_camera_point = new Vector3D(no.x, no.y);
+				}
+			}
+			start_point = null;
+		}
+		
+		protected function update(e:Event) : void
+		{				
+			if (next_camera_point != null) {
+				var v2d : TVector2D = new TVector2D(scrollRect.x, scrollRect.y);
+				if (MathVector.moveTo(v2d, next_camera_point.x, next_camera_point.y, speed)) {
+					next_camera_point = null;
+				}			
+				setCamera(v2d.getVectorX(), v2d.getVectorY());
+			}
+		}
+		
+
+	
+	
+	}
+}
