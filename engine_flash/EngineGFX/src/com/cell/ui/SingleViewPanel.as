@@ -13,7 +13,7 @@ package com.cell.ui
 	import flash.geom.Vector3D;
 
 	public class SingleViewPanel extends BasePanel
-	{		
+	{	
 		public static const MODE_HORIZONTAL	: int = 0;
 		public static const MODE_VERTICAL	: int = 1;
 
@@ -42,7 +42,19 @@ package com.cell.ui
 
 		public function setMode(m:int) : void
 		{
+			var sx : int = 0;
+			var sy : int = 0;
 			this.mode = m;
+			for (var i:int=numChildren-1; i>=0; --i) {
+				var o:DisplayObject = getChildAt(i);
+				o.x = sx;
+				o.y = sy;
+				if (mode == MODE_HORIZONTAL) {
+					sx += o.width;
+				} else if (mode == MODE_VERTICAL) {
+					sy += o.height;
+				}
+			}
 		}
 		
 		public function getMode() : int

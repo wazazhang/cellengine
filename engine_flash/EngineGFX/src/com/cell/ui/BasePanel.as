@@ -6,6 +6,8 @@ package com.cell.ui
 
 	public class BasePanel extends Sprite
 	{
+		private var local_bounds : Rectangle = null;
+		
 		public function BasePanel(viewW:int, viewH:int)
 		{
 			this.graphics.beginFill(0xffffffff, 1);
@@ -49,10 +51,18 @@ package com.cell.ui
 				var o:DisplayObject = getChildAt(i);
 				rect = rect.union(new Rectangle(o.x,o.y,o.width,o.height));
 			}
+			local_bounds = rect.clone();
 			return rect;
 		}
 		
-
+		public function getLocalBounds() : Rectangle 
+		{
+			if (local_bounds == null) {
+				createLocalBounds();
+			}
+			return local_bounds;
+		}
+		
 		protected function setCamera(cx:int, cy:int) : void
 		{
 			var cb : Rectangle = createLocalBounds();

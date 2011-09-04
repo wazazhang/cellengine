@@ -31,6 +31,10 @@
     <classEntry path="com.cell.gfx.game.CMapView"/>
     <classEntry path="com.cell.ui.TouchScrollPanel"/>
     <classEntry path="com.cell.ui.BasePanel"/>
+    <classEntry path="com.cell.ui.ImageGallery"/>
+    <classEntry path="com.cell.ui.TouchScrollBar"/>
+    <classEntry path="com.cell.ui.TouchToggleButton"/>
+    <classEntry path="com.cell.ui.ImageButton"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
