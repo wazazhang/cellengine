@@ -35,6 +35,7 @@
     <classEntry path="com.cell.ui.TouchScrollBar"/>
     <classEntry path="com.cell.ui.TouchToggleButton"/>
     <classEntry path="com.cell.ui.ImageButton"/>
+    <classEntry path="com.cell.ui.ImageBox"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
