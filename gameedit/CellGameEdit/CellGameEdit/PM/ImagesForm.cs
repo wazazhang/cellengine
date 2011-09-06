@@ -962,7 +962,8 @@ namespace CellGameEdit.PM
 
             try
             {
-                if (srcRect.Width != 0 && srcRect.Height != 0)
+                if (srcPX != srcQX && srcPY != srcQY)
+                if (srcRect.Width > 0 && srcRect.Height > 0 && srcImage.getWidth()>0 && srcImage.getHeight()>0)
                 {
 
                     Image changed = Image.createImage(
@@ -1750,6 +1751,20 @@ namespace CellGameEdit.PM
             catch (Exception err) { }
         }
 
+        // 清理透明色
+        private void 清理透明色ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImageProcessDialog ipd = new ImageProcessDialog(this, dstImages);
+
+            if (ipd.ShowDialog() == DialogResult.OK)
+            {
+                changeImage();
+            }
+        }
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------------------------------
         
         public MapForm createMapForm(String name)
@@ -1997,6 +2012,7 @@ namespace CellGameEdit.PM
             }
         }
 
+       
 
 
 

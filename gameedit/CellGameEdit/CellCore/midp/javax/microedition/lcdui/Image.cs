@@ -89,6 +89,34 @@ public class Image
 
 	}
 
+
+    //-----------------------------------------------------------------------------------------------------------------------------------
+
+    public void setTransparentColor(int argb)
+    {
+		System.Drawing.Bitmap image = new System.Drawing.Bitmap(dimg.Width, dimg.Height);
+
+        System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(image);
+
+        g.DrawImageUnscaled(dimg, 0, 0);
+
+        for (int x = image.Width - 1; x >= 0; --x )
+        {
+            for (int y= image.Height - 1; y >= 0; --y)
+            {
+                System.Drawing.Color c = image.GetPixel(x, y);
+                if (c.ToArgb() == argb) 
+                {
+                    image.SetPixel(0, 0, System.Drawing.Color.FromArgb(0));
+                }
+            }
+        }
+
+
+        dimg = image;
+    }
+
+
 	//-----------------------------------------------------------------------------------------------------------------------------------
 
 	public Graphics getGraphics()
@@ -163,4 +191,5 @@ public class Image
 		return brush;
 	}
 }
+
 }

@@ -1805,39 +1805,6 @@ namespace CellGameEdit.PM
             }
         }
 
-        private void toolStripMenuItem10_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!sender.Equals(toolStripMenuItem10)) toolStripMenuItem10.Checked = false;
-                if (!sender.Equals(toolStripMenuItem11)) toolStripMenuItem11.Checked = false;
-                if (!sender.Equals(toolStripMenuItem12)) toolStripMenuItem12.Checked = false;
-                if (!sender.Equals(toolStripMenuItem13)) toolStripMenuItem13.Checked = false;
-                if (!sender.Equals(toolStripMenuItem14)) toolStripMenuItem14.Checked = false;
-                if (!sender.Equals(toolStripMenuItem15)) toolStripMenuItem15.Checked = false;
-                if (!sender.Equals(toolStripMenuItem16)) toolStripMenuItem16.Checked = false;
-                if (!sender.Equals(toolStripMenuItem17)) toolStripMenuItem17.Checked = false;
-
-                ((ToolStripMenuItem)sender).Checked = true;
-                toolStripDropDownButton3.Image = ((ToolStripMenuItem)sender).Image;
-
-                //
-                if (sender.Equals(toolStripMenuItem10)) flipIndex = 0;
-                if (sender.Equals(toolStripMenuItem11)) flipIndex = 1;
-                if (sender.Equals(toolStripMenuItem12)) flipIndex = 2;
-                if (sender.Equals(toolStripMenuItem13)) flipIndex = 3;
-                if (sender.Equals(toolStripMenuItem14)) flipIndex = 4;
-                if (sender.Equals(toolStripMenuItem15)) flipIndex = 5;
-                if (sender.Equals(toolStripMenuItem16)) flipIndex = 6;
-                if (sender.Equals(toolStripMenuItem17)) flipIndex = 7;
-
-                pictureBox1.Refresh();
-            }
-            catch (Exception err)
-            {
-            }
-        }
-
         #endregion
 
         //property
@@ -2305,6 +2272,7 @@ namespace CellGameEdit.PM
             switch (e.KeyCode)
             {
                 case Keys.PageUp:
+                    /*
                     if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
                     else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
                     else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
@@ -2312,10 +2280,11 @@ namespace CellGameEdit.PM
                     else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
                     else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
                     else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
-                    else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
+                    else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);*/
+                    this.flipIndex = imageFlipToolStripButton2.prewFlipIndex();
                     break;
 
-                case Keys.PageDown: 
+                case Keys.PageDown: /*
                     if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
                     else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
                     else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
@@ -2323,7 +2292,8 @@ namespace CellGameEdit.PM
                     else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
                     else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
                     else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
-                    else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
+                    else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);*/
+                    this.flipIndex = imageFlipToolStripButton2.nextFlipIndex();
                     break;
             }
             switch (e.KeyCode)
@@ -2331,6 +2301,7 @@ namespace CellGameEdit.PM
                 case Keys.PageUp:
                 case Keys.PageDown:
                     refreshMap();
+                    pictureBox1.Refresh();
                     break;
             }
 
@@ -4208,6 +4179,14 @@ namespace CellGameEdit.PM
                  );
                 mf.Show(this);
             }
+        }
+
+
+        private void imageFlipToolStripButton2_DropDownClosed(object sender, EventArgs e)
+        {
+            flipIndex = imageFlipToolStripButton2.getFlipIndex();
+
+            pictureBox1.Refresh();
         }
 
       

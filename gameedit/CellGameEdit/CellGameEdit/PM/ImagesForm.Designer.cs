@@ -86,6 +86,7 @@
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清理透明色ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -268,7 +269,7 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(41, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(44, 22);
             this.toolStripLabel1.Text = "每格宽";
             // 
             // toolStripTextBox1
@@ -283,7 +284,7 @@
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(41, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(44, 22);
             this.toolStripLabel2.Text = "每格高";
             // 
             // toolStripTextBox2
@@ -316,14 +317,14 @@
             // 
             this.添加切片ToolStripMenuItem.Name = "添加切片ToolStripMenuItem";
             this.添加切片ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.添加切片ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.添加切片ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.添加切片ToolStripMenuItem.Text = "添加切片";
             this.添加切片ToolStripMenuItem.Click += new System.EventHandler(this.添加切片ToolStripMenuItem_Click);
             // 
             // 添加多张图片ToolStripMenuItem
             // 
             this.添加多张图片ToolStripMenuItem.Name = "添加多张图片ToolStripMenuItem";
-            this.添加多张图片ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.添加多张图片ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.添加多张图片ToolStripMenuItem.Text = "添加多张图片";
             this.添加多张图片ToolStripMenuItem.Click += new System.EventHandler(this.添加多张图片ToolStripMenuItem_Click);
             // 
@@ -379,7 +380,7 @@
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(125, 20);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(135, 20);
             this.toolStripStatusLabel3.Text = "原图：X=  Y= 高= 宽=";
             // 
             // panel2
@@ -432,7 +433,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(101, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(100, 17);
             this.toolStripStatusLabel1.Text = "目标Tile：第几号";
             // 
             // toolStrip2
@@ -467,6 +468,7 @@
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.从左边替换ToolStripMenuItem,
             this.从目录替换ToolStripMenuItem,
+            this.清理透明色ToolStripMenuItem,
             this.删除ToolStripMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -477,14 +479,14 @@
             // 从左边替换ToolStripMenuItem
             // 
             this.从左边替换ToolStripMenuItem.Name = "从左边替换ToolStripMenuItem";
-            this.从左边替换ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.从左边替换ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.从左边替换ToolStripMenuItem.Text = "从左边替换";
             this.从左边替换ToolStripMenuItem.Click += new System.EventHandler(this.从左边替换ToolStripMenuItem_Click);
             // 
             // 从目录替换ToolStripMenuItem
             // 
             this.从目录替换ToolStripMenuItem.Name = "从目录替换ToolStripMenuItem";
-            this.从目录替换ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.从目录替换ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.从目录替换ToolStripMenuItem.Text = "从目录替换";
             this.从目录替换ToolStripMenuItem.Click += new System.EventHandler(this.从目录替换ToolStripMenuItem_Click);
             // 
@@ -492,7 +494,7 @@
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
             this.删除ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 
@@ -672,22 +674,29 @@
             this.编辑ToolStripMenuItem,
             this.导出图片ToolStripMenuItem});
             this.clipMenu.Name = "clipMenu";
-            this.clipMenu.Size = new System.Drawing.Size(119, 48);
+            this.clipMenu.Size = new System.Drawing.Size(125, 48);
             this.clipMenu.Text = "clipMenu";
             // 
             // 编辑ToolStripMenuItem
             // 
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
-            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.编辑ToolStripMenuItem.Text = "编辑键值";
             this.编辑ToolStripMenuItem.Click += new System.EventHandler(this.编辑ToolStripMenuItem_Click);
             // 
             // 导出图片ToolStripMenuItem
             // 
             this.导出图片ToolStripMenuItem.Name = "导出图片ToolStripMenuItem";
-            this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
+            // 
+            // 清理透明色ToolStripMenuItem
+            // 
+            this.清理透明色ToolStripMenuItem.Name = "清理透明色ToolStripMenuItem";
+            this.清理透明色ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.清理透明色ToolStripMenuItem.Text = "图片批处理";
+            this.清理透明色ToolStripMenuItem.Click += new System.EventHandler(this.清理透明色ToolStripMenuItem_Click);
             // 
             // ImagesForm
             // 
@@ -785,5 +794,6 @@
         private System.Windows.Forms.ToolStripButton btnSrcSelectAll;
         private System.Windows.Forms.ToolStripButton btnUpAllImage;
         private System.Windows.Forms.ToolStripButton btnLeftAllImage;
+        private System.Windows.Forms.ToolStripMenuItem 清理透明色ToolStripMenuItem;
     }
 }

@@ -21,18 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2F0BF58F1FA44442365C5FEF875D3CBF"
-        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2F0BF58F1FA44442365C5FEF875D3CBF"
-        "OwnerKey" = "8:_CA6854E3444CF651FA1D06C48BFDA954"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -51,7 +39,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8ECC859141B2D29D7D139FCA4844B813"
+        "MsmKey" = "8:_9F42E3F7795C3F53D6129EF94C8D43B8"
         "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -63,7 +51,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CA6854E3444CF651FA1D06C48BFDA954"
+        "MsmKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
+        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
+        "OwnerKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
         "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8ECC859141B2D29D7D139FCA4844B813"
+        "OwnerKey" = "8:_9F42E3F7795C3F53D6129EF94C8D43B8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,13 +100,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CA6854E3444CF651FA1D06C48BFDA954"
+        "OwnerKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2F0BF58F1FA44442365C5FEF875D3CBF"
+        "OwnerKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -234,37 +234,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2F0BF58F1FA44442365C5FEF875D3CBF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2F0BF58F1FA44442365C5FEF875D3CBF"
-                    {
-                    "Name" = "8:CellCore.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CellCore.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7FEDE0FFB4BD4559898579B01B220E2F"
             {
             "SourcePath" = "8:..\\ScriptExample\\output.properties"
@@ -285,14 +254,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8ECC859141B2D29D7D139FCA4844B813"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9F42E3F7795C3F53D6129EF94C8D43B8"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8ECC859141B2D29D7D139FCA4844B813"
+                    "_9F42E3F7795C3F53D6129EF94C8D43B8"
                     {
                     "Name" = "8:CellCore.dll"
                     "Attributes" = "3:512"
@@ -336,14 +305,45 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CA6854E3444CF651FA1D06C48BFDA954"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C63A2772B735F7EC225CFCEBFD92C8FE"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C63A2772B735F7EC225CFCEBFD92C8FE"
+                    {
+                    "Name" = "8:CellCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C87A3FE071C84A2B090B9ABE5A911F19"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CellGameEdit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CA6854E3444CF651FA1D06C48BFDA954"
+                    "_C87A3FE071C84A2B090B9ABE5A911F19"
                     {
                     "Name" = "8:CellGameEdit.exe"
                     "Attributes" = "3:512"

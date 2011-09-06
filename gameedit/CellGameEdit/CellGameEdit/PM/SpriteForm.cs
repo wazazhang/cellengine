@@ -703,7 +703,7 @@ namespace CellGameEdit.PM
             pictureBox1.Height = 1;
             pictureBox2.Width = dstPanelSize;
             pictureBox2.Height = dstPanelSize;
-            pictureBox2.Image = new System.Drawing.Bitmap(256, 256);
+            pictureBox2.Image = new System.Drawing.Bitmap(dstPanelSize, dstPanelSize);
             try
             {
                 panel2.HorizontalScroll.Value = panel2.HorizontalScroll.Maximum / 2 - panel2.Width / 2;
@@ -1603,6 +1603,7 @@ namespace CellGameEdit.PM
             }
             dstRefersh();
         }
+        /*
         private void toolStripMenuItem10_Click(object sender, EventArgs e)
         {
             if (!sender.Equals(toolStripMenuItem10)) toolStripMenuItem10.Checked = false;
@@ -1633,7 +1634,7 @@ namespace CellGameEdit.PM
             }
             
             dstRefersh();
-        }
+        }*/
         private void listView3_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             dstRefreshEnable = false;
@@ -1647,17 +1648,9 @@ namespace CellGameEdit.PM
                 PartW.Text = "" + framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]];
                 PartH.Text = "" + framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]];
 
-                switch ((int)framesGetCurFrame().SubFlip[dstGetCurSubIndexes()[0]])
-                {
-                    case 0: toolStripMenuItem10_Click(toolStripMenuItem10, null); break;
-                    case 1: toolStripMenuItem10_Click(toolStripMenuItem11, null); break;
-                    case 2: toolStripMenuItem10_Click(toolStripMenuItem12, null); break;
-                    case 3: toolStripMenuItem10_Click(toolStripMenuItem13, null); break;
-                    case 4: toolStripMenuItem10_Click(toolStripMenuItem14, null); break;
-                    case 5: toolStripMenuItem10_Click(toolStripMenuItem15, null); break;
-                    case 6: toolStripMenuItem10_Click(toolStripMenuItem16, null); break;
-                    case 7: toolStripMenuItem10_Click(toolStripMenuItem17, null); break;
-                }
+                imageFlipToolStripButton1.setFlipIndex((int)framesGetCurFrame().SubFlip[dstGetCurSubIndexes()[0]]);
+
+              
             }
 
             PartState.Text = "" + e.ItemIndex;
@@ -2013,6 +2006,7 @@ namespace CellGameEdit.PM
                     case Keys.Right: eX = 1; textBox1.Text += "RIGHT"; break;
 
                     case Keys.PageUp:
+                        /*
                         if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
                         else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
                         else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
@@ -2020,10 +2014,13 @@ namespace CellGameEdit.PM
                         else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
                         else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
                         else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
-                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
+                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);*/
+                        imageFlipToolStripButton1.prewFlipIndex();
+                       
                         break;
 
                     case Keys.PageDown:
+                        /*
                         if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
                         else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
                         else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
@@ -2031,9 +2028,25 @@ namespace CellGameEdit.PM
                         else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
                         else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
                         else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
-                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
+                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);*/
+                        imageFlipToolStripButton1.nextFlipIndex();
                         break;
                 }
+
+                switch (e.KeyCode)
+                {
+                    case Keys.PageUp:
+                    case Keys.PageDown:
+                        if (dstGetCurSubIndexes().Length == 1)
+                        {
+                            int flip = imageFlipToolStripButton1.getFlipIndex();
+                            framesGetCurFrame().flipSub(dstGetCurSubIndexes()[0], flip);
+                        }
+
+                        break;
+                }
+              
+
 
                 try
                 {
@@ -2154,7 +2167,6 @@ namespace CellGameEdit.PM
                 pictureBox3.Width = ViewW * animGetCurFrames().Count;
                 pictureBox3.Height = ViewH;
             }
-
             pictureBox3.Refresh();
         }
 
@@ -2359,17 +2371,13 @@ namespace CellGameEdit.PM
         
             if (toolStripButton6.Checked == true)
             {
-                foreach (Control control in splitContainer5.Panel2.Controls)
-                {
-                    control.Enabled = false;
-                }
+                tabControl1.Enabled = false;
+                panel2.Enabled = false;
             }
             else
             {
-                foreach (Control control in splitContainer5.Panel2.Controls)
-                {
-                    control.Enabled = true;
-                }
+                tabControl1.Enabled = true;
+                panel2.Enabled = true;
             }
             if (toolStripButton6.Checked)
             {
@@ -2691,6 +2699,26 @@ namespace CellGameEdit.PM
         private void SpriteForm_TextChanged(object sender, EventArgs e)
         {
             this.id = this.Text;
+        }
+        private void imageFlipToolStripButton1_DropDownClosed(object sender, EventArgs e)
+        {
+            if (dstGetCurSubIndexes().Length == 1)
+            {
+                int flip = imageFlipToolStripButton1.getFlipIndex();
+                /*
+                if (sender.Equals(toolStripMenuItem10)) flip = 0;
+                if (sender.Equals(toolStripMenuItem11)) flip = 1;
+                if (sender.Equals(toolStripMenuItem12)) flip = 2;
+                if (sender.Equals(toolStripMenuItem13)) flip = 3;
+                if (sender.Equals(toolStripMenuItem14)) flip = 4;
+                if (sender.Equals(toolStripMenuItem15)) flip = 5;
+                if (sender.Equals(toolStripMenuItem16)) flip = 6;
+                if (sender.Equals(toolStripMenuItem17)) flip = 7;
+                */
+                framesGetCurFrame().flipSub(dstGetCurSubIndexes()[0], flip);
+            }
+
+            dstRefersh();
         }
 
 
