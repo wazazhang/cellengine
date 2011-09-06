@@ -13,8 +13,7 @@ namespace CellGameEdit.PM
         public ImageFlipToolStripButton()
         {
             InitializeComponent();
-
-            toolStripMenuItem10.Checked = true;
+            select(toolStripMenuItem10);
         }
 
         public int getFlipIndex()

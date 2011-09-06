@@ -644,6 +644,7 @@
             this.panel3.Controls.Add(this.numericUpDown2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 25);
+            this.panel3.MinimumSize = new System.Drawing.Size(553, 97);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(553, 97);
             this.panel3.TabIndex = 4;

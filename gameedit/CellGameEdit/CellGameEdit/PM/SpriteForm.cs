@@ -2721,6 +2721,11 @@ namespace CellGameEdit.PM
             dstRefersh();
         }
 
+        private void imageFlipToolStripButton1_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
 
 
 
