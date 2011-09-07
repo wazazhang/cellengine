@@ -2,8 +2,6 @@ package com.cell.gfx.game
 {
 	public interface IImages
 	{
-		function clone() : IImages;
-		
 		function getImage(index:int) : CImage;
 		
 		function getWidth(index:int) : int;

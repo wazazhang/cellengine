@@ -6,9 +6,9 @@ package com.cell.gameedit.output
 	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 
-	public class XmlDirMap extends CMap
+	public class XmlCMap extends CMap
 	{
-		public function XmlDirMap(output:XmlOutputLoader, tiles:IImages, tmap:MapSet)
+		public function XmlCMap(output:XmlOutputLoader, tiles:IImages, tmap:MapSet)
 		{
 			var xcount	: int = tmap.XCount;
 			var ycount	: int = tmap.YCount;

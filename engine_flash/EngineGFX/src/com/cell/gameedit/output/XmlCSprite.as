@@ -6,9 +6,9 @@ package com.cell.gameedit.output
 	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CSprite;
 
-	public class XmlDirSprite extends CSprite
+	public class XmlCSprite extends CSprite
 	{
-		public function XmlDirSprite(output:XmlOutputLoader, tiles:IImages, tsprite:SpriteSet)
+		public function XmlCSprite(output:XmlOutputLoader, tiles:IImages, tsprite:SpriteSet)
 		{
 			if (output != null) {
 				var scenePartCount : int = tsprite.PartTileID.length;
@@ -61,7 +61,7 @@ package com.cell.gameedit.output
 		
 		public override function copy() : CSprite
 		{
-			var ret : XmlDirSprite = new XmlDirSprite(null, null, null);
+			var ret : XmlCSprite = new XmlCSprite(null, null, null);
 			ret.init2(this);
 			return ret;
 		}

@@ -6,6 +6,7 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.WorldSet;
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
+	import com.cell.gameedit.output.XmlDirOutputLoader;
 	import com.cell.gameedit.output.XmlOutputLoader;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
@@ -33,7 +34,7 @@ package com.cell.gameedit
 				this.output = output;
 			}
 			else if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
-				this.output	= new XmlOutputLoader(url);
+				this.output	= new XmlDirOutputLoader(url);
 			}
 		}
 		

@@ -32,13 +32,7 @@ package com.cell.gameedit.output
 
 	public class XmlOutputLoader implements OutputLoader
 	{
-		internal var path 		: String;
-		internal var path_root 	: String;
-		internal var file_name 	: String;
-		
 		private var complete	: Function;
-		
-		private var loader		: URLLoader;
 		
 		private var img_table	: Map = new Map();
 		private var spr_table	: Map = new Map();
@@ -53,38 +47,11 @@ package com.cell.gameedit.output
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		public function XmlOutputLoader(url:String)
-		{
-			this.path 		= url.replace('\\', '/');
-			this.path_root	= path.substring(0, path.lastIndexOf("/")+1);
-			this.file_name	= path.substring(path_root.length);
-			
-			this.loader		= new URLLoader();
-			this.loader.addEventListener(Event.COMPLETE, xml_complete);
-		}
 		
 		public function load(complete:Function) : void
 		{
 			this.complete = complete;
-			this.loader.load(UrlManager.getUrl(path));
 		}
-		
-		public function toString() : String
-		{
-			return "[XmlOutputLoader:" + path+"]";
-		}
-		
-//		-----------------------------------------------------------------------------------------------
-		
-		private function xml_complete(e:Event) : void
-		{
-			init(new XML(this.loader.data));
-			this.complete.call();
-		}
-		
-		
-		
-//		-----------------------------------------------------------------------------------------------
 		
 		protected function init(xml:XML) : void
 		{
@@ -97,6 +64,8 @@ package com.cell.gameedit.output
 			initResource(xml.resource[0]);
 			
 			initLevel(xml.level[0]);
+			
+			this.complete.call();
 		}
 		
 		protected function initResource(xml:XML) : void
@@ -477,19 +446,16 @@ package com.cell.gameedit.output
 		}
 //		-----------------------------------------------------------------------------------------------
 		
-		
+		// abstract
 		public function createCImages(img:ImagesSet) : IImages
 		{
-			if (img != null) {
-				return new XmlDirTiles(this, img);
-			}
-			return null;
+			throw new Error("not impl");
 		}
 		
 		public function createCSprite(spr:SpriteSet, images:IImages) : CSprite
 		{
 			if (spr != null) {
-				return new XmlDirSprite(this, images, spr);
+				return new XmlCSprite(this, images, spr);
 			}
 			return null;
 		}
@@ -498,7 +464,7 @@ package com.cell.gameedit.output
 		public function createCMap(map:MapSet, images:IImages) : CMap
 		{
 			if (map != null) {
-				return new XmlDirMap(this, images, map);
+				return new XmlCMap(this, images, map);
 			}
 			return null;
 		}
