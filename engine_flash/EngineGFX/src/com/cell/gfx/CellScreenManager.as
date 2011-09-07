@@ -135,15 +135,18 @@ package com.cell.gfx
 			}
 			else
 			{
-				this.current_screen = adapter.createScreen(this, next_screen_name);
+				var args : Array = next_screen_args;
+				var name : String = next_screen_name;
+				this.next_screen_args	= null;
+				this.next_screen_name	= null;
+
+				this.current_screen = adapter.createScreen(this, name);
 				trace("ChangeStage -> "+ current_screen.toString());	
 				this.addChild(current_screen);
-				this.current_screen.added(this, next_screen_args);
+				this.current_screen.added(this, args);
 				if (this.transition != null) {
 					this.transition.startTransitionIn();
 				}
-				this.next_screen_args	= null;
-				this.next_screen_name	= null;
 			}
 		}
 		
