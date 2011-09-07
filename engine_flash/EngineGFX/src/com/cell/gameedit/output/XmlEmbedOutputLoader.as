@@ -33,24 +33,24 @@ package com.cell.gameedit.output
 
 	public class XmlEmbedOutputLoader extends XmlOutputLoader
 	{
-		protected var xml_class:Class;
+		protected var xml:XML;
 		protected var class_name_map:Map;
 		
-		public function XmlEmbedOutputLoader(xml_class:Class, class_name_map:Map)
+		public function XmlEmbedOutputLoader(xml:XML, class_name_map:Map)
 		{
-			this.xml_class = xml_class;
+			this.xml = xml;
 			this.class_name_map = class_name_map;
 		}
 		
 		public function toString() : String
 		{
-			return "[XmlEmbedOutputLoader:"+xml_class+"]";
+			return "[XmlEmbedOutputLoader:]";
 		}
 		
 		override public function load(complete:Function) : void
 		{
 			super.load(complete);
-			init(XML(new xml_class()));
+			init(xml);
 		}
 		
 		override public function createCImages(img:ImagesSet) : IImages
