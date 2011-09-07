@@ -2,7 +2,6 @@ package com.cell.ui
 {
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
-	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;

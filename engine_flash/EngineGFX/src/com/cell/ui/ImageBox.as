@@ -1,5 +1,7 @@
 package com.cell.ui
 {
+	import com.cell.io.UrlManager;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.Sprite;
@@ -24,7 +26,7 @@ package com.cell.ui
 		{
 			this.anchor = anchor;
 			this.o = o;
-			this.cacheAsBitmap = true;
+//			this.cacheAsBitmap = true;
 			addChild(o);
 			addEventListener(Event.ENTER_FRAME, update);
 		}
@@ -54,9 +56,13 @@ package com.cell.ui
 		public static function createImageBox(url:String, anchor:int = 0x11) : ImageBox
 		{
 			var ld : Loader = new Loader();
-			ld.load(new URLRequest(url));
+			ld.load(UrlManager.getUrl(url));
 			return new ImageBox(ld, anchor);
 		}
 		
+		public static function createImageBoxClass(c:Class, anchor:int = 0x11) : ImageBox
+		{
+			return new ImageBox(new c() as DisplayObject, anchor);
+		}
 	}
 }

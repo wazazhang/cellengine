@@ -1,7 +1,6 @@
 package com.cell.gameedit.output
 {
 	import com.cell.gameedit.OutputLoader;
-	import com.cell.gameedit.ResourceURL;
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gameedit.object.SpriteSet;
@@ -17,6 +16,7 @@ package com.cell.gameedit.output
 	import com.cell.gfx.game.IImages;
 	import com.cell.io.TextDeserialize;
 	import com.cell.io.TextReader;
+	import com.cell.io.UrlManager;
 	import com.cell.util.Arrays;
 	import com.cell.util.Map;
 	import com.cell.util.NumberReference;
@@ -35,7 +35,6 @@ package com.cell.gameedit.output
 		internal var path 		: String;
 		internal var path_root 	: String;
 		internal var file_name 	: String;
-		internal var url_wrapper: ResourceURL;
 		
 		private var complete	: Function;
 		
@@ -54,9 +53,8 @@ package com.cell.gameedit.output
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		public function XmlOutputLoader(url:String, url_wrapper:ResourceURL)
+		public function XmlOutputLoader(url:String)
 		{
-			this.url_wrapper= url_wrapper;
 			this.path 		= url.replace('\\', '/');
 			this.path_root	= path.substring(0, path.lastIndexOf("/")+1);
 			this.file_name	= path.substring(path_root.length);
@@ -67,12 +65,8 @@ package com.cell.gameedit.output
 		
 		public function load(complete:Function) : void
 		{
-			this.complete	= complete;
-			if (url_wrapper != null) {
-				this.loader.load(new URLRequest(url_wrapper.getResourceUrl(path)));
-			} else {
-				this.loader.load(new URLRequest(path));
-			}
+			this.complete = complete;
+			this.loader.load(UrlManager.getUrl(path));
 		}
 		
 		public function toString() : String

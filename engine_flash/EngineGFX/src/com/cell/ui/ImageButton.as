@@ -1,5 +1,7 @@
 package com.cell.ui
 {
+	import com.cell.io.UrlManager;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.SimpleButton;
@@ -24,12 +26,15 @@ package com.cell.ui
 		public static function createImageButton(up_url:String, down_url:String) : ImageButton
 		{
 			var udl : Loader = new Loader();
-			udl.load(new URLRequest(up_url));
+			udl.load(UrlManager.getUrl(up_url));
 			var ddl : Loader = new Loader();
-			ddl.load(new URLRequest(down_url));
+			ddl.load(UrlManager.getUrl(down_url));
 			return new ImageButton(udl, ddl);
 		}
 
-
+		public static function createImageButtonClass(up_c:Class, down_c:Class) : ImageButton
+		{
+			return new ImageButton(new up_c() as DisplayObject, new down_c() as DisplayObject);
+		}
 	}
 }

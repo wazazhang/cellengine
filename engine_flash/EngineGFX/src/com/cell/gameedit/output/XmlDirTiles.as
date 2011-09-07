@@ -6,6 +6,7 @@ package com.cell.gameedit.output
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.IImageObserver;
 	import com.cell.gfx.game.IImages;
+	import com.cell.io.UrlManager;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -42,13 +43,10 @@ package com.cell.gameedit.output
 					}
 				}
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
-				if (output.url_wrapper!=null) {
-					url = output.url_wrapper.getResourceUrl(url);
-				}
 				this.loader = new Loader();
 				this.loader_wait = new Array();
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
-				this.loader.load(new URLRequest(url));
+				this.loader.load(UrlManager.getUrl(url));
 			}
 			
 		}

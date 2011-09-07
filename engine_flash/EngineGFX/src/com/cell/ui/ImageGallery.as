@@ -1,5 +1,7 @@
 package com.cell.ui
 {
+	import com.cell.io.UrlManager;
+	
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
@@ -18,7 +20,7 @@ package com.cell.ui
 			for each (var str : String in images_url) {
 				var loader : Loader = new Loader();
 				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaded);
-				loader.load(new URLRequest(str));
+				loader.load(UrlManager.getUrl(str));
 				this.addChildW(loader);
 			}
 		}

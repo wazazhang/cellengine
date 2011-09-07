@@ -1,11 +1,12 @@
 package com.cell.ui
 {
+	import com.cell.io.UrlManager;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.net.URLRequest;
 
 	public class TouchToggleButton extends Sprite
 	{
@@ -47,11 +48,15 @@ package com.cell.ui
 		public static function createTouchToggleButton(up_url:String, down_url:String) : TouchToggleButton
 		{
 			var udl : Loader = new Loader();
-			udl.load(new URLRequest(up_url));
+			udl.load(UrlManager.getUrl(up_url));
 			var ddl : Loader = new Loader();
-			ddl.load(new URLRequest(down_url));
+			ddl.load(UrlManager.getUrl(down_url));
 			return new TouchToggleButton(udl, ddl);
 		}
-
+		
+		public static function createTouchToggleButtonClass(up_c:Class, down_c:Class) : TouchToggleButton
+		{
+			return new TouchToggleButton(new up_c() as DisplayObject, new down_c() as DisplayObject);
+		}
 	}
 }
