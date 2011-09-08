@@ -8,7 +8,9 @@ package com.cell.gfx.game.worldcraft
 	{
 		private var _rect : Rectangle;
 		
-		public function CellWorldCamera(w:int, h:int)
+		private var world_bounds : Rectangle;
+		
+		public function CellWorldCamera(w:int, h:int, world_bounds:Rectangle=null)
 		{
 			_rect = new Rectangle(0,0,w,h);
 		}
@@ -64,6 +66,20 @@ package com.cell.gfx.game.worldcraft
 		 * @param y y
 		 */
 		public function setPos(x:Number, y:Number) : void {
+			if (world_bounds != null) {
+				if (x < world_bounds.x) {
+					x = world_bounds.x;
+				}
+				if (x > world_bounds.right) {
+					x = world_bounds.right;
+				}
+				if (y < world_bounds.y) {
+					y = world_bounds.y;
+				}
+				if (y > world_bounds.bottom) {
+					y = world_bounds.bottom;
+				}
+			}
 			this._rect.x = x;
 			this._rect.y = y;
 		}
@@ -76,8 +92,12 @@ package com.cell.gfx.game.worldcraft
 		 */
 		public function move(x:Number, y:Number) : void
 		{
-			this._rect.x += x;
-			this._rect.y += y;
+			if (world_bounds != null) {
+				setPos(_rect.x + x, _rect.y + y) ;
+			} else {
+				this._rect.x += x;
+				this._rect.y += y;
+			}
 		}
 		
 	}
