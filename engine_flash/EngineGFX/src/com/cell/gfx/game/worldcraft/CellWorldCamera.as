@@ -10,9 +10,10 @@ package com.cell.gfx.game.worldcraft
 		
 		private var world_bounds : Rectangle;
 		
-		public function CellWorldCamera(w:int, h:int, world_bounds:Rectangle=null)
+		public function CellWorldCamera(w:int, h:int, wb:Rectangle=null)
 		{
-			_rect = new Rectangle(0,0,w,h);
+			this._rect = new Rectangle(0,0,w,h);
+			this.world_bounds = wb;
 		}
 		
 		public function get bounds() : Rectangle
@@ -70,14 +71,14 @@ package com.cell.gfx.game.worldcraft
 				if (x < world_bounds.x) {
 					x = world_bounds.x;
 				}
-				if (x > world_bounds.right) {
-					x = world_bounds.right;
+				if (x > world_bounds.right - _rect.width) {
+					x = world_bounds.right - _rect.width;
 				}
 				if (y < world_bounds.y) {
 					y = world_bounds.y;
 				}
-				if (y > world_bounds.bottom) {
-					y = world_bounds.bottom;
+				if (y > world_bounds.bottom - _rect.height) {
+					y = world_bounds.bottom - _rect.height;
 				}
 			}
 			this._rect.x = x;
