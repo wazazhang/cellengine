@@ -56,6 +56,11 @@ package com.cell.gfx.game.worldcraft
 			
 		}
 
+		public function renderSelf() : void
+		{
+			renderIn();
+		}
+		
 		internal override function renderIn() : void 
 		{
 			if (_repaint || 
