@@ -10,7 +10,8 @@ package com.cell.gfx.game.worldcraft
 	{
 		public function CellUnit()
 		{
-	
+			mouseEnabled = false;
+			mouseChildren = false;
 		}
 		
 //		--------------------------------------------------------------------------------------------------------
