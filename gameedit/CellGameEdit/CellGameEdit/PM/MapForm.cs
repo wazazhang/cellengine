@@ -46,6 +46,7 @@ namespace CellGameEdit.PM
         public int YCount;
 
         #region fliptable
+        /*
         static public System.Drawing.RotateFlipType[] flipTable = new System.Drawing.RotateFlipType[]
         {
             System.Drawing.RotateFlipType.RotateNoneFlipNone,
@@ -1260,9 +1261,9 @@ namespace CellGameEdit.PM
         private void renderSrcTile(Graphics g, int index, int flip, int x, int y)
         {
             Image img = getTileImage(index);
-            if (img != null && flip < flipTable.Length)
+            if (img != null && flip < Graphics.FlipTable.Length)
             {
-                g.drawImage(img, x, y, flipTable[flip], 0);
+                g.drawImage(img, x, y, Graphics.FlipTable[flip], 0);
             }
             
         }
@@ -1270,15 +1271,15 @@ namespace CellGameEdit.PM
         {
             Image img = getTileImage(index);
 
-            if (img != null && flip < flipTable.Length)
+            if (img != null && flip < Graphics.FlipTable.Length)
             {
                 if (D45.Checked)
                 {
-                    g.drawImage(img, x, y, flipTable[flip], 0);
+                    g.drawImage(img, x, y, Graphics.FlipTable[flip], 0);
                 }
                 else
                 {
-                    g.drawImage(img, x, y, KeyX, KeyY, CellW, CellH, flipTable[flip], 0);
+                    g.drawImage(img, x, y, KeyX, KeyY, CellW, CellH, Graphics.FlipTable[flip], 0);
                 }
             }
         }
@@ -1473,7 +1474,7 @@ namespace CellGameEdit.PM
                 {
                     ArrayList flips = (ArrayList)(AnimFlipTable[listView1.Items[anim]]);
                     if (flips.Count <= 0) return 0;
-                    return flipTable[(int)(flips[frame % flips.Count])];
+                    return Graphics.FlipTable[(int)(flips[frame % flips.Count])];
                 }
             }
             catch (Exception err)

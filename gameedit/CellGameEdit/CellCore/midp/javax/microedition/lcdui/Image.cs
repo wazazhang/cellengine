@@ -54,7 +54,8 @@ public class Image
 
 	public static javax.microedition.lcdui.Image createImage(int width, int height)
 	{
-		System.Drawing.Image image = new System.Drawing.Bitmap(width, height);
+        System.Drawing.Image image = new System.Drawing.Bitmap(width, height,
+            System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 		Image ret = new Image(image);
 		return ret;
 	}
@@ -92,31 +93,67 @@ public class Image
 
     //-----------------------------------------------------------------------------------------------------------------------------------
 
-    public void setTransparentColor(int argb)
+    public void swapColor(int src_argb, int dstcolor)
     {
-		System.Drawing.Bitmap image = new System.Drawing.Bitmap(dimg.Width, dimg.Height);
-
-        System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(image);
-
-        g.DrawImageUnscaled(dimg, 0, 0);
+        System.Drawing.Bitmap image = asBitmap();
+        System.Drawing.Color zeroc = System.Drawing.Color.FromArgb(dstcolor);
 
         for (int x = image.Width - 1; x >= 0; --x )
         {
             for (int y= image.Height - 1; y >= 0; --y)
             {
                 System.Drawing.Color c = image.GetPixel(x, y);
-                if (c.ToArgb() == argb) 
+
+                if (c.ToArgb() == src_argb) 
                 {
-                    image.SetPixel(0, 0, System.Drawing.Color.FromArgb(0));
+                    image.SetPixel(x, y, zeroc);
                 }
             }
         }
 
-
         dimg = image;
     }
 
+    public void flipSelf(int transform)
+    {
+        Image dst = createImage(getWidth(), getHeight());
+        Graphics g = dst.getGraphics();
+        g.drawImageTrans(this, 0, 0, transform);
+        dimg = dst.dimg;
+    }
 
+    public System.Drawing.Color getPixel(int x, int y)
+    {
+        System.Drawing.Bitmap image = asBitmap();
+
+        return image.GetPixel(x, y);
+    }
+
+    public System.Drawing.Bitmap asBitmap()
+    {
+        System.Drawing.Bitmap image;
+
+        if (!(dimg is System.Drawing.Bitmap) || dimg.Palette != null)
+        {
+            image = new System.Drawing.Bitmap(dimg.Width, dimg.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(image);
+
+            g.DrawImage(
+                dimg,
+                new System.Drawing.Rectangle(0, 0, dimg.Width, dimg.Height),
+                new System.Drawing.Rectangle(0, 0, dimg.Width, dimg.Height),
+                System.Drawing.GraphicsUnit.Pixel);
+
+            dimg = image;
+        }
+        else
+        {
+            image = (System.Drawing.Bitmap)dimg;
+        }
+
+        return image;
+    }
 	//-----------------------------------------------------------------------------------------------------------------------------------
 
 	public Graphics getGraphics()
@@ -134,20 +171,8 @@ public class Image
 	}
 	public int getWidth()
 	{
-	
 		return dimg.Width;
 	}
-
-	public bool isMutable()
-	{
-		return true;
-	}
-
-	public void getRGB(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height)
-	{
-	
-	}
-
 
 	public System.Drawing.Image getDImage()
 	{

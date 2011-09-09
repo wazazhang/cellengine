@@ -13,26 +13,15 @@ public class Graphics
     public System.Drawing.Brush brush = System.Drawing.Brushes.Black;
     public System.Drawing.Color color = System.Drawing.Color.Black;
 
-	/** 不翻转 */
-	const  byte TRANS_NONE = 0;
-	/** 水平翻转 */
-	const  byte TRANS_H = 2;
-	/** 垂直翻转 */
-	const  byte TRANS_V = 1;
-	/** 180度翻转 */
-	const  byte TRANS_HV = 3;
-	/** 逆时针90度翻转 */
-	const  byte TRANS_90 = 6;
-	/** 逆时针270度翻转 */
-	const  byte TRANS_270 = 5;
-	/** 先逆时针90度翻转，然后在水平翻转 */
-	const  byte TRANS_H90 = 4;
-	/** 先逆时针90度翻转，然后在垂直翻转 */
-	const  byte TRANS_V90 = 7;
-	/** 180度翻转 */
-	const  byte TRANS_180 = 3; // 180 = HV
+	const  byte  TRANS_NONE 	 = 0;
+	const  byte TRANS_90 		 = 1;
+	const  byte TRANS_180 		 = 2; 
+	const  byte TRANS_270 		 = 3;
+	const  byte TRANS_H 		 = 4;
+	const  byte TRANS_H90 		 = 5;
+	const  byte TRANS_H180 		 = 6;
+    const byte TRANS_H270       = 7;
 
-	
 
 	//    public static Graphics g;
 	//public static int BASELINE	;
@@ -231,38 +220,18 @@ public class Graphics
 	}
 
 
+    public void drawImageTrans(javax.microedition.lcdui.Image src, int x, int y, int transform)
+    {
+        drawRegion(src, 0, 0, src.getWidth(), src.getHeight(), transform, x, y, 0);
+    }
+
 	public void drawRegion(javax.microedition.lcdui.Image src, int x_src, int y_src, int width, int height, int transform, int x_dest, int y_dest, int anchor)
 	{
 		if (src.killed) return;
 		System.Drawing.RotateFlipType rt = System.Drawing.RotateFlipType.RotateNoneFlipNone;
-		switch(transform)
-		{
-		case TRANS_H :
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.RotateNoneFlipX);
-			break;
-		case TRANS_V :
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.RotateNoneFlipY);
-			break;
-		//case TRANS_180:
-		case TRANS_HV:
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.RotateNoneFlipXY);
-			break;
-		case TRANS_90:
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.Rotate90FlipNone);
-			break;
-		case TRANS_270:
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.Rotate270FlipNone);
-			break;
-		case TRANS_H90:
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.Rotate90FlipX);
-			break;
-		case TRANS_V90:
-			src.dimg.RotateFlip(rt = System.Drawing.RotateFlipType.Rotate90FlipY);
-			break;
-		case TRANS_NONE:
-			
-			break;
-		}
+        rt = FlipTable[transform];
+        src.dimg.RotateFlip(rt);
+		
 		dg.DrawImage(src.dimg,
 			new System.Drawing.RectangleF(0, 0, width , height ),
 			new System.Drawing.RectangleF(x_src , y_src , width , height ),
@@ -410,5 +379,37 @@ public class Graphics
 		pen = new System.Drawing.Pen(color);
 		brush = pen.Brush;
 	}
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    static public System.Drawing.RotateFlipType[] FlipTable = new System.Drawing.RotateFlipType[]
+        {
+            System.Drawing.RotateFlipType.RotateNoneFlipNone,//
+            System.Drawing.RotateFlipType.Rotate90FlipNone,//
+            System.Drawing.RotateFlipType.Rotate180FlipNone,
+            System.Drawing.RotateFlipType.Rotate270FlipNone,//
+
+            System.Drawing.RotateFlipType.RotateNoneFlipX,
+            System.Drawing.RotateFlipType.Rotate270FlipX,//
+            System.Drawing.RotateFlipType.Rotate180FlipX,
+            System.Drawing.RotateFlipType.Rotate90FlipX,//
+        };
+     
+    static public string[] FlipTextTable = new string[]
+        {
+            "无",
+            "90",
+            "180",
+            "270",
+            "水平",
+            "H 90",
+            "H 180",
+            "H 270",
+        };
+
 }
 }

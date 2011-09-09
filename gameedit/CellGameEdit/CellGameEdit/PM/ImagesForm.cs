@@ -467,6 +467,11 @@ namespace CellGameEdit.PM
             
         }
 
+        public System.Drawing.Color getCurrentClickColor()
+        {
+            return toolStripColor.BackColor;
+        }
+
 //        public void Output(System.IO.StringWriter sw)
 //        {
 //            String head = "/" + this.id+"/tile_";
@@ -1480,6 +1485,7 @@ namespace CellGameEdit.PM
             }
             
         }
+
         private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
         {
             dstDown = true;
@@ -1558,12 +1564,13 @@ namespace CellGameEdit.PM
                 System.Drawing.Rectangle dst = new System.Drawing.Rectangle();
                 for (int i = 0; i < getDstImageCount(); i++)
                 {
-                    if (getDstImage(i) != null && getDstImage(i).killed == false)
+                    Image dstimg = getDstImage(i);
+                    if (dstimg != null && dstimg.killed == false)
                     {
-                        dst.X = getDstImage(i).x;
-                        dst.Y = getDstImage(i).y;
-                        dst.Width = getDstImage(i).getWidth();
-                        dst.Height = getDstImage(i).getHeight();
+                        dst.X = dstimg.x;
+                        dst.Y = dstimg.y;
+                        dst.Width = dstimg.getWidth();
+                        dst.Height = dstimg.getHeight();
 
                         if (dst.Contains(dstPX, dstPY))
                         {
@@ -1571,6 +1578,10 @@ namespace CellGameEdit.PM
                             dstSelected = getDstImage(i);
                             dstSelectIndex = i;
                             dstRect = dst;
+
+                            System.Drawing.Color color = dstimg.getPixel(
+                                dstPX - dstimg.x, 
+                                dstPY - dstimg.y);
 
                             toolStripStatusLabel1.Text =
                                 "目标Tile：[" + dstSelectIndex + "]" +
@@ -1580,6 +1591,8 @@ namespace CellGameEdit.PM
                                 " H=" + dstSelected.getHeight() +
                                 " Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\""
                                 ;
+                            toolStripColor.BackColor = color;
+                            toolStripColor.Text ="当前像素颜色=\"" + color + "\"";
 
                             if (e.Button == MouseButtons.Left)
                             {
@@ -1599,6 +1612,7 @@ namespace CellGameEdit.PM
             
             
         }
+        
         private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
         {
            
@@ -1759,6 +1773,8 @@ namespace CellGameEdit.PM
             if (ipd.ShowDialog() == DialogResult.OK)
             {
                 changeImage();
+
+                pictureBox2.Refresh();
             }
         }
 

@@ -804,9 +804,9 @@ namespace CellGameEdit.PM
         private void srcRender(Graphics g, int index, int flip, int x, int y, Boolean showimageborder)
         {
             Image img = srcGetImage(index);
-            if (img != null && !img.killed && flip < Frame.flipTable.Length)
+            if (img != null && !img.killed && flip < Graphics.FlipTable.Length)
             {
-                g.drawImage(img, x, y, Frame.flipTable[flip], 0, srcScale);
+                g.drawImage(img, x, y, Graphics.FlipTable[flip], 0, srcScale);
 
                 if (showimageborder)
                 {
@@ -943,7 +943,7 @@ namespace CellGameEdit.PM
                     item.SubItems[0].Text = ((int)framesGetCurFrame().SubIndex[index]).ToString("d");
                     item.SubItems[1].Text = ((int)framesGetCurFrame().SubX[index]).ToString("d");
                     item.SubItems[2].Text = ((int)framesGetCurFrame().SubY[index]).ToString("d");
-                    item.SubItems[3].Text = Frame.flipTextTable[(int)framesGetCurFrame().SubFlip[index]];
+                    item.SubItems[3].Text = Graphics.FlipTextTable[(int)framesGetCurFrame().SubFlip[index]];
                 }
                 foreach (ListViewItem item in listView4.Items)
                 {
@@ -1138,7 +1138,7 @@ namespace CellGameEdit.PM
                             ((int)clipFrame.SubIndex[i]).ToString("d"),
                             ((int)clipFrame.SubX[i]).ToString("d"),
                             ((int)clipFrame.SubY[i]).ToString("d"),
-                            Frame.flipTextTable[(int)clipFrame.SubFlip[i]]}
+                            Graphics.FlipTextTable[(int)clipFrame.SubFlip[i]]}
                        );
                         item.Checked = true;
                         listView3.Items.Insert(0, item);
@@ -1238,7 +1238,7 @@ namespace CellGameEdit.PM
                             ((int)clipFrame.SubIndex[i]).ToString("d"),
                             ((int)clipFrame.SubX[i]).ToString("d"),
                             ((int)clipFrame.SubY[i]).ToString("d"),
-                            Frame.flipTextTable[(int)clipFrame.SubFlip[i]]}
+                            Graphics.FlipTextTable[(int)clipFrame.SubFlip[i]]}
                            );
                             item.Checked = true;
                             curFrame.insertSub(0,
@@ -1320,7 +1320,7 @@ namespace CellGameEdit.PM
                     srcIndex.ToString("d"),
                    ((int)(-srcImage.getWidth()/2)).ToString("d"),
                     ((int)(-srcImage.getHeight()/2)).ToString("d"),
-                    Frame.flipTextTable[0] }
+                     Graphics.FlipTextTable[0] }
                     );
                 item.Checked = true;
                 //listView3.Items.Add(item);
@@ -1390,7 +1390,7 @@ namespace CellGameEdit.PM
 
                     framesGetCurFrame().SubIndex[dstGetCurSubIndexes()[0]] = srcIndex;
 
-                    switch (Frame.flipTable[flip])
+                    switch (Graphics.FlipTable[flip])
                     {
                         case System.Drawing.RotateFlipType.RotateNoneFlipNone:
                         case System.Drawing.RotateFlipType.Rotate180FlipNone:
@@ -1867,10 +1867,10 @@ namespace CellGameEdit.PM
                            srcGetImage(Int32.Parse(item.SubItems[0].Text)).getHeight() * masterScale
                            );
 
-                    if (item.SubItems[3].Text == Frame.flipTextTable[1] ||
-                        item.SubItems[3].Text == Frame.flipTextTable[3] ||
-                        item.SubItems[3].Text == Frame.flipTextTable[5] ||
-                        item.SubItems[3].Text == Frame.flipTextTable[7] )
+                    if (item.SubItems[3].Text == Graphics.FlipTextTable[1] ||
+                        item.SubItems[3].Text == Graphics.FlipTextTable[3] ||
+                        item.SubItems[3].Text == Graphics.FlipTextTable[5] ||
+                        item.SubItems[3].Text == Graphics.FlipTextTable[7])
                     {
                         float temp = rect.Width;
                         rect.Width = rect.Height;
@@ -2762,29 +2762,7 @@ namespace CellGameEdit.PM
         public const int CD_TYPE_EXT = 3;
 
         
-        static public System.Drawing.RotateFlipType[] flipTable = new System.Drawing.RotateFlipType[]
-        {
-            System.Drawing.RotateFlipType.RotateNoneFlipNone,//
-            System.Drawing.RotateFlipType.Rotate90FlipNone,//
-            System.Drawing.RotateFlipType.Rotate180FlipNone,
-            System.Drawing.RotateFlipType.Rotate270FlipNone,//
-
-            System.Drawing.RotateFlipType.RotateNoneFlipX,
-            System.Drawing.RotateFlipType.Rotate270FlipX,//
-            System.Drawing.RotateFlipType.Rotate180FlipX,
-            System.Drawing.RotateFlipType.Rotate90FlipX,//
-        };
-        static public String[] flipTextTable = new String[]
-        {
-            "无",
-            "90",
-            "180",
-            "270",
-            "水平",
-            "H 90",
-            "H 180",
-            "H 270",
-        };
+     
         static public String[] CDtypeTextTable = new String[]
         {
             "地图",
@@ -2856,7 +2834,7 @@ namespace CellGameEdit.PM
                     ((int)SubIndex[i]).ToString("d"),
                     ((int)SubX[i]).ToString("d"),
                     ((int)SubY[i]).ToString("d"),
-                    Frame.flipTextTable[(int)SubFlip[i]] }
+                     Graphics.FlipTextTable[(int)SubFlip[i]] }
                     );
                 item.Checked = true;
                 SubTable.Add(item);
@@ -2904,7 +2882,7 @@ namespace CellGameEdit.PM
                     ((int)SubIndex[i]).ToString("d"),
                     ((int)SubX[i]).ToString("d"),
                     ((int)SubY[i]).ToString("d"),
-                    Frame.flipTextTable[(int)SubFlip[i]] }
+                     Graphics.FlipTextTable[(int)SubFlip[i]] }
                     );
                 item.Checked = true;
                 SubTable.Add(item);
@@ -3187,7 +3165,7 @@ namespace CellGameEdit.PM
         {
             for (int i = SubIndex.Count - 1; i >=0 ;i-- )
             {
-                switch (flipTable[(int)SubFlip[i]])
+                switch (Graphics.FlipTable[(int)SubFlip[i]])
                 {
                     case System.Drawing.RotateFlipType.RotateNoneFlipNone:
                     case System.Drawing.RotateFlipType.Rotate180FlipNone:
@@ -3212,7 +3190,7 @@ namespace CellGameEdit.PM
                        ((Image)tile[(int)SubIndex[i]]),
                        (((int)SubX[i]) * scale + x),
                        (((int)SubY[i]) * scale + y),
-                       flipTable[(int)SubFlip[i]],
+                       Graphics.FlipTable[(int)SubFlip[i]],
                        0,scale
                        );
                 }
