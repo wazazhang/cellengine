@@ -71,13 +71,12 @@ namespace CellGameEdit.PM
         private void ImageProcessDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-            processImage();
-            
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-
+            processImage();
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
