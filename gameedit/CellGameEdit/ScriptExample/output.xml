@@ -96,9 +96,9 @@
 		data="<DATA>"
 		terrain="<TERRAIN>">
 		<UNIT_MAP>
-		<unit_map index="<INDEX>" map_name="<MAP_NAME>" id="<IDENTIFY>" x="<X>" y="<Y>" images="<SUPER>" map_data="<MAP_DATA>" /></UNIT_MAP>
+		<unit_map index="<INDEX>" map_name="<MAP_NAME>" id="<IDENTIFY>" x="<X>" y="<Y>" images="<SUPER>" map_data="<MAP_DATA>" priority="<PRIORITY>" /></UNIT_MAP>
 		<UNIT_SPRITE>
-		<unit_sprite index="<INDEX>" spr_name="<SPR_NAME>" id="<IDENTIFY>" animate_id="<ANIMATE_ID>" frame_id="<FRAME_ID>" x="<X>" y="<Y>" images="<SUPER>" spr_data="<SPR_DATA>" /></UNIT_SPRITE>
+		<unit_sprite index="<INDEX>" spr_name="<SPR_NAME>" id="<IDENTIFY>" animate_id="<ANIMATE_ID>" frame_id="<FRAME_ID>" x="<X>" y="<Y>" images="<SUPER>" spr_data="<SPR_DATA>" priority="<PRIORITY>" /></UNIT_SPRITE>
 		<WAYPOINT>
 		<waypoint index="<INDEX>" x="<X>" y="<Y>" path_data="<PATH_DATA>" /></WAYPOINT>
 		<WAYPOINT_LINK>

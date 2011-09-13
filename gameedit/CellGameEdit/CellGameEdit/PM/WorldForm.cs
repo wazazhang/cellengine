@@ -86,6 +86,7 @@ namespace CellGameEdit.PM
                             unit.animID.ToString(),
                             unit.x.ToString(),
                             unit.y.ToString(),
+                            unit.Priority.ToString(),
                             unit.Data.ToString(),
                         });
                         listView1.Items.Add(item);
@@ -415,6 +416,7 @@ namespace CellGameEdit.PM
                             string ID = ((Unit)maps[i]).map.id;
                             string NAME = ((Unit)maps[i]).id;
                             string SUPER = ((Unit)maps[i]).map.super.id;
+                            string PRIORITY = ((Unit)maps[i]).Priority.ToString();
 
                             String ignoreKey = null;
                             if (Util.testIgnore("<IGNORE_MAP>", world, ID, ref ignoreKey) == true)
@@ -434,8 +436,8 @@ namespace CellGameEdit.PM
                             string MAP_DATA = Util.toStringArray1D(ref data);
 
                             map[i] = Util.replaceKeywordsScript(world, "<UNIT_MAP>", "</UNIT_MAP>",
-                                   new string[] { "<MAP_NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<SUPER>", "<MAP_DATA>" },
-                                   new string[] { NAME, ID, i.ToString(), X, Y, SUPER, MAP_DATA });
+                                   new string[] { "<MAP_NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<SUPER>", "<MAP_DATA>", "<PRIORITY>" },
+                                   new string[] { NAME, ID, i.ToString(), X, Y, SUPER, MAP_DATA, PRIORITY });
                         }
                         string temp = Util.replaceSubTrunksScript(world, "<UNIT_MAP>", "</UNIT_MAP>", map);
                         if (temp == null)
@@ -463,7 +465,8 @@ namespace CellGameEdit.PM
                             string ANIM_ID = ((Unit)sprs[i]).animID.ToString();
                             string FRAME_ID = ((Unit)sprs[i]).frameID.ToString();
                             //string SPR_DATA = ((Unit)sprs[i]).Data.ToString();
-
+                            string PRIORITY = ((Unit)sprs[i]).Priority.ToString();
+                            
                             String ignoreKey = null;
                             if (Util.testIgnore("<IGNORE_SPR>", world, ID, ref ignoreKey) == true)
                             {
@@ -482,8 +485,8 @@ namespace CellGameEdit.PM
                             string[] data = Util.toStringMultiLine(((Unit)sprs[i]).Data.ToString());
                             string SPR_DATA = Util.toStringArray1D(ref data);
                             spr[i] = Util.replaceKeywordsScript(world, "<UNIT_SPRITE>", "</UNIT_SPRITE>",
-                                   new string[] { "<SPR_NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<ANIMATE_ID>", "<FRAME_ID>", "<SUPER>", "<SPR_DATA>" },
-                                   new string[] { NAME, ID, i.ToString(), X, Y, ANIM_ID, FRAME_ID, SUPER, SPR_DATA });
+                                   new string[] { "<SPR_NAME>", "<IDENTIFY>", "<INDEX>", "<X>", "<Y>", "<ANIMATE_ID>", "<FRAME_ID>", "<SUPER>", "<SPR_DATA>", "<PRIORITY>" },
+                                   new string[] { NAME, ID, i.ToString(), X, Y, ANIM_ID, FRAME_ID, SUPER, SPR_DATA, PRIORITY });
                         }
                         string temp = Util.replaceSubTrunksScript(world, "<UNIT_SPRITE>", "</UNIT_SPRITE>", spr);
                         if (temp == null)
@@ -654,7 +657,18 @@ namespace CellGameEdit.PM
             }
         }
 
- 
+
+        private void WorldForm_Load(object sender, EventArgs e)
+        {
+            numericUpDown1.Value = CellW;
+            numericUpDown2.Value = CellH;
+            numericUpDown3.Value = pictureBox1.Width;
+            numericUpDown4.Value = pictureBox1.Height;
+
+
+            listView1.ListViewItemSorter = new ObjectsViewSorter(UnitList);
+            listView1.Sort();
+        }
 
         private void WorldForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -664,6 +678,9 @@ namespace CellGameEdit.PM
                 this.Hide();
             }
         }
+
+
+
         private void WorldForm_FormClosed(object sender, FormClosedEventArgs e)
         {
 
@@ -671,13 +688,7 @@ namespace CellGameEdit.PM
 
         private void WorldForm_Shown(object sender, EventArgs e)
         {
-            numericUpDown1.Value = CellW;
-            numericUpDown2.Value = CellH;
-            numericUpDown3.Value = pictureBox1.Width;
-            numericUpDown4.Value = pictureBox1.Height;
-
-
-            listView1.ListViewItemSorter = new ObjectsViewSorter(UnitList);
+        
         }
         private void WorldForm_Activated(object sender, EventArgs e)
         {
@@ -707,6 +718,7 @@ namespace CellGameEdit.PM
                         unit.animID.ToString() ,
                         unit.x.ToString(),
                         unit.y.ToString(),
+                        unit.Priority.ToString(),
                         unit.Data.ToString(),
                     });
 
@@ -739,6 +751,7 @@ namespace CellGameEdit.PM
                     unit.animID.ToString() ,
                     unit.x.ToString(),
                     unit.y.ToString(),
+                    unit.Priority.ToString(),
                     unit.Data.ToString(),
                 });
 
@@ -1113,7 +1126,8 @@ namespace CellGameEdit.PM
                             toolStripStatusLabel1.Text =
                                 "Unit[" + unit.getName() + "]:" +
                                 "X=" + unit.x + "," +
-                                "Y=" + unit.y + " | "
+                                "Y=" + unit.y + "," +
+                                "Prio=" + unit.Priority + " | "
                             ;
                         }
                     }
@@ -1582,7 +1596,8 @@ namespace CellGameEdit.PM
                                         listView1.Items[i].SubItems[1].Text = unit.animID.ToString();
                                         listView1.Items[i].SubItems[2].Text = unit.x.ToString();
                                         listView1.Items[i].SubItems[3].Text = unit.y.ToString();
-                                        listView1.Items[i].SubItems[4].Text = unit.Data.ToString();
+                                        listView1.Items[i].SubItems[4].Text = unit.Priority.ToString();
+                                        listView1.Items[i].SubItems[5].Text = unit.Data.ToString();
 
                                         break;
                                     }
@@ -1734,6 +1749,7 @@ namespace CellGameEdit.PM
         }
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+            listView1.Sort();
             pictureBox1.Refresh();
         }
 
@@ -1930,16 +1946,13 @@ namespace CellGameEdit.PM
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                if (listView1.Items.IndexOf(listView1.SelectedItems[0]) > 0)
-                {
-                    ListViewItem item = listView1.Items[listView1.Items.IndexOf(listView1.SelectedItems[0]) - 1];
-
-                    listView1.Items.Remove(item);
-
-                    listView1.Items.Insert(listView1.Items.IndexOf(listView1.SelectedItems[listView1.SelectedItems.Count - 1]) + 1, item);
-
+               
+                    Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
+                    unit.Priority++;
+                    listView1.SelectedItems[0].SubItems[4].Text = unit.Priority.ToString();
+                    listView1.Sort();
                     pictureBox1.Refresh();
-                }
+                
             }
         }
         //down-upon
@@ -1947,16 +1960,12 @@ namespace CellGameEdit.PM
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                if (listView1.Items.IndexOf(listView1.SelectedItems[listView1.SelectedItems.Count - 1]) < listView1.Items.Count - 1)
-                {
-                    ListViewItem item = listView1.Items[listView1.Items.IndexOf(listView1.SelectedItems[listView1.SelectedItems.Count - 1]) + 1];
+                Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
+                unit.Priority--;
+                listView1.SelectedItems[0].SubItems[4].Text = unit.Priority.ToString();
 
-                    listView1.Items.Remove(item);
-
-                    listView1.Items.Insert(listView1.Items.IndexOf(listView1.SelectedItems[0]), item);
-
-                    pictureBox1.Refresh();
-                }
+                listView1.Sort();
+                pictureBox1.Refresh();
             }
         }
 
@@ -2122,7 +2131,7 @@ namespace CellGameEdit.PM
                 //dataEdit.MdiParent = this.MdiParent;
                 dataEdit.Text = "DataEdit(" + this.id + ".Unit[" + ((Unit)UnitList[listView1.SelectedItems[0]]).id + "])";
                 dataEdit.ShowDialog();
-                listView1.SelectedItems[0].SubItems[4].Text = ((Unit)UnitList[listView1.SelectedItems[0]]).Data.ToString();
+                listView1.SelectedItems[0].SubItems[5].Text = ((Unit)UnitList[listView1.SelectedItems[0]]).Data.ToString();
             }
             catch (Exception err) { }
         }
@@ -2685,13 +2694,17 @@ namespace CellGameEdit.PM
                 {
                     Unit u1 = ((Unit)UnitMap[a]);
                     Unit u2 = ((Unit)UnitMap[b]);
-
+                    if (u1.m_Priority != u2.m_Priority)
+                    {
+                        return u1.Priority - u2.Priority;
+                    }
                     return u1.y - u2.y;
 
                 }catch(Exception err){}
                 return 0;
             }
         }
+
 
        
 
@@ -3205,6 +3218,7 @@ namespace CellGameEdit.PM
 
         }
 
+
     }
 
    
@@ -3286,6 +3300,14 @@ namespace CellGameEdit.PM
             set { x = value.X; y = value.Y; }
         }
 
+        public int m_Priority=0;
+        [Description("优先级"), Category("属性")]
+        public int Priority
+        {
+            get { return this.m_Priority; }
+            set { this.m_Priority = value; }
+        }
+
         public Rectangle Bounds;
         
         public SpriteForm spr = null;
@@ -3336,6 +3358,14 @@ namespace CellGameEdit.PM
                 id = (String)info.GetValue("id", typeof(String));
                 x = (int)info.GetValue("x", typeof(int));
                 y = (int)info.GetValue("y", typeof(int));
+                try
+                {
+                    m_Priority = (int)info.GetValue("priority", typeof(int));
+                }
+                catch (Exception err)
+                {
+                    m_Priority = 0;
+                }
                 try
                 {
                     animID = (int)info.GetValue("animID", typeof(int));
@@ -3402,6 +3432,8 @@ namespace CellGameEdit.PM
                 info.AddValue("x", x);
                 info.AddValue("y", y);
                 info.AddValue("animID", animID);
+                info.AddValue("priority", m_Priority);
+
                 if (!ProjectForm.IsCopy)
                 {
                     try

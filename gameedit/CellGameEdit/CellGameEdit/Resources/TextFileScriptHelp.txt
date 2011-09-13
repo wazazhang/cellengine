@@ -230,6 +230,7 @@
             <X>                    /*(int) 当前地图 场景中X位置 */
             <Y>                    /*(int) 当前地图 场景中Y位置 */
             <SUPER>                /*(str) 当前地图 用的图片组 */
+            <PRIORITY>				 /*(int) 优先级 */
         #<END_UNIT_MAP>        /* 场景地图 结束 */
         
         <UNIT_SPRITE_COUNT>    /*(int) 该场景 包含的精灵数量 */     
@@ -247,6 +248,7 @@
             <X>                    /*(int) 当前精灵 场景中X位置 */
             <Y>                    /*(int) 当前精灵 场景中Y位置 */
             <SUPER>                /*(str) 当前精灵 用的图片组 */
+            <PRIORITY>				 /*(int) 优先级 */
         #<END_UNIT_SPRITE>     /* 场景精灵 结束*/
         
         <WAYPOINT_COUNT>       /*(int) 该场景 包含的路点数量 */     
