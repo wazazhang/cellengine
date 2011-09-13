@@ -361,6 +361,9 @@ package com.cell.util
 					if (line != null && line.length > 0) {
 						list += line + "\n";
 					} else {
+						if (list.charAt(list.length - 1) == "\n") {
+							list = list.substring(0, list.length-1);
+						}
 						break;
 					}
 				}
