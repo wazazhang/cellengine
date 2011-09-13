@@ -1,11 +1,11 @@
 package com.net.client
 {
+	import com.cell.net.io.MutualMessage;
 	import com.cell.util.Reference;
 	
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
-	import com.cell.net.io.MutualMessage;
-	import mx.events.Request;
 	
 	//告诉系统，需要注册哪里事件  
 	[Event(name=ClientEvent.CONNECTED, 		type="com.net.client.ClientEvent")]  
