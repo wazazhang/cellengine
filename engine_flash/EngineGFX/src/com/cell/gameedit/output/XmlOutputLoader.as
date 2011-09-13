@@ -321,7 +321,7 @@ package com.cell.gameedit.output
 			ret.GridH			= int(world.attribute("grid_h"));
 			ret.Width			= int(world.attribute("width"));
 			ret.Height			= int(world.attribute("height"));
-			ret.Data			= world.attribute("data");
+			ret.Data			= StringUtil.getArray1DLines(world.attribute("data"));
 			ret.Terrian			= Arrays.newArray2D(ret.GridXCount, ret.GridYCount);
 			
 			//		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
@@ -345,7 +345,7 @@ package com.cell.gameedit.output
 				map.X 			= int(e.attribute("x"));
 				map.Y 			= int(e.attribute("y"));
 				map.ImagesID 	= e.attribute("images");
-				map.Data		= e.attribute("data");
+				map.Data		= StringUtil.getArray1DLines(e.attribute("data"));
 				map.Priority	= e.attribute("priority");
 				ret.Maps.put(map.Index, map);
 			}
@@ -359,7 +359,7 @@ package com.cell.gameedit.output
 				spr.X 			= int(e.attribute("x"));
 				spr.Y 			= int(e.attribute("y"));
 				spr.ImagesID 	= e.attribute("images");
-				spr.Data		= e.attribute("data");
+				spr.Data		= StringUtil.getArray1DLines(e.attribute("data"));
 				spr.Priority	= e.attribute("priority");
 				ret.Sprs.put(spr.Index, spr);
 			}
@@ -368,7 +368,7 @@ package com.cell.gameedit.output
 				wp.Index 		= int(e.attribute("index"));
 				wp.X 			= int(e.attribute("x"));
 				wp.Y 			= int(e.attribute("y"));
-				wp.Data			= e.attribute("data");
+				wp.Data			= StringUtil.getArray1DLines(e.attribute("data"));
 				ret.WayPoints.put(wp.Index, wp);
 			}
 			for each (var e:XML in world.region) {
@@ -378,7 +378,7 @@ package com.cell.gameedit.output
 				wr.Y 			= int(e.attribute("y"));
 				wr.W 			= int(e.attribute("width"));
 				wr.H 			= int(e.attribute("height"));
-				wr.Data			= e.attribute("data");
+				wr.Data			= StringUtil.getArray1DLines(e.attribute("data"));
 				ret.Regions.put(wr.Index, wr);
 			}
 			

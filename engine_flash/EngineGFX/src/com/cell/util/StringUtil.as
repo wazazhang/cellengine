@@ -346,7 +346,26 @@ package com.cell.util
 				return list;
 			}
 			
-
+			/**
+			 * input 3,123,4,5678
+			 * return [123] [5678]
+			 * @param text
+			 * @return
+			 */
+			public static function getArray1DLines(text:String) : String
+			{
+				var reader : TextReader = new TextReader(text);
+				var list : String = "";
+				while(true){
+					var line : String = TextDeserialize.getString(reader);
+					if (line != null && line.length > 0) {
+						list += line + "\n";
+					} else {
+						break;
+					}
+				}
+				return list;
+			}
 		}
 	
 
