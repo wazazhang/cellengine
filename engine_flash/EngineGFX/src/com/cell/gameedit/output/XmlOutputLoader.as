@@ -346,6 +346,7 @@ package com.cell.gameedit.output
 				map.Y 			= int(e.attribute("y"));
 				map.ImagesID 	= e.attribute("images");
 				map.Data		= e.attribute("data");
+				map.Priority	= e.attribute("priority");
 				ret.Maps.put(map.Index, map);
 			}
 			for each (var e:XML in world.unit_sprite) {
@@ -359,6 +360,7 @@ package com.cell.gameedit.output
 				spr.Y 			= int(e.attribute("y"));
 				spr.ImagesID 	= e.attribute("images");
 				spr.Data		= e.attribute("data");
+				spr.Priority	= e.attribute("priority");
 				ret.Sprs.put(spr.Index, spr);
 			}
 			for each (var e:XML in world.waypoint) {

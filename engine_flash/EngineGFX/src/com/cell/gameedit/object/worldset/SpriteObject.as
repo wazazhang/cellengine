@@ -11,5 +11,6 @@ package com.cell.gameedit.object.worldset
 		public var X		: int;
 		public var Y		: int;
 		public var Data		: String;
+		public var Priority	: int;
 	}
 }
