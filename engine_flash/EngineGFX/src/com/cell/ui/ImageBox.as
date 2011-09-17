@@ -1,5 +1,6 @@
 package com.cell.ui
 {
+	import com.cell.gfx.CellSprite;
 	import com.cell.io.UrlManager;
 	
 	import flash.display.DisplayObject;
@@ -8,7 +9,7 @@ package com.cell.ui
 	import flash.events.Event;
 	import flash.net.URLRequest;
 
-	public class ImageBox extends Sprite
+	public class ImageBox extends CellSprite
 	{
 		public static const ANCHOR_LEFT 	: int = 0x00;
 		public static const ANCHOR_HCENTER 	: int = 0x01;
@@ -28,10 +29,9 @@ package com.cell.ui
 			this.o = o;
 //			this.cacheAsBitmap = true;
 			addChild(o);
-			addEventListener(Event.ENTER_FRAME, update);
 		}
 		
-		private function update(e:Event) : void
+		override protected function update(e:Event) : void
 		{
 			if ((anchor & ANCHOR_HCENTER)!=0) {
 				o.x = -o.width/2;

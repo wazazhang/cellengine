@@ -1,10 +1,12 @@
 package com.cell.ui
 {
+	import com.cell.gfx.CellSprite;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
-	public class BasePanel extends Sprite
+	public class BasePanel extends CellSprite
 	{
 		private var local_bounds : Rectangle = null;
 		

@@ -38,6 +38,8 @@
     <classEntry path="com.cell.ui.ImageBox"/>
     <classEntry path="com.cell.io.UrlManager"/>
     <classEntry path="com.cell.gameedit.output.XmlDirOutputLoader"/>
+    <classEntry path="com.cell.ui.ImageNumber"/>
+    <classEntry path="com.cell.gfx.CellSprite"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -36,8 +36,6 @@ package com.cell.ui
 			addEventListener(MouseEvent.MOUSE_MOVE,	onMouseMove);
 			addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
 			addEventListener(MouseEvent.MOUSE_OUT, 	onMouseUp);
-			
-			addEventListener(Event.ENTER_FRAME, update);
 		}
 
 		public function setMode(m:int) : void
@@ -114,7 +112,7 @@ package com.cell.ui
 			start_point = null;
 		}
 		
-		protected function update(e:Event) : void
+		override protected function update(e:Event) : void
 		{				
 			if (next_camera_point != null) {
 				var v2d : TVector2D = new TVector2D(scrollRect.x, scrollRect.y);
@@ -122,7 +120,7 @@ package com.cell.ui
 					next_camera_point = null;
 				}			
 				setCamera(v2d.getVectorX(), v2d.getVectorY());
-			}
+			}	
 		}
 		
 

@@ -32,7 +32,6 @@ package com.cell.ui
 			addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
 			addEventListener(MouseEvent.MOUSE_OUT, 	onMouseUp);
 			
-			addEventListener(Event.ENTER_FRAME, update);
 			touch_acc.x = 0.9;
 			touch_acc.y = 0.9;
 			
@@ -70,7 +69,7 @@ package com.cell.ui
 			start_point = null;
 		}
 		
-		protected function update(e:Event) : void
+		override protected function update(e:Event) : void
 		{				
 			end_point.x = (move_point.x);
 			end_point.y = (move_point.y);
@@ -84,7 +83,6 @@ package com.cell.ui
 				speed.x *= touch_acc.x;
 				speed.y *= touch_acc.y;
 			}
-			
 		}
 		
 		
