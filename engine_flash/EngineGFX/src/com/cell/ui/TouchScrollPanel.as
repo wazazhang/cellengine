@@ -23,9 +23,9 @@ package com.cell.ui
 				
 		public var touch_acc : Vector3D = new Vector3D();
 		
-		public function TouchScrollPanel(width:int, height:int)
+		public function TouchScrollPanel(viewW:int, viewH:int, backcolor:int=0, backalpha:Number=0)
 		{
-			super(width, height);
+			super(viewW, viewH, backcolor, backalpha);
 
 			addEventListener(MouseEvent.MOUSE_DOWN,	onMouseDown);
 			addEventListener(MouseEvent.MOUSE_MOVE,	onMouseMove);

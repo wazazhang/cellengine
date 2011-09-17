@@ -10,9 +10,9 @@ package com.cell.ui
 
 	public class ImageGallery extends SingleViewPanel
 	{
-		public function ImageGallery(viewW:int, viewH:int)
+		public function ImageGallery(viewW:int, viewH:int, backcolor:int=0, backalpha:Number=0)
 		{
-			super(viewW, viewH);
+			super(viewW, viewH, backcolor, backalpha);
 		}
 		
 		private function loaded(e:Event) : void

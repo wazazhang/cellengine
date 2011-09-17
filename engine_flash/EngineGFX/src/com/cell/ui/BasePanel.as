@@ -10,14 +10,14 @@ package com.cell.ui
 	{
 		private var local_bounds : Rectangle = null;
 		
-		public function BasePanel(viewW:int, viewH:int)
+		public function BasePanel(viewW:int, viewH:int, backcolor:int=0, backalpha:Number=0)
 		{
-			this.graphics.beginFill(0xffffffff, 1);
-			this.graphics.drawRect(0, 0, viewW, viewH);
-			this.graphics.endFill();
-
+			if (backalpha>0) {
+				this.graphics.beginFill(backcolor, backalpha);
+				this.graphics.drawRect(0, 0, viewW, viewH);
+				this.graphics.endFill();
+			}
 			this.scrollRect = new Rectangle(0, 0, viewW, viewH);
-
 		}
 		
 		public function addChildW(child:DisplayObject) : void

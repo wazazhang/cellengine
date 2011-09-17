@@ -2,11 +2,12 @@ package com.cell.ui
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.BitmapDataChannel;
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	public class ImageNumber extends Bitmap
+	public class ImageNumber extends Sprite
 	{		
 		public static const C_ZE = '0'.charCodeAt(0);
 		public static const C_NG = '-'.charCodeAt(0);
@@ -17,21 +18,26 @@ package com.cell.ui
 		var fh : int ;
 		var tiles:Vector.<BitmapData>;
 		
-		var _size : Number = 12;
+		var _buff : Bitmap = new Bitmap();
+		var _size : Number = 0;
 		var _number : Number = 0;
 		var _anchor : int = Anchor.ANCHOR_LEFT | Anchor.ANCHOR_TOP;
 		
+		var color : int = 0;
 		
 		/**图片按自上而下或从左到右顺序排列，内容为[0123456789-.]*/
 		public function ImageNumber(src:BitmapData, sx:int, sy:int, fw:int, fh:int)
 		{
+			super.mouseChildren = false;
+			super.mouseEnabled = false;
+			addChild(_buff);
 			if (src != null) {
 				this.fw = fw;
 				this.fh = fh;
-				this.tiles = new Vector.<BitmapData>(12);
+				this.tiles = new Vector.<BitmapData>();
 				for (var y:int=sy; y<src.height; y+=fh) {
 					for (var x:int=sx; x<src.width; x+=fw) {
-						var t : BitmapData = new BitmapData(fw, fh, true, 0);
+						var t : BitmapData = new BitmapData(fw, fh, true, 0x00000000);
 						t.copyPixels(src,
 							new Rectangle(x, y, fw, fh),
 							new Point(0, 0), 
@@ -39,10 +45,40 @@ package com.cell.ui
 						tiles.push(t);
 					}
 				}
-				size = fh;
+				size = (fh);
+				number = (0);
 			}
-			number = (0);
 		}
+		
+		
+		public function setColor(c:int) : void
+		{
+			if (color != c) {
+				this.color = c;
+				var btiles:Vector.<BitmapData> = new Vector.<BitmapData>(tiles.length);
+				for (var i:int=tiles.length-1; i>=0; --i) {
+					var t: BitmapData = tiles[i];
+					var dt : BitmapData = new BitmapData(fw, fh, true, color);
+//					dt.copyPixels(
+//						dt,
+//						new Rectangle(0, 0, fw, fh),
+//						new Point(0, 0), 
+//						t, 
+//						new Point(0, 0),
+//						true);
+					dt.copyChannel(
+						t,
+						new Rectangle(0, 0, fw, fh),
+						new Point(0, 0), 
+						BitmapDataChannel.ALPHA, 
+						BitmapDataChannel.ALPHA);
+					btiles[i] = dt;
+				}
+				this.tiles = btiles;
+				reset();
+			}
+		}
+		
 		
 		/////////////////////////////////////////////////////////////////
 		
@@ -79,7 +115,7 @@ package com.cell.ui
 		{
 			if (s != _size) {
 				_size = s;
-				reset();
+				this.scaleY = this.scaleX = s / fh;
 			}
 		}
 		
@@ -87,25 +123,9 @@ package com.cell.ui
 		
 		private function reset() : void
 		{
-			
 			var nstr:String = _number.toString();
-			var sx : int = 0;
-			var sy : int = 0;
-			
-			if (_anchor & Anchor.ANCHOR_HCENTER != 0) {
-				sx = -nstr.length * fw / 2;
-			}
-			if (_anchor & Anchor.ANCHOR_RIGHT != 0) {
-				sx = -nstr.length * fw;
-			}
-			if (_anchor & Anchor.ANCHOR_VCENTER != 0) {
-				sx = -fh / 2;
-			}
-			if (_anchor & Anchor.ANCHOR_BOTTOM != 0) {
-				sx = -fh;
-			}
-			var buff : BitmapData =new BitmapData(fw*nstr.length, fh, true);
-			
+			var ix : int = 0;
+			var buff : BitmapData =new BitmapData(fw*nstr.length, fh, true, 0x00000000);
 			for (var i:int=0;i<nstr.length;i++)
 			{
 				var c : Number = nstr.charCodeAt(i);
@@ -117,15 +137,40 @@ package com.cell.ui
 				} else {
 					m = tiles[c - C_ZE];
 				}
-				buff.copyPixels(m, new Rectangle(0,0,fw,fh), new Point(sx, sy), null, null, true);
+				buff.copyPixels(m, new Rectangle(0,0,fw,fh), new Point(ix, 0), null, null, true);
 				//numberIImage.render(cg,int(nstr.charAt(i)),x+i*14 ,y,14,19,0);
-				sx += fw;
+				ix += fw;
 			}
-			this.bitmapData=buff;
+
+			
+			
+			var sx : int = 0;
+			var sy : int = 0;
+			if ((_anchor & Anchor.ANCHOR_HCENTER) != 0) {
+				sx = -nstr.length * fw / 2;
+			}
+			else if ((_anchor & Anchor.ANCHOR_RIGHT) != 0) {
+				sx = -nstr.length * fw;
+			}
+			if ((_anchor & Anchor.ANCHOR_VCENTER) != 0) {
+				sy = -fh / 2;
+			}
+			else if ((_anchor & Anchor.ANCHOR_BOTTOM) != 0) {
+				sy = -fh;
+			}
+			
+			this._buff.bitmapData=buff;
+			this._buff.x = sx;
+			this._buff.y = sy;
+			
+//			this.graphics.clear();
+//			this.graphics.beginFill(0xff0000, alpha);
+//			this.graphics.drawRect(_buff.x, _buff.y, _buff.width, _buff.height);
+//			this.graphics.endFill();
+//			this.mask = _buff;
 		}
 		
-		
-		public function copy(v:Number, size:Number) : ImageNumber
+		public function copy(v:Number, s:Number=0) : ImageNumber
 		{
 			var ret : ImageNumber = new ImageNumber(null,0,0,0,0);
 			ret.tiles = this.tiles;
@@ -133,8 +178,12 @@ package com.cell.ui
 			ret.fh = this.fh;
 			
 			ret.number = v;
-			ret.size = size;
-
+			if (size > 0) {
+				ret.size = s;
+			} else {
+				ret.size = this.size;
+			}
+			ret.reset();
 			return ret;
 		}
 	}

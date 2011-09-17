@@ -41,6 +41,8 @@
     <classEntry path="com.cell.ui.ImageNumber"/>
     <classEntry path="com.cell.gfx.CellSprite"/>
     <classEntry path="com.cell.ui.Anchor"/>
+    <classEntry path="com.cell.ui.SingleViewScrollBar"/>
+    <classEntry path="com.cell.ui.SingleView"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

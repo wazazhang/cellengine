@@ -17,6 +17,9 @@ package com.cell.ui
 		public static const MODE_HORIZONTAL	: int = 0;
 		public static const MODE_VERTICAL	: int = 1;
 
+		/**拖拽多长距离才翻页*/
+		public var drag_page_distance 		: int = 32;
+		
 		protected var start_point			: Vector3D;
 		
 		protected var start_camera_point 	: Vector3D = new Vector3D();
@@ -28,9 +31,9 @@ package com.cell.ui
 		
 		private var next_camera_point		: Vector3D;
 		
-		public function SingleViewPanel(width:int, height:int)
+		public function SingleViewPanel(width:int, height:int, backcolor:int=0, backalpha:Number=0)
 		{
-			super(width, height);
+			super(width, height, backcolor, backalpha);
 			
 			addEventListener(MouseEvent.MOUSE_DOWN,	onMouseDown);
 			addEventListener(MouseEvent.MOUSE_MOVE,	onMouseMove);
@@ -83,13 +86,21 @@ package com.cell.ui
 			}
 		}
 		
+		public function cancelDrag() : void
+		{
+			var no : DisplayObject = getChildAt(view_index);
+			next_camera_point = new Vector3D(no.x, no.y);
+			speed = no.width / 8;
+			start_point = null;
+		}
+		
 		protected function onMouseUp(e:MouseEvent) : void {
 			if (start_point != null) {
-				var dx : int = CMath.getDirect(start_point.x - parent.mouseX);
-				var dy : int = CMath.getDirect(start_point.y - parent.mouseY);
+				var dx : int = start_point.x - parent.mouseX;
+				var dy : int = start_point.y - parent.mouseY;
 				if (dx != 0 || dy != 0) {
 					var co : DisplayObject = getChildAt(view_index);
-					if (mode == MODE_HORIZONTAL) {
+					if (mode == MODE_HORIZONTAL && Math.abs(dx)>=drag_page_distance) {
 						if (dx > 0 && view_index < numChildren-1) {
 							view_index ++;
 						} else if (dx < 0 && view_index>0) {
@@ -97,7 +108,7 @@ package com.cell.ui
 						}
 						speed = co.width / 8;
 					}
-					else if (mode == MODE_VERTICAL) {
+					else if (mode == MODE_VERTICAL && Math.abs(dy)>=drag_page_distance) {
 						if (dy > 0 && view_index < numChildren-1) {
 							view_index ++;
 						} else if (dy < 0 && view_index>0) {
