@@ -27,6 +27,8 @@ package com.cell.ui
 				txt);
 			vbar.setRange(1, panel.numChildren);
 			vbar.setValue(panel.getViewIndex()+1);
+			vbar.x = vw/2;
+			vbar.y = vh - vbar.height-2;
 			addChild(vbar);
 		}
 		
@@ -34,7 +36,10 @@ package com.cell.ui
 		{
 			return panel;
 		}
-		
+		public function getScrollBar() : SingleViewScrollBar
+		{
+			return vbar;
+		}
 		override protected function update(e:Event):void
 		{
 			if (vbar.getValue()!=panel.getViewIndex()+1) 
@@ -45,8 +50,6 @@ package com.cell.ui
 			{
 				vbar.setRange(1, panel.numChildren);
 			}		
-			vbar.x = panel.scrollRect.width/2;
-			vbar.y = panel.scrollRect.height - vbar.height-2;
 		}
 		
 		

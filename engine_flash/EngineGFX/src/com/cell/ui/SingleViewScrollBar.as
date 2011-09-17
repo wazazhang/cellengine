@@ -81,7 +81,7 @@ package com.cell.ui
 			
 			var count : int = max - min;
 			var sw : int = img_hd.width * 2;
-			var sx : int = -count * sw / 2 + sw/2;
+			var sx : int = -count * sw / 2;
 			
 			for (var i:int = min; i<=max; i++) {
 				if (i == value) {

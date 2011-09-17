@@ -86,6 +86,17 @@ package com.cell.ui
 			}
 		}
 		
+		public function setViewIndex(i:int) : void
+		{
+			if (i!=view_index && i>=0 && i<numChildren) {
+				view_index = i;
+				var no : DisplayObject = getChildAt(i);
+				next_camera_point = new Vector3D(no.x, no.y);
+				speed = no.width / 8;
+				start_point = null;
+			}
+		}
+		
 		public function cancelDrag() : void
 		{
 			var no : DisplayObject = getChildAt(view_index);
