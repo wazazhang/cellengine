@@ -40,6 +40,7 @@
     <classEntry path="com.cell.gameedit.output.XmlDirOutputLoader"/>
     <classEntry path="com.cell.ui.ImageNumber"/>
     <classEntry path="com.cell.gfx.CellSprite"/>
+    <classEntry path="com.cell.ui.Anchor"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -17,24 +17,46 @@ package com.cell.ui
 		
 		private var value : Boolean = false;
 		
+		private var _anchor : int = Anchor.ANCHOR_LEFT | Anchor.ANCHOR_TOP;
+		
 		public function ImageButton(unsel:DisplayObject, sel:DisplayObject)
 		{
 			super(unsel, unsel, sel, unsel);
 			super.useHandCursor = false;
+			this.img_up = unsel;
+			this.img_down = sel;
+			Anchor.setAnchorPos(img_up, _anchor);
+			Anchor.setAnchorPos(img_down, _anchor);
 		}
 		
-		public static function createImageButton(up_url:String, down_url:String) : ImageButton
+		public function get anchor() : int
 		{
-			var udl : Loader = new Loader();
-			udl.load(UrlManager.getUrl(up_url));
-			var ddl : Loader = new Loader();
-			ddl.load(UrlManager.getUrl(down_url));
-			return new ImageButton(udl, ddl);
+			return this._anchor;
+		}
+		
+		public function set anchor(value:int) : void 
+		{
+			if (value != _anchor) {
+				_anchor = value;
+				Anchor.setAnchorPos(img_up, _anchor);
+				Anchor.setAnchorPos(img_down, _anchor);
+			}
 		}
 
+		
 		public static function createImageButtonClass(up_c:Class, down_c:Class) : ImageButton
 		{
 			return new ImageButton(new up_c() as DisplayObject, new down_c() as DisplayObject);
 		}
+		
+		public static function createImageButtonScale(img:Class, down_scale:Number = 1.2) : ImageButton
+		{
+			var c1 : DisplayObject = new img() as DisplayObject;
+			var c2 : DisplayObject = new img() as DisplayObject;
+			c2.scaleX = down_scale;
+			c2.scaleY = down_scale;
+			return new ImageButton(c1, c2);
+		}
+
 	}
 }

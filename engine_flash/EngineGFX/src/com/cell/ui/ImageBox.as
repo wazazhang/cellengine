@@ -11,14 +11,6 @@ package com.cell.ui
 
 	public class ImageBox extends CellSprite
 	{
-		public static const ANCHOR_LEFT 	: int = 0x00;
-		public static const ANCHOR_HCENTER 	: int = 0x01;
-		public static const ANCHOR_RIGHT 	: int = 0x02;
-		
-		public static const ANCHOR_TOP	 	: int = 0x00;
-		public static const ANCHOR_VCENTER 	: int = 0x10;
-		public static const ANCHOR_BOTTOM	: int = 0x20;
-		
 		public var anchor : int = 0;
 		
 		private var o:DisplayObject;
@@ -33,24 +25,7 @@ package com.cell.ui
 		
 		override protected function update(e:Event) : void
 		{
-			if ((anchor & ANCHOR_HCENTER)!=0) {
-				o.x = -o.width/2;
-			}
-			else if ((anchor & ANCHOR_RIGHT)!=0) {
-				o.x = -o.width;
-			}
-			else {
-				o.x = 0;
-			}
-			if ((anchor & ANCHOR_VCENTER)!=0) {
-				o.y = -o.height/2;
-			}
-			else if ((anchor & ANCHOR_BOTTOM)!=0) {
-				o.y = -o.height;
-			}
-			else {
-				o.y = 0;
-			}
+			Anchor.setAnchorPos(o, anchor);
 		}
 				
 		public static function createImageBox(url:String, anchor:int = 0x11) : ImageBox
