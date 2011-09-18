@@ -44,6 +44,8 @@ package com.cell.ui
 			img_hd.addEventListener(MouseEvent.MOUSE_OUT,	noDrag);
 			img_hd.addEventListener(MouseEvent.MOUSE_MOVE, 	onDrag);
 			
+			reset();
+			valueToPos();
 		}
 		private function onDrag(event:MouseEvent):void {
 			reset();
