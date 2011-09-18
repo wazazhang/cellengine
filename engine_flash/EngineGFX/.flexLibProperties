@@ -45,6 +45,8 @@
     <classEntry path="com.cell.ui.SingleView"/>
     <classEntry path="com.cell.ui.PopupMenu"/>
     <classEntry path="com.cell.ui.ImageGroup"/>
+    <classEntry path="com.cell.ui.TouchTrack"/>
+    <classEntry path="com.cell.ui.Dialog"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
