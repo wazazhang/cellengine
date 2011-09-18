@@ -4,6 +4,7 @@ package com.cell.ui
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -20,6 +21,7 @@ package com.cell.ui
 		{
 			this.src = src;
 			this.dst = dst;
+			src.addEventListener(Event.REMOVED_FROM_STAGE, srcclose);
 			
 			var drect : Rectangle = dst.getBounds(dst);
 			
@@ -32,14 +34,20 @@ package com.cell.ui
 			this.y = drect.y;
 		}
 		
+		
+		private function srcclose(e:Event) : void
+		{
+			src.removeEventListener(Event.REMOVED_FROM_STAGE, srcclose);
+			dst.removeChild(this);
+		}
+		
 		private function close(e:MouseEvent) : void
 		{
 			var stgp : Point = new Point(dst.mouseX, dst.mouseY);
 			var srcrect : Rectangle = src.getBounds(dst);
 			if (srcrect.containsPoint(stgp)) {
-			} else {
+			} else if (dst.contains(src)) {
 				dst.removeChild(src);
-				dst.removeChild(this);
 			}
 		}
 		
