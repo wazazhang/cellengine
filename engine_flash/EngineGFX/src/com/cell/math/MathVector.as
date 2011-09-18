@@ -1,5 +1,7 @@
 package com.cell.math
 {
+	import flash.display.DisplayObject;
+
 	public class MathVector
 	{
 		/**
@@ -158,5 +160,60 @@ package com.cell.math
 			return v==0?0:(v>0?1:-1);
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		/**
+		 * 通过极坐标来移动
+		 * @param v
+		 * @param degree 弧度
+		 * @param distance 距离
+		 */
+		public static function smovePolar(v:DisplayObject, degree:Number, distance:Number) : void {
+			v.x += Math.cos(degree) * distance;
+			v.y += Math.sin(degree) * distance;
+		}
+		
+		/**
+		 * 通过极坐标来移动
+		 * @param v
+		 * @param degree 弧度
+		 * @param speed  速度 (单位距离/秒)
+		 * @param interval_ms 毫秒时间
+		 */
+		public static function smovePolarSpeed(v:DisplayObject,  degree:Number,  speed:Number, interval_ms:Number) : void {
+			smovePolar(v, degree, getDistanceSpeed(speed, interval_ms));
+		}
+		
+		/**
+		 * 向目标移动
+		 * @param v
+		 * @param x 目标x
+		 * @param y 目标y
+		 * @return 是否到达目的地
+		 */
+		public static function smoveTo(v:DisplayObject,  x:Number,  y:Number,  distance:Number) : Boolean {
+			var ddx : Number = x - v.x;
+			var ddy : Number = y - v.y;
+			if (Math.abs(ddx) < distance && Math.abs(ddy) < distance) {
+				v.x = (x);
+				v.y = (y);
+				return true;
+			} else {
+				var angle : Number = Math.atan2(ddy, ddx);
+				smovePolar(v, angle, distance);
+				return false;
+			}
+		}
+
 	}
 }

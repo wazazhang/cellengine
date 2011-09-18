@@ -2,6 +2,8 @@ package com.cell.ui
 {
 	import com.cell.io.UrlManager;
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.SimpleButton;
@@ -14,9 +16,7 @@ package com.cell.ui
 	{
 		private var img_up 		: DisplayObject;
 		private var img_down 	: DisplayObject;
-		
-		private var value : Boolean = false;
-		
+				
 		private var _anchor : int = Anchor.ANCHOR_LEFT | Anchor.ANCHOR_TOP;
 		
 		public function ImageButton(unsel:DisplayObject, sel:DisplayObject)
@@ -57,6 +57,14 @@ package com.cell.ui
 			c2.scaleY = down_scale;
 			return new ImageButton(c1, c2);
 		}
-
+		
+		public static function createImageButtonScaleBitmap(img:BitmapData, down_scale:Number = 1.2) : ImageButton
+		{
+			var c1 : DisplayObject = new Bitmap(img);
+			var c2 : DisplayObject = new Bitmap(img);
+			c2.scaleX = down_scale;
+			c2.scaleY = down_scale;
+			return new ImageButton(c1, c2);
+		}
 	}
 }

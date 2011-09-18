@@ -15,17 +15,35 @@ package com.cell.ui
 
 		private var value : Boolean = false;
 		
+		private var _anchor : int = Anchor.ANCHOR_LEFT | Anchor.ANCHOR_TOP;
+		
+
 		public function TouchToggleButton(unsel:DisplayObject, sel:DisplayObject)
 		{
-			img_chk_next1 = unsel;
-			img_chk_next2 = sel;
-			img_chk_next1.visible = !value;
-			img_chk_next2.visible = value;
-			this.addEventListener(MouseEvent.CLICK, onMouseClick);
+			this.img_chk_next1 = unsel;
+			this.img_chk_next2 = sel;
+			this.img_chk_next1.visible = !value;
+			this.img_chk_next2.visible = value;
+			this.addEventListener(MouseEvent.CLICK, onMouseClick);		
 			addChild(img_chk_next1);
 			addChild(img_chk_next2);
 		}
 		
+		public function get anchor() : int
+		{
+			return this._anchor;
+		}
+		
+		public function set anchor(value:int) : void 
+		{
+			if (value != _anchor) {
+				_anchor = value;
+				for (var i:int = numChildren-1; i>=0; --i) {
+					Anchor.setAnchorPos(getChildAt(i), _anchor);
+				}
+			}
+		}
+
 		public function setSelected(v:Boolean) : void
 		{
 			value = v;
@@ -49,14 +67,18 @@ package com.cell.ui
 		{
 			var udl : Loader = new Loader();
 			udl.load(UrlManager.getUrl(up_url));
+			
 			var ddl : Loader = new Loader();
 			ddl.load(UrlManager.getUrl(down_url));
+			
 			return new TouchToggleButton(udl, ddl);
 		}
 		
 		public static function createTouchToggleButtonClass(up_c:Class, down_c:Class) : TouchToggleButton
 		{
-			return new TouchToggleButton(new up_c() as DisplayObject, new down_c() as DisplayObject);
+			return new TouchToggleButton(
+				new up_c() as DisplayObject,
+				new down_c() as DisplayObject);
 		}
 	}
 }
