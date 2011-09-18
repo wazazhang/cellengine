@@ -30,6 +30,8 @@ package com.cell.ui
 		
 		public var mode : int = MODE_UP;
 		
+		public var blank : int = 1;
+		
 		public function PopupMenu(basebtn:DisplayObject, ... items)
 		{
 			this.basebtn = basebtn;
@@ -101,44 +103,44 @@ package com.cell.ui
 				case MODE_UP:
 					p.x = sx;
 					p.y = sy;
-					sy -= o.height - 1;
+					sy -= o.height + blank;
 					break;
 				case MODE_DOWN:
 					p.x = sx;
 					p.y = sy;
-					sy += o.height + 1;
+					sy += o.height + blank;
 					break;
 				case MODE_LEFT:
 					p.x = sx;
 					p.y = sy;
-					sx -= o.width - 1;
+					sx -= o.width + blank;
 					break;
 				case MODE_RIGHT:
 					p.x = sx;
 					p.y = sy;
-					sx += o.width + 1;
+					sx += o.width + blank;
 					break;
 				
 				case MODE_HCENTER:
 					if (i%2==0) {
 						p.x = sx;
 						p.y = sy;
-						sx -= o.width/2 - 1;
+						sx -= o.width/2 + blank;
 					} else {
 						p.x = sx2;
 						p.y = sy2;
-						sx2 += o.width/2 + 1;
+						sx2 += o.width/2 + blank;
 					}
 					break;
 				case MODE_VCENTER:
 					if (i%2==0) {
 						p.x = sx;
 						p.y = sy;
-						sy -= o.height/2 - 1;
+						sy -= o.height/2 + blank;
 					} else {
 						p.x = sx2;
 						p.y = sy2;
-						sy2 += o.height/2 + 1;
+						sy2 += o.height/2 + blank;
 					}
 					break;
 				}
