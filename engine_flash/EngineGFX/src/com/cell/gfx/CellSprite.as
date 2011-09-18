@@ -7,8 +7,8 @@ package com.cell.gfx
 	{
 		public function CellSprite()
 		{			
-			addEventListener(Event.ADDED, _added);
-			addEventListener(Event.REMOVED, _removed);
+			addEventListener(Event.ADDED_TO_STAGE, _added);
+			addEventListener(Event.REMOVED_FROM_STAGE, _removed);
 		}
 		
 		private function _added(e:Event) : void
