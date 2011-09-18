@@ -16,6 +16,11 @@ package com.cell.ui
 		public static const MODE_LEFT : int = 2;
 		public static const MODE_RIGHT : int = 3;
 		
+		public static const MODE_HCENTER : int = 4;
+		public static const MODE_VCENTER : int = 5;
+		
+		public static const MODE_ROUND : int = 5;
+		
 		private var items 	: Vector.<DisplayObject> = new Vector.<DisplayObject>();
 		private var itemsp 	: Vector.<Point> = new Vector.<Point>();
 		private var basebtn : DisplayObject;
@@ -61,6 +66,8 @@ package com.cell.ui
 			
 			var sx : int = basebtn.x;
 			var sy : int = basebtn.y;
+			var sx2 : int = basebtn.x;
+			var sy2 : int = basebtn.y;
 			switch (mode) {
 			case MODE_UP:
 				sy -= basebtn.height;
@@ -74,6 +81,14 @@ package com.cell.ui
 			case MODE_RIGHT:
 				sx += basebtn.width;
 				break;
+			case MODE_HCENTER:
+				sx -= basebtn.width/2;
+				sx2 += basebtn.width/2;
+				break;
+			case MODE_VCENTER:
+				sy -= basebtn.height/2;
+				sy2 += basebtn.height/2;
+				break;
 			}
 			
 			for (var i : int =0; i<items.length; i++)
@@ -81,23 +96,54 @@ package com.cell.ui
 				var o : DisplayObject = items[i];
 				var p : Point = itemsp[i];
 				o.visible = true;
-				p.x = sx;
-				p.y = sy;
+				
 				switch (mode) {
 				case MODE_UP:
-					sy -= o.height;
+					p.x = sx;
+					p.y = sy;
+					sy -= o.height - 1;
 					break;
 				case MODE_DOWN:
-					sy += o.height;
+					p.x = sx;
+					p.y = sy;
+					sy += o.height + 1;
 					break;
 				case MODE_LEFT:
-					sx -= o.width;
+					p.x = sx;
+					p.y = sy;
+					sx -= o.width - 1;
 					break;
 				case MODE_RIGHT:
-					sx += o.width;
+					p.x = sx;
+					p.y = sy;
+					sx += o.width + 1;
+					break;
+				
+				case MODE_HCENTER:
+					if (i%2==0) {
+						p.x = sx;
+						p.y = sy;
+						sx -= o.width/2 - 1;
+					} else {
+						p.x = sx2;
+						p.y = sy2;
+						sx2 += o.width/2 + 1;
+					}
+					break;
+				case MODE_VCENTER:
+					if (i%2==0) {
+						p.x = sx;
+						p.y = sy;
+						sy -= o.height/2 - 1;
+					} else {
+						p.x = sx2;
+						p.y = sy2;
+						sy2 += o.height/2 + 1;
+					}
 					break;
 				}
 			}
+			
 		}
 		
 		public function close() : void
