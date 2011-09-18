@@ -90,12 +90,12 @@ package com.cell.ui
 			if (mode == MODE_HORIZONTAL) {
 				var sx : Number = img_back.x + img_back.height/2;
 				var sw : Number = img_back.width - img_back.height;
-				value = min + (min - max) * (sx - img_hd.x) / sw
+				value = min + (max - min) * (img_hd.x-sx) / sw
 			}
 			else {
 				var sy : Number = img_back.y + img_back.width/2;
 				var sh : Number = img_back.height - img_back.width;
-				value = min + (min - max) * (sy - img_hd.y) / sh;
+				value = min + (max - min) * (img_hd.y-sy) / sh;
 			}
 //			trace(value);
 		}
@@ -105,12 +105,14 @@ package com.cell.ui
 			if (mode == MODE_HORIZONTAL) {
 				var sx : Number = img_back.x + img_back.height/2;
 				var sw : Number = img_back.width - img_back.height;
-				img_hd.x = sx + sw * (value - min) / (min - max);
+				img_hd.x = sx + sw * (value - min) / (max - min);
+				img_hd.y = img_back.y + img_back.height/2;
 			}
 			else {
 				var sy : Number = img_back.y + img_back.width/2;
 				var sh : Number = img_back.height - img_back.width;
-				img_hd.y = sy + sh * (value - min) / (min - max);
+				img_hd.y = sy + sh * (value - min) / (max - min);
+				img_hd.x = img_back.x + img_back.width/2;
 			}
 		}
 		
