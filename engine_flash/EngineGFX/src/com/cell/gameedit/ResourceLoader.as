@@ -6,8 +6,8 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.WorldSet;
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
-	import com.cell.gameedit.output.XmlDirOutputLoader;
-	import com.cell.gameedit.output.XmlOutputLoader;
+	import com.cell.gameedit.output.XmlUrlOutputLoader;
+	import com.cell.gameedit.output.XmlCOutputLoader;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.gfx.game.IImages;
@@ -24,8 +24,6 @@ package com.cell.gameedit
 	{
 		private var url 				: String;
 		private var output 				: OutputLoader;
-		private var resource_manager	: Map = new Map();
-		
 		
 		public function ResourceLoader(url:String, output:OutputLoader = null)
 		{
@@ -34,7 +32,7 @@ package com.cell.gameedit
 				this.output = output;
 			}
 			else if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
-				this.output	= new XmlDirOutputLoader(url);
+				this.output	= new XmlUrlOutputLoader(url);
 			}
 		}
 		
@@ -52,22 +50,6 @@ package com.cell.gameedit
 		private function output_complete() : void 
 		{
 			trace("load resource complete : " + output);
-			for each (var imgset : ImagesSet in output.getImgTable()) { 
-				var images : IImages = output.createCImages(imgset);
-				resource_manager.put("IMG_" + imgset.Name, images);
-				trace("get images : " + imgset.Name);
-			}
-			for each (var sprset : SpriteSet in output.getSprTable()) { 
-				var sprite : CSprite = output.createCSprite(sprset, getImages(sprset.ImagesName));
-				resource_manager.put("SPR_" + sprset.Name, sprite);
-				trace("get sprite : " + sprset.Name);
-			}
-			for each (var mapset : MapSet in output.getMapTable()) { 
-				var map : CMap = output.createCMap(mapset, getImages(mapset.ImagesName));
-				resource_manager.put("MAP_" + mapset.Name, map);
-				trace("get map : " + mapset.Name);
-			}
-
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.LOADED);
 			event.res = this;
 			dispatchEvent(event);
@@ -76,17 +58,17 @@ package com.cell.gameedit
 		
 		public function getImages(name:String) : IImages
 		{
-			return resource_manager.get("IMG_" + name);
+			return output.getCImages(name);
 		}
 		
 		public function getSpriteTemplate(name:String) : CSprite
 		{
-			return resource_manager.get("SPR_" + name);
+			return output.getCSprite(name);
 		}
 		
 		public function getSprite(name:String) : CSprite
 		{
-			var ret : CSprite = resource_manager.get("SPR_" + name);
+			var ret : CSprite = output.getCSprite(name);
 			if (ret != null) {
 				return ret.copy();
 			}
@@ -95,7 +77,7 @@ package com.cell.gameedit
 		
 		public function getMap(name:String) : CMap
 		{
-			var ret : CMap = resource_manager.get("MAP_" + name);
+			var ret : CMap = output.getCMap(name);
 			if (ret != null) {
 				return ret.copy();
 			}

@@ -8,7 +8,7 @@ package com.cell.gameedit.output
 
 	public class XmlCMap extends CMap
 	{
-		public function XmlCMap(output:XmlOutputLoader, tiles:IImages, tmap:MapSet)
+		public function XmlCMap(output:XmlCOutputLoader, tiles:IImages, tmap:MapSet)
 		{
 			var xcount	: int = tmap.XCount;
 			var ycount	: int = tmap.YCount;

@@ -30,14 +30,19 @@ package com.cell.gameedit.output
 	import flash.net.getClassByAlias;
 	import flash.utils.ByteArray;
 
-	public class XmlOutputLoader implements OutputLoader
+	public class XmlCOutputLoader implements OutputLoader
 	{
-		private var complete	: Function;
-		
 		private var img_table	: Map = new Map();
 		private var spr_table	: Map = new Map();
 		private var map_table	: Map = new Map();
 		private var world_table	: Map = new Map();
+		
+//		-----------------------------------------------------------------------------------------------
+		
+		private var res_img_table	: Map = new Map();
+		private var res_spr_table	: Map = new Map();
+		private var res_map_table	: Map = new Map();
+		
 		
 //		-----------------------------------------------------------------------------------------------
 		
@@ -50,7 +55,6 @@ package com.cell.gameedit.output
 		
 		public function load(complete:Function) : void
 		{
-			this.complete = complete;
 		}
 		
 		protected function init(xml:XML) : void
@@ -65,7 +69,6 @@ package com.cell.gameedit.output
 			
 			initLevel(xml.level[0]);
 			
-			this.complete.call();
 		}
 		
 		protected function initResource(xml:XML) : void
@@ -73,18 +76,27 @@ package com.cell.gameedit.output
 			//		Integer.parseInt(resource.getAttribute("images_count"));
 			//		Integer.parseInt(resource.getAttribute("map_count"));
 			//		Integer.parseInt(resource.getAttribute("sprite_count"));
-			
+
 			for each (var e:XML in xml.images) {
 				var img : ImagesSet = initImages(e);
 				img_table.put(img.Name, img);
+				var cimg : IImages = createCImages(img);
+				res_img_table.put(img.Name, cimg);
+				trace("get images : " + img.Name);
 			}
 			for each (var e:XML in xml.map) {
 				var map : MapSet = initMap(e);
 				map_table.put(map.Name, map);
+				var cmap : CMap = createCMap(map, res_img_table.get(map.ImagesName));
+				res_map_table.put(map.Name, cmap);
+				trace("get map : " + map.Name);
 			}
 			for each (var e:XML in xml.sprite) {
 				var spr : SpriteSet = initSprite(e);
 				spr_table.put(spr.Name, spr);
+				var cspr : CSprite = createCSprite(spr, res_img_table.get(spr.ImagesName));
+				res_spr_table.put(spr.Name, cspr);
+				trace("get sprite : " + spr.Name);
 			}
 			
 		}
@@ -446,14 +458,35 @@ package com.cell.gameedit.output
 		{
 			
 		}
+		
+//		-----------------------------------------------------------------------------------------------
+// 		abstract
+		
+		public function getCImages(img:String) : IImages
+		{
+			return res_img_table[img];
+		}
+
+		public function getCSprite(spr:String) : CSprite
+		{
+			return res_spr_table[spr];
+		}
+		
+		public function getCMap(map:String) : CMap
+		{
+			return res_map_table[map];
+		}
+		
 //		-----------------------------------------------------------------------------------------------
 		
-		// abstract
 		public function createCImages(img:ImagesSet) : IImages
 		{
 			throw new Error("not impl");
 		}
-		
+		public function createTileImage(tileid:int, width:int, height:int, key:String) : CImage
+		{
+			return new CImage(new BitmapData(width, height, true));
+		}
 		public function createCSprite(spr:SpriteSet, images:IImages) : CSprite
 		{
 			if (spr != null) {
@@ -461,8 +494,6 @@ package com.cell.gameedit.output
 			}
 			return null;
 		}
-		
-		
 		public function createCMap(map:MapSet, images:IImages) : CMap
 		{
 			if (map != null) {

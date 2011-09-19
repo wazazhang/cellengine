@@ -12,7 +12,7 @@
     <classEntry path="com.cell.gameedit.object.worldset.MapObject"/>
     <classEntry path="com.cell.gameedit.object.worldset.RegionObject"/>
     <classEntry path="com.cell.gameedit.output.XmlCMap"/>
-    <classEntry path="com.cell.gameedit.output.XmlDirTiles"/>
+    <classEntry path="com.cell.gameedit.output.XmlUrlTiles"/>
     <classEntry path="com.cell.gfx.game.IImages"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellCSprite"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellWorld"/>
@@ -37,7 +37,7 @@
     <classEntry path="com.cell.ui.ImageButton"/>
     <classEntry path="com.cell.ui.ImageBox"/>
     <classEntry path="com.cell.io.UrlManager"/>
-    <classEntry path="com.cell.gameedit.output.XmlDirOutputLoader"/>
+    <classEntry path="com.cell.gameedit.output.XmlUrlOutputLoader"/>
     <classEntry path="com.cell.ui.ImageNumber"/>
     <classEntry path="com.cell.gfx.CellSprite"/>
     <classEntry path="com.cell.ui.Anchor"/>

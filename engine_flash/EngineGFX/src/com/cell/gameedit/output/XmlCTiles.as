@@ -4,7 +4,6 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gfx.game.CImage;
 	import com.cell.gfx.game.IGraphics;
-	import com.cell.gfx.game.IImageObserver;
 	import com.cell.gfx.game.IImages;
 	import com.cell.io.UrlManager;
 	
@@ -19,18 +18,18 @@ package com.cell.gameedit.output
 	
 	public class XmlCTiles implements IImages
 	{
-		protected var output	: XmlOutputLoader;
+		protected var output	: XmlCOutputLoader;
 		protected var img		: ImagesSet;
 		protected var tiles 	: Array;
 		
-		public function XmlCTiles(output:XmlOutputLoader, img:ImagesSet)
+		public function XmlCTiles(output:XmlCOutputLoader, img:ImagesSet)
 		{
 			this.output	= output;
 			this.img	= img;
 			this.tiles	= new Array(img.Count);
 			for (var i:int=0; i<img.Count; i++){
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
-					tiles[i] = createTileImage(i, img.ClipsW[i], img.ClipsH[i], img.ClipsKey[i]);
+					tiles[i] = output.createTileImage(i, img.ClipsW[i], img.ClipsH[i], img.ClipsKey[i]);
 				}
 			}
 		}
@@ -47,17 +46,6 @@ package com.cell.gameedit.output
 				}
 			}
 		}
-		
-		public function createTileImage(tileid:int, width:int, height:int, key:String) : CImage
-		{
-			return new CImage(new BitmapData(width, height, true));
-		}
-
-		public function addImageObserver(listener:IImageObserver):void
-		{
-			
-		}
-		
 		
 		public function getImage(index:int) : CImage
 		{

@@ -8,7 +8,7 @@ package com.cell.gameedit.output
 
 	public class XmlCSprite extends CSprite
 	{
-		public function XmlCSprite(output:XmlOutputLoader, tiles:IImages, tsprite:SpriteSet)
+		public function XmlCSprite(output:XmlCOutputLoader, tiles:IImages, tsprite:SpriteSet)
 		{
 			if (output != null) {
 				var scenePartCount : int = tsprite.PartTileID.length;

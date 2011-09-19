@@ -29,25 +29,23 @@ package com.cell.gameedit.output
 	import flash.net.URLRequest;
 	import flash.net.getClassByAlias;
 	import flash.utils.ByteArray;
-	import flash.net.URLLoader;
 	
 	
-	public class XmlDirOutputLoader extends XmlOutputLoader
+	public class XmlUrlOutputLoader extends XmlCOutputLoader
 	{
 		internal var path 		: String;
 		internal var path_root 	: String;
 		internal var file_name 	: String;
 		
-		private var loader		: URLLoader;
+		private var loader			: URLLoader;
+		private var all_complete	: Function;
+		private var loaded_images	: int = 0;
 		
-		public function XmlDirOutputLoader(url:String)
+		public function XmlUrlOutputLoader(url:String)
 		{
 			this.path 		= url.replace('\\', '/');
 			this.path_root	= path.substring(0, path.lastIndexOf("/")+1);
 			this.file_name	= path.substring(path_root.length);
-			
-			this.loader		= new URLLoader();
-			this.loader.addEventListener(Event.COMPLETE, xml_complete);
 		}
 		
 		public function toString() : String
@@ -57,21 +55,34 @@ package com.cell.gameedit.output
 		
 		override public function load(complete:Function) : void
 		{
-			super.load(complete);
+			this.loader = new URLLoader();
+			this.loader.addEventListener(Event.COMPLETE, xml_complete);
+			
+			this.all_complete = complete;
 			this.loader.load(UrlManager.getUrl(path));
-		}
-		
-		override public function createCImages(img:ImagesSet) : IImages
-		{
-			if (img != null) {
-				return new XmlDirTiles(this, img);
-			}
-			return null;
 		}
 		
 		private function xml_complete(e:Event) : void
 		{
 			init(new XML(this.loader.data));
+		}
+		
+		override public function createCImages(img:ImagesSet) : IImages
+		{
+			if (img != null) {
+				var ld : Loader = new Loader();
+				ld.contentLoaderInfo.addEventListener(Event.COMPLETE, img_complete);
+				return new XmlUrlTiles(this, img, ld);
+			}
+			return null;
+		}
+		
+		private function img_complete(e:Event) : void
+		{
+			loaded_images ++;
+			if (loaded_images >= super.getImgTable().size()) {
+				all_complete.call();
+			}
 		}
 		
 	}

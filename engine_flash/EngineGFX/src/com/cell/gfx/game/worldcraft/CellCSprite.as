@@ -4,13 +4,12 @@ package com.cell.gfx.game.worldcraft
 	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.gfx.game.IGraphics;
-	import com.cell.gfx.game.IImageObserver;
 	import com.cell.math.IVector2D;
 	import com.cell.math.MathVector;
 	
 	import flash.display.Sprite;
 
-	public class CellCSprite extends CellUnit implements IImageObserver
+	public class CellCSprite extends CellUnit
 	{
 		public static var DEBUG : Boolean = false;
 		
@@ -25,7 +24,6 @@ package com.cell.gfx.game.worldcraft
 			this._cg = new CGraphicsDisplay(graphics);			
 			this._spr = spr.copy();
 			this.repaint();
-			this.spr.getAnimates().getImages().addImageObserver(this);
 			this.mouseEnabled = false;
 			this.mouseChildren = false;
 		}

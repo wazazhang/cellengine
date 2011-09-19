@@ -9,7 +9,6 @@ package com.cell.gfx.game
 		function getHeight(index:int) : int;
 		
 		function render(g:IGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void ;
-		
-		function addImageObserver(listener:IImageObserver) : void;
+
 	}
 }

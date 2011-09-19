@@ -4,7 +4,6 @@ package com.cell.gfx.game.worldcraft
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CMapView;
 	import com.cell.gfx.game.ICamera;
-	import com.cell.gfx.game.IImageObserver;
 	
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;

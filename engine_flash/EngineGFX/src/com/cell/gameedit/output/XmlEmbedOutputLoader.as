@@ -31,7 +31,7 @@ package com.cell.gameedit.output
 	import flash.net.getClassByAlias;
 	import flash.utils.ByteArray;
 
-	public class XmlEmbedOutputLoader extends XmlOutputLoader
+	public class XmlEmbedOutputLoader extends XmlCOutputLoader
 	{
 		protected var xml:XML;
 		protected var class_name_map:Map;
@@ -49,8 +49,8 @@ package com.cell.gameedit.output
 		
 		override public function load(complete:Function) : void
 		{
-			super.load(complete);
-			init(xml);
+			super.init(xml);
+			complete.call();
 		}
 		
 		override public function createCImages(img:ImagesSet) : IImages

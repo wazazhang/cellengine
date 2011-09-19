@@ -12,7 +12,6 @@ package com.cell.gfx.rpg
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.gfx.game.IGraphics;
-	import com.cell.gfx.game.IImageObserver;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;

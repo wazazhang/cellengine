@@ -6,14 +6,13 @@ package com.cell.gfx.game
 	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.IGraphics;
-	import com.cell.gfx.game.IImageObserver;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
-	public class CMapView extends Bitmap implements IImageObserver
+	public class CMapView extends Bitmap
 	{
 		protected var Map		: CMap;
 		protected var Camera	: CCamera;
@@ -28,9 +27,7 @@ package com.cell.gfx.game
 			super(new BitmapData(viewWidth, viewHeight, false, 0xff000000));
 			this.cg		= new CGraphicsBitmap(bitmapData);
 			this.Map 	= map;
-			this.Camera = new CCamera(viewWidth, viewHeight, map);
-			this.Map.getAnimates().getImages().addImageObserver(this);
-			
+			this.Camera = new CCamera(viewWidth, viewHeight, map);			
 			this.Camera.resetBuffer();
 			this.Camera.render(cg);
 
@@ -78,11 +75,5 @@ package com.cell.gfx.game
 			
 		}
 		
-		public function imagesLoaded(e:ResourceEvent) : void
-		{
-			//			trace(e.type + " : " + e.images_set.Name);
-			this.Camera.resetBuffer();
-			this.Camera.render(cg);
-		}
 	}
 }

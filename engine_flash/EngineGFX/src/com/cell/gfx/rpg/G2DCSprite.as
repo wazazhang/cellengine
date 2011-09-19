@@ -4,9 +4,8 @@ package com.cell.gfx.rpg
 	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.gfx.game.IGraphics;
-	import com.cell.gfx.game.IImageObserver;
 
-	public class G2DCSprite extends G2DUnit implements IImageObserver
+	public class G2DCSprite extends G2DUnit
 	{
 		public static var DEBUG : Boolean = false;
 		
@@ -18,7 +17,6 @@ package com.cell.gfx.rpg
 			this.cg = new CGraphicsDisplay(graphics);			
 			this.spr = spr;
 			this.repaint();
-			this.spr.getAnimates().getImages().addImageObserver(this);
 		}
 		
 		public function get src() : CSprite
@@ -46,11 +44,6 @@ package com.cell.gfx.rpg
 			}
 		}
 		
-		public function imagesLoaded(e:ResourceEvent) : void
-		{
-			//			trace(e.type + " : " + e.images_set.Name);
-			repaint();
-		}
 		
 	}
 }

@@ -43,11 +43,9 @@ package com.cell.gameedit
 		function		getWorldTable() : Map;
 		
 		
-		function 		createCImages(set:ImagesSet) : IImages;
-		
-		function 		createCSprite(set:SpriteSet, images:IImages) : CSprite;
-		
-		function 		createCMap(map:MapSet, images:IImages) : CMap;
+		function 		getCImages(set:String) : IImages;
+		function 		getCSprite(set:String) : CSprite;
+		function 		getCMap(map:String) : CMap;
 		
 		/**
 		 * call by {@link SetResource}.dispose()
