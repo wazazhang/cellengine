@@ -3,9 +3,9 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.ImagesSet;
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gameedit.object.SpriteSet;
-	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
+	import com.cell.gfx.game.IImages;
 	import com.cell.util.Map;
 	import com.cell.util.NumberReference;
 	
@@ -17,7 +17,9 @@ package com.cell.gameedit
 	 */
 	public interface OutputLoader
 	{
-		function load(complete:Function) : void;
+		function load(complete:Function, error:Function) : void;
+		
+		function getPercent() : Number;
 		
 		/***
 		 * 是否单独输出每张图
@@ -50,9 +52,8 @@ package com.cell.gameedit
 		/**
 		 * call by {@link SetResource}.dispose()
 		 */
-		function 	dispose() : void;
+		function 		dispose() : void;
 	
-		
 	}
 
 }

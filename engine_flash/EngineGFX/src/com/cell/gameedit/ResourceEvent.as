@@ -9,8 +9,8 @@ package com.cell.gameedit
 	public class ResourceEvent extends Event
 	{
 		public static const LOADED 			: String = "LOADED"; 
-		public static const PROGRESS 		: String = "PROGRESS";
-		
+//		public static const PROGRESS 		: String = "PROGRESS";
+		public static const ERROR			: String = "ERROR";
 //		public static const IMAGES_LOADED 	: String = "IMAGES_LOADED"; 
 //		public static const IMAGES_PROGRESS	: String = "IMAGES_PROGRESS"; 
 		

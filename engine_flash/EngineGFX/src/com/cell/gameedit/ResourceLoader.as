@@ -6,8 +6,8 @@ package com.cell.gameedit
 	import com.cell.gameedit.object.WorldSet;
 	import com.cell.gameedit.object.worldset.RegionObject;
 	import com.cell.gameedit.object.worldset.WaypointObject;
-	import com.cell.gameedit.output.XmlUrlOutputLoader;
 	import com.cell.gameedit.output.XmlCOutputLoader;
+	import com.cell.gameedit.output.XmlUrlOutputLoader;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
 	import com.cell.gfx.game.IImages;
@@ -20,6 +20,7 @@ package com.cell.gameedit
 	import flash.net.URLRequest;
 
 	[Event(name=ResourceEvent.LOADED, type="com.cell.gameedit.ResourceEvent")]  
+	[Event(name=ResourceEvent.ERROR,  type="com.cell.gameedit.ResourceEvent")]  
 	public class ResourceLoader extends EventDispatcher
 	{
 		private var url 				: String;
@@ -39,7 +40,7 @@ package com.cell.gameedit
 		public function load() : void
 		{
 			trace("load resource : " + url);
-			output.load(output_complete);
+			output.load(output_complete, output_error);
 		}
 		
 		public function getUrl() : String
@@ -55,6 +56,13 @@ package com.cell.gameedit
 			dispatchEvent(event);
 		}
 		
+		private function output_error() : void
+		{
+			trace("load resource error : " + output);
+			var event : ResourceEvent = new ResourceEvent(ResourceEvent.ERROR);
+			event.res = this;
+			dispatchEvent(event);
+		}
 		
 		public function getImages(name:String) : IImages
 		{

@@ -47,10 +47,15 @@ package com.cell.gameedit.output
 			return "[XmlEmbedOutputLoader:]";
 		}
 		
-		override public function load(complete:Function) : void
+		override public function load(complete:Function, error:Function) : void
 		{
 			super.init(xml);
 			complete.call();
+		}
+		
+		override public function getPercent():Number
+		{
+			return 1;
 		}
 		
 		override public function createCImages(img:ImagesSet) : IImages

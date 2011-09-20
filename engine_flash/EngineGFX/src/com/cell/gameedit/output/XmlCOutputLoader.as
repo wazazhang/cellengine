@@ -53,9 +53,16 @@ package com.cell.gameedit.output
 //		-----------------------------------------------------------------------------------------------
 		
 		
-		public function load(complete:Function) : void
+		public function load(complete:Function, error:Function) : void
 		{
 		}
+		
+		public function getPercent():Number
+		{
+			return 0;
+		}
+		
+		
 		
 		protected function init(xml:XML) : void
 		{
