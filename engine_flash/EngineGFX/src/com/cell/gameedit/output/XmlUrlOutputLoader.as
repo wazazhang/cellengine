@@ -39,7 +39,7 @@ package com.cell.gameedit.output
 		internal var path_root 	: String;
 		internal var file_name 	: String;
 		
-		private var loader			: URLLoader;
+		private var xml_loader		: URLLoader;
 		private var img_loaders		: Vector.<Loader> = new Vector.<Loader>();
 		private var loaded_images	: int = 0;
 		
@@ -60,31 +60,34 @@ package com.cell.gameedit.output
 		
 		override public function load(complete:Function, error:Function) : void
 		{
-			this.loader = new URLLoader();
-			this.loader.addEventListener(Event.COMPLETE, xml_complete);
-			this.loader.addEventListener(IOErrorEvent.IO_ERROR, xml_error);
-			this.loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, xml_error);
+			this.xml_loader = new URLLoader();
+			this.xml_loader.addEventListener(Event.COMPLETE, xml_complete);
+			this.xml_loader.addEventListener(IOErrorEvent.IO_ERROR, xml_error);
+			this.xml_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, xml_error);
 			this.all_error    = error;
 			this.all_complete = complete;
-			this.loader.load(UrlManager.getUrl(path));
+			this.xml_loader.load(UrlManager.getUrl(path));
 		}
 		
 		override public function getPercent():Number
 		{
-			var xml_pct : Number = loader.bytesLoaded / Number(loader.bytesTotal);
-			var img_pct : Number = 0;
-			if (img_loaders.length > 0) {
-				for each (var l : Loader in img_loaders) {
-					img_pct += (l.contentLoaderInfo.bytesLoaded / l.contentLoaderInfo.bytesTotal);
+			if (xml_loader != null) {
+				var xml_pct : Number = xml_loader.bytesLoaded / Number(xml_loader.bytesTotal);
+				var img_pct : Number = 0;
+				if (img_loaders.length > 0) {
+					for each (var l : Loader in img_loaders) {
+						img_pct += (l.contentLoaderInfo.bytesLoaded / l.contentLoaderInfo.bytesTotal);
+					}
+					img_pct = (img_pct / img_loaders.length);
 				}
-				img_pct = (img_pct / img_loaders.length);
+				return (xml_pct*0.2) + (img_pct*0.8);
 			}
-			return (xml_pct*0.2) + (img_pct*0.8);
+			return 0;
 		}
 		
 		private function xml_complete(e:Event) : void
 		{
-			init(new XML(this.loader.data));
+			init(new XML(this.xml_loader.data));
 		}
 		
 		private function xml_error(e:Event) : void
