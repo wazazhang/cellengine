@@ -13,8 +13,6 @@ using javax.microedition.lcdui;
 
 namespace CellGameEdit.PM
 {
-
-
     [Serializable]
     public partial class ImagesForm : Form, ISerializable , IEditForm
     {
@@ -37,7 +35,6 @@ namespace CellGameEdit.PM
         int srcQX;
         int srcQY;
         int srcSize = 1;
-
 
         System.Drawing.Color backColor = System.Drawing.Color.Magenta;
         System.Drawing.Color keyColor = System.Drawing.Color.MediumBlue;
@@ -80,6 +77,7 @@ namespace CellGameEdit.PM
 
             pictureBox1.BackColor = toolStripButton10.BackColor;
             pictureBox2.BackColor = toolStripButton10.BackColor;
+
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected ImagesForm(SerializationInfo info, StreamingContext context)
@@ -98,14 +96,46 @@ namespace CellGameEdit.PM
                 ArrayList outX = (ArrayList)info.GetValue("outX", typeof(ArrayList));
                 ArrayList outY = (ArrayList)info.GetValue("outY", typeof(ArrayList));
                 ArrayList outK;
+
+                try
+                {
+                    chk_custom_output.Checked = (Boolean)info.GetValue("custom_output", typeof(Boolean));
+                    chk_output_group.Checked =
+                        (Boolean)info.GetValue("output_group", typeof(Boolean));
+                    chk_output_tile.Checked =
+                        (Boolean)info.GetValue("output_tile", typeof(Boolean));
+                }
+                catch (Exception err) { }
+                finally
+                {
+                    chk_output_group.Enabled = !chk_custom_output.Checked;
+                    chk_output_tile.Enabled = !chk_custom_output.Checked;
+                }
                 
+                try
+                {
+                    chk_custom_filetype.Checked = (Boolean)info.GetValue("custom_filetype", typeof(Boolean));
+                    chk_output_file_bmp.Checked =
+                        (Boolean)info.GetValue("output_file_bmp", typeof(Boolean));
+                    chk_output_file_jpg.Checked =
+                        (Boolean)info.GetValue("output_file_jpg", typeof(Boolean));
+                    chk_output_file_png.Checked =
+                        (Boolean)info.GetValue("output_file_png", typeof(Boolean));
+                }
+                catch (Exception err) { }
+                finally
+                {
+                    chk_output_file_bmp.Enabled = !chk_custom_filetype.Checked;
+                    chk_output_file_jpg.Enabled = !chk_custom_filetype.Checked;
+                    chk_output_file_png.Enabled = !chk_custom_filetype.Checked;
+                }
 
                 try
                 {
                     outK = (ArrayList)info.GetValue("outK", typeof(ArrayList));
                 }
-                catch (Exception err) 
-                { 
+                catch (Exception err)
+                {
                     outK = new ArrayList();
                     for (int i = 0; i < output.Count; i++)
                     {
@@ -136,14 +166,20 @@ namespace CellGameEdit.PM
 
                 try
                 {
-                    toolStripButton10.BackColor = (System.Drawing.Color)info.GetValue("BackColor", typeof(System.Drawing.Color));
-                    BtnSelectKeyColor.BackColor = (System.Drawing.Color)info.GetValue("TileKeyColor", typeof(System.Drawing.Color));
-                    BtnSelectTileIDColor.BackColor = (System.Drawing.Color)info.GetValue("TileIDColor", typeof(System.Drawing.Color));
+                    toolStripButton10.BackColor = 
+                        (System.Drawing.Color)info.GetValue("BackColor", typeof(System.Drawing.Color));
+                    BtnSelectKeyColor.BackColor = 
+                        (System.Drawing.Color)info.GetValue("TileKeyColor", typeof(System.Drawing.Color));
+                    BtnSelectTileIDColor.BackColor = 
+                        (System.Drawing.Color)info.GetValue("TileIDColor", typeof(System.Drawing.Color));
                 }
-                catch (Exception err) { }
-                pictureBox1.BackColor = toolStripButton10.BackColor;
-                pictureBox2.BackColor = toolStripButton10.BackColor;
+                catch (Exception err) {
+                } finally {
+                    pictureBox1.BackColor = toolStripButton10.BackColor;
+                    pictureBox2.BackColor = toolStripButton10.BackColor;
+                }
 
+              
 
 
                 System.IO.FileStream images_fs = null;
@@ -188,7 +224,7 @@ namespace CellGameEdit.PM
                         {
                             ms = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(ProjectForm.workSpace + name));
                         }
-                        else 
+                        else
                         {
                             byte[] data = new byte[len];
                             images_fs.Read(data, 0, len);
@@ -205,7 +241,7 @@ namespace CellGameEdit.PM
                         if (!img.killed)
                         {
                             pictureBox2.Width = Math.Max(pictureBox2.Width, img.x + img.getWidth());
-                            pictureBox2.Height = Math.Max(pictureBox2.Height, img.y + img.getHeight() );
+                            pictureBox2.Height = Math.Max(pictureBox2.Height, img.y + img.getHeight());
                         }
 
                         dstImages.Add(img);
@@ -213,11 +249,11 @@ namespace CellGameEdit.PM
                     catch (Exception err)
                     {
                         dstImages.Add(null);
-                        Console.WriteLine(this.id + " : Tile["+i+"] : " + err.StackTrace + "  at  " +err.Message);
+                        Console.WriteLine(this.id + " : Tile[" + i + "] : " + err.StackTrace + "  at  " + err.Message);
                     }
 
-                    
-                 
+
+
                 }
 
                 if (images_fs != null)
@@ -259,8 +295,9 @@ namespace CellGameEdit.PM
         {
             Console.WriteLine("Serializ Images : " + id);
 
-            try{
-                info.AddValue("id",id);
+            try
+            {
+                info.AddValue("id", id);
                 info.AddValue("CellW", CellW);
                 info.AddValue("CellH", CellH);
 
@@ -268,13 +305,13 @@ namespace CellGameEdit.PM
                 ArrayList outX = new ArrayList();
                 ArrayList outY = new ArrayList();
                 ArrayList outK = new ArrayList();
-                
+
 
                 //String dir =  "\\tiles\\" + this.id;
                 //System.IO.Directory.CreateDirectory(ProjectForm.workSpace + "\\tiles");
                 //System.IO.Directory.CreateDirectory(ProjectForm.workSpace + dir);
                 String tiles_file_name = ProjectForm.workSpace + "\\" + this.id + ".tiles";
-                if (!System.IO.File.Exists(tiles_file_name)) 
+                if (!System.IO.File.Exists(tiles_file_name))
                 {
                     is_change_image = true;
                 }
@@ -292,7 +329,7 @@ namespace CellGameEdit.PM
                     {
                         try
                         {
-                           // String name = dir + "\\" + i.ToString() + ".tile";
+                            // String name = dir + "\\" + i.ToString() + ".tile";
 
                             Image img = getDstImage(i);
 
@@ -366,7 +403,16 @@ namespace CellGameEdit.PM
                 info.AddValue("outX", outX);
                 info.AddValue("outY", outY);
                 info.AddValue("outK", outK);
-
+                {
+                    info.AddValue("custom_output", chk_custom_output.Checked);
+                    info.AddValue("output_tile", chk_output_tile.Checked);
+                    info.AddValue("output_group", chk_output_group.Checked);
+                }{
+                    info.AddValue("custom_filetype", chk_custom_filetype.Checked);
+                    info.AddValue("output_file_bmp", chk_output_file_bmp.Checked);
+                    info.AddValue("output_file_jpg", chk_output_file_jpg.Checked);
+                    info.AddValue("output_file_png", chk_output_file_png.Checked);
+                }
                 info.AddValue("outStreamLen", outStreamLen);
 
                 info.AddValue("dstDataKeys", dstDataKeys);
@@ -564,16 +610,68 @@ namespace CellGameEdit.PM
 
                     } while (fix);
 
+					String ofiletype = imageType;
+					Boolean ogroup = imageGroup;
+					Boolean otile = imageTile;
+
+                    String custom_output_image_type = "";
+                    if (!chk_custom_output.Checked)
+                    {
+                        custom_output_image_type =
+                            (chk_output_group.Checked ? "group" : "") + "," +
+                            (chk_output_tile.Checked ? "tile" : "");
+
+						if (chk_output_group.Checked)
+						{
+							ogroup = true;
+						}
+						if (chk_output_tile.Checked)
+						{
+							otile = true;
+						}
+                    }
+
+                    String custom_output_image_file = "";
+                    if (!chk_custom_filetype.Checked)
+                    {
+                        if (chk_output_file_bmp.Checked)
+                        {
+							custom_output_image_file = "bmp";
+							ofiletype = "bmp";
+                        }
+                        else if (chk_output_file_jpg.Checked)
+                        {
+							custom_output_image_file = "jpg";
+							ofiletype = "jpg";
+                        }
+                        else if (chk_output_file_png.Checked)
+                        {
+							custom_output_image_file = "png";
+							ofiletype = "png";
+                        }
+                    }
 
                     images = Util.replaceKeywordsScript(images, SC._IMAGES, SC._END_IMAGES,
-                        new string[] { SC.NAME,  SC.IMAGES_INDEX, SC.COUNT },
-                        new string[] { this.id, index.ToString(), this.getDstImageCount().ToString() }
+                        new string[] {
+                            SC.NAME,
+                            SC.IMAGES_INDEX,
+                            SC.COUNT, 
+                            SC.OUTPUT_IMAGE_TYPE,
+                            SC.OUTPUT_IMAGE_FILE
+                        },
+                        new string[] { 
+                            this.id,
+                            index.ToString(),
+                            this.getDstImageCount().ToString(),
+                            custom_output_image_type,
+                            custom_output_image_file
+                        }
                         );
 
                     output.WriteLine(images);
                     //Console.WriteLine(images);
 
-                    outputAllImages(outDir, imageType, imageTile, imageGroup);
+                    outputAllImages(outDir, ofiletype, otile, ogroup);
 
                 }
                 catch (Exception err) { Console.WriteLine(this.id + " : " + err.StackTrace + "  at  " + err.Message); }
@@ -1780,7 +1878,6 @@ namespace CellGameEdit.PM
 
 
 
-
         //-------------------------------------------------------------------------------------------------------------------------------------
         
         public MapForm createMapForm(String name)
@@ -1930,6 +2027,7 @@ namespace CellGameEdit.PM
             catch (Exception err) { }
         }
 
+
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
@@ -2010,10 +2108,44 @@ namespace CellGameEdit.PM
             moveAllImages(-1, 0);
 
             pictureBox2.Refresh();
+
         }
 
 
+        //------------------------------------------------------------------------------------------------
+        // custom output menu
 
+        private void nAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chk_output_group.Enabled = !chk_custom_output.Checked;
+            chk_output_tile.Enabled = !chk_custom_output.Checked;
+        }
+
+        private void output_type_click(object sender, EventArgs e)
+        {
+        }
+
+        private void output_type_changed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chk_custom_filetype_Click(object sender, EventArgs e)
+        {
+
+            chk_output_file_bmp.Enabled = !chk_custom_filetype.Checked;
+            chk_output_file_jpg.Enabled = !chk_custom_filetype.Checked;
+            chk_output_file_png.Enabled = !chk_custom_filetype.Checked;
+        }
+
+        private void chk_output_file_png_Click(object sender, EventArgs e)
+        {
+            chk_output_file_bmp.Checked = sender == chk_output_file_bmp;
+            chk_output_file_jpg.Checked = sender == chk_output_file_jpg;
+            chk_output_file_png.Checked = sender == chk_output_file_png;
+        }
+
+        //------------------------------------------------------------------------------------------------
 
         class ImagesCompareY : IComparer
         {
@@ -2027,6 +2159,11 @@ namespace CellGameEdit.PM
                 return -1;
             }
         }
+
+
+
+
+    
 
        
 

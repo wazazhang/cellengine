@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0D10BCA84DB74FB1A762D817C8FAF77F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0F84770252A3412F92DBE8A72E6BC904"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -69,13 +75,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E6ADE44BD6684E57ABA1A3F9687CFE21"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FC7CEE2F5FEC49C2BA66FA0A8CD9ADE8"
+        "MsmKey" = "8:_D23D3CE4475340588017C37206E84B76"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -214,6 +214,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0D10BCA84DB74FB1A762D817C8FAF77F"
+            {
+            "SourcePath" = "8:..\\Launch\\md6_dir.bat"
+            "TargetName" = "8:md6_dir.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_86104FEE39CE4FC0B9A4840EACD42A4F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0F84770252A3412F92DBE8A72E6BC904"
             {
             "SourcePath" = "8:..\\ScriptExample\\output.xml"
@@ -367,32 +387,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E6ADE44BD6684E57ABA1A3F9687CFE21"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D23D3CE4475340588017C37206E84B76"
             {
-            "SourcePath" = "8:..\\ScriptExample\\md6_dir.bat"
-            "TargetName" = "8:md6_dir.bat"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FC7CEE2F5FEC49C2BA66FA0A8CD9ADE8"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\md6.jar"
+            "SourcePath" = "8:..\\Launch\\md6.jar"
             "TargetName" = "8:md6.jar"
             "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
+            "Folder" = "8:_86104FEE39CE4FC0B9A4840EACD42A4F"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -446,6 +446,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_86104FEE39CE4FC0B9A4840EACD42A4F"
+                    {
+                    "Name" = "8:bin"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_519E014DFD2D4D679E0FD31A44E2DF96"
+                        "Folders"
+                        {
+                        }
+                    }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_BB9F867009F04D5596D19DCFAE5CF6B9"
                     {
                     "Name" = "8:script"

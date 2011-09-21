@@ -47,7 +47,8 @@ namespace CellGameEdit.PM
 
         public static String IGNORE_NULL_CLIP = "<IGNORE_NULL_CLIP>";
 
-
+        public static String OUTPUT_IMAGE_TYPE = "<OUTPUT_IMAGE_TYPE>";
+        public static String OUTPUT_IMAGE_FILE = "<OUTPUT_IMAGE_FILE>";
 
 
         public static String _MAP = "<MAP>";

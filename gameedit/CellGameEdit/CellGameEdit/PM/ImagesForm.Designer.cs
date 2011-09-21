@@ -80,15 +80,25 @@
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.BtnSelectKeyColor = new System.Windows.Forms.ToolStripButton();
             this.BtnSelectTileIDColor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripColor = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.btnUpAllImage = new System.Windows.Forms.ToolStripButton();
             this.btnLeftAllImage = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.menu_custom_output = new System.Windows.Forms.ToolStripDropDownButton();
+            this.chk_custom_output = new System.Windows.Forms.ToolStripMenuItem();
+            this.chk_output_tile = new System.Windows.Forms.ToolStripMenuItem();
+            this.chk_output_group = new System.Windows.Forms.ToolStripMenuItem();
+            this.menu_custom_filetype = new System.Windows.Forms.ToolStripDropDownButton();
+            this.chk_custom_filetype = new System.Windows.Forms.ToolStripMenuItem();
+            this.chk_output_file_png = new System.Windows.Forms.ToolStripMenuItem();
+            this.chk_output_file_jpg = new System.Windows.Forms.ToolStripMenuItem();
+            this.chk_output_file_bmp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripColor = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -454,12 +464,15 @@
             this.toolStripButton10,
             this.BtnSelectKeyColor,
             this.BtnSelectTileIDColor,
+            this.toolStripColor,
             this.toolStripButton5,
             this.toolStripButton11,
             this.btnUpAllImage,
             this.btnLeftAllImage,
             this.toolStripSeparator7,
-            this.toolStripColor});
+            this.menu_custom_output,
+            this.menu_custom_filetype,
+            this.toolStripSeparator8});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(485, 25);
@@ -483,21 +496,21 @@
             // 从左边替换ToolStripMenuItem
             // 
             this.从左边替换ToolStripMenuItem.Name = "从左边替换ToolStripMenuItem";
-            this.从左边替换ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.从左边替换ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.从左边替换ToolStripMenuItem.Text = "从左边替换";
             this.从左边替换ToolStripMenuItem.Click += new System.EventHandler(this.从左边替换ToolStripMenuItem_Click);
             // 
             // 从目录替换ToolStripMenuItem
             // 
             this.从目录替换ToolStripMenuItem.Name = "从目录替换ToolStripMenuItem";
-            this.从目录替换ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.从目录替换ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.从目录替换ToolStripMenuItem.Text = "从目录替换";
             this.从目录替换ToolStripMenuItem.Click += new System.EventHandler(this.从目录替换ToolStripMenuItem_Click);
             // 
             // 清理透明色ToolStripMenuItem
             // 
             this.清理透明色ToolStripMenuItem.Name = "清理透明色ToolStripMenuItem";
-            this.清理透明色ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.清理透明色ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.清理透明色ToolStripMenuItem.Text = "图片批处理";
             this.清理透明色ToolStripMenuItem.Click += new System.EventHandler(this.清理透明色ToolStripMenuItem_Click);
             // 
@@ -505,7 +518,7 @@
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
             this.删除ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 
@@ -635,6 +648,15 @@
             this.BtnSelectTileIDColor.Text = "设置TileID颜色";
             this.BtnSelectTileIDColor.Click += new System.EventHandler(this.BtnSelectTileIDColor_Click);
             // 
+            // toolStripColor
+            // 
+            this.toolStripColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
+            this.toolStripColor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripColor.Image")));
+            this.toolStripColor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripColor.Name = "toolStripColor";
+            this.toolStripColor.Size = new System.Drawing.Size(23, 22);
+            this.toolStripColor.Text = "当前像素颜色";
+            // 
             // toolStripButton5
             // 
             this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -679,6 +701,109 @@
             this.btnLeftAllImage.Text = "向左对齐";
             this.btnLeftAllImage.Click += new System.EventHandler(this.btnLeftAllImage_Click);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
+            // menu_custom_output
+            // 
+            this.menu_custom_output.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.menu_custom_output.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chk_custom_output,
+            this.chk_output_tile,
+            this.chk_output_group});
+            this.menu_custom_output.Image = global::CellGameEdit.Resource1.Image28;
+            this.menu_custom_output.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.menu_custom_output.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menu_custom_output.Name = "menu_custom_output";
+            this.menu_custom_output.Size = new System.Drawing.Size(22, 22);
+            this.menu_custom_output.Text = "toolStripDropDownButton3";
+            this.menu_custom_output.ToolTipText = "自定义输出方式";
+            // 
+            // chk_custom_output
+            // 
+            this.chk_custom_output.Checked = true;
+            this.chk_custom_output.CheckOnClick = true;
+            this.chk_custom_output.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_custom_output.Name = "chk_custom_output";
+            this.chk_custom_output.Size = new System.Drawing.Size(152, 22);
+            this.chk_custom_output.Text = "N/A";
+            this.chk_custom_output.ToolTipText = "使用默认输出方式";
+            this.chk_custom_output.Click += new System.EventHandler(this.nAToolStripMenuItem_Click);
+            // 
+            // chk_output_tile
+            // 
+            this.chk_output_tile.CheckOnClick = true;
+            this.chk_output_tile.Name = "chk_output_tile";
+            this.chk_output_tile.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_tile.Text = "TILE";
+            this.chk_output_tile.ToolTipText = "自定义输出散图";
+            this.chk_output_tile.CheckedChanged += new System.EventHandler(this.output_type_changed);
+            this.chk_output_tile.Click += new System.EventHandler(this.output_type_click);
+            // 
+            // chk_output_group
+            // 
+            this.chk_output_group.CheckOnClick = true;
+            this.chk_output_group.Name = "chk_output_group";
+            this.chk_output_group.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_group.Text = "GROUP";
+            this.chk_output_group.ToolTipText = "自定义输出整图";
+            this.chk_output_group.CheckedChanged += new System.EventHandler(this.output_type_changed);
+            this.chk_output_group.Click += new System.EventHandler(this.output_type_click);
+            // 
+            // menu_custom_filetype
+            // 
+            this.menu_custom_filetype.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.menu_custom_filetype.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chk_custom_filetype,
+            this.chk_output_file_png,
+            this.chk_output_file_jpg,
+            this.chk_output_file_bmp});
+            this.menu_custom_filetype.Image = global::CellGameEdit.Resource1.Image61;
+            this.menu_custom_filetype.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.menu_custom_filetype.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menu_custom_filetype.Name = "menu_custom_filetype";
+            this.menu_custom_filetype.Size = new System.Drawing.Size(22, 22);
+            this.menu_custom_filetype.Text = "toolStripDropDownButton4";
+            this.menu_custom_filetype.ToolTipText = "自定义输出格式";
+            // 
+            // chk_custom_filetype
+            // 
+            this.chk_custom_filetype.Checked = true;
+            this.chk_custom_filetype.CheckOnClick = true;
+            this.chk_custom_filetype.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_custom_filetype.Name = "chk_custom_filetype";
+            this.chk_custom_filetype.Size = new System.Drawing.Size(152, 22);
+            this.chk_custom_filetype.Text = "N/A";
+            this.chk_custom_filetype.Click += new System.EventHandler(this.chk_custom_filetype_Click);
+            // 
+            // chk_output_file_png
+            // 
+            this.chk_output_file_png.Name = "chk_output_file_png";
+            this.chk_output_file_png.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_file_png.Text = ".png";
+            this.chk_output_file_png.Click += new System.EventHandler(this.chk_output_file_png_Click);
+            // 
+            // chk_output_file_jpg
+            // 
+            this.chk_output_file_jpg.Name = "chk_output_file_jpg";
+            this.chk_output_file_jpg.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_file_jpg.Text = ".jpg";
+            this.chk_output_file_jpg.Click += new System.EventHandler(this.chk_output_file_png_Click);
+            // 
+            // chk_output_file_bmp
+            // 
+            this.chk_output_file_bmp.Name = "chk_output_file_bmp";
+            this.chk_output_file_bmp.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_file_bmp.Text = ".bmp";
+            this.chk_output_file_bmp.Click += new System.EventHandler(this.chk_output_file_png_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
             // clipMenu
             // 
             this.clipMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -701,20 +826,6 @@
             this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
-            // 
-            // toolStripColor
-            // 
-            this.toolStripColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.toolStripColor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripColor.Image")));
-            this.toolStripColor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripColor.Name = "toolStripColor";
-            this.toolStripColor.Size = new System.Drawing.Size(23, 22);
-            this.toolStripColor.Text = "当前像素颜色";
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
             // ImagesForm
             // 
@@ -815,5 +926,15 @@
         private System.Windows.Forms.ToolStripMenuItem 清理透明色ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton toolStripColor;
+        private System.Windows.Forms.ToolStripDropDownButton menu_custom_output;
+        private System.Windows.Forms.ToolStripMenuItem chk_output_group;
+        private System.Windows.Forms.ToolStripMenuItem chk_output_tile;
+        private System.Windows.Forms.ToolStripMenuItem chk_custom_output;
+        private System.Windows.Forms.ToolStripDropDownButton menu_custom_filetype;
+        private System.Windows.Forms.ToolStripMenuItem chk_custom_filetype;
+        private System.Windows.Forms.ToolStripMenuItem chk_output_file_png;
+        private System.Windows.Forms.ToolStripMenuItem chk_output_file_jpg;
+        private System.Windows.Forms.ToolStripMenuItem chk_output_file_bmp;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
     }
 }

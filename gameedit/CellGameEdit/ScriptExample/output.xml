@@ -18,11 +18,17 @@
 <RESOURCE>
 <resource images_count="<RES_IMAGES_COUNT>" map_count="<RES_MAP_COUNT>" sprite_count="<RES_SPRITE_COUNT>" >
 	
-	<IMAGES><images index="<IMAGES_INDEX>" name="<NAME>" size="<COUNT>"><CLIP>
+	<IMAGES>
+	<images index="<IMAGES_INDEX>" name="<NAME>" size="<COUNT>" 
+		output_type="<OUTPUT_IMAGE_TYPE>"
+		output_file="<OUTPUT_IMAGE_FILE>">
+		<CLIP>
 		<clip index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" data="<DATA>" /></CLIP>
-	</images></IMAGES>
+	</images>
+	</IMAGES>
 	
-	<MAP><map index="<MAP_INDEX>" name="<NAME>" 
+	<MAP>
+	<map index="<MAP_INDEX>" name="<NAME>" 
 		images_name="<IMAGES_NAME>" 
 		xcount="<X_COUNT>" 
 		ycount="<Y_COUNT>"
@@ -42,11 +48,12 @@
 			tile_matrix="<TILE_MATRIX>"
 			flag_matrix="<FLAG_MATRIX>"
 		/>
-		
-	</map></MAP>
+	</map>
+	</MAP>
 	
 	
-	<SPRITE><sprite index="<SPR_INDEX>" name="<NAME>"
+	<SPRITE>
+	<sprite index="<SPR_INDEX>" name="<NAME>"
 		images_name="<IMAGES_NAME>"
 		scene_part_count="<SCENE_PART_COUNT>"
 		scene_frame_count="<SCENE_FRAME_COUNT>"
@@ -73,7 +80,8 @@
 			cd_ext="<FRAME_CD_EXT>"
 		/>
 
-	</sprite></SPRITE>
+	</sprite>
+	</SPRITE>
 	
 </resource>
 </RESOURCE>
