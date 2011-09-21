@@ -119,6 +119,7 @@ package com.cell.gameedit.output
 		
 		private function img_error(e:IOErrorEvent) : void
 		{
+			trace("load img error : " + e);
 			all_error.call();
 		}
 	}

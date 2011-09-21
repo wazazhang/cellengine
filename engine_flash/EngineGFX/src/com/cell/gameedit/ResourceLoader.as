@@ -50,7 +50,7 @@ package com.cell.gameedit
 		
 		private function output_complete() : void 
 		{
-			trace("load resource complete : " + output);
+			trace("load resource complete : " + url);
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.LOADED);
 			event.res = this;
 			dispatchEvent(event);
@@ -58,7 +58,7 @@ package com.cell.gameedit
 		
 		private function output_error() : void
 		{
-			trace("load resource error : " + output);
+			trace("load resource error : " + url);
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.ERROR);
 			event.res = this;
 			dispatchEvent(event);
