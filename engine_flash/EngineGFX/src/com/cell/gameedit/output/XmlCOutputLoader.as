@@ -86,24 +86,24 @@ package com.cell.gameedit.output
 
 			for each (var e:XML in xml.images) {
 				var img : ImagesSet = initImages(e);
+				trace("get images : " + img.Name);
 				img_table.put(img.Name, img);
 				var cimg : IImages = createCImages(img);
 				res_img_table.put(img.Name, cimg);
-				trace("get images : " + img.Name);
 			}
 			for each (var e:XML in xml.map) {
 				var map : MapSet = initMap(e);
+				trace("get map : " + map.Name);
 				map_table.put(map.Name, map);
 				var cmap : CMap = createCMap(map, res_img_table.get(map.ImagesName));
 				res_map_table.put(map.Name, cmap);
-				trace("get map : " + map.Name);
 			}
 			for each (var e:XML in xml.sprite) {
 				var spr : SpriteSet = initSprite(e);
+				trace("get sprite : " + spr.Name);
 				spr_table.put(spr.Name, spr);
 				var cspr : CSprite = createCSprite(spr, res_img_table.get(spr.ImagesName));
 				res_spr_table.put(spr.Name, cspr);
-				trace("get sprite : " + spr.Name);
 			}
 			
 		}
@@ -114,6 +114,8 @@ package com.cell.gameedit.output
 			
 			ret.Index		= xml.attribute("index");
 			ret.Name		= xml.attribute("name");
+			ret.CustomOut	= xml.attribute("output_type");
+			ret.CustomExt	= xml.attribute("output_file");
 			
 			ret.Count 		= xml.attribute("size");
 			ret.ClipsX 		= new Array(ret.Count);

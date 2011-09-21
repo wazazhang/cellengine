@@ -32,7 +32,7 @@ package com.cell.gameedit.output
 		private function complete(e:Event) : void
 		{
 			var data : BitmapData = (loader.content as Bitmap).bitmapData;
-			initAllImages(data);
+			initAllImagesGroup(data);
 			this.loader = null;
 		}
 	}

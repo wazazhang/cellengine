@@ -19,6 +19,10 @@ package com.cell.gameedit.object
 		/**String[]*/
 		public var ClipsKey 	: Array;
 		
+		public var CustomOut	: String;
+		
+		public var CustomExt	: String;
+		
 		public function getIndex() : int {
 			return Index;
 		}

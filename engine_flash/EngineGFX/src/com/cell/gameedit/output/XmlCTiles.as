@@ -6,6 +6,7 @@ package com.cell.gameedit.output
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.gfx.game.IImages;
 	import com.cell.io.UrlManager;
+	import com.cell.util.Map;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -34,7 +35,7 @@ package com.cell.gameedit.output
 			}
 		}
 		
-		public function initAllImages( data : BitmapData) : void
+		protected function initAllImagesGroup(data : BitmapData) : void
 		{
 			for (var i:int=0; i<img.Count; i++){
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {

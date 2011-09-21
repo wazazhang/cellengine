@@ -61,17 +61,21 @@ package com.cell.gameedit.output
 		override public function createCImages(img:ImagesSet) : IImages
 		{
 			if (img != null) {
-				var tiles : XmlCTiles = new XmlCTiles(this, img);
-				var src : Bitmap = getImageClass(img);
-				tiles.initAllImages(src.bitmapData);
+				var tiles : XmlEmbedTiles = new XmlEmbedTiles(this, img);
 				return tiles;
 			}
 			return null;
 		}
 		
-		protected function getImageClass(img:ImagesSet) : Bitmap
+		public function getImageClass(img:ImagesSet) : Bitmap
 		{
 			var cls : Class = class_name_map.get(img.getName());
+			return new cls() as Bitmap;
+		}
+		
+		public function getTileClass(img:ImagesSet, tile:int) : Bitmap
+		{
+			var cls : Class = class_name_map.get(img.getName()+"/"+tile);
 			return new cls() as Bitmap;
 		}
 	}
