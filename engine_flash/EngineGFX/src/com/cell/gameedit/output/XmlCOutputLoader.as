@@ -32,23 +32,23 @@ package com.cell.gameedit.output
 
 	public class XmlCOutputLoader implements OutputLoader
 	{
-		private var img_table	: Map = new Map();
-		private var spr_table	: Map = new Map();
-		private var map_table	: Map = new Map();
-		private var world_table	: Map = new Map();
+		internal var img_table	: Map = new Map();
+		internal var spr_table	: Map = new Map();
+		internal var map_table	: Map = new Map();
+		internal var world_table	: Map = new Map();
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		private var res_img_table	: Map = new Map();
-		private var res_spr_table	: Map = new Map();
-		private var res_map_table	: Map = new Map();
+		internal var res_img_table	: Map = new Map();
+		internal var res_spr_table	: Map = new Map();
+		internal var res_map_table	: Map = new Map();
 		
 		
 //		-----------------------------------------------------------------------------------------------
 		
-		private var image_type	: String;
-		private var image_tile	: Boolean;
-		private var image_group	: Boolean;
+		internal var image_type	: String;
+		internal var image_tile	: Boolean;
+		internal var image_group	: Boolean;
 		
 //		-----------------------------------------------------------------------------------------------
 		

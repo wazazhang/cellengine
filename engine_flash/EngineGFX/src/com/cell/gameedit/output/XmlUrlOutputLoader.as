@@ -41,9 +41,11 @@ package com.cell.gameedit.output
 		
 		private var loader			: URLLoader;
 		private var loaded_images	: int = 0;
+		private var img_count		: Number = 0;
 		
 		private var all_complete	: Function;
 		private var all_error		: Function;
+		
 		
 		public function XmlUrlOutputLoader(url:String)
 		{
@@ -71,13 +73,18 @@ package com.cell.gameedit.output
 		override public function getPercent():Number
 		{
 			var xml_pct : Number = loader.bytesLoaded / Number(loader.bytesTotal)*0.1;
-			
-			return xml_pct;
+			var img_pct : Number = 0;
+			if (img_count > 0) {
+				img_pct = loaded_images / img_count;
+			}
+			img_pct *= 0.9;
+			return xml_pct + img_pct;
 		}
 		
 		private function xml_complete(e:Event) : void
 		{
 			init(new XML(this.loader.data));
+			img_count = img_table.size();
 		}
 		
 		private function xml_error(e:Event) : void
