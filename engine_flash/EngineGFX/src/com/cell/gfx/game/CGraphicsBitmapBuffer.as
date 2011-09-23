@@ -12,9 +12,7 @@ package com.cell.gfx.game
 		private var dst_rect : Rectangle;		
 		private var src_rect : Rectangle;
 		private var dst_point : Point;
-		
-		public var map_mode : Boolean = false;
-		
+				
 		public function CGraphicsBitmapBuffer(buff : BitmapData)
 		{
 			this.buff = buff;
