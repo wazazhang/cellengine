@@ -126,8 +126,9 @@ package com.cell.gfx.game
 				BufW = BufBW*CellW;
 				BufH = BufBH*CellH;
 				
-				back_buff	= CImage.createImageBuff(BufW, BufH, 0xff0000ff);
-				bg 			= back_buff.createGraphics();
+				back_buff	= CImage.createImageBuff(BufW, BufH, 0);
+//				bg 			= back_buff.createGraphics();
+				bg			= new CGraphicsBitmapBuffer(back_buff.src);
 	
 				vBufX = 0;
 				vBufY = 0;

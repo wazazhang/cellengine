@@ -24,13 +24,12 @@ package com.cell.gfx.game
 		
 		public function CMapView(map:CMap, viewWidth:int, viewHeight:int)
 		{			
-			super(new BitmapData(viewWidth, viewHeight, false, 0xff000000));
-			this.cg		= new CGraphicsBitmap(bitmapData);
+			super(new BitmapData(viewWidth, viewHeight, true, 0));
+			this.cg		= new CGraphicsBitmapBuffer(bitmapData);
 			this.Map 	= map;
 			this.Camera = new CCamera(viewWidth, viewHeight, map);			
 			this.Camera.resetBuffer();
 			this.Camera.render(cg);
-
 		}
 		
 		public function getMap() : CMap {
