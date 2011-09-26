@@ -4,6 +4,7 @@ package com.cell.util
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObjectContainer;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
@@ -103,6 +104,19 @@ package com.cell.util
 			}
 			
 			return ret;
+		}
+		
+		
+		
+		
+		public static function clearChilds(container:DisplayObjectContainer) : int
+		{
+			var count : int = 0;
+			while (container.numChildren>0) {
+				container.removeChildAt(0);
+				count ++;
+			}
+			return count;
 		}
 	}
 }
