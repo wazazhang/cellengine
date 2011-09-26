@@ -47,6 +47,7 @@
     <classEntry path="com.cell.ui.ImageGroup"/>
     <classEntry path="com.cell.ui.TouchTrack"/>
     <classEntry path="com.cell.ui.Dialog"/>
+    <classEntry path="com.cell.ui.Alert"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
