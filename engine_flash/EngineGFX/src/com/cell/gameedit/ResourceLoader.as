@@ -10,6 +10,7 @@ package com.cell.gameedit
 	import com.cell.gameedit.output.XmlUrlOutputLoader;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
+	import com.cell.gfx.game.CSpriteBuffer;
 	import com.cell.gfx.game.IImages;
 	import com.cell.util.Map;
 	import com.cell.util.StringUtil;
@@ -25,6 +26,7 @@ package com.cell.gameedit
 	{
 		private var url 				: String;
 		private var output 				: OutputLoader;
+		private var spr_buff			: Map;
 		
 		public function ResourceLoader(url:String, output:OutputLoader = null)
 		{
@@ -35,6 +37,7 @@ package com.cell.gameedit
 			else if (StringUtil.endsOf(url.toLowerCase(), ".xml")) {
 				this.output	= new XmlUrlOutputLoader(url);
 			}
+			this.spr_buff = new Map();
 		}
 		
 		public function load() : void
@@ -81,6 +84,23 @@ package com.cell.gameedit
 				return ret.copy();
 			}
 			return ret;
+		}
+		
+		public function getSpriteBuffer(name:String) : CSpriteBuffer
+		{
+			var ret : CSpriteBuffer = spr_buff.get(name);
+			if (ret != null) {
+				return ret.copy();
+			} else {
+				var spr : CSprite = output.getCSprite(name);
+				if (spr != null) {
+					ret = new CSpriteBuffer();
+					ret.init(spr);
+					spr_buff.put(name, ret);
+					return ret.copy();
+				}
+			}
+			return null;
 		}
 		
 		public function getMap(name:String) : CMap
