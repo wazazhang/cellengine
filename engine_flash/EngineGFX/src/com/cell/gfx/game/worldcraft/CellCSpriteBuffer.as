@@ -30,6 +30,7 @@ package com.cell.gfx.game.worldcraft
 			this.repaint();
 			this.mouseEnabled = false;
 			this.mouseChildren = false;
+			this.addChild(bitmap);
 		}
 		
 		public function repaint() : void
