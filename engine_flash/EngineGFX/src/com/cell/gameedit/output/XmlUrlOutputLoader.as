@@ -40,7 +40,7 @@ package com.cell.gameedit.output
 		internal var file_name 	: String;
 		
 		private var xml_loader		: URLLoader;
-		private var img_loaders		: Vector.<Loader> = new Vector.<Loader>();
+		private var img_loaders		: Vector.<XmlUrlTiles> = new Vector.<XmlUrlTiles>();
 		private var loaded_images	: int = 0;
 		
 		private var all_complete	: Function;
@@ -75,8 +75,8 @@ package com.cell.gameedit.output
 				var xml_pct : Number = xml_loader.bytesLoaded / Number(xml_loader.bytesTotal);
 				var img_pct : Number = 0;
 				if (img_loaders.length > 0) {
-					for each (var l : Loader in img_loaders) {
-						img_pct += (l.contentLoaderInfo.bytesLoaded / l.contentLoaderInfo.bytesTotal);
+					for each (var l : XmlUrlTiles in img_loaders) {
+						img_pct += l.getPercent();
 					}
 					img_pct = (img_pct / img_loaders.length);
 				}
@@ -100,11 +100,9 @@ package com.cell.gameedit.output
 		override public function createCImages(img:ImagesSet) : IImages
 		{
 			if (img != null) {
-				var ld : Loader = new Loader();
-				img_loaders.push(ld);
-				ld.contentLoaderInfo.addEventListener(Event.COMPLETE, img_complete);
-				ld.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, img_error);
-				return new XmlUrlTiles(this, img, ld);
+				var tiles : XmlUrlTiles = new XmlUrlTiles(this, img, img_complete, img_error);
+				img_loaders.push(tiles);
+				return tiles;
 			}
 			return null;
 		}
