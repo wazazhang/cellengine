@@ -43,8 +43,8 @@ package com.cell.gameedit.output
 		private var img_loaders		: Vector.<XmlUrlTiles> = new Vector.<XmlUrlTiles>();
 		private var loaded_images	: int = 0;
 		
-		private var all_complete	: Function;
-		private var all_error		: Function;
+		protected var all_complete	: Function;
+		protected var all_error		: Function;
 		
 		public function XmlUrlOutputLoader(url:String)
 		{
@@ -59,30 +59,31 @@ package com.cell.gameedit.output
 		}
 		
 		override public function load(complete:Function, error:Function) : void
-		{
+		{		
+			this.all_error    = error;
+			this.all_complete = complete;
+
 			this.xml_loader = new URLLoader();
 			this.xml_loader.addEventListener(Event.COMPLETE, xml_complete);
 			this.xml_loader.addEventListener(IOErrorEvent.IO_ERROR, xml_error);
 			this.xml_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, xml_error);
-			this.all_error    = error;
-			this.all_complete = complete;
 			this.xml_loader.load(UrlManager.getUrl(path));
 		}
 		
 		override public function getPercent():Number
 		{
+			var xml_pct : Number = 1;
 			if (xml_loader != null) {
-				var xml_pct : Number = xml_loader.bytesLoaded / Number(xml_loader.bytesTotal);
-				var img_pct : Number = 0;
-				if (img_loaders.length > 0) {
-					for each (var l : XmlUrlTiles in img_loaders) {
-						img_pct += l.getPercent();
-					}
-					img_pct = (img_pct / img_loaders.length);
-				}
-				return (xml_pct*0.2) + (img_pct*0.8);
+				xml_pct = xml_loader.bytesLoaded / Number(xml_loader.bytesTotal);
 			}
-			return 0;
+			var img_pct : Number = 0;
+			if (img_loaders.length > 0) {
+				for each (var l : XmlUrlTiles in img_loaders) {
+					img_pct += l.getPercent();
+				}
+				img_pct = (img_pct / img_loaders.length);
+			}
+			return (xml_pct*0.2) + (img_pct*0.8);
 		}
 		
 		private function xml_complete(e:Event) : void
@@ -93,7 +94,7 @@ package com.cell.gameedit.output
 		private function xml_error(e:Event) : void
 		{
 			trace("load xml error : " + e);
-			all_error.call();
+			all_error.call(null, e);
 		}
 		
 		
@@ -118,7 +119,7 @@ package com.cell.gameedit.output
 		private function img_error(e:IOErrorEvent) : void
 		{
 			trace("load img error : " + e);
-			all_error.call();
+			all_error.call(null, e);
 		}
 	}
 }

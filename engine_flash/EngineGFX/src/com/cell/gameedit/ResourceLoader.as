@@ -59,11 +59,12 @@ package com.cell.gameedit
 			dispatchEvent(event);
 		}
 		
-		private function output_error() : void
+		private function output_error(e:Event) : void
 		{
 			trace("load resource error : " + url);
 			var event : ResourceEvent = new ResourceEvent(ResourceEvent.ERROR);
 			event.res = this;
+			event.error_source = e;
 			dispatchEvent(event);
 		}
 		

@@ -17,6 +17,7 @@ package com.cell.gameedit
 		
 		public var res 			: ResourceLoader;
 		
+		public var error_source		: Event;
 //		public var images 		: IImages;
 		
 //		public var images_set 	: ImagesSet;

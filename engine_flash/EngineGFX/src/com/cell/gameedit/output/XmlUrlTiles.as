@@ -38,23 +38,21 @@ package com.cell.gameedit.output
 			this.img_complete 	= img_complete;
 			this.img_error 		= img_error;
 			this.isTile 		= img.CustomOut.indexOf("tile")>=0;
-			this.loader 		= new Loader();
 			
 			if (isTile)
 			{
 				trace("init tile images!");
 				initAllImagesTile(output);
-				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, tileLoaded);
-				loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, tileError);
 				startLoadTile();
 			}
 			else 
 			{				
 				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
-				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, img_complete);
-				loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, img_error);
 				
-				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
+				this.loader = new Loader();
+				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			img_complete);
+				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 	img_error);
+				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			complete);  
 				this.loader.load(UrlManager.getUrl(url));
 			}
 		}
@@ -63,8 +61,10 @@ package com.cell.gameedit.output
 		{
 			if (isTile) {
 				return (tile_count - tile_urls.length) / tile_count;
-			} else {
+			} else if (loader != null) {
 				return (loader.contentLoaderInfo.bytesLoaded / loader.contentLoaderInfo.bytesTotal);
+			} else {
+				return 0;
 			}
 		}
 		
@@ -82,24 +82,22 @@ package com.cell.gameedit.output
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
 					tile_count ++;
 					tile_urls.push(i);
-//					var loader 		: loader = new Loader();
-//					this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
-//					this.loader.load(UrlManager.getUrl(url));
-//					var dtile : BitmapData = (tiles[i] as CImage).getSrc();
-//					dtile.copyPixels(
-//						stile, 
-//						new Rectangle(0, 0, img.ClipsW[i], img.ClipsH[i]), 
-//						new Point(0, 0), 
-//						null, null, false)
 				}
 			}
 		}
 		
 		private function startLoadTile() : void
-		{					
+		{								
+			
+
 			tile_cur = tile_urls[0];
+			tile_urls.splice(0, 1);			
+			
 			var url:String = (output as XmlUrlOutputLoader).path_root + img.Name + "/" + tile_cur + "." + output.getImageExtentions();
-			tile_urls.splice(0, 1);
+
+			this.loader = new Loader();
+			this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			tileLoaded);
+			this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 	tileError);
 			this.loader.load(UrlManager.getUrl(url));
 		}
 		
