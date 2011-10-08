@@ -28,26 +28,30 @@ package com.cell.gameedit.output
 		private var img_error	:Function;
 		
 		private var tile_count : int = 0;
-		private var tile_urls : Vector.<int>;
+		private var tile_urls : Vector.<int> = new Vector.<int>();
 		private var tile_cur : int;
 		
-		public function XmlUrlTiles(output:XmlUrlOutputLoader, img:ImagesSet, img_complete:Function, img_error:Function)
+		public function XmlUrlTiles(output:XmlUrlOutputLoader, img:ImagesSet)
 		{
 			super(output, img);
-			
+			this.isTile = img.CustomOut.indexOf("tile")>=0;
+		}
+		
+		public function load(img_complete:Function, img_error:Function) : void
+		{			
 			this.img_complete 	= img_complete;
 			this.img_error 		= img_error;
-			this.isTile 		= img.CustomOut.indexOf("tile")>=0;
-			
+
 			if (isTile)
 			{
 				trace("init tile images!");
-				initAllImagesTile(output);
+				initAllImagesTile();
 				startLoadTile();
 			}
 			else 
 			{				
-				var url:String = output.path_root + img.Name + "." + output.getImageExtentions();
+				var url:String = (output as XmlUrlOutputLoader).path_root + 
+					img.Name + "." + output.getImageExtentions();
 				
 				this.loader = new Loader();
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			img_complete);
@@ -74,9 +78,9 @@ package com.cell.gameedit.output
 			initAllImagesGroup(data);
 		}
 		
-		protected function initAllImagesTile(output:XmlUrlOutputLoader) : void
+		protected function initAllImagesTile() : void
 		{
-			tile_urls = new Vector.<int>();
+			
 
 			for (var i:int=0; i<img.Count; i++){
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
@@ -93,7 +97,8 @@ package com.cell.gameedit.output
 			tile_cur = tile_urls[0];
 			tile_urls.splice(0, 1);			
 			
-			var url:String = (output as XmlUrlOutputLoader).path_root + img.Name + "/" + tile_cur + "." + output.getImageExtentions();
+			var url:String = (output as XmlUrlOutputLoader).path_root + 
+				img.Name + "/" + tile_cur + "." + output.getImageExtentions();
 
 			this.loader = new Loader();
 			this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			tileLoaded);

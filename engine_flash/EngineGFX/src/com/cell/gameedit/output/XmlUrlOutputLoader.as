@@ -41,6 +41,7 @@ package com.cell.gameedit.output
 		
 		private var xml_loader		: URLLoader;
 		private var img_loaders		: Vector.<XmlUrlTiles> = new Vector.<XmlUrlTiles>();
+		private var img_loaders_cur	: Vector.<XmlUrlTiles> = new Vector.<XmlUrlTiles>();
 		private var loaded_images	: int = 0;
 		
 		protected var all_complete	: Function;
@@ -89,6 +90,10 @@ package com.cell.gameedit.output
 		private function xml_complete(e:Event) : void
 		{
 			init(new XML(this.xml_loader.data));
+			
+			if (startLoad()) {
+				all_complete.call();
+			}
 		}
 		
 		private function xml_error(e:Event) : void
@@ -97,12 +102,23 @@ package com.cell.gameedit.output
 			all_error.call(null, e);
 		}
 		
+		protected function startLoad() : Boolean
+		{
+			if (img_loaders_cur.length > 0) {
+				var tile : XmlUrlTiles = img_loaders_cur[0];
+				img_loaders_cur.splice(0, 1);
+				tile.load(img_complete, img_error);
+				return false;
+			}
+			return true;
+		}
 		
 		override public function createCImages(img:ImagesSet) : IImages
 		{
 			if (img != null) {
-				var tiles : XmlUrlTiles = new XmlUrlTiles(this, img, img_complete, img_error);
+				var tiles : XmlUrlTiles = new XmlUrlTiles(this, img);
 				img_loaders.push(tiles);
+				img_loaders_cur.push(tiles);
 				return tiles;
 			}
 			return null;
@@ -111,7 +127,7 @@ package com.cell.gameedit.output
 		private function img_complete(e:Event) : void
 		{
 			loaded_images ++;
-			if (loaded_images >= super.getImgTable().size()) {
+			if (startLoad()) {
 				all_complete.call();
 			}
 		}
