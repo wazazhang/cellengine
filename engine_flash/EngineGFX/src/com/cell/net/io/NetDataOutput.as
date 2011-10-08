@@ -4,11 +4,19 @@ package com.cell.net.io
 	
 	public class NetDataOutput extends ByteArray
 	{
-		var factory : MessageFactory ;
+		protected var factory : MessageFactory ;
 		
 		public function NetDataOutput(factory : MessageFactory)
 		{
 			this.factory = factory;
+		}
+		
+		public function writeLong(v : Number) : void
+		{
+			var l : int = v & 0xffffffff;
+			var h : int = (v>>32) & 0xffffffff;
+			super.writeInt(h);
+			super.writeInt(l);
 		}
 		
 		public function writeBooleanArray(array : Array) : void

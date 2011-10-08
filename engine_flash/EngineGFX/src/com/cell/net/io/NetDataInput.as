@@ -5,11 +5,18 @@ package com.cell.net.io
 	
 	public class NetDataInput extends ByteArray
 	{
-		var factory : MessageFactory ;
+		protected var factory : MessageFactory ;
 		
 		public function NetDataInput(factory : MessageFactory)
 		{
 			this.factory = factory;
+		}
+		
+		public function readLong() : Number
+		{
+			var h : int = super.readInt();
+			var l : int = super.readInt();
+			return (h << 32) + l;
 		}
 		
 		public function readBooleanArray() : Array
