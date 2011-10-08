@@ -202,14 +202,14 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			write.append("		output.writeIntArray(" + f_name + ");\n");
 		}
 		// long -----------------------------------------------
-//		else if (f_type.equals(long.class)) {
-//			read.append("		" + f_name + " = input.readLong();\n");
-//			write.append("		output.writeLong(" + f_name + ");\n");
-//		}
-//		else if (f_type.equals(long[].class)) {
-//			read.append("		" + f_name + " = input.readLongArray();\n");
-//			write.append("		output.writeLongArray(" + f_name + ");\n");
-//		}
+		else if (f_type.equals(long.class)) {
+			read.append("		" + f_name + " = input.readLong();\n");
+			write.append("		output.writeLong(" + f_name + ");\n");
+		}
+		else if (f_type.equals(long[].class)) {
+			read.append("		" + f_name + " = input.readLongArray();\n");
+			write.append("		output.writeLongArray(" + f_name + ");\n");
+		}
 		// float -----------------------------------------------
 		else if (f_type.equals(float.class)) {
 			read.append("		" + f_name + " = input.readFloat();\n");
@@ -220,14 +220,14 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			write.append("		output.writeFloatArray(" + f_name + ");\n");
 		}
 		// double -----------------------------------------------
-//		else if (f_type.equals(double.class)) {
-//			read.append("		" + f_name + " = input.readDouble();\n");
-//			write.append("		output.writeDouble(" + f_name + ");\n");
-//		}	
-//		else if (f_type.equals(double[].class)) {
-//			read.append("		" + f_name + " = input.readDoubleArray();\n");
-//			write.append("		output.writeDoubleArray(" + f_name + ");\n");
-//		}
+		else if (f_type.equals(double.class)) {
+			read.append("		" + f_name + " = input.readDouble();\n");
+			write.append("		output.writeDouble(" + f_name + ");\n");
+		}	
+		else if (f_type.equals(double[].class)) {
+			read.append("		" + f_name + " = input.readDoubleArray();\n");
+			write.append("		output.writeDoubleArray(" + f_name + ");\n");
+		}
 		// String -----------------------------------------------
 		else if (f_type.equals(String.class)) {
 			read.append("		" + f_name + " = input.readJavaUTF();\n");
