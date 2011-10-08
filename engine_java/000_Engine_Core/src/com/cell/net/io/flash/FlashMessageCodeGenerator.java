@@ -383,15 +383,17 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			return f.getName() + " :  int";
 		}
 		// long -----------------------------------------------
-//		else if (f_type.equals(long.class)) {
-//		}
+		else if (f_type.equals(long.class)) {
+			return f.getName() + " : Number";
+		}
 		// float -----------------------------------------------
 		else if (f_type.equals(float.class)) {
 			return f.getName() + " :  Number";
 		}
 		// double -----------------------------------------------
-//		else if (f_type.equals(double.class)) {
-//		}	
+		else if (f_type.equals(double.class)) {
+			return f.getName() + " : Number";
+		}	
 		// String -----------------------------------------------
 		else if (f_type.equals(String.class)) {
 			return f.getName() + " :  String";
