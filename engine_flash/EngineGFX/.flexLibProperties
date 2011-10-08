@@ -48,6 +48,7 @@
     <classEntry path="com.cell.ui.TouchTrack"/>
     <classEntry path="com.cell.ui.Dialog"/>
     <classEntry path="com.cell.ui.Alert"/>
+    <classEntry path="com.cell.net.http.HttpRequest"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
