@@ -3,9 +3,11 @@ package com.cell.net.http
 	import com.cell.io.UrlManager;
 	
 	import flash.events.Event;
+	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.URLRequestHeader;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 
@@ -22,26 +24,48 @@ package com.cell.net.http
 			_args		= new URLVariables();
 			
 			_loader.addEventListener(Event.COMPLETE, handleLoadSuccessful);
-			_loader.addEventListener(IOErrorEvent.IO_ERROR, handleLoadError);
+			_loader.addEventListener(IOErrorEvent.IO_ERROR, handleLoadError);       
+			_loader.addEventListener(HTTPStatusEvent.HTTP_STATUS, httpStatusHandler);
+
 		}
 		
-		public function load() : void
+		public function post() : void
 		{
 //			scriptVars.var1 = "one";
 //			scriptVars.var2 = "two";
-			
+			_request.digest
 			_request.method = URLRequestMethod.POST;
 			_request.data = _args;
 			_loader.load(_request);
 		}
 		
-		protected function handleLoadSuccessful(evt:Event):void {
-			trace("Message sent.");
-			trace("DataReceived:" + evt.target.data);
+		public function get() : void
+		{
+			_request.method = URLRequestMethod.GET;
+			_request.data = _args;
+			_loader.load(_request);
 		}
 		
-		protected function handleLoadError(evt:IOErrorEvent):void {
-			trace("Message failed.");
+		
+		public function putRequestHeader(name:String, value:String) : void
+		{
+			request.requestHeaders.push(new URLRequestHeader(name, value));
+		}
+		
+		
+		protected function handleLoadSuccessful(evt:Event):void
+		{
+//			trace("DataReceived : " + evt.target.data);
+		}
+		
+		protected function handleLoadError(evt:IOErrorEvent):void 
+		{
+			trace("HttpRequestError : " + evt);
+		}
+		
+		protected function httpStatusHandler(evt:HTTPStatusEvent) : void 
+		{
+//			trace("HttpStatus : " + evt);
 		}
 		
 		
@@ -53,7 +77,7 @@ package com.cell.net.http
 			return _loader;
 		}
 		
-		public function get args()		: URLVariables{
+		public function get param()		: URLVariables{
 			return _args;
 		}
 
