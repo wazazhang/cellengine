@@ -113,7 +113,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	public " + c_name + " new_" + m_name + "(){return new " + c_name + "();}\n");
+		sb.append("	public static " + c_name + " new_" + m_name + "(){return new " + c_name + "();}\n");
 		sb.append("	private void _r(" + c_name + " msg, NetDataInput in) throws IOException {\n");
 		sb.append(read);
 		sb.append("	}\n");

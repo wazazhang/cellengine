@@ -135,7 +135,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
+		sb.append("	public static function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
 		sb.append("	private function r_" + m_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
 		sb.append(read);
 		sb.append("	}\n");
