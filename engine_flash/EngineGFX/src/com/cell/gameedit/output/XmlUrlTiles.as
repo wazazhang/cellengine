@@ -27,7 +27,7 @@ package com.cell.gameedit.output
 		private var img_complete:Function;
 		private var img_error	:Function;
 		
-		private var tile_count : int = 0;
+		private var tile_count : Number = 0;
 		private var tile_urls : Vector.<int> = new Vector.<int>();
 		private var tile_cur : int;
 		
@@ -64,9 +64,23 @@ package com.cell.gameedit.output
 		public function getPercent() : Number
 		{
 			if (isTile) {
-				return (tile_count - tile_urls.length) / tile_count;
+				if (tile_count > 0) {	
+					var loaded : Number = (tile_count - tile_urls.length);
+//					if (loader != null && loader.contentLoaderInfo.bytesTotal>0) {		
+//						loaded -= 1;
+//						return loaded / tile_count + loader.contentLoaderInfo.bytesLoaded / loader.contentLoaderInfo.bytesTotal;
+//					} else {
+//					}
+					return loaded / tile_count;
+				} else {
+					return 0;
+				}
 			} else if (loader != null) {
-				return (loader.contentLoaderInfo.bytesLoaded / loader.contentLoaderInfo.bytesTotal);
+				if (loader.contentLoaderInfo.bytesTotal>0) {
+					return (loader.contentLoaderInfo.bytesLoaded / loader.contentLoaderInfo.bytesTotal);
+				} else {
+					return 0;
+				}
 			} else {
 				return 0;
 			}

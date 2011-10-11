@@ -49,6 +49,7 @@
     <classEntry path="com.cell.ui.Dialog"/>
     <classEntry path="com.cell.ui.Alert"/>
     <classEntry path="com.cell.net.http.HttpRequest"/>
+    <classEntry path="com.cell.ui.layout.UIRect"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

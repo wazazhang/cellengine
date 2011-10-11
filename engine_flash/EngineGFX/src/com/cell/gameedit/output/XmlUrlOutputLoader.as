@@ -75,11 +75,14 @@ package com.cell.gameedit.output
 		{
 			var xml_pct : Number = 1;
 			if (xml_loader != null) {
-				xml_pct = xml_loader.bytesLoaded / Number(xml_loader.bytesTotal);
+				if (xml_loader.bytesTotal > 0) {
+					xml_pct = xml_loader.bytesLoaded / Number(xml_loader.bytesTotal);
+				}
 			}
 			var img_pct : Number = 0;
 			if (img_loaders.length > 0) {
 				for each (var l : XmlUrlTiles in img_loaders) {
+					var tpct : Number = l.getPercent();
 					img_pct += l.getPercent();
 				}
 				img_pct = (img_pct / img_loaders.length);
