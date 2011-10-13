@@ -619,16 +619,11 @@ public class CUtil extends CObject
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int[] arrayAddElement(int[] array, int e, boolean isDuplicate){
+	public static int[] arrayAddElement(int[] array, int e){
 		if (array == null){
 			int[] na = new int[1];
 			na[0] = e;
 			return na;
-		}
-		if (!isDuplicate){
-			for (int o:array){
-				if (0==e)return array;
-			}
 		}
 		int[] na = new int[array.length+1];
 		System.arraycopy(array, 0, na, 0, array.length);
@@ -652,16 +647,11 @@ public class CUtil extends CObject
 		return nb;
 	}
 	
-	public static long[] arrayAddElement(long[] array, long e, boolean isDuplicate){
+	public static long[] arrayAddElement(long[] array, long e){
 		if (array == null){
 			long[] na = new long[1];
 			na[0] = e;
 			return na;
-		}
-		if (!isDuplicate){
-			for (long o:array){
-				if (0==e)return array;
-			}
 		}
 		long[] na = new long[array.length+1];
 		System.arraycopy(array, 0, na, 0, array.length);

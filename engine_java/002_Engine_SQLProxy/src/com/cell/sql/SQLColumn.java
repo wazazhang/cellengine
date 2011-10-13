@@ -150,17 +150,20 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 	public Object getObject(SQLFieldGroup table) throws Exception
 	{
 		table = getLeafTable(table);
-		Object java_object = table.getField(getLeafField());
-		try{
-			return SQMTypeManager.getTypeComparer().toSQLObject(
-					getAnno().type(), 
-					getLeafField().getType(),
-					java_object);
-		} catch (Exception err) {
-			log.error("getObject Column field \"" + getLeafField().getName() + "@"+table+"\"" +
-					" : error=" + err.getMessage());
-			throw err;
+		if (table != null) {
+			Object java_object = table.getField(getLeafField());
+			try{
+				return SQMTypeManager.getTypeComparer().toSQLObject(
+						getAnno().type(), 
+						getLeafField().getType(),
+						java_object);
+			} catch (Exception err) {
+				log.error("getObject Column field \"" + getLeafField().getName() + "@"+table+"\"" +
+						" : error=" + err.getMessage());
+				throw err;
+			}
 		}
+		return null;
 	}
 	
 	public void setObject(SQLFieldGroup table, Object data) throws Exception
