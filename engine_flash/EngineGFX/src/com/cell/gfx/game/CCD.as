@@ -38,11 +38,11 @@ package com.cell.gfx.game
 		}
 	
 		public function getWidth() : int {
-			return X2 - X1;
+			return X2 - X1 + 1;
 		}
 		
 		public function getHeight() : int {
-			return Y2 - Y1;
+			return Y2 - Y1 + 1;
 		}
 		
 		/**
