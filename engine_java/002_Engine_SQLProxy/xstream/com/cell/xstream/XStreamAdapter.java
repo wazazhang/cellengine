@@ -13,6 +13,7 @@ import com.cell.persistance.PersistanceManager;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.DefaultConverterLookup;
 import com.thoughtworks.xstream.core.util.CompositeClassLoader;
+import com.thoughtworks.xstream.io.xml.XmlFriendlyReplacer;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
 
@@ -29,7 +30,7 @@ public class XStreamAdapter extends PersistanceManager
 //	----------------------------------------------------------------------------------------------------------
 
 	private CompositeClassLoader		composite_class_loader	= new CompositeClassLoader();
-	private XppDriver					xpp_dirver				= new XppDriver();
+	private XppDriver					xpp_dirver				= new XppDriver(new XmlFriendlyReplacer(".", "_"));
 //	----------------------------------------------------------------------------------------------------------
 
 	public XStreamAdapter() {
