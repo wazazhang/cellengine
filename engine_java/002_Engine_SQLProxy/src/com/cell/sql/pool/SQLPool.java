@@ -190,7 +190,7 @@ public class SQLPool
 		for (Object key : info.keySet()) {
 			if (key.equals(PropertyKey.DB_PASSWORD.toString()) || key.equals(PropertyKey.DB_USER.toString())) {
 			}else {
-				System.out.println(key + "\t = " + info.get(key));
+				System.out.println(key + " = " + info.get(key));
 			}
 		}
 	}
