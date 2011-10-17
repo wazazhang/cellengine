@@ -311,8 +311,8 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			d_fields.append(
 					"		/** " + f_cline + "*/\n");
 			}
-			d_fields.append(
-					"		[JavaType(name=\""+f_type_comment+"\", leaf_type=NetDataTypes."+f_leaf_name +")]\n");
+//			d_fields.append(
+//					"		[JavaType(name=\""+f_type_comment+"\", leaf_type=NetDataTypes."+f_leaf_name +")]\n");
 			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
 				Object value = null;
 				try {
