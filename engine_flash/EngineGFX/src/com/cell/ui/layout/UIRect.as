@@ -117,10 +117,10 @@ package com.cell.ui.layout
 		}
 		
 		/**将一张图片按相等的上下左右切成9格*/
-		public function setImagesClip9(src:BitmapData, style:int, clipsize:int) : void
+		public function setImagesClip9(src:BitmapData, clipsize:int) : void
 		{
 			setImagesClipBorder(src, 
-					style, clipsize, clipsize, clipsize, clipsize);
+					IMAGE_STYLE_ALL_9, clipsize, clipsize, clipsize, clipsize);
 			
 		}
 		

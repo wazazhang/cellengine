@@ -17,9 +17,9 @@ package com.cell.net.http
 		private var _loader		: URLLoader;
 		private var _args		: URLVariables;
 		
-		public function HttpRequest(url : String)
+		public function HttpRequest(url : URLRequest)
 		{
-			_request 	= UrlManager.getUrl(url);
+			_request 	= url;
 			_loader 	= new URLLoader();
 			_args		= new URLVariables();
 			

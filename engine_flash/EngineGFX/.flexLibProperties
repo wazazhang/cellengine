@@ -50,6 +50,8 @@
     <classEntry path="com.cell.ui.Alert"/>
     <classEntry path="com.cell.net.http.HttpRequest"/>
     <classEntry path="com.cell.ui.layout.UIRect"/>
+    <classEntry path="com.cell.crypo.MD5"/>
+    <classEntry path="com.cell.crypo.IntUtil"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
