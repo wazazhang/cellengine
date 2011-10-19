@@ -109,7 +109,7 @@ package com.cell.util
 		public static function subImage(src:BitmapData, x:int, y:int, w:int, h:int) : BitmapData
 		{
 			var ret : BitmapData = new BitmapData(w, h, src.transparent);
-			ret.copyPixels(src, new Rectangle(x, y, w, h), new Point(0, 0), null, null, src.transparent);
+			ret.copyPixels(src, new Rectangle(x, y, w, h), new Point(0, 0), null, null, false);
 			return ret;
 		}
 		

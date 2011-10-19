@@ -248,26 +248,6 @@ package com.cell.ui.layout
 		
 		protected function render0123_5678(g : CGraphicsBitmap, W:int, H:int) : void
 		{
-			g.drawBitmapData(BorderTL, 
-				0, 
-				0,
-				false);
-			
-			g.drawBitmapData(BorderBL, 
-				0, 
-				H - BorderBL.height,
-				false);
-			
-			g.drawBitmapData(BorderTR, 
-				W - BorderTR.width, 
-				0,
-				false);
-			
-			g.drawBitmapData(BorderBR, 
-				W - BorderBR.width,
-				H - BorderBR.height,
-				false);
-			
 			
 			g.drawBitmapDataRound(BorderL,
 				0, 
@@ -296,6 +276,28 @@ package com.cell.ui.layout
 				W - BorderBL.width - BorderBR.width, 
 				BorderB.height,
 				false);
+			
+			g.drawBitmapData(BorderTL, 
+				0, 
+				0,
+				false);
+			
+			g.drawBitmapData(BorderBL, 
+				0, 
+				H - BorderBL.height,
+				false);
+			
+			g.drawBitmapData(BorderTR, 
+				W - BorderTR.width, 
+				0,
+				false);
+			
+			g.drawBitmapData(BorderBR, 
+				W - BorderBR.width,
+				H - BorderBR.height,
+				false);
+			
+			
 			
 			
 		}
