@@ -2,6 +2,7 @@ package com.cell.gfx.game
 {
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -35,34 +36,11 @@ package com.cell.gfx.game
 				this.dst_point.x = x;
 				this.dst_point.y = y;
 
-				
 				this.src_rect.width = w;
 				this.src_rect.height = h;
 				this.src_rect.x = 0;
 				this.src_rect.y = 0;
 				buff.copyPixels(img.src, src_rect, dst_point, null, null, img.src.transparent);
-//				
-//				this.dst_rect.x = -x;
-//				this.dst_rect.y = -y;
-//				var src_ins_rect : Rectangle = intersection(src_rect, dst_rect);
-//				
-//				this.src_rect.x = 0;
-//				this.src_rect.y = 0;
-//				this.dst_rect.x = x;
-//				this.dst_rect.y = y;
-//				var dst_ins_rect : Rectangle = intersection(src_rect, dst_rect);
-//				
-//				this.dst_point.x = dst_ins_rect.x;
-//				this.dst_point.y = dst_ins_rect.y;
-//				trace("=======================================");
-//				trace("src rect " + src_rect);
-//				trace("dst rect " + dst_rect);
-//				trace("ins rect " + ins_rect);
-//				if (src_ins_rect.width != 0) {
-//					buff.copyPixels(img.src, ins_rect, dst_point, null, null ,true);
-//					buff.fillRect(new Rectangle(x,y,ins_rect.width, ins_rect.height), 0);
-//					buff.copyPixels(img.src, src_ins_rect, dst_point, null, null ,true);
-//				}
 			}
 			else 
 			{
@@ -75,30 +53,6 @@ package com.cell.gfx.game
 			}
 		}
 		
-		public function intersection(a:Rectangle, r:Rectangle) : Rectangle
-		{
-			var tx1 : int = a.x;
-			var ty1 : int = a.y;
-			var rx1 : int = r.x;
-			var ry1 : int = r.y;
-			var tx2 : int  = tx1; tx2 += a.width;
-			var ty2 : int  = ty1; ty2 += a.height;
-			var rx2 : int  = rx1; rx2 += r.width;
-			var ry2 : int  = ry1; ry2 += r.height;
-			if (tx1 < rx1) tx1 = rx1;
-			if (ty1 < ry1) ty1 = ry1;
-			if (tx2 > rx2) tx2 = rx2;
-			if (ty2 > ry2) ty2 = ry2;
-			tx2 -= tx1;
-			ty2 -= ty1;
-			// tx2,ty2 will never overflow (they will never be
-			// larger than the smallest of the two source w,h)
-			// they might underflow, though...
-			if (tx2 < int.MIN_VALUE) tx2 = int.MIN_VALUE;
-			if (ty2 < int.MIN_VALUE) ty2 = int.MIN_VALUE;
-			return new Rectangle(tx1, ty1, tx2, ty2);
-		}
-
 		
 		/**
 		 * 绘制指定图像中的一部分。 
@@ -129,6 +83,81 @@ package com.cell.gfx.game
 			buff.copyPixels(src.src, src_rect, dst_point, null, null, src.src.transparent);
 		} 
 		
-
+//		-------------------------------------------------------------------------------------------------------------------
+		
+		public function drawBitmapData(img:BitmapData, x:int, y:int, megre:Boolean) : void
+		{
+			drawBitmapDataRegion(img, x, y, img.width, img.height, megre);
+		}
+		
+		public function drawBitmapDataRegion(img:BitmapData, x:int, y:int, w:int, h:int, megre:Boolean) : void
+		{
+			this.dst_point.x = x;
+			this.dst_point.y = y;
+			this.src_rect.width = w;
+			this.src_rect.height = h;
+			this.src_rect.x = 0;
+			this.src_rect.y = 0;
+			buff.copyPixels(img, src_rect, dst_point, null, null, megre);
+		}
+		
+		public function drawBitmapDataRound(img:BitmapData, x:int, y:int, rw:int, rh:int, megre:Boolean) : void
+		{
+			var sw : int = img.width;
+			var sh : int = img.height;
+			var sx : int = x;
+			var sy : int = y;
+			for (var ix:int = 0; ix<rw; ix+=sw) {
+				for (var iy:int = 0; iy<rh; iy+=sh) {
+					sx = ix + sx;
+					sy = iy + sy;
+					drawBitmapDataRegion(img, sx, sy, sw, sh, megre);
+				}
+			}
+		}
+		
+		public function drawBitmapDataRoundH(img:BitmapData, x:int, y:int, rw:int, rh:int) : void
+		{
+			var sw : int = img.width;
+			var sx : int = x;
+			for (var ix:int = 0; ix<rw; ix+=sw) {
+				sx = ix + sx;
+				drawBitmapDataScale(img, sx, y, sw, rh);
+			}
+		}
+		
+		public function drawBitmapDataRoundV(img:BitmapData, x:int, y:int, rw:int, rh:int) : void
+		{
+			var sh : int = img.height;
+			var sy : int = y;
+			for (var iy:int = 0; iy<rh; iy+=sh) {
+				sy = iy + sy;
+				drawBitmapDataScale(img, x, sy, rw, sh);
+			}
+		}
+		
+		public function drawBitmapDataScale(img:BitmapData, x:int, y:int, rw:Number, rh:Number) : void
+		{
+			var matrix : Matrix = new Matrix();
+			matrix.translate(x, y);
+			matrix.scale(rw/img.width, rh/img.height);
+			buff.draw(img, matrix, null, null, null, true);
+			matrix = null;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }
