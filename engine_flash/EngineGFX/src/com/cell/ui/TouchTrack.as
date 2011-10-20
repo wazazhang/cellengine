@@ -53,14 +53,13 @@ package com.cell.ui
 		
 		private function mouseDown(event:MouseEvent):void 
 		{
-			hd_down = true;
-			
 			img_hd.x = mouseX;
 			img_hd.y = mouseY;
-			
 			reset();
-			
 			posToValue();
+			
+			hd_down = true;
+			
 		}
 		
 		private function mouseMove(event:MouseEvent):void 
@@ -75,20 +74,25 @@ package com.cell.ui
 		
 		private function mouseUp(event:MouseEvent):void 
 		{
+			if (hd_down) {
+				img_hd.x = mouseX;
+				img_hd.y = mouseY;
+				reset();
+				posToValue();
+			}
 			hd_down = false;
-			img_hd.x = mouseX;
-			img_hd.y = mouseY;
-			reset();
-			posToValue();
+			
 		}
 		
 		private function mouseOut(event:MouseEvent):void 
 		{
+			if (hd_down) {
+				img_hd.x = mouseX;
+				img_hd.y = mouseY;
+				reset();
+				posToValue();
+			}
 			hd_down = false;
-			img_hd.x = mouseX;
-			img_hd.y = mouseY;
-			reset();
-			posToValue();
 		}
 		
 		override protected function update(e:Event):void
