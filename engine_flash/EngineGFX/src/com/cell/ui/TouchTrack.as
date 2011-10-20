@@ -23,6 +23,8 @@ package com.cell.ui
 		
 		private var img_back	:Sprite;
 		
+		private var hd_down : Boolean = false;
+		
 		public function TouchTrack(hd:DisplayObject, back:DisplayObject)
 		{			
 			Anchor.setAnchorPos(hd, Anchor.ANCHOR_HCENTER | Anchor.ANCHOR_VCENTER);
@@ -30,7 +32,7 @@ package com.cell.ui
 			img_hd = new Sprite();
 			img_hd.addChild(hd);
 			img_hd.mouseChildren = false;
-			img_hd.mouseEnabled = true;		
+			img_hd.mouseEnabled = false;		
 			
 			img_back = new Sprite();
 			img_back.addChild(back);	
@@ -39,25 +41,52 @@ package com.cell.ui
 			
 			addChild(img_back);
 			addChild(img_hd);
-			img_hd.addEventListener(MouseEvent.MOUSE_DOWN, 	drag);
-			img_hd.addEventListener(MouseEvent.MOUSE_UP, 	noDrag);
-			img_hd.addEventListener(MouseEvent.MOUSE_OUT,	noDrag);
-			img_hd.addEventListener(MouseEvent.MOUSE_MOVE, 	onDrag);
 			
+			addEventListener(MouseEvent.MOUSE_DOWN, 	mouseDown);
+			addEventListener(MouseEvent.MOUSE_UP, 		mouseUp);
+			addEventListener(MouseEvent.MOUSE_MOVE, 	mouseMove);
+			addEventListener(MouseEvent.MOUSE_OUT,		mouseOut);
+						
 			reset();
 			valueToPos();
 		}
-		private function onDrag(event:MouseEvent):void {
+		
+		private function mouseDown(event:MouseEvent):void 
+		{
+			hd_down = true;
+			
+			img_hd.x = mouseX;
+			img_hd.y = mouseY;
+			
+			reset();
+			
+			posToValue();
+		}
+		
+		private function mouseMove(event:MouseEvent):void 
+		{
+			if (hd_down) {
+				img_hd.x = mouseX;
+				img_hd.y = mouseY;
+				reset();
+				posToValue();
+			}
+		}
+		
+		private function mouseUp(event:MouseEvent):void 
+		{
+			hd_down = false;
+			img_hd.x = mouseX;
+			img_hd.y = mouseY;
 			reset();
 			posToValue();
 		}
-		private function drag(event:MouseEvent):void {
-			img_hd.startDrag();
-			reset();
-			posToValue();
-		}
-		private function noDrag(event:MouseEvent):void {
-			img_hd.stopDrag();
+		
+		private function mouseOut(event:MouseEvent):void 
+		{
+			hd_down = false;
+			img_hd.x = mouseX;
+			img_hd.y = mouseY;
 			reset();
 			posToValue();
 		}
