@@ -4,10 +4,11 @@ package com.cell.ui.layout
 	import com.cell.gfx.game.CGraphicsBitmapBuffer;
 	import com.cell.util.Util;
 	
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 
-	public class UIRect
+	public class UIRect extends Bitmap
 	{
 		public static const IMAGE_STYLE_ALL_9 			= 1;
 		public static const IMAGE_STYLE_H_012 			= 3; 
@@ -242,6 +243,9 @@ package com.cell.ui.layout
 					break;
 				
 			}
+			
+			this.bitmapData = ret;
+			
 			return ret;
 		}
 		
