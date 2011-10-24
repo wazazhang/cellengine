@@ -15,11 +15,14 @@ package com.net.client
 			
 		public static const SENT_MESSAGE		:String = "onSentMessage"; 
 		
+		public static const SEND_ERROR			:String = "onSendError"; 
+		
 		public static const MESSAGE_NOTIFY		:String = "onMessageNotify"; 
 		
 		public static const MESSAGE_RESPONSE	:String = "onMessageResponse"; 
 		
 		public static const REQUEST_TIMEOUT		:String = "onRequestTimeout"; 
+		
 		
 		private var client 		: Client;
 		private var request		: MutualMessage;
@@ -30,10 +33,10 @@ package com.net.client
 		public function ClientEvent(
 			evt 		: String, 
 			client 		: Client,
-			channel_id	: int,
-			request		: MutualMessage,
-			message		: MutualMessage,
-			reason		: String
+			channel_id	: int = 0,
+			request		: MutualMessage = null,
+			message		: MutualMessage = null,
+			reason		: String = null
 		) 
 		{
 			super(evt);

@@ -41,6 +41,11 @@ package com.net.client
 			client.getSession().sendRequest(package_num, this.request);
 		}
 		
+		internal function getRequest() : MutualMessage
+		{
+			return request;
+		}
+		
 		internal function isDrop() : Boolean {
 			return (new Date().valueOf() - this.sent_time) > drop_timeout;
 		}
@@ -49,26 +54,30 @@ package com.net.client
 		{
 			this.ping = new Date().valueOf() - sent_time;
 			this.set(protocol.getMessage());
-			var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, client, 
-				protocol.getChannelID(), this.request, protocol.getMessage(), null);
-			for each (var response : Function in this.fresponse) {
-				try {
-					response.call(response, event);
-				} catch (err:Error) {
-					trace(err.message, err);
+			if (fresponse != null) {
+				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, client, 
+					protocol.getChannelID(), this.request, protocol.getMessage(), null);
+				for each (var response : Function in this.fresponse) {
+					try {
+						response.call(response, event);
+					} catch (err:Error) {
+						trace(err.message, err);
+					}
 				}
 			}
 		}
 		
 		internal function onTimeout(client:Client) : void
 		{
-			var event : ClientEvent = new ClientEvent(ClientEvent.REQUEST_TIMEOUT, client, 
-				0, this.request, null, null);
-			for each (var timeout : Function in this.ftimeout) {
-				try {
-					timeout.call(timeout, event);
-				} catch (err:Error) {
-					trace(err.message, err);
+			if (ftimeout != null) {
+				var event : ClientEvent = new ClientEvent(ClientEvent.REQUEST_TIMEOUT, client, 
+					0, this.request, null, null);
+				for each (var timeout : Function in this.ftimeout) {
+					try {
+						timeout.call(timeout, event);
+					} catch (err:Error) {
+						trace(err.message, err);
+					}
 				}
 			}
 		}

@@ -8,8 +8,19 @@ package com.net.client
 	import flash.utils.Dictionary;
 	
 	//告诉系统，需要注册哪里事件  
-	[Event(name=ClientEvent.CONNECTED, 		type="com.net.client.ClientEvent")]  
-	[Event(name=ClientEvent.DISCONNECTED,	type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.CONNECTED, 			type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.DISCONNECTED,		type="com.net.client.ClientEvent")]  
+	
+	[Event(name=ClientEvent.JOINED_CHANNEL,		type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.LEFT_CHANNEL,		type="com.net.client.ClientEvent")]  
+	
+	[Event(name=ClientEvent.SENT_MESSAGE,		type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.SEND_ERROR,			type="com.net.client.ClientEvent")]  
+	
+	[Event(name=ClientEvent.MESSAGE_NOTIFY,		type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.MESSAGE_RESPONSE,	type="com.net.client.ClientEvent")]  
+	[Event(name=ClientEvent.REQUEST_TIMEOUT,	type="com.net.client.ClientEvent")]  
+	
 	public class Client extends EventDispatcher
 	{
 		private var package_index 			: int = 1;
@@ -59,7 +70,12 @@ package com.net.client
 		 */
 		public function send(msg : MutualMessage) : Boolean
 		{
-			return getSession().send(msg);
+			if (isConnected()) {
+				return getSession().send(msg);
+			} else {
+				dispatchEvent(new ClientEvent(ClientEvent.SEND_ERROR, this));
+				return false;
+			}
 		}
 		
 		/**
@@ -72,17 +88,19 @@ package com.net.client
 		 */
 		public function sendRequest(
 			message 			: MutualMessage, 
-			response_listener 	: Function, 
+			response_listener 	: Function = null, 
 			timeout_listener	: Function = null,
 			timeout 			: int = 10000) : Reference
 		{
-			var fresponse : Array = new Array();
-			var ftimeout : Array = new Array();
+			var fresponse : Array;
+			var ftimeout : Array;
 			
 			if (response_listener != null) {
+				fresponse = new Array();
 				fresponse.push(response_listener);
 			}
-			if (timeout_listener != null) {
+			if (timeout_listener != null) {	
+				ftimeout = new Array();
 				ftimeout.push(timeout_listener);
 			}
 			
@@ -91,7 +109,7 @@ package com.net.client
 		
 		public function sendRequestImpl(
 			message 			: MutualMessage, 
-			response_listener 	: Array, 
+			response_listener 	: Array = null, 
 			timeout_listener	: Array = null,
 			timeout 			: int = 10000) : Reference
 		{
@@ -107,6 +125,7 @@ package com.net.client
 				request.send(this);
 				return request;
 			} else {
+				dispatchEvent(new ClientEvent(ClientEvent.SEND_ERROR, this));
 				return null;
 			}
 		}
@@ -195,11 +214,16 @@ package com.net.client
 		final function receivedMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			//trace("receivedMessage : " + protocol);	
-			var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
-			if (request != null) {			
-				delete request_listeners[protocol.getPacketNumber()];
-				request.onResponse(this, protocol);
-			} else {
+			if (protocol.getPacketNumber() != 0) {
+				var request : ClientRequest = request_listeners[protocol.getPacketNumber()];
+				if (request != null) {
+					delete request_listeners[protocol.getPacketNumber()];
+					request.onResponse(this, protocol);
+				}
+				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
+					protocol.getChannelID(), request.getRequest(), protocol.getMessage(), null));
+			}
+			else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
 					protocol.getChannelID(), null, protocol.getMessage(), null));
 			}
