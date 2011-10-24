@@ -20,6 +20,6 @@
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<test:TestG2D id="gamecanvas" horizontalCenter="0" verticalCenter="0" width="800" height="600">
-	</test:TestG2D>
+	<test:TestGFX id="gamecanvas" horizontalCenter="0" verticalCenter="0" width="800" height="600">
+	</test:TestGFX>
 </s:Application>

@@ -219,9 +219,9 @@ package com.net.client
 				if (request != null) {
 					delete request_listeners[protocol.getPacketNumber()];
 					request.onResponse(this, protocol);
+					dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
+						protocol.getChannelID(), request.getRequest(), protocol.getMessage(), null));
 				}
-				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
-					protocol.getChannelID(), request.getRequest(), protocol.getMessage(), null));
 			}
 			else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 

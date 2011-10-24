@@ -187,15 +187,15 @@ package com.cell.net.io
 				case NetDataTypes.TYPE_INT: 
 					writeInt(obj as int);
 					break;
-//				case NetDataTypes.TYPE_LONG: 
-//					writeLong(obj as int);
-//					break;
+				case NetDataTypes.TYPE_LONG: 
+					writeLong(obj as int);
+					break;
 				case NetDataTypes.TYPE_FLOAT: 
 					writeFloat(obj as Number);
 					break;
-//				case NetDataTypes.TYPE_DOUBLE: 
-//					writeDouble((Double)obj);
-//					break;
+				case NetDataTypes.TYPE_DOUBLE: 
+					writeDouble(obj as Number);
+					break;
 				case NetDataTypes.TYPE_STRING: 
 					writeUTF(obj as String);
 					break;

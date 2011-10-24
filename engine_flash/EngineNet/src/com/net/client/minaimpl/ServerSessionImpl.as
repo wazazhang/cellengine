@@ -149,7 +149,8 @@ package com.net.client.minaimpl
 			if (stream != null) {
 				stream.position = 0;
 				connector.writeBytes(stream, 0, stream.length);
-				connector.flush();
+				connector.flush();				
+//				trace("Send HexDump : " + Util.dumpHex(stream));
 			}
 		}
 		

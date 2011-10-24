@@ -159,8 +159,8 @@ package com.cell.net.io
 					return readShort();
 				case NetDataTypes.TYPE_INT:
 					return readInt();
-//				case NetDataTypes.TYPE_LONG:
-//					return readLong();
+				case NetDataTypes.TYPE_LONG:
+					return readLong();
 				case NetDataTypes.TYPE_FLOAT:
 					return readFloat();
 				case NetDataTypes.TYPE_DOUBLE:
