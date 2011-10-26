@@ -11,226 +11,10 @@ public class Parser
 {
 	final public static String PERFIX_RADIX_16 = "0x";
 	
-	private static HashMap<Class<?>, IObjectStringParser> s_parser_map_;
+	private static HashMap<Class<?>, IObjectStringParser> s_parser_map_ = new HashMap<Class<?>, IObjectStringParser>();
+	private static SimpleParser s_simple_parser = new SimpleParser();
 	
-	private static void init()
-	{
-		s_parser_map_ = new HashMap<Class<?>, IObjectStringParser>();
-		
-		s_parser_map_.put(String.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return str;
-			}
-		});		
-		
-		s_parser_map_.put(Byte.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-
-				return new Byte((byte)(full & 0xff));
-			}
-		});
-		s_parser_map_.put(byte.class, s_parser_map_.get(Byte.class));
-		
-		s_parser_map_.put(Short.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-
-				return new Short((short)(full & 0xffff));
-			}
-		});
-		s_parser_map_.put(short.class, s_parser_map_.get(Short.class));
-		
-		s_parser_map_.put(Integer.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-
-				return new Integer((int)(full & 0xffffffff));
-			}
-		});
-		s_parser_map_.put(int.class, s_parser_map_.get(Integer.class));	
-		
-		s_parser_map_.put(Long.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-
-				return new Long(full);
-			}
-		});
-		s_parser_map_.put(long.class, s_parser_map_.get(Long.class));		
-		
-		s_parser_map_.put(Float.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return new Float(str);
-			}
-		});
-		s_parser_map_.put(float.class, s_parser_map_.get(Float.class));
-		
-		s_parser_map_.put(Double.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return new Double(str);
-			}
-		});	
-		s_parser_map_.put(double.class, s_parser_map_.get(Double.class));
-		
-		s_parser_map_.put(Character.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return new Character(str.charAt(0));
-			}
-		});	
-		s_parser_map_.put(char.class, s_parser_map_.get(Character.class));	
-		
-		s_parser_map_.put(Boolean.class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				if (str.equals("1"))
-					return true;				
-				
-				return new Boolean(str);
-			}
-		});	
-		s_parser_map_.put(boolean.class, s_parser_map_.get(Boolean.class));
-		
-		s_parser_map_.put(Double[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getDoubleObjArray(str, ",");
-			}
-		});		
-	
-		s_parser_map_.put(double[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getDoubleArray(str, ",");
-			}
-		});
-		
-		s_parser_map_.put(Float[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getFloatObjArray(str, ",");
-			}
-		});		
-	
-		s_parser_map_.put(float[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getFloatArray(str, ",");
-			}
-		});		
-		
-		s_parser_map_.put(Long[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getLongObjArray(str, ",");
-			}
-		});		
-	
-		s_parser_map_.put(long[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getLongArray(str, ",");
-			}
-		});		
-		
-		s_parser_map_.put(Integer[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getIntegerObjArray(str, ",");
-			}
-		});		
-	
-		s_parser_map_.put(int[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getIntegerArray(str, ",");
-			}
-		});
-		
-		s_parser_map_.put(Short[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getShortObjArray(str, ",");
-			}
-		});		
-	
-		s_parser_map_.put(short[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getShortArray(str, ",");
-			}
-		});
-		
-		s_parser_map_.put(Byte[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getByteObjArray(str, ",");
-			}
-		});		
-	
-		s_parser_map_.put(byte[].class, new IObjectStringParser() 
-		{
-			@Override
-			public Object parseFrom(String str) 
-			{
-				return StringUtil.getByteArray(str, ",");
-			}
-		});		
-	};
-	
-	public static void registerObjectStringParser(Class type, IObjectStringParser parser)
+	public static void registerObjectStringParser(Class<?> type, IObjectStringParser parser)
 	{
 		s_parser_map_.put(type, parser);
 	}
@@ -241,34 +25,20 @@ public class Parser
 	{	
 		try 
 		{
-			if (s_parser_map_ == null)
-				Parser.init();
-			
 			IObjectStringParser parser = s_parser_map_.get(return_type);
-			
-			if (parser != null)
-				return (T)parser.parseFrom(str);			
-
+			if (parser != null) {
+				return (T)parser.parseFrom(str, return_type);
+			}	
 			if (return_type.isEnum()) {
 				Class<? extends Enum> ec = (Class<? extends Enum>)return_type;
 				return return_type.cast(Enum.valueOf(ec, str.trim()));
 			}
 
-//			if (return_type.isArray()) {
-//				T type = return_type.newInstance();
-//				Arrays.copyOf(type, newLength, newType);
-//			}
-//			
-//			if (Collection.class.isAssignableFrom(return_type)) {
-//				Collection ret = (Collection)return_type.newInstance();
-//				String[] ls = str.split(",");
-//				for (String l : ls) {
-//					ret.add(stringToObject(l, return_type));
-//				}
-//			}
-			
-		} catch (Exception e) {
-		}
+			Object obj = s_simple_parser.parseFrom(str, return_type);
+			if (obj != null) {
+				return return_type.cast(obj);
+			}			
+		} catch (Exception e) {}
 
 		return null;
 	}
@@ -375,4 +145,125 @@ public class Parser
 			return Class.forName(name);
 		}
 	}
+	
+//	--------------------------------------------------------------------------------------------------------------------
+	
+	public static class SimpleParser implements IObjectStringParser
+	{
+		@Override
+		public Object parseFrom(String str, Class<?> type) 
+		{
+			if (type.equals(String.class)) {
+				return str;
+			}
+			if (type.equals(Byte.class) || type.equals(byte.class)) 
+			{
+				long full = str.startsWith(PERFIX_RADIX_16)? 
+						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+				return new Byte((byte)(full & 0xff));
+			}
+			if (type.equals(Short.class) || type.equals(short.class)) 
+			{
+				long full = str.startsWith(PERFIX_RADIX_16)? 
+						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+				return new Short((short)(full & 0xffff));
+			}
+			if (type.equals(Integer.class) || type.equals(int.class)) 
+			{
+				long full = str.startsWith(PERFIX_RADIX_16)? 
+						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+
+				return new Integer((int)(full & 0xffffffff));
+			}
+			if (type.equals(Long.class) || type.equals(long.class)) 
+			{
+				long full = str.startsWith(PERFIX_RADIX_16)? 
+						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+				return new Long(full);
+			}
+			
+			if (type.equals(Float.class) || type.equals(float.class)) 
+			{
+				return new Float(str);
+			}
+			
+			if (type.equals(Double.class) || type.equals(double.class)) 
+			{
+				return new Double(str);
+			}
+			
+			if (type.equals(Character.class) || type.equals(char.class)) 
+			{
+				return new Character(str.charAt(0));
+			}
+			
+			if (type.equals(Boolean.class) || type.equals(boolean.class)) 
+			{
+				if (str.equals("1"))
+					return true;				
+				return new Boolean(str);
+			}
+			
+			if (type.equals(Double[].class)) 
+			{
+				return StringUtil.getDoubleObjArray(str, ",");
+			}
+			if (type.equals(double[].class)) 
+			{
+				return StringUtil.getDoubleArray(str, ",");
+			}
+			
+			if (type.equals(Float[].class)) 
+			{
+				return StringUtil.getFloatObjArray(str, ",");
+			}
+			if (type.equals(float[].class)) 
+			{
+				return StringUtil.getFloatArray(str, ",");
+			}
+			
+			if (type.equals(Long[].class)) 
+			{
+				return StringUtil.getLongObjArray(str, ",");
+			}
+			if (type.equals(long[].class)) 
+			{
+				return StringUtil.getLongArray(str, ",");
+			}
+			
+			if (type.equals(Integer[].class)) 
+			{
+				return StringUtil.getIntegerObjArray(str, ",");
+			}
+			if (type.equals(int[].class)) 
+			{
+				return StringUtil.getIntegerArray(str, ",");
+			}
+			
+
+			if (type.equals(Short[].class)) 
+			{
+				return StringUtil.getShortObjArray(str, ",");
+			}
+			if (type.equals(short[].class)) 
+			{
+				return StringUtil.getShortArray(str, ",");
+			}
+			
+			if (type.equals(Byte[].class)) 
+			{
+				return StringUtil.getByteObjArray(str, ",");
+			}
+			if (type.equals(byte[].class)) 
+			{
+				return StringUtil.getByteArray(str, ",");
+			}
+			
+			
+			return null;
+		}
+	
+	}
+
+
 }

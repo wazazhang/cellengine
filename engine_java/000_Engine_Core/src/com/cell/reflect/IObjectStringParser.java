@@ -6,7 +6,7 @@ package com.cell.reflect;
 
 public interface IObjectStringParser
 {
-	public Object parseFrom(String str);
+	public Object parseFrom(String str, Class<?> return_type);
 
 //	public String toStringFrom(Object obj);
 	
