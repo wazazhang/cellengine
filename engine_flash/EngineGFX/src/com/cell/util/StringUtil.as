@@ -369,7 +369,65 @@ package com.cell.util
 				}
 				return list;
 			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			public static function getNumberArray( str:String,  delimiter:String=",") : Array
+			{
+				if ( (str==null) || str.length==0 )
+					return null;
+				
+				var strs : Array = str.split(delimiter);
+				
+				var ret : Array = new Array(strs.length);
+				
+				for (var i:int=0; i<strs.length; i++) {
+					ret[i] = Number(strs[i]);
+				}
+				
+				return ret;
+			}	
+			
+			
+			public static function getIntegerArray( str:String,  delimiter:String=",") : Array
+			{
+				if ( (str==null) || str.length==0 )
+					return null;
+				
+				var strs : Array = str.split(delimiter);
+				
+				var ret : Array = new Array(strs.length);
+				
+				for (var i:int=0; i<strs.length; i++) {
+					ret[i] = int(strs[i]);
+				}
+				
+				return ret;
+			}
+			
+
+			public static function arrayToString(array:Array,  delimiter:String=",") : String
+			{
+				var ret : String = "";
+				for (var i:int=0; i<array.length; i++) {
+					ret += array[i];
+					if (i < array.length-1) {
+						ret += delimiter;
+					}
+				}
+				return ret;
+			}
+			
+			
 		}
 	
 
+	
+	
 }

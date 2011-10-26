@@ -24,6 +24,13 @@ package com.cell.gfx
 		{				
 		}
 		
-
+		public function removeFromParent() : Boolean
+		{
+			if (parent != null) {
+				parent.removeChild(this);
+				return true;
+			}
+			return false;
+		}
 	}
 }

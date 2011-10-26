@@ -60,7 +60,7 @@ package com.cell.util
 		{
 			var ret : Array = new Array();
 			for each(var d : Object in dst) {
-				if (src.indexOf(d) >= 0) {
+				if (src.indexOf(d) >= 0 && ret.indexOf(d) < 0) {
 					ret.push(d);
 				}
 			}
@@ -74,8 +74,22 @@ package com.cell.util
 		{
 			var ret : Array = new Array();
 			for each(var d : Object in dst) {
-				if (src.indexOf(d) < 0) {
+				if (src.indexOf(d) < 0 && ret.indexOf(d) < 0) {
 					ret.push(d);
+				}
+			}
+			return ret;
+		}
+		
+		/**
+		 * 不同出现相同元素的集合
+		 */
+		public static function toSet(src:Array) : Array
+		{
+			var ret : Array = new Array();
+			for each(var s : Object in src) {
+				if (ret.indexOf(s) < 0) {
+					ret.push(s);
 				}
 			}
 			return ret;
