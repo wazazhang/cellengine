@@ -80,6 +80,9 @@ package com.cell.ui.layout
 		
 //		---------------------------------------------------------------------------------------------------------
 		
-		
+		public function formCreateBG() : UIRect
+		{
+			return null;
+		}
 	}
 }

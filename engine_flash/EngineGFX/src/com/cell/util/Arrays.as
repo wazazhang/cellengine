@@ -47,11 +47,38 @@ package com.cell.util
 		public static function newArray2D(r:uint, c:uint=0) : Array
 		{
 			var ret : Array = new Array(r);
-			for(var i : uint = 0; i < r;  i ++) {
+			for (var i : uint = 0; i < r;  i ++) {
 				ret[i] = new Array(c);
 			}
 			return ret;
 		}
 		
+		/**
+		 * 返回目标数组在源数组的包含部分
+		 * */
+		public static function intersectionSet(src:Array, dst:Array) : Array
+		{
+			var ret : Array = new Array();
+			for each(var d : Object in dst) {
+				if (src.indexOf(d) >= 0) {
+					ret.push(d);
+				}
+			}
+			return ret;
+		}
+		
+		/**
+		 * 返回目标数组不存在源数组中的部分
+		 * */
+		public static function unionSet(src:Array, dst:Array) : Array
+		{
+			var ret : Array = new Array();
+			for each(var d : Object in dst) {
+				if (src.indexOf(d) < 0) {
+					ret.push(d);
+				}
+			}
+			return ret;
+		}
 	}
 }

@@ -51,5 +51,38 @@ package com.cell.util
 			}
 			return ret;
 		}
+		
+		
+		public function keys() : Array
+		{
+			var ret : Array = new Array();
+			for (var key : Object in this) { 
+				ret.push(key);
+			}
+			return ret;
+		}
+		
+		public function values() : Array
+		{
+			var ret : Array = new Array();
+			for (var key : Object in this) { 
+				ret.push(this[key]);
+			}
+			return ret;
+		}
+		
+		public function getMapSet(keys:Array) : Map
+		{
+			var ret : Map = new Map();
+			for each(var key : Object in keys) { 
+				var v : * = this[key];
+				if (v != null) {
+					ret.put(key, v);
+				}
+			}
+			return ret;
+		}
+		
+		
 	}
 }
