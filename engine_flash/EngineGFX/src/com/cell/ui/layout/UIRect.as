@@ -252,33 +252,34 @@ package com.cell.ui.layout
 		
 		public function createBuffer(W:int, H:int) : BitmapData
 		{
-			var ret : BitmapData = new BitmapData(W, H, true, 0);
-			
-			var g : CGraphicsBitmap = new CGraphicsBitmap(ret);
-			
-			switch(this.style)
+			if (width != W || height!=H) 
 			{
-				case IMAGE_STYLE_ALL_9:
-					renderAll9(g, W, H);
-					break;
+				var ret : BitmapData = new BitmapData(W, H, true, 0);
+				
+				var g : CGraphicsBitmap = new CGraphicsBitmap(ret);
+				
+				switch(this.style)
+				{
+					case IMAGE_STYLE_ALL_9:
+						renderAll9(g, W, H);
+						break;
 					
-				case IMAGE_STYLE_H_012:
-					renderH012(g, W, H);
-					break;
-				
-				case IMAGE_STYLE_V_036:
-					renderV036(g, W, H);
-					break;
-				
-				case IMAGE_STYLE_BACK_4:
-					renderBack4(g, W, H);
-					break;
-				
+					case IMAGE_STYLE_H_012:
+						renderH012(g, W, H);
+						break;
+					
+					case IMAGE_STYLE_V_036:
+						renderV036(g, W, H);
+						break;
+					
+					case IMAGE_STYLE_BACK_4:
+						renderBack4(g, W, H);
+						break;
+				}
+				this.bitmapData = ret;
+				return ret;
 			}
-			
-			this.bitmapData = ret;
-			
-			return ret;
+			return this.bitmapData;
 		}
 		
 		

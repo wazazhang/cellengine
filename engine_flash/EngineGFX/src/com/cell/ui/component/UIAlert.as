@@ -30,20 +30,16 @@ package com.cell.ui.component
 		
 		public var closeOnOK : Boolean = true;
 		
-		public function UIAlert()
-		{
-			super(null, 300, 200);
-		}
-		
-		private function init(
+		public function UIAlert(
 			htmlText:String,
 			htmlTitle:String,
 			text:String,
 			title:String,
 			hasCancel:Boolean=true,
-			hasOK:Boolean=false
-		) : UIAlert
+			hasOK:Boolean=false)
 		{
+			super(null, 300, 200);
+			
 			if (htmlTitle != null || title != null) {
 				_title = new TextField();
 				_title.mouseEnabled = false;
@@ -74,7 +70,7 @@ package com.cell.ui.component
 				this.addChild(_cancel);
 			}
 			
-			return this;
+			resize(width, height);
 		}
 		
 		private function setText(tf:TextField, html:String, text:String) : void
@@ -154,7 +150,7 @@ package com.cell.ui.component
 											 hasCancel:Boolean=true,
 											 hasOK:Boolean=false) : UIAlert
 		{
-			var alert : UIAlert = new UIAlert().init(null, null, text, title, hasCancel, hasOK);
+			var alert : UIAlert = new UIAlert(null, null, text, title, hasCancel, hasOK);
 			
 			alert.x = UILayoutManager.getInstance().ScreenWidth/2  - alert.bg.width/2;
 			alert.y = UILayoutManager.getInstance().ScreenHeight/2 - alert.bg.height/2;
@@ -170,7 +166,7 @@ package com.cell.ui.component
 										 hasCancel:Boolean=true,
 										 hasOK:Boolean=false) : UIAlert
 		{
-			var alert : UIAlert = new UIAlert().init(htmlText, htmlTitle, null, null, hasCancel, hasOK);
+			var alert : UIAlert = new UIAlert(htmlText, htmlTitle, null, null, hasCancel, hasOK);
 			
 			alert.x = UILayoutManager.getInstance().ScreenWidth/2  - alert.bg.width/2;
 			alert.y = UILayoutManager.getInstance().ScreenHeight/2 - alert.bg.height/2;

@@ -49,6 +49,7 @@ package com.cell.ui
 				Event.COMPLETE, 
 				function loaded(e:Event):void{
 					ret.anchor = anchor;
+					Anchor.setAnchorPos(ld, anchor);
 				}
 			);
 			ld.load(UrlManager.getUrl(url));

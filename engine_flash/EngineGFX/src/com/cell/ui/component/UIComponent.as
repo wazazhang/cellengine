@@ -8,12 +8,12 @@ package com.cell.ui.component
 	{
 		internal var bg : UIRect;
 		
-		public function UIComponent(bg:UIRect=null, width:int=200, height:int=200)
+		public function UIComponent(rect:UIRect=null, width:int=200, height:int=200)
 		{
-			if (bg == null) {
-				bg = UILayoutManager.getInstance().createDefaultBG(this);
+			if (rect == null) {
+				rect = UILayoutManager.getInstance().createDefaultBG(this);
 			}
-			this.bg  = bg;
+			this.bg  = rect;
 			this.bg.createBuffer(width, height);
 			this.addChild(bg);
 		}

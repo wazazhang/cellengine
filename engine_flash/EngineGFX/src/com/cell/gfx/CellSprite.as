@@ -14,12 +14,24 @@ package com.cell.gfx
 		private function _added(e:Event) : void
 		{				
 			addEventListener(Event.ENTER_FRAME, update);
+			this.added(e);
 		}
 		private function _removed(e:Event) : void
 		{				
 			removeEventListener(Event.ENTER_FRAME, update);
+			this.removed(e);
 		}
 
+		protected function added(e:Event) : void
+		{
+			
+		}
+		
+		protected function removed(e:Event) : void
+		{
+			
+		}
+		
 		protected function update(e:Event) : void
 		{				
 		}
