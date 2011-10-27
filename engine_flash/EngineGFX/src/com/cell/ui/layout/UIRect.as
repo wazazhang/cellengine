@@ -115,6 +115,38 @@ package com.cell.ui.layout
 			this.BorderBR = borderBR;
 			
 			this.style		= style;
+			
+			switch(style)
+			{
+				case IMAGE_STYLE_ALL_9:
+					createBuffer(
+						BorderL.width+BackImage.width+borderR.width,
+						BorderT.height+BackImage.height+borderB.height
+					);
+					break;
+				
+				case IMAGE_STYLE_H_012:
+					createBuffer(
+						BorderTL.width+BorderT.width+BorderTR.width,
+						BorderT.height
+					);
+					break;
+				
+				case IMAGE_STYLE_V_036:
+					createBuffer(
+						BorderL.width,
+						BorderTL.height+BorderL.height+BorderBL.height
+					);
+					break;
+				
+				case IMAGE_STYLE_BACK_4:
+					createBuffer(
+						BackImage.width,
+						BackImage.height
+					);
+					break;
+			}
+
 		}
 		
 		/**将一张图片按相等的上下左右切成9格*/

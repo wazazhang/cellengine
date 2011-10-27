@@ -18,10 +18,9 @@ package com.cell.ui.component
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 
-	public class UIAlert extends CellSprite
+	public class UIAlert extends UIComponent
 	{
 		private var GRID_SIZE	: int = UILayoutManager.getInstance().alertGridSize();
-		private var bg 			: UIRect;
 		
 		private var _cancel 	: ImageButton;
 		private var _ok 		: ImageButton;
@@ -31,17 +30,20 @@ package com.cell.ui.component
 		
 		public var closeOnOK : Boolean = true;
 		
+		public function UIAlert()
+		{
+			super(null, 300, 200);
+		}
+		
 		private function init(
 			htmlText:String,
 			htmlTitle:String,
 			text:String,
 			title:String,
 			hasCancel:Boolean=true,
-			hasOK:Boolean=false) : UIAlert
+			hasOK:Boolean=false
+		) : UIAlert
 		{
-			bg  = UILayoutManager.getInstance().alertCreateBG();
-			this.addChild(bg);
-			
 			if (htmlTitle != null || title != null) {
 				_title = new TextField();
 				_title.mouseEnabled = false;
@@ -71,8 +73,6 @@ package com.cell.ui.component
 				_cancel.addEventListener(MouseEvent.CLICK, onMouseClick);
 				this.addChild(_cancel);
 			}
-
-			resize(300, 200);
 			
 			return this;
 		}
@@ -87,7 +87,7 @@ package com.cell.ui.component
 			}
 		}
 		
-		public function resize(w:int, h:int) : void
+		override public function resize(w:int, h:int) : void
 		{
 			bg.createBuffer(w, h);
 			

@@ -2,6 +2,7 @@ package com.cell.ui.layout
 {
 	import com.cell.gfx.CellScreenManager;
 	import com.cell.ui.ImageButton;
+	import com.cell.ui.component.UIComponent;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -48,6 +49,15 @@ package com.cell.ui.layout
 			return _height;
 		}
 		
+		
+//		---------------------------------------------------------------------------------------------------------
+		
+		
+		public function createDefaultBG(obj:UIComponent) : UIRect
+		{
+			return null;
+		}
+		
 //		---------------------------------------------------------------------------------------------------------
 		
 		
@@ -57,11 +67,6 @@ package com.cell.ui.layout
 		}
 		
 		public function alertCreateCancel() : ImageButton
-		{
-			return null;
-		}
-		
-		public function alertCreateBG() : UIRect
 		{
 			return null;
 		}
@@ -79,10 +84,10 @@ package com.cell.ui.layout
 	
 		
 //		---------------------------------------------------------------------------------------------------------
-		
-		public function formCreateBG() : UIRect
-		{
-			return null;
-		}
+//		
+//		public function formCreateBG() : UIRect
+//		{
+//			return null;
+//		}
 	}
 }
