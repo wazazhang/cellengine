@@ -24,7 +24,7 @@ package com.cell.ui
 			this.img_chk_next2 = sel;
 			this.img_chk_next1.visible = !value;
 			this.img_chk_next2.visible = value;
-			this.addEventListener(MouseEvent.CLICK, onMouseClick);		
+			this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseClick);		
 			addChild(img_chk_next1);
 			addChild(img_chk_next2);
 		}

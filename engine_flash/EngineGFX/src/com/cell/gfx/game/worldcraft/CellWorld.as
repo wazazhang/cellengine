@@ -4,6 +4,7 @@ package com.cell.gfx.game.worldcraft
 	import com.cell.gfx.game.ICamera;
 	import com.cell.gfx.game.IGraphics;
 	import com.cell.util.CMath;
+	import com.cell.util.Util;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -14,6 +15,8 @@ package com.cell.gfx.game.worldcraft
 		internal var _timer : int = 0;
 		
 		internal var _camera : ICamera;
+		
+		internal var _units : Vector.<CellUnit> = new Vector.<CellUnit>();
 		
 		public function CellWorld(
 			viewWidth:int, 
@@ -29,6 +32,11 @@ package com.cell.gfx.game.worldcraft
 		protected function createCamera(w:int, h:int) : ICamera
 		{
 			return new CellWorldCamera(w, h);
+		}
+		
+		protected function get units() : Vector.<CellUnit>
+		{
+			return _units;
 		}
 		
 		public function get timer() : int
@@ -117,22 +125,16 @@ package com.cell.gfx.game.worldcraft
 		public function update() : void 
 		{
 			onUpdate();
-			for (var i:int = 0; i<numChildren; i++) {
-				var s : DisplayObject = getChildAt(i);
-				if (s is CellUnit) {
-					(s as CellUnit).updateIn(this);
-				}
+			for each (var s:CellUnit in _units) {
+				s.updateIn(this);
 			}
 		}
 		
 		public function render() : void
 		{
-			for (var i:int = 0; i<numChildren; i++) {
-				var s : DisplayObject = getChildAt(i);
-				if (s is CellUnit) {
-					(s as CellUnit).renderIn();
-				}
-			}		
+			for each (var s:CellUnit in _units) {
+				s.renderIn();
+			}
 			this.scrollRect = _camera.bounds;
 			_timer++;
 		}
@@ -147,26 +149,65 @@ package com.cell.gfx.game.worldcraft
 		
 
 		
-		//		------------------------------------------------------------------------------------------------------
+//		------------------------------------------------------------------------------------------------------
 		
+		override public function addChild(child:DisplayObject):DisplayObject
+		{
+			var ret : DisplayObject = super.addChild(child);
+			if (ret != null && child is CellUnit) {
+				_units.push(child);
+			}
+			return ret;
+		}
+		
+
+		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
+		{
+			var ret : DisplayObject = super.addChildAt(child, index);
+			if (ret != null && child is CellUnit) {
+				_units.push(child);
+			}
+			return ret;
+		}
+		
+		override public function removeChild(child:DisplayObject):DisplayObject
+		{
+			var ret : DisplayObject = super.removeChild(child);
+			if (ret != null && child is CellUnit) {
+				_units.splice(_units.indexOf(child), 1);
+			}
+			return ret;
+		}
+
+		override public function removeChildAt(index:int):DisplayObject
+		{
+			var ret : DisplayObject = super.removeChildAt(index);
+			if (ret != null && ret is CellUnit) {
+				_units.splice(_units.indexOf(ret), 1);
+			}
+			return ret;
+		}
+		
+//		------------------------------------------------------------------------------------------------------
 		
 		public function addSprite(spr:Sprite) : Boolean 
 		{
-			super.addChild(spr);
+			this.addChild(spr);
 			return false;
 		}
 		
 		public function removeSprite(spr:Sprite) : Boolean 
 		{
-			super.removeChild(spr);
+			this.removeChild(spr);
 			return false;
 		}
 		
 		public function removeAllSprite() : int
 		{
+			_units.splice(0, _units.length);
 			var count : int = 0;
 			while (super.numChildren > 0) {
-				if (super.removeChildAt(0)) {
+				if (this.removeChildAt(0)) {
 					count ++;
 				}
 			}
@@ -185,5 +226,11 @@ package com.cell.gfx.game.worldcraft
 			return super.getChildIndex(spr);
 		}
 		
+//		------------------------------------------------------------------------------------------------------
+	
+		public function sortY() : void
+		{
+			Util.sortOnChilds(this, "y", Array.NUMERIC);
+		}
 	}
 }

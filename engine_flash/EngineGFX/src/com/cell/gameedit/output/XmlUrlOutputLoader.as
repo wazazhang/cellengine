@@ -67,6 +67,7 @@ package com.cell.gameedit.output
 			this.xml_loader = new URLLoader();
 			this.xml_loader.addEventListener(Event.COMPLETE, xml_complete);
 			this.xml_loader.addEventListener(IOErrorEvent.IO_ERROR, xml_error);
+			this.xml_loader.addEventListener(IOErrorEvent.NETWORK_ERROR, xml_error);
 			this.xml_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, xml_error);
 			this.xml_loader.load(UrlManager.getUrl(path));
 		}

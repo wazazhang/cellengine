@@ -26,7 +26,7 @@ package com.cell.gameedit.object
 	
 		public var Data			: String;
 		
-		/** int[][] */
+		/** int[x][y] */
 		public var Terrian		: Array;
 	
 		

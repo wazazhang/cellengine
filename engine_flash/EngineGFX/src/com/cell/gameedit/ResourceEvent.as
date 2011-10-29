@@ -27,6 +27,12 @@ package com.cell.gameedit
 			super(evt);
 		}
 		
-		
+		override public function clone() : Event
+		{
+			var ret : ResourceEvent = new ResourceEvent(type);
+			ret.res = res;
+			ret.error_source = error_source;
+			return ret;
+		}
 	}
 }

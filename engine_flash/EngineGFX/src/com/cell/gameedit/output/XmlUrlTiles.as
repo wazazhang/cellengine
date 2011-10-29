@@ -54,9 +54,10 @@ package com.cell.gameedit.output
 					img.Name + "." + output.getImageExtentions();
 				
 				this.loader = new Loader();
-				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			img_complete);
-				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 	img_error);
-				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			complete);  
+				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 				img_complete);
+				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 		img_error);
+				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, 	img_error);  
+				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 				complete);  
 				this.loader.load(UrlManager.getUrl(url));
 			}
 		}
@@ -115,8 +116,9 @@ package com.cell.gameedit.output
 				img.Name + "/" + tile_cur + "." + output.getImageExtentions();
 
 			this.loader = new Loader();
-			this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 			tileLoaded);
-			this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 	tileError);
+			this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, tileLoaded);
+			this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, tileError);
+			this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, tileError);
 			this.loader.load(UrlManager.getUrl(url));
 		}
 		

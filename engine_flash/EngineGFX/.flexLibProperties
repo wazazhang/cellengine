@@ -57,6 +57,7 @@
     <classEntry path="com.cell.sound.EmbedSoundManager"/>
     <classEntry path="com.cell.ui.component.UIComponent"/>
     <classEntry path="com.cell.gameedit.ResourceLoaderQueue"/>
+    <classEntry path="com.cell.ui.SimpleProgress"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
