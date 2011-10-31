@@ -3,7 +3,14 @@ package com.cell.util
 	public class Arrays
 	{
 		
-		
+		public static function arrayRemove(src:Array, obj:*) : int
+		{
+			var index : int = src.indexOf(obj);
+			if (index >= 0) {
+				src.splice(index, 1);
+			}
+			return index;
+		}
 		
 		public static function arrayCopy(
 			src:Array, src_pos:uint, 
