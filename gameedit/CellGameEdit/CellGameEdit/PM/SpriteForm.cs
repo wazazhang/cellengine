@@ -2782,6 +2782,12 @@ namespace CellGameEdit.PM
         public ArrayList SubH = new ArrayList();
         public ArrayList SubFlip = new ArrayList();
 
+		public ArrayList SubTRotate = new ArrayList();
+		public ArrayList SubTScaleX	= new ArrayList();
+		public ArrayList SubTScaleY	= new ArrayList();
+		public ArrayList SubTAlpha	= new ArrayList();
+
+
         public ArrayList SubSelected = new ArrayList();
 
         //ArrayList Collides;
@@ -2812,6 +2818,11 @@ namespace CellGameEdit.PM
             SubH = (ArrayList)obj.SubH.Clone();
             SubFlip = (ArrayList)obj.SubFlip.Clone();
 
+			SubTRotate = (ArrayList)obj.SubTRotate.Clone();
+			SubTScaleX = (ArrayList)obj.SubTScaleX.Clone();
+			SubTScaleY = (ArrayList)obj.SubTScaleY.Clone();
+			SubTAlpha = (ArrayList)obj.SubTAlpha.Clone();
+
             SubSelected = (ArrayList)obj.SubSelected.Clone();
 
             //ArrayList Collides;
@@ -2834,8 +2845,12 @@ namespace CellGameEdit.PM
                     ((int)SubIndex[i]).ToString("d"),
                     ((int)SubX[i]).ToString("d"),
                     ((int)SubY[i]).ToString("d"),
-                     Graphics.FlipTextTable[(int)SubFlip[i]] }
-                    );
+                     Graphics.FlipTextTable[(int)SubFlip[i]] ,
+					 ((float)SubTRotate[i])+"", 
+					 ((float)SubTScaleX[i])+"", 
+					 ((float)SubTScaleY[i])+"",
+					 ((float)SubTAlpha[i])+"",
+				});
                 item.Checked = true;
                 SubTable.Add(item);
                 SubSelected.Add(false);
@@ -2868,6 +2883,17 @@ namespace CellGameEdit.PM
             SubH = (ArrayList)info.GetValue("SubH", typeof(ArrayList));
             SubFlip = (ArrayList)info.GetValue("SubFlip", typeof(ArrayList));
 
+			try
+			{
+				SubTRotate = (ArrayList)info.GetValue("SubTRotate", typeof(ArrayList));
+				SubTScaleX = (ArrayList)info.GetValue("SubTScaleX", typeof(ArrayList));
+				SubTScaleY = (ArrayList)info.GetValue("SubTScaleY", typeof(ArrayList));
+				SubTAlpha = (ArrayList)info.GetValue("SubTAlpha", typeof(ArrayList));
+			} 
+			catch (Exception err) {
+			
+			}
+
             CDMask = (ArrayList)info.GetValue("CDMask", typeof(ArrayList));
             CDX = (ArrayList)info.GetValue("CDX", typeof(ArrayList));
             CDY = (ArrayList)info.GetValue("CDY", typeof(ArrayList));
@@ -2882,7 +2908,13 @@ namespace CellGameEdit.PM
                     ((int)SubIndex[i]).ToString("d"),
                     ((int)SubX[i]).ToString("d"),
                     ((int)SubY[i]).ToString("d"),
-                     Graphics.FlipTextTable[(int)SubFlip[i]] }
+                     Graphics.FlipTextTable[(int)SubFlip[i]] ,
+					 ((float)SubTRotate[i])+"", 
+					 ((float)SubTScaleX[i])+"", 
+					 ((float)SubTScaleY[i])+"",
+					 ((float)SubTAlpha[i])+"",
+				
+				}
                     );
                 item.Checked = true;
                 SubTable.Add(item);

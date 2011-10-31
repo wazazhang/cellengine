@@ -102,10 +102,12 @@ namespace CellGameEdit.PM
                 nodeReses = (TreeNode)info.GetValue("nodeReses", typeof(TreeNode));
                 nodeLevels = (TreeNode)info.GetValue("nodeLevels", typeof(TreeNode));
 
-                try{nodeObjects = (TreeNode)info.GetValue("nodeObjects", typeof(TreeNode));}
+                try{
+					nodeObjects = (TreeNode)info.GetValue("nodeObjects", typeof(TreeNode));}
                 catch (Exception err){nodeObjects = new TreeNode("对象");}
 
-                try{nodeCommands = (TreeNode)info.GetValue("nodeCommands", typeof(TreeNode));}
+                try{
+					nodeCommands = (TreeNode)info.GetValue("nodeCommands", typeof(TreeNode));}
                 catch (Exception err){nodeCommands = new TreeNode("命令");}
 
                 //formGroup = (ArrayList)info.GetValue("formGroup", typeof(ArrayList));
@@ -116,7 +118,6 @@ namespace CellGameEdit.PM
                 nodeObjects.ContextMenuStrip = this.objMenu;
                 nodeLevels.ContextMenuStrip = this.levelMenu;
                 nodeCommands.ContextMenuStrip = this.commandMenu;
-
 
                 foreach (TreeNode node in nodeReses.Nodes)
                 {
@@ -145,12 +146,39 @@ namespace CellGameEdit.PM
                 treeView1.Nodes.Add(nodeLevels);
                 treeView1.Nodes.Add(nodeCommands);
 
+				//loadOver();
                 //treeView1.ExpandAll();
 
             }catch(Exception err){
                 MessageBox.Show("构造工程出错 !\n" + err.Message +"\n"+err.StackTrace + "  at  " +err.Message);
             }
         }
+
+		private void loadOver()
+		{
+			ArrayList form_maps = new ArrayList();
+			ArrayList form_sprites = new ArrayList();
+			foreach (TreeNode node in nodeReses.Nodes)
+			{
+				foreach (TreeNode subnode in node.Nodes)
+				{
+					Form sf = getForm(subnode);
+					if (sf.GetType() == typeof(MapForm))
+					{
+						form_maps.Add(sf);
+					}
+					if (sf.GetType() == typeof(SpriteForm))
+					{
+						form_sprites.Add(sf);
+					}
+				}
+			}
+			foreach (TreeNode node in nodeLevels.Nodes)
+			{
+				WorldForm wf = (WorldForm)getForm(node);
+				wf.ChangeAllUnits(form_maps, form_sprites);
+			}
+		}
 
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -205,7 +233,8 @@ namespace CellGameEdit.PM
         }
         private void ProjectForm_Shown(object sender, EventArgs e)
         {
-            sortTreeView();
+			sortTreeView(); 
+			loadOver();
         }
 
         //public void Output()
