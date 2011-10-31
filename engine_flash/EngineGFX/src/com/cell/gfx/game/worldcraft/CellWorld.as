@@ -8,6 +8,7 @@ package com.cell.gfx.game.worldcraft
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.geom.Rectangle;
 
 	public class CellWorld extends Sprite
@@ -156,6 +157,7 @@ package com.cell.gfx.game.worldcraft
 			var ret : DisplayObject = super.addChild(child);
 			if (ret != null && child is CellUnit) {
 				_units.push(child);
+				onAddedUnit(child as CellUnit);
 			}
 			return ret;
 		}
@@ -166,6 +168,7 @@ package com.cell.gfx.game.worldcraft
 			var ret : DisplayObject = super.addChildAt(child, index);
 			if (ret != null && child is CellUnit) {
 				_units.push(child);
+				onAddedUnit(child as CellUnit);
 			}
 			return ret;
 		}
@@ -175,6 +178,7 @@ package com.cell.gfx.game.worldcraft
 			var ret : DisplayObject = super.removeChild(child);
 			if (ret != null && child is CellUnit) {
 				_units.splice(_units.indexOf(child), 1);
+				onRemovedUnit(child as CellUnit);
 			}
 			return ret;
 		}
@@ -184,10 +188,19 @@ package com.cell.gfx.game.worldcraft
 			var ret : DisplayObject = super.removeChildAt(index);
 			if (ret != null && ret is CellUnit) {
 				_units.splice(_units.indexOf(ret), 1);
+				onRemovedUnit(ret as CellUnit);
 			}
 			return ret;
 		}
 		
+		protected function onAddedUnit(u:CellUnit) : void
+		{
+			
+		}
+		protected function onRemovedUnit(u:CellUnit) : void
+		{
+			
+		}
 //		------------------------------------------------------------------------------------------------------
 		
 		public function addSprite(spr:Sprite) : Boolean 

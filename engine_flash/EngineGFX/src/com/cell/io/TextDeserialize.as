@@ -21,7 +21,7 @@ package com.cell.io
 			var stringLen : int = getInt(input);
 			var ret : String = input.readLen(stringLen);
 			if (input.read() != ',') {
-				trace("TextDeserialize : bad end with getString");
+//				trace("TextDeserialize : bad end with getString");
 			}
 			return ret;
 		}

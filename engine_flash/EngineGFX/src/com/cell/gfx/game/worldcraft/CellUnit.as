@@ -5,37 +5,71 @@ package com.cell.gfx.game.worldcraft
 	import com.cell.math.MathVector;
 	
 	import flash.display.Sprite;
+	import flash.events.Event;
 
 	public class CellUnit extends Sprite implements IVector2D
 	{
+//		private var _world : CellWorld;
+		
 		public function CellUnit()
 		{
 			mouseEnabled = false;
 			mouseChildren = false;
+//			addEventListener(Event.ADDED, 	addedWorld);
+//			addEventListener(Event.REMOVED,	removedWorld);
 		}
-		
-//		--------------------------------------------------------------------------------------------------------
 		
 		public function get world() : CellWorld
 		{
 			return parent as CellWorld;
 		}
 		
+//		--------------------------------------------------------------------------------------------------------
+		
+
+		
 		
 		internal function updateIn(world:CellWorld) : void {
 			onUpdate();
 		}
 		
+		/**
+		 * 每帧调用一次
+		 */
 		internal function renderIn() : void {
 
 		}
+		
+//		--------------------------------------------------------------------------------------------------------
 
 		/**
 		 * 每帧调用一次
 		 */
 		protected function onUpdate() : void {}
+		
+//		protected function onAddedWorld(wd:CellWorld) : void{}
+//		
+//		protected function onRemovedWorld(wd:CellWorld) : void{}
+		
+//		--------------------------------------------------------------------------------------------------------
 
-
+//		private function addedWorld(e:Event) : void
+//		{
+//			if (parent as CellWorld) {
+//				_world = world;
+//				_world._units.push(this);
+//				onAddedWorld(_world);
+//			}
+//		}
+//		private function removedWorld(e:Event) : void
+//		{
+//			if (_world != null) {
+//				_world._units.splice(_world._units.indexOf(this), 1);
+//				onRemovedWorld(_world);
+//				_world = null;
+//			}
+//		}
+		
 //		--------------------------------------------------------------------------------------------------------
 		
 		public function move(dx:Number, dy:Number) : void {

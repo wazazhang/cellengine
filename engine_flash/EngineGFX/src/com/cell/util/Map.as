@@ -83,6 +83,21 @@ package com.cell.util
 			return ret;
 		}
 		
+//		------------------------------------------------------------------------------------
+		
+		
+		public static function readFromProperties(properties:String, equalChar:String="=") : Map
+		{
+			var lines : Array = StringUtil.splitString(properties, "\n");
+			var map : Map = new Map();
+			for each (var line : String in lines) {
+				var kv : Array = StringUtil.splitString(line, equalChar, 2, true);
+				if (kv.length==2) {
+					map.put(kv[0], kv[1]);	
+				}
+			}
+			return map;
+		}
 		
 	}
 }
