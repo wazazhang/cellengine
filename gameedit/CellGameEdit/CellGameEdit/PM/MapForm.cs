@@ -225,7 +225,7 @@ namespace CellGameEdit.PM
 
                 id = (String)info.GetValue("id", typeof(String));
                 this.Text = id;
-
+				/*
                 if (!ProjectForm.IsCopy)
                 {
                     super = (ImagesForm)info.GetValue("super", typeof(ImagesForm));
@@ -236,7 +236,9 @@ namespace CellGameEdit.PM
                     superName = (String)info.GetValue("SuperName", typeof(String));
                     super = ProjectForm.getInstance().getImagesFormByName(superName);
                 }
-                
+				*/
+				superName = (String)info.GetValue("SuperName", typeof(String));
+
                 CellW = (int)info.GetValue("CellW", typeof(int));
                 CellH = (int)info.GetValue("CellH", typeof(int));
                 numericUpDown4.Value = CellW;
@@ -246,28 +248,7 @@ namespace CellGameEdit.PM
                 srcRect = new System.Drawing.Rectangle(0, 0, 0, 0);
                 dstRect = new System.Drawing.Rectangle(0, 0, 0, 0);
 
-                Tiles = super.dstImages;
-                TileKeys = super.dstDataKeys;
-                for (int i = 0; i < getTileCount(); i++)
-                {
-                    if (getTileImage(i) != null)
-                    {
-                        srcIndex = i;
-                        //srcImage = getTileImage(i);
-                        srcRect.X = getTileImage(i).x;
-                        srcRect.Y = getTileImage(i).y;
-                        srcRect.Width = getTileImage(i).getWidth();
-                        srcRect.Height = getTileImage(i).getHeight();
-
-                        srcIndexR = i;
-                        srcRectR.X = getTileImage(i).x;
-                        srcRectR.Y = getTileImage(i).y;
-                        srcRectR.Width = getTileImage(i).getWidth();
-                        srcRectR.Height = getTileImage(i).getHeight();
-
-                        break;
-                    }
-                }
+            
 
                 pictureBox3.Width = CellW;
                 pictureBox3.Height = CellH;
@@ -351,12 +332,12 @@ namespace CellGameEdit.PM
 
             try{
                 info.AddValue("id",id);
-
+				/*
                 if (!ProjectForm.IsCopy)
                 {
                     info.AddValue("super", super);
                 }
-
+				*/
                 info.AddValue("SuperName", super.id);
 
                 info.AddValue("CellW",CellW);
@@ -431,7 +412,8 @@ namespace CellGameEdit.PM
             srcRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             dstRect = new System.Drawing.Rectangle(0, 0, 0, 0);
 
-            Tiles = super.dstImages;
+			Tiles = super.dstImages;
+			TileKeys = super.dstDataKeys;
             for (int i = 0; i < getTileCount(); i++)
             {
                 if (getTileImage(i) != null)
@@ -452,7 +434,7 @@ namespace CellGameEdit.PM
                     break;
                 }
             }
-
+		
             pictureBox3.Width = CellW;
             pictureBox3.Height = CellH;
 
@@ -469,7 +451,7 @@ namespace CellGameEdit.PM
             numericUpDown2.Value = XCount;
             numericUpDown3.Value = YCount;
 
-
+			
         }
 
 

@@ -101,17 +101,17 @@ namespace CellGameEdit.PM
             {
                 id = (String)info.GetValue("id", typeof(String));
                 this.Text = id;
-
+				/*
                 if (!ProjectForm.IsCopy)
                 {
                     super = (ImagesForm)info.GetValue("super", typeof(ImagesForm));
                     ChangeSuper(super);
                 }
-
-                if (super == null)
+				*/
+                //if (super == null)
                 {
                     superName = (String)info.GetValue("SuperName", typeof(String));
-                    super = ProjectForm.getInstance().getImagesFormByName(superName);
+                    //super = ProjectForm.getInstance().getImagesFormByName(superName);
                 }
                 
                 animCount = (int)info.GetValue("animCount", typeof(int));
@@ -154,12 +154,12 @@ namespace CellGameEdit.PM
             {
                 info.AddValue("id",id);
 
-
+				/*
                 if (!ProjectForm.IsCopy)
                 {
                     info.AddValue("super", super);
                 }
-              
+              */
                 info.AddValue("SuperName",super.id);
                 
 
@@ -2893,6 +2893,20 @@ namespace CellGameEdit.PM
 			catch (Exception err) {
 			
 			}
+			if (SubTRotate.Count != SubIndex.Count)
+			{
+				SubTRotate = new ArrayList();
+				SubTScaleX = new ArrayList();
+				SubTScaleY = new ArrayList();
+				SubTAlpha = new ArrayList();
+				for (int i = 0; i < SubIndex.Count; i++ )
+				{
+					SubTRotate.Add(0.0f);
+					SubTScaleX.Add(0.0f);
+					SubTScaleY.Add(0.0f);
+					SubTAlpha.Add(0.0f);
+				}
+			}
 
             CDMask = (ArrayList)info.GetValue("CDMask", typeof(ArrayList));
             CDX = (ArrayList)info.GetValue("CDX", typeof(ArrayList));
@@ -2946,6 +2960,10 @@ namespace CellGameEdit.PM
             info.AddValue("SubW", SubW);
             info.AddValue("SubH", SubH);
             info.AddValue("SubFlip", SubFlip);
+			info.AddValue("SubTRotate", SubTRotate);
+			info.AddValue("SubTScaleX", SubTScaleX);
+			info.AddValue("SubTScaleY", SubTScaleY);
+			info.AddValue("SubTAlpha", SubTAlpha);
 
             info.AddValue("CDMask", CDMask);
             info.AddValue("CDX", CDX);

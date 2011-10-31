@@ -166,10 +166,14 @@ namespace CellGameEdit.PM
 					if (sf.GetType() == typeof(MapForm))
 					{
 						form_maps.Add(sf);
+						MapForm subf = ((MapForm)sf);
+						subf.ChangeSuper(getImagesFormByName(subf.superName));
 					}
 					if (sf.GetType() == typeof(SpriteForm))
 					{
 						form_sprites.Add(sf);
+						SpriteForm subf = ((SpriteForm)sf);
+						subf.ChangeSuper(getImagesFormByName(subf.superName));
 					}
 				}
 			}
