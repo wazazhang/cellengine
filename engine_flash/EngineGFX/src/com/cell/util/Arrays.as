@@ -94,5 +94,14 @@ package com.cell.util
 			}
 			return ret;
 		}
+		
+		public static function getRandom(src:Array) : *
+		{
+			if (src.length > 0) {
+				var i : int = Util.getRandomInt(0, src.length-1);
+				return src[i];
+			}
+			return null;
+		}
 	}
 }

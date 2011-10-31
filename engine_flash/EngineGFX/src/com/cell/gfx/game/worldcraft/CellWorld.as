@@ -125,10 +125,10 @@ package com.cell.gfx.game.worldcraft
 		 */
 		public function update() : void 
 		{
-			onUpdate();
 			for each (var s:CellUnit in _units) {
 				s.updateIn(this);
 			}
+			onUpdate();
 		}
 		
 		public function render() : void
