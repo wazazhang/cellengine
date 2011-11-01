@@ -2,6 +2,7 @@ package com.cell.ui.layout
 {
 	import com.cell.gfx.game.CGraphicsBitmap;
 	import com.cell.gfx.game.CGraphicsBitmapBuffer;
+	import com.cell.util.ImageUtil;
 	import com.cell.util.Util;
 	
 	import flash.display.Bitmap;
@@ -178,27 +179,27 @@ package com.cell.ui.layout
 				switch(style)
 				{
 					case IMAGE_STYLE_ALL_9:
-						BackImage 	= Util.subImage(src, L, T, W - L - R, H - T - B);
-						BorderTL 	= Util.subImage(src, 0, 0, L, T);
-						BorderT 	= Util.subImage(src, L, 0, W - L - R, T);
-						BorderTR 	= Util.subImage(src, W - R, 0, R, T);
-						BorderL 	= Util.subImage(src, 0, T, L, H - T - B);
-						BorderR 	= Util.subImage(src, W - R, T, R, H - T - B);
-						BorderBL 	= Util.subImage(src, 0, H - B, L, B);
-						BorderB 	= Util.subImage(src, L, H - B, W - L - R, B);
-						BorderBR 	= Util.subImage(src, W - R, H - B, R, B);
+						BackImage 	= ImageUtil.subImage(src, L, T, W - L - R, H - T - B);
+						BorderTL 	= ImageUtil.subImage(src, 0, 0, L, T);
+						BorderT 	= ImageUtil.subImage(src, L, 0, W - L - R, T);
+						BorderTR 	= ImageUtil.subImage(src, W - R, 0, R, T);
+						BorderL 	= ImageUtil.subImage(src, 0, T, L, H - T - B);
+						BorderR 	= ImageUtil.subImage(src, W - R, T, R, H - T - B);
+						BorderBL 	= ImageUtil.subImage(src, 0, H - B, L, B);
+						BorderB 	= ImageUtil.subImage(src, L, H - B, W - L - R, B);
+						BorderBR 	= ImageUtil.subImage(src, W - R, H - B, R, B);
 						break;
 					
 					case IMAGE_STYLE_H_012:
-						BorderTL	= Util.subImage(src, 0, 0, L, H);
-						BorderT		= Util.subImage(src, L, 0, W - R - L, H);
-						BorderTR 	= Util.subImage(src, W - R, 0, R, H);
+						BorderTL	= ImageUtil.subImage(src, 0, 0, L, H);
+						BorderT		= ImageUtil.subImage(src, L, 0, W - R - L, H);
+						BorderTR 	= ImageUtil.subImage(src, W - R, 0, R, H);
 						break;
 					
 					case IMAGE_STYLE_V_036:
-						BorderTL 	= Util.subImage(src, 0, 0, W, T);
-						BorderL 	= Util.subImage(src, 0, T, W, H - T - B);
-						BorderBL 	= Util.subImage(src, 0, H - B, W, B);
+						BorderTL 	= ImageUtil.subImage(src, 0, 0, W, T);
+						BorderL 	= ImageUtil.subImage(src, 0, T, W, H - T - B);
+						BorderBL 	= ImageUtil.subImage(src, 0, H - B, W, B);
 						break;
 					
 					case IMAGE_STYLE_BACK_4:

@@ -58,6 +58,7 @@
     <classEntry path="com.cell.ui.component.UIComponent"/>
     <classEntry path="com.cell.gameedit.ResourceLoaderQueue"/>
     <classEntry path="com.cell.ui.SimpleProgress"/>
+    <classEntry path="com.cell.util.ImageUtil"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
