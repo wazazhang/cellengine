@@ -51,7 +51,7 @@ package com.cell.ui
 		}
 		
 		
-		public function setColor(c:int) : void
+		public function setColor(c:uint) : void
 		{
 			if (color != c) {
 				this.color = c;
@@ -59,13 +59,6 @@ package com.cell.ui
 				for (var i:int=tiles.length-1; i>=0; --i) {
 					var t: BitmapData = tiles[i];
 					var dt : BitmapData = new BitmapData(fw, fh, true, color);
-//					dt.copyPixels(
-//						dt,
-//						new Rectangle(0, 0, fw, fh),
-//						new Point(0, 0), 
-//						t, 
-//						new Point(0, 0),
-//						true);
 					dt.copyChannel(
 						t,
 						new Rectangle(0, 0, fw, fh),
