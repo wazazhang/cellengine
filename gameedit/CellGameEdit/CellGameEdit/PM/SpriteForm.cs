@@ -296,7 +296,11 @@ namespace CellGameEdit.PM
                             (int)frame.SubY[subID],
                             (int)frame.SubW[subID],
                             (int)frame.SubH[subID],
-                            (int)frame.SubFlip[subID]
+							(int)frame.SubFlip[subID],
+							(float)frame.SubTRotate[subID],
+							(float)frame.SubTScaleX[subID],
+							(float)frame.SubTScaleY[subID],
+							(float)frame.SubTAlpha[subID]
                             );
 
                         //Console.WriteLine(this.id +
@@ -316,7 +320,11 @@ namespace CellGameEdit.PM
                                 (int)frame.SubY[subID],
                                 (int)frame.SubW[subID],
                                 (int)frame.SubH[subID],
-                                (int)frame.SubFlip[subID]);
+								(int)frame.SubFlip[subID],
+							(float)frame.SubTRotate[subID],
+							(float)frame.SubTScaleX[subID],
+							(float)frame.SubTScaleY[subID],
+							(float)frame.SubTAlpha[subID]);
                            
                             indexSub = AllFrame.getSubCount() - 1;
 
@@ -1082,7 +1090,12 @@ namespace CellGameEdit.PM
                            (int)framesGetCurFrame().SubY[index],
                            (int)framesGetCurFrame().SubW[index],
                            (int)framesGetCurFrame().SubH[index],
-                           (int)framesGetCurFrame().SubFlip[index]
+                           (int)framesGetCurFrame().SubFlip[index],
+
+							(float)framesGetCurFrame().SubTRotate[index],
+							(float)framesGetCurFrame().SubTScaleX[index],
+							(float)framesGetCurFrame().SubTScaleY[index],
+							(float)framesGetCurFrame().SubTAlpha[index]
                            );
                     }
                 }
@@ -1150,7 +1163,11 @@ namespace CellGameEdit.PM
                             (int)clipFrame.SubY[i],
                             (int)clipFrame.SubW[i],
                             (int)clipFrame.SubH[i],
-                            (int)clipFrame.SubFlip[i]
+							(int)clipFrame.SubFlip[i],
+							(float)clipFrame.SubTRotate[i],
+							(float)clipFrame.SubTScaleX[i],
+							(float)clipFrame.SubTScaleY[i],
+							(float)clipFrame.SubTAlpha[i]
                             );
                         item.Focused = true;
                         item.Selected = true;
@@ -1248,7 +1265,11 @@ namespace CellGameEdit.PM
                                 (int)clipFrame.SubY[i],
                                 (int)clipFrame.SubW[i],
                                 (int)clipFrame.SubH[i],
-                                (int)clipFrame.SubFlip[i]
+								(int)clipFrame.SubFlip[i],
+							(float)clipFrame.SubTRotate[i],
+							(float)clipFrame.SubTScaleX[i],
+							(float)clipFrame.SubTScaleY[i],
+							(float)clipFrame.SubTAlpha[i]
                                 );
                             item.Focused = true;
                             item.Selected = true;
@@ -1334,7 +1355,7 @@ namespace CellGameEdit.PM
                     -srcImage.getHeight() / 2,
                     srcImage.getWidth(),
                     srcImage.getHeight(),
-                    0
+                    0, 0, 0, 0, 0
                     );
                 item.Focused = true;
                 item.Selected = true;
@@ -2974,7 +2995,8 @@ namespace CellGameEdit.PM
         }
 
        
-        public int indexOfSub(int index,int x,int y,int w,int h,int flip )
+        public int indexOfSub(int index,int x,int y,int w,int h,int flip, 
+			float rot, float scalex, float scaley, float alpha )
         {
             for (int i = 0; i < SubIndex.Count;i++ )
             {
@@ -2983,7 +3005,11 @@ namespace CellGameEdit.PM
                     ((int)SubY[i]) == y &&
                     ((int)SubW[i]) == w &&
                     ((int)SubH[i]) == h &&
-                    ((int)SubFlip[i]) == flip)
+                    ((int)SubFlip[i]) == flip &&
+					((float)SubTRotate[i]) == rot &&
+                    ((float)SubTScaleX[i]) == scalex &&
+                    ((float)SubTScaleY[i]) == scaley &&
+                    ((float)SubTAlpha[i]) == alpha)
                 {
                     return i;
                 }
@@ -3016,7 +3042,8 @@ namespace CellGameEdit.PM
         {
             return SubIndex.Count;
         }
-        public void addSub(ListViewItem key,int part, int x, int y, int w,int h,int flip)
+        public void addSub(ListViewItem key,int part, int x, int y, int w,int h,int flip,
+			float rot, float scalex, float scaley, float alpha)
         {
             SubTable.Add(key);
             SubIndex.Add(part);
@@ -3026,9 +3053,15 @@ namespace CellGameEdit.PM
             SubH.Add(h);
             SubFlip.Add(flip);
 
+			SubTRotate.Add(rot);
+			SubTScaleX.Add(scalex);
+			SubTScaleY.Add(scaley);
+			SubTAlpha.Add(alpha);
+
             SubSelected.Add(true);
         }
-        public void insertSub(int index, ListViewItem key, int part, int x, int y, int w, int h, int flip)
+        public void insertSub(int index, ListViewItem key, int part, int x, int y, int w, int h, int flip,
+			float rot, float scalex, float scaley, float alpha)
         {
 
             SubTable.Insert(index, key);
@@ -3038,6 +3071,12 @@ namespace CellGameEdit.PM
             SubW.Insert(index, w);
             SubH.Insert(index, h);
             SubFlip.Insert(index, flip);
+
+
+			SubTRotate.Insert(index, rot);
+			SubTScaleX.Insert(index, scalex);
+			SubTScaleY.Insert(index, scaley);
+			SubTAlpha.Insert(index, alpha);
 
             SubSelected.Insert(index, true);
 
@@ -3052,6 +3091,11 @@ namespace CellGameEdit.PM
             SubFlip.RemoveAt(index);
             SubTable.RemoveAt(index);
 
+			SubTRotate.RemoveAt(index);
+			SubTScaleX.RemoveAt(index);
+			SubTScaleY.RemoveAt(index);
+			SubTAlpha.RemoveAt(index);
+
             SubSelected.RemoveAt(index);
         }
         public void exchangeSub(int src, int dst)
@@ -3063,6 +3107,11 @@ namespace CellGameEdit.PM
             int h = (int)SubH[src];
             int flip = (int)SubFlip[src];
 
+			float rot = (float)SubTRotate[src];
+			float scalex = (float)SubTScaleX[src];
+			float scaley = (float)SubTScaleY[src];
+			float alpha = (float)SubTAlpha[src];
+
             Boolean selected = (Boolean)SubSelected[src];
             //ListViewItem item = (ListViewItem)SubTable[src];
 
@@ -3072,8 +3121,16 @@ namespace CellGameEdit.PM
             SubW[src] = SubW[dst];
             SubH[src] = SubH[dst];
             SubFlip[src] = SubFlip[dst];
-            //SubTable[src] = SubTable[dst];
+
+			SubTRotate[src] = SubTRotate[dst];
+			SubTScaleX[src] = SubTScaleX[dst];
+			SubTScaleY[src] = SubTScaleY[dst];
+			SubTAlpha[src] = SubTAlpha[dst];
+			
+			//SubTable[src] = SubTable[dst];
             SubSelected[src] = (Boolean)SubSelected[dst];
+
+
 
             SubIndex[dst] = index;
             SubX[dst] = x;
@@ -3081,6 +3138,11 @@ namespace CellGameEdit.PM
             SubW[dst] = w;
             SubH[dst] = h;
             SubFlip[dst] = flip;
+			SubTRotate[dst] = rot;
+			SubTScaleX[dst] = scalex;
+			SubTScaleY[dst] = scaley;
+			SubTAlpha[dst] = alpha;
+
             //SubTable[dst] = item;
             SubSelected[dst] = selected;
 

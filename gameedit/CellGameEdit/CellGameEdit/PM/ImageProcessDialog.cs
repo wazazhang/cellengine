@@ -16,14 +16,14 @@ namespace CellGameEdit.PM
 
         ArrayList selected_images = new ArrayList();
 
-        public ImageProcessDialog(ImagesForm src, ArrayList dstImages)
+        public ImageProcessDialog(ImagesForm src, ArrayList dstImages, bool all)
         {
             InitializeComponent();
 
             foreach (Object io in dstImages) 
             {
                 javax.microedition.lcdui.Image img = (javax.microedition.lcdui.Image)io;
-                if (img != null && img.selected) 
+				if (all || (img != null && img.selected)) 
                 {
                     selected_images.Add(img);
                 }
@@ -60,6 +60,10 @@ namespace CellGameEdit.PM
                     {
                         img.flipSelf(trans);
                     }
+					if (chkOptImageSize.Checked)
+					{
+						img.cutTransparentImageSize();
+					}
                 }
             }
             catch (Exception err)

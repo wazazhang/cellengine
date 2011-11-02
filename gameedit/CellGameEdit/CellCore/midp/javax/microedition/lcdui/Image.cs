@@ -122,6 +122,106 @@ public class Image
         dimg = dst.dimg;
     }
 
+	public void cutTransparentImageSize()
+	{
+		System.Drawing.Bitmap image = asBitmap();
+
+		int left = 0;
+		int right = image.Width - 1;
+		int top = 0;
+		int bottom = image.Height - 1;
+		int x = 0;
+		int y = 0;
+		System.Drawing.Color c;
+
+		bool finded = false;
+		// left
+		for (x = 0; x < image.Width; x++)
+		{
+			for (y = image.Height - 1; y >= 0; --y)
+			{
+				c = image.GetPixel(x, y);
+				if (c.A != 0)
+				{
+					left = x;
+					finded = true;
+					break;
+				}
+			}
+			if (finded)
+			{
+				break;
+			}
+		}
+		
+		finded = false;
+		// right
+		for (x = image.Width - 1; x >= 0; --x)
+		{
+			for (y = image.Height - 1; y >= 0; --y)
+			{
+				c = image.GetPixel(x, y);
+				if (c.A != 0)
+				{
+					right = x;
+					finded = true;
+					break;
+				}
+			}
+			if (finded)
+			{
+				break;
+			}
+		} 
+		
+		finded = false;
+		// top
+		for (y = 0; y < image.Height; y++)
+		{
+			for (x = image.Width - 1; x >= 0; --x)
+			{
+				c = image.GetPixel(x, y);
+				if (c.A != 0)
+				{
+					top = y;
+					finded = true;
+					break;
+				}
+			}
+			if (finded)
+			{
+				break;
+			}
+		} 
+		
+		finded = false;
+		// bottom
+		for (y = image.Height - 1; y >= 0; --y)
+		{
+			for (x = image.Width - 1; x >= 0; --x)
+			{
+				c = image.GetPixel(x, y);
+				if (c.A != 0)
+				{
+					bottom = y;
+					finded = true;
+					break;
+				}
+			}
+			if (finded)
+			{
+				break;
+			}
+		}
+
+		Image dst = createImage(right - left + 1, bottom - top + 1);
+		Graphics dstg = dst.getGraphics();
+		dstg.drawImage(this, -left, -top, 0);
+		dimg = dst.dimg;
+		dst = null;
+	}
+
+
     public System.Drawing.Color getPixel(int x, int y)
     {
         System.Drawing.Bitmap image = asBitmap();

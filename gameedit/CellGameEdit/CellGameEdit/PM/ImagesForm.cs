@@ -759,11 +759,15 @@ namespace CellGameEdit.PM
 
         }
 
-        public void addDirImages()
+        public ArrayList addDirImages()
         {
+			ArrayList ret = new ArrayList();
+
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Multiselect = true;
             openFileDialog1.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
+			openFileDialog1.RestoreDirectory = true;
+		
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
 
@@ -775,7 +779,7 @@ namespace CellGameEdit.PM
                         img.x = 0;
                         img.y = pictureBox2.Height / dstSize;
                         addDst(img);
-
+						ret.Add(img);
                         pictureBox2.Width = Math.Max(pictureBox2.Width, img.getWidth() * dstSize);
                         pictureBox2.Height += (img.getHeight() * dstSize);
                     }catch(Exception err){
@@ -783,6 +787,8 @@ namespace CellGameEdit.PM
                     }
                 }
             }
+
+			return ret;
         }
 
         public void addDstImage()
@@ -1241,7 +1247,16 @@ namespace CellGameEdit.PM
         }
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
-            addDirImages();
+            ArrayList added = addDirImages();
+
+			ImageProcessDialog ipd = new ImageProcessDialog(this, added, true);
+
+			if (ipd.ShowDialog() == DialogResult.OK)
+			{
+				changeImage();
+
+				pictureBox2.Refresh();
+			}
         }
         private void toolStripButton2_CheckedChanged(object sender, EventArgs e)
         {
@@ -1584,6 +1599,7 @@ namespace CellGameEdit.PM
             
         }
 
+
         private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
         {
             dstDown = true;
@@ -1833,6 +1849,24 @@ namespace CellGameEdit.PM
             catch (Exception err) { }
         }
 
+		private void 全选ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ScopeRect.X = 0;
+			ScopeRect.Y = 0;
+			ScopeRect.Width = pictureBox2.Width;
+			ScopeRect.Height = pictureBox2.Height;
+
+			for (int i = 0; i < getDstImageCount(); i++)
+			{
+				if (getDstImage(i) != null)
+				{
+					getDstImage(i).selected = true;
+				}
+			}
+
+			pictureBox2.Refresh();
+		}
+
         private void 从目录替换ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripButton9_Click(null,null);
@@ -1866,7 +1900,7 @@ namespace CellGameEdit.PM
         // 清理透明色
         private void 清理透明色ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImageProcessDialog ipd = new ImageProcessDialog(this, dstImages);
+            ImageProcessDialog ipd = new ImageProcessDialog(this, dstImages, false);
 
             if (ipd.ShowDialog() == DialogResult.OK)
             {
