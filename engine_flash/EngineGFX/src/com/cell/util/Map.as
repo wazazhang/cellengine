@@ -99,5 +99,20 @@ package com.cell.util
 			return map;
 		}
 		
+		/**<pre>
+		 * [key, value]
+		 * [key, value] 
+		 */
+		public static function initFromArray(arr:Array) : Map
+		{
+			var ret : Map = new Map();
+			
+			for each (var a : * in arr) 
+			{
+				ret[a[0]] = a[1];
+			}
+			
+			return ret;
+		}
 	}
 }

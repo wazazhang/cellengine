@@ -57,6 +57,10 @@ package com.cell.gfx.game.worldcraft
 			old_frame 	= _spr.getCurrentFrame();
 		}
 
+		protected function get imageBuff() : Bitmap
+		{
+			return bitmap;
+		}
 
 	}
 }

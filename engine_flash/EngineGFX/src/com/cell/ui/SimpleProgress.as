@@ -64,6 +64,11 @@ package com.cell.ui
 			}
 		}
 		
+		public function setValue(v:Number, min:Number, max:Number) : void
+		{
+			percent = (v - min) / (max - min);
+		}
+		
 		override public function set height(value:Number):void
 		{
 			repaint(width, value, _percent);
