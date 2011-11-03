@@ -46,7 +46,7 @@ public class Graphics
 	}
 
 
-	public void drawImage(javax.microedition.lcdui.Image img, int x, int y, int anchor)
+	public void drawImage(javax.microedition.lcdui.Image img, float x, float y, int anchor)
 	{
 		if (img.killed) return;
 		dg.DrawImage(img.dimg,
@@ -129,8 +129,8 @@ public class Graphics
 	}
 
 	public void drawImage(
-		javax.microedition.lcdui.Image img, 
-		int x, int y, 
+		javax.microedition.lcdui.Image img,
+		float x, float y, 
 		System.Drawing.RotateFlipType transform,
 		int anchor)
 	{
@@ -176,7 +176,7 @@ public class Graphics
 
 	public void drawImage(
 		javax.microedition.lcdui.Image img,
-		int x, int y, int sx,int sy,int sw, int sh,
+		float x, float y, float sx, float sy, float sw, float sh,
 		System.Drawing.RotateFlipType transform,
 		int anchor)
 	{
@@ -185,8 +185,8 @@ public class Graphics
 
 
 		dg.DrawImage(img.dimg,
-			new System.Drawing.Rectangle(x, y, sw, sh),
-			new System.Drawing.Rectangle(sx, sy, sw, sh),
+			new System.Drawing.RectangleF(x, y, sw, sh),
+			new System.Drawing.RectangleF(sx, sy, sw, sh),
 			System.Drawing.GraphicsUnit.Pixel
 			);
 
@@ -220,12 +220,16 @@ public class Graphics
 	}
 
 
-    public void drawImageTrans(javax.microedition.lcdui.Image src, int x, int y, int transform)
+	public void drawImageTrans(javax.microedition.lcdui.Image src, float x, float y, int transform)
     {
         drawRegion(src, 0, 0, src.getWidth(), src.getHeight(), transform, x, y, 0);
     }
 
-	public void drawRegion(javax.microedition.lcdui.Image src, int x_src, int y_src, int width, int height, int transform, int x_dest, int y_dest, int anchor)
+	public void drawRegion(javax.microedition.lcdui.Image src, 
+		float x_src, float y_src, float width, float height,
+		int transform,
+		float x_dest, float y_dest, 
+		int anchor)
 	{
 		if (src.killed) return;
 		System.Drawing.RotateFlipType rt = System.Drawing.RotateFlipType.RotateNoneFlipNone;
@@ -266,41 +270,18 @@ public class Graphics
 		
 	}
 
-	public void drawString(string str, int x, int y, int anchor)
+	public void drawString(string str, float x, float y, int anchor)
 	{
 
 		dg.DrawString(str, font, brush, x , y );
 	}
 
-	public void drawLine(int x1, int y1, int x2, int y2)
-	{
-		dg.DrawLine(pen, x1, y1, x2, y2);
-	}
-
-	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
-	{
-		dg.DrawArc(pen, x, y, width, height, startAngle, arcAngle);
-	}
-	
-	public void drawRect(int x, int y, int width, int height)
-	{
-		dg.DrawRectangle(pen, x, y, width, height);
-	}
-	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle)
-	{
-		dg.FillPie(brush, x , y , width , height , startAngle, arcAngle);
-	}
-	public void fillRect(int x, int y, int width, int height)
-	{
-		dg.FillRectangle(brush, x , y , width , height );
-	}
-	// float
 	public void drawLine(float x1, float y1, float x2, float y2)
 	{
 		dg.DrawLine(pen, x1, y1, x2, y2);
 	}
 
-	public void drawArc(float x, float y, float width, float height, float startAngle, float arcAngle)
+	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
 	{
 		dg.DrawArc(pen, x, y, width, height, startAngle, arcAngle);
 	}
@@ -311,12 +292,21 @@ public class Graphics
 	}
 	public void fillArc(float x, float y, float width, float height, float startAngle, float arcAngle)
 	{
-		dg.FillPie(brush, x, y, width, height, startAngle, arcAngle);
+		dg.FillPie(brush, x , y , width , height , startAngle, arcAngle);
 	}
 	public void fillRect(float x, float y, float width, float height)
 	{
-		dg.FillRectangle(brush, x, y, width, height);
+		dg.FillRectangle(brush, x , y , width , height );
 	}
+	// float
+
+
+	public void drawArc(float x, float y, float width, float height, float startAngle, float arcAngle)
+	{
+		dg.DrawArc(pen, x, y, width, height, startAngle, arcAngle);
+	}
+
+	
 	
 	public int getClipHeight()
 	{
@@ -335,7 +325,7 @@ public class Graphics
 		return (int)dg.ClipBounds.Y;
 	}
 
-	public void setClip(int x, int y, int width, int height)
+	public void setClip(float x, float y, float width, float height)
 	{
 		dg.SetClip(new System.Drawing.RectangleF(x , y , width , height ));
 	}

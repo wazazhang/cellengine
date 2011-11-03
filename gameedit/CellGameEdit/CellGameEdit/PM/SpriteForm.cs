@@ -2324,6 +2324,16 @@ namespace CellGameEdit.PM
             framesAdd();
             framesRefersh();
         }
+
+		private void btnAddFrameAndSub_Click(object sender, EventArgs e)
+		{
+			framesAdd();
+			dstAddPart();
+			framesRefersh();
+
+		}
+
+
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             framesDel();
@@ -2823,6 +2833,13 @@ namespace CellGameEdit.PM
 
         public ArrayList CDSelected = new ArrayList();
 
+		public Boolean complexMode = false;
+
+		public float rotate = 0;
+		public float scalex = 1;
+		public float scaley = 1;
+		public float alpha = 1;
+
         public Frame()
         {
             
@@ -2893,10 +2910,31 @@ namespace CellGameEdit.PM
                 CDSelected.Add(false);
             }
 
+			this.rotate = obj.rotate;
+			this.scalex = obj.scalex;
+			this.scaley = obj.scaley;
+			this.alpha = obj.alpha;
+			this.complexMode = obj.complexMode;
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected Frame(SerializationInfo info, StreamingContext context)
         {
+			try
+			{
+				complexMode = info.GetBoolean("complexMode");
+				if (complexMode)
+				{
+					rotate = (float)info.GetValue("rotate", typeof(float));
+					scalex = (float)info.GetValue("scalex", typeof(float));
+					scaley = (float)info.GetValue("scaley", typeof(float));
+					alpha = (float)info.GetValue("alpha", typeof(float));
+				}
+			}
+			catch (Exception err)
+			{
+				complexMode = false;
+			}
+
             SubIndex = (ArrayList)info.GetValue("SubIndex", typeof(ArrayList));
             SubX = (ArrayList)info.GetValue("SubX", typeof(ArrayList));
             SubY = (ArrayList)info.GetValue("SubY", typeof(ArrayList));
@@ -2975,6 +3013,13 @@ namespace CellGameEdit.PM
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+			
+			info.AddValue("complexMode", complexMode);
+			info.AddValue("rotate", rotate);
+			info.AddValue("scalex", scalex);
+			info.AddValue("scaley", scaley);
+			info.AddValue("alpha", alpha);
+
             info.AddValue("SubIndex", SubIndex);
             info.AddValue("SubX", SubX);
             info.AddValue("SubY", SubY);
