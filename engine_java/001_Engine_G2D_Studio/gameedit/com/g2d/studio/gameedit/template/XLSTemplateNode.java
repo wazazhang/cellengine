@@ -1,8 +1,8 @@
 package com.g2d.studio.gameedit.template;
 
 import com.cell.rpg.template.TemplateNode;
-import com.cell.rpg.xls.XLSFile;
-import com.cell.rpg.xls.XLSFullRow;
+import com.cell.xls.XLSFile;
+import com.cell.xls.XLSFullRow;
 import com.g2d.studio.gameedit.entity.ObjectNode;
 import com.g2d.studio.icon.IconFile;
 

@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 
 import com.cell.CUtil;
-import com.cell.rpg.xls.XLSColumns;
+import com.cell.xls.XLSColumns;
 import com.g2d.editor.property.ObjectPropertyEdit;
 import com.g2d.editor.property.PropertyCellEdit;
 

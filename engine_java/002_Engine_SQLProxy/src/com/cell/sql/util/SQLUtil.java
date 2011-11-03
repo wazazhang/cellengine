@@ -2,13 +2,19 @@ package com.cell.sql.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
+import com.cell.CUtil;
 import com.cell.sql.SQLColumn;
 import com.cell.sql.SQLFieldGroup;
 import com.cell.sql.SQLStructCLOB;
@@ -176,7 +182,7 @@ public class SQLUtil
 			T dst) throws Exception
 	{
 		for (SQLColumn c : sql_columns) {
-			c.setObject(dst, c.getObject(src));
+			c.setLeafField(dst, c.getLeafField(src));
 		}
 	}
 	
@@ -203,6 +209,36 @@ public class SQLUtil
 		return ret;
 	}
 
+//	-------------------------------------------------------------------------------------------------
 	
+	public static PrintStream printTable(Class<? extends SQLFieldGroup> clazz, Collection<? extends SQLFieldGroup> list, PrintStream out) 
+	{
+		SQLColumn[] columns = getSQLColumns(clazz);
+		
+		ArrayList<String> hd_line = new ArrayList<String>();
+		for (int c=0; c<columns.length; c++) {
+			String name = columns[c].getName();
+			hd_line.add(name);
+		}
+
+		ArrayList<List<String>> lines = new ArrayList<List<String>>();
+		for (SQLFieldGroup o : list) {
+			ArrayList<String> line = new ArrayList<String>();
+			for (int c=0; c<columns.length; c++) {
+				try {
+					Object v = columns[c].getLeafField(o);
+					line.add(v+"");
+				} catch (Exception e) {
+					e.printStackTrace();
+					line.add("e???");
+				}
+			}
+			lines.add(line);
+		}
+		
+		return CUtil.printTable(hd_line, lines, out);
+	}
+	
+
 	
 }

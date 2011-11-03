@@ -273,6 +273,20 @@ public class TextDeserialize extends IInput
 		return null;
 	}
 	
+	public static float[] getFloats(Reader in) throws IOException
+	{
+		int count = (int)getUnsignedInt(in);
+		if (count > 0)
+		{
+			float[] values = new float[count];
+			for ( int i=0; i<count; ++i )
+				values[i] = getFloat(in);
+			
+			return values;
+		}
+		
+		return null;
+	}
 //	---------------------------------------------------------------------------------------------------------------------------	
 	
 

@@ -116,7 +116,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 				
 				int index = table_columns[i].getIndex();
 				Object obj = result.getObject(index);
-				table_columns[i].setObject(row, obj);		
+				table_columns[i].fromSqlData(row, obj);		
 				
 //				table_columns[i].setObject(row, result.getObject(table_columns[i].getIndex()));				
 				
@@ -146,7 +146,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 			try {
 				String name = table_columns[i].getName();
 				Object obj = result.getObject(name);
-				table_columns[i].setObject(row, obj);
+				table_columns[i].fromSqlData(row, obj);
 			} catch (Exception err) {
 				log.error("[" + table_name + "] read column error !\n" +
 						"\t    id = " + row.getPrimaryKey() +
@@ -195,7 +195,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		try {
 			for (int i=0; i<columns.length; i++){
 				SQLColumn c = columns[i];
-				statement.setObject(i+1, c.getObject(row), c.getAnno().type().getJdbcType());
+				statement.setObject(i+1, c.toSqlData(row), c.getAnno().type().getJdbcType());
 			}
 			return statement.executeUpdate();
 		} finally {
@@ -243,7 +243,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 			for (int i=0; i<columns.length; i++){
 				SQLColumn c = columns[i];
 				statement.setObject(i+1, 
-						c.getObject(row), 
+						c.toSqlData(row), 
 						c.getAnno().type().getJdbcType());
 			}
 			return statement.executeUpdate();

@@ -4,8 +4,8 @@ import javax.swing.ImageIcon;
 
 import com.cell.rpg.template.TShopItem;
 import com.cell.rpg.template.TemplateNode;
-import com.cell.rpg.xls.XLSFile;
-import com.cell.rpg.xls.XLSFullRow;
+import com.cell.xls.XLSFile;
+import com.cell.xls.XLSFullRow;
 import com.g2d.studio.Studio;
 import com.g2d.studio.gameedit.ObjectTreeView;
 import com.g2d.studio.gameedit.ObjectViewer;

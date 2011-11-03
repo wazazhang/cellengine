@@ -196,6 +196,14 @@ public abstract class Property<T>
 	
 	abstract protected boolean putText(String k, String v);
 	
+
+	public void putAll(java.util.Map<String, String> map)
+	{
+		for (String k : map.keySet()) {
+			putText(k, map.get(k));
+		}
+	}
+	
 	public Enumeration<String> getKeys()
 	{
 		return Map.keys();

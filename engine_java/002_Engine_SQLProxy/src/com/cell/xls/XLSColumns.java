@@ -1,4 +1,4 @@
-package com.cell.rpg.xls;
+package com.cell.xls;
 
 import java.io.IOException;
 import java.io.InputStream;

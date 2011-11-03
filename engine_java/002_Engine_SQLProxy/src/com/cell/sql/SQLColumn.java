@@ -147,7 +147,29 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 		return table;
 	}
 	
-	public Object getObject(SQLFieldGroup table) throws Exception
+	public Object getLeafField(SQLFieldGroup table) throws Exception
+	{
+		table = getLeafTable(table);
+		if (table != null) {
+			return table.getField(getLeafField());
+		}
+		return null;
+	}
+	
+	public void setLeafField(SQLFieldGroup table, Object data) throws Exception
+	{
+		if (data != null) 
+		{
+			table = getLeafTable(table);
+			Field leaf_field = getLeafField();
+			table.setField(leaf_field, data);
+		}
+	}
+	
+	/**
+	 * return SQLObject
+	 */
+	public Object toSqlData(SQLFieldGroup table) throws Exception
 	{
 		table = getLeafTable(table);
 		if (table != null) {
@@ -166,7 +188,10 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 		return null;
 	}
 	
-	public void setObject(SQLFieldGroup table, Object data) throws Exception
+	/**
+	 *  SQLObject -> JavaObject
+	 */
+	public void fromSqlData(SQLFieldGroup table, Object data) throws Exception
 	{
 		if (data != null) 
 		{

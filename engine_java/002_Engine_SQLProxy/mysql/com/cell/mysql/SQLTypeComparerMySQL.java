@@ -28,7 +28,8 @@ import com.cell.xstream.XStreamAdapter;
 <col>
 <col>
 </colgroup>
-<thead><tr>
+<thead>
+<tr>
 <th>MySQL Type Name</th>
 <th>Return value of <code class="literal">GetColumnClassName</code>
 </th>
@@ -257,6 +258,9 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 
 	public Object toJavaObject(SQLType type, Class<?> type_clazz, Object sqlObject) throws Exception 
 	{
+		if (type_clazz.isInstance(sqlObject)) {
+			return sqlObject;
+		}
 		switch(type)
 		{
 		case BIG_STRUCT:

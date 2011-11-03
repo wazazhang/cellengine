@@ -230,6 +230,19 @@ public class TextSerialize extends IOutput
 	}	
 	
 	
+	public static void putFloats(Writer ostream, float[] value) throws IOException
+	{
+		if (value != null)
+		{
+			putUnsignedInt(ostream, value.length);
+			for ( int i=0; i<value.length; ++i )
+				putFloat(ostream, value[i]);
+		}
+		else
+		{
+			putUnsignedInt(ostream, 0);
+		}		
+	}	
 	
 	
 	

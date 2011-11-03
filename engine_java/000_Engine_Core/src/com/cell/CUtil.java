@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -413,6 +414,23 @@ public class CUtil extends CObject
 		return sb.toString();
 	}
 		
+	public static String arrayToString(float[] array){
+		if (array==null) return "null";
+		StringBuffer sb = new StringBuffer();
+		for (int i=0; i<array.length; i++) {
+			sb.append(array[i]+",");
+		}
+		return sb.toString();
+	}
+	
+	public static String arrayToString(double[] array){
+		if (array==null) return "null";
+		StringBuffer sb = new StringBuffer();
+		for (int i=0; i<array.length; i++) {
+			sb.append(array[i]+",");
+		}
+		return sb.toString();
+	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -725,6 +743,15 @@ public class CUtil extends CObject
 			ret[d] = src.charAt(s);
 		}
 		return new String(ret);
+	}
+	
+	public static String fillString(String ch, int count)
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i<count; i++) {
+			sb.append(ch);
+		}
+		return sb.toString();
 	}
 	
 //	---------------------------------------------------------------------------------------------------------------------
@@ -1899,6 +1926,7 @@ public class CUtil extends CObject
 		STATUS_LINE_KEY_SIZE = size;
 	}
 	
+	
 	/**
 	 * <b>提供类似的输出</b>
 	 * <br>
@@ -2001,6 +2029,120 @@ public class CUtil extends CObject
 	
 //	--------------------------------------------------------------------------------------------------------    
 
+//	public static void toTable2D(Object[][] table2D, Appendable sb) 
+//	{	
+//		int[] rowCharSize = new int[table2D[0].length];
+//		for (int r=0; r<table2D.length; r++) {
+//			for (int c=0; c>table2D[r].length; c++) {
+//				
+//			}
+//		}
+//		for (int r=0; r<table2D.length; r++) {
+//			for (int c=0; c>table2D[r].length; c++) {
+//				
+//			}
+//		}
+//		
+//		System.out.print("| " + s_map[r][c] + "\t");
+//	}
+	
+	
+//	--------------------------------------------------------------------------------------------------------    
+
+	
+	
+	public static PrintStream printTable(String[] hd_line, String[][] lines, PrintStream out)
+	{
+		List<List<String>> dlines = new ArrayList<List<String>>();
+		for (int r=0; r<lines.length; r++) {
+			dlines.add(Arrays.asList(lines[r]));
+		}
+		printTable(Arrays.asList(hd_line), dlines, out);
+		return out;
+	}
+	
+	
+	/**
+	 * <b>提供类似的输出</b>
+	 * <table border="1">
+	 * <tr>	<th>id</th><th>name</th>
+	 * <tr><td>1</td> <td>waza</td>
+	 * <tr><td>2</td> <td>wilson</td>
+	 * <tr><td>3</td> <td>leon</td>
+	 * <tr><td>4</td> <td>jessic</td>
+	 * </table>
+	 */
+	public static PrintStream printTable(List<String> hd_line, List<List<String>> lines, PrintStream out)
+	{
+		String c_split = " | ";
+		String c_begin = "| ";
+		String c_end = " |";
+		
+		try 
+		{
+			int max_len = 0;
+			ArrayList<Integer> columns_len = new ArrayList<Integer>();
+			for (int c=0; c<hd_line.size(); c++) {
+				columns_len.add(hd_line.get(c).length());
+			}
+			for (List<String> line : lines) {
+				int line_len = 0;
+				for (int c=0; c<line.size(); c++) {
+					String add = line.get(c);
+					int len = columns_len.get(c);
+					if (add.length() > len) {
+						len = add.length();
+						columns_len.set(c, len);
+					}
+					line_len += len;
+				}
+				max_len = Math.max(max_len, line_len);
+			}
+			
+			max_len += (hd_line.size() - 1) * c_split.length() + c_begin.length() + c_end.length();
+			out.println(fillString("-", max_len));
+			printLine(c_begin, hd_line, columns_len, c_split, c_end, out);
+			out.println(fillString("-", max_len));
+			for (List<String> line : lines) {
+				printLine(c_begin, line, columns_len, c_split, c_end, out);
+			}
+			out.println(fillString("-", max_len));
+		} 
+		catch (Exception e) {
+			e.printStackTrace(out);
+		}
+		return out;
+	}
+	
+	public static PrintStream printLine(String begin, List<String> line, List<Integer> columns_len, String split, String end, PrintStream out)
+	{
+		try 
+		{
+			out.append(begin);
+			
+			for (int c=0; c<line.size(); c++) {
+				int clen  = columns_len.get(c);
+				String nd = line.get(c);
+				while (nd.length() < clen) {
+					nd += " ";
+				}
+				if (c < line.size()-1) {
+					out.append(nd + split);
+				} else {
+					out.append(nd);
+				}
+			}
+			out.append(end);
+			out.println();
+		} 
+		catch (Exception e) {
+			e.printStackTrace(out);
+		}
+		
+		return out;
+	}
+	
+	
     /**
      * <summary>  
      * \r  

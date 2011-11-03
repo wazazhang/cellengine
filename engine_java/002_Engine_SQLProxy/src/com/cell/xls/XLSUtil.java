@@ -1,14 +1,17 @@
-package com.cell.rpg.xls;
+package com.cell.xls;
 
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import jxl.Sheet;
 import jxl.Workbook;
 
+import com.cell.CUtil;
 import com.cell.reflect.Parser;
 import com.cell.sql.SQLColumn;
 import com.cell.sql.SQLStructCLOB;
@@ -75,7 +78,7 @@ public class XLSUtil {
 							try {
 								if (SQLStructCLOB.class.isAssignableFrom(type)) 
 								{
-									sql_column.setObject(instance, text);
+									sql_column.fromSqlData(instance, text);
 								} 
 								else 
 								{
@@ -83,12 +86,8 @@ public class XLSUtil {
 									if ((value == null) && (type == Timestamp.class) ) {
 										value = Timestamp.valueOf(text);
 									}
-//									else if (type.isPrimitive() && !type.equals(boolean.class)) {
-//										sql_column.setObject(instance, Parser.castNumber(value, type));
-//									}
 									else if (value != null) {
-										sql_column.setObject(instance, value);
-//										System.out.println(sql_column.getName() + "=" + value);
+										sql_column.setLeafField(instance, value);
 									}
 									else {
 										throw new NullPointerException(
@@ -121,12 +120,29 @@ public class XLSUtil {
 		return ret;
 	}
 	
+	public static int toColumnIndex(String columnHead) throws Exception
+	{
+		columnHead = columnHead.toUpperCase();
+		int ret = 0;
+		for (int i=0; i<columnHead.length(); i++) {
+			ret *= 26;
+			char ch = columnHead.charAt(i);
+			if (ch>='A' && ch<='Z') {
+				int var = ch - 'A';
+				ret += var;
+			} else {
+				throw new Exception("unsupport column head : " + columnHead);
+			}
+		}
+		return ret;
+	}
+	
 	public static Map<String, String> readMap(
 			Workbook work_book,
 			String sheet, 
 			int rowStart,
 			int columK, int columV) throws Exception
- {
+	{
 		Map<String, String> ret = new LinkedHashMap<String, String>();
 		Sheet rs = work_book.getSheet(sheet);
 		int row_start = rowStart;
@@ -140,4 +156,60 @@ public class XLSUtil {
 		}
 		return ret;
 	}
+	
+	public static Map<String, String> readMap(
+			Workbook work_book,
+			String sheet, 
+			int rowStart,
+			String columK, String columV) throws Exception
+	{
+		return readMap(work_book, sheet, rowStart, toColumnIndex(columK), toColumnIndex(columV));
+	}
+	
+	/**
+	 * @param work_book
+	 * @param sheet
+	 * @param rowStart
+	 * @param columStart
+	 * @param columEnd
+	 * @return return [row][column]
+	 * @throws Exception
+	 */
+	public static String[][] readArray2D(
+			Workbook work_book,
+			String sheet, 
+			int rowStart,
+			int columStart, 
+			int columEnd) throws Exception
+	{
+		ArrayList<String[]> rows = new ArrayList<String[]>();
+		
+		Sheet rs = work_book.getSheet(sheet);
+		int rowCount = columEnd - columStart + 1;
+		for (int r = rowStart; r < rs.getRows(); r++) 
+		{
+			String[] row = new String[rowCount];
+			for (int c = columStart, i=0; c <= columEnd; c++, i++) 
+			{
+				row[i] = rs.getCell(c, r).getContents().trim();
+			}
+			rows.add(row);
+		}
+		String[][] ret = new String[rows.size()][rowCount];
+		for (int i=0; i<rows.size(); i++) {
+			ret[i] = rows.get(i);
+		}
+		return ret;
+	}
+	
+	public static String[][] readArray2D(
+			Workbook work_book,
+			String sheet, 
+			int rowStart,
+			String columStart, 
+			String columEnd) throws Exception
+	{
+		return readArray2D(work_book, sheet, rowStart, toColumnIndex(columStart), toColumnIndex(columEnd));
+	}
+	
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
+import com.cell.CUtil;
 import com.cell.io.TextDeserialize;
 import com.cell.util.StringUtil;
 
@@ -36,9 +37,17 @@ public class Parser
 
 			Object obj = s_simple_parser.parseFrom(str, return_type);
 			if (obj != null) {
-				return return_type.cast(obj);
+				if (return_type.equals(boolean.class)) {
+					return (T)obj;
+				} else if (return_type.isPrimitive() ) {
+					return Parser.castNumber(obj, return_type);
+				} else {
+					return return_type.cast(obj);
+				}
 			}			
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return null;
 	}
@@ -146,7 +155,66 @@ public class Parser
 		}
 	}
 	
+	
+	
 //	--------------------------------------------------------------------------------------------------------------------
+	
+	public static byte parseByte(String str) 
+	{
+		long full = str.startsWith(PERFIX_RADIX_16)? 
+				Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+		return (byte)(full & 0xff);
+	}
+	
+	public static short parseShort(String str) 
+	{
+		long full = str.startsWith(PERFIX_RADIX_16)? 
+				Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+		return (short)(full & 0xffff);
+	}
+	
+	public static int parseInteger(String str) 
+	{
+		long full = str.startsWith(PERFIX_RADIX_16)? 
+				Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+		return (int)(full & 0xffffffff);
+	}
+	
+	public static long parseLong(String str) 
+	{
+		long full = str.startsWith(PERFIX_RADIX_16)? 
+				Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
+		return full;
+	}
+	
+	public static float parseFloat(String str) 
+	{
+		if (str.endsWith("%")) {
+			str = str.substring(0, str.length()-1);
+			float ret = Float.parseFloat(str);
+			ret = ret / 100;
+			return ret;
+		} else {
+			return Float.parseFloat(str);
+		}
+	}
+	
+	public static double parseDouble(String str) 
+	{
+		return Double.parseDouble(str);
+	}
+	
+	public static char parseCharacter(String str)
+	{
+		return str.charAt(0);
+	}
+	
+	public static boolean parseBoolean(String str)
+	{
+		if (str.equals("1"))
+			return true;				
+		return Boolean.parseBoolean(str);
+	}
 	
 	public static class SimpleParser implements IObjectStringParser
 	{
@@ -156,108 +224,154 @@ public class Parser
 			if (type.equals(String.class)) {
 				return str;
 			}
-			if (type.equals(Byte.class) || type.equals(byte.class)) 
+			// ---------------------------------------------------------------------------
+			// byte
+			if (type.equals(Byte.class)) 
 			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-				return new Byte((byte)(full & 0xff));
+				return new Byte(parseByte(str));
 			}
-			if (type.equals(Short.class) || type.equals(short.class)) 
+			if (type.equals(byte.class)) 
 			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-				return new Short((short)(full & 0xffff));
+				return parseByte(str);
 			}
-			if (type.equals(Integer.class) || type.equals(int.class)) 
-			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
 
-				return new Integer((int)(full & 0xffffffff));
-			}
-			if (type.equals(Long.class) || type.equals(long.class)) 
+			// ---------------------------------------------------------------------------
+			// short
+			if (type.equals(Short.class)) 
 			{
-				long full = str.startsWith(PERFIX_RADIX_16)? 
-						Long.parseLong(str.substring(PERFIX_RADIX_16.length()), 16) : Long.parseLong(str);
-				return new Long(full);
+				return new Short(parseShort(str));
 			}
-			
-			if (type.equals(Float.class) || type.equals(float.class)) 
+			if (type.equals(short.class)) 
 			{
-				return new Float(str);
+				return parseShort(str);
 			}
-			
-			if (type.equals(Double.class) || type.equals(double.class)) 
-			{
-				return new Double(str);
-			}
-			
-			if (type.equals(Character.class) || type.equals(char.class)) 
-			{
-				return new Character(str.charAt(0));
-			}
-			
-			if (type.equals(Boolean.class) || type.equals(boolean.class)) 
-			{
-				if (str.equals("1"))
-					return true;				
-				return new Boolean(str);
-			}
-			
-			if (type.equals(Double[].class)) 
-			{
-				return StringUtil.getDoubleObjArray(str, ",");
-			}
-			if (type.equals(double[].class)) 
-			{
-				return StringUtil.getDoubleArray(str, ",");
-			}
-			
-			if (type.equals(Float[].class)) 
-			{
-				return StringUtil.getFloatObjArray(str, ",");
-			}
-			if (type.equals(float[].class)) 
-			{
-				return StringUtil.getFloatArray(str, ",");
-			}
-			
-			if (type.equals(Long[].class)) 
-			{
-				return StringUtil.getLongObjArray(str, ",");
-			}
-			if (type.equals(long[].class)) 
-			{
-				return StringUtil.getLongArray(str, ",");
-			}
-			
-			if (type.equals(Integer[].class)) 
-			{
-				return StringUtil.getIntegerObjArray(str, ",");
-			}
-			if (type.equals(int[].class)) 
-			{
-				return StringUtil.getIntegerArray(str, ",");
-			}
-			
 
-			if (type.equals(Short[].class)) 
+			// ---------------------------------------------------------------------------
+			// int
+			if (type.equals(Integer.class)) 
 			{
-				return StringUtil.getShortObjArray(str, ",");
+				return new Integer(parseInteger(str));
 			}
-			if (type.equals(short[].class)) 
+			if (type.equals(int.class)) 
 			{
-				return StringUtil.getShortArray(str, ",");
+				return parseInteger(str);
+			}
+
+			// ---------------------------------------------------------------------------
+			// long
+			if (type.equals(Long.class)) 
+			{
+				return new Long(parseLong(str));
+			}
+			if (type.equals(long.class)) 
+			{
+				return parseLong(str);
+			}
+			// ---------------------------------------------------------------------------
+			// float
+			if (type.equals(Float.class)) 
+			{
+				return new Float(parseFloat(str));
+			}
+			if (type.equals(float.class)) 
+			{
+				return parseFloat(str);
+			}
+			// ---------------------------------------------------------------------------
+			// double
+			if (type.equals(Double.class)) 
+			{
+				return new Double(parseDouble(str));
+			}
+			if (type.equals(double.class)) 
+			{
+				return parseDouble(str);
+			}
+			// ---------------------------------------------------------------------------
+			// char
+			if (type.equals(Character.class)) 
+			{
+				return new Character(parseCharacter(str));
+			}
+			if (type.equals(type.equals(char.class))) 
+			{
+				return parseCharacter(str);
+			}
+			// ---------------------------------------------------------------------------
+			// boolean
+			if (type.equals(Boolean.class)) 
+			{	
+				return new Boolean(parseBoolean(str));
+			}
+			if (type.equals(boolean.class)) 
+			{	
+				return parseBoolean(str);
 			}
 			
-			if (type.equals(Byte[].class)) 
+			// ---------------------------------------------------------------------------
+
+			if (type.isArray() ) 
 			{
-				return StringUtil.getByteObjArray(str, ",");
+				if (str.isEmpty()) {
+					return CUtil.newArray(type.getComponentType(), 0);
+				}
+				
+				if (type.equals(Double[].class)) 
+				{
+					return StringUtil.getDoubleObjArray(str, ",");
+				}
+				if (type.equals(double[].class)) 
+				{
+					return StringUtil.getDoubleArray(str, ",");
+				}
+				
+				if (type.equals(Float[].class)) 
+				{
+					return StringUtil.getFloatObjArray(str, ",");
+				}
+				if (type.equals(float[].class)) 
+				{
+					return StringUtil.getFloatArray(str, ",");
+				}
+				
+				if (type.equals(Long[].class)) 
+				{
+					return StringUtil.getLongObjArray(str, ",");
+				}
+				if (type.equals(long[].class)) 
+				{
+					return StringUtil.getLongArray(str, ",");
+				}
+				
+				if (type.equals(Integer[].class)) 
+				{
+					return StringUtil.getIntegerObjArray(str, ",");
+				}
+				if (type.equals(int[].class)) 
+				{
+					return StringUtil.getIntegerArray(str, ",");
+				}
+				
+
+				if (type.equals(Short[].class)) 
+				{
+					return StringUtil.getShortObjArray(str, ",");
+				}
+				if (type.equals(short[].class)) 
+				{
+					return StringUtil.getShortArray(str, ",");
+				}
+				
+				if (type.equals(Byte[].class)) 
+				{
+					return StringUtil.getByteObjArray(str, ",");
+				}
+				if (type.equals(byte[].class)) 
+				{
+					return StringUtil.getByteArray(str, ",");
+				}
 			}
-			if (type.equals(byte[].class)) 
-			{
-				return StringUtil.getByteArray(str, ",");
-			}
+			
 			
 			
 			return null;

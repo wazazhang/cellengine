@@ -10,8 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
 import com.cell.rpg.template.TemplateNode;
-import com.cell.rpg.xls.XLSColumns;
-import com.cell.rpg.xls.XLSFullRow;
+import com.cell.xls.XLSColumns;
+import com.cell.xls.XLSFullRow;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.gameedit.entity.ObjectGroup;
