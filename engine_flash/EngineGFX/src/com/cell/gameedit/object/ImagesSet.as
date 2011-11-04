@@ -23,6 +23,8 @@ package com.cell.gameedit.object
 		
 		public var CustomExt	: String;
 		
+		public var AppendData	: String;
+		
 		public function getIndex() : int {
 			return Index;
 		}

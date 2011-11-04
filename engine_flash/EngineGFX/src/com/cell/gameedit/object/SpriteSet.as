@@ -45,7 +45,9 @@ package com.cell.gameedit.object
 		public var FrameCDDef		: Array;
 		/** short[][] */
 		public var FrameCDExt		: Array;
-	
+		
+		public var AppendData	: String;
+		
 		public function getIndex() : int {
 			return Index;
 		}

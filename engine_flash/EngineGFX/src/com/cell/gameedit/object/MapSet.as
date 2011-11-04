@@ -43,6 +43,9 @@ package com.cell.gameedit.object
 		/** int[][] */
 		public var TerrainBlock2D : Array;
 		
+		public var AppendData	: String;
+		
+		
 		public function getIndex() : int {
 			return Index;
 		}

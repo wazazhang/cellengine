@@ -124,6 +124,10 @@ package com.cell.gameedit.output
 			ret.ClipsH 		= new Array(ret.Count);
 			ret.ClipsKey 	= new Array(ret.Count);
 			
+			try {
+				ret.AppendData = StringUtil.getArray1DLines(xml.AppendData[0].toString());
+			} catch (err:Error) {}
+
 			for each (var e:XML in xml.clip) 
 			{
 				var index : int 	= e.attribute("index");
@@ -168,6 +172,11 @@ package com.cell.gameedit.output
 			
 			ret.TerrainScene2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
 			ret.TerrainBlock2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
+			
+			try {
+				ret.AppendData = StringUtil.getArray1DLines(map.AppendData[0].toString());
+			} catch (err:Error) {}
+			
 			
 			for each (var e:XML in map.scene_part) {
 				var index : int			= e.attribute("index");
@@ -229,6 +238,10 @@ package com.cell.gameedit.output
 			var collidesCount 	= int(sprite.attribute("cd_frame_count"));
 			var animateCount 	= int(sprite.attribute("animate_count"));
 			
+			try {
+				ret.AppendData = StringUtil.getArray1DLines(sprite.AppendData[0].toString());
+			} catch (err:Error) {}
+
 			ret.PartX 			= new Array(scenePartCount);
 			ret.PartY 			= new Array(scenePartCount);
 			ret.PartTileID 		= new Array(scenePartCount);
