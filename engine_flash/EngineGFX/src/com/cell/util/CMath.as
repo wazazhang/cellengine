@@ -58,6 +58,22 @@ package com.cell.util
 			return speed * (interval_ms / 1000.0);
 		}
 		
+		/**
+		 * 180 to Math.PI
+		 */
+		static public function toDegree(angle:Number) : Number
+		{
+			return angle / 180.0 * Math.PI;
+		}
+		
+		/**
+		 * Math.PI to 180
+		 */ 
+		static public function toAngle(degree:Number) : Number
+		{
+			return degree * 180.0 / Math.PI;
+		}
+		
 		//	-------------------------------------------------------------------------------------------------------------------
 		
 		/**

@@ -11,6 +11,8 @@ package com.cell.gfx.game.worldcraft
 	{
 //		private var _world : CellWorld;
 		
+		public var priority : int = 0;
+		
 		public function CellUnit()
 		{
 			mouseEnabled = false;

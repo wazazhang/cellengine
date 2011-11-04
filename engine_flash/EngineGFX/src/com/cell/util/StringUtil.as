@@ -356,9 +356,9 @@ package com.cell.util
 			{
 				var reader : TextReader = new TextReader(text);
 				var list : String = "";
-				while(true){
+				while(reader.remain()>0){
 					var line : String = TextDeserialize.getString(reader);
-					if (line != null && line.length > 0) {
+					if (line != null) {
 						list += line + "\n";
 					} else {
 						if (list.charAt(list.length - 1) == "\n") {
