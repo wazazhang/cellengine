@@ -553,7 +553,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CellGameEditor"
         "ProductCode" = "8:{156EC386-9110-4F01-9ADB-4ACF900BF51A}"
-        "PackageCode" = "8:{B9FB0621-3F1F-47BF-A0AF-3A64F7730749}"
+        "PackageCode" = "8:{95170801-BC0F-4528-9B06-AC7FE423E4E9}"
         "UpgradeCode" = "8:{EE5A5160-9D62-4264-A9C2-994FD8B014B4}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"

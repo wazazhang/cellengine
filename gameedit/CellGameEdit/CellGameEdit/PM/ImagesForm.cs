@@ -42,6 +42,9 @@ namespace CellGameEdit.PM
         private Boolean is_change_image = false;
         ArrayList outStreamLen = null;
 
+		private string append_data = "";
+
+
         public ImagesForm(String name)
         {
             InitializeComponent();
@@ -97,6 +100,14 @@ namespace CellGameEdit.PM
                 ArrayList outY = (ArrayList)info.GetValue("outY", typeof(ArrayList));
                 ArrayList outK;
 
+				try
+				{
+					this.append_data = info.GetString("AppendData");
+				}
+				catch (Exception err)
+				{
+					this.append_data = "";
+				}
                 try
                 {
                     chk_custom_output.Checked = (Boolean)info.GetValue("custom_output", typeof(Boolean));
@@ -300,6 +311,10 @@ namespace CellGameEdit.PM
                 info.AddValue("id", id);
                 info.AddValue("CellW", CellW);
                 info.AddValue("CellH", CellH);
+
+
+				info.AddValue("AppendData", append_data);
+
 
                 ArrayList output = new ArrayList();
                 ArrayList outX = new ArrayList();
@@ -651,20 +666,26 @@ namespace CellGameEdit.PM
                         }
                     }
 
+
+
+					string[] adata = Util.toStringMultiLine(append_data);
+					string APPEND_DATA = Util.toStringArray1D(ref adata);
                     images = Util.replaceKeywordsScript(images, SC._IMAGES, SC._END_IMAGES,
                         new string[] {
                             SC.NAME,
                             SC.IMAGES_INDEX,
                             SC.COUNT, 
                             SC.OUTPUT_IMAGE_TYPE,
-                            SC.OUTPUT_IMAGE_FILE
+                            SC.OUTPUT_IMAGE_FILE,
+							SC.APPEND_DATA
                         },
                         new string[] { 
                             this.id,
                             index.ToString(),
                             this.getDstImageCount().ToString(),
                             custom_output_image_type,
-                            custom_output_image_file
+                            custom_output_image_file,
+							APPEND_DATA
                         }
                         );
 
@@ -2193,6 +2214,17 @@ namespace CellGameEdit.PM
                 return -1;
             }
         }
+
+		private void 附加数据ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			StringBuilder sb = new StringBuilder(this.append_data);
+
+			DataEdit dataedit = new DataEdit(sb);
+
+			dataedit.ShowDialog(this);
+
+			this.append_data = sb.ToString();
+		}
 
 
 

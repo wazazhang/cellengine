@@ -36,6 +36,8 @@ namespace CellGameEdit.PM
         int[][] MatrixFlip;
         int[][] MatrixTag;
 
+		private string append_data = "";
+
         //Hashtable AnimTable;
         Hashtable AnimIndexTable;
         Hashtable AnimFlipTable;
@@ -316,7 +318,14 @@ namespace CellGameEdit.PM
                 }
                 catch (Exception err) { }
 
-
+				try
+				{
+					this.append_data = info.GetString("AppendData");
+				}
+				catch (Exception err)
+				{
+					this.append_data = "";
+				}
                 
             }
             catch (Exception err)
@@ -370,6 +379,7 @@ namespace CellGameEdit.PM
                 info.AddValue("IsTerrain", IsTerrain.Checked);
 
 
+				info.AddValue("AppendData", append_data);
             }
             catch (Exception err)
             {
@@ -731,34 +741,40 @@ namespace CellGameEdit.PM
 
                     String cdMatrix = Util.toNumberArray2D<int>(ref OutputFlagMatrix);
 
+					string[] adata = Util.toStringMultiLine(append_data);
+					string APPEND_DATA = Util.toStringArray1D(ref adata);
+
                     map = Util.replaceKeywordsScript(map, SC._MAP, SC._END_MAP,
                         new string[] { 
-                    SC.NAME, 
-                     SC.MAP_INDEX,
-                     SC.IMAGES_NAME,
-                     SC.CELL_W,
-                     SC.CELL_H, 
-                     SC.X_COUNT,
-                     SC.Y_COUNT,
-                     SC.TILE_MATRIX,
-                     SC.FLAG_MATRIX,
-                     SC.SCENE_PART_COUNT,
-                     SC.SCENE_FRAME_COUNT,
-                     SC.CD_PART_COUNT
-                },
+						SC.NAME, 
+						 SC.MAP_INDEX,
+						 SC.IMAGES_NAME,
+						 SC.CELL_W,
+						 SC.CELL_H, 
+						 SC.X_COUNT,
+						 SC.Y_COUNT,
+						 SC.TILE_MATRIX,
+						 SC.FLAG_MATRIX,
+						 SC.SCENE_PART_COUNT,
+						 SC.SCENE_FRAME_COUNT,
+						 SC.CD_PART_COUNT,
+						 SC.APPEND_DATA
+					},
                         new string[] { 
-                    this.id, 
-                    index.ToString(),
-                    super.id,
-                    CellW.ToString(),
-                    CellH.ToString(),
-                    XCount.ToString(),
-                    YCount.ToString(),
-                    senceMatrix,
-                    cdMatrix,
-                    OutputAnimates.subGetCount().ToString(),
-                    OutputAnimates.frameGetCount().ToString(),
-                    "8"}
+						this.id, 
+						index.ToString(),
+						super.id,
+						CellW.ToString(),
+						CellH.ToString(),
+						XCount.ToString(),
+						YCount.ToString(),
+						senceMatrix,
+						cdMatrix,
+						OutputAnimates.subGetCount().ToString(),
+						OutputAnimates.frameGetCount().ToString(),
+						"8",
+						APPEND_DATA
+						}
                         );
 
                     output.WriteLine(map);
@@ -4171,6 +4187,18 @@ namespace CellGameEdit.PM
 
             pictureBox1.Refresh();
         }
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+
+			StringBuilder sb = new StringBuilder(this.append_data);
+
+			DataEdit dataedit = new DataEdit(sb);
+
+			dataedit.ShowDialog(this);
+
+			this.append_data = sb.ToString();
+		}
 
       
 

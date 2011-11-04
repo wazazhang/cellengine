@@ -145,7 +145,7 @@ namespace CellGameEdit.PM
         public static String SCENE_FRAME_COUNT = "<SCENE_FRAME_COUNT>";
         public static String CD_PART_COUNT = "<CD_PART_COUNT>";
 
-
+		public static String APPEND_DATA = "<APPEND_DATA>";
 
        
 

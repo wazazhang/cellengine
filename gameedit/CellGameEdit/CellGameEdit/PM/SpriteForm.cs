@@ -60,6 +60,8 @@ namespace CellGameEdit.PM
         //ArrayList curFrames;
         //Frame curFrame;
 
+		private string append_data = "";
+
         public SpriteForm(String name,ImagesForm images)
         {
             InitializeComponent();
@@ -137,7 +139,14 @@ namespace CellGameEdit.PM
                     }
                    
                 }
-               
+
+
+				try
+				{
+					this.append_data = info.GetString("AppendData");
+				}catch(Exception err){
+					this.append_data = "";
+				}
             }
             catch (Exception err)
             {
@@ -185,6 +194,8 @@ namespace CellGameEdit.PM
                 }
                 info.AddValue("Animates", Animates);
                 info.AddValue("AniNames", AniNames);
+
+				info.AddValue("AppendData", append_data);
             }
             catch (Exception err)
             {
@@ -658,43 +669,45 @@ namespace CellGameEdit.PM
                     String outFrameName = Util.toStringArray1D(ref frameName);
 
 
-
-
+					string[] adata = Util.toStringMultiLine(append_data);
+					string APPEND_DATA = Util.toStringArray1D(ref adata);
 
                     sprite = Util.replaceKeywordsScript(sprite, "<SPRITE>", "</SPRITE>",
-                        new string[] { 
-                    "<NAME>", 
-                    "<SPR_INDEX>",
-                    "<IMAGES_NAME>",
-                    "<SCENE_PART_COUNT>" ,
-                    "<SCENE_FRAME_COUNT>" ,
-                    "<CD_PART_COUNT>",
-                    "<CD_FRAME_COUNT>",
-                    "<ANIMATE_COUNT>",
-                    "<FRAME_COUNTS>",
-                    "<FRAME_NAME>",
-                    "<FRAME_ANIMATE>",
-                    "<FRAME_CD_MAP>",
-                    "<FRAME_CD_ATK>",
-                    "<FRAME_CD_DEF>",
-                    "<FRAME_CD_EXT>"
+                    new string[] { 
+						"<NAME>", 
+						"<SPR_INDEX>",
+						"<IMAGES_NAME>",
+						"<SCENE_PART_COUNT>" ,
+						"<SCENE_FRAME_COUNT>" ,
+						"<CD_PART_COUNT>",
+						"<CD_FRAME_COUNT>",
+						"<ANIMATE_COUNT>",
+						"<FRAME_COUNTS>",
+						"<FRAME_NAME>",
+						"<FRAME_ANIMATE>",
+						"<FRAME_CD_MAP>",
+						"<FRAME_CD_ATK>",
+						"<FRAME_CD_DEF>",
+						"<FRAME_CD_EXT>",
+						"<APPEND_DATA>"
                     },
                         new string[] { 
-                    this.id,
-                    index.ToString(),
-                    super.id,
-                    AllFrame.getSubCount().ToString(),
-                    animates.frameGetCount().ToString(),
-                    AllFrame.getCDCount().ToString(),
-                    collides.frameGetCount().ToString(),
-                    frameAnimate.Length.ToString(),
-                    outFrameCounts,
-                    outFrameName,
-                    outFrameAnimate,
-                    outFrameCDMap,
-                    outFrameCDAtk,
-                    outFrameCDDef,
-                    outFrameCDExt}
+						this.id,
+						index.ToString(),
+						super.id,
+						AllFrame.getSubCount().ToString(),
+						animates.frameGetCount().ToString(),
+						AllFrame.getCDCount().ToString(),
+						collides.frameGetCount().ToString(),
+						frameAnimate.Length.ToString(),
+						outFrameCounts,
+						outFrameName,
+						outFrameAnimate,
+						outFrameCDMap,
+						outFrameCDAtk,
+						outFrameCDDef,
+						outFrameCDExt,
+						APPEND_DATA}
                         );
 
                     output.WriteLine(sprite);
@@ -2752,13 +2765,24 @@ namespace CellGameEdit.PM
             dstRefersh();
         }
 
-        private void imageFlipToolStripButton1_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
 
 
 
+		private void imageFlipToolStripButton1_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+
+		}
+
+		private void btnAppendData_Click(object sender, EventArgs e)
+		{
+			StringBuilder sb = new StringBuilder(this.append_data);
+
+			DataEdit dataedit = new DataEdit(sb);
+
+			dataedit.ShowDialog(this);
+
+			this.append_data = sb.ToString();
+		}
 
 
 

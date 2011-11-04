@@ -64,9 +64,12 @@
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+			this.全选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.清理透明色ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.从左边替换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.从目录替换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.清理透明色ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripButton14 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
@@ -99,9 +102,7 @@
 			this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.全选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.附加数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer3.Panel1.SuspendLayout();
 			this.splitContainer3.Panel2.SuspendLayout();
 			this.splitContainer3.SuspendLayout();
@@ -491,13 +492,33 @@
             this.toolStripMenuItem1,
             this.从左边替换ToolStripMenuItem,
             this.从目录替换ToolStripMenuItem,
+            this.删除ToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.删除ToolStripMenuItem});
+            this.附加数据ToolStripMenuItem});
 			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
 			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
 			this.toolStripDropDownButton1.Size = new System.Drawing.Size(13, 22);
 			this.toolStripDropDownButton1.Text = "菜单";
+			// 
+			// 全选ToolStripMenuItem
+			// 
+			this.全选ToolStripMenuItem.Name = "全选ToolStripMenuItem";
+			this.全选ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.全选ToolStripMenuItem.Text = "全选";
+			this.全选ToolStripMenuItem.Click += new System.EventHandler(this.全选ToolStripMenuItem_Click);
+			// 
+			// 清理透明色ToolStripMenuItem
+			// 
+			this.清理透明色ToolStripMenuItem.Name = "清理透明色ToolStripMenuItem";
+			this.清理透明色ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.清理透明色ToolStripMenuItem.Text = "图片批处理";
+			this.清理透明色ToolStripMenuItem.Click += new System.EventHandler(this.清理透明色ToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
 			// 
 			// 从左边替换ToolStripMenuItem
 			// 
@@ -513,12 +534,10 @@
 			this.从目录替换ToolStripMenuItem.Text = "从目录替换（单张）";
 			this.从目录替换ToolStripMenuItem.Click += new System.EventHandler(this.从目录替换ToolStripMenuItem_Click);
 			// 
-			// 清理透明色ToolStripMenuItem
+			// toolStripMenuItem2
 			// 
-			this.清理透明色ToolStripMenuItem.Name = "清理透明色ToolStripMenuItem";
-			this.清理透明色ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-			this.清理透明色ToolStripMenuItem.Text = "图片批处理";
-			this.清理透明色ToolStripMenuItem.Click += new System.EventHandler(this.清理透明色ToolStripMenuItem_Click);
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
 			// 
 			// 删除ToolStripMenuItem
 			// 
@@ -724,7 +743,7 @@
 			this.menu_custom_output.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.menu_custom_output.Name = "menu_custom_output";
 			this.menu_custom_output.Size = new System.Drawing.Size(22, 22);
-			this.menu_custom_output.Text = "toolStripDropDownButton3";
+			this.menu_custom_output.Text = "自定义输出方式";
 			this.menu_custom_output.ToolTipText = "自定义输出方式";
 			// 
 			// chk_custom_output
@@ -771,7 +790,7 @@
 			this.menu_custom_filetype.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.menu_custom_filetype.Name = "menu_custom_filetype";
 			this.menu_custom_filetype.Size = new System.Drawing.Size(22, 22);
-			this.menu_custom_filetype.Text = "toolStripDropDownButton4";
+			this.menu_custom_filetype.Text = "自定义输出格式";
 			this.menu_custom_filetype.ToolTipText = "自定义输出格式";
 			// 
 			// chk_custom_filetype
@@ -833,22 +852,12 @@
 			this.导出图片ToolStripMenuItem.Text = "导出图片";
 			this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
 			// 
-			// 全选ToolStripMenuItem
+			// 附加数据ToolStripMenuItem
 			// 
-			this.全选ToolStripMenuItem.Name = "全选ToolStripMenuItem";
-			this.全选ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-			this.全选ToolStripMenuItem.Text = "全选";
-			this.全选ToolStripMenuItem.Click += new System.EventHandler(this.全选ToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
-			// 
-			// toolStripMenuItem2
-			// 
-			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
+			this.附加数据ToolStripMenuItem.Name = "附加数据ToolStripMenuItem";
+			this.附加数据ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.附加数据ToolStripMenuItem.Text = "附加数据";
+			this.附加数据ToolStripMenuItem.Click += new System.EventHandler(this.附加数据ToolStripMenuItem_Click);
 			// 
 			// ImagesForm
 			// 
@@ -962,5 +971,6 @@
 		private System.Windows.Forms.ToolStripMenuItem 全选ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem 附加数据ToolStripMenuItem;
     }
 }

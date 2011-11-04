@@ -74,6 +74,7 @@
 			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+			this.btnAddFrameAndSub = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
@@ -164,7 +165,11 @@
 			this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.btnAddFrameAndSub = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripDropDownButton3 = new System.Windows.Forms.ToolStripDropDownButton();
+			this.btnAppendData = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -257,7 +262,9 @@
 			this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.toolStripButton31,
-            this.toolStripButton32});
+            this.toolStripButton32,
+            this.toolStripSeparator11,
+            this.toolStripDropDownButton3});
 			this.toolStrip3.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip3.Name = "toolStrip3";
 			this.toolStrip3.Size = new System.Drawing.Size(197, 25);
@@ -723,12 +730,24 @@
             this.toolStripButton22,
             this.toolStripButton23,
             this.toolStripButton24,
-            this.toolStripButton25});
+            this.toolStripButton25,
+            this.toolStripSeparator9});
 			this.toolStrip4.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip4.Name = "toolStrip4";
 			this.toolStrip4.Size = new System.Drawing.Size(553, 25);
 			this.toolStrip4.TabIndex = 2;
 			this.toolStrip4.Text = "toolStrip4";
+			// 
+			// btnAddFrameAndSub
+			// 
+			this.btnAddFrameAndSub.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnAddFrameAndSub.Image = global::CellGameEdit.Resource1.Image44;
+			this.btnAddFrameAndSub.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.btnAddFrameAndSub.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnAddFrameAndSub.Name = "btnAddFrameAndSub";
+			this.btnAddFrameAndSub.Size = new System.Drawing.Size(23, 22);
+			this.btnAddFrameAndSub.Text = "添加帧并添加当前图片";
+			this.btnAddFrameAndSub.Click += new System.EventHandler(this.btnAddFrameAndSub_Click);
 			// 
 			// toolStripButton1
 			// 
@@ -981,7 +1000,8 @@
             this.toolStripButton13,
             this.toolStripButton33,
             this.toolStripButton29,
-            this.toolStripButton30});
+            this.toolStripButton30,
+            this.toolStripSeparator10});
 			this.toolStrip5.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip5.Name = "toolStrip5";
 			this.toolStrip5.Size = new System.Drawing.Size(250, 25);
@@ -1313,19 +1333,19 @@
 			// columnHeader9
 			// 
 			this.columnHeader9.Text = "图片号";
-			this.columnHeader9.Width = 51;
+			this.columnHeader9.Width = 62;
 			// 
 			// columnHeader2
 			// 
 			this.columnHeader2.Text = "X";
 			this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeader2.Width = 33;
+			this.columnHeader2.Width = 44;
 			// 
 			// columnHeader3
 			// 
 			this.columnHeader3.Text = "Y";
 			this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeader3.Width = 35;
+			this.columnHeader3.Width = 50;
 			// 
 			// columnHeader4
 			// 
@@ -1690,16 +1710,38 @@
 			this.timer1.Interval = 50;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
-			// btnAddFrameAndSub
+			// toolStripSeparator9
 			// 
-			this.btnAddFrameAndSub.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnAddFrameAndSub.Image = global::CellGameEdit.Resource1.Image44;
-			this.btnAddFrameAndSub.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.btnAddFrameAndSub.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnAddFrameAndSub.Name = "btnAddFrameAndSub";
-			this.btnAddFrameAndSub.Size = new System.Drawing.Size(23, 22);
-			this.btnAddFrameAndSub.Text = "添加帧并添加当前图片";
-			this.btnAddFrameAndSub.Click += new System.EventHandler(this.btnAddFrameAndSub_Click);
+			this.toolStripSeparator9.Name = "toolStripSeparator9";
+			this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripSeparator10
+			// 
+			this.toolStripSeparator10.Name = "toolStripSeparator10";
+			this.toolStripSeparator10.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripSeparator11
+			// 
+			this.toolStripSeparator11.Name = "toolStripSeparator11";
+			this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripDropDownButton3
+			// 
+			this.toolStripDropDownButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButton3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnAppendData});
+			this.toolStripDropDownButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton3.Image")));
+			this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
+			this.toolStripDropDownButton3.Size = new System.Drawing.Size(69, 22);
+			this.toolStripDropDownButton3.Text = "精灵属性";
+			// 
+			// btnAppendData
+			// 
+			this.btnAppendData.Name = "btnAppendData";
+			this.btnAppendData.Size = new System.Drawing.Size(152, 22);
+			this.btnAppendData.Text = "附加数据";
+			this.btnAppendData.Click += new System.EventHandler(this.btnAppendData_Click);
 			// 
 			// SpriteForm
 			// 
@@ -1918,5 +1960,10 @@
         private System.Windows.Forms.ToolStripMenuItem 显示图片框ToolStripMenuItem;
         private ImageFlipToolStripButton imageFlipToolStripButton1;
 		private System.Windows.Forms.ToolStripButton btnAddFrameAndSub;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton3;
+		private System.Windows.Forms.ToolStripMenuItem btnAppendData;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
     }
 }

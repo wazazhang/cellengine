@@ -24,6 +24,9 @@
 		output_file="<OUTPUT_IMAGE_FILE>">
 		<CLIP>
 		<clip index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" data="<DATA>" /></CLIP>
+		<AppendData>
+				<APPEND_DATA>
+		</AppendData>
 	</images>
 	</IMAGES>
 	
@@ -48,6 +51,9 @@
 			tile_matrix="<TILE_MATRIX>"
 			flag_matrix="<FLAG_MATRIX>"
 		/>
+		<AppendData>
+				<APPEND_DATA>
+		</AppendData>
 	</map>
 	</MAP>
 	
@@ -79,7 +85,11 @@
 			cd_def="<FRAME_CD_DEF>"
 			cd_ext="<FRAME_CD_EXT>"
 		/>
-
+		
+		<AppendData>
+				<APPEND_DATA>
+		</AppendData>
+				
 	</sprite>
 	</SPRITE>
 	
