@@ -5,7 +5,8 @@
  */
 public class Graphics
 {
-	public static System.Drawing.Font font = new System.Drawing.Font(System.Drawing.FontFamily.Families[0], 8);
+	public static System.Drawing.Font font = new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace, 8);
+
 
 	public System.Drawing.Graphics dg;
 
@@ -272,7 +273,7 @@ public class Graphics
 
 	public void drawString(string str, float x, float y, int anchor)
 	{
-
+		
 		dg.DrawString(str, font, brush, x , y );
 	}
 

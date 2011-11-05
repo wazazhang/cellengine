@@ -37,7 +37,7 @@ namespace CellGameEdit {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("宋体, 9pt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("微软雅黑, 9pt")]
         public global::System.Drawing.Font GraphicsFont {
             get {
                 return ((global::System.Drawing.Font)(this["GraphicsFont"]));

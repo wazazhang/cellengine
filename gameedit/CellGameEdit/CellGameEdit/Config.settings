@@ -6,7 +6,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="GraphicsFont" Type="System.Drawing.Font" Scope="User">
-      <Value Profile="(Default)">宋体, 9pt</Value>
+      <Value Profile="(Default)">微软雅黑, 9pt</Value>
     </Setting>
     <Setting Name="LastProjectOpenDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

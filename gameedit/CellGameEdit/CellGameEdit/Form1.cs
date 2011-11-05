@@ -99,9 +99,13 @@ namespace CellGameEdit
 
             CfgOutputEncoding.Checked = Config.Default.IsOutEncodingInfo;
             ProjectForm.IsOutEncodingInfo = CfgOutputEncoding.Checked;
-
-            javax.microedition.lcdui.Graphics.font = Config.Default.GraphicsFont;
-
+			try
+			{
+				javax.microedition.lcdui.Graphics.font = Config.Default.GraphicsFont;
+			}
+			catch (Exception err) { 
+			
+			}
 
         }
 
@@ -183,6 +187,8 @@ namespace CellGameEdit
                         ProjectForm.workSpace = System.IO.Path.GetDirectoryName(openFileDialog1.FileName);
                         ProjectForm.workName = openFileDialog1.FileName;
 						Config.Default.LastProjectOpenDir = openFileDialog1.FileName;
+						Config.Default.Save();
+
                         SoapFormatter formatter = new SoapFormatter();
                         FileStream stream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                         prjForm = (ProjectForm)formatter.Deserialize(stream);
