@@ -2,6 +2,7 @@ package com.cell.gfx.game
 {	
 	import com.cell.util.CMath;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	
 	public class CSprite
@@ -28,6 +29,11 @@ package com.cell.gfx.game
 		protected var FrameCDDef	: Array;
 		protected var FrameCDExt	: Array;
 
+		protected var FrameAlpha	: Array;
+		protected var FrameRotate	: Array;
+		protected var FrameScaleX	: Array;
+		protected var FrameScaleY	: Array;
+
 		
 		private var CurAnimate 		: uint = 0;
 		private var CurFrame	 	: uint = 0;
@@ -38,7 +44,11 @@ package com.cell.gfx.game
 			canimates:CAnimates, 
 			ccollides:CCollides,
 			animateNames: Array, 
-			frameAnimate: Array,                     
+			frameAnimate: Array,     
+			frameAlpha	: Array,
+			frameRotate	: Array,
+			frameScaleX	: Array,
+			frameScaleY	: Array,
 			frameCDMap	: Array,
 			frameCDAtk	: Array,
 			frameCDDef	: Array,
@@ -47,8 +57,15 @@ package com.cell.gfx.game
 		{
 			this.animates		= canimates;
 			this.collides		= ccollides;
+			
 			this.AnimateNames	= animateNames;
 			this.FrameAnimate	= frameAnimate;
+			
+			this.FrameAlpha		= frameAlpha;
+			this.FrameRotate	= frameRotate;	
+			this.FrameScaleX	= frameScaleX;	
+			this.FrameScaleY	= frameScaleY;	
+
 			this.FrameCDMap		= frameCDMap;
 			this.FrameCDAtk		= frameCDAtk;
 			this.FrameCDDef		= frameCDDef;
@@ -59,8 +76,15 @@ package com.cell.gfx.game
 		{
 			this.animates 		= spr.animates;
 			this.collides 		= spr.collides;
+			
 			this.AnimateNames 	= spr.AnimateNames;
 			this.FrameAnimate 	= spr.FrameAnimate;
+			
+			this.FrameAlpha		= spr.FrameAlpha;
+			this.FrameRotate	= spr.FrameRotate;	
+			this.FrameScaleX	= spr.FrameScaleX;	
+			this.FrameScaleY	= spr.FrameScaleY;	
+			
 			this.FrameCDMap		= spr.FrameCDMap;
 			this.FrameCDAtk		= spr.FrameCDAtk;
 			this.FrameCDDef		= spr.FrameCDDef;
@@ -284,9 +308,38 @@ package com.cell.gfx.game
 			return CurFrame == 0;
 		}
 		
+//		--------------------------------------------------------------------------------------------
 		
+		public function getFrameAlpha(anim:int, frame:int) : Number
+		{
+			return FrameAlpha[anim][frame];
+		}
 		
-		//	------------------------------------------------------------------------------------------
+		public function getFrameRotate(anim:int, frame:int) : Number
+		{
+			return FrameRotate[anim][frame];
+		}
+		
+		public function getFrameScaleX(anim:int, frame:int) : Number
+		{
+			return FrameScaleX[anim][frame];
+		}
+		
+		public function getFrameScaleY(anim:int, frame:int) : Number
+		{
+			return FrameScaleY[anim][frame];
+		}
+		
+		public function transformSprite(o:DisplayObject, anim:int, frame:int) : void
+		{
+			o.alpha 	= FrameAlpha[anim][frame];
+			o.rotation 	= FrameRotate[anim][frame];
+			o.scaleX 	= FrameScaleX[anim][frame];
+			o.scaleY 	= FrameScaleY[anim][frame];
+		}
+		
+//		------------------------------------------------------------------------------------------
+		
 		/**
 		 * @return
 		 *  0 : 无变化 <br>

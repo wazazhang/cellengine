@@ -125,7 +125,7 @@ package com.cell.gameedit.output
 			ret.ClipsKey 	= new Array(ret.Count);
 			
 			try {
-				ret.AppendData = StringUtil.getArray1D(xml.AppendData[0].toString());
+				ret.AppendData = StringUtil.getArray1D(xml.Append[0].attribute("data"));
 			} catch (err:Error) {}
 
 			for each (var e:XML in xml.clip) 
@@ -174,7 +174,7 @@ package com.cell.gameedit.output
 			ret.TerrainBlock2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
 			
 			try {
-				ret.AppendData = StringUtil.getArray1D(map.AppendData[0].toString());
+				ret.AppendData = StringUtil.getArray1D(map.Append[0].attribute("data"));
 			} catch (err:Error) {}
 			
 			
@@ -239,9 +239,9 @@ package com.cell.gameedit.output
 			var animateCount 	= int(sprite.attribute("animate_count"));
 			
 			try {
-				ret.AppendData = StringUtil.getArray1D(sprite.AppendData[0].toString());
+				ret.AppendData = StringUtil.getArray1D(sprite.Append[0].attribute("data"));
 			} catch (err:Error) {}
-
+			
 			ret.PartX 			= new Array(scenePartCount);
 			ret.PartY 			= new Array(scenePartCount);
 			ret.PartTileID 		= new Array(scenePartCount);
@@ -260,6 +260,11 @@ package com.cell.gameedit.output
 			ret.FrameCDAtk 		= Arrays.newArray2D(animateCount);
 			ret.FrameCDDef 		= Arrays.newArray2D(animateCount);
 			ret.FrameCDExt 		= Arrays.newArray2D(animateCount);
+			
+			ret.FrameAlpha 		= Arrays.newArray2D(animateCount);
+			ret.FrameRotate 	= Arrays.newArray2D(animateCount);
+			ret.FrameScaleX	 	= Arrays.newArray2D(animateCount);
+			ret.FrameScaleY		= Arrays.newArray2D(animateCount);
 			
 			for each (var e:XML in sprite.scene_part) {
 				var index : int			= int(e.attribute("index"));
@@ -298,7 +303,8 @@ package com.cell.gameedit.output
 					}
 				}
 			}
-			for each (var e:XML in sprite.frames) {
+			for each (var e:XML in sprite.frames) 
+			{
 				var names_reader 	: TextReader= new TextReader(e.attribute("names"));
 				var frame_counts	: Array 	= StringUtil.splitString(e.attribute("counts"), ",");
 				var frame_animate	: Array 	= StringUtil.getArray1DGroup(e.attribute("animates"));
@@ -306,20 +312,26 @@ package com.cell.gameedit.output
 				var frame_cd_atk	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_atk"));
 				var frame_cd_def	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_def"));
 				var frame_cd_ext	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_ext"));
-				for (var i : int = 0; i < animateCount; i++) {
+				
+				for (var i : int = 0; i < animateCount; i++) 
+				{
 					ret.AnimateNames[i] 		= TextDeserialize.getString(names_reader);
+					
 					var frameCount	: int		= int(frame_counts[i]);
 					var animate 	: Array		= StringUtil.splitString(frame_animate[i], ",");
 					var cd_map 		: Array		= StringUtil.splitString(frame_cd_map[i], ",");
 					var cd_atk 		: Array		= StringUtil.splitString(frame_cd_atk[i], ",");
 					var cd_def 		: Array		= StringUtil.splitString(frame_cd_def[i], ",");
 					var cd_ext 		: Array		= StringUtil.splitString(frame_cd_ext[i], ",");
+					
 					ret.FrameAnimate[i] 		= new Array(frameCount);
 					ret.FrameCDMap[i] 			= new Array(frameCount);
 					ret.FrameCDAtk[i] 			= new Array(frameCount);
 					ret.FrameCDDef[i] 			= new Array(frameCount);
 					ret.FrameCDExt[i]			= new Array(frameCount);
-					for (var f : int = 0; f < frameCount; f++) {
+					
+					for (var f : int = 0; f < frameCount; f++) 
+					{
 						ret.FrameAnimate[i][f] 	= int(animate[f]);
 						ret.FrameCDMap[i][f] 	= int(cd_map[f]);
 						ret.FrameCDAtk[i][f] 	= int(cd_atk[f]);
@@ -329,13 +341,49 @@ package com.cell.gameedit.output
 				}
 			}
 			
+			try {
+				for each (var e:XML in sprite.frames) 
+				{
+					var frame_counts	: Array 	= StringUtil.splitString(e.attribute("counts"), ",");
+					if (e.attribute("alpha") != null)
+					{
+						var frame_alpha		: Array 	= StringUtil.getArray1DGroup(e.attribute("alpha"));
+						var frame_rotate	: Array 	= StringUtil.getArray1DGroup(e.attribute("rotate"));
+						var frame_scaleX	: Array 	= StringUtil.getArray1DGroup(e.attribute("scaleX"));
+						var frame_scaleY	: Array 	= StringUtil.getArray1DGroup(e.attribute("scaleY"));
+						
+						for (var i : int = 0; i < animateCount; i++) 
+						{
+							var frameCount	: int		= int(frame_counts[i]);						
+							var alpha 		: Array		= StringUtil.splitString(frame_alpha[i], ",");
+							var rotate 		: Array		= StringUtil.splitString(frame_rotate[i], ",");
+							var scaleX 		: Array		= StringUtil.splitString(frame_scaleX[i], ",");
+							var scaleY 		: Array		= StringUtil.splitString(frame_scaleY[i], ",");
+							ret.FrameAlpha[i] 			= new Array(frameCount);
+							ret.FrameRotate[i] 			= new Array(frameCount);
+							ret.FrameScaleX[i] 			= new Array(frameCount);
+							ret.FrameScaleY[i]			= new Array(frameCount);
+							for (var f : int = 0; f < frameCount; f++) 
+							{
+								ret.FrameAlpha[i][f] 	= int(alpha[f]);
+								ret.FrameRotate[i][f] 	= int(rotate[f]);
+								ret.FrameScaleX[i][f] 	= int(scaleX[f]);
+								ret.FrameScaleY[i][f] 	= int(scaleY[f]);
+							}
+						}
+//						trace("Alpha="+e.attribute("alpha"));
+					}
+				}
+			} catch (err:Error) {
+				trace(err);
+			}
+
 			return ret;
 		}
 		
 		
 		protected function initLevel(xml:XML) : void
 		{
-			//		Integer.parseInt(level.getAttribute("world_count"));
 			for each (var e:XML in xml.world) {
 				var world : WorldSet = initWorld(e);
 				world_table.put(world.Name, world);

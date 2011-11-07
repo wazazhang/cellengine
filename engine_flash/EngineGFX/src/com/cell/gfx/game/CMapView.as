@@ -21,8 +21,6 @@ package com.cell.gfx.game
 		private var old_cx		: int;
 		private var old_cy		: int;
 		
-		public var priority 	: int = 0;
-		
 		public function CMapView(map:CMap, viewWidth:int, viewHeight:int)
 		{			
 			super(new BitmapData(viewWidth, viewHeight, true, 0));

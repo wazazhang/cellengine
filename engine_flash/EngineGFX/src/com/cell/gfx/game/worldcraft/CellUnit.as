@@ -11,8 +11,6 @@ package com.cell.gfx.game.worldcraft
 	{
 //		private var _world : CellWorld;
 		
-		public var priority : int = 0;
-		
 		public function CellUnit()
 		{
 			mouseEnabled = false;
@@ -26,10 +24,12 @@ package com.cell.gfx.game.worldcraft
 			return parent as CellWorld;
 		}
 		
+		public function get priority() : int 
+		{
+			return 0;
+		}
+		
 //		--------------------------------------------------------------------------------------------------------
-		
-
-		
 		
 		internal function updateIn(world:CellWorld) : void {
 			onUpdate();

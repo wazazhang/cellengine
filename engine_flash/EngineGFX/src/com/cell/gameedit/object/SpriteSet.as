@@ -37,6 +37,17 @@ package com.cell.gameedit.object
 		public var AnimateNames		: Array;
 		/** short[][] */
 		public var FrameAnimate		: Array;
+		
+		/** float[][] */
+		public var FrameAlpha		: Array;
+		/** float[][] */
+		public var FrameRotate		: Array;
+		/** float[][] */
+		public var FrameScaleX		: Array;
+		/** float[][] */
+		public var FrameScaleY		: Array;
+		
+		
 		/** short[][] */
 		public var FrameCDMap		: Array;
 		/** short[][] */

@@ -40,15 +40,20 @@ package com.cell.gfx.game.worldcraft
 			var cr : Rectangle	= _buff.getFrameBound(ca, cf);
 			var cb : BitmapData	= _buff.getFrameBuffer(ca, cf);
 			
-			render(cb, cr.x, cr.y) ;
+			render(cb, ca, cf, cr.x, cr.y) ;
 		}
 
+		public function get spriteBuff() : CSpriteBuffer
+		{
+			return _buff;
+		}
+		
 		protected function get imageBuff() : Bitmap
 		{
 			return bitmap;
 		}
 		
-		protected function render(buff:BitmapData, x:Number, y:Number) : void 
+		protected function render(buff:BitmapData, anim:int, frame:int, x:Number, y:Number) : void 
 		{
 			bitmap.x = x;
 			bitmap.y = y;

@@ -38,6 +38,10 @@ package com.cell.gameedit.output
 					collides, 
 					tsprite.AnimateNames,
 					tsprite.FrameAnimate,
+					tsprite.FrameAlpha,
+					tsprite.FrameRotate,
+					tsprite.FrameScaleX,
+					tsprite.FrameScaleY,
 					tsprite.FrameCDMap,
 					tsprite.FrameCDAtk,
 					tsprite.FrameCDDef,
@@ -51,12 +55,18 @@ package com.cell.gameedit.output
 			ccollides		:CCollides,
 			animateNames	:Array, 
 			frameAnimate	:Array,
+			frameAlpha	: Array,
+			frameRotate	: Array,
+			frameScaleX	: Array,
+			frameScaleY	: Array,
 			frameCDMap	: Array,
 			frameCDAtk	: Array,
 			frameCDDef	: Array,
 			frameCDExt	: Array) : void
 		{
-			super.init(canimates, ccollides, animateNames, frameAnimate, frameCDMap, frameCDAtk, frameCDDef, frameCDExt);
+			super.init(canimates, ccollides, animateNames, frameAnimate, 
+				frameAlpha, frameRotate, frameScaleX, frameScaleY,
+				frameCDMap, frameCDAtk, frameCDDef, frameCDExt);
 		}
 		
 		public override function copy() : CSprite
