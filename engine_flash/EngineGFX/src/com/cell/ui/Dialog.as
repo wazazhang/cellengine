@@ -17,15 +17,17 @@ package com.cell.ui
 		public function Dialog(src:DisplayObject, 
 							   dst:DisplayObjectContainer,
 									 bg_color:int=0xffffff, 
-									 bg_alpha:Number = 0.01)
+									 bg_alpha:Number = 0.01,
+									bg_mouseEnable:Boolean=true)
 		{
 			this.src = src;
 			this.dst = dst;
+			this.mouseEnabled = bg_mouseEnable;
 			src.addEventListener(Event.REMOVED_FROM_STAGE, srcclose);
 			
 			var drect : Rectangle = dst.getBounds(dst);
 			
-			this.graphics.beginFill(bg_color&0xffffff, Math.max(bg_alpha, 0.001));
+			this.graphics.beginFill(bg_color&0xffffff, bg_alpha);
 			this.graphics.drawRect(0, 0, drect.width, drect.height);
 			this.graphics.endFill();
 			this.addEventListener(MouseEvent.MOUSE_DOWN, close);
@@ -54,10 +56,12 @@ package com.cell.ui
 		public static function showAsDialog(src:DisplayObject, 
 										  dst:DisplayObjectContainer, 
 										  bg_color:int=0xffffff, 
-										  bg_alpha:Number = 0.01) : void
+										  bg_alpha:Number = 0.01) : Dialog
 		{
-			dst.addChild(new Dialog(src, dst, bg_color, bg_alpha))
+			var ret : Dialog = new Dialog(src, dst, bg_color, bg_alpha);
+			dst.addChild(ret)
 			dst.addChild(src);
+			return ret;
 		}
 		
 	}
