@@ -168,6 +168,7 @@
 			this.columnHeader11 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.checkComplexMode = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.numScaleY = new System.Windows.Forms.NumericUpDown();
@@ -335,7 +336,7 @@
 			// btnAppendData
 			// 
 			this.btnAppendData.Name = "btnAppendData";
-			this.btnAppendData.Size = new System.Drawing.Size(152, 22);
+			this.btnAppendData.Size = new System.Drawing.Size(124, 22);
 			this.btnAppendData.Text = "附加数据";
 			this.btnAppendData.Click += new System.EventHandler(this.btnAppendData_Click);
 			// 
@@ -1722,6 +1723,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.checkComplexMode);
 			this.tabPage3.Controls.Add(this.groupBox1);
 			this.tabPage3.Controls.Add(this.numericUpDown2);
 			this.tabPage3.Controls.Add(this.label1);
@@ -1733,6 +1735,19 @@
 			this.tabPage3.Text = "帧";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
+			// checkComplexMode
+			// 
+			this.checkComplexMode.AutoSize = true;
+			this.checkComplexMode.Checked = true;
+			this.checkComplexMode.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkComplexMode.Location = new System.Drawing.Point(89, 53);
+			this.checkComplexMode.Name = "checkComplexMode";
+			this.checkComplexMode.Size = new System.Drawing.Size(96, 16);
+			this.checkComplexMode.TabIndex = 9;
+			this.checkComplexMode.Text = "启用混合特效";
+			this.checkComplexMode.UseVisualStyleBackColor = true;
+			this.checkComplexMode.CheckedChanged += new System.EventHandler(this.checkComplexMode_CheckedChanged);
+			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.label11);
@@ -1743,7 +1758,7 @@
 			this.groupBox1.Controls.Add(this.label14);
 			this.groupBox1.Controls.Add(this.numFrameRotate);
 			this.groupBox1.Controls.Add(this.label13);
-			this.groupBox1.Location = new System.Drawing.Point(8, 33);
+			this.groupBox1.Location = new System.Drawing.Point(8, 86);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(210, 152);
 			this.groupBox1.TabIndex = 8;
@@ -2167,5 +2182,6 @@
 		private System.Windows.Forms.NumericUpDown numFrameAlpha;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.CheckBox checkComplexMode;
     }
 }

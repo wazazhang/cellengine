@@ -827,8 +827,7 @@ namespace CellGameEdit.PM
                         srcRect.X,
                         srcRect.Y,
                         srcRect.Width,
-                        srcRect.Height,
-                        0);
+                        srcRect.Height);
                     img.x = 0;
                     img.y = pictureBox2.Height / dstSize;
                     addDst(img);
@@ -861,8 +860,7 @@ namespace CellGameEdit.PM
                                     srcRect.X + x * CellW,
                                     srcRect.Y + y * CellH,
                                     CellW,
-                                    CellH,
-                                    0);
+                                    CellH);
                                 img.x = x * (CellW);
                                 img.y = y * (CellH) + pictureBox2.Height / dstSize;
                                 addDst(img);
@@ -1101,8 +1099,7 @@ namespace CellGameEdit.PM
                         srcRect.X,
                         srcRect.Y,
                         srcRect.Width,
-                        srcRect.Height,
-                        0);
+                        srcRect.Height);
 
                     int oy = getDstImage(index).y;
                     int ox = getDstImage(index).x;

@@ -78,12 +78,13 @@ public class Image
 		return ret;
 	}
 
-	public static javax.microedition.lcdui.Image createImage(javax.microedition.lcdui.Image image, int x, int y, int width, int height, int transform)
+	public static javax.microedition.lcdui.Image createImage(javax.microedition.lcdui.Image image, 
+		int x, int y, int width, int height)
 	{
 
 		Image ret = Image.createImage(width, height);
 
-		ret.getGraphics().drawImageRegion(image, x, y, width, height, transform, 0, 0);
+		ret.getGraphics().drawImageRegion(image, 0, 0, x, y, width, height, 0);
 
 
 		return ret;

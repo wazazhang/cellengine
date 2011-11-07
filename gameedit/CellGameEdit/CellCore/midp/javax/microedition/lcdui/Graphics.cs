@@ -67,7 +67,12 @@ public class Graphics
 			{
 				// Initialize the color matrix.
 				// Note the value 0.8 in row 4, column 4.
-				float[][] matrixItems ={ 				   new float[] {1, 0, 0, 0, 0},				   new float[] {0, 1, 0, 0, 0},				   new float[] {0, 0, 1, 0, 0},				   new float[] {0, 0, 0, alpha, 0}, 				   new float[] {0, 0, 0, 0, 1}};
+				float[][] matrixItems ={ 
+				   new float[] {1, 0, 0, 0, 0},
+				   new float[] {0, 1, 0, 0, 0},
+				   new float[] {0, 0, 1, 0, 0},
+				   new float[] {0, 0, 0, alpha, 0}, 
+				   new float[] {0, 0, 0, 0, 1}};
 				ColorMatrix colorMatrix = new ColorMatrix(matrixItems);
 
 				// Create an ImageAttributes object and set its color matrix.
@@ -113,7 +118,19 @@ public class Graphics
 	private void _drawImage(System.Drawing.Image dimg,
 		float dx, float dy, float dw, float dh,
 		float sx, float sy, float sw, float sh)
-	{		// Create parallelogram for drawing original image.		PointF ulCorner1 = new PointF(dx, dy);		PointF urCorner1 = new PointF(dx + dw, dy);		PointF llCorner1 = new PointF(dx, dy + dh);		PointF[] destPara1 = {ulCorner1, urCorner1, llCorner1};		// Create rectangle for source image.		RectangleF srcRect = new RectangleF(sx, sy, sw, sh);		dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+	{
+
+		// Create parallelogram for drawing original image.
+		PointF ulCorner1 = new PointF(dx, dy);
+		PointF urCorner1 = new PointF(dx + dw, dy);
+		PointF llCorner1 = new PointF(dx, dy + dh);
+		PointF[] destPara1 = {ulCorner1, urCorner1, llCorner1};
+
+		// Create rectangle for source image.
+		RectangleF srcRect = new RectangleF(sx, sy, sw, sh);
+
+		dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+
 	}
 
 	public void drawImage(javax.microedition.lcdui.Image img, float x, float y)

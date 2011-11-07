@@ -253,16 +253,7 @@ namespace CellGameEdit.PM
             for (int i = 0; i < array.Length; i++)
             {
                 string e = array[i].ToString();
-
-                if (isNumberString(e))
-                {
-                    ret += FormatNumberArray1D_h + string2Number(e) + FormatNumberArray1D_t;
-                }
-                else
-                {
-                    ret += FormatNumberArray1D_h + "0" + FormatNumberArray1D_t;
-                }
-                
+                ret += FormatNumberArray1D_h + e + FormatNumberArray1D_t;
             }
             return ret;
         }

@@ -87,8 +87,6 @@ namespace CellGameEdit.PM
                 }
             }
 
-            
-
             AnimTable = new Hashtable();
             animCount = 0;
 
@@ -146,8 +144,12 @@ namespace CellGameEdit.PM
 					this.append_data = info.GetString("AppendData");
 				}catch(Exception err){
 					this.append_data = "";
-				} 
-				
+				}
+
+				try {
+					checkComplexMode.Checked = info.GetBoolean("checkComplexMode");
+				}
+				catch (Exception err) { checkComplexMode.Checked = false; }
             }
             catch (Exception err)
             {
@@ -197,6 +199,8 @@ namespace CellGameEdit.PM
                 info.AddValue("AniNames", AniNames);
 
 				info.AddValue("AppendData", append_data);
+				info.AddValue("checkComplexMode", checkComplexMode.Checked);
+				
             }
             catch (Exception err)
             {
@@ -814,7 +818,7 @@ namespace CellGameEdit.PM
 
                 if (curFrame != null)
                 {
-                    curFrame.render(g, srcTiles, x, y, false, tag);
+                    curFrame.render(g, srcTiles, x, y, false, tag, checkComplexMode.Checked);
                 }
 
             }catch(Exception err){
@@ -1852,7 +1856,8 @@ namespace CellGameEdit.PM
 						 0,
 						  0,
 							chkShowImageBorder.Checked,
-							chkShowCD.Checked);
+							chkShowCD.Checked,
+							checkComplexMode.Checked);
 					}
 					g.popTransform();
 				}
@@ -2331,7 +2336,7 @@ namespace CellGameEdit.PM
 							  sx + ViewW / 2,
 							  sy + ViewH / 2,
 							  false,
-							chkShowCD.Checked);
+							chkShowCD.Checked,checkComplexMode.Checked);
 
 
 
@@ -2850,6 +2855,11 @@ namespace CellGameEdit.PM
 				frame.scaley = (float)numScaleY.Value;
 				dstRefersh();
 			}
+		}
+
+		private void checkComplexMode_CheckedChanged(object sender, EventArgs e)
+		{
+			groupBox1.Enabled = checkComplexMode.Checked;
 		}
 
 
@@ -3407,15 +3417,18 @@ namespace CellGameEdit.PM
 			ArrayList tile,
 			float bx, float by,
 			Boolean showimageborder,
-			Boolean showCD)
+			Boolean showCD,
+			Boolean complex_mode)
 		{
 			g.pushTransform();
 			g.translate(bx, by);
 
-
-			g.setAlpha(alpha);
-			g.rotate(rotate);
-			g.scale(scalex, scaley);
+			if (complex_mode)
+			{
+				g.setAlpha(alpha);
+				g.rotate(rotate);
+				g.scale(scalex, scaley);
+			}
 			
 
             for (int i = SubIndex.Count - 1; i >=0 ;i-- )
