@@ -89,6 +89,11 @@ package com.cell.util
 		public static function readFromProperties(properties:String, equalChar:String="=") : Map
 		{
 			var lines : Array = StringUtil.splitString(properties, "\n");
+			return readFromLines(lines, equalChar);
+		}
+		
+		public static function readFromLines(lines:Array, equalChar:String="=") : Map
+		{
 			var map : Map = new Map();
 			for each (var line : String in lines) {
 				var kv : Array = StringUtil.splitString(line, equalChar, 2, true);

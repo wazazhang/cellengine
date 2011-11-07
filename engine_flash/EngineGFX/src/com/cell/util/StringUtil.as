@@ -337,7 +337,7 @@ package com.cell.util
 				var list : Array = new Array();
 				while(true){
 					var line : String = TextDeserialize.getString(reader);
-					if (line != null && line.length > 0) {
+					if (line != null) {
 						list.push(line);
 					} else {
 						break;
