@@ -146,7 +146,8 @@ namespace CellGameEdit.PM
 					this.append_data = info.GetString("AppendData");
 				}catch(Exception err){
 					this.append_data = "";
-				}
+				} 
+				
             }
             catch (Exception err)
             {
@@ -261,18 +262,33 @@ namespace CellGameEdit.PM
         int[][] frameCDDef ;
         int[][] frameCDExt ;
 
+		float[][] frameAlpha;
+		float[][] frameRotate;
+		float[][] frameScaleX;
+		float[][] frameScaleY;
+
+
         public void initOutput()
         {
 
             AllFrame = new Frame();
             animates = new Group();
             collides = new Group();
+
             frameName = new string[listView2.Items.Count];
+
             frameAnimate = new int[listView2.Items.Count][];
+
+			frameAlpha = new float[listView2.Items.Count][];
+			frameRotate = new float[listView2.Items.Count][];
+			frameScaleX = new float[listView2.Items.Count][];
+			frameScaleY = new float[listView2.Items.Count][];
+
             frameCDMap = new int[listView2.Items.Count][];
             frameCDAtk = new int[listView2.Items.Count][];
             frameCDDef = new int[listView2.Items.Count][];
             frameCDExt = new int[listView2.Items.Count][];
+			
 
             for (int animID = 0; animID < listView2.Items.Count; animID++)//anim
             {
@@ -280,6 +296,12 @@ namespace CellGameEdit.PM
 
                 frameName[animID] = listView2.Items[animID].Text;
                 frameAnimate[animID] = new int[FrameCount];
+
+				frameAlpha[animID] = new float[FrameCount];
+				frameRotate[animID] = new float[FrameCount];
+				frameScaleX[animID] = new float[FrameCount];
+				frameScaleY[animID] = new float[FrameCount];
+
                 frameCDMap[animID] = new int[FrameCount];
                 frameCDAtk[animID] = new int[FrameCount];
                 frameCDDef[animID] = new int[FrameCount];
@@ -294,7 +316,10 @@ namespace CellGameEdit.PM
                             [frameID]
                         );
 
-                    
+					frameAlpha[animID][frameID] = frame.alpha;
+					frameRotate[animID][frameID] = frame.rotate;
+					frameScaleX[animID][frameID] = frame.scalex;
+					frameScaleY[animID][frameID] = frame.scaley;
 
                     // sub
                     ArrayList fAnimate = new ArrayList();
@@ -313,15 +338,6 @@ namespace CellGameEdit.PM
 							(float)frame.SubTScaleY[subID],
 							(float)frame.SubTAlpha[subID]
                             );
-
-                        //Console.WriteLine(this.id +
-                        //      " x=" + (int)frame.SubX[subID] +
-                        //      " y=" + (int)frame.SubY[subID] +
-                        //      " w=" + (int)frame.SubW[subID] +
-                        //      " h=" + (int)frame.SubH[subID] +
-                        //      " trans=" + (int)frame.SubFlip[subID]
-                        //      );
-
 
                         if (indexSub < 0)
                         {
@@ -661,6 +677,12 @@ namespace CellGameEdit.PM
                     String outFrameCDDef = Util.toNumberArray2D<int>(ref frameCDDef);
                     String outFrameCDExt = Util.toNumberArray2D<int>(ref frameCDExt);
 
+					String outFrameAlpha = Util.toNumberArray2D<float>(ref frameAlpha);
+					String outFrameRotate = Util.toNumberArray2D<float>(ref frameRotate);
+					String outFrameScaleX = Util.toNumberArray2D<float>(ref frameScaleX);
+					String outFrameScaleY = Util.toNumberArray2D<float>(ref frameScaleY);
+
+
                     int[] frameCounts = new int[frameName.Length];
                     for (int i = 0; i < frameAnimate.Length; i++)
                         frameCounts[i] = frameAnimate[i].Length;
@@ -685,6 +707,13 @@ namespace CellGameEdit.PM
 						"<FRAME_COUNTS>",
 						"<FRAME_NAME>",
 						"<FRAME_ANIMATE>",
+
+						
+						"<FRAME_ALPHA>",
+						"<FRAME_ROTATE>",
+						"<FRAME_SCALE_X>",
+						"<FRAME_SCALE_Y>",
+
 						"<FRAME_CD_MAP>",
 						"<FRAME_CD_ATK>",
 						"<FRAME_CD_DEF>",
@@ -703,6 +732,12 @@ namespace CellGameEdit.PM
 						outFrameCounts,
 						outFrameName,
 						outFrameAnimate,
+
+						outFrameAlpha,
+						outFrameRotate,
+						outFrameScaleX,
+						outFrameScaleY,
+
 						outFrameCDMap,
 						outFrameCDAtk,
 						outFrameCDDef,
@@ -769,7 +804,7 @@ namespace CellGameEdit.PM
             return new System.Drawing.Rectangle();
         }
 
-        public void Render(javax.microedition.lcdui.Graphics g,int x,int y,Boolean tag,int anim,int frame)
+		public void Render(javax.microedition.lcdui.Graphics g, float x, float y, Boolean tag, int anim, int frame)
         {
 
             try
@@ -779,12 +814,7 @@ namespace CellGameEdit.PM
 
                 if (curFrame != null)
                 {
-                    curFrame.render(g, srcTiles, x, y, 1, false);
-
-                    if (tag)
-                    {
-                        curFrame.renderCD(g,x,y,1);
-                    }
+                    curFrame.render(g, srcTiles, x, y, false, tag);
                 }
 
             }catch(Exception err){
@@ -827,7 +857,7 @@ namespace CellGameEdit.PM
             Image img = srcGetImage(index);
             if (img != null && !img.killed && flip < Graphics.FlipTable.Length)
             {
-                g.drawImage(img, x, y, Graphics.FlipTable[flip], 0, srcScale);
+                g.drawImageScale(img, x, y, Graphics.FlipTable[flip], srcScale);
 
                 if (showimageborder)
                 {
@@ -919,7 +949,7 @@ namespace CellGameEdit.PM
                     (int)(panel1.Width * srcScale),
                     (int)(panel1.Height * srcScale)
                 ),
-                显示图片框ToolStripMenuItem.Checked
+                chkShowImageBorder.Checked
             );
 
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
@@ -1792,67 +1822,53 @@ namespace CellGameEdit.PM
 
         // dst box
         private void pictureBox2_Paint(object sender, PaintEventArgs e)
-        {
-           // pictureBox2.SizeMode = PictureBoxSizeMode.
-             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0, 0, 0));
+		{
+			try
+			{
+				// pictureBox2.SizeMode = PictureBoxSizeMode.
+				System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0, 0, 0));
 
-            if (this.显示十字ToolStripMenuItem.Checked)
-            {
+				int tx = pictureBox2.Width / 2;
+				int ty = pictureBox2.Height / 2;
 
-               
-               // System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
-                e.Graphics.DrawLine(pen, pictureBox2.Width / 2, 0, pictureBox2.Width / 2, pictureBox2.Height);
-                e.Graphics.DrawLine(pen, 0, pictureBox2.Height / 2, pictureBox2.Width, pictureBox2.Height / 2);
-            }
+				if (this.显示十字ToolStripMenuItem.Checked)
+				{
+					// System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
+					e.Graphics.DrawLine(pen, tx, 0, tx, pictureBox2.Height);
+					e.Graphics.DrawLine(pen, 0, ty, pictureBox2.Width, ty);
+				}
 
-            //if (this.显示网格ToolStripMenuItem.Checked && masterScale>1)
-            //{
-            //    System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0x80, 0x80, 0x80));
-            //   // System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0x80, 0x80, 0x80)).Brush;
+				{
+					Graphics g = new Graphics(e.Graphics);
+					g.pushTransform();
+					Frame frame = framesGetCurFrame();
+					if (frame != null)
+					{
+						g.translate(tx, ty);
+						g.scale(masterScale, masterScale);
+						frame.render(
+						  g,
+						  srcTiles,
+						 0,
+						  0,
+							chkShowImageBorder.Checked,
+							chkShowCD.Checked);
+					}
+					g.popTransform();
+				}
+				if (this.显示尺子ToolStripMenuItem.Checked)
+				{
+					pen.Color = System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff);
+					e.Graphics.DrawLine(pen, rx, 0, rx, pictureBox2.Height);
+					e.Graphics.DrawLine(pen, 0, ry, pictureBox2.Width, ry);
+				}
+				//e.Graphics.DrawImage(pictureBox2.Image,0,0);
+			}
+			catch (Exception err) {
+				Console.WriteLine(err.StackTrace);
+			}
 
-            //    //for(){
-            //    //}
-
-            //}
-
-            Graphics g = new Graphics(e.Graphics);
-
-            //System.Drawing.Graphics dg = System.Drawing.Graphics.FromImage(pictureBox2.Image);
-            //dg.SetClip(e.Graphics);
-            //dg.Clear(pictureBox2.BackColor);
-            //Graphics g = new Graphics(dg);
-
-
-            if (framesGetCurFrame() != null)
-            {
-                framesGetCurFrame().render(
-                  g,
-                  srcTiles,
-                  pictureBox2.Width / 2,
-                  pictureBox2.Height / 2,
-                  masterScale,
-                    显示图片框ToolStripMenuItem.Checked);
-
-                if (toolStripButton26.Checked)
-                {
-                    framesGetCurFrame().renderCD(
-                        g,
-                        pictureBox2.Width / 2,
-                        pictureBox2.Height / 2, 
-                        masterScale);
-                }
-            }
-
-            if (this.显示尺子ToolStripMenuItem.Checked)
-            {
-                pen.Color = System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff);
-                e.Graphics.DrawLine(pen, rx , 0, rx, pictureBox2.Height);
-                e.Graphics.DrawLine(pen, 0, ry, pictureBox2.Width, ry);
-            }
-            //e.Graphics.DrawImage(pictureBox2.Image,0,0);
-
-           
-        }
+		}
         private void 显示网格ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dstGridChange();
@@ -1873,7 +1889,18 @@ namespace CellGameEdit.PM
         }
 
 
-
+		private Boolean isFrameEditPart()
+		{
+			return tabControl1.SelectedIndex == 0;
+		}
+		private Boolean isFrameEditCD()
+		{
+			return tabControl1.SelectedIndex == 1;
+		}
+		private Boolean isFrameEdit()
+		{
+			return tabControl1.SelectedIndex == 3;
+		}
 
         int rx;
         int ry;
@@ -1888,7 +1915,8 @@ namespace CellGameEdit.PM
             int x = e.X - pictureBox2.Width / 2;
             int y = e.Y - pictureBox2.Height / 2;
 
-            if(tabControl1.SelectedIndex == 0){
+			if (isFrameEditPart())
+			{
                 listView3.SelectedItems.Clear();
                 foreach (ListViewItem item in listView3.Items)
                 {
@@ -1920,7 +1948,7 @@ namespace CellGameEdit.PM
                     }
                 }
             }
-            if (tabControl1.SelectedIndex == 1)
+			if (isFrameEditCD())
             {
                 listView4.SelectedItems.Clear();
                 foreach (ListViewItem item in listView4.Items)
@@ -1969,12 +1997,12 @@ namespace CellGameEdit.PM
             {
                 try
                 {
-                    if (tabControl1.SelectedIndex == 0)
+					if (isFrameEditPart())
                     {
                         framesGetCurFrame().SubX[dstGetCurSubIndexes()[0]] = (int)((e.X - pictureBox2.Width / 2 - px) / masterScale);
                         framesGetCurFrame().SubY[dstGetCurSubIndexes()[0]] = (int)((e.Y - pictureBox2.Height / 2 - py) / masterScale);
                     }
-                    if (tabControl1.SelectedIndex == 1)
+					if (isFrameEditCD())
                     {
                         if (!isSub)
                         {
@@ -2084,12 +2112,12 @@ namespace CellGameEdit.PM
 
                 try
                 {
-                    if (tabControl1.SelectedIndex == 0)
+					if (isFrameEditPart())
                     {
                         framesGetCurFrame().SubX[dstGetCurSubIndexes()[0]] = (int)framesGetCurFrame().SubX[dstGetCurSubIndexes()[0]] + eX;
                         framesGetCurFrame().SubY[dstGetCurSubIndexes()[0]] = (int)framesGetCurFrame().SubY[dstGetCurSubIndexes()[0]] + eY;
                     }
-                    if (tabControl1.SelectedIndex == 1)
+                    if (isFrameEditCD())
                     {
                         framesGetCurFrame().CDX[dstGetCurCDIndexes()[0]] = (int)framesGetCurFrame().CDX[dstGetCurCDIndexes()[0]] + eX;
                         framesGetCurFrame().CDY[dstGetCurCDIndexes()[0]] = (int)framesGetCurFrame().CDY[dstGetCurCDIndexes()[0]] + eY;
@@ -2178,27 +2206,32 @@ namespace CellGameEdit.PM
 
         private void framesRefersh()
         {
+			Frame curFrame = framesGetCurFrame();
             listView3.Items.Clear();
             listView4.Items.Clear();
-            if (framesGetCurFrame() != null)
+			if (curFrame != null)
             {
-                for (int i = 0; i < framesGetCurFrame().getSubCount();i++ )
+				for (int i = 0; i < curFrame.getSubCount(); i++)
                 {
-                    ((ListViewItem)framesGetCurFrame().SubTable[i]).Selected = false;
-                    listView3.Items.Add((ListViewItem)framesGetCurFrame().SubTable[i]);
+					((ListViewItem)curFrame.SubTable[i]).Selected = false;
+					listView3.Items.Add((ListViewItem)curFrame.SubTable[i]);
                 }
-                for (int i = 0; i < framesGetCurFrame().getCDCount(); i++)
+				for (int i = 0; i < curFrame.getCDCount(); i++)
                 {
-                    ((ListViewItem)framesGetCurFrame().CDTable[i]).Selected = false;
-                    listView4.Items.Add((ListViewItem)framesGetCurFrame().CDTable[i]);
+					((ListViewItem)curFrame.CDTable[i]).Selected = false;
+					listView4.Items.Add((ListViewItem)curFrame.CDTable[i]);
                 }
-                
+				numFrameAlpha.Value = new Decimal(curFrame.alpha);
+				numFrameRotate.Value = new Decimal(curFrame.rotate);
+				numScaleX.Value = new Decimal(curFrame.scalex);
+				numScaleY.Value = new Decimal(curFrame.scaley);
+				
             }
             dstRefersh();
-
-            if (animGetCurFrames() != null)
+			ArrayList frameAnims = animGetCurFrames();
+			if (frameAnims != null)
             {
-                pictureBox3.Width = ViewW * animGetCurFrames().Count;
+				pictureBox3.Width = ViewW * frameAnims.Count;
                 pictureBox3.Height = ViewH;
             }
             pictureBox3.Refresh();
@@ -2285,37 +2318,31 @@ namespace CellGameEdit.PM
 
                 if (animGetCurFrames() != null)
                 {
-                    for (int i = 0; i < animGetCurFrames().Count; i++)
-                    {
+					for (int i = 0; i < animGetCurFrames().Count; i++)
+					{
+						float sx = ViewW * i;
+						float sy = 0;
+						g.setClip(sx, sy, ViewW, ViewH);
 
-                        Frame frame = (Frame)(animGetCurFrames()[i]);
+						Frame frame = (Frame)(animGetCurFrames()[i]);
+						frame.render(
+							  g, 
+							  srcTiles,
+							  sx + ViewW / 2,
+							  sy + ViewH / 2,
+							  false,
+							chkShowCD.Checked);
 
-                        g.setClip(ViewW * i, 0, ViewW , ViewH );
 
-                        frame.render(
-                              g,
-                              srcTiles,
-                              ViewW * i + ViewW / 2,
-                              ViewH / 2,
-                              1,false);
 
-                        if (toolStripButton26.Checked)
-                        {
-                            frame.renderCD(
-                                  g,
-                                  ViewW * i + ViewW / 2,
-                                  ViewH / 2,
-                                  1);
-                        }
-
-                        if (trackBar1.Value == i)
-                        {
-                            g.setColor(0x20, 0, 0, 0);
-                            g.fillRect(ViewW * i, 0, ViewW , ViewH );
-                            g.setColor(0xff, 0, 0, 0);
-                            g.drawRect(ViewW * i + 1, 1, ViewW - 2, ViewH - 2);
-                        }
-                    }
+						if (trackBar1.Value == i)
+						{
+							g.setColor(0x20, 0, 0, 0);
+							g.fillRect(sx, sy, ViewW, ViewH);
+							g.setColor(0xff, 0, 0, 0);
+							g.drawRect(sx + 1, sy + 1, ViewW - 2, ViewH - 2);
+						}
+					}
                 }
             }
             
@@ -2785,6 +2812,48 @@ namespace CellGameEdit.PM
 		}
 
 
+		private void numFrameAlpha_ValueChanged(object sender, EventArgs e)
+		{
+			Frame frame = framesGetCurFrame();
+			if (frame != null)
+			{
+				frame.alpha = (float)numFrameAlpha.Value;
+				dstRefersh();
+			}
+		}
+
+		private void numFrameRotate_ValueChanged(object sender, EventArgs e)
+		{
+			Frame frame = framesGetCurFrame();
+			if (frame != null)
+			{
+				frame.rotate = (float)numFrameRotate.Value;
+				dstRefersh();
+			}
+		}
+
+		private void numScaleX_ValueChanged(object sender, EventArgs e)
+		{
+			Frame frame = framesGetCurFrame();
+			if (frame != null)
+			{
+				frame.scalex = (float)numScaleX.Value;
+				dstRefersh();
+			}
+		}
+
+		private void numScaleY_ValueChanged(object sender, EventArgs e)
+		{
+			Frame frame = framesGetCurFrame();
+			if (frame != null)
+			{
+				frame.scaley = (float)numScaleY.Value;
+				dstRefersh();
+			}
+		}
+
+
+
 
 
 
@@ -2857,7 +2926,6 @@ namespace CellGameEdit.PM
 
         public ArrayList CDSelected = new ArrayList();
 
-		public Boolean complexMode = false;
 
 		public float rotate = 0;
 		public float scalex = 1;
@@ -2938,25 +3006,19 @@ namespace CellGameEdit.PM
 			this.scalex = obj.scalex;
 			this.scaley = obj.scaley;
 			this.alpha = obj.alpha;
-			this.complexMode = obj.complexMode;
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected Frame(SerializationInfo info, StreamingContext context)
         {
 			try
 			{
-				complexMode = info.GetBoolean("complexMode");
-				if (complexMode)
-				{
-					rotate = (float)info.GetValue("rotate", typeof(float));
-					scalex = (float)info.GetValue("scalex", typeof(float));
-					scaley = (float)info.GetValue("scaley", typeof(float));
-					alpha = (float)info.GetValue("alpha", typeof(float));
-				}
+				rotate = (float)info.GetValue("rotate", typeof(float));
+				scalex = (float)info.GetValue("scalex", typeof(float));
+				scaley = (float)info.GetValue("scaley", typeof(float));
+				alpha = (float)info.GetValue("alpha", typeof(float));
 			}
 			catch (Exception err)
 			{
-				complexMode = false;
 			}
 
             SubIndex = (ArrayList)info.GetValue("SubIndex", typeof(ArrayList));
@@ -3038,7 +3100,6 @@ namespace CellGameEdit.PM
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
 			
-			info.AddValue("complexMode", complexMode);
 			info.AddValue("rotate", rotate);
 			info.AddValue("scalex", scalex);
 			info.AddValue("scaley", scaley);
@@ -3342,8 +3403,21 @@ namespace CellGameEdit.PM
             return rect;
         }
 
-        public void render(Graphics g,ArrayList tile,int x,int y,float scale,Boolean showimageborder)
-        {
+        public void render(Graphics g, 
+			ArrayList tile,
+			float bx, float by,
+			Boolean showimageborder,
+			Boolean showCD)
+		{
+			g.pushTransform();
+			g.translate(bx, by);
+
+
+			g.setAlpha(alpha);
+			g.rotate(rotate);
+			g.scale(scalex, scaley);
+			
+
             for (int i = SubIndex.Count - 1; i >=0 ;i-- )
             {
                 switch (Graphics.FlipTable[(int)SubFlip[i]])
@@ -3364,96 +3438,96 @@ namespace CellGameEdit.PM
                         break;
                 }
 
-                if (((Image)tile[(int)SubIndex[i]]) != null)
+				Image timg = ((Image)tile[(int)SubIndex[i]]);
+				if (timg != null)
                 {
-                   
-                    g.drawImage(
-                       ((Image)tile[(int)SubIndex[i]]),
-                       (((int)SubX[i]) * scale + x),
-                       (((int)SubY[i]) * scale + y),
-                       Graphics.FlipTable[(int)SubFlip[i]],
-                       0,scale
+                    g.drawImageTrans(
+					   timg,
+                       (((int)SubX[i])),
+					   (((int)SubY[i])),
+					   (int)SubFlip[i]
                        );
                 }
-
                 if (showimageborder)
                 {
                     g.setColor(0xff, 0xff, 0xff, 0xff);
                     g.drawRect(
-                        (((int)SubX[i]) * scale + x),
-                        (((int)SubY[i]) * scale + y),
-                        (((int)SubW[i]) * scale - 1),
-                        (((int)SubH[i]) * scale - 1)
+						(((int)SubX[i])),
+						(((int)SubY[i])),
+						(((int)SubW[i])),
+						(((int)SubH[i]))
                         );
                 }
                 if ( (Boolean)(SubSelected[i]) )
                 { 
                     g.setColor(0xff, 0xff, 0xff, 0xff);
                     g.drawRect(
-                        (((int)SubX[i]) * scale + x),
-                        (((int)SubY[i]) * scale + y),
-                        (((int)SubW[i]) * scale - 1),
-                        (((int)SubH[i]) * scale - 1)
+						(((int)SubX[i])),
+						(((int)SubY[i])),
+						(((int)SubW[i])),
+						(((int)SubH[i]))
                         );
                     g.setColor(0x20, 0xff, 0xff, 0xff);
                     g.fillRect(
-                        (((int)SubX[i]) * scale + x),
-                        (((int)SubY[i]) * scale + y),
-                        (((int)SubW[i]) * scale),
-                        (((int)SubH[i]) * scale) 
+						(((int)SubX[i])),
+						(((int)SubY[i])),
+						(((int)SubW[i])),
+						(((int)SubH[i])) 
                         );
                 }
             }
-            
-        }
-        public void renderCD(Graphics g,int x,int y,float scale)
-        {
-            for (int i = 0; i < CDMask.Count; i++)
-            {
-                switch ((int)CDType[i])
-                {
-                    case CD_TYPE_MAP:
-                        g.setColor(0xff, 0x00, 0xff, 0x00);
-                        break;
-                    case CD_TYPE_ATK:
-                        g.setColor(0xff, 0xff, 0x00, 0x00);
-                        break;
-                    case CD_TYPE_DEF:
-                        g.setColor(0xff, 0x00, 0x00, 0xff);
-                        break;
-                    case CD_TYPE_EXT:
-                        g.setColor(0xff, 0xff, 0xff, 0x00);
-                        break;
-                }
-                g.drawRect(
-                    ((int)CDX[i]) * scale + x,
-                    ((int)CDY[i]) * scale + y,
-                    ((int)CDW[i]) * scale - 1,
-                    ((int)CDH[i]) * scale - 1);
-                g.drawRect(
-                   ((int)CDX[i]) * scale + x + ((int)CDW[i]) * scale - Frame.CDSubW,
-                   ((int)CDY[i]) * scale + y + ((int)CDH[i]) * scale - Frame.CDSubH,
-                   Frame.CDSubW,
-                   Frame.CDSubH);
+			if (showCD)
+			{
+				for (int i = 0; i < CDMask.Count; i++)
+				{
+					switch ((int)CDType[i])
+					{
+						case CD_TYPE_MAP:
+							g.setColor(0xff, 0x00, 0xff, 0x00);
+							break;
+						case CD_TYPE_ATK:
+							g.setColor(0xff, 0xff, 0x00, 0x00);
+							break;
+						case CD_TYPE_DEF:
+							g.setColor(0xff, 0x00, 0x00, 0xff);
+							break;
+						case CD_TYPE_EXT:
+							g.setColor(0xff, 0xff, 0xff, 0x00);
+							break;
+					}
+					g.drawRect(
+						((int)CDX[i]),
+						((int)CDY[i]),
+						((int)CDW[i]) - 1,
+						((int)CDH[i]) - 1);
+					g.drawRect(
+					   ((int)CDX[i]) + ((int)CDW[i]) - Frame.CDSubW,
+					   ((int)CDY[i]) + ((int)CDH[i]) - Frame.CDSubH,
+					   Frame.CDSubW,
+					   Frame.CDSubH);
 
-                if ((Boolean)(CDSelected[i]))
-                {
-                    g.setColor(0x80, 0xff, 0xff, 0xff);
-                    g.fillRect(
-                        ((int)CDX[i] * scale) + x,
-                        ((int)CDY[i] * scale) + y,
-                        ((int)CDW[i] * scale),
-                        ((int)CDH[i] * scale)
-                        );
-                    g.fillRect(
-                       ((int)CDX[i]) * scale + x + ((int)CDW[i]) * scale - Frame.CDSubW,
-                       ((int)CDY[i]) * scale + y + ((int)CDH[i]) * scale - Frame.CDSubH,
-                       Frame.CDSubW,
-                       Frame.CDSubH);
-                }
+					if ((Boolean)(CDSelected[i]))
+					{
+						g.setColor(0x80, 0xff, 0xff, 0xff);
+						g.fillRect(
+							((int)CDX[i]),
+							((int)CDY[i]),
+							((int)CDW[i]),
+							((int)CDH[i])
+							);
+						g.fillRect(
+						   ((int)CDX[i]) + ((int)CDW[i]) - Frame.CDSubW,
+						   ((int)CDY[i]) + ((int)CDH[i]) - Frame.CDSubH,
+						   Frame.CDSubW,
+						   Frame.CDSubH);
+					}
 
-            }
+				}
+			}
+			g.popTransform();
         }
+       
+
 
     }
 

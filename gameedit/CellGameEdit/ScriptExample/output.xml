@@ -80,17 +80,35 @@
 			counts="<FRAME_COUNTS>" 
 			names="<FRAME_NAME>" 
 			animates="<FRAME_ANIMATE>"
+			animates="<FRAME_ANIMATE>"
 			cd_map="<FRAME_CD_MAP>"
 			cd_atk="<FRAME_CD_ATK>"
 			cd_def="<FRAME_CD_DEF>"
 			cd_ext="<FRAME_CD_EXT>"
 		/>
 		
+		<FrameAlpha>
+			<FRAME_ALPHA>
+		</FrameAlpha>
+				
+		<FrameRotate>
+			<FRAME_ROTATE>
+		</FrameRotate>
+
+		<FrameScaleX>
+			<FRAME_SCALE_X>
+		</FrameScaleX>
+
+		<FrameScaleY>
+			<FRAME_SCALE_Y>
+		</FrameScaleY>
+		
 		<AppendData>
-				<APPEND_DATA>
+			<APPEND_DATA>
 		</AppendData>
 				
-	</sprite>
+	
+</sprite>
 	</SPRITE>
 	
 </resource>

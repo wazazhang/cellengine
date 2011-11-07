@@ -83,7 +83,7 @@ public class Image
 
 		Image ret = Image.createImage(width, height);
 
-		ret.getGraphics().drawRegion(image, x, y, width, height, transform, 0, 0,0);
+		ret.getGraphics().drawImageRegion(image, x, y, width, height, transform, 0, 0);
 
 
 		return ret;
@@ -216,7 +216,7 @@ public class Image
 
 		Image dst = createImage(right - left + 1, bottom - top + 1);
 		Graphics dstg = dst.getGraphics();
-		dstg.drawImage(this, -left, -top, 0);
+		dstg.drawImage(this, -left, -top);
 		dimg = dst.dimg;
 		dst = null;
 	}

@@ -1261,7 +1261,7 @@ namespace CellGameEdit.PM
             Image img = getTileImage(index);
             if (img != null && flip < Graphics.FlipTable.Length)
             {
-                g.drawImage(img, x, y, Graphics.FlipTable[flip], 0);
+				g.drawImageTrans(img, x, y, flip);
             }
             
         }
@@ -1273,11 +1273,11 @@ namespace CellGameEdit.PM
             {
                 if (D45.Checked)
                 {
-                    g.drawImage(img, x, y, Graphics.FlipTable[flip], 0);
+					g.drawImageTrans(img, x, y, flip);
                 }
                 else
                 {
-                    g.drawImage(img, x, y, KeyX, KeyY, CellW, CellH, Graphics.FlipTable[flip], 0);
+                    g.drawImageRegion(img, x, y, KeyX, KeyY, CellW, CellH, Graphics.FlipTable[flip]);
                 }
             }
         }

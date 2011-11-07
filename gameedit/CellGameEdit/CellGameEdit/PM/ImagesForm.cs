@@ -497,7 +497,7 @@ namespace CellGameEdit.PM
                         for (int i = 0; i < getDstImageCount(); i++)
                         {
                             if (getDstImage(i) == null || getDstImage(i).killed) continue;
-                            g.drawImage(getDstImage(i), getDstImage(i).x, getDstImage(i).y, 0);
+                            g.drawImage(getDstImage(i), getDstImage(i).x, getDstImage(i).y);
                             
                         }
                         //
@@ -732,7 +732,7 @@ namespace CellGameEdit.PM
                 Image buf = Image.createImage(openFileDialog1.FileName);
 
                 srcImage = Image.createImage(buf.getWidth(), buf.getHeight());
-                srcImage.getGraphics().drawImage(buf,0,0,0);
+                srcImage.getGraphics().drawImage(buf,0,0);
 
                 buf.dimg.Dispose();
                 buf = null;
@@ -1175,7 +1175,7 @@ namespace CellGameEdit.PM
         public void renderSrcImage(Graphics g, int x, int y)
         {
             if (srcImage == null) return;
-            g.drawImage(srcImage, x, y, 0, 0, srcSize);
+            g.drawImageScale(srcImage, x, y, 0, srcSize);
         }
 
         public void renderDstImage(Graphics g, int x, int y)
@@ -1185,7 +1185,10 @@ namespace CellGameEdit.PM
             {
                 if (getDstImage(i) != null && getDstImage(i).killed == false)
                 {
-                    g.drawImage(getDstImage(i), x + getDstImage(i).x * dstSize, y + getDstImage(i).y * dstSize, 0, 0, dstSize);
+                    g.drawImageScale(getDstImage(i), 
+						x + getDstImage(i).x * dstSize, 
+						y + getDstImage(i).y * dstSize,
+						0, dstSize);
                     if (toolStripButton13.Checked)
                     {
                         g.setColor(0x7fffffff);

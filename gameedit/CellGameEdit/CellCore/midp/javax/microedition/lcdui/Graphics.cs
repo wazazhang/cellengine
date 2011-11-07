@@ -1,4 +1,6 @@
-﻿namespace javax.microedition.lcdui{
+﻿using System.Drawing.Imaging;
+using System.Drawing;
+namespace javax.microedition.lcdui{
 
 /**
  * Graphics 的摘要说明。
@@ -35,6 +37,9 @@ public class Graphics
 	public static int TOP		;
 	//public static int VCENTER	;
 
+	private System.Collections.Stack stack_transform = new System.Collections.Stack();
+	private System.Drawing.Imaging.ImageAttributes imgAttr = new System.Drawing.Imaging.ImageAttributes();
+	private float imgAlpha = -1;
 
 	public Graphics(System.Drawing.Graphics sdg)
 	{
@@ -44,25 +49,89 @@ public class Graphics
 		dg.SmoothingMode=(System.Drawing.Drawing2D.SmoothingMode.None);
 		dg.InterpolationMode=( System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor);
 		dg.PixelOffsetMode=(System.Drawing.Drawing2D.PixelOffsetMode.Half);
+		dg.PageUnit = GraphicsUnit.Pixel;
+		setAlpha(1);
+	}
+	//------------------------------------------------------------------------------------------------------------------
+	
+	public void setAlpha(float alpha)
+	{
+		if (imgAlpha != alpha)
+		{
+			this.imgAlpha = alpha;
+			if (alpha == 1)
+			{
+				this.imgAttr = null;
+			}
+			else
+			{
+				// Initialize the color matrix.
+				// Note the value 0.8 in row 4, column 4.
+				float[][] matrixItems ={ 				   new float[] {1, 0, 0, 0, 0},				   new float[] {0, 1, 0, 0, 0},				   new float[] {0, 0, 1, 0, 0},				   new float[] {0, 0, 0, alpha, 0}, 				   new float[] {0, 0, 0, 0, 1}};
+				ColorMatrix colorMatrix = new ColorMatrix(matrixItems);
+
+				// Create an ImageAttributes object and set its color matrix.
+				ImageAttributes imageAtt = new ImageAttributes();
+				imageAtt.SetColorMatrix(
+				   colorMatrix,
+				   ColorMatrixFlag.Default,
+				   ColorAdjustType.Bitmap);
+
+				this.imgAttr = imageAtt;
+			}
+
+		}
+		
+	}
+	public void translate(float x, float y)
+	{
+		dg.TranslateTransform(x, y);
+	}
+	public void rotate(float angle)
+	{
+		dg.RotateTransform(angle);
 	}
 
+	public void scale(float x, float y)
+	{
+		dg.ScaleTransform(x, y);
+	}
 
-	public void drawImage(javax.microedition.lcdui.Image img, float x, float y, int anchor)
+	public void pushTransform()
+	{
+		stack_transform.Push(dg.Transform);
+	}
+
+	public void popTransform()
+	{
+		System.Drawing.Drawing2D.Matrix matrix = (System.Drawing.Drawing2D.Matrix)stack_transform.Pop();
+		dg.Transform = matrix;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+
+	private void _drawImage(System.Drawing.Image dimg,
+		float dx, float dy, float dw, float dh,
+		float sx, float sy, float sw, float sh)
+	{		// Create parallelogram for drawing original image.		PointF ulCorner1 = new PointF(dx, dy);		PointF urCorner1 = new PointF(dx + dw, dy);		PointF llCorner1 = new PointF(dx, dy + dh);		PointF[] destPara1 = {ulCorner1, urCorner1, llCorner1};		// Create rectangle for source image.		RectangleF srcRect = new RectangleF(sx, sy, sw, sh);		dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+	}
+
+	public void drawImage(javax.microedition.lcdui.Image img, float x, float y)
 	{
 		if (img.killed) return;
-		dg.DrawImage(img.dimg,
-			new System.Drawing.RectangleF(x , y , img.getWidth() , img.getHeight() ),
-			new System.Drawing.RectangleF(0, 0, img.getWidth() , img.getHeight() ),
-			System.Drawing.GraphicsUnit.Pixel
+		_drawImage(
+			img.dimg,
+			x, y, img.getWidth(), img.getHeight(),
+			0, 0, img.getWidth() , img.getHeight()
 			);
 	}
 	
 
-	public void drawImage(
+
+	public void drawImageScale(
 		javax.microedition.lcdui.Image img,
 		float x, float y,
 		System.Drawing.RotateFlipType transform,
-		int anchor,
 		float scale)
 	{
 		if (img.killed) return;
@@ -70,36 +139,16 @@ public class Graphics
 
 		if (scale == 1) 
 		{
-			dg.DrawImage(img.dimg,
-					new System.Drawing.RectangleF(x , y , img.getWidth() , img.getHeight() ),
-					new System.Drawing.RectangleF(0, 0, img.getWidth(), img.getHeight()),
-					System.Drawing.GraphicsUnit.Pixel
+			_drawImage(img.dimg,
+					x , y , img.getWidth() , img.getHeight() ,
+					0, 0, img.getWidth(), img.getHeight()
 					);
 		}
 		else
 		{
-			//dg.DrawImage(img.dimg,
-			//        new System.Drawing.RectangleF(x + scale / 2, y, img.getWidth() * scale, img.getHeight() * scale),
-			//        new System.Drawing.RectangleF(0, 0, img.getWidth(), 1),
-			//        System.Drawing.GraphicsUnit.Pixel
-			//        );
-			//dg.DrawImage(img.dimg,
-			//        new System.Drawing.RectangleF(x, y + scale / 2, img.getWidth() * scale, img.getHeight() * scale),
-			//        new System.Drawing.RectangleF(0, 0, 1, img.getHeight()),
-			//        System.Drawing.GraphicsUnit.Pixel
-			//        );
-			//dg.DrawImage(img.dimg,
-			//        new System.Drawing.RectangleF(x + scale / 2, y + scale / 2, img.getWidth() * scale, img.getHeight() * scale),
-			//        new System.Drawing.RectangleF(0, 0, img.getWidth(), img.getHeight()),
-			//        System.Drawing.GraphicsUnit.Display
-			//        );
-
-
-			dg.DrawImage(img.dimg,
-					new System.Drawing.RectangleF(x , y , img.getWidth() * scale, img.getHeight() * scale),
-					new System.Drawing.RectangleF(0, 0, img.getWidth(), img.getHeight()),
-					System.Drawing.GraphicsUnit.Pixel
-					);
+			_drawImage(img.dimg,
+					x , y , img.getWidth() * scale, img.getHeight() * scale,
+					0, 0, img.getWidth(), img.getHeight());
 		}
 
 		switch (transform)
@@ -129,66 +178,18 @@ public class Graphics
 		}
 	}
 
-	public void drawImage(
-		javax.microedition.lcdui.Image img,
-		float x, float y, 
-		System.Drawing.RotateFlipType transform,
-		int anchor)
-	{
-		if (img.killed) return;
-		img.dimg.RotateFlip(transform);
-
-
-		dg.DrawImage(img.dimg,
-			new System.Drawing.RectangleF(x , y , img.getWidth() , img.getHeight() ),
-			new System.Drawing.RectangleF(0, 0, img.getWidth() , img.getHeight() ),
-			System.Drawing.GraphicsUnit.Pixel
-			);
-
-		switch (transform)
-		{
-			case System.Drawing.RotateFlipType.RotateNoneFlipX://4
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipX);
-				break;
-			case System.Drawing.RotateFlipType.RotateNoneFlipY://6
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
-				break;
-			//case TRANS_180:
-			case System.Drawing.RotateFlipType.RotateNoneFlipXY://2
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipXY);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipNone://1
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipNone://3
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipX://5
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipX);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipX://7
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipX);
-				break;
-		}
-		//img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipNone);
-
-	}
-
-
-	public void drawImage(
+	public void drawImageRegion(
 		javax.microedition.lcdui.Image img,
 		float x, float y, float sx, float sy, float sw, float sh,
-		System.Drawing.RotateFlipType transform,
-		int anchor)
+		System.Drawing.RotateFlipType transform)
 	{
 		if (img.killed) return;
 		img.dimg.RotateFlip(transform);
 
 
-		dg.DrawImage(img.dimg,
-			new System.Drawing.RectangleF(x, y, sw, sh),
-			new System.Drawing.RectangleF(sx, sy, sw, sh),
-			System.Drawing.GraphicsUnit.Pixel
+		_drawImage(img.dimg,
+			x, y, sw, sh,
+			sx, sy, sw, sh
 			);
 
 		switch (transform)
@@ -219,13 +220,13 @@ public class Graphics
 		//img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipNone);
 
 	}
-
-
+	
+	
 	public void drawImageTrans(javax.microedition.lcdui.Image src, float x, float y, int transform)
     {
-        drawRegion(src, 0, 0, src.getWidth(), src.getHeight(), transform, x, y, 0);
+		drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(), FlipTable[transform]);
     }
-
+	/*
 	public void drawRegion(javax.microedition.lcdui.Image src, 
 		float x_src, float y_src, float width, float height,
 		int transform,
@@ -236,11 +237,10 @@ public class Graphics
 		System.Drawing.RotateFlipType rt = System.Drawing.RotateFlipType.RotateNoneFlipNone;
         rt = FlipTable[transform];
         src.dimg.RotateFlip(rt);
-		
-		dg.DrawImage(src.dimg,
-			new System.Drawing.RectangleF(0, 0, width , height ),
-			new System.Drawing.RectangleF(x_src , y_src , width , height ),
-			System.Drawing.GraphicsUnit.Pixel);
+
+		_drawImage(src.dimg,
+			0, 0, width , height ,
+			x_src , y_src , width , height );
 		switch (rt)
 		{
 			case System.Drawing.RotateFlipType.RotateNoneFlipX://4
@@ -269,7 +269,7 @@ public class Graphics
 		//src.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipNone);
 		
 		
-	}
+	}*/
 
 	public void drawString(string str, float x, float y, int anchor)
 	{
