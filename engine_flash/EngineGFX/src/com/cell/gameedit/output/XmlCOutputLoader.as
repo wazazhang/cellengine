@@ -365,10 +365,10 @@ package com.cell.gameedit.output
 							ret.FrameScaleY[i]			= new Array(frameCount);
 							for (var f : int = 0; f < frameCount; f++) 
 							{
-								ret.FrameAlpha[i][f] 	= int(alpha[f]);
-								ret.FrameRotate[i][f] 	= int(rotate[f]);
-								ret.FrameScaleX[i][f] 	= int(scaleX[f]);
-								ret.FrameScaleY[i][f] 	= int(scaleY[f]);
+								ret.FrameAlpha[i][f] 	= Number(alpha[f]);
+								ret.FrameRotate[i][f] 	= Number(rotate[f]);
+								ret.FrameScaleX[i][f] 	= Number(scaleX[f]);
+								ret.FrameScaleY[i][f] 	= Number(scaleY[f]);
 							}
 						}
 //						trace("Alpha="+e.attribute("alpha"));
