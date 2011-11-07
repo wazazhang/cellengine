@@ -56,9 +56,10 @@ package com.cell.ui
 		public static function showAsDialog(src:DisplayObject, 
 										  dst:DisplayObjectContainer, 
 										  bg_color:int=0xffffff, 
-										  bg_alpha:Number = 0.01) : Dialog
+										  bg_alpha:Number = 0.01,
+										  bg_mouseEnable:Boolean=true) : Dialog
 		{
-			var ret : Dialog = new Dialog(src, dst, bg_color, bg_alpha);
+			var ret : Dialog = new Dialog(src, dst, bg_color, bg_alpha, bg_mouseEnable);
 			dst.addChild(ret)
 			dst.addChild(src);
 			return ret;
