@@ -208,8 +208,8 @@ package com.cell.gameedit.output
 				ret.BlocksH[index] 		= int(e.attribute("height"));
 			}
 			for each (var e:XML in map.matrix) {
-				var tile_matrix : Array	= StringUtil.getArray2D(e.attribute("tile_matrix"));
-				var cd_matrix 	: Array	= StringUtil.getArray2D(e.attribute("flag_matrix"));
+				var tile_matrix : Array	= StringUtil.getArray1DGroup(e.attribute("tile_matrix"));
+				var cd_matrix 	: Array	= StringUtil.getArray1DGroup(e.attribute("flag_matrix"));
 				for (var y:int = 0; y < ret.YCount; y++) {
 					var tline : Array = StringUtil.splitString(tile_matrix[y], ",");
 					var cline : Array = StringUtil.splitString(cd_matrix[y],   ",");
@@ -301,11 +301,11 @@ package com.cell.gameedit.output
 			for each (var e:XML in sprite.frames) {
 				var names_reader 	: TextReader= new TextReader(e.attribute("names"));
 				var frame_counts	: Array 	= StringUtil.splitString(e.attribute("counts"), ",");
-				var frame_animate	: Array 	= StringUtil.getArray2D(e.attribute("animates"));
-				var frame_cd_map	: Array 	= StringUtil.getArray2D(e.attribute("cd_map"));
-				var frame_cd_atk	: Array 	= StringUtil.getArray2D(e.attribute("cd_atk"));
-				var frame_cd_def	: Array 	= StringUtil.getArray2D(e.attribute("cd_def"));
-				var frame_cd_ext	: Array 	= StringUtil.getArray2D(e.attribute("cd_ext"));
+				var frame_animate	: Array 	= StringUtil.getArray1DGroup(e.attribute("animates"));
+				var frame_cd_map	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_map"));
+				var frame_cd_atk	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_atk"));
+				var frame_cd_def	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_def"));
+				var frame_cd_ext	: Array 	= StringUtil.getArray1DGroup(e.attribute("cd_ext"));
 				for (var i : int = 0; i < animateCount; i++) {
 					ret.AnimateNames[i] 		= TextDeserialize.getString(names_reader);
 					var frameCount	: int		= int(frame_counts[i]);

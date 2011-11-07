@@ -315,7 +315,7 @@ package com.cell.util
 			 * input "{1234},{5678}"
 			 * return [1234][5678]
 			 */
-			public static function getArray2D(text:String) : Array
+			public static function getArray1DGroup(text:String) : Array
 			{
 				text = StringUtil.replaceString(text, '{', ' ');
 				var texts : Array = StringUtil.splitString(text, "},");
