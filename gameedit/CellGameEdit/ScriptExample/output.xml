@@ -24,9 +24,7 @@
 		output_file="<OUTPUT_IMAGE_FILE>">
 		<CLIP>
 		<clip index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" data="<DATA>" /></CLIP>
-		<AppendData>
-				<APPEND_DATA>
-		</AppendData>
+		<Append data="<APPEND_DATA>" />
 	</images>
 	</IMAGES>
 	
@@ -46,17 +44,13 @@
 		<scene_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></SCENE_FRAME>
 		<CD_PART>
 		<cd_part index="<INDEX>" type="<TYPE>" mask="<MASK>" x1="<X1>" y1="<Y1>" x2="<X2>" y2="<Y2>" width="<W>" height="<H>" /></CD_PART>
-		
 		<matrix
 			tile_matrix="<TILE_MATRIX>"
 			flag_matrix="<FLAG_MATRIX>"
 		/>
-		<AppendData>
-				<APPEND_DATA>
-		</AppendData>
+		<Append data="<APPEND_DATA>" />
 	</map>
 	</MAP>
-	
 	
 	<SPRITE>
 	<sprite index="<SPR_INDEX>" name="<NAME>"
@@ -66,7 +60,6 @@
 		cd_part_count="<CD_PART_COUNT>"
 		cd_frame_count="<CD_FRAME_COUNT>"
 		animate_count="<ANIMATE_COUNT>">
-		
 		<SCENE_PART>
 		<scene_part index="<INDEX>" tile="<TILE>" x="<X>" y="<Y>" trans="<TRANS>" /></SCENE_PART>
 		<SCENE_FRAME>
@@ -75,40 +68,21 @@
 		<cd_part index="<INDEX>" type="<TYPE>" mask="<MASK>" x1="<X1>" y1="<Y1>" x2="<X2>" y2="<Y2>" width="<W>" height="<H>" /></CD_PART>
 		<CD_FRAME>
 		<cd_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></CD_FRAME>
-		
 		<frames 
 			counts="<FRAME_COUNTS>" 
 			names="<FRAME_NAME>" 
-			animates="<FRAME_ANIMATE>"
 			animates="<FRAME_ANIMATE>"
 			cd_map="<FRAME_CD_MAP>"
 			cd_atk="<FRAME_CD_ATK>"
 			cd_def="<FRAME_CD_DEF>"
 			cd_ext="<FRAME_CD_EXT>"
+			alpha="<FRAME_ALPHA>"
+			rotate="<FRAME_ROTATE>"
+			scaleX="<FRAME_SCALE_X>"
+			scaleY="<FRAME_SCALE_Y>"
 		/>
-		
-		<FrameAlpha>
-			<FRAME_ALPHA>
-		</FrameAlpha>
-				
-		<FrameRotate>
-			<FRAME_ROTATE>
-		</FrameRotate>
-
-		<FrameScaleX>
-			<FRAME_SCALE_X>
-		</FrameScaleX>
-
-		<FrameScaleY>
-			<FRAME_SCALE_Y>
-		</FrameScaleY>
-		
-		<AppendData>
-			<APPEND_DATA>
-		</AppendData>
-				
-	
-</sprite>
+		<Append data="<APPEND_DATA>" />
+	</sprite>
 	</SPRITE>
 	
 </resource>
@@ -141,11 +115,8 @@
 		<waypoint_link start="<START>" end="<END>" /></WAYPOINT_LINK>
 		<REGION>
 		<region index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" region_data="<REGION_DATA>" /></REGION>
-	
 	</world>
 	</WORLD>
-	
-	
 	
 </level>
 </LEVEL>
