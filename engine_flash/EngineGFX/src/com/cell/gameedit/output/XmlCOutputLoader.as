@@ -375,7 +375,7 @@ package com.cell.gameedit.output
 					}
 				}
 			} catch (err:Error) {
-				trace(err);
+				//trace(err);
 			}
 
 			return ret;
