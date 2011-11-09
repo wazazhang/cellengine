@@ -16,6 +16,8 @@ package com.cell.gfx.game
 		
 //		----------------------------------------------------------------------
 		
+		public var enable_complex : Boolean = false;
+		
 		protected var animates 		: CAnimates;
 		
 		protected var collides 		: CCollides;
@@ -332,10 +334,12 @@ package com.cell.gfx.game
 		
 		public function transformSprite(o:DisplayObject, anim:int, frame:int) : void
 		{
-			o.alpha 	= FrameAlpha[anim][frame];
-			o.rotation 	= FrameRotate[anim][frame];
-			o.scaleX 	= FrameScaleX[anim][frame];
-			o.scaleY 	= FrameScaleY[anim][frame];
+			if (enable_complex) {
+				o.alpha 	= FrameAlpha[anim][frame];
+				o.rotation 	= FrameRotate[anim][frame];
+				o.scaleX 	= FrameScaleX[anim][frame];
+				o.scaleY 	= FrameScaleY[anim][frame];
+			}
 		}
 		
 //		------------------------------------------------------------------------------------------

@@ -43,16 +43,6 @@ package com.cell.gfx.game.worldcraft
 			{
 				graphics.clear();
 				render(_cg, 0, 0, _spr.getCurrentAnimate(), _spr.getCurrentFrame());
-//				graphics.moveTo( 0, 0);
-//				if (DEBUG) {
-//					graphics.lineStyle(1, 0xffff0000, 1);
-//					graphics.lineTo(-8, 0); graphics.moveTo( 0, 0);
-//					graphics.lineTo( 8, 0); graphics.moveTo( 0, 0);
-//					graphics.lineTo( 0,-8); graphics.moveTo( 0, 0);
-//					graphics.lineTo( 0, 8); graphics.moveTo( 0, 0);
-//					graphics.endFill();
-//				}
-//				trace("repaint "+ this);
 			}				
 			_repaint 	= false;
 			old_anim  	= _spr.getCurrentAnimate();
@@ -62,6 +52,7 @@ package com.cell.gfx.game.worldcraft
 		public function render(g:IGraphics, x:int, y:int, anim:int, frame:int) : void 
 		{
 			spr.render(g, x, y, anim, frame);
+			spr.transformSprite(this, _spr.getCurrentAnimate(), _spr.getCurrentFrame());
 		}
 
 //		------------------------------------------------------------------------------------------------------

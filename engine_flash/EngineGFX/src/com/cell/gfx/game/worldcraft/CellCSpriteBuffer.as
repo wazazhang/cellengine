@@ -15,18 +15,17 @@ package com.cell.gfx.game.worldcraft
 
 	public class CellCSpriteBuffer extends CellCSprite
 	{
-		private var _buff		: CSpriteBuffer;
-		private var bitmap		: Bitmap;
+		protected var _buff		: CSpriteBuffer;
+		protected var _bitmap	: Bitmap;
 		
 		public function CellCSpriteBuffer(spr:CSpriteBuffer)
 		{
 			this._spr	= spr.getSrc();
 			this._buff 	= spr;
-			this.bitmap	= new Bitmap();
-			this.repaint();
+			this._bitmap = new Bitmap();
 			this.mouseEnabled = false;
 			this.mouseChildren = false;
-			this.addChild(bitmap);
+			this.addChild(_bitmap);
 		}
 		
 		public function repaint() : void
@@ -43,21 +42,12 @@ package com.cell.gfx.game.worldcraft
 			render(cb, ca, cf, cr.x, cr.y) ;
 		}
 
-		public function get spriteBuff() : CSpriteBuffer
-		{
-			return _buff;
-		}
-		
-		protected function get imageBuff() : Bitmap
-		{
-			return bitmap;
-		}
-		
 		protected function render(buff:BitmapData, anim:int, frame:int, x:Number, y:Number) : void 
 		{
-			bitmap.x = x;
-			bitmap.y = y;
-			bitmap.bitmapData = buff;
+			_bitmap.x = x;
+			_bitmap.y = y;
+			_bitmap.bitmapData = buff;
+			_spr.transformSprite(this, anim, frame);
 		}
 	}
 }
