@@ -59,7 +59,8 @@
 		scene_frame_count="<SCENE_FRAME_COUNT>"
 		cd_part_count="<CD_PART_COUNT>"
 		cd_frame_count="<CD_FRAME_COUNT>"
-		animate_count="<ANIMATE_COUNT>">
+		animate_count="<ANIMATE_COUNT>"
+		complexMode="<COMPLEX_MODE>">
 		<SCENE_PART>
 		<scene_part index="<INDEX>" tile="<TILE>" x="<X>" y="<Y>" trans="<TRANS>" /></SCENE_PART>
 		<SCENE_FRAME>

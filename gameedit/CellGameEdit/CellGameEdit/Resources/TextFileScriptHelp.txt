@@ -188,7 +188,8 @@
         <FRAME_COUNTS>         /*(int)[] 该精灵 每个动画帧数量数组（分隔符为","）*/
         <FRAME_NAME>           /*(str)[] 该精灵 每个动画的名字数组（分隔符为","）*/
         <FRAME_ANIMATE>        /*(int)[][] 该精灵 图片动画序列二维数组 格式为 frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...数据为帧号码*/
-       
+		
+		<COMPLEX_MODE>			/**是否启用混合模式*/       
 		<FRAME_ALPHA>			/*(float)[][] 所有帧alpha */
 		<FRAME_ROTATE>			/*(float)[][] 所有帧rotate */
 		<FRAME_SCALE_X>			/*(float)[][] 所有帧scalex */

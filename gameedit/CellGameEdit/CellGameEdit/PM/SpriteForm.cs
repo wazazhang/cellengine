@@ -712,7 +712,7 @@ namespace CellGameEdit.PM
 						"<FRAME_NAME>",
 						"<FRAME_ANIMATE>",
 
-						
+						"<COMPLEX_MODE>",
 						"<FRAME_ALPHA>",
 						"<FRAME_ROTATE>",
 						"<FRAME_SCALE_X>",
@@ -737,6 +737,7 @@ namespace CellGameEdit.PM
 						outFrameName,
 						outFrameAnimate,
 
+						checkComplexMode.Checked.ToString(),
 						outFrameAlpha,
 						outFrameRotate,
 						outFrameScaleX,
