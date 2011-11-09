@@ -239,6 +239,13 @@ package com.cell.gameedit.output
 			var animateCount 	= int(sprite.attribute("animate_count"));
 			
 			try {
+				var cm = sprite.attribute("complexMode").toString();
+				ret.ComplexMode	= Boolean(cm);
+			} catch (err:Error) {
+				ret.ComplexMode	= false;
+			}
+			
+			try {
 				ret.AppendData = StringUtil.getArray1D(sprite.Append[0].attribute("data"));
 			} catch (err:Error) {}
 			

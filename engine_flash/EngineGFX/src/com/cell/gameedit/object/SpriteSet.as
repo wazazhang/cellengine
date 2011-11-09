@@ -7,6 +7,8 @@ package com.cell.gameedit.object
 		public var Index			: int;
 		public var Name 			: String;
 		
+		public var ComplexMode		: Boolean;
+		
 		public var ImagesName		: String;
 		/** short[] */
 		public var PartX			: Array;

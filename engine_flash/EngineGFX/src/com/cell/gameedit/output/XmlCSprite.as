@@ -34,6 +34,7 @@ package com.cell.gameedit.output
 				}
 				collides.setFrames(tsprite.Blocks);
 				init(
+					tsprite.ComplexMode,
 					animates, 
 					collides, 
 					tsprite.AnimateNames,
@@ -51,6 +52,7 @@ package com.cell.gameedit.output
 		}
 		
 		protected override function init(
+			complexMode:Boolean,
 			canimates		:CAnimates, 
 			ccollides		:CCollides,
 			animateNames	:Array, 
@@ -64,7 +66,8 @@ package com.cell.gameedit.output
 			frameCDDef	: Array,
 			frameCDExt	: Array) : void
 		{
-			super.init(canimates, ccollides, animateNames, frameAnimate, 
+			super.init(complexMode,
+				canimates, ccollides, animateNames, frameAnimate, 
 				frameAlpha, frameRotate, frameScaleX, frameScaleY,
 				frameCDMap, frameCDAtk, frameCDDef, frameCDExt);
 		}

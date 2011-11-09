@@ -24,11 +24,6 @@ package com.cell.gfx.game.worldcraft
 			return parent as CellWorld;
 		}
 		
-		public function get priority() : int 
-		{
-			return 0;
-		}
-		
 //		--------------------------------------------------------------------------------------------------------
 		
 		internal function updateIn(world:CellWorld) : void {

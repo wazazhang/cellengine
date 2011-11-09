@@ -43,6 +43,7 @@ package com.cell.gfx.game
 //		-----------------------------------------------------------------------
 		
 		protected function init(
+			complexMode:Boolean,
 			canimates:CAnimates, 
 			ccollides:CCollides,
 			animateNames: Array, 
@@ -57,6 +58,7 @@ package com.cell.gfx.game
 			frameCDExt	: Array
 		) : void
 		{
+			this.enable_complex	= complexMode;
 			this.animates		= canimates;
 			this.collides		= ccollides;
 			
@@ -76,6 +78,8 @@ package com.cell.gfx.game
 		
 		protected function init2(spr:CSprite) : void
 		{
+			this.enable_complex	= spr.enable_complex;
+			
 			this.animates 		= spr.animates;
 			this.collides 		= spr.collides;
 			
