@@ -74,9 +74,9 @@ package com.cell.gameedit.output
 		
 		public function render(g:IGraphics, index:int, x:int, y:int, w:int, h:int, transform:int) : void 
 		{
-//			if (tiles[index]!=null){
+			if (tiles[index]!=null){
 				g.drawImage(tiles[index], x, y, w, h, transform);
-//			}
+			}
 		}
 		
 		

@@ -9,6 +9,7 @@ package com.cell.gameedit.object
 		
 		public var ImagesName		: String;
 		
+		public var LayerCount		: int;
 		public var XCount			: int;
 		public var YCount			: int;
 		public var CellW			: int;
@@ -20,8 +21,10 @@ package com.cell.gameedit.object
 		public var TileTrans		: Array;
 		/** int[][] */
 		public var Animates			: Array;
-		/** int[][] */
-		public var TerrainScene2D	: Array;
+//		/** int[][] */
+//		public var TerrainScene2D	: Array;
+		/**int[][][]*/
+		public var LayersScene2D	: Array;
 		
 		/** int[] */
 		public var BlocksType		: Array;
@@ -40,8 +43,10 @@ package com.cell.gameedit.object
 		/** int[] */
 		public var BlocksH			: Array;
 		
-		/** int[][] */
-		public var TerrainBlock2D : Array;
+//		/** int[][] */
+//		public var TerrainBlock2D : Array;
+		/**int[][][]*/
+		public var LayersBlock2D	: Array;
 		
 		/**String[]*/
 		public var AppendData	: Array;
@@ -56,14 +61,14 @@ package com.cell.gameedit.object
 			return Name;
 		}
 		
-		public function getLayerImagesIndex(x:int, y:int, layer:int) : int
+		public function getLayerImagesIndex(layer:int, x:int, y:int, part:int) : int
 		{
-			return TileID[Animates[TerrainScene2D[y][x]][layer]];
+			return TileID[Animates[LayersScene2D[layer][y][x]][part]];
 		}
 		
-		public function getLayerTrans(x:int, y:int, layer:int) : int
+		public function getLayerTrans(layer:int, x:int, y:int, part:int) : int
 		{
-			return TileTrans[Animates[TerrainScene2D[y][x]][layer]];
+			return TileTrans[Animates[LayersScene2D[layer][y][x]][part]];
 		}
 		
 	}

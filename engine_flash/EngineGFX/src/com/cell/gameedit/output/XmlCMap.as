@@ -3,8 +3,9 @@ package com.cell.gameedit.output
 	import com.cell.gameedit.object.MapSet;
 	import com.cell.gfx.game.CAnimates;
 	import com.cell.gfx.game.CCollides;
-	import com.cell.gfx.game.IImages;
 	import com.cell.gfx.game.CMap;
+	import com.cell.gfx.game.IImages;
+	import com.cell.util.Util;
 
 	public class XmlCMap extends CMap
 	{
@@ -32,13 +33,7 @@ package com.cell.gameedit.output
 			animates.setFrames(animates_frame);
 
 			
-			var tileMatrix : Array = new Array(ycount);
-			for(var y=0; y<ycount; y++){
-				tileMatrix[y] = new Array(xcount);
-				for(var x=0; x<xcount; x++){
-					tileMatrix[y][x] = tmap.TerrainScene2D[y][x];
-				}
-			}
+			var tileMatrix : Array = Util.cloneObject(tmap.LayersScene2D);
 			
 			
 			var cdCount : int = tmap.BlocksType.length;
@@ -56,15 +51,13 @@ package com.cell.gameedit.output
 				if(type==1) collides.addCDLine(mask, x1, y1,x2,y2);
 			}
 			
-			var flagMatrix : Array = new Array(ycount);
-			for(var y=0; y<ycount; y++){
-				flagMatrix[y] = new Array(xcount);
-				for(var x=0; x<xcount; x++){
-					flagMatrix[y][x] = tmap.TerrainBlock2D[y][x];
-				}
-			}
+			var flagMatrix : Array = Util.cloneObject(tmap.LayersBlock2D);
 
-			init(animates, collides, tmap.CellW, tmap.CellH, tileMatrix, flagMatrix);
+
+			init(tmap.LayerCount, animates, collides,
+				tmap.XCount, tmap.YCount,
+				tmap.CellW, tmap.CellH, 
+				tileMatrix, flagMatrix);
 				
 			
 		}

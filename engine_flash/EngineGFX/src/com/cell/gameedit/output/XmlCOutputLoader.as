@@ -149,6 +149,7 @@ package com.cell.gameedit.output
 			ret.Name			= map.attribute("name");
 			
 			ret.ImagesName 		= map.attribute("images_name");
+			ret.LayerCount		= map.attribute("layer_count");
 			ret.XCount 			= map.attribute("xcount");
 			ret.YCount 			= map.attribute("ycount");
 			ret.CellW 			= map.attribute("cellw");
@@ -170,8 +171,11 @@ package com.cell.gameedit.output
 			ret.BlocksW 		= new Array(cdCount);
 			ret.BlocksH 		= new Array(cdCount);
 			
-			ret.TerrainScene2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
-			ret.TerrainBlock2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
+//			ret.TerrainScene2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
+//			ret.TerrainBlock2D	= Arrays.newArray2D(ret.YCount, ret.XCount);
+			
+			ret.LayersScene2D	= new Array(ret.LayerCount);
+			ret.LayersBlock2D	= new Array(ret.LayerCount);
 			
 			try {
 				ret.AppendData = StringUtil.getArray1D(map.Append[0].attribute("data"));
@@ -207,17 +211,22 @@ package com.cell.gameedit.output
 				ret.BlocksW[index] 		= int(e.attribute("width"));
 				ret.BlocksH[index] 		= int(e.attribute("height"));
 			}
-			for each (var e:XML in map.matrix) {
+			for each (var e:XML in map.layer) {
+				var index : int = int(e.attribute("index"));
 				var tile_matrix : Array	= StringUtil.getArray1DGroup(e.attribute("tile_matrix"));
 				var cd_matrix 	: Array	= StringUtil.getArray1DGroup(e.attribute("flag_matrix"));
+				var TerrainScene2D : Array = Arrays.newArray2D(ret.YCount, ret.XCount);
+				var TerrainBlock2D : Array = Arrays.newArray2D(ret.YCount, ret.XCount);
 				for (var y:int = 0; y < ret.YCount; y++) {
 					var tline : Array = StringUtil.splitString(tile_matrix[y], ",");
 					var cline : Array = StringUtil.splitString(cd_matrix[y],   ",");
 					for (var x:int = 0; x < ret.XCount; x++) {
-						ret.TerrainScene2D[y][x] = int(tline[x]);
-						ret.TerrainBlock2D[y][x] = int(cline[x]);
+						TerrainScene2D[y][x] = int(tline[x]);
+						TerrainBlock2D[y][x] = int(cline[x]);
 					}
 				}
+				ret.LayersScene2D[index] = TerrainScene2D;
+				ret.LayersBlock2D[index] = TerrainBlock2D;
 			}
 			
 			return ret;

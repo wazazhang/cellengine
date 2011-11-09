@@ -14,6 +14,9 @@ package com.cell.gfx.game
 	//	----------------------------------------------------------------------------------------------
 		
 		protected var animateTimer	: int = 0;
+		protected var layerCount	: int;
+		protected var xCount		: int;
+		protected var yCount		: int;
 		
 		protected var cellW 		: int;
 		protected var cellH 		: int;
@@ -21,10 +24,10 @@ package com.cell.gfx.game
 		protected var tiles			: CAnimates;
 		protected var collides		: CCollides;
 		
-		/**short[][]*/
-		protected var matrixTile	: Array;
-		/**short[][]*/
-		protected var matrixFlag	: Array;
+		/**short[][][]*/
+		protected var LayersTile	: Array;
+		/**short[][][]*/
+		protected var LayersFlag	: Array;
 	
 		protected var width 		: int;
 		protected var height 		: int;
@@ -33,34 +36,43 @@ package com.cell.gfx.game
 		protected var isAnimate 	: Boolean = false;
 		protected var isCombo 		: Boolean = false;
 		
+		
+		
 	//	----------------------------------------------------------------------------------------------
 	
 		protected function init(
+				layerCount:int,
 				tiles : CAnimates, 
 				collides : CCollides,
+				xcount : int,
+				ycount : int,
 				cellw : int, 
 				cellh : int,
-				tile_matrix : Array, 
-				flag_matrix : Array) : void
+				tile_layers : Array, 
+				flag_layers : Array) : void
 		{
 			this.isCyc 		= false;
 			
 			this.tiles 		= tiles;
 			this.collides 	= collides;
-			this.matrixTile	= tile_matrix;
-			this.matrixFlag	= flag_matrix;
 			
+			this.layerCount	= layerCount;
+			this.LayersTile	= tile_layers;
+			this.LayersFlag	= flag_layers;
+			
+			this.xCount		= xcount;
+			this.yCount		= ycount;
 			this.cellW		= cellw;
 			this.cellH		= cellh;
 			
-			this.width		= matrixTile[0].length * cellW;
-			this.height		= matrixTile.length * cellH;
+			this.width		= xcount * cellW;
+			this.height		= ycount * cellH;
 		}
 			
 		public function copy() : CMap
 		{
 			var ret : CMap = new CMap();
-			ret.init(tiles, collides, cellW, cellH, matrixTile, matrixFlag);
+			ret.init(layerCount, tiles, collides, xCount, yCount, cellW, cellH, LayersTile, LayersFlag);
 			ret.isCyc 		= this.isCyc;
 			ret.isAnimate 	= this.isAnimate;
 			ret.isCombo 	= this.isCombo;
@@ -103,11 +115,11 @@ package com.cell.gfx.game
 		}
 	
 		public function getXCount() : int {
-			return matrixTile[0].length;
+			return xCount;
 		}
 	
 		public function getYCount() : int {
-			return matrixTile.length;
+			return yCount;
 		}
 	
 		public function getCellW() : int {
@@ -118,28 +130,28 @@ package com.cell.gfx.game
 			return cellH;
 		}
 	
-		public function getCD(bx:int, by:int) : CCD {
-			return collides.getCD(matrixFlag[by][bx]); 
+		public function getCD(layer:int, bx:int, by:int) : CCD {
+			return collides.getCD(LayersFlag[layer][by][bx]); 
 		}
 		
-		public function getImage(bx:int, by:int, layer:int) : CImage {
-			var id : int = Math.abs(matrixTile[by][bx]);
-			return tiles.getFrameImage(id, layer % tiles.Frames[id].length);
+		public function getImage(layer:int, bx:int, by:int, part:int) : CImage {
+			var id : int = Math.abs(LayersTile[layer][by][bx]);
+			return tiles.getFrameImage(id, part % tiles.Frames[id].length);
 		}
 		
-		public function getTileLayerCount(bx:int, by:int) : int {
-			var id : int = Math.abs(matrixTile[by][bx]);
+		public function getTilePartCount(layer:int, bx:int, by:int) : int {
+			var id : int = Math.abs(LayersTile[layer][by][bx]);
 			return tiles.Frames[id].length;
 		}
 		
-		public function getFlag(bx:int, by:int) : int {
-			return matrixFlag[by][bx];
+		public function getFlag(layer:int, bx:int, by:int) : int {
+			return LayersFlag[layer][by][bx];
 		}
-		public function getTile(bx:int, by:int) : int {
-			return Math.abs(matrixTile[by][bx]);
+		public function getTile(layer:int, bx:int, by:int) : int {
+			return Math.abs(LayersTile[layer][by][bx]);
 		}
-		public function getTileValue(bx:int, by:int) : int {
-			return matrixTile[by][bx];
+		public function getTileValue(layer:int, bx:int, by:int) : int {
+			return LayersTile[layer][by][bx];
 		}
 
 		public function getAnimates() : CAnimates {
@@ -149,39 +161,33 @@ package com.cell.gfx.game
 		public function getCollides() : CCollides {
 			return collides;
 		}
-		
-		public function testSameAnimateTile(time1:int, time2:int, bx:int, by:int) : Boolean {
-			if( matrixTile[by][bx] >= 0 )return true;
-			if( tiles.Frames[-matrixTile[by][bx]].length>1 &&
-				tiles.Frames[-matrixTile[by][bx]][time1%tiles.Frames[-matrixTile[by][bx]].length]==
-			    tiles.Frames[-matrixTile[by][bx]][time2%tiles.Frames[-matrixTile[by][bx]].length]){
-				//println("same at : " + Tiles.Frames[-MatrixTile[by][bx]][time1%Tiles.Frames[-MatrixTile[by][bx]].length]);
-				return true;
-			}
-			return false;
-		}
+	
 		//	-------------------------------------------------------------------------------
 	
 		public function renderCell(g:IGraphics, x:int, y:int, cellX:int, cellY:int) : void
 		{
-			if(matrixTile[cellY][cellX]>=0)
+			for (var L:int = 0; L<layerCount; L++) 
 			{
-				if(isCombo)
+				var tileID : int = LayersTile[L][cellY][cellX];
+				
+				if(tileID>=0)
 				{
-					tiles.renderSingle(g, matrixTile[cellY][cellX], x, y);
+//					if(isCombo)
+//					{
+//						tiles.renderSingle(g, tileID, x, y);
+//					}
+//					else
+//					{
+						tiles.renderTile(g, tiles.Frames[tileID][0], x, y);
+//					}
 				}
 				else
-				{                                      
-					var idx : int = tiles.Frames[matrixTile[cellY][cellX]][0];
-					tiles.renderTile(g, idx, x, y);
+				{
+					var index : int = animateTimer%tiles.Frames[-tileID].length;
+					tiles.renderTile(g, tiles.Frames[-tileID][index], x, y);
 				}
 			}
-			else
-			{
-				var index : int = animateTimer%tiles.Frames[-matrixTile[cellY][cellX]].length;
-				var idx : int = tiles.Frames[-matrixTile[cellY][cellX]][index];
-				tiles.renderTile(g, idx, x, y);
-			}
+			
 		}
 	
 	}
