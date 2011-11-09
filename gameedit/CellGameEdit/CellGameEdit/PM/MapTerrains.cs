@@ -70,7 +70,7 @@ namespace CellGameEdit.PM
 
             foreach (MapForm map in maps)
             {
-                if (map.XCount % 2 == 1 && map.YCount / map.XCount == 3)
+				if (map.XCount % 2 == 1 && map.YCount / map.XCount == 3)
                 {
                     if (map.isTerrain())
                     {
@@ -94,7 +94,7 @@ namespace CellGameEdit.PM
             {
                 MapForm map = (MapForm)e.ClickedItem.Tag;
 
-                if (map.XCount % 2 == 1 && map.YCount / map.XCount == 3)
+				if (map.XCount % 2 == 1 && map.YCount / map.XCount == 3)
                 {
                     MapClip = map;
 
@@ -114,21 +114,23 @@ namespace CellGameEdit.PM
             {
                 LengthTable.Clear();
 
-                int px = MapClip.XCount / 2;
-                int py = MapClip.XCount / 2;
+				MapLayer clip_layer = MapClip.getCurLayer();
 
-                for (int x = 0; x < MapClip.XCount; x++)
+				int px = MapClip.XCount / 2;
+				int py = MapClip.XCount / 2;
+
+				for (int x = 0; x < MapClip.XCount; x++)
                 {
-                    for (int y = 0; y < MapClip.XCount; y++)
+					for (int y = 0; y < MapClip.XCount; y++)
                     {
-                        int srcTile = MapClip.getTileID(x, y);
-                        int srcFlip = MapClip.getTileFlip(x, y);
+						int srcTile = MapClip.getTileID(clip_layer, x, y);
+						int srcFlip = MapClip.getTileFlip(clip_layer, x, y);
 
-                        int d1Tile = MapClip.getTileID(x, y + MapClip.XCount);
-                        int d1Flip = MapClip.getTileFlip(x, y + MapClip.XCount);
+						int d1Tile = MapClip.getTileID(clip_layer, x, y + MapClip.XCount);
+						int d1Flip = MapClip.getTileFlip(clip_layer, x, y + MapClip.XCount);
 
-                        int d2Tile = MapClip.getTileID(x, y + MapClip.XCount * 2);
-                        int d2Flip = MapClip.getTileFlip(x, y + MapClip.XCount * 2);
+						int d2Tile = MapClip.getTileID(clip_layer, x, y + MapClip.XCount * 2);
+						int d2Flip = MapClip.getTileFlip(clip_layer, x, y + MapClip.XCount * 2);
 
                         int dx = x - px;
                         int dy = y - py;
@@ -185,23 +187,25 @@ namespace CellGameEdit.PM
             {
                 FixTable.Clear();
 
-                int px = MapClip.XCount / 2;
-                int py = MapClip.XCount / 2;
+				MapLayer clip_layer = MapClip.getCurLayer();
 
-                for (int x = 0; x < MapClip.XCount; x++)
+				int px = MapClip.XCount / 2;
+				int py = MapClip.XCount / 2;
+
+				for (int x = 0; x < MapClip.XCount; x++)
                 {
-                    for (int y = 0; y < MapClip.XCount; y++)
+					for (int y = 0; y < MapClip.XCount; y++)
                     {
                         int dx = x - px;
                         int dy = y - py;
 
                         // 双通
-                        int d2Tile = MapClip.getTileID(x, y + MapClip.XCount * 2);
-                        int d2Flip = MapClip.getTileFlip(x, y + MapClip.XCount * 2);
+						int d2Tile = MapClip.getTileID(clip_layer, x, y + MapClip.XCount * 2);
+						int d2Flip = MapClip.getTileFlip(clip_layer, x, y + MapClip.XCount * 2);
 
                         // 单拐
-                        int d1Tile = MapClip.getTileID(x, y + MapClip.XCount);
-                        int d1Flip = MapClip.getTileFlip(x, y + MapClip.XCount);
+						int d1Tile = MapClip.getTileID(clip_layer, x, y + MapClip.XCount);
+						int d1Flip = MapClip.getTileFlip(clip_layer, x, y + MapClip.XCount);
 
                         if (dx != 0 && dy != 0)
                         {
@@ -261,15 +265,18 @@ namespace CellGameEdit.PM
 
             if (MapClip != null)
             {
-                int px = MapClip.XCount / 2;
-                int py = MapClip.XCount / 2;
+				MapLayer clip_layer = MapClip.getCurLayer();
+				MapLayer dst_layer = map.getCurLayer();
+
+				int px = MapClip.XCount / 2;
+				int py = MapClip.XCount / 2;
 
                 bx -= px;
                 by -= py;
 
-                for (int x = 0; x < MapClip.XCount; x++)
+				for (int x = 0; x < MapClip.XCount; x++)
                 {
-                    for (int y = 0; y < MapClip.XCount; y++)
+					for (int y = 0; y < MapClip.XCount; y++)
                     {
                         int lenx = Math.Abs(x - px);
                         int leny = Math.Abs(y - py);
@@ -277,23 +284,23 @@ namespace CellGameEdit.PM
                         int dbx = bx + x;
                         int dby = by + y;
 
-                        if (dbx >= 0 && dbx < map.XCount &&
-                            dby >= 0 && dby < map.YCount)
+						if (dbx >= 0 && dbx < map.XCount &&
+							dby >= 0 && dby < map.YCount)
                         {
-                            int srcTile = MapClip.getTileID(x, y);
-                            int srcFlip = MapClip.getTileFlip(x, y);
+							int srcTile = MapClip.getTileID(clip_layer, x, y);
+							int srcFlip = MapClip.getTileFlip(clip_layer, x, y);
                             DeepNode srcDeep = getTileDeep(srcTile, srcFlip);
 
-                            int dstTile = map.getTileID(dbx, dby);
-                            int dstFlip = map.getTileFlip(dbx, dby);
+							int dstTile = map.getTileID(dst_layer, dbx, dby);
+							int dstFlip = map.getTileFlip(dst_layer, dbx, dby);
                             DeepNode dstDeep = getTileDeep(dstTile, dstFlip);
 
                             if (dstDeep == null)
                             {
-                                srcTile = MapClip.getTileID(x, y);
-                                srcFlip = MapClip.getTileFlip(x, y);
-                                map.putTile(srcTile, dbx, dby);
-                                map.putFlip(srcFlip, dbx, dby);
+								srcTile = MapClip.getTileID(clip_layer, x, y);
+								srcFlip = MapClip.getTileFlip(clip_layer, x, y);
+								map.putTile(dst_layer, srcTile, dbx, dby);
+								map.putFlip(dst_layer, srcFlip, dbx, dby);
                             }
                             else
                             {
@@ -318,8 +325,8 @@ namespace CellGameEdit.PM
                                             if (fix != null)
                                             {
                                                // Console.WriteLine("联合 : " + x + ", " + y);
-                                                map.putTile(fix.Tile, dbx, dby);
-                                                map.putFlip(fix.Flip, dbx, dby);
+												map.putTile(dst_layer, fix.Tile, dbx, dby);
+												map.putFlip(dst_layer, fix.Flip, dbx, dby);
                                             }
                                         }
                                     }
@@ -343,13 +350,13 @@ namespace CellGameEdit.PM
                                    // Console.WriteLine("覆盖 : " + x + ", " + y);
                                     if (fix != null)
                                     {
-                                        map.putTile(fix.Tile, dbx, dby);
-                                        map.putFlip(fix.Flip, dbx, dby);
+										map.putTile(dst_layer, fix.Tile, dbx, dby);
+										map.putFlip(dst_layer, fix.Flip, dbx, dby);
                                     }
                                     else
                                     {
-                                        map.putTile(srcTile, dbx, dby);
-                                        map.putFlip(srcFlip, dbx, dby);
+										map.putTile(dst_layer, srcTile, dbx, dby);
+										map.putFlip(dst_layer, srcFlip, dbx, dby);
                                     }
 
                                 }
@@ -361,8 +368,8 @@ namespace CellGameEdit.PM
 
                                         if (srcDeep.Len == 0 || dstDeep.Len == 0)
                                         {
-                                            map.putTile(srcTile, dbx, dby);
-                                            map.putFlip(srcFlip, dbx, dby);
+											map.putTile(dst_layer, srcTile, dbx, dby);
+											map.putFlip(dst_layer, srcFlip, dbx, dby);
                                         }
                                         else
                                         {
@@ -386,8 +393,8 @@ namespace CellGameEdit.PM
                                            
                                             if (fix != null)
                                             {
-                                                map.putTile(fix.Tile, dbx, dby);
-                                                map.putFlip(fix.Flip, dbx, dby);
+												map.putTile(dst_layer, fix.Tile, dbx, dby);
+												map.putFlip(dst_layer, fix.Flip, dbx, dby);
                                             }
                                             /*
                                             if (srcDeep.DX != 0 && srcDeep.DX == -dstDeep.DX &&
@@ -417,10 +424,10 @@ namespace CellGameEdit.PM
 
                                                 if (sdx >= 0 && sdx < MapClip.XCount && sdy >= 0 && sdy < MapClip.YCount)
                                                 {
-                                                    srcTile = MapClip.getTileID(sdx, sdy);
-                                                    srcFlip = MapClip.getTileFlip(sdx, sdy);
-                                                    map.putTile(srcTile, dbx, dby);
-                                                    map.putFlip(srcFlip, dbx, dby);
+													srcTile = MapClip.getTileID(clip_layer, sdx, sdy);
+													srcFlip = MapClip.getTileFlip(clip_layer, sdx, sdy);
+													map.putTile(dst_layer, srcTile, dbx, dby);
+													map.putFlip(dst_layer, srcFlip, dbx, dby);
                                                 }
                                             }
                                         }
@@ -545,7 +552,9 @@ namespace CellGameEdit.PM
         {
 
             if (MapClip != null)
-            {
+			{
+				MapLayer dst_layer = map.getCurLayer();
+
                 int px = MapClip.XCount / 2;
                 int py = MapClip.XCount / 2;
 
@@ -565,8 +574,8 @@ namespace CellGameEdit.PM
                         if (dbx >= 0 && dbx < map.XCount &&
                             dby >= 0 && dby < map.YCount)
                         {
-                            map.putTile(tile, dbx, dby);
-                            map.putFlip(flip, dbx, dby);
+							map.putTile(dst_layer, tile, dbx, dby);
+							map.putFlip(dst_layer, flip, dbx, dby);
                         }
                     }
                 }

@@ -31,7 +31,8 @@ namespace CellGameEdit.PM
             pictureBox1.Image = new Bitmap(CurMap.XCount, CurMap.YCount);
 
             Graphics g = Graphics.FromImage(pictureBox1.Image);
-
+			CurMap.renderToMiniMap(g);
+			/*
             for (int x = 0; x < CurMap.XCount; x++)
             {
                 for (int y = 0; y < CurMap.YCount; y++)
@@ -43,7 +44,7 @@ namespace CellGameEdit.PM
                         g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
                     }
                 }
-            }
+            }*/
 
             pictureBox1.Refresh();
             this.TopMost = true;

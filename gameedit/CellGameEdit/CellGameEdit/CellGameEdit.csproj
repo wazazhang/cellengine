@@ -573,6 +573,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\IconLord9.ico" />
+    <Content Include="Resources\Bitmap1.bmp" />
     <Content Include="Resources\Icon_1.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

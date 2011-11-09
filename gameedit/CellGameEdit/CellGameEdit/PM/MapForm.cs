@@ -14,6 +14,7 @@ using javax.microedition.lcdui;
 namespace CellGameEdit.PM
 {
 
+
     [Serializable]
     public partial class MapForm : Form , ISerializable ,IEditForm
     {
@@ -30,11 +31,7 @@ namespace CellGameEdit.PM
         int KeyX = 0;
         int KeyY = 0;
 
-
-        int[][] MatrixTile;
-        int[][] MatrixAnim;
-        int[][] MatrixFlip;
-        int[][] MatrixTag;
+		private MapLayers layers;
 
 		private string append_data = "";
 
@@ -44,37 +41,9 @@ namespace CellGameEdit.PM
         ArrayList Tiles;
         ArrayList TileKeys;
 
-        public int XCount;
-        public int YCount;
+        //private int XCount;
+		//private int YCount;
 
-        #region fliptable
-        /*
-        static public System.Drawing.RotateFlipType[] flipTable = new System.Drawing.RotateFlipType[]
-        {
-            System.Drawing.RotateFlipType.RotateNoneFlipNone,
-            System.Drawing.RotateFlipType.Rotate90FlipNone,//
-            System.Drawing.RotateFlipType.Rotate180FlipNone,
-            System.Drawing.RotateFlipType.Rotate270FlipNone,//
-
-            System.Drawing.RotateFlipType.RotateNoneFlipX,
-            System.Drawing.RotateFlipType.Rotate270FlipX,//
-            System.Drawing.RotateFlipType.Rotate180FlipX,
-            System.Drawing.RotateFlipType.Rotate90FlipX,//
-        };
-        /*
-        static public int[] flipTableJ2me = new int[]{
-           Cell.Game.CImages.TRANS_NONE,
-            Cell.Game.CImages.TRANS_270,
-            Cell.Game.CImages.TRANS_180,
-            Cell.Game.CImages.TRANS_90,
-
-            Cell.Game.CImages.TRANS_H,
-            Cell.Game.CImages.TRANS_V90,
-            Cell.Game.CImages.TRANS_V,
-            Cell.Game.CImages.TRANS_H90,
-
-        };*/
-        #endregion
 
         //---------------------------------------------------------
         int flipIndex = 0;
@@ -108,10 +77,11 @@ namespace CellGameEdit.PM
         System.Drawing.Rectangle dstRect;
 
         public static ImagesForm clipSuper;
-        public static int[][] dstClipTile;
-        public static int[][] dstClipTag;
-        public static int[][] dstClipAnim;
-        public static int[][] dstClipFlip;
+        //public static int[][] dstClipTile;
+        //public static int[][] dstClipTag;
+        //public static int[][] dstClipAnim;
+        //public static int[][] dstClipFlip;
+		public static MapLayer dstClipLayer = new MapLayer(0,0);
 
         int animCount = 0;
         int curAnimate = -1;
@@ -124,7 +94,11 @@ namespace CellGameEdit.PM
             mapTerrains1.init(this) ;
 
             id = name; this.Text = id;
-            super = images;
+			super = images;
+
+			layers = new MapLayers(20, 20);
+			layers.addLayer();
+
             CellW = cellw;
             CellH = cellh;
             numericUpDown4.Value = CellW;
@@ -156,7 +130,7 @@ namespace CellGameEdit.PM
                     break;
                 }
             }
-
+			/*
             XCount = 20;
             YCount = 20;
             MatrixTile = new int[YCount][];
@@ -174,12 +148,16 @@ namespace CellGameEdit.PM
                 //    MatrixAnim[i][j] = 0;
                 //}
             }
-            MapLoc.Width = CellW * XCount;
-            MapLoc.Height = CellH * YCount;
-            numericUpDown2.Value = XCount;
-            numericUpDown3.Value = YCount;
-            
+			*/
 
+			MapLoc.Width = CellW * layers.XCount;
+			MapLoc.Height = CellH * layers.YCount;
+			numericUpDown2.Value = layers.XCount;
+			numericUpDown3.Value = layers.YCount;
+            
+			//dstClipLayer
+
+			/*
             dstClipTile = new int[1][];
             dstClipTag = new int[1][];
             dstClipAnim = new int[1][];
@@ -189,7 +167,7 @@ namespace CellGameEdit.PM
             dstClipTag[0] = new int[1];
             dstClipAnim[0] = new int[1];
             dstClipFlip[0] = new int[1];
-
+			*/
             //AnimTable = new Hashtable();
             //Animates = new ArrayList();
             AnimIndexTable = new Hashtable();
@@ -221,12 +199,12 @@ namespace CellGameEdit.PM
         protected MapForm(SerializationInfo info, StreamingContext context)
         {
             try
-            {
-                InitializeComponent();
-                mapTerrains1.init(this);
+			{
+				InitializeComponent();
+				mapTerrains1.init(this);
 
-                id = (String)info.GetValue("id", typeof(String));
-                this.Text = id;
+				id = (String)info.GetValue("id", typeof(String));
+				this.Text = id;
 				/*
                 if (!ProjectForm.IsCopy)
                 {
@@ -241,39 +219,70 @@ namespace CellGameEdit.PM
 				*/
 				superName = (String)info.GetValue("SuperName", typeof(String));
 
-                CellW = (int)info.GetValue("CellW", typeof(int));
-                CellH = (int)info.GetValue("CellH", typeof(int));
-                numericUpDown4.Value = CellW;
-                numericUpDown5.Value = CellH;
+				CellW = (int)info.GetValue("CellW", typeof(int));
+				CellH = (int)info.GetValue("CellH", typeof(int));
+				
 
-                srcRectR = new System.Drawing.Rectangle(0, 0, 0, 0);
-                srcRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-                dstRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-
-            
-
-                pictureBox3.Width = CellW;
-                pictureBox3.Height = CellH;
-
-                pictureBox4.Left = pictureBox3.Location.X + 3 + CellW;
-
-                pictureBox4.Width = CellW;
-                pictureBox4.Height = CellH;
-               
-
-                MatrixTile = (int[][])info.GetValue("MatrixTile", typeof(int[][]));
-                MatrixTag = (int[][])info.GetValue("MatrixTag", typeof(int[][]));
-                MatrixAnim = (int[][])info.GetValue("MatrixAnim", typeof(int[][]));
-                MatrixFlip = (int[][])info.GetValue("MatrixFlip", typeof(int[][]));
-                XCount = MatrixTile[0].Length;
-                YCount = MatrixTile.Length;
-
-                MapLoc.Width = CellW * XCount;
-                MapLoc.Height = CellH * YCount;
-                numericUpDown2.Value = XCount;
-                numericUpDown3.Value = YCount;
+				srcRectR = new System.Drawing.Rectangle(0, 0, 0, 0);
+				srcRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+				dstRect = new System.Drawing.Rectangle(0, 0, 0, 0);
 
 
+				
+
+				try
+				{
+					layers = (MapLayers)info.GetValue("MapLayers", typeof(MapLayers));
+
+				}
+				catch (Exception err)
+				{
+				}
+				try
+				{
+					if (layers == null)
+					{
+						int[][] MatrixTile = (int[][])info.GetValue("MatrixTile", typeof(int[][]));
+						int[][] MatrixTag = (int[][])info.GetValue("MatrixTag", typeof(int[][]));
+						int[][] MatrixAnim = (int[][])info.GetValue("MatrixAnim", typeof(int[][]));
+						int[][] MatrixFlip = (int[][])info.GetValue("MatrixFlip", typeof(int[][]));
+						int XCount = MatrixTile[0].Length;
+						int YCount = MatrixTile.Length;
+
+						MapLayer layer = new MapLayer(XCount, YCount);
+						layer.MatrixTile = MatrixTile;
+						layer.MatrixTag = MatrixTag;
+						layer.MatrixAnim = MatrixAnim;
+						layer.MatrixFlip = MatrixFlip;
+
+						layers = new MapLayers(XCount, YCount);
+						layers.addLayer(layer);
+					}
+				}
+				catch (Exception err)
+				{
+				}
+
+				{ 
+					
+				}
+
+				MapLoc.Width = CellW * layers.XCount;
+				MapLoc.Height = CellH * layers.YCount;
+				numericUpDown2.Value = layers.XCount;
+				numericUpDown3.Value = layers.YCount;
+
+
+				numericUpDown4.Value = CellW;
+				numericUpDown5.Value = CellH;
+				pictureBox3.Width = CellW;
+				pictureBox3.Height = CellH;
+
+				pictureBox4.Left = pictureBox3.Location.X + 3 + CellW;
+
+				pictureBox4.Width = CellW;
+				pictureBox4.Height = CellH;
+				/*
                 dstClipTile = new int[1][];
                 dstClipTag = new int[1][];
                 dstClipAnim = new int[1][];
@@ -284,39 +293,39 @@ namespace CellGameEdit.PM
                 dstClipAnim[0] = new int[1];
                 dstClipFlip[0] = new int[1];
 
-                
+                */
 
-                AnimIndexTable = new Hashtable();
-                AnimFlipTable = new Hashtable();
-          
-                ArrayList animK = (ArrayList)info.GetValue("animK", typeof(ArrayList));
-                ArrayList animV = (ArrayList)info.GetValue("animV", typeof(ArrayList));
-                ArrayList animF = (ArrayList)info.GetValue("animF", typeof(ArrayList));
-               
-                //Console.WriteLine("KCount=" + animK.Count);
+				AnimIndexTable = new Hashtable();
+				AnimFlipTable = new Hashtable();
 
-                for (int i = 0; i < animK.Count; i++)
-                {
-                    ArrayList v = (ArrayList)animV[i];
-                    ArrayList f = (ArrayList)animF[i];
-                    ListViewItem k = new ListViewItem(new String[] { animK[i].ToString(), v.Count.ToString()});
-                    listView1.Items.Add(k);
-                    AnimIndexTable.Add(k, v);
-                    AnimFlipTable.Add(k, f);
-                   
-                }
+				ArrayList animK = (ArrayList)info.GetValue("animK", typeof(ArrayList));
+				ArrayList animV = (ArrayList)info.GetValue("animV", typeof(ArrayList));
+				ArrayList animF = (ArrayList)info.GetValue("animF", typeof(ArrayList));
 
-                animCount = (int)info.GetValue("animCount", typeof(int));
+				//Console.WriteLine("KCount=" + animK.Count);
 
-                trackBar1.Maximum = 0;
+				for (int i = 0; i < animK.Count; i++)
+				{
+					ArrayList v = (ArrayList)animV[i];
+					ArrayList f = (ArrayList)animF[i];
+					ListViewItem k = new ListViewItem(new String[] { animK[i].ToString(), v.Count.ToString() });
+					listView1.Items.Add(k);
+					AnimIndexTable.Add(k, v);
+					AnimFlipTable.Add(k, f);
+
+				}
+
+				animCount = (int)info.GetValue("animCount", typeof(int));
+
+				trackBar1.Maximum = 0;
 
 
 
-                try
-                {
-                    this.IsTerrain.Checked = (Boolean)info.GetValue("IsTerrain", typeof(Boolean));
-                }
-                catch (Exception err) { }
+				try
+				{
+					this.IsTerrain.Checked = (Boolean)info.GetValue("IsTerrain", typeof(Boolean));
+				}
+				catch (Exception err) { }
 
 				try
 				{
@@ -326,8 +335,8 @@ namespace CellGameEdit.PM
 				{
 					this.append_data = "";
 				}
-                
-            }
+
+			}
             catch (Exception err)
             {
                 MessageBox.Show(err.StackTrace + "  at  " +err.Message);
@@ -352,11 +361,14 @@ namespace CellGameEdit.PM
                 info.AddValue("CellW",CellW);
                 info.AddValue("CellH",CellH);
                 
-
+				/*
                 info.AddValue("MatrixTile",MatrixTile);
                 info.AddValue("MatrixTag", MatrixTag);
                 info.AddValue("MatrixAnim", MatrixAnim);
                 info.AddValue("MatrixFlip", MatrixFlip);
+				*/
+				info.AddValue("MapLayers", layers);
+
 
                 //info.AddValue("AnimTable", AnimTable);
                 ArrayList animK = new ArrayList();
@@ -453,111 +465,124 @@ namespace CellGameEdit.PM
             pictureBox4.Width = CellW;
             pictureBox4.Height = CellH;
 
-            XCount = MatrixTile[0].Length;
-            YCount = MatrixTile.Length;
+            //XCount = MatrixTile[0].Length;
+            //YCount = MatrixTile.Length;
 
-            MapLoc.Width = CellW * XCount;
-            MapLoc.Height = CellH * YCount;
-            numericUpDown2.Value = XCount;
-            numericUpDown3.Value = YCount;
+            MapLoc.Width = CellW * layers.XCount;
+			MapLoc.Height = CellH * layers.YCount;
+			numericUpDown2.Value = layers.XCount;
+			numericUpDown3.Value = layers.YCount;
 
 			
         }
 
 
-        int[][] OutputTileMatrix;
-        int[][] OutputFlagMatrix;
 
-        Animates OutputAnimates;
-
-        public void initOutput(){
+        private void initOutput(
+			int[][][] OutputTileMatrix,
+			int[][][] OutputFlagMatrix,
+			Animates OutputAnimates)
+		{
             //init
-            OutputTileMatrix = new int[YCount][];
-            OutputFlagMatrix = new int[YCount][];
-            for (int y = 0; y < YCount; y++)
-            {
-                OutputTileMatrix[y] = new int[XCount];
-                OutputFlagMatrix[y] = new int[XCount];
-                for (int x = 0; x < XCount; x++)
-                {
-                    OutputTileMatrix[y][x] = 0;
-                    OutputFlagMatrix[y][x] = (int)MatrixTag[y][x];
-                }
-
-            }
-
+			for (int L = 0; L < layers.getCount(); L++ )
+			{
+				MapLayer layer = layers.getLayer(L);
+				OutputTileMatrix[L] = new int[layers.YCount][];
+				OutputFlagMatrix[L] = new int[layers.YCount][];
+				for (int y = 0; y < layers.YCount; y++)
+				{
+					OutputTileMatrix[L][y] = new int[layers.XCount];
+					OutputFlagMatrix[L][y] = new int[layers.XCount];
+					for (int x = 0; x < layers.XCount; x++)
+					{
+						OutputTileMatrix[L][y][x] = 0;
+						OutputFlagMatrix[L][y][x] = (int)layer.MatrixTag[y][x];
+					}
+				}
+			}
+           
             // subs
-            OutputAnimates = new Animates();
+			for (int L = 0; L < layers.getCount(); L++)
+			{
+				MapLayer layer = layers.getLayer(L);
+				for (int y = 0; y < layers.YCount; y++)
+				{
+					for (int x = 0; x < layers.XCount; x++)
+					{
+						int indexSub = OutputAnimates.subIndexOf(layer.MatrixTile[y][x], layer.MatrixFlip[y][x]);
+						if (indexSub < 0)
+						{
+							OutputAnimates.subAdd(layer.MatrixTile[y][x], layer.MatrixFlip[y][x]);
+							indexSub = OutputAnimates.subGetCount() - 1;
+						}
 
-            for (int y = 0; y < YCount; y++)
-            {
-                for (int x = 0; x < XCount; x++)
-                {
-                    int indexSub = OutputAnimates.subIndexOf(MatrixTile[y][x], MatrixFlip[y][x]);
-                    if (indexSub < 0)
-                    {
-                        OutputAnimates.subAdd(MatrixTile[y][x], MatrixFlip[y][x]);
-                        indexSub = OutputAnimates.subGetCount() - 1;
-                    }
+						ArrayList frame = new ArrayList();
+						frame.Add(indexSub);
 
-                    ArrayList frame = new ArrayList();
-                    frame.Add(indexSub);
+						int indexFrame = OutputAnimates.frameIndexOf(frame);
+						if (indexFrame < 0)
+						{
+							OutputAnimates.frameAdd(frame);
+							indexFrame = OutputAnimates.frameGetCount() - 1;
+						}
 
-                    int indexFrame = OutputAnimates.frameIndexOf(frame);
-                    if (indexFrame < 0)
-                    {
-                        OutputAnimates.frameAdd(frame);
-                        indexFrame = OutputAnimates.frameGetCount() - 1;
-                    }
+						OutputTileMatrix[L][y][x] = (int)indexFrame;
 
-                    OutputTileMatrix[y][x] = (int)indexFrame;
+					}
+				}
+			}
+			for (int L = 0; L < layers.getCount(); L++)
+			{
+				MapLayer layer = layers.getLayer(L);
+				for (int y = 0; y < layers.YCount; y++)
+				{
+					for (int x = 0; x < layers.XCount; x++)
+					{
+						int anim = Math.Abs(layer.MatrixAnim[y][x]);
 
-                }
-            }
-            for (int y = 0; y < YCount; y++)
-            {
-                for (int x = 0; x < XCount; x++)
-                {
-                    int anim = Math.Abs(MatrixAnim[y][x]);
+						if (anim > 0 && getFrame(anim) != null && getFrame(anim).Count > 0)
+						{
+							ArrayList frame = new ArrayList();
 
-                    if (anim > 0 && getFrame(anim) != null && getFrame(anim).Count > 0)
-                    {
-                        ArrayList frame = new ArrayList();
+							for (int i = 0; i < getFrame(anim).Count; i++)
+							{
+								int indexSub = OutputAnimates.subIndexOf(
+									(int)(getFrame(anim)[i]),
+									(int)(getFrameFlip(anim)[i]));
+								if (indexSub < 0)
+								{
+									OutputAnimates.subAdd(
+										(int)(getFrame(anim)[i]), 
+										(int)(getFrameFlip(anim)[i]));
+									indexSub = OutputAnimates.subGetCount() - 1;
+								}
+								frame.Add(indexSub);
+							}
 
-                        for (int i = 0; i < getFrame(anim).Count; i++)
-                        {
-                            int indexSub = OutputAnimates.subIndexOf((int)(getFrame(anim)[i]), (int)(getFrameFlip(anim)[i]));
-                            if (indexSub < 0)
-                            {
-                                OutputAnimates.subAdd((int)(getFrame(anim)[i]), (int)(getFrameFlip(anim)[i]));
-                                indexSub = OutputAnimates.subGetCount() - 1;
-                            }
-                            frame.Add(indexSub);
-                        }
-
-                        int indexFrame = OutputAnimates.frameIndexOf(frame);
-                        if (indexFrame < 0)
-                        {
-                            OutputAnimates.frameAdd(frame);
-                            indexFrame = OutputAnimates.frameGetCount() - 1;
-                        }
+							int indexFrame = OutputAnimates.frameIndexOf(frame);
+							if (indexFrame < 0)
+							{
+								OutputAnimates.frameAdd(frame);
+								indexFrame = OutputAnimates.frameGetCount() - 1;
+							}
 
 
-                        // 和JAVA端相反
-                        if (MatrixAnim[y][x] < 0)//多层
-                        {
-                            OutputTileMatrix[y][x] = indexFrame;
-                        }
-                        else
-                        {
-                            OutputTileMatrix[y][x] = -indexFrame;
-                        }
+							// 和JAVA端相反
+							if (layer.MatrixAnim[y][x] < 0)//多层
+							{
+								OutputTileMatrix[L][y][x] = indexFrame;
+							}
+							else
+							{
+								OutputTileMatrix[L][y][x] = -indexFrame;
+							}
 
-                        //Console.WriteLine(" OutputTileMatrix = " + OutputTileMatrix[y][x].ToString("d"));
+							//Console.WriteLine(" OutputTileMatrix = " + OutputTileMatrix[y][x].ToString("d"));
 
-                    }
-                }
-            }
+						}
+					}
+				}
+			}
 
         }
 
@@ -619,8 +644,12 @@ namespace CellGameEdit.PM
             lock (this)
             {
                 try
-                {
-                    initOutput();
+				{
+					int[][][] OutputTileMatrix = new int[layers.getCount()][][];
+					int[][][] OutputFlagMatrix = new int[layers.getCount()][][];
+					Animates OutputAnimates  = new Animates();
+
+					initOutput(OutputTileMatrix, OutputFlagMatrix, OutputAnimates);
 
                     String map = Util.getFullTrunkScript(script, SC._MAP, SC._END_MAP);
 
@@ -728,18 +757,38 @@ namespace CellGameEdit.PM
                     } while (fix);
 
 
-                    // tile matrix
-                    //String senceMatrix = "";
-                    //for (int i = 0; i < YCount; i++)
-                    //    senceMatrix += "{" + Util.toTextArray(OutputTileMatrix[i]) + "},\r\n";
-                    String senceMatrix = Util.toNumberArray2D<int>(ref OutputTileMatrix);
+					//////////////////////////////////////////////////////////////////////////////
+					// map layers
+					do
+					{
+						String[] slayers = new String[layers.getCount()];
+						for (int L = 0; L < layers.getCount(); L++)
+						{
+							MapLayer layer = layers.getLayer(L);
 
-                    // cd matrix
-                    //String cdMatrix = "";
-                    //for (int i = 0; i < YCount; i++)
-                    //    cdMatrix += "{" + Util.toTextArray(OutputFlagMatrix[i]) + "},\r\n";
+							// tile matrix
+							String senceMatrix = Util.toNumberArray2D<int>(ref (OutputTileMatrix[L]));
+							// cd matrix
+							String cdMatrix = Util.toNumberArray2D<int>(ref (OutputFlagMatrix[L]));
 
-                    String cdMatrix = Util.toNumberArray2D<int>(ref OutputFlagMatrix);
+							slayers[L] = Util.replaceKeywordsScript(map, SC._LAYER, SC._END_LAYER,
+								new string[] { SC.INDEX, SC.TILE_MATRIX, SC.FLAG_MATRIX },
+								new string[] { L.ToString(), senceMatrix, cdMatrix }
+								);
+						}
+						string temp = Util.replaceSubTrunksScript(map, SC._LAYER, SC._END_LAYER, slayers);
+						if (temp == null)
+						{
+							fix = false;
+						}
+						else
+						{
+							fix = true;
+							map = temp;
+						}
+					} while (fix);
+					//////////////////////////////////////////////////////////////////////////////
+                   
 
 					string[] adata = Util.toStringMultiLine(append_data);
 					string APPEND_DATA = Util.toStringArray1D(ref adata);
@@ -753,8 +802,9 @@ namespace CellGameEdit.PM
 						 SC.CELL_H, 
 						 SC.X_COUNT,
 						 SC.Y_COUNT,
-						 SC.TILE_MATRIX,
-						 SC.FLAG_MATRIX,
+						 SC.LAYER_COUNT,
+						 //SC.TILE_MATRIX,
+						 //SC.FLAG_MATRIX,
 						 SC.SCENE_PART_COUNT,
 						 SC.SCENE_FRAME_COUNT,
 						 SC.CD_PART_COUNT,
@@ -766,10 +816,11 @@ namespace CellGameEdit.PM
 						super.id,
 						CellW.ToString(),
 						CellH.ToString(),
-						XCount.ToString(),
-						YCount.ToString(),
-						senceMatrix,
-						cdMatrix,
+						layers.XCount.ToString(),
+						layers.YCount.ToString(),
+						layers.getCount().ToString(),
+						//senceMatrix,
+						//cdMatrix,
 						OutputAnimates.subGetCount().ToString(),
 						OutputAnimates.frameGetCount().ToString(),
 						"8",
@@ -786,9 +837,10 @@ namespace CellGameEdit.PM
         }
 
         private void MapForm_Load(object sender, EventArgs e)
-        {
+		{
+			syncMapLayer();
+			refreshAnimateList();
             timer1.Start();
-            refreshAnimateList();
         }
         private void MapForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -807,19 +859,24 @@ namespace CellGameEdit.PM
             this.id = this.Text;
         }
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		public MapLayer getCurLayer()
+		{
+			return layers.getLayer(layer_index);
+		}
 
         public Boolean isTerrain() { return this.IsTerrain.Checked; }
 
-        public Image getTileImage(int x, int y) {
-            return (((Image)(Tiles[MatrixTile[y][x]])));
+        public Image getTileImage(MapLayer layer, int x, int y) {
+			return (((Image)(Tiles[layer.MatrixTile[y][x]])));
         }
         public Image getTileImage(int index)
         {
             return (((Image)(Tiles[index])));
         }
-        public String getTileKey(int x, int y)
+		public String getTileKey(MapLayer layer, int x, int y)
         {
-            return (((String)(TileKeys[MatrixTile[y][x]])));
+			return (((String)(TileKeys[layer.MatrixTile[y][x]])));
         }
         public String getTileKey(int index)
         {
@@ -833,51 +890,65 @@ namespace CellGameEdit.PM
 
         public int getWidth()
         {
-            return this.XCount * this.CellW;
+            return layers.XCount * this.CellW;
         }
         public int getHeight()
         {
-            return this.YCount * this.CellH;
+			return layers.YCount * this.CellH;
         }
 
-        
+		public int XCount
+		{
+			get
+			{
+				return layers.XCount;
+			}
+		}
 
-        public int getTileID(int x,int y)
+		public int YCount
+		{
+			get
+			{
+				return layers.YCount;
+			}
+		}
+
+		public int getTileID(MapLayer layer, int x, int y)
         {
             try {
-                return MatrixTile[y][x];
+				return layer.MatrixTile[y][x];
             }
             catch (Exception err) {
                 return -1;
             }
         }
-        public int getTileFlip(int x, int y)
+		public int getTileFlip(MapLayer layer, int x, int y)
         {
             try
             {
-                return MatrixFlip[y][x];
+				return layer.MatrixFlip[y][x];
             }
             catch (Exception err)
             {
                 return -1;
             }
         }
-        public int getTagID(int x, int y)
+		public int getTagID(MapLayer layer, int x, int y)
         {
             try
             {
-                return MatrixTag[y][x];
+				return layer.MatrixTag[y][x];
             }
             catch (Exception err)
             {
                 return -1;
             }
         }
-        public int getAnimateID(int x, int y)
+		public int getAnimateID(MapLayer layer, int x, int y)
         {
             try
             {
-                return MatrixAnim[y][x];
+				return layer.MatrixAnim[y][x];
             }
             catch (Exception err)
             {
@@ -1020,38 +1091,38 @@ namespace CellGameEdit.PM
             return null;
         }
 
-        private void fillAnimate(int index)
+        private void fillAnimate(MapLayer layer, int index)
         {
             for (int y = dstRect.Y; y < dstRect.Y + dstRect.Height;y+=CellH )
             {
                 for (int x = dstRect.X; x < dstRect.X + dstRect.Width; x+=CellW)
                 {
-                    putAnimate(index,x/CellW,y/CellH,IsMultiLayer.Checked);
+					putAnimate(layer, index, x / CellW, y / CellH, IsMultiLayer.Checked);
                 }
             }
         }
-        private void fillTile(int index, int flip)
+		private void fillTile(MapLayer layer, int index, int flip)
         {
             for (int y = dstRect.Y; y < dstRect.Y + dstRect.Height;y+=CellH )
             {
                 for (int x = dstRect.X; x < dstRect.X + dstRect.Width; x+=CellW)
                 {
-                    putTile(index,x/CellW,y/CellH);
-                    putFlip(flip, x / CellW, y / CellH);
+					putTile(layer, index, x / CellW, y / CellH);
+					putFlip(layer, flip, x / CellW, y / CellH);
                 }
             }
         }
-        private void fillTag(int index)
+		private void fillTag(MapLayer layer, int index)
         {
             for (int y = dstRect.Y; y < dstRect.Y + dstRect.Height; y += CellH)
             {
                 for (int x = dstRect.X; x < dstRect.X + dstRect.Width; x += CellW)
                 {
-                    putTag(index, x / CellW, y / CellH);
+					putTag(layer, index, x / CellW, y / CellH);
                 }
             }
         }
-        private void copyDst()
+		private void copyDst(MapLayer curlayer)
         {
             int sbx = dstRect.X / CellW;
             int sby = dstRect.Y / CellH;
@@ -1061,6 +1132,8 @@ namespace CellGameEdit.PM
             if (xcount <= 0 || ycount <= 0) return;
 
             clipSuper = this.super;
+			dstClipLayer = curlayer.copyDst(sbx, sby, xcount, ycount);
+			/*
             dstClipTile = new int[ycount][];
             dstClipTag = new int[ycount][];
             dstClipAnim = new int[ycount][];
@@ -1082,9 +1155,9 @@ namespace CellGameEdit.PM
                     }
                 }
             }
-            
+            */
         }
-        private void clipDst()
+        private void clipDst(MapLayer curlayer)
         {
             int sbx = dstRect.X / CellW;
             int sby = dstRect.Y / CellH;
@@ -1093,36 +1166,23 @@ namespace CellGameEdit.PM
 
             if (xcount <= 0 || ycount <= 0) return;
 
-            clipSuper = this.super;
-            dstClipTile = new int[ycount][];
-            dstClipTag = new int[ycount][];
-            dstClipAnim = new int[ycount][];
-            dstClipFlip = new int[ycount][];
+			clipSuper = this.super;
+			dstClipLayer = curlayer.copyDst(sbx, sby, xcount, ycount);
+
             for (int by = 0; by < ycount; by++)
             {
-                dstClipTile[by] = new int[xcount];
-                dstClipTag[by] = new int[xcount];
-                dstClipAnim[by] = new int[xcount];
-                dstClipFlip[by] = new int[xcount];
                 for (int bx = 0; bx < xcount; bx++)
                 {
-                    if (sby + by < MatrixTile.Length && sbx + bx < MatrixTile[by].Length)
-                    {
-                        dstClipTile[by][bx] = MatrixTile[sby + by][sbx + bx];
-                        dstClipTag[by][bx] = MatrixTag[sby + by][sbx + bx];
-                        dstClipAnim[by][bx] = MatrixAnim[sby + by][sbx + bx];
-                        dstClipFlip[by][bx] = MatrixFlip[sby + by][sbx + bx];
-
-                        putTile(srcIndexR, sbx + bx, sby + by);
-                        putFlip(flipIndex, sbx + bx, sby + by);
-                        putTag(0, sbx + bx, sby + by);
-                        putAnimate(0, sbx + bx, sby + by, false);
-                    }
+					putTile(curlayer, srcIndexR, sbx + bx, sby + by);
+					putFlip(curlayer, flipIndex, sbx + bx, sby + by);
+					putTag(curlayer, 0, sbx + bx, sby + by);
+					putAnimate(curlayer, 0, sbx + bx, sby + by, false);
+                    
                 }
             }
 
         }
-        private void paseDst()
+		private void paseDst(MapLayer curlayer)
         {
             if (clipSuper != this.super) return;
 
@@ -1134,10 +1194,10 @@ namespace CellGameEdit.PM
             int xcount = dstRect.Width / CellW;
             int ycount = dstRect.Height / CellH;
 
-            if (dstClipTile!=null)
+			if (dstClipLayer != null)
             {
-                xcount = Math.Max(xcount, dstClipTile[0].Length);
-                ycount = Math.Max(ycount, dstClipTile.Length);
+				xcount = Math.Max(xcount, dstClipLayer.xcount());
+				ycount = Math.Max(ycount, dstClipLayer.ycount());
             }
 
             if (xcount <= 0 || ycount <= 0) return;
@@ -1146,25 +1206,28 @@ namespace CellGameEdit.PM
             {
                 for (int bx = 0; bx < xcount; bx++)
                 {
-                    putTile(
-                        dstClipTile[by % dstClipTile.Length][bx % dstClipTile[by % dstClipTile.Length].Length], 
-                        sbx + bx, sby + by);
-                    putFlip(
-                        dstClipFlip[by % dstClipFlip.Length][bx % dstClipFlip[by % dstClipFlip.Length].Length],
-                        sbx + bx, sby + by);
-                    putTag(
-                        dstClipTag[by % dstClipTag.Length][bx % dstClipTag[by % dstClipTag.Length].Length], 
-                        sbx + bx, sby + by);
-
-                    int anim =  dstClipAnim[by % dstClipAnim.Length][bx % dstClipAnim[by % dstClipAnim.Length].Length];
-                    putAnimate(
-                        anim, 
-                        sbx + bx, sby + by,
+					int sy = by % dstClipLayer.ycount();
+					int sx = bx % dstClipLayer.xcount();
+					int dy = sby + by;
+					int dx = sbx + bx;
+                    putTile(curlayer,
+						dstClipLayer.MatrixTile[sy][sx], 
+                        dx, dy);
+					putFlip(curlayer,
+					   dstClipLayer.MatrixFlip[sy][sx],
+						dx, dy);
+					putTag(curlayer,
+					   dstClipLayer.MatrixTag[sy][sx],
+						dx, dy);
+					int anim = dstClipLayer.MatrixAnim[sy][sx];
+					putAnimate(curlayer,
+                        anim,
+					   dx, dy,
                         anim<0);
                 }
             }
         }
-        private void clearDst()
+		private void clearDst(MapLayer curlayer)
         {
             int sbx = dstRect.X / CellW;
             int sby = dstRect.Y / CellH;
@@ -1177,41 +1240,43 @@ namespace CellGameEdit.PM
             {
                 for (int bx = 0; bx < xcount; bx++)
                 {
-                    if (sby + by < MatrixTile.Length && sbx + bx < MatrixTile[by].Length)
-                    {
-                        putTile(srcIndexR, sbx + bx, sby + by);
-                        putFlip(flipIndex, sbx + bx, sby + by);
-                        putTag(0, sbx + bx, sby + by);
-                        putAnimate(0, sbx + bx, sby + by, false);
-                    }
+
+					putTile(curlayer, srcIndexR, sbx + bx, sby + by);
+					putFlip(curlayer, flipIndex, sbx + bx, sby + by);
+					putTag(curlayer, 0, sbx + bx, sby + by);
+					putAnimate(curlayer, 0, sbx + bx, sby + by, false);
+                    
                 }
             }
 
         }
 
 
-        public void putTile(int index, int bx, int by)
+        public void putTile(MapLayer layer, int index, int bx, int by)
         {
-            if (index < getTileCount() && by < MatrixTile.Length && bx < MatrixTile[by].Length)
+			if (!layer.visible) { return; }
+			if (index < getTileCount() && by < layer.MatrixTile.Length && bx < layer.MatrixTile[by].Length)
             {
-                MatrixTile[by][bx] = index;
+				layer.MatrixTile[by][bx] = index;
 
                 if (MiniView != null)
                 {
-                    MiniView.rebuff(bx,by,getTileImage(bx,by));
+                    MiniView.rebuff(bx,by,getTileImage(layer,bx,by));
                 }
             }
         }
-        public void putTag(int tag, int bx, int by)
-        {
-            if (by < MatrixTag.Length && bx < MatrixTag[by].Length)
+		public void putTag(MapLayer layer, int tag, int bx, int by)
+		{
+			if (!layer.visible) { return; }
+			if (by < layer.MatrixTag.Length && bx < layer.MatrixTag[by].Length)
             {
-                MatrixTag[by][bx] = tag;
+				layer.MatrixTag[by][bx] = tag;
             }
         }
-        public void putAnimate(int index, int bx, int by, Boolean multiLayer)
-        {   
-            if (by < MatrixAnim.Length && bx < MatrixAnim[by].Length)
+		public void putAnimate(MapLayer layer, int index, int bx, int by, Boolean multiLayer)
+		{
+			if (!layer.visible) { return; }
+			if (by < layer.MatrixAnim.Length && bx < layer.MatrixAnim[by].Length)
             {
                 index = Math.Abs(index);
 
@@ -1219,29 +1284,30 @@ namespace CellGameEdit.PM
                 {
                     if (multiLayer)//duo ceng
                     {
-                        MatrixAnim[by][bx] = -index;
+						layer.MatrixAnim[by][bx] = -index;
                     }
                     else
                     {
-                        MatrixAnim[by][bx] = index;
+						layer.MatrixAnim[by][bx] = index;
                     }
                 }
                 else
                 {
-                    MatrixAnim[by][bx] = 0;
+					layer.MatrixAnim[by][bx] = 0;
                 }
                 
             }
         }
-        public void putFlip(int flip, int bx, int by)
-        {
-            if (flip < 8 && by < MatrixFlip.Length && bx < MatrixFlip[by].Length)
+		public void putFlip(MapLayer layer, int flip, int bx, int by)
+		{
+			if (!layer.visible) { return; }
+			if (flip < 8 && by < layer.MatrixFlip.Length && bx < layer.MatrixFlip[by].Length)
             {
-                MatrixFlip[by][bx] = flip;
+				layer.MatrixFlip[by][bx] = flip;
             }
         }
 
-        private void fillSrcTiles(int bx, int by)
+		private void fillSrcTiles(MapLayer layer, int bx, int by)
         {
             if (srcRects != null && srcTilesIndexBrush != null)
             {
@@ -1251,7 +1317,7 @@ namespace CellGameEdit.PM
                     int ox = (int)srcTilesOXBrush[i];
                     int oy = (int)srcTilesOYBrush[i];
 
-                    putTile(index, bx + ox, by + oy);
+					putTile(layer, index, bx + ox, by + oy);
                 }
             }
         }
@@ -1267,7 +1333,7 @@ namespace CellGameEdit.PM
         }
         private void renderDstTile(Graphics g, int index, int flip, int x, int y)
         {
-            Image img = getTileImage(index);
+			Image img = getTileImage(index);
 
             if (img != null && flip < Graphics.FlipTable.Length)
             {
@@ -1561,41 +1627,50 @@ namespace CellGameEdit.PM
             int sh = (screen.Height / CellH + 2 );
 
             //Console.WriteLine(" sx="+sx+" sy"+sy+" sw"+sw+" sh"+sh);
+			for (int L = 0; L < layers.getCount(); L++)
+			{
+				MapLayer layer = layers.getLayer(L);
+				if (layer.visible)
+				{
+					for (int by = sy; by < sy + sh && by < layers.YCount; by++)
+					{
+						for (int bx = sx; bx < sx + sw && bx < layers.XCount; bx++)
+						{
+							int drawx = x + bx * CellW;
+							int drawy = y + by * CellH;
+							int animi = layer.MatrixAnim[by][bx];
+							int tilei = layer.MatrixTile[by][bx];
+							int flipi = layer.MatrixFlip[by][bx];
+							int tagi = layer.MatrixTag[by][bx];
 
-            for (int by = sy ; by < sy + sh && by < YCount; by++)
-            {
-                for (int bx = sx; bx < sx + sw && bx < XCount; bx++)
-                {
-                    int drawx = x + bx * CellW;
-                    int drawy = y + by * CellH;
+							if (animi > 0 && animi < listView1.Items.Count)
+							{
+								renderAnimate(g, animi, anim ? timer : 0, drawx, drawy, tagAnim);
+							}
+							else if (animi < 0 && (-animi) < listView1.Items.Count)
+							{
+								renderCombo(g, -animi, drawx, drawy, tagAnim);
+							}
+							else if (tilei >= 0 && tilei < getTileCount())
+							{
+								renderDstTile(g, tilei, flipi, drawx, drawy);
+								renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked, tilei, drawx, drawy);
+							}
 
-                    if (MatrixAnim[by][bx] > 0 && MatrixAnim[by][bx] < listView1.Items.Count)
-                    {
-                        renderAnimate(g, MatrixAnim[by][bx], anim ? timer : 0, drawx, drawy, tagAnim);
-                    }
-                    else if (MatrixAnim[by][bx] < 0 && Math.Abs(MatrixAnim[by][bx]) < listView1.Items.Count)
-                    {
-                        renderCombo(g, Math.Abs(MatrixAnim[by][bx]), drawx, drawy, tagAnim);
-                    }
-                    else if (MatrixTile[by][bx] >= 0 && MatrixTile[by][bx] < getTileCount())
-                    {
-                        renderDstTile(g,MatrixTile[by][bx],MatrixFlip[by][bx],drawx, drawy);
-                        renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked, MatrixTile[by][bx], drawx, drawy);
-                    }
+							if (tag && animi != 0)
+							{
+								g.setColor(0, 0, 0xff);
+								g.drawRect(drawx, drawy, CellW, CellH);
+							}
 
-                    if (tag && MatrixAnim[by][bx] != 0)
-                    {
-                        g.setColor(0, 0, 0xff);
-                        g.drawRect(drawx, drawy, CellW, CellH);
-                    }
-
-                    if (tag && MatrixTag[by][bx] != 0)
-                    {
-                        renderTag(g, MatrixTag[by][bx], drawx, drawy);
-                    }
-                }
-            }
-       
+							if (tag && tagi != 0)
+							{
+								renderTag(g, tagi, drawx, drawy);
+							}
+						}
+					}
+				}
+			}
             if (grid)
             {
                 g.setColor(0x80, 0xff, 0xff, 0xff);
@@ -1809,51 +1884,22 @@ namespace CellGameEdit.PM
         //property
         private void dstChangeMapSize(int xcount, int ycount)
         {
-            XCount = xcount;
-            YCount = ycount;
-
-            if (YCount != MatrixTile.Length || XCount != MatrixTile[0].Length)
+			if (ycount != layers.YCount || xcount != layers.XCount)
             {
-                int[][] matrixTile = new int[YCount][];
-                int[][] matrixTag = new int[YCount][];
-                int[][] matrixAnim = new int[YCount][];
-                int[][] matrixFlip = new int[YCount][];
-                for (int y = 0; y < YCount; y++)
-                {
-                    matrixTile[y] = new int[XCount];
-                    matrixTag[y] = new int[XCount];
-                    matrixAnim[y] = new int[XCount];
-                    matrixFlip[y] = new int[XCount];
-                    for (int x = 0; x < XCount; x++)
-                    {
-                        if (y < MatrixTile.Length && x < MatrixTile[y].Length)
-                        {
-                            matrixTile[y][x] = MatrixTile[y][x];
-                            matrixTag[y][x] = MatrixTag[y][x];
-                            matrixAnim[y][x] = MatrixAnim[y][x];
-                            matrixFlip[y][x] = MatrixFlip[y][x];
-                        }
-                    }
-                }
-
-                MatrixTile = matrixTile;
-                MatrixTag = matrixTag;
-                MatrixAnim = matrixAnim;
-                MatrixFlip = matrixFlip;
-
-                MapLoc.Width = CellW * XCount;
-                MapLoc.Height = CellH * YCount;
+				layers.dstChangeMapSize(xcount, ycount);
+				MapLoc.Width = CellW * layers.XCount;
+				MapLoc.Height = CellH * layers.YCount;
             }
 
             refreshMap();
         }
         private void numericUpDown2_Enter_1(object sender, EventArgs e)
         {
-            numericUpDown2.Value = XCount;
+			numericUpDown2.Value = layers.XCount;
         }
         private void numericUpDown3_Enter_1(object sender, EventArgs e)
         {
-            numericUpDown3.Value = YCount;
+			numericUpDown3.Value = layers.YCount;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -1873,8 +1919,8 @@ namespace CellGameEdit.PM
             pictureBox4.Width = CellW;
             pictureBox4.Height = CellH;
 
-            MapLoc.Width = CellW * XCount;
-            MapLoc.Height = CellH * YCount;
+			MapLoc.Width = CellW * layers.XCount;
+			MapLoc.Height = CellH * layers.YCount;
 
             refreshMap();
         }
@@ -1950,24 +1996,24 @@ namespace CellGameEdit.PM
 
         private void 填充ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fillTile(srcIndex,flipIndex);
+            fillTile(getCurLayer(),srcIndex,flipIndex);
             
         }
         private void 填充当前动画ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fillAnimate(curAnimate);
+			fillAnimate(getCurLayer(), curAnimate);
         }
         private void 填充当前地形ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fillTag(tagIndex);
+			fillTag(getCurLayer(), tagIndex);
         }
         private void 复制ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyDst();
+            copyDst(getCurLayer());
         }
         private void 粘贴ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            paseDst();
+            paseDst(getCurLayer());
         }
   //minimap
         private void toolStripButton23_Click(object sender, EventArgs e)
@@ -2325,22 +2371,22 @@ namespace CellGameEdit.PM
             }
             else if (e.Control && e.KeyCode == Keys.X) 
             {
-                clipDst(); 
+                clipDst(getCurLayer()); 
                 refreshMap();
             }
             else if (e.Control && e.KeyCode == Keys.C)
             {
-                copyDst(); 
+                copyDst(getCurLayer()); 
                 refreshMap();
             }
             else if (e.Control && e.KeyCode == Keys.V)
             {
-                paseDst(); 
+                paseDst(getCurLayer()); 
                 refreshMap();
             }
             else if (e.KeyCode == Keys.Delete)
             {
-                clearDst();
+                clearDst(getCurLayer());
                 refreshMap();
             }
         }
@@ -2363,33 +2409,34 @@ namespace CellGameEdit.PM
         {
             try
             {
+				MapLayer curlayer = getCurLayer();
                 int dy = dstRect.Y / CellW;
                 int dx = dstRect.X / CellH;
 
-                int curTile = getTileID(dx, dy);
-                int curFlip = getTileFlip(dx, dy);
-                int curFlag = getTagID(dx, dy);
-                int curAnim = getAnimateID(dx, dy);
+				int curTile = getTileID(curlayer, dx, dy);
+				int curFlip = getTileFlip(curlayer, dx, dy);
+				int curFlag = getTagID(curlayer, dx, dy);
+				int curAnim = getAnimateID(curlayer, dx, dy);
 
                 long tileCount = 0;
                 long flagCount = 0;
                 long animCount = 0;
 
-                for (int x = 0; x < XCount; x++)
+                for (int x = 0; x < layers.XCount; x++)
                 {
-                    for (int y = 0; y < YCount; y++)
+                    for (int y = 0; y < layers.YCount; y++)
                     {
-                        if (getTileID(x, y) == curTile && getTileFlip(x, y) == curFlip)
+						if (getTileID(curlayer, x, y) == curTile && getTileFlip(curlayer, x, y) == curFlip)
                         {
                             tileCount++;
                         }
 
-                        if (getTagID(x, y) == curFlag)
+						if (getTagID(curlayer, x, y) == curFlag)
                         {
                             flagCount++;
                         }
 
-                        if (getAnimateID(x, y) == curAnim)
+						if (getAnimateID(curlayer, x, y) == curAnim)
                         {
                             animCount++;
                         }
@@ -2398,7 +2445,8 @@ namespace CellGameEdit.PM
                 }
 
                 MessageBox.Show(
-                    "相同的 地块 : " + tileCount + "\n" +
+                    "本图层\n" + 
+					"相同的 地块 : " + tileCount + "\n" +
                     "相同的 判定 : " + flagCount + "\n" +
                     "相同的 动画 : " + animCount + "\n"
                     );
@@ -2465,29 +2513,53 @@ namespace CellGameEdit.PM
             catch (Exception err) { }
         }
 
+		public void renderToMiniMap(System.Drawing.Graphics g)
+		{
+			for (int L = 0; L < layers.getCount(); L++)
+			{
+				MapLayer layer = layers.getLayer(L);
+				for (int x = 0; x < layers.XCount; x++)
+				{
+					for (int y = 0; y < layers.YCount; y++)
+					{
+						javax.microedition.lcdui.Image img = getTileImage(layer, x, y);
+
+						if (img != null)
+						{
+							g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
+						}
+					}
+				}
+			}
+
+		}
 
         private void btnSaveMiniMap_Click(object sender, EventArgs e)
         {
             try
             {
                 System.Drawing.Bitmap minimap = new System.Drawing.Bitmap(
-                    XCount, YCount//,
+					layers.XCount, layers.YCount//,
                     //System.Drawing.Imaging.PixelFormat.Format16bppArgb1555
                     );
                 System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(minimap);
+				/*for (int L = 0; L < layers.getCount(); L++)
+				{
+					MapLayer layer = layers.getLayer(L);
+					for (int x = 0; x < layers.XCount; x++)
+					{
+						for (int y = 0; y < layers.YCount; y++)
+						{
+							javax.microedition.lcdui.Image img = getTileImage(layer, x, y);
 
-                for (int x = 0; x < XCount; x++)
-                {
-                    for (int y = 0; y < YCount; y++)
-                    {
-                        javax.microedition.lcdui.Image img = getTileImage(x, y);
-
-                        if (img != null)
-                        {
-                            g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
-                        }
-                    }
-                }
+							if (img != null)
+							{
+								g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
+							}
+						}
+					}
+				}*/
+				renderToMiniMap(g);
                 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.InitialDirectory = ProjectForm.workSpace;
@@ -2760,6 +2832,8 @@ namespace CellGameEdit.PM
         {
             System.Drawing.Rectangle viewRect = getMapViewRectangle();
 
+			MapLayer curlayer = getCurLayer();
+
             int wx = ed.X + viewRect.X;
             int wy = ed.Y + viewRect.Y;
 
@@ -2783,10 +2857,10 @@ namespace CellGameEdit.PM
                 else if (ed.Button == MouseButtons.Right)
                 {
                     //mapTerrains1.clearSelectRegion(this, srcIndexR, flipIndex, dstBX, dstBY);
-                    putTile(srcIndexR, dstBX, dstBY);
-                    putFlip(flipIndex, dstBX, dstBY);
-                    putTag(0, dstBX, dstBY);
-                    putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+					putTile(curlayer, srcIndexR, dstBX, dstBY);
+					putFlip(curlayer, flipIndex, dstBX, dstBY);
+					putTag(curlayer, 0, dstBX, dstBY);
+					putAnimate(curlayer, 0, dstBX, dstBY, IsMultiLayer.Checked);
                 }
             }
             else
@@ -2813,20 +2887,20 @@ namespace CellGameEdit.PM
 
                     if (toolTileBrush.Checked)
                     {
-                        putTile(srcIndex, dstBX, dstBY);
-                        putFlip(flipIndex, dstBX, dstBY);
+						putTile(curlayer, srcIndex, dstBX, dstBY);
+						putFlip(curlayer, flipIndex, dstBX, dstBY);
                     }
                     else if (toolTilesBrush.Checked)
                     {
-                        fillSrcTiles(dstBX, dstBY);
+						fillSrcTiles(curlayer, dstBX, dstBY);
                     }
                     else if (toolCDBrush.Checked)
                     {
-                        putTag(tagIndex, dstBX, dstBY);
+						putTag(curlayer, tagIndex, dstBX, dstBY);
                     }
                     else if (toolAnimBrush.Checked)
                     {
-                        putAnimate(curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
+						putAnimate(curlayer, curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
                     }
                     
 
@@ -2835,16 +2909,16 @@ namespace CellGameEdit.PM
                 {
                     if (toolTileBrush.Checked)
                     {
-                        putTile(srcIndexR, dstBX, dstBY);
-                        putFlip(flipIndex, dstBX, dstBY);
+						putTile(curlayer, srcIndexR, dstBX, dstBY);
+						putFlip(curlayer, flipIndex, dstBX, dstBY);
                     }
                     else if (toolCDBrush.Checked)
                     {
-                        putTag(0, dstBX, dstBY);
+						putTag(curlayer, 0, dstBX, dstBY);
                     }
                     else if (toolAnimBrush.Checked)
                     {
-                        putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+						putAnimate(curlayer, 0, dstBX, dstBY, IsMultiLayer.Checked);
                     }
                 }
 
@@ -2859,6 +2933,7 @@ namespace CellGameEdit.PM
             int wx = ed.X + viewRect.X;
             int wy = ed.Y + viewRect.Y;
 
+			MapLayer curlayer = getCurLayer();
            
 
             if (ed.Button == MouseButtons.Left || ed.Button == MouseButtons.Right)
@@ -2882,10 +2957,10 @@ namespace CellGameEdit.PM
                 else if (ed.Button == MouseButtons.Right)
                 {
                     //mapTerrains1.clearSelectRegion(this, srcIndexR, flipIndex, dstBX, dstBY);
-                    putTile(srcIndexR, dstBX, dstBY);
-                    putFlip(flipIndex, dstBX, dstBY);
-                    putTag(0, dstBX, dstBY);
-                    putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+					putTile(curlayer, srcIndexR, dstBX, dstBY);
+					putFlip(curlayer, flipIndex, dstBX, dstBY);
+					putTag(curlayer, 0, dstBX, dstBY);
+					putAnimate(curlayer, 0, dstBX, dstBY, IsMultiLayer.Checked);
                 }
             }
             else
@@ -2901,20 +2976,20 @@ namespace CellGameEdit.PM
                     }
                     else if (toolTileBrush.Checked)
                     {
-                        putTile(srcIndex, dstBX, dstBY);
-                        putFlip(flipIndex, dstBX, dstBY);
+						putTile(curlayer, srcIndex, dstBX, dstBY);
+						putFlip(curlayer, flipIndex, dstBX, dstBY);
                     }
                     else if (toolTilesBrush.Checked)
                     {
-                        fillSrcTiles(dstBX, dstBY);
+						fillSrcTiles(curlayer, dstBX, dstBY);
                     }
                     else if (toolCDBrush.Checked)
                     {
-                        putTag(tagIndex, dstBX, dstBY);
+						putTag(curlayer, tagIndex, dstBX, dstBY);
                     }
                     else if (toolAnimBrush.Checked)
                     {
-                        putAnimate(curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
+						putAnimate(curlayer, curAnimate, dstBX, dstBY, IsMultiLayer.Checked);
                     }
                 }
                 else if (ed.Button == MouseButtons.Right)
@@ -2936,16 +3011,16 @@ namespace CellGameEdit.PM
                     }
                     else if (toolTileBrush.Checked)
                     {
-                        putTile(srcIndexR, dstBX, dstBY);
-                        putFlip(flipIndex, dstBX, dstBY);
+						putTile(curlayer, srcIndexR, dstBX, dstBY);
+						putFlip(curlayer, flipIndex, dstBX, dstBY);
                     }
                     else if (toolCDBrush.Checked)
                     {
-                        putTag(0, dstBX, dstBY);
+						putTag(curlayer, 0, dstBX, dstBY);
                     }
                     else if (toolAnimBrush.Checked)
                     {
-                        putAnimate(0, dstBX, dstBY, IsMultiLayer.Checked);
+						putAnimate(curlayer, 0, dstBX, dstBY, IsMultiLayer.Checked);
                     }
 
                 }
@@ -2958,6 +3033,7 @@ namespace CellGameEdit.PM
         {
             System.Drawing.Rectangle viewRect = getMapViewRectangle();
 
+			MapLayer curlayer = getCurLayer();
 
             int wx = ed.X + viewRect.X;
             int wy = ed.Y + viewRect.Y;
@@ -3153,19 +3229,20 @@ namespace CellGameEdit.PM
             static public MapBlock sc_getFillableMapBlock(IScriptOP op, int srcType, int[] srcGroup, int x, int y )
             {
                 int srcIndex = -1;
+				MapLayer curlayer = op.CurMap.getCurLayer();
 
                 switch (srcType)
                 {
                     case sc_TypeTile:
-                        srcIndex = sc_indexOfGroup(srcGroup, op.CurMap.getTileID(x, y));
-                        if (srcIndex >= 0 && op.CurMap.getAnimateID(x, y) == 0)
+						srcIndex = sc_indexOfGroup(srcGroup, op.CurMap.getTileID(curlayer, x, y));
+						if (srcIndex >= 0 && op.CurMap.getAnimateID(curlayer, x, y) == 0)
                         {
                             MapBlock block = new MapBlock(x, y, srcGroup[srcIndex], -1);
                             return block;
                         }
                         break;
                     case sc_TypeAnim:
-                        srcIndex = sc_indexOfGroup(srcGroup, op.CurMap.getAnimateID(x, y));
+						srcIndex = sc_indexOfGroup(srcGroup, op.CurMap.getAnimateID(curlayer, x, y));
                         if (srcIndex >= 0)
                         {
                             MapBlock block = new MapBlock(x, y, -1, srcGroup[srcIndex]);
@@ -3173,7 +3250,7 @@ namespace CellGameEdit.PM
                         }
                         break;
                     case sc_TypeLayer:
-                        srcIndex = sc_indexOfGroup(srcGroup, -op.CurMap.getAnimateID(x, y));
+						srcIndex = sc_indexOfGroup(srcGroup, -op.CurMap.getAnimateID(curlayer, x, y));
                         if (srcIndex >= 0)
                         {
                             MapBlock block = new MapBlock(x, y, -1, srcGroup[srcIndex]);
@@ -3187,7 +3264,8 @@ namespace CellGameEdit.PM
 
 
             static public void sc_FillDstBlocks(IScriptOP op, MapBlock[] blocks, int dstType, int[] dstGroup, int dstCount)
-            {
+			{
+				MapLayer curlayer = op.CurMap.getCurLayer();
                 for (int i = 0; i < dstCount && i < blocks.Length; i++)
                 {
                     int dst = dstGroup[i % dstGroup.Length];
@@ -3195,13 +3273,13 @@ namespace CellGameEdit.PM
                     switch (dstType)
                     { 
                         case sc_TypeTile:
-                            op.CurMap.putTile(dst, blocks[i].X, blocks[i].Y);
+							op.CurMap.putTile(curlayer, dst, blocks[i].X, blocks[i].Y);
                             break;
                         case sc_TypeAnim:
-                            op.CurMap.putAnimate(dst, blocks[i].X, blocks[i].Y, false);
+							op.CurMap.putAnimate(curlayer, dst, blocks[i].X, blocks[i].Y, false);
                             break;
                         case sc_TypeLayer:
-                            op.CurMap.putAnimate(dst, blocks[i].X, blocks[i].Y, true);
+							op.CurMap.putAnimate(curlayer, dst, blocks[i].X, blocks[i].Y, true);
                             break;
                     }
                 }
@@ -3439,7 +3517,9 @@ namespace CellGameEdit.PM
             }
 
             override public void doScript()
-            {
+			{
+				MapLayer curlayer = CurMap.getCurLayer();
+
                 Boolean isSrcTile = SrcType == sc_TypeTile;
                 Boolean isSrcAnim = SrcType == sc_TypeAnim || SrcType == sc_TypeLayer;
 
@@ -3447,26 +3527,26 @@ namespace CellGameEdit.PM
                 Boolean isDstAnim = DstType == sc_TypeAnim;
                 Boolean isDstLayer = DstType == sc_TypeLayer;
 
-                int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.XCount);
-                int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.YCount);
+				int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.layers.XCount);
+				int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.layers.YCount);
                 for (int x = sc_RegionX; x < sw; x++)
                 {
                     for (int y = sc_RegionY; y < sh; y++)
                     {
-                        if ((isSrcTile && CurMap.getTileID(x, y) == Src) ||
-                            (isSrcAnim && CurMap.getAnimateID(x, y) == Src))
+						if ((isSrcTile && CurMap.getTileID(curlayer, x, y) == Src) ||
+							(isSrcAnim && CurMap.getAnimateID(curlayer, x, y) == Src))
                         {
                             if (isDstTile)
                             {
-                                CurMap.putTile(Dst, x, y);
+								CurMap.putTile(curlayer, Dst, x, y);
                             }
                             else if (isDstAnim)
                             {
-                                CurMap.putAnimate(Dst, x, y, false);
+								CurMap.putAnimate(curlayer, Dst, x, y, false);
                             }
                             else if (isDstLayer)
                             {
-                                CurMap.putAnimate(Dst, x, y, true);
+								CurMap.putAnimate(curlayer, Dst, x, y, true);
                             }
                         }
                     }
@@ -3535,8 +3615,8 @@ namespace CellGameEdit.PM
             {
                 ArrayList srcBlocks = new ArrayList();
                 {
-                    int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.XCount);
-                    int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.YCount);
+					int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.layers.XCount);
+					int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.layers.YCount);
                     for (int x = sc_RegionX; x < sw; x++)
                     {
                         for (int y = sc_RegionY; y < sh; y++)
@@ -3658,8 +3738,8 @@ namespace CellGameEdit.PM
                         {
                             int sx = sc_RegionX + rx * GridW + SubX;
                             int sy = sc_RegionY + ry * GridH + SubY;
-                            int sw = Math.Min(sx + SubW, CurMap.XCount);
-                            int sh = Math.Min(sy + SubH, CurMap.YCount);
+							int sw = Math.Min(sx + SubW, CurMap.layers.XCount);
+							int sh = Math.Min(sy + SubH, CurMap.layers.YCount);
 
                             for (int x = sx; x < sw; x++)
                             {
@@ -3790,8 +3870,8 @@ namespace CellGameEdit.PM
                 ArrayList keyBlocks = new ArrayList();
 
                 {
-                    int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.XCount);
-                    int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.YCount);
+					int sw = Math.Min(sc_RegionX + sc_RegionW, CurMap.layers.XCount);
+					int sh = Math.Min(sc_RegionY + sc_RegionH, CurMap.layers.YCount);
                     for (int x = sc_RegionX; x < sw; x++)
                     {
                         for (int y = sc_RegionY; y < sh; y++)
@@ -3808,8 +3888,8 @@ namespace CellGameEdit.PM
 
                     int sx = Math.Max(block.X + X, 0);
                     int sy = Math.Max(block.Y + Y, 0);
-                    int sw = Math.Min(sx + W, CurMap.XCount);
-                    int sh = Math.Min(sy + H, CurMap.YCount);
+					int sw = Math.Min(sx + W, CurMap.layers.XCount);
+					int sh = Math.Min(sy + H, CurMap.layers.YCount);
                     for (int x = sx; x < sw; x++)
                     {
                         for (int y = sy; y < sh; y++)
@@ -3913,10 +3993,10 @@ namespace CellGameEdit.PM
             {
                 Boolean isSrcTile = SrcType == sc_TypeTile;
                 Boolean isSrcAnim = SrcType == sc_TypeAnim || SrcType == sc_TypeLayer;
-
+				MapLayer curlayer = CurMap.getCurLayer();
                 {
-                    int sw = Math.Min(SX + SW, CurMap.XCount);
-                    int sh = Math.Min(SY + SH, CurMap.YCount);
+					int sw = Math.Min(SX + SW, CurMap.layers.XCount);
+					int sh = Math.Min(SY + SH, CurMap.layers.YCount);
 
                     int[][] clipTile = new int[SW][];
                     int[][] clipFlip = new int[SW][];
@@ -3929,15 +4009,15 @@ namespace CellGameEdit.PM
                         clipAnim[fx] = new int[SH];
 
                         for (int y = SY, fy=0; y < sh; y++, fy++)
-                        { 
-                            clipTile[fx][fy] = CurMap.getTileID(x, y);
-                            clipFlip[fx][fy] = CurMap.getTileFlip(x, y);
-                            clipAnim[fx][fy] = CurMap.getAnimateID(x, y);
+                        {
+							clipTile[fx][fy] = CurMap.getTileID(curlayer,x, y);
+							clipFlip[fx][fy] = CurMap.getTileFlip(curlayer,x, y);
+							clipAnim[fx][fy] = CurMap.getAnimateID(curlayer,x, y);
                         }
                     }
 
-                    int dw = Math.Min(DX + DW, CurMap.XCount);
-                    int dh = Math.Min(DY + DH, CurMap.YCount);
+					int dw = Math.Min(DX + DW, CurMap.layers.XCount);
+					int dh = Math.Min(DY + DH, CurMap.layers.YCount);
 
                     for (int x = DX, fx = 0; x < dw; x++, fx++)
                     {
@@ -3947,11 +4027,11 @@ namespace CellGameEdit.PM
 
                             if (isSrcTile)
                             {
-                                srcIndex = sc_indexOfGroup(SrcGroup, CurMap.getTileID(x, y));
+								srcIndex = sc_indexOfGroup(SrcGroup, CurMap.getTileID(curlayer, x, y));
                             }
                             else if (isSrcAnim)
                             {
-                                srcIndex = sc_indexOfGroup(SrcGroup, CurMap.getAnimateID(x, y));
+								srcIndex = sc_indexOfGroup(SrcGroup, CurMap.getAnimateID(curlayer, x, y));
                             }
 
                             if (srcIndex >= 0)
@@ -3959,9 +4039,9 @@ namespace CellGameEdit.PM
                                 fx = fx % clipTile.Length;
                                 fy = fy % clipTile[fx].Length;
 
-                                CurMap.putTile(clipTile[fx][fy], x, y);
-                                CurMap.putFlip(clipFlip[fx][fy], x, y);
-                                CurMap.putAnimate(clipAnim[fx][fy], x, y, clipAnim[fx][fy] < 0);
+								CurMap.putTile(curlayer, clipTile[fx][fy], x, y);
+								CurMap.putFlip(curlayer, clipFlip[fx][fy], x, y);
+								CurMap.putAnimate(curlayer, clipAnim[fx][fy], x, y, clipAnim[fx][fy] < 0);
                             }
 
                         }
@@ -4172,8 +4252,8 @@ namespace CellGameEdit.PM
 
                 MapFormFunc mf = new MapFormFunc(this,
                    new ScriptCopy(this, 
-                   sbx, sby, xcount, ycount, 
-                   0, 0, XCount, YCount,
+                   sbx, sby, xcount, ycount,
+				   0, 0, layers.XCount, layers.YCount,
                    0, new int[] { 0 }).createScript()
                  );
                 mf.Show(this);
@@ -4200,10 +4280,110 @@ namespace CellGameEdit.PM
 			this.append_data = sb.ToString();
 		}
 
-      
+		//-------------------------------------------------------------------------------------------------
+		// map layers
+
+		private int layer_index = 0;
+
+		private void 添加图层ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			layers.addLayer();
+			syncMapLayer();
+		}
+
+		private void 上移图层ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			layers.swarpLayer(layer_index, layer_index + 1);
+			syncMapLayer();
+		}
+
+		private void 下移图层ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			layers.swarpLayer(layer_index, layer_index-1);
+			syncMapLayer();
+		}
+
+		private void 删除图层ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (layers.getCount() > 1)
+			{
+				if (MessageBox.Show("确认要删除当前图层？", "确认", MessageBoxButtons.OKCancel) == DialogResult.OK)
+				{
+					layers.removeLayer(layer_index);
+					layer_index--; 
+					syncMapLayer();
+				}
+			}
+			
+		}
+
+		private void 隐藏图层ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MapLayer layer = getCurLayer();
+			layer.visible = !layer.visible; 
+			syncMapLayer();
+		}
+
+		private void MenuLayer_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			foreach (ToolStripMenuItem tm in MenuLayer.DropDownItems)
+			{
+				tm.Checked = false;
+			}
+			((ToolStripMenuItem)e.ClickedItem).Checked = true;
+			layer_index = (int)e.ClickedItem.Tag;
+			MenuLayer.Text = ((ToolStripMenuItem)e.ClickedItem).Text;
+			MenuLayer.ForeColor = e.ClickedItem.ForeColor;
+			MenuLayer.BackColor = e.ClickedItem.BackColor;
+		}
+
+		private void layerItem_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right) {
+				ToolStripMenuItem item = ((ToolStripMenuItem)sender);
+				int index = (int)item.Tag;
+				MapLayer layer = layers.getLayer(index);
+				layer.visible = !layer.visible;
+				syncMapLayer();
+			}
+		}
+
+		private void syncMapLayer()
+		{
+			layer_index = Math.Min(layer_index, layers.getCount()-1);
+			layer_index = Math.Max(layer_index, 0);
+
+			MenuLayer.DropDownItems.Clear();
+
+			for (int L = 0; L < layers.getCount(); L++)
+			{
+				MapLayer layer = layers.getLayer(L);
+				ToolStripMenuItem item_layer = new ToolStripMenuItem("图层 - " + L);
+				item_layer.ToolTipText = "右键开关显示状态";
+				item_layer.CheckOnClick = false;
+				item_layer.Checked = (layer_index == L);
+				item_layer.Tag = L;
+				item_layer.MouseDown += new MouseEventHandler(layerItem_MouseDown);
+				MenuLayer.DropDownItems.Add(item_layer);
+				if (!layer.visible)
+				{
+					item_layer.ForeColor = System.Drawing.Color.Gray;
+					item_layer.BackColor = System.Drawing.Color.DarkGray;
+				}
+				if (layer_index == L)
+				{
+					MenuLayer.Text = item_layer.Text;
+					MenuLayer.ForeColor = item_layer.ForeColor;
+					MenuLayer.BackColor = item_layer.BackColor;
+				}
+			}
+			
+			refreshMap();
+		}
 
 
 
+		//--------------------------------------------------------------------------------------------------------
 
 
 
@@ -4297,4 +4477,184 @@ namespace CellGameEdit.PM
         }
 
     }
+
+	//----------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class MapLayer : ISerializable
+	{
+		public int[][] MatrixTile;
+		public int[][] MatrixAnim;
+		public int[][] MatrixFlip;
+		public int[][] MatrixTag;
+		public bool visible = true;
+		public MapLayer(int XCount, int YCount)
+		{
+			MatrixTile = new int[YCount][];
+			MatrixTag = new int[YCount][];
+			MatrixAnim = new int[YCount][];
+			MatrixFlip = new int[YCount][];
+			for (int i = 0; i < YCount; i++)
+			{
+				MatrixTile[i] = new int[XCount];
+				MatrixTag[i] = new int[XCount];
+				MatrixAnim[i] = new int[XCount];
+				MatrixFlip[i] = new int[XCount];
+			}
+		}
+		protected MapLayer(SerializationInfo info, StreamingContext context)
+		{
+			MatrixTile = (int[][])info.GetValue("MatrixTile", typeof(int[][]));
+			MatrixTag = (int[][])info.GetValue("MatrixTag", typeof(int[][]));
+			MatrixAnim = (int[][])info.GetValue("MatrixAnim", typeof(int[][]));
+			MatrixFlip = (int[][])info.GetValue("MatrixFlip", typeof(int[][]));
+		}
+		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
+		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("MatrixTile", MatrixTile);
+			info.AddValue("MatrixTag", MatrixTag);
+			info.AddValue("MatrixAnim", MatrixAnim);
+			info.AddValue("MatrixFlip", MatrixFlip);
+		}
+
+		public MapLayer copyDst(int sbx, int sby, int xcount, int ycount)
+		{
+			if (xcount <= 0 || ycount <= 0) return null;
+
+			MapLayer ret = new MapLayer(xcount, ycount);
+			
+			for (int by = 0; by < ycount; by++)
+			{
+				for (int bx = 0; bx < xcount; bx++)
+				{
+					if (sby + by < MatrixTile.Length && sbx + bx < MatrixTile[by].Length)
+					{
+						ret.MatrixTile[by][bx] = this.MatrixTile[sby + by][sbx + bx];
+						ret.MatrixTag[by][bx] = this.MatrixTag[sby + by][sbx + bx];
+						ret.MatrixAnim[by][bx] = this.MatrixAnim[sby + by][sbx + bx];
+						ret.MatrixFlip[by][bx] = this.MatrixFlip[sby + by][sbx + bx];
+					}
+				}
+			}
+
+			return ret;
+		}
+
+		public int xcount()
+		{
+			return MatrixTile[0].Length;
+		}
+
+		public int ycount()
+		{
+			return MatrixTile.Length;
+		}
+
+		public void resize(int XCount, int YCount)
+		{
+			if (YCount != MatrixTile.Length || XCount != MatrixTile[0].Length)
+			{
+				int[][] matrixTile = new int[YCount][];
+				int[][] matrixTag = new int[YCount][];
+				int[][] matrixAnim = new int[YCount][];
+				int[][] matrixFlip = new int[YCount][];
+				for (int y = 0; y < YCount; y++)
+				{
+					matrixTile[y] = new int[XCount];
+					matrixTag[y] = new int[XCount];
+					matrixAnim[y] = new int[XCount];
+					matrixFlip[y] = new int[XCount];
+					for (int x = 0; x < XCount; x++)
+					{
+						if (y < MatrixTile.Length && x < MatrixTile[y].Length)
+						{
+							matrixTile[y][x] = MatrixTile[y][x];
+							matrixTag[y][x] = MatrixTag[y][x];
+							matrixAnim[y][x] = MatrixAnim[y][x];
+							matrixFlip[y][x] = MatrixFlip[y][x];
+						}
+					}
+				}
+
+				MatrixTile = matrixTile;
+				MatrixTag = matrixTag;
+				MatrixAnim = matrixAnim;
+				MatrixFlip = matrixFlip;
+			}
+		}
+	
+	};
+	//---------------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class MapLayers : ISerializable
+	{
+		public int XCount;
+		public int YCount;
+		public ArrayList layers;
+
+		public MapLayers(int xcount, int ycount)
+		{
+			this.XCount = xcount;
+			this.YCount = ycount;
+			this.layers = new ArrayList();
+		}
+		protected MapLayers(SerializationInfo info, StreamingContext context)
+		{
+			this.XCount = info.GetInt32("XCount");
+			this.YCount = info.GetInt32("YCount");
+			this.layers = (ArrayList)info.GetValue("layers", typeof(ArrayList));
+		}
+		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
+		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("XCount", XCount);
+			info.AddValue("YCount", YCount);
+			info.AddValue("layers", layers);
+		}
+
+		public int getCount()
+		{
+			return layers.Count;
+		}
+		public MapLayer getLayer(int i)
+		{
+			return (MapLayer)layers[i];
+		}
+		public void addLayer()
+		{
+			addLayer(new MapLayer(XCount, YCount));
+		}
+		public void addLayer(MapLayer layer)
+		{
+			layers.Add(layer);
+		}
+		public void removeLayer(int index)
+		{
+			layers.RemoveAt(index);
+		}
+
+		public void dstChangeMapSize(int xcount, int ycount)
+		{
+			XCount = xcount;
+			YCount = ycount;
+
+			for (int L = 0; L < layers.Count; L++ )
+			{
+				((MapLayer)layers[L]).resize(xcount, ycount);
+			}
+		}
+
+		public void swarpLayer(int src, int dst)
+		{
+			if (src >= 0 && src < layers.Count &&
+				dst >= 0 && dst < layers.Count)
+			{
+				Object src_o = layers[src];
+				Object dst_o = layers[dst];
+				layers[src] = dst_o;
+				layers[dst] = src_o;
+			}
+		}
+	};
+
 }

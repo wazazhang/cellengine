@@ -131,6 +131,8 @@ namespace CellGameEdit.PM
         public static String X2 = "<X2>";
         public static String Y2 = "<Y2>";
 
+		public static String _LAYER = "<LAYER>";
+		public static String _END_LAYER = "</LAYER>";
 
 
         public static String MAP_INDEX = "<MAP_INDEX>";
@@ -138,7 +140,8 @@ namespace CellGameEdit.PM
         public static String CELL_W = "<CELL_W>";
         public static String CELL_H = "<CELL_H>";
         public static String X_COUNT = "<X_COUNT>";
-        public static String Y_COUNT = "<Y_COUNT>";
+		public static String Y_COUNT = "<Y_COUNT>";
+		public static String LAYER_COUNT = "<LAYER_COUNT>";
         public static String TILE_MATRIX = "<TILE_MATRIX>";
         public static String FLAG_MATRIX = "<FLAG_MATRIX>";
         public static String SCENE_PART_COUNT = "<SCENE_PART_COUNT>";

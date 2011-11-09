@@ -44,10 +44,12 @@
 		<scene_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></SCENE_FRAME>
 		<CD_PART>
 		<cd_part index="<INDEX>" type="<TYPE>" mask="<MASK>" x1="<X1>" y1="<Y1>" x2="<X2>" y2="<Y2>" width="<W>" height="<H>" /></CD_PART>
-		<matrix
+		<LAYER>
+		<layer index="<INDEX>"
 			tile_matrix="<TILE_MATRIX>"
 			flag_matrix="<FLAG_MATRIX>"
 		/>
+		</LAYER>
 		<Append data="<APPEND_DATA>" />
 	</map>
 	</MAP>
@@ -96,6 +98,7 @@
 	<world index="<WORLD_INDEX>" name="<NAME>" 
 		grid_x_count="<GRID_X_COUNT>"
 		grid_y_count="<GRID_Y_COUNT>"
+		layer_count="<LAYER_COUNT>"
 		grid_w="<GRID_W>"
 		grid_h="<GRID_H>"
 		width="<WIDTH>"
