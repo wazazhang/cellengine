@@ -153,6 +153,7 @@
 			this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+			this.imageFlipToolStripButton1 = new CellGameEdit.PM.ImageFlipToolStripButton();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.PartState = new System.Windows.Forms.ToolStripLabel();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -200,7 +201,6 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.imageFlipToolStripButton1 = new CellGameEdit.PM.ImageFlipToolStripButton();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -1233,7 +1233,7 @@
 			// 
 			// numPartAlpha
 			// 
-			this.numPartAlpha.DecimalPlaces = 2;
+			this.numPartAlpha.DecimalPlaces = 4;
 			this.numPartAlpha.Increment = new decimal(new int[] {
             1,
             0,
@@ -1252,7 +1252,7 @@
 			// 
 			// numPartShearY
 			// 
-			this.numPartShearY.DecimalPlaces = 2;
+			this.numPartShearY.DecimalPlaces = 4;
 			this.numPartShearY.Increment = new decimal(new int[] {
             1,
             0,
@@ -1276,7 +1276,7 @@
 			// 
 			// numPartRotate
 			// 
-			this.numPartRotate.DecimalPlaces = 2;
+			this.numPartRotate.DecimalPlaces = 4;
 			this.numPartRotate.Location = new System.Drawing.Point(54, 33);
 			this.numPartRotate.Maximum = new decimal(new int[] {
             360,
@@ -1304,7 +1304,7 @@
 			// 
 			// numPartScaleX
 			// 
-			this.numPartScaleX.DecimalPlaces = 2;
+			this.numPartScaleX.DecimalPlaces = 4;
 			this.numPartScaleX.Increment = new decimal(new int[] {
             1,
             0,
@@ -1337,7 +1337,7 @@
 			// 
 			// numPartScaleY
 			// 
-			this.numPartScaleY.DecimalPlaces = 2;
+			this.numPartScaleY.DecimalPlaces = 4;
 			this.numPartScaleY.Increment = new decimal(new int[] {
             1,
             0,
@@ -1370,7 +1370,7 @@
 			// 
 			// numPartShearX
 			// 
-			this.numPartShearX.DecimalPlaces = 2;
+			this.numPartShearX.DecimalPlaces = 4;
 			this.numPartShearX.Increment = new decimal(new int[] {
             1,
             0,
@@ -1621,6 +1621,17 @@
 			this.toolStripLabel5.Name = "toolStripLabel5";
 			this.toolStripLabel5.Size = new System.Drawing.Size(32, 22);
 			this.toolStripLabel5.Text = "翻转";
+			// 
+			// imageFlipToolStripButton1
+			// 
+			this.imageFlipToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.imageFlipToolStripButton1.Image = global::CellGameEdit.Resource1.Image36;
+			this.imageFlipToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.imageFlipToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.imageFlipToolStripButton1.Name = "imageFlipToolStripButton1";
+			this.imageFlipToolStripButton1.Size = new System.Drawing.Size(22, 22);
+			this.imageFlipToolStripButton1.Text = "翻转方式";
+			this.imageFlipToolStripButton1.DropDownClosed += new System.EventHandler(this.imageFlipToolStripButton1_DropDownClosed);
 			// 
 			// toolStripSeparator7
 			// 
@@ -2201,17 +2212,6 @@
 			// 
 			this.timer1.Interval = 50;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// imageFlipToolStripButton1
-			// 
-			this.imageFlipToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.imageFlipToolStripButton1.Image = global::CellGameEdit.Resource1.Image36;
-			this.imageFlipToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.imageFlipToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.imageFlipToolStripButton1.Name = "imageFlipToolStripButton1";
-			this.imageFlipToolStripButton1.Size = new System.Drawing.Size(22, 22);
-			this.imageFlipToolStripButton1.Text = "翻转方式";
-			this.imageFlipToolStripButton1.DropDownClosed += new System.EventHandler(this.imageFlipToolStripButton1_DropDownClosed);
 			// 
 			// SpriteForm
 			// 
