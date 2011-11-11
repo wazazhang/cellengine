@@ -65,7 +65,7 @@
 		animate_count="<ANIMATE_COUNT>"
 		complexMode="<COMPLEX_MODE>">
 		<SCENE_PART>
-		<scene_part index="<INDEX>" tile="<TILE>" x="<X>" y="<Y>" trans="<TRANS>" /></SCENE_PART>
+		<scene_part index="<INDEX>" tile="<TILE>" x="<X>" y="<Y>" trans="<TRANS>" alpha="<ALPHA>" rotate="<ROTATE>" scaleX="<SCALE_X>" scaleY="<SCALE_Y>" shearX="<SHEAR_X>" shearY="<SHEAR_Y>" /></SCENE_PART>
 		<SCENE_FRAME>
 		<scene_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></SCENE_FRAME>
 		<CD_PART>
@@ -84,6 +84,8 @@
 			rotate="<FRAME_ROTATE>"
 			scaleX="<FRAME_SCALE_X>"
 			scaleY="<FRAME_SCALE_Y>"
+			shearX="<FRAME_SHEAR_X>"
+			shearY="<FRAME_SHEAR_Y>"
 		/>
 		<Append data="<APPEND_DATA>" />
 	</sprite>

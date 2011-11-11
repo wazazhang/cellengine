@@ -1698,7 +1698,28 @@ namespace CellGameEdit.PM
         {
             renderDst(g, x, y, screen, grid, tag, false, anim, timer);
         }
+		public void renderToMiniMap(System.Drawing.Graphics g)
+		{
+			for (int L = 0; L < layers.getCount(); L++)
+			{
+				MapLayer layer = layers.getLayer(L);
+				if (layer.visible) {
+					for (int x = 0; x < layers.XCount; x++)
+					{
+						for (int y = 0; y < layers.YCount; y++)
+						{
+							javax.microedition.lcdui.Image img = getTileImage(layer, x, y);
 
+							if (img != null)
+							{
+								g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
+							}
+						}
+					}
+				}
+			}
+
+		}
         // src
         #region src tiles
 
@@ -2513,26 +2534,7 @@ namespace CellGameEdit.PM
             catch (Exception err) { }
         }
 
-		public void renderToMiniMap(System.Drawing.Graphics g)
-		{
-			for (int L = 0; L < layers.getCount(); L++)
-			{
-				MapLayer layer = layers.getLayer(L);
-				for (int x = 0; x < layers.XCount; x++)
-				{
-					for (int y = 0; y < layers.YCount; y++)
-					{
-						javax.microedition.lcdui.Image img = getTileImage(layer, x, y);
-
-						if (img != null)
-						{
-							g.FillRectangle(img.getColorKeyBrush(), x, y, 1, 1);
-						}
-					}
-				}
-			}
-
-		}
+	
 
         private void btnSaveMiniMap_Click(object sender, EventArgs e)
         {

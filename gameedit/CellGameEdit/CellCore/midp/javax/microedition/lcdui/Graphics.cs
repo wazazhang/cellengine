@@ -102,6 +102,13 @@ public class Graphics
 		dg.ScaleTransform(x, y);
 	}
 
+	public void shear(float x, float y)
+	{
+		System.Drawing.Drawing2D.Matrix mx = new System.Drawing.Drawing2D.Matrix();
+		mx.Shear(x, y);
+		dg.MultiplyTransform(mx);
+	}
+
 	public void pushTransform()
 	{
 		stack_transform.Push(dg.Transform);

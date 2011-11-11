@@ -256,42 +256,31 @@ namespace CellGameEdit.PM
             }
         }
 
-        Frame AllFrame ;
-        Group animates ;
-        Group collides ;
-        String[] frameName;
-        int[][] frameAnimate ;
-        int[][] frameCDMap ;
-        int[][] frameCDAtk ;
-        int[][] frameCDDef ;
-        int[][] frameCDExt ;
-
-		float[][] frameAlpha;
-		float[][] frameRotate;
-		float[][] frameScaleX;
-		float[][] frameScaleY;
+       
 
 
-        public void initOutput()
+        private void initOutput(
+			Frame AllFrame,
+			Group animates,
+			Group collides,
+
+			String[] frameName,
+			int[][] frameAnimate,
+
+			float[][] frameAlpha,
+			float[][] frameRotate,
+			float[][] frameScaleX,
+			float[][] frameScaleY,
+			float[][] frameShearX,
+			float[][] frameShearY,
+
+			int[][] frameCDMap,
+			int[][] frameCDAtk,
+			int[][] frameCDDef,
+			int[][] frameCDExt)
         {
 
-            AllFrame = new Frame();
-            animates = new Group();
-            collides = new Group();
-
-            frameName = new string[listView2.Items.Count];
-
-            frameAnimate = new int[listView2.Items.Count][];
-
-			frameAlpha = new float[listView2.Items.Count][];
-			frameRotate = new float[listView2.Items.Count][];
-			frameScaleX = new float[listView2.Items.Count][];
-			frameScaleY = new float[listView2.Items.Count][];
-
-            frameCDMap = new int[listView2.Items.Count][];
-            frameCDAtk = new int[listView2.Items.Count][];
-            frameCDDef = new int[listView2.Items.Count][];
-            frameCDExt = new int[listView2.Items.Count][];
+          
 			
 
             for (int animID = 0; animID < listView2.Items.Count; animID++)//anim
@@ -305,6 +294,8 @@ namespace CellGameEdit.PM
 				frameRotate[animID] = new float[FrameCount];
 				frameScaleX[animID] = new float[FrameCount];
 				frameScaleY[animID] = new float[FrameCount];
+				frameShearX[animID] = new float[FrameCount];
+				frameShearY[animID] = new float[FrameCount];
 
                 frameCDMap[animID] = new int[FrameCount];
                 frameCDAtk[animID] = new int[FrameCount];
@@ -324,6 +315,8 @@ namespace CellGameEdit.PM
 					frameRotate[animID][frameID] = frame.rotate;
 					frameScaleX[animID][frameID] = frame.scalex;
 					frameScaleY[animID][frameID] = frame.scaley;
+					frameShearX[animID][frameID] = frame.shearx;
+					frameShearY[animID][frameID] = frame.sheary;
 
                     // sub
                     ArrayList fAnimate = new ArrayList();
@@ -340,12 +333,14 @@ namespace CellGameEdit.PM
 							(float)frame.SubTRotate[subID],
 							(float)frame.SubTScaleX[subID],
 							(float)frame.SubTScaleY[subID],
-							(float)frame.SubTAlpha[subID]
+							(float)frame.SubTAlpha[subID],
+							(float)frame.SubTShearX[subID],
+							(float)frame.SubTShearY[subID]
                             );
 
                         if (indexSub < 0)
                         {
-                            AllFrame.addSub(null,
+                            AllFrame.addFSub(
                                 (int)frame.SubIndex[subID],
                                 (int)frame.SubX[subID],
                                 (int)frame.SubY[subID],
@@ -355,7 +350,10 @@ namespace CellGameEdit.PM
 							(float)frame.SubTRotate[subID],
 							(float)frame.SubTScaleX[subID],
 							(float)frame.SubTScaleY[subID],
-							(float)frame.SubTAlpha[subID]);
+							(float)frame.SubTAlpha[subID],
+							(float)frame.SubTShearX[subID],
+							(float)frame.SubTShearY[subID]
+							);
                            
                             indexSub = AllFrame.getSubCount() - 1;
 
@@ -389,7 +387,7 @@ namespace CellGameEdit.PM
                             (int)frame.CDH[cdID]);
                         if (indexCD < 0)
                         {
-                            AllFrame.addCD(null,
+                            AllFrame.addFCD(
                                 (int)frame.CDMask[cdID],
                                 (int)frame.CDX[cdID],
                                 (int)frame.CDY[cdID],
@@ -447,82 +445,52 @@ namespace CellGameEdit.PM
             }
         }
 
-        //public void Output(System.IO.StringWriter sw)
-        //{
-
-        //    initOutput();
-
-
-
-        //    //sw.WriteLine("class " + super.id + "_" + this.id + " extends CSprite {");// class
-
-
-        //    sw.WriteLine("final static public CSprite createSprite_" + super.id + "_" + this.id + "(IImages tiles)");
-        //    sw.WriteLine("{");
-        //    // OutputAnimates
-        //    sw.WriteLine("    CAnimates OutputAnimates = new CAnimates(" + AllFrame.getSubCount() + ",tiles);");
-        //for (int i = 0; i < AllFrame.getSubCount(); i++)
-        //    sw.WriteLine("    OutputAnimates.addPart(" + (int)AllFrame.SubX[i] + "," + (int)AllFrame.SubY[i] + "," + (int)AllFrame.SubIndex[i] + "," + flipTableJ2me[(int)(AllFrame.SubFlip[i])] + ");");
-        //    sw.WriteLine("    OutputAnimates.setFrame(new int[" + OutputAnimates.frameGetCount() + "][]);");
-        //for (int i = 0; i < OutputAnimates.frameGetCount(); i++)
-        //    sw.WriteLine("    OutputAnimates.setComboFrame(new int[]{" + Util.toTextArray((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int)))) + "}," + i + ");");
-        //    sw.WriteLine();
-        //    // collides
-        //    sw.WriteLine("    CCollides collides = new CCollides(" + AllFrame.getCDCount() + ");");
-        //for (int i = 0; i < AllFrame.getCDCount(); i++)
-        //    sw.WriteLine("    collides.addCDRect(" + (int)AllFrame.CDMask[i] + "," + (int)AllFrame.CDX[i] + "," + (int)AllFrame.CDY[i] + "," + (int)AllFrame.CDW[i] + "," + (int)AllFrame.CDH[i] + ");");
-        //    sw.WriteLine("    collides.setFrame(new int[" + collides.frameGetCount() + "][]);");
-        //for (int i = 0; i < collides.frameGetCount(); i++)
-        //    sw.WriteLine("    collides.setComboFrame(new int[]{" + Util.toTextArray((int[])(collides.frameGetFrame(i).ToArray(typeof(int)))) + "}," + i + ");");
-        //    sw.WriteLine();
-        //    // sprframes
-        //    sw.WriteLine("    int[][] frameAnimate = new int[][]{");
-        //for (int i = 0; i < frameAnimate.Length; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(frameAnimate[i]) + "},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine("    int[][] frameCDMap = new int[][]{");
-        //for (int i = 0; i < frameCDMap.Length; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(frameCDMap[i]) + "},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine("    int[][] frameCDAtk = new int[][]{");
-        //for (int i = 0; i < frameCDAtk.Length; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(frameCDAtk[i]) + "},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine("    int[][] frameCDDef = new int[][]{");
-        //for (int i = 0; i < frameCDDef.Length; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(frameCDDef[i]) + "},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine("    int[][] frameCDExt = new int[][]{");
-        //for (int i = 0; i < frameCDExt.Length; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(frameCDExt[i]) + "},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine();
-        //    // spr new
-        //    sw.WriteLine("    CSprite ret = new CSprite(");
-        //    sw.WriteLine("            OutputAnimates, ");
-        //    sw.WriteLine("            collides, ");
-        //    sw.WriteLine("            frameAnimate, ");
-        //    sw.WriteLine("            frameCDMap, ");
-        //    sw.WriteLine("            frameCDAtk, ");
-        //    sw.WriteLine("            frameCDDef, ");
-        //    sw.WriteLine("            frameCDExt ");
-        //    sw.WriteLine("            );");
-        //    sw.WriteLine();
-        //    sw.WriteLine("    return ret;");
-        //    sw.WriteLine();
-
-        //    sw.WriteLine("}");
-
-        //    //sw.WriteLine("}");// class end
-        //}
 
         public void OutputCustom(int index, String script, System.IO.StringWriter output)
         {
             lock (this)
-            {
+			{
+				Frame AllFrame = new Frame();
+				Group animates = new Group();
+				Group collides = new Group();
+
+				String[] frameName = new string[listView2.Items.Count];
+				int[][] frameAnimate = new int[listView2.Items.Count][];
+
+				float[][] frameAlpha = new float[listView2.Items.Count][];
+				float[][] frameRotate = new float[listView2.Items.Count][];
+				float[][] frameScaleX = new float[listView2.Items.Count][];
+				float[][] frameScaleY = new float[listView2.Items.Count][];
+				float[][] frameShearX = new float[listView2.Items.Count][];
+				float[][] frameShearY = new float[listView2.Items.Count][];
+
+				int[][] frameCDMap = new int[listView2.Items.Count][];
+				int[][] frameCDAtk = new int[listView2.Items.Count][];
+				int[][] frameCDDef = new int[listView2.Items.Count][];
+				int[][] frameCDExt = new int[listView2.Items.Count][];
+
+				
                 try
                 {
-                    initOutput();
+					initOutput(
+						AllFrame,
+						 animates,
+						 collides,
+
+						frameName,
+						 frameAnimate,
+
+						 frameAlpha,
+						 frameRotate,
+						 frameScaleX,
+						 frameScaleY,
+						 frameShearX,
+						 frameShearY,
+
+						 frameCDMap,
+						 frameCDAtk,
+						 frameCDDef,
+						 frameCDExt);
 
                     String sprite = Util.getFullTrunkScript(script, "<SPRITE>", "</SPRITE>");
 
@@ -539,9 +507,19 @@ namespace CellGameEdit.PM
                             string TILE = ((int)AllFrame.SubIndex[i]).ToString();
                             string TRANS = AllFrame.SubFlip[i].ToString();
 
+							string ALPHA = AllFrame.SubTAlpha[i].ToString();
+							string ROTATE = AllFrame.SubTAlpha[i].ToString();
+							string SCALE_X = AllFrame.SubTScaleX[i].ToString();
+							string SCALE_Y = AllFrame.SubTScaleY[i].ToString();
+							string SHEAR_X = AllFrame.SubTShearX[i].ToString();
+							string SHEAR_Y = AllFrame.SubTShearY[i].ToString();
+
                             senceParts[i] = Util.replaceKeywordsScript(sprite, "<SCENE_PART>", "</SCENE_PART>",
-                                new string[] { "<INDEX>", "<X>", "<Y>", "<TILE>", "<TRANS>" },
-                                new string[] { i.ToString(), X, Y, TILE, TRANS }
+                                new string[] { "<INDEX>", "<X>", "<Y>", "<TILE>", "<TRANS>", 
+									"<ALPHA>", "<ROTATE>", "<SCALE_X>", "<SCALE_Y>", "<SHEAR_X>", "<SHEAR_Y>" },
+                                new string[] { i.ToString(), X, Y, TILE, TRANS ,
+									ALPHA, ROTATE, SCALE_X, SCALE_Y, SHEAR_X, SHEAR_Y
+								}
                                 );
                         }
                         string temp = Util.replaceSubTrunksScript(sprite, "<SCENE_PART>", "</SCENE_PART>", senceParts);
@@ -685,6 +663,8 @@ namespace CellGameEdit.PM
 					String outFrameRotate = Util.toNumberArray2D<float>(ref frameRotate);
 					String outFrameScaleX = Util.toNumberArray2D<float>(ref frameScaleX);
 					String outFrameScaleY = Util.toNumberArray2D<float>(ref frameScaleY);
+					String outFrameShearX = Util.toNumberArray2D<float>(ref frameShearX);
+					String outFrameShearY = Util.toNumberArray2D<float>(ref frameShearY);
 
 
                     int[] frameCounts = new int[frameName.Length];
@@ -717,6 +697,8 @@ namespace CellGameEdit.PM
 						"<FRAME_ROTATE>",
 						"<FRAME_SCALE_X>",
 						"<FRAME_SCALE_Y>",
+						"<FRAME_SHEAR_X>",
+						"<FRAME_SHEAR_Y>",
 
 						"<FRAME_CD_MAP>",
 						"<FRAME_CD_ATK>",
@@ -742,6 +724,8 @@ namespace CellGameEdit.PM
 						outFrameRotate,
 						outFrameScaleX,
 						outFrameScaleY,
+						outFrameShearX,
+						outFrameShearY,
 
 						outFrameCDMap,
 						outFrameCDAtk,
@@ -1000,6 +984,12 @@ namespace CellGameEdit.PM
                     item.SubItems[1].Text = ((int)framesGetCurFrame().SubX[index]).ToString("d");
                     item.SubItems[2].Text = ((int)framesGetCurFrame().SubY[index]).ToString("d");
                     item.SubItems[3].Text = Graphics.FlipTextTable[(int)framesGetCurFrame().SubFlip[index]];
+					item.SubItems[4].Text = framesGetCurFrame().SubTAlpha[index].ToString();
+					item.SubItems[5].Text = framesGetCurFrame().SubTRotate[index].ToString();
+					item.SubItems[6].Text = framesGetCurFrame().SubTScaleX[index].ToString();
+					item.SubItems[7].Text = framesGetCurFrame().SubTScaleY[index].ToString();
+					item.SubItems[8].Text = framesGetCurFrame().SubTShearX[index].ToString();
+					item.SubItems[9].Text = framesGetCurFrame().SubTShearY[index].ToString();
                 }
                 foreach (ListViewItem item in listView4.Items)
                 {
@@ -1093,7 +1083,7 @@ namespace CellGameEdit.PM
                 {
                     if (framesGetCurFrame().SubTable.Contains(item))
                     {
-                        framesGetCurFrame().delSub(framesGetCurFrame().SubTable.IndexOf(item));
+                        framesGetCurFrame().delFSub(framesGetCurFrame().SubTable.IndexOf(item));
                         listView3.Items.Remove(item);
                     }
                 }
@@ -1109,7 +1099,7 @@ namespace CellGameEdit.PM
                 {
                     if (framesGetCurFrame().CDTable.Contains(item))
                     {
-                        framesGetCurFrame().delCD(framesGetCurFrame().CDTable.IndexOf(item));
+                        framesGetCurFrame().delFCD(framesGetCurFrame().CDTable.IndexOf(item));
                         listView4.Items.Remove(item);
                     }
                 }
@@ -1131,8 +1121,7 @@ namespace CellGameEdit.PM
                     int index = framesGetCurFrame().SubTable.IndexOf(item);
                     if (index>=0)
                     {
-                       clipFrame.addSub(
-                           null,
+                       clipFrame.addFSub(
                            (int)framesGetCurFrame().SubIndex[index],
                            (int)framesGetCurFrame().SubX[index],
                            (int)framesGetCurFrame().SubY[index],
@@ -1143,7 +1132,10 @@ namespace CellGameEdit.PM
 							(float)framesGetCurFrame().SubTRotate[index],
 							(float)framesGetCurFrame().SubTScaleX[index],
 							(float)framesGetCurFrame().SubTScaleY[index],
-							(float)framesGetCurFrame().SubTAlpha[index]
+							(float)framesGetCurFrame().SubTAlpha[index],
+							(float)framesGetCurFrame().SubTShearX[index],
+							(float)framesGetCurFrame().SubTShearY[index]
+
                            );
                     }
                 }
@@ -1162,8 +1154,7 @@ namespace CellGameEdit.PM
                     int index = framesGetCurFrame().CDTable.IndexOf(item);
                     if (index >= 0)
                     {
-                        clipFrame.addCD(
-                            null,
+                        clipFrame.addFCD(
                             (int)framesGetCurFrame().CDMask[index],
                             (int)framesGetCurFrame().CDX[index],
                             (int)framesGetCurFrame().CDY[index],
@@ -1194,18 +1185,7 @@ namespace CellGameEdit.PM
                 {
                     for (int i = 0; i < clipFrame.getSubCount(); i++)
                     {
-                        ListViewItem item = new ListViewItem(
-                            new string[] {
-                            ((int)clipFrame.SubIndex[i]).ToString("d"),
-                            ((int)clipFrame.SubX[i]).ToString("d"),
-                            ((int)clipFrame.SubY[i]).ToString("d"),
-                            Graphics.FlipTextTable[(int)clipFrame.SubFlip[i]]}
-                       );
-                        item.Checked = true;
-                        listView3.Items.Insert(0, item);
-
-                        framesGetCurFrame().insertSub(0,
-                            item,
+						ListViewItem item = framesGetCurFrame().insertFSub(0,
                             (int)clipFrame.SubIndex[i],
                             (int)clipFrame.SubX[i],
                             (int)clipFrame.SubY[i],
@@ -1215,10 +1195,14 @@ namespace CellGameEdit.PM
 							(float)clipFrame.SubTRotate[i],
 							(float)clipFrame.SubTScaleX[i],
 							(float)clipFrame.SubTScaleY[i],
-							(float)clipFrame.SubTAlpha[i]
-                            );
+							(float)clipFrame.SubTAlpha[i],
+							(float)clipFrame.SubTShearX[i],
+							(float)clipFrame.SubTShearY[i]
+							);
+						item.Checked = true;
                         item.Focused = true;
-                        item.Selected = true;
+						item.Selected = true; 
+						listView3.Items.Insert(0, item);
                     }
                 }
             }
@@ -1244,21 +1228,8 @@ namespace CellGameEdit.PM
                 {
                     for (int i = 0; i < clipFrame.getCDCount(); i++)
                     {
-                        ListViewItem item = new ListViewItem(
-                            new string[] {
-                            ((int)clipFrame.CDMask[i]).ToString("x"),
-                            ((int)clipFrame.CDX[i]).ToString("d"),
-                            ((int)clipFrame.CDY[i]).ToString("d"),
-                            ((int)clipFrame.CDW[i]).ToString("d"),
-                            ((int)clipFrame.CDH[i]).ToString("d"),
-                            Frame.CDtypeTextTable[((int)clipFrame.CDType[i])]}
-                        );
-                        item.Checked = true;
-                        listView4.Items.Insert(0, item);
-
-                        framesGetCurFrame().insertCD(
+						ListViewItem item = framesGetCurFrame().insertFCD(
                             0,
-                            item,
                             (int)clipFrame.CDMask[i],
                             (int)clipFrame.CDX[i],
                             (int)clipFrame.CDY[i],
@@ -1267,7 +1238,9 @@ namespace CellGameEdit.PM
                             (int)clipFrame.CDType[i]
                             );
                         item.Focused = true;
-                        item.Selected = true;
+						item.Selected = true;
+						item.Checked = true;
+						listView4.Items.Insert(0, item);
                     }
                 }
             }
@@ -1298,16 +1271,7 @@ namespace CellGameEdit.PM
                     {
                         for (int i = 0; i < clipFrame.getSubCount(); i++)
                         {
-                            ListViewItem item = new ListViewItem(
-                                new string[] {
-                            ((int)clipFrame.SubIndex[i]).ToString("d"),
-                            ((int)clipFrame.SubX[i]).ToString("d"),
-                            ((int)clipFrame.SubY[i]).ToString("d"),
-                            Graphics.FlipTextTable[(int)clipFrame.SubFlip[i]]}
-                           );
-                            item.Checked = true;
-                            curFrame.insertSub(0,
-                                item,
+							ListViewItem item = curFrame.insertFSub(0,
                                 (int)clipFrame.SubIndex[i],
                                 (int)clipFrame.SubX[i],
                                 (int)clipFrame.SubY[i],
@@ -1317,8 +1281,11 @@ namespace CellGameEdit.PM
 							(float)clipFrame.SubTRotate[i],
 							(float)clipFrame.SubTScaleX[i],
 							(float)clipFrame.SubTScaleY[i],
-							(float)clipFrame.SubTAlpha[i]
-                                );
+							(float)clipFrame.SubTAlpha[i],
+							(float)clipFrame.SubTShearX[i],
+							(float)clipFrame.SubTShearY[i]
+								); 
+							item.Checked = true;
                             item.Focused = true;
                             item.Selected = true;
                         }
@@ -1352,25 +1319,15 @@ namespace CellGameEdit.PM
                     {
                         for (int i = 0; i < clipFrame.getCDCount(); i++)
                         {
-                            ListViewItem item = new ListViewItem(
-                                new string[] {
-                            ((int)clipFrame.CDMask[i]).ToString("x"),
-                            ((int)clipFrame.CDX[i]).ToString("d"),
-                            ((int)clipFrame.CDY[i]).ToString("d"),
-                            ((int)clipFrame.CDW[i]).ToString("d"),
-                            ((int)clipFrame.CDH[i]).ToString("d"),
-                            Frame.CDtypeTextTable[((int)clipFrame.CDType[i])]}
-                            );
-                            item.Checked = true;
-                            curFrame.insertCD(0,
-                                item,
+							ListViewItem item = curFrame.insertFCD(0,
                                 (int)clipFrame.CDMask[i],
                                 (int)clipFrame.CDX[i],
                                 (int)clipFrame.CDY[i],
                                 (int)clipFrame.CDW[i],
                                 (int)clipFrame.CDH[i],
                                 (int)clipFrame.CDType[i]
-                                );
+								);
+							item.Checked = true;
                             item.Focused = true;
                             item.Selected = true;
                         }
@@ -1385,47 +1342,27 @@ namespace CellGameEdit.PM
         {
             if (framesGetCurFrame() != null)
             {
-                ListViewItem item = new ListViewItem(new string[] {
-                    srcIndex.ToString("d"),
-                   ((int)(-srcImage.getWidth()/2)).ToString("d"),
-                    ((int)(-srcImage.getHeight()/2)).ToString("d"),
-                     Graphics.FlipTextTable[0] }
-                    );
-                item.Checked = true;
-                //listView3.Items.Add(item);
-                listView3.Items.Insert(0, item);
-
-                framesGetCurFrame().insertSub(
+				ListViewItem item = framesGetCurFrame().insertFSub(
                     0,
-                    item,
                     srcIndex,
                     -srcImage.getWidth() / 2,
                     -srcImage.getHeight() / 2,
                     srcImage.getWidth(),
                     srcImage.getHeight(),
-                    0, 0, 0, 0, 0
+                    0, 0, 1, 1, 1, 0, 0
                     );
                 item.Focused = true;
-                item.Selected = true;
+				item.Selected = true; 
+				item.Checked = true;
+				//listView3.Items.Add(item);
+				listView3.Items.Insert(0, item);
             }
         }
         private void dstAddCD()
         {
             if (framesGetCurFrame() != null)
             {
-                ListViewItem item = new ListViewItem(new string[] {
-                    (0xffffffff).ToString("x"),
-                    ((int)(-srcImage.getWidth()/2)).ToString("d"),
-                    ((int)(-srcImage.getHeight()/2)).ToString("d"),
-                    srcImage.getWidth().ToString("d"),
-                    srcImage.getHeight().ToString("d"),
-                    Frame.CDtypeTextTable[Frame.CD_TYPE_MAP]}
-                    );
-                item.Checked = true;
-                listView4.Items.Add(item);
-
-                framesGetCurFrame().addCD(
-                    item,
+				ListViewItem item = framesGetCurFrame().addFCD(
                     (int)(0x0000ffff),
                     -srcImage.getWidth() / 2,
                     -srcImage.getHeight() / 2,
@@ -1434,7 +1371,9 @@ namespace CellGameEdit.PM
                     Frame.CD_TYPE_MAP
                     );
                 item.Focused = true;
-                item.Selected = true;
+				item.Selected = true; 
+				item.Checked = true;
+				listView4.Items.Add(item);
             }
         }
         
@@ -1672,6 +1611,63 @@ namespace CellGameEdit.PM
             }
             dstRefersh();
         }
+
+
+		private void numPartAlpha_ValueChanged(object sender, EventArgs e)
+		{
+			if (dstGetCurSubIndexes().Length == 1)
+			{
+				framesGetCurFrame().SubTAlpha[dstGetCurSubIndexes()[0]] = (float)numPartAlpha.Value;
+			}
+			dstRefersh();
+		}
+
+		private void numPartRotate_ValueChanged(object sender, EventArgs e)
+		{
+			if (dstGetCurSubIndexes().Length == 1)
+			{
+				framesGetCurFrame().SubTRotate[dstGetCurSubIndexes()[0]] = (float)numPartRotate.Value;
+			}
+			dstRefersh();
+		}
+
+		private void numPartScaleX_ValueChanged(object sender, EventArgs e)
+		{
+			if (dstGetCurSubIndexes().Length == 1)
+			{
+				framesGetCurFrame().SubTScaleX[dstGetCurSubIndexes()[0]] = (float)numPartScaleX.Value;
+			}
+			dstRefersh();
+		}
+
+		private void numPartScaleY_ValueChanged(object sender, EventArgs e)
+		{
+			if (dstGetCurSubIndexes().Length == 1)
+			{
+				framesGetCurFrame().SubTScaleY[dstGetCurSubIndexes()[0]] = (float)numPartScaleY.Value;
+			}
+			dstRefersh();
+		}
+
+		private void numPartShearX_ValueChanged(object sender, EventArgs e)
+		{
+			if (dstGetCurSubIndexes().Length == 1)
+			{
+				framesGetCurFrame().SubTShearX[dstGetCurSubIndexes()[0]] = (float)numPartShearX.Value;
+			}
+			dstRefersh();
+		}
+
+		private void numPartShearY_ValueChanged(object sender, EventArgs e)
+		{
+			if (dstGetCurSubIndexes().Length == 1)
+			{
+				framesGetCurFrame().SubTShearY[dstGetCurSubIndexes()[0]] = (float)numPartShearY.Value;
+			}
+			dstRefersh();
+		}
+
+
         /*
         private void toolStripMenuItem10_Click(object sender, EventArgs e)
         {
@@ -1711,13 +1707,23 @@ namespace CellGameEdit.PM
 
             if (dstGetCurSubIndexes().Length == 1)
             {
-                numericUpDown1.Value = (Decimal)((int)framesGetCurFrame().SubX[dstGetCurSubIndexes()[0]]);
-                numericUpDown3.Value = (Decimal)((int)framesGetCurFrame().SubY[dstGetCurSubIndexes()[0]]);
+				int index = dstGetCurSubIndexes()[0];
 
-                PartW.Text = "" + framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]];
-                PartH.Text = "" + framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]];
+				Frame frame = framesGetCurFrame();
 
-                imageFlipToolStripButton1.setFlipIndex((int)framesGetCurFrame().SubFlip[dstGetCurSubIndexes()[0]]);
+				numericUpDown1.Value = (Decimal)((int)frame.SubX[index]);
+				numericUpDown3.Value = (Decimal)((int)frame.SubY[index]);
+				PartW.Text = "" + frame.SubW[index];
+				PartH.Text = "" + frame.SubH[index];
+				numPartAlpha.Value = (Decimal)((float)frame.SubTAlpha[index]);
+				numPartRotate.Value = (Decimal)((float)frame.SubTRotate[index]);
+				numPartScaleX.Value = (Decimal)((float)frame.SubTScaleX[index]);
+				numPartScaleY.Value = (Decimal)((float)frame.SubTScaleY[index]);
+				numPartShearX.Value = (Decimal)((float)frame.SubTShearX[index]);
+				numPartShearY.Value = (Decimal)((float)frame.SubTShearY[index]);
+
+
+				imageFlipToolStripButton1.setFlipIndex((int)frame.SubFlip[index]);
 
               
             }
@@ -1928,30 +1934,41 @@ namespace CellGameEdit.PM
                 {
                     if (item.Checked == false) continue;
 
-                    System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
-                           Int32.Parse(item.SubItems[1].Text) * masterScale,
-                           Int32.Parse(item.SubItems[2].Text) * masterScale,
-                           srcGetImage(Int32.Parse(item.SubItems[0].Text)).getWidth() * masterScale,
-                           srcGetImage(Int32.Parse(item.SubItems[0].Text)).getHeight() * masterScale
-                           );
+					Frame frame = framesGetCurFrame();
 
-                    if (item.SubItems[3].Text == Graphics.FlipTextTable[1] ||
-                        item.SubItems[3].Text == Graphics.FlipTextTable[3] ||
-                        item.SubItems[3].Text == Graphics.FlipTextTable[5] ||
-                        item.SubItems[3].Text == Graphics.FlipTextTable[7])
-                    {
-                        float temp = rect.Width;
-                        rect.Width = rect.Height;
-                        rect.Height = temp;
-                    }
+					int i = frame.SubTable.IndexOf(item);
 
-                    if (rect.Contains(x, y))
-                    {
-                        px = x - rect.X;
-                        py = y - rect.Y;
-                        item.Selected = true;
-                        break;
-                    }
+					if (i >= 0) 
+					{
+						Image tile = srcGetImage((int)frame.SubIndex[i]);
+
+						System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
+							   ((int)frame.SubX[i]) * masterScale,
+							   ((int)frame.SubY[i]) * masterScale,
+							   tile.getWidth() * masterScale,
+							   tile.getHeight() * masterScale
+							   );
+						string flipText = Graphics.FlipTextTable[(int)frame.SubFlip[i]];
+
+						if (flipText == Graphics.FlipTextTable[1] ||
+							flipText == Graphics.FlipTextTable[3] ||
+							flipText == Graphics.FlipTextTable[5] ||
+							flipText == Graphics.FlipTextTable[7])
+						{
+							float temp = rect.Width;
+							rect.Width = rect.Height;
+							rect.Height = temp;
+						}
+
+						if (rect.Contains(x, y))
+						{
+							px = x - rect.X;
+							py = y - rect.Y;
+							item.Selected = true;
+							break;
+						}
+					}
+					
                 }
             }
 			if (isFrameEditCD())
@@ -1961,30 +1978,37 @@ namespace CellGameEdit.PM
                 {
                     if (item.Checked == false) continue;
 
-                    System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
-                        Int32.Parse(item.SubItems[1].Text) * masterScale,
-                        Int32.Parse(item.SubItems[2].Text) * masterScale,
-                        Int32.Parse(item.SubItems[3].Text) * masterScale,
-                        Int32.Parse(item.SubItems[4].Text) * masterScale
-                        );
-                    if (rect.Contains(x, y))
-                    {
-                        px = x - rect.X;
-                        py = y - rect.Y;
-                        item.Selected = true;
+					Frame frame = framesGetCurFrame();
 
-                        System.Drawing.RectangleF sub = new System.Drawing.RectangleF(
-                            rect.X + rect.Width - Frame.CDSubW,
-                            rect.Y + rect.Height - Frame.CDSubH,
-                            Frame.CDSubW,
-                            Frame.CDSubH
-                            );
-                        if (sub.Contains(x, y))
-                        {
-                            isSub = true;
-                        }
-                        break;
-                    }
+					int i = frame.CDTable.IndexOf(item);
+
+					if (i >= 0)
+					{
+						System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
+							((int)frame.CDX[i]) * masterScale,
+							((int)frame.CDY[i]) * masterScale,
+							((int)frame.CDW[i]) * masterScale,
+							((int)frame.CDH[i]) * masterScale
+							);
+						if (rect.Contains(x, y))
+						{
+							px = x - rect.X;
+							py = y - rect.Y;
+							item.Selected = true;
+
+							System.Drawing.RectangleF sub = new System.Drawing.RectangleF(
+								rect.X + rect.Width - Frame.CDSubW,
+								rect.Y + rect.Height - Frame.CDSubH,
+								Frame.CDSubW,
+								Frame.CDSubH
+								);
+							if (sub.Contains(x, y))
+							{
+								isSub = true;
+							}
+							break;
+						}
+					}
                 }
             }
 
@@ -2321,16 +2345,17 @@ namespace CellGameEdit.PM
             if (toolStripButton6.Checked == false)
             {
                 Graphics g = new Graphics(e.Graphics);
+				ArrayList frames = animGetCurFrames();
 
-                if (animGetCurFrames() != null)
+                if (frames != null)
                 {
-					for (int i = 0; i < animGetCurFrames().Count; i++)
+					for (int i = 0; i < frames.Count; i++)
 					{
 						float sx = ViewW * i;
 						float sy = 0;
 						g.setClip(sx, sy, ViewW, ViewH);
 
-						Frame frame = (Frame)(animGetCurFrames()[i]);
+						Frame frame = (Frame)(frames[i]);
 						frame.render(
 							  g, 
 							  srcTiles,
@@ -2861,7 +2886,10 @@ namespace CellGameEdit.PM
 		private void checkComplexMode_CheckedChanged(object sender, EventArgs e)
 		{
 			groupBox1.Enabled = checkComplexMode.Checked;
+			groupBoxPartComplex.Enabled = checkComplexMode.Checked;
 		}
+
+
 
 
 
@@ -2907,7 +2935,7 @@ namespace CellGameEdit.PM
         };
         #endregion
         //ArrayList Animates;
-        public ArrayList SubTable = new ArrayList();
+       public ArrayList SubTable = new ArrayList();
         
 
         public ArrayList SubIndex = new ArrayList();
@@ -2921,12 +2949,13 @@ namespace CellGameEdit.PM
 		public ArrayList SubTScaleX	= new ArrayList();
 		public ArrayList SubTScaleY	= new ArrayList();
 		public ArrayList SubTAlpha	= new ArrayList();
+		public ArrayList SubTShearX = new ArrayList();
+		public ArrayList SubTShearY = new ArrayList();
 
-
-        public ArrayList SubSelected = new ArrayList();
+       public ArrayList SubSelected = new ArrayList();
 
         //ArrayList Collides;
-        public ArrayList CDTable = new ArrayList();
+       public ArrayList CDTable = new ArrayList();
 
         public ArrayList CDMask = new ArrayList();
         public ArrayList CDX = new ArrayList();
@@ -2935,13 +2964,15 @@ namespace CellGameEdit.PM
         public ArrayList CDH = new ArrayList();
         public ArrayList CDType = new ArrayList();
 
-        public ArrayList CDSelected = new ArrayList();
+       public ArrayList CDSelected = new ArrayList();
 
 
 		public float rotate = 0;
 		public float scalex = 1;
 		public float scaley = 1;
 		public float alpha = 1;
+		public float shearx = 0;
+		public float sheary = 0;
 
         public Frame()
         {
@@ -2963,6 +2994,8 @@ namespace CellGameEdit.PM
 			SubTScaleX = (ArrayList)obj.SubTScaleX.Clone();
 			SubTScaleY = (ArrayList)obj.SubTScaleY.Clone();
 			SubTAlpha = (ArrayList)obj.SubTAlpha.Clone();
+			SubTShearX = (ArrayList)obj.SubTShearX.Clone();
+			SubTShearY = (ArrayList)obj.SubTShearY.Clone();
 
             SubSelected = (ArrayList)obj.SubSelected.Clone();
 
@@ -2991,6 +3024,8 @@ namespace CellGameEdit.PM
 					 ((float)SubTScaleX[i])+"", 
 					 ((float)SubTScaleY[i])+"",
 					 ((float)SubTAlpha[i])+"",
+					 ((float)SubTShearX[i])+"",
+					 ((float)SubTShearY[i])+""
 				});
                 item.Checked = true;
                 SubTable.Add(item);
@@ -3017,6 +3052,8 @@ namespace CellGameEdit.PM
 			this.scalex = obj.scalex;
 			this.scaley = obj.scaley;
 			this.alpha = obj.alpha;
+			this.shearx = obj.shearx;
+			this.sheary = obj.sheary;
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected Frame(SerializationInfo info, StreamingContext context)
@@ -3027,10 +3064,18 @@ namespace CellGameEdit.PM
 				scalex = (float)info.GetValue("scalex", typeof(float));
 				scaley = (float)info.GetValue("scaley", typeof(float));
 				alpha = (float)info.GetValue("alpha", typeof(float));
+				try {
+					shearx = (float)info.GetValue("shearx", typeof(float));
+					sheary = (float)info.GetValue("sheary", typeof(float));
+				}
+				catch (Exception err)
+				{
+				}
 			}
 			catch (Exception err)
 			{
 			}
+			
 
             SubIndex = (ArrayList)info.GetValue("SubIndex", typeof(ArrayList));
             SubX = (ArrayList)info.GetValue("SubX", typeof(ArrayList));
@@ -3045,22 +3090,28 @@ namespace CellGameEdit.PM
 				SubTScaleX = (ArrayList)info.GetValue("SubTScaleX", typeof(ArrayList));
 				SubTScaleY = (ArrayList)info.GetValue("SubTScaleY", typeof(ArrayList));
 				SubTAlpha = (ArrayList)info.GetValue("SubTAlpha", typeof(ArrayList));
+				SubTShearX = (ArrayList)info.GetValue("SubTShearX", typeof(ArrayList));
+				SubTShearY = (ArrayList)info.GetValue("SubTShearY", typeof(ArrayList));
 			} 
 			catch (Exception err) {
 			
 			}
-			if (SubTRotate.Count != SubIndex.Count)
+			if (SubTShearY.Count != SubIndex.Count)
 			{
 				SubTRotate = new ArrayList();
 				SubTScaleX = new ArrayList();
 				SubTScaleY = new ArrayList();
 				SubTAlpha = new ArrayList();
+				SubTShearX = new ArrayList();
+				SubTShearY = new ArrayList();
 				for (int i = 0; i < SubIndex.Count; i++ )
 				{
 					SubTRotate.Add(0.0f);
-					SubTScaleX.Add(0.0f);
-					SubTScaleY.Add(0.0f);
-					SubTAlpha.Add(0.0f);
+					SubTScaleX.Add(1.0f);
+					SubTScaleY.Add(1.0f);
+					SubTAlpha.Add(1.0f); 
+					SubTShearX.Add(0.0f);
+					SubTShearY.Add(0.0f);
 				}
 			}
 
@@ -3083,7 +3134,8 @@ namespace CellGameEdit.PM
 					 ((float)SubTScaleX[i])+"", 
 					 ((float)SubTScaleY[i])+"",
 					 ((float)SubTAlpha[i])+"",
-				
+					 ((float)SubTShearX[i])+"",
+					 ((float)SubTShearY[i])+""
 				}
                     );
                 item.Checked = true;
@@ -3115,6 +3167,8 @@ namespace CellGameEdit.PM
 			info.AddValue("scalex", scalex);
 			info.AddValue("scaley", scaley);
 			info.AddValue("alpha", alpha);
+			info.AddValue("shearx", shearx);
+			info.AddValue("sheary", sheary);
 
             info.AddValue("SubIndex", SubIndex);
             info.AddValue("SubX", SubX);
@@ -3126,6 +3180,8 @@ namespace CellGameEdit.PM
 			info.AddValue("SubTScaleX", SubTScaleX);
 			info.AddValue("SubTScaleY", SubTScaleY);
 			info.AddValue("SubTAlpha", SubTAlpha);
+			info.AddValue("SubTShearX", SubTShearX);
+			info.AddValue("SubTShearY", SubTShearY);
 
             info.AddValue("CDMask", CDMask);
             info.AddValue("CDX", CDX);
@@ -3135,9 +3191,36 @@ namespace CellGameEdit.PM
             info.AddValue("CDType", CDType);
         }
 
-       
+		public string[] toPartListViewItem(int i)
+		{
+			return new string[] {
+                    ((int)SubIndex[i]).ToString("d"),
+                    ((int)SubX[i]).ToString("d"),
+                    ((int)SubY[i]).ToString("d"),
+                     Graphics.FlipTextTable[(int)SubFlip[i]] ,
+					 ((float)SubTRotate[i])+"", 
+					 ((float)SubTScaleX[i])+"", 
+					 ((float)SubTScaleY[i])+"",
+					 ((float)SubTAlpha[i])+"",
+					 ((float)SubTShearX[i])+"",
+					 ((float)SubTShearY[i])+""
+				};
+                    
+		}
+		public string[] toCDListViewItem(int i)
+		{
+			return new string[] {
+                    ((int)CDMask[i]).ToString("x"),
+                    ((int)CDX[i]).ToString("d"),
+                    ((int)CDY[i]).ToString("d"),
+                    ((int)CDW[i]).ToString("d"),
+                    ((int)CDH[i]).ToString("d"),
+                     Frame.CDtypeTextTable[(int)CDType[i]]}
+					   ;
+		}
+
         public int indexOfSub(int index,int x,int y,int w,int h,int flip, 
-			float rot, float scalex, float scaley, float alpha )
+			float rot, float scalex, float scaley, float alpha , float shearx, float sheary)
         {
             for (int i = 0; i < SubIndex.Count;i++ )
             {
@@ -3150,7 +3233,10 @@ namespace CellGameEdit.PM
 					((float)SubTRotate[i]) == rot &&
                     ((float)SubTScaleX[i]) == scalex &&
                     ((float)SubTScaleY[i]) == scaley &&
-                    ((float)SubTAlpha[i]) == alpha)
+                    ((float)SubTAlpha[i]) == alpha &&
+					((float)SubTShearX[i]) == shearx &&
+					((float)SubTShearY[i]) == sheary
+					)
                 {
                     return i;
                 }
@@ -3183,10 +3269,9 @@ namespace CellGameEdit.PM
         {
             return SubIndex.Count;
         }
-        public void addSub(ListViewItem key,int part, int x, int y, int w,int h,int flip,
-			float rot, float scalex, float scaley, float alpha)
+		public ListViewItem addFSub(int part, int x, int y, int w, int h, int flip,
+			float rot, float scalex, float scaley, float alpha, float shearx, float sheary)
         {
-            SubTable.Add(key);
             SubIndex.Add(part);
             SubX.Add(x);
             SubY.Add(y);
@@ -3198,14 +3283,19 @@ namespace CellGameEdit.PM
 			SubTScaleX.Add(scalex);
 			SubTScaleY.Add(scaley);
 			SubTAlpha.Add(alpha);
+			SubTShearX.Add(shearx);
+			SubTShearY.Add(sheary);
 
+			ListViewItem key = new ListViewItem(toPartListViewItem(SubIndex.Count - 1));
+			key.Checked = true;
+			SubTable.Add(key);
             SubSelected.Add(true);
+			return key;
         }
-        public void insertSub(int index, ListViewItem key, int part, int x, int y, int w, int h, int flip,
-			float rot, float scalex, float scaley, float alpha)
+		public ListViewItem insertFSub(int index, int part, int x, int y, int w, int h, int flip,
+			float rot, float scalex, float scaley, float alpha, float shearx, float sheary)
         {
 
-            SubTable.Insert(index, key);
             SubIndex.Insert(index, part);
             SubX.Insert(index, x);
             SubY.Insert(index, y);
@@ -3218,26 +3308,38 @@ namespace CellGameEdit.PM
 			SubTScaleX.Insert(index, scalex);
 			SubTScaleY.Insert(index, scaley);
 			SubTAlpha.Insert(index, alpha);
+			SubTShearX.Insert(index, shearx);
+			SubTShearY.Insert(index, sheary);
 
-            SubSelected.Insert(index, true);
+			ListViewItem key = new ListViewItem(toPartListViewItem(index));
+			key.Checked = true;
+			SubTable.Insert(index, key);
+			SubSelected.Insert(index, true);
+			return key;
 
         }
-        public void delSub(int index)
+		public ListViewItem delFSub(int index)
         {
+			ListViewItem key = (ListViewItem)SubTable[index];
+
             SubIndex.RemoveAt(index);
             SubX.RemoveAt(index);
             SubY.RemoveAt(index);
             SubW.RemoveAt(index);
             SubH.RemoveAt(index);
             SubFlip.RemoveAt(index);
-            SubTable.RemoveAt(index);
 
 			SubTRotate.RemoveAt(index);
 			SubTScaleX.RemoveAt(index);
 			SubTScaleY.RemoveAt(index);
 			SubTAlpha.RemoveAt(index);
 
+			SubTShearX.RemoveAt(index);
+			SubTShearY.RemoveAt(index);
+
+			SubTable.RemoveAt(index);
             SubSelected.RemoveAt(index);
+			return key;
         }
         public void exchangeSub(int src, int dst)
         {
@@ -3252,6 +3354,8 @@ namespace CellGameEdit.PM
 			float scalex = (float)SubTScaleX[src];
 			float scaley = (float)SubTScaleY[src];
 			float alpha = (float)SubTAlpha[src];
+			float shearx = (float)SubTShearX[src];
+			float sheary = (float)SubTShearY[src];
 
             Boolean selected = (Boolean)SubSelected[src];
             //ListViewItem item = (ListViewItem)SubTable[src];
@@ -3267,7 +3371,10 @@ namespace CellGameEdit.PM
 			SubTScaleX[src] = SubTScaleX[dst];
 			SubTScaleY[src] = SubTScaleY[dst];
 			SubTAlpha[src] = SubTAlpha[dst];
-			
+
+			SubTShearX[src] = SubTShearX[dst];
+			SubTShearY[src] = SubTShearY[dst];
+
 			//SubTable[src] = SubTable[dst];
             SubSelected[src] = (Boolean)SubSelected[dst];
 
@@ -3283,6 +3390,9 @@ namespace CellGameEdit.PM
 			SubTScaleX[dst] = scalex;
 			SubTScaleY[dst] = scaley;
 			SubTAlpha[dst] = alpha;
+
+			SubTShearX[dst] = shearx;
+			SubTShearY[dst] = sheary;
 
             //SubTable[dst] = item;
             SubSelected[dst] = selected;
@@ -3314,9 +3424,8 @@ namespace CellGameEdit.PM
         {
             return CDMask.Count;
         }
-        public void addCD(ListViewItem key, int mask, int x, int y, int w, int h, int type)
+		public ListViewItem addFCD(int mask, int x, int y, int w, int h, int type)
         {
-            CDTable.Add(key);
 
             CDMask.Add(mask);
             CDX.Add(x);
@@ -3325,12 +3434,14 @@ namespace CellGameEdit.PM
             CDH.Add(h);
             CDType.Add(type);
 
+			ListViewItem key = new ListViewItem(toCDListViewItem(CDMask.Count - 1));
+			key.Checked = true;
+            CDTable.Add(key);
             CDSelected.Add(true);
-
+			return key;
         }
-        public void insertCD(int index, ListViewItem key, int mask, int x, int y, int w, int h, int type)
+		public ListViewItem insertFCD(int index, int mask, int x, int y, int w, int h, int type)
         {
-            CDTable.Insert(index, key);
 
             CDMask.Insert(index, mask);
             CDX.Insert(index, x);
@@ -3339,10 +3450,15 @@ namespace CellGameEdit.PM
             CDH.Insert(index, h);
             CDType.Insert(index, type);
 
-            CDSelected.Insert(index, true);
+			ListViewItem key = new ListViewItem(toCDListViewItem(index));
+			key.Checked = true;
+			CDTable.Insert(index, key);
+			CDSelected.Insert(index, true);
+			return key;
         }
-        public void delCD(int index)
+		public ListViewItem delFCD(int index)
         {
+			ListViewItem key = (ListViewItem)CDTable[index];
 
             CDMask.RemoveAt(index);
             CDX.RemoveAt(index);
@@ -3350,11 +3466,12 @@ namespace CellGameEdit.PM
             CDW.RemoveAt(index);
             CDH.RemoveAt(index);
             CDType.RemoveAt(index);
-            CDTable.RemoveAt(index);
 
+
+            CDTable.RemoveAt(index);
             CDSelected.RemoveAt(index);
 
-           
+			return key;
         }
         public void exchangeCD(int src, int dst)
         {
@@ -3414,86 +3531,78 @@ namespace CellGameEdit.PM
             return rect;
         }
 
-        public void render(Graphics g, 
-			ArrayList tile,
-			float bx, float by,
-			Boolean showimageborder,
-			Boolean showCD,
-			Boolean complex_mode)
+		private void renderPart(Graphics g, ArrayList tile, int i, bool showimageborder, bool complex_mode)
 		{
 			g.pushTransform();
-			g.translate(bx, by);
-
-			if (complex_mode)
+			try
 			{
-				g.setAlpha(alpha);
-				g.rotate(rotate);
-				g.scale(scalex, scaley);
-			}
-			
+				g.translate((int)SubX[i], (int)SubY[i]);
+				if (complex_mode)
+				{
+					g.setAlpha((float)SubTAlpha[i]);
+					g.rotate((float)SubTRotate[i]);
+					g.scale((float)SubTScaleX[i], (float)SubTScaleY[i]);
+					g.shear((float)SubTShearX[i], (float)SubTShearY[i]);
+				}
 
-            for (int i = SubIndex.Count - 1; i >=0 ;i-- )
-            {
-                switch (Graphics.FlipTable[(int)SubFlip[i]])
-                {
-                    case System.Drawing.RotateFlipType.RotateNoneFlipNone:
-                    case System.Drawing.RotateFlipType.Rotate180FlipNone:
-                    case System.Drawing.RotateFlipType.Rotate180FlipX:
-                    case System.Drawing.RotateFlipType.RotateNoneFlipX:
-                        SubW[i] = ((Image)tile[(int)SubIndex[i]]).getWidth();
-                        SubH[i] = ((Image)tile[(int)SubIndex[i]]).getHeight();
-                        break;
-                    case System.Drawing.RotateFlipType.Rotate90FlipNone:
-                    case System.Drawing.RotateFlipType.Rotate270FlipNone:
-                    case System.Drawing.RotateFlipType.Rotate270FlipX:
-                    case System.Drawing.RotateFlipType.Rotate90FlipX:
-                        SubH[i] = ((Image)tile[(int)SubIndex[i]]).getWidth();
-                        SubW[i] = ((Image)tile[(int)SubIndex[i]]).getHeight();
-                        break;
-                }
+
+				switch (Graphics.FlipTable[(int)SubFlip[i]])
+				{
+					case System.Drawing.RotateFlipType.RotateNoneFlipNone:
+					case System.Drawing.RotateFlipType.Rotate180FlipNone:
+					case System.Drawing.RotateFlipType.Rotate180FlipX:
+					case System.Drawing.RotateFlipType.RotateNoneFlipX:
+						SubW[i] = ((Image)tile[(int)SubIndex[i]]).getWidth();
+						SubH[i] = ((Image)tile[(int)SubIndex[i]]).getHeight();
+						break;
+					case System.Drawing.RotateFlipType.Rotate90FlipNone:
+					case System.Drawing.RotateFlipType.Rotate270FlipNone:
+					case System.Drawing.RotateFlipType.Rotate270FlipX:
+					case System.Drawing.RotateFlipType.Rotate90FlipX:
+						SubH[i] = ((Image)tile[(int)SubIndex[i]]).getWidth();
+						SubW[i] = ((Image)tile[(int)SubIndex[i]]).getHeight();
+						break;
+				}
 
 				Image timg = ((Image)tile[(int)SubIndex[i]]);
 				if (timg != null)
-                {
-                    g.drawImageTrans(
-					   timg,
-                       (((int)SubX[i])),
-					   (((int)SubY[i])),
-					   (int)SubFlip[i]
-                       );
-                }
-                if (showimageborder)
-                {
-                    g.setColor(0xff, 0xff, 0xff, 0xff);
-                    g.drawRect(
-						(((int)SubX[i])),
-						(((int)SubY[i])),
-						(((int)SubW[i])),
-						(((int)SubH[i]))
-                        );
-                }
-                if ( (Boolean)(SubSelected[i]) )
-                { 
-                    g.setColor(0xff, 0xff, 0xff, 0xff);
-                    g.drawRect(
-						(((int)SubX[i])),
-						(((int)SubY[i])),
-						(((int)SubW[i])),
-						(((int)SubH[i]))
-                        );
-                    g.setColor(0x20, 0xff, 0xff, 0xff);
-                    g.fillRect(
-						(((int)SubX[i])),
-						(((int)SubY[i])),
-						(((int)SubW[i])),
-						(((int)SubH[i])) 
-                        );
-                }
-            }
-			if (showCD)
-			{
-				for (int i = 0; i < CDMask.Count; i++)
 				{
+					g.drawImageTrans(timg, 0, 0, (int)SubFlip[i]);
+				}
+			}
+			finally {
+				g.popTransform();
+			}
+
+			if (showimageborder)
+			{
+				g.setColor(0xff, 0xff, 0xff, 0xff);
+				g.drawRect(
+					(int)SubX[i], (int)SubY[i],
+					(((int)SubW[i])),
+					(((int)SubH[i]))
+					);
+			}
+			if ((Boolean)(SubSelected[i]))
+			{
+				g.setColor(0xff, 0xff, 0xff, 0xff);
+				g.drawRect(
+					(int)SubX[i], (int)SubY[i],
+					(((int)SubW[i])),
+					(((int)SubH[i]))
+					);
+				g.setColor(0x20, 0xff, 0xff, 0xff);
+				g.fillRect(
+					(int)SubX[i], (int)SubY[i],
+					(((int)SubW[i])),
+					(((int)SubH[i]))
+					);
+			}
+		}
+
+		private void renderCD(Graphics g, int i)
+		{
+				
 					switch ((int)CDType[i])
 					{
 						case CD_TYPE_MAP:
@@ -3536,6 +3645,36 @@ namespace CellGameEdit.PM
 						   Frame.CDSubH);
 					}
 
+		}
+
+        public void render(Graphics g, 
+			ArrayList tile,
+			float bx, float by,
+			bool showimageborder,
+			bool showCD,
+			bool complex_mode)
+		{
+			g.pushTransform();
+			g.translate(bx, by);
+
+			if (complex_mode)
+			{
+				g.setAlpha(alpha);
+				g.rotate(rotate);
+				g.scale(scalex, scaley);
+				g.shear(shearx, sheary);
+			}
+			
+
+            for (int i = SubIndex.Count - 1; i >=0 ;i-- )
+            {
+                renderPart(g, tile, i, showimageborder, complex_mode);
+            }
+			if (showCD)
+			{
+				for (int i = 0; i < CDMask.Count; i++)
+				{
+					renderCD(g, i);
 				}
 			}
 			g.popTransform();

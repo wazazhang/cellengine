@@ -105,7 +105,13 @@
         <SCENE_PART>          /* 帧部件 开始 */
             <INDEX>                /*(int) 该部件 号码 */
             <TILE>                 /*(int) 该部件 图片索引 */
-            <TRANS>                /*(int) 该部件 图片翻转方式 */        
+            <TRANS>                /*(int) 该部件 图片翻转方式 */
+            <ALPHA>
+            <ROTATE>
+            <SCALE_X>
+            <SCALE_Y>
+            <SHEAR_X>
+            <SHEAR_Y>        
         </SCENE_PART>      /* 帧部件 结束 */
 
         <SCENE_FRAME_COUNT>    /*(int) 该地图 帧数量 */
@@ -197,7 +203,9 @@
 		<FRAME_ROTATE>			/*(float)[][] 所有帧rotate */
 		<FRAME_SCALE_X>			/*(float)[][] 所有帧scalex */
 		<FRAME_SCALE_Y>			/*(float)[][] 所有帧scaley */
-
+		<FRAME_SHEAR_X>
+		<FRAME_SHEAR_Y>
+		
         <FRAME_CD_MAP>         /*(int)[][] 该精灵 地图碰撞序列二维数组 格式为 frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...数据为碰撞帧号码*/
         <FRAME_CD_ATK>         /*(int)[][] 该精灵 攻击碰撞序列二维数组 格式为 frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...数据为碰撞帧号码*/
         <FRAME_CD_DEF>         /*(int)[][] 该精灵 防御碰撞序列二维数组 格式为 frame[animate count][frame] = {a0f0,a0f1,a0f2,...},{a1f0,a1f1,a1f2,...},...数据为碰撞帧号码*/
