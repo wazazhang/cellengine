@@ -30,8 +30,8 @@ package com.cell.gfx.game
 		 */
 		public function drawImage(img:CImage, x:int, y:int, w:int, h:int, transform:int) : void
 		{
-//			if (transform == Transform.TRANS_NONE) 
-//			{				
+			if (transform == Transform.TRANS_NONE) 
+			{				
 				this.dst_point.x = x;
 				this.dst_point.y = y;
 
@@ -40,16 +40,16 @@ package com.cell.gfx.game
 				this.src_rect.x = 0;
 				this.src_rect.y = 0;
 				buff.copyPixels(img.src, src_rect, dst_point, null, null, false);
-//			}
-//			else 
-//			{
-//				this.dst_rect.x = x;
-//				this.dst_rect.y = y;			
-//				this.dst_rect.width = w;
-//				this.dst_rect.height = h;
-//				
-//				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, dst_rect, false);
-//			}
+			}
+			else 
+			{
+				this.dst_rect.x = x;
+				this.dst_rect.y = y;			
+				this.dst_rect.width = w;
+				this.dst_rect.height = h;
+				
+				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, dst_rect, false);
+			}
 		}
 		
 
