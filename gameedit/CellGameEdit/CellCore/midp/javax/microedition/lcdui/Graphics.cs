@@ -38,6 +38,7 @@ public class Graphics
 	//public static int VCENTER	;
 
 	private System.Collections.Stack stack_transform = new System.Collections.Stack();
+	private System.Collections.Stack stack_alpha = new System.Collections.Stack();
 	private System.Drawing.Imaging.ImageAttributes imgAttr = new System.Drawing.Imaging.ImageAttributes();
 	private float imgAlpha = -1;
 
@@ -54,40 +55,34 @@ public class Graphics
 	}
 	//------------------------------------------------------------------------------------------------------------------
 	
-	public void setAlpha(float alpha)
+	public void multiplyAlpha(float alpha)
 	{
-		if (imgAlpha != alpha)
-		{
-			this.imgAlpha = alpha;
-			if (alpha == 1)
-			{
-				this.imgAttr = null;
-			}
-			else
-			{
-				// Initialize the color matrix.
-				// Note the value 0.8 in row 4, column 4.
-				float[][] matrixItems ={ 
+		setAlpha(this.imgAlpha*alpha);
+	}
+
+	private void setAlpha(float alpha)
+	{
+		this.imgAlpha = alpha;
+		// Initialize the color matrix.
+		// Note the value 0.8 in row 4, column 4.
+		float[][] matrixItems ={ 
 				   new float[] {1, 0, 0, 0, 0},
 				   new float[] {0, 1, 0, 0, 0},
 				   new float[] {0, 0, 1, 0, 0},
 				   new float[] {0, 0, 0, alpha, 0}, 
 				   new float[] {0, 0, 0, 0, 1}};
-				ColorMatrix colorMatrix = new ColorMatrix(matrixItems);
+		ColorMatrix colorMatrix = new ColorMatrix(matrixItems);
 
-				// Create an ImageAttributes object and set its color matrix.
-				ImageAttributes imageAtt = new ImageAttributes();
-				imageAtt.SetColorMatrix(
-				   colorMatrix,
-				   ColorMatrixFlag.Default,
-				   ColorAdjustType.Bitmap);
+		// Create an ImageAttributes object and set its color matrix.
+		ImageAttributes imageAtt = new ImageAttributes();
+		imageAtt.SetColorMatrix(
+		   colorMatrix,
+		   ColorMatrixFlag.Default,
+		   ColorAdjustType.Bitmap);
 
-				this.imgAttr = imageAtt;
-			}
-
-		}
-		
+		this.imgAttr = imageAtt;
 	}
+
 	public void translate(float x, float y)
 	{
 		dg.TranslateTransform(x, y);
@@ -109,15 +104,19 @@ public class Graphics
 		dg.MultiplyTransform(mx);
 	}
 
-	public void pushTransform()
+	public void pushState()
 	{
-		stack_transform.Push(dg.Transform);
+		stack_transform.Push(this.dg.Transform);
+		stack_alpha.Push(this.imgAlpha);
+		stack_alpha.Push(this.imgAttr);
 	}
 
-	public void popTransform()
+	public void popState()
 	{
-		System.Drawing.Drawing2D.Matrix matrix = (System.Drawing.Drawing2D.Matrix)stack_transform.Pop();
-		dg.Transform = matrix;
+		this.imgAttr = (System.Drawing.Imaging.ImageAttributes)stack_alpha.Pop();
+		this.imgAlpha = (float)stack_alpha.Pop();
+		this.dg.Transform = (System.Drawing.Drawing2D.Matrix)stack_transform.Pop();
+
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

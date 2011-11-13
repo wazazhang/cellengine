@@ -1851,7 +1851,7 @@ namespace CellGameEdit.PM
 
 				{
 					Graphics g = new Graphics(e.Graphics);
-					g.pushTransform();
+					g.pushState();
 					Frame frame = framesGetCurFrame();
 					if (frame != null)
 					{
@@ -1866,7 +1866,7 @@ namespace CellGameEdit.PM
 							chkShowCD.Checked,
 							checkComplexMode.Checked);
 					}
-					g.popTransform();
+					g.popState();
 				}
 				if (this.显示尺子ToolStripMenuItem.Checked)
 				{
@@ -2346,7 +2346,7 @@ namespace CellGameEdit.PM
             {
                 Graphics g = new Graphics(e.Graphics);
 				ArrayList frames = animGetCurFrames();
-
+				
                 if (frames != null)
                 {
 					for (int i = 0; i < frames.Count; i++)
@@ -3533,13 +3533,13 @@ namespace CellGameEdit.PM
 
 		private void renderPart(Graphics g, ArrayList tile, int i, bool showimageborder, bool complex_mode)
 		{
-			g.pushTransform();
+			g.pushState();
 			try
 			{
 				g.translate((int)SubX[i], (int)SubY[i]);
 				if (complex_mode)
 				{
-					g.setAlpha((float)SubTAlpha[i]);
+					g.multiplyAlpha((float)SubTAlpha[i]);
 					g.rotate((float)SubTRotate[i]);
 					g.scale((float)SubTScaleX[i], (float)SubTScaleY[i]);
 					g.shear((float)SubTShearX[i], (float)SubTShearY[i]);
@@ -3571,7 +3571,7 @@ namespace CellGameEdit.PM
 				}
 			}
 			finally {
-				g.popTransform();
+				g.popState();
 			}
 
 			if (showimageborder)
@@ -3654,30 +3654,40 @@ namespace CellGameEdit.PM
 			bool showCD,
 			bool complex_mode)
 		{
-			g.pushTransform();
-			g.translate(bx, by);
-
-			if (complex_mode)
+			try
 			{
-				g.setAlpha(alpha);
-				g.rotate(rotate);
-				g.scale(scalex, scaley);
-				g.shear(shearx, sheary);
-			}
-			
+				g.pushState();
+				g.translate(bx, by);
 
-            for (int i = SubIndex.Count - 1; i >=0 ;i-- )
-            {
-                renderPart(g, tile, i, showimageborder, complex_mode);
-            }
-			if (showCD)
-			{
-				for (int i = 0; i < CDMask.Count; i++)
+				if (complex_mode)
 				{
-					renderCD(g, i);
+					g.multiplyAlpha(alpha);
+					g.rotate(rotate);
+					g.scale(scalex, scaley);
+					g.shear(shearx, sheary);
 				}
+
+
+				for (int i = SubIndex.Count - 1; i >= 0; i--)
+				{
+					renderPart(g, tile, i, showimageborder, complex_mode);
+				}
+				if (showCD)
+				{
+					for (int i = 0; i < CDMask.Count; i++)
+					{
+						renderCD(g, i);
+					}
+				}
+				g.popState();
 			}
-			g.popTransform();
+			catch (Exception err) 
+			{
+				Console.WriteLine(err.Message);
+				Console.WriteLine(err.StackTrace);
+
+			}
+
         }
        
 
