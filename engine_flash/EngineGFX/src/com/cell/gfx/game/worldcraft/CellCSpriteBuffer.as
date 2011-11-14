@@ -47,7 +47,7 @@ package com.cell.gfx.game.worldcraft
 			_bitmap.x = x;
 			_bitmap.y = y;
 			_bitmap.bitmapData = buff;
-			_spr.transformSprite(this, anim, frame);
+			_spr.transformSet(this, anim, frame);
 		}
 	}
 }

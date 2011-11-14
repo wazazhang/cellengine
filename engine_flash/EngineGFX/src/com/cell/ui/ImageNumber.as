@@ -171,7 +171,7 @@ package com.cell.ui
 			ret.fh = this.fh;
 			
 			ret.number = v;
-			if (size > 0) {
+			if (s > 0) {
 				ret.size = s;
 			} else {
 				ret.size = this.size;

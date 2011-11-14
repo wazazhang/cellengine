@@ -336,7 +336,17 @@ package com.cell.gfx.game
 			return FrameScaleY[anim][frame];
 		}
 		
-		public function transformSprite(o:DisplayObject, anim:int, frame:int) : void
+		public function transformAdd(o:DisplayObject, anim:int, frame:int) : void
+		{
+			if (enable_complex) {
+				o.alpha 	*= FrameAlpha[anim][frame];
+				o.rotation 	+= FrameRotate[anim][frame];
+				o.scaleX 	+= FrameScaleX[anim][frame];
+				o.scaleY 	+= FrameScaleY[anim][frame];
+			}
+		}
+		
+		public function transformSet(o:DisplayObject, anim:int, frame:int) : void
 		{
 			if (enable_complex) {
 				o.alpha 	= FrameAlpha[anim][frame];
@@ -345,7 +355,7 @@ package com.cell.gfx.game
 				o.scaleY 	= FrameScaleY[anim][frame];
 			}
 		}
-		
+
 //		------------------------------------------------------------------------------------------
 		
 		/**

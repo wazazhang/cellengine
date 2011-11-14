@@ -52,7 +52,7 @@ package com.cell.gfx.game.worldcraft
 		public function render(g:IGraphics, x:int, y:int, anim:int, frame:int) : void 
 		{
 			spr.render(g, x, y, anim, frame);
-			spr.transformSprite(this, _spr.getCurrentAnimate(), _spr.getCurrentFrame());
+			spr.transformSet(this, _spr.getCurrentAnimate(), _spr.getCurrentFrame());
 		}
 
 //		------------------------------------------------------------------------------------------------------
