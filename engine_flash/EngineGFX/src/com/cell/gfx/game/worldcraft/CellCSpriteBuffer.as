@@ -32,6 +32,11 @@ package com.cell.gfx.game.worldcraft
 		{
 		}
 		
+		public function getSprBuffer() : CSpriteBuffer
+		{
+			return this._buff;
+		}
+		
 		internal override function renderIn() : void 
 		{
 			var ca : int = _spr.getCurrentAnimate();
@@ -47,7 +52,7 @@ package com.cell.gfx.game.worldcraft
 			_bitmap.x = x;
 			_bitmap.y = y;
 			_bitmap.bitmapData = buff;
-			_spr.transformSet(this, anim, frame);
+			_spr.setTransform(this, anim, frame);
 		}
 	}
 }

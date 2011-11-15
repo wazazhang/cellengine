@@ -53,7 +53,7 @@ package com.cell.gameedit.output
 				var url:String = (output as XmlUrlOutputLoader).path_root + 
 					img.Name + "." + output.getImageExtentions();
 				
-				this.loader = new Loader();
+				this.loader = UrlManager.createLoader();
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 				img_complete);
 				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 		img_error);
 				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, 	img_error);  
@@ -115,7 +115,7 @@ package com.cell.gameedit.output
 			var url:String = (output as XmlUrlOutputLoader).path_root + 
 				img.Name + "/" + tile_cur + "." + output.getImageExtentions();
 
-			this.loader = new Loader();
+			this.loader = UrlManager.createLoader();
 			this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, tileLoaded);
 			this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, tileError);
 			this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, tileError);

@@ -336,7 +336,7 @@ package com.cell.gfx.game
 			return FrameScaleY[anim][frame];
 		}
 		
-		public function transformAdd(o:DisplayObject, anim:int, frame:int) : void
+		public function addTransform(o:DisplayObject, anim:int, frame:int) : void
 		{
 			if (enable_complex) {
 				o.alpha 	*= FrameAlpha[anim][frame];
@@ -346,7 +346,7 @@ package com.cell.gfx.game
 			}
 		}
 		
-		public function transformSet(o:DisplayObject, anim:int, frame:int) : void
+		public function setTransform(o:DisplayObject, anim:int, frame:int) : void
 		{
 			if (enable_complex) {
 				o.alpha 	= FrameAlpha[anim][frame];

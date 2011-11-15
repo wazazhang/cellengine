@@ -1,5 +1,7 @@
 package com.cell.gfx.game
 {
+	import com.cell.io.UrlManager;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
@@ -45,7 +47,7 @@ package com.cell.gfx.game
 		
 		private function load(url:URLRequest) : void
 		{
-			this.loader = new Loader();
+			this.loader = UrlManager.createLoader();
 			this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);  
 			this.loader.load(url);
 		}

@@ -65,10 +65,10 @@ package com.cell.ui
 		
 		public static function createTouchToggleButton(up_url:String, down_url:String) : TouchToggleButton
 		{
-			var udl : Loader = new Loader();
+			var udl : Loader = UrlManager.createLoader();
 			udl.load(UrlManager.getUrl(up_url));
 			
-			var ddl : Loader = new Loader();
+			var ddl : Loader = UrlManager.createLoader();
 			ddl.load(UrlManager.getUrl(down_url));
 			
 			return new TouchToggleButton(udl, ddl);

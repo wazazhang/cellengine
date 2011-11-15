@@ -1,5 +1,9 @@
 package com.cell.io
 {
+	import flash.display.Loader;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 
 	public class UrlManager
@@ -19,5 +23,26 @@ package com.cell.io
 		{
 			url_wrapper = w;
 		}
+		
+		public static function createLoader() : Loader
+		{
+			var loader : Loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 						s_complete);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 				s_error);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, 			s_error);  
+			loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, 	s_error);  
+			return loader;
+		}
+		
+		private static function s_complete(e:Event) : void
+		{
+			
+		}
+		
+		private static function s_error(e:Event) : void
+		{
+			trace("Error : " + e);
+		}
+		
 	}
 }

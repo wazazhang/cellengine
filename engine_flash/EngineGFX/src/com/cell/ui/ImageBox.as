@@ -43,7 +43,7 @@ package com.cell.ui
 		
 		public static function createImageBox(url:String, anchor:int = 0x11) : ImageBox
 		{
-			var ld : Loader = new Loader();
+			var ld : Loader = UrlManager.createLoader();
 			var ret : ImageBox = new ImageBox(ld, anchor);
 			ld.contentLoaderInfo.addEventListener(
 				Event.COMPLETE, 

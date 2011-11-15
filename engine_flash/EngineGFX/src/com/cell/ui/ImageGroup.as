@@ -56,7 +56,7 @@ package com.cell.ui
 		{
 			var ret : ImageGroup = new ImageGroup();
 			for each(var o : String in urls) {
-				var ld : Loader = new Loader();
+				var ld : Loader = UrlManager.createLoader();
 				ld.load(UrlManager.getUrl(o));
 				ld.contentLoaderInfo.addEventListener(Event.COMPLETE, ret.loaded);
 				ret.addChild(ld);

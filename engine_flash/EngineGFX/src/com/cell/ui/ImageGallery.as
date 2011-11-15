@@ -25,7 +25,7 @@ package com.cell.ui
 			var ret : ImageGallery = new ImageGallery(viewW, viewH);
 			
 			for each (var str : String in images_url) {
-				var loader : Loader = new Loader();
+				var loader : Loader = UrlManager.createLoader();
 				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, ret.loaded);
 				loader.load(UrlManager.getUrl(str));
 				ret.addChildW(loader);
