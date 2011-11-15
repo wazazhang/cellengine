@@ -117,7 +117,21 @@ public class Image
 
     public void flipSelf(int transform)
     {
-        Image dst = createImage(getWidth(), getHeight());
+		int width = getWidth();
+		int height = getHeight();
+
+		switch (Graphics.FlipTable[transform])
+		{
+			case System.Drawing.RotateFlipType.Rotate90FlipNone://1
+			case System.Drawing.RotateFlipType.Rotate270FlipNone://3
+			case System.Drawing.RotateFlipType.Rotate90FlipX://5
+			case System.Drawing.RotateFlipType.Rotate270FlipX://7
+				width = getHeight();
+				height = getWidth();
+				break;
+		}
+
+		Image dst = createImage(width, height);
         Graphics g = dst.getGraphics();
         g.drawImageTrans(this, 0, 0, transform);
         dimg = dst.dimg;

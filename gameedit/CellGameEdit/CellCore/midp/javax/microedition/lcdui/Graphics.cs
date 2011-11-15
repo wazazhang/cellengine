@@ -123,20 +123,67 @@ public class Graphics
 
 	private void _drawImage(System.Drawing.Image dimg,
 		float dx, float dy, float dw, float dh,
-		float sx, float sy, float sw, float sh)
+		float sx, float sy, float sw, float sh,
+		System.Drawing.RotateFlipType transform)
 	{
-
 		// Create parallelogram for drawing original image.
-		PointF ulCorner1 = new PointF(dx, dy);
-		PointF urCorner1 = new PointF(dx + dw, dy);
-		PointF llCorner1 = new PointF(dx, dy + dh);
-		PointF[] destPara1 = {ulCorner1, urCorner1, llCorner1};
+		PointF ulCorner1 = new PointF(0, 0);
+		PointF urCorner1 = new PointF(dw, 0);
+		PointF llCorner1 = new PointF(0, dh);
+		PointF[] destPara1 = { ulCorner1, urCorner1, llCorner1 };
 
 		// Create rectangle for source image.
 		RectangleF srcRect = new RectangleF(sx, sy, sw, sh);
 
-		dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+		System.Drawing.Drawing2D.Matrix mtx = dg.Transform;
+		try
+		{
+			dg.TranslateTransform(dx, dy);
+			switch (transform)
+			{
+				case System.Drawing.RotateFlipType.RotateNoneFlipX://4
+					dg.TranslateTransform(sw, 0);
+					dg.ScaleTransform(-1, 1);
+					break;
+				case System.Drawing.RotateFlipType.RotateNoneFlipY://6
+					dg.TranslateTransform(0, sh);
+					dg.ScaleTransform(1, -1);
+					break;
+				//case TRANS_180:
+				case System.Drawing.RotateFlipType.RotateNoneFlipXY://2
+					dg.TranslateTransform(sw, sh);
+					dg.ScaleTransform(-1, -1);
+					break;
+				case System.Drawing.RotateFlipType.Rotate90FlipNone://1
+					dg.TranslateTransform(sh, 0);
+					dg.RotateTransform(90);
+					break;
+				case System.Drawing.RotateFlipType.Rotate270FlipNone://3
+					dg.TranslateTransform(0, sw);
+					dg.RotateTransform(270);
+					break;
+				case System.Drawing.RotateFlipType.Rotate90FlipX://5
+					dg.TranslateTransform(sh, 0);
+					dg.RotateTransform(90);
+					dg.TranslateTransform(sw, 0);
+					dg.ScaleTransform(-1, 1);
+					break;
+				case System.Drawing.RotateFlipType.Rotate270FlipX://7
+					dg.TranslateTransform(0, sw);
+					dg.RotateTransform(270);
+					dg.TranslateTransform(sw, 0);
+					dg.ScaleTransform(-1, 1);
+					break;
+			}
 
+			dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+		}
+		finally
+		{
+			dg.Transform = mtx;
+		}
+
+		
 	}
 
 	public void drawImage(javax.microedition.lcdui.Image img, float x, float y)
@@ -145,8 +192,8 @@ public class Graphics
 		_drawImage(
 			img.dimg,
 			x, y, img.getWidth(), img.getHeight(),
-			0, 0, img.getWidth() , img.getHeight()
-			);
+			0, 0, img.getWidth() , img.getHeight(),
+			0);
 	}
 	
 
@@ -158,46 +205,20 @@ public class Graphics
 		float scale)
 	{
 		if (img.killed) return;
-		img.dimg.RotateFlip(transform);
 
 		if (scale == 1) 
 		{
 			_drawImage(img.dimg,
 					x , y , img.getWidth() , img.getHeight() ,
-					0, 0, img.getWidth(), img.getHeight()
-					);
+					0, 0, img.getWidth(), img.getHeight(),
+					transform);
 		}
 		else
 		{
 			_drawImage(img.dimg,
 					x , y , img.getWidth() * scale, img.getHeight() * scale,
-					0, 0, img.getWidth(), img.getHeight());
-		}
-
-		switch (transform)
-		{
-			case System.Drawing.RotateFlipType.RotateNoneFlipX://4
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipX);
-				break;
-			case System.Drawing.RotateFlipType.RotateNoneFlipY://6
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
-				break;
-			//case TRANS_180:
-			case System.Drawing.RotateFlipType.RotateNoneFlipXY://2
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipXY);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipNone://1
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipNone://3
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipX://5
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipX);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipX://7
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipX);
-				break;
+					0, 0, img.getWidth(), img.getHeight(), 
+					transform);
 		}
 	}
 
@@ -207,41 +228,11 @@ public class Graphics
 		System.Drawing.RotateFlipType transform)
 	{
 		if (img.killed) return;
-		img.dimg.RotateFlip(transform);
-
 
 		_drawImage(img.dimg,
 			x, y, sw, sh,
-			sx, sy, sw, sh
-			);
-
-		switch (transform)
-		{
-			case System.Drawing.RotateFlipType.RotateNoneFlipX://4
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipX);
-				break;
-			case System.Drawing.RotateFlipType.RotateNoneFlipY://6
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
-				break;
-			//case TRANS_180:
-			case System.Drawing.RotateFlipType.RotateNoneFlipXY://2
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipXY);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipNone://1
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipNone://3
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipX://5
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipX);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipX://7
-				img.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipX);
-				break;
-		}
-		//img.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipNone);
-
+			sx, sy, sw, sh,
+			transform);
 	}
 	
 	
@@ -249,50 +240,7 @@ public class Graphics
     {
 		drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(), FlipTable[transform]);
     }
-	/*
-	public void drawRegion(javax.microedition.lcdui.Image src, 
-		float x_src, float y_src, float width, float height,
-		int transform,
-		float x_dest, float y_dest, 
-		int anchor)
-	{
-		if (src.killed) return;
-		System.Drawing.RotateFlipType rt = System.Drawing.RotateFlipType.RotateNoneFlipNone;
-        rt = FlipTable[transform];
-        src.dimg.RotateFlip(rt);
-
-		_drawImage(src.dimg,
-			0, 0, width , height ,
-			x_src , y_src , width , height );
-		switch (rt)
-		{
-			case System.Drawing.RotateFlipType.RotateNoneFlipX://4
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipX);
-				break;
-			case System.Drawing.RotateFlipType.RotateNoneFlipY://6
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
-				break;
-			//case TRANS_180:
-			case System.Drawing.RotateFlipType.RotateNoneFlipXY://2
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipXY);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipNone://1
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipNone://3
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipNone);
-				break;
-			case System.Drawing.RotateFlipType.Rotate90FlipX://5
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipX);
-				break;
-			case System.Drawing.RotateFlipType.Rotate270FlipX://7
-				src.dimg.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipX);
-				break;
-		}
-		//src.dimg.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipNone);
-		
-		
-	}*/
+	
 
 	public void drawString(string str, float x, float y, int anchor)
 	{
