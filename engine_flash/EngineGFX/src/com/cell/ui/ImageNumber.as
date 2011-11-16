@@ -47,6 +47,7 @@ package com.cell.ui
 				}
 				size = (fh);
 				number = (0);
+				reset();
 			}
 		}
 		
@@ -140,10 +141,10 @@ package com.cell.ui
 			var sx : int = 0;
 			var sy : int = 0;
 			if ((_anchor & Anchor.ANCHOR_HCENTER) != 0) {
-				sx = -nstr.length * fw / 2;
+				sx = - buff.width / 2;
 			}
 			else if ((_anchor & Anchor.ANCHOR_RIGHT) != 0) {
-				sx = -nstr.length * fw;
+				sx = - buff.width;
 			}
 			if ((_anchor & Anchor.ANCHOR_VCENTER) != 0) {
 				sy = -fh / 2;
