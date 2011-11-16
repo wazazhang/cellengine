@@ -156,7 +156,6 @@ package com.cell.ui
 			this._buff.bitmapData=buff;
 			this._buff.x = sx;
 			this._buff.y = sy;
-			
 //			this.graphics.clear();
 //			this.graphics.beginFill(0xff0000, alpha);
 //			this.graphics.drawRect(_buff.x, _buff.y, _buff.width, _buff.height);
