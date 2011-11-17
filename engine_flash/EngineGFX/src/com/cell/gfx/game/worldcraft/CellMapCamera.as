@@ -14,10 +14,13 @@ package com.cell.gfx.game.worldcraft
 		
 		private var _rect : Rectangle;
 		
-		public function CellMapCamera(map:CMapView)
+		private var _world_bounds : Rectangle;
+		
+		public function CellMapCamera(map:CMapView, viewW:Number, viewH:Number, wb:Rectangle=null)
 		{
-			_rect = new Rectangle(0, 0, map.width, map.height);
-			_map = map;
+			this._rect = new Rectangle(0, 0, viewW, viewH);
+			this._world_bounds = wb;
+			this._map = map;
 		}
 		
 		public function get bounds() : Rectangle
@@ -48,16 +51,16 @@ package com.cell.gfx.game.worldcraft
 		}
 		
 		public function addVectorX(dx:Number) : void {
-			this._map.getCamera().move(dx, 0);
+			this.setPos(_map.getCamera().getX()+dx, _map.getCamera().getY());
 		}
 		public function addVectorY(dy:Number) : void {
-			this._map.getCamera().move(0, dy);
+			this.setPos(_map.getCamera().getX(), _map.getCamera().getY()+dy);
 		}
 		public function setVectorX(x:Number) : void {
-			this._map.getCamera().setPos(x, _map.getCamera().getY());
+			this.setPos(x, _map.getCamera().getY());
 		}
 		public function setVectorY(y:Number) : void {
-			this._map.getCamera().setPos(_map.getCamera().getX(), y);
+			this.setPos(_map.getCamera().getX(), y);
 		}
 		public function getVectorX() : Number {
 			return this._map.getCamera().getX();
@@ -65,14 +68,32 @@ package com.cell.gfx.game.worldcraft
 		public function getVectorY() : Number {
 			return this._map.getCamera().getY();
 		}
+		public function move(dx:Number, dy:Number) : void {
+			setPos(
+				_map.getCamera().getX()+dx, 
+				_map.getCamera().getY()+dy);
+		}
 		
-		public function setPos(x:Number, y:Number) : void {
+		
+		public function setPos(x:Number, y:Number) : void 
+		{
+			if (_world_bounds != null) 
+			{
+				if (x < _world_bounds.x) {
+					x = _world_bounds.x;
+				}
+				if (x > _world_bounds.right - _rect.width) {
+					x = _world_bounds.right - _rect.width;
+				}
+				if (y < _world_bounds.y) {
+					y = _world_bounds.y;
+				}
+				if (y > _world_bounds.bottom - _rect.height) {
+					y = _world_bounds.bottom - _rect.height;
+				}
+			}
 			this._map.getCamera().setPos(x, y);
 		}
 		
-		public function move(x:Number, y:Number) : void
-		{
-			this._map.getCamera().move(x, y);
-		}
 	}
 }

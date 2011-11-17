@@ -25,7 +25,7 @@ package com.cell.gfx.game.worldcraft
 		
 		override protected function createCamera(w:int, h:int) : ICamera
 		{
-			return new CellMapCamera(_map_view);
+			return new CellMapCamera(_map_view, w, h);
 		}
 		
 		override public function render() : void
