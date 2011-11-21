@@ -165,6 +165,14 @@ package com.cell.gfx.game
 			return animates.w_width;
 		}
 		
+		public function getVisibleXCenter() : int {
+			return animates.w_left + animates.w_width / 2;
+		}
+		
+		public function getVisibleYCenter() : int {
+			return animates.w_top + animates.w_height / 2;
+		}
+		
 		public function getFrameImageBounds( anim:uint,  frame:uint) : CCD 
 		{
 			var bounds : CCD = CCD.createCDRect(CCD.CD_TYPE_RECT, 0,0,0,0);

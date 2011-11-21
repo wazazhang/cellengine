@@ -97,9 +97,7 @@ package com.cell.util
 			var numChildren:int = container.numChildren;
 			//no need to sort (zero or one child)
 			if( numChildren < 2 ) return;
-			
-			var depthsSwapped:Boolean;
-			
+						
 			//create an Array to sort children
 			var children:Array = new Array( numChildren );
 			var i:int = -1;
@@ -136,6 +134,26 @@ package com.cell.util
 			return(myBA.readObject());
 		}
 		
+		
+		public static function sortChildsPop(container:DisplayObjectContainer, compare:Function) : void
+		{
+			var temp : DisplayObject;
+			var tag : Boolean = true;
+			var oj : DisplayObject;
+			var oj1 : DisplayObject;
+			for (var i : int = container.numChildren - 1; i >= 0; i--) {
+				for (var j : int = 0; j < i; j++) {
+					oj = container.getChildAt(j);
+					oj1 = container.getChildAt(j + 1);
+					if(compare.call(null, oj, oj1)>0){
+						container.setChildIndex(oj, j+1);
+						container.setChildIndex(oj1, j);
+						tag = true;
+					}
+				}
+				if(tag==false)break;
+			}
+		}
 
 	}
 }
