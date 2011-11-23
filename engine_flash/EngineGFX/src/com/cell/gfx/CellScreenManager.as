@@ -10,7 +10,7 @@ package com.cell.gfx
 	/**
 	 * 屏幕管理类，游戏跟节点。
 	 */
-	public class CellScreenManager extends Sprite
+	public class CellScreenManager extends CellSprite
 	{
 		private var adapter 			: IScreenAdapter;
 		
@@ -28,7 +28,6 @@ package com.cell.gfx
 		public function CellScreenManager(width:int, height:int, adapter:IScreenAdapter)
 		{
 			this.adapter = adapter;
-			this.addEventListener(Event.ENTER_FRAME, onUpdate);
 //			this.addEventListener(Event.EXIT_FRAME, onLastUpdate);
 			this.transition = new AlphaTransition(width, height, 0xffffff, 10);
 			//this.mouseEnabled = false;
@@ -38,7 +37,7 @@ package com.cell.gfx
 			this.graphics.endFill();
 		}
 		
-		protected function onUpdate(e:Event) : void
+		override protected function update(e:Event) : void
 		{
 			var cur_time : int 	= getTimer();
 			this.frame_interval	= cur_time - update_time;
