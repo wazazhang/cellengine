@@ -312,7 +312,9 @@ public class TextDeserialize extends IInput
 		return getByte(istream);
 	}
 
-
+	public char getChar() throws IOException {
+		return getString().charAt(0);
+	}
 
 	public int getInt() throws IOException {
 		return getInt(istream);
@@ -365,5 +367,13 @@ public class TextDeserialize extends IInput
 		return getFloat(istream);
 	}
 	
+	public short getUnsignedByte() throws IOException
+	{
+		return getUnsignedByte(istream);
+	}
 	
+	public int getUnsignedShort() throws IOException
+	{
+		return getUnsignedShort(istream);
+	}
 }

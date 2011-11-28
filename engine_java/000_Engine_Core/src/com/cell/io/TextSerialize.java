@@ -270,7 +270,9 @@ public class TextSerialize extends IOutput
 		putByte(ostream, value);
 	}
 
-
+	public void putChar(char value) throws IOException {
+		putString(ostream, new String(new char[]{value}));
+	}
 
 	public void putInt(int value) throws IOException {
 		putInt(ostream, value);
