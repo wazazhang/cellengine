@@ -66,22 +66,22 @@ package com.cell.ui
 			opening = true;
 			closing = false;
 			
-			var totalW : int = 0;
-			var totalH : int = 0;
+			var totalW : int = blank;
+			var totalH : int = blank;
 			for (var i : int =0; i<items.length; i++) {				
 				var o : DisplayObject = items[i];
 				switch (mode) {
 					case MODE_UP:
 					case MODE_DOWN:
-					case MODE_VCENTER:
-						totalW += o.width + blank;
-						totalH = Math.max(o.height, totalH);
+					case MODE_VCENTER:					
+						totalW = Math.max(o.width, totalW);
+						totalH += o.height + blank;
 						break;
 					case MODE_LEFT:
 					case MODE_RIGHT:
 					case MODE_HCENTER:
-						totalW = Math.max(o.width, totalW);
-						totalH += o.height + blank;
+						totalW += o.width + blank;
+						totalH = Math.max(o.height, totalH);
 						break;
 				}
 			}
