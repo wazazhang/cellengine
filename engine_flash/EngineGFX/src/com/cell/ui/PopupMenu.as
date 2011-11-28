@@ -66,10 +66,28 @@ package com.cell.ui
 			opening = true;
 			closing = false;
 			
+			var totalW : int = 0;
+			var totalH : int = 0;
+			for (var i : int =0; i<items.length; i++) {				
+				var o : DisplayObject = items[i];
+				switch (mode) {
+					case MODE_UP:
+					case MODE_DOWN:
+					case MODE_VCENTER:
+						totalW += o.width + blank;
+						totalH = Math.max(o.height, totalH);
+						break;
+					case MODE_LEFT:
+					case MODE_RIGHT:
+					case MODE_HCENTER:
+						totalW = Math.max(o.width, totalW);
+						totalH += o.height + blank;
+						break;
+				}
+			}
+			
 			var sx : int = basebtn.x;
 			var sy : int = basebtn.y;
-			var sx2 : int = basebtn.x;
-			var sy2 : int = basebtn.y;
 			switch (mode) {
 			case MODE_UP:
 				sy -= basebtn.height;
@@ -84,12 +102,10 @@ package com.cell.ui
 				sx += basebtn.width;
 				break;
 			case MODE_HCENTER:
-				sx -= basebtn.width/2;
-				sx2 += basebtn.width/2;
+				sx -= totalW/2;
 				break;
 			case MODE_VCENTER:
-				sy -= basebtn.height/2;
-				sy2 += basebtn.height/2;
+				sy -= totalH/2;
 				break;
 			}
 			
@@ -122,26 +138,15 @@ package com.cell.ui
 					break;
 				
 				case MODE_HCENTER:
-					if (i%2==0) {
-						p.x = sx;
-						p.y = sy;
-						sx -= o.width/2 + blank;
-					} else {
-						p.x = sx2;
-						p.y = sy2;
-						sx2 += o.width/2 + blank;
-					}
+					p.x = sx;
+					p.y = sy;
+					sx += o.width + blank;
 					break;
+				
 				case MODE_VCENTER:
-					if (i%2==0) {
-						p.x = sx;
-						p.y = sy;
-						sy -= o.height/2 + blank;
-					} else {
-						p.x = sx2;
-						p.y = sy2;
-						sy2 += o.height/2 + blank;
-					}
+					p.x = sx;
+					p.y = sy;
+					sy += o.height + blank;
 					break;
 				}
 			}
