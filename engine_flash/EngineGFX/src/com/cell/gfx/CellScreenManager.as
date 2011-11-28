@@ -64,14 +64,17 @@ package com.cell.gfx
 					addChild(this.transition.asSprite());
 					trace("transition on : " + this.transition);
 				}
-			} else if (this.transition != null) {
-				if (this.transition_running) {
+			} else if (this.transition_running) {
+				if (this.transition != null) {
 					if (contains(this.transition.asSprite()) && next_screen_name == null) {
 						removeChild(this.transition.asSprite());
-						this.transition_running = false;
 						trace("transition off : " + this.transition);
+						this.transition_running = false;
 						this.current_screen.transitionCompleted();
 					}
+				} else {
+					this.transition_running = false;
+					this.current_screen.transitionCompleted();
 				}
 			}
 		}
