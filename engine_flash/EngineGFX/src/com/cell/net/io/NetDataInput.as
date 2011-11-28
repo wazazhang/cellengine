@@ -3,179 +3,84 @@ package com.cell.net.io
 	import flash.utils.ByteArray;
 	import flash.utils.IDataInput;
 	
-	public class NetDataInput extends ByteArray
+	public interface NetDataInput
 	{
-		protected var factory : MessageFactory ;
 		
-		public function NetDataInput(factory : MessageFactory)
-		{
-			this.factory = factory;
-		}
+		/**从文件流、字节流或字节数组中读取布尔值。*/
+		function readBoolean():Boolean;
 		
-		public function readLong() : Number
-		{
-			var h : int = super.readInt();
-			var l : int = super.readInt();
-			return (h << 32) + l;
-		}
-		
-		public function readBooleanArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readBoolean();
-			}
-			return ret;
-		}
-		
-		public function readCharArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readShort();
-			}
-			return ret;
-		}
-		
-		public function readByteArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readByte();
-			}
-			return ret;
-		}
-		
-		public function readShortArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readShort();
-			}
-			return ret;
-		}
-		
-		public function readIntArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readInt();
-			}
-			return ret;
-		}
+		/**从文件流、字节流或字节数组中读取带符号的字节。*/
+		function readByte():int;
 				
-		public function readFloatArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = super.readFloat();
-			}
-			return ret;
-		}
-			
-		public function readUTFArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = this.readJavaUTF();
-			}
-			return ret;
-		}
+		
+		/**从文件流、字节流或字节数组中读取 IEEE 754 双精度浮点数。*/
+		function readDouble():Number;
+		
+		
+		/**从文件流、字节流或字节数组中读取 IEEE 754 单精度浮点数。*/
+		function readFloat():Number;
+		
+		
+		/**从文件流、字节流或字节数组中读取带符号的 32 位整数。*/
+		function readInt():int;
+		
+		
+		/**从文件流、字节流或字节数组中读取带符号的 16 位整数。*/
+		function readShort():int;
+		
+		
+		/**从文件流、字节流或字节数组中读取无符号的字节。*/
+		function readUnsignedByte():uint;
+		
+		
+		/**从文件流、字节流或字节数组中读取无符号的 32 位整数。*/
+		function readUnsignedInt():uint;
+		
+		
+		/**从文件流、字节流或字节数组中读取无符号的 16 位整数。*/
+		function readUnsignedShort():uint;
+		
+		
+		/**从文件流、字节流或字节数组中读取 UTF-8 字符串。*/
+		function readUTF():String;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function readLong() : Number;
+		
+		function readBooleanArray() : Array;
+		
+		function readCharArray() : Array;
+		
+		function readByteArray() : Array;
+		
+		function readShortArray() : Array;
+		
+		function readIntArray() : Array;
+		
+		function readFloatArray() : Array;
+		
+		function readUTFArray() : Array;
 	
-		public function readExternalArray() : Array
-		{
-			var count : int = super.readInt();
-			var ret : Array = new Array(count);
-			for (var i : int = 0; i<count; i++) {
-				ret[i] = this.readExternal();
-			}
-			return ret;
-		}
+		function readExternalArray() : Array;
 		
-		public function readExternal() : MutualMessage
-		{
-			var type : int = super.readInt();
-			if (type > 0) {
-				var ret : MutualMessage = factory.createMessage(type);
-				factory.readExternal(ret, this);
-				return ret;
-			} else {
-				return null;
-			}
-		}
-				
-		public function readChar() : int
-		{
-			return super.readShort();
-		}
+		function readExternal() : MutualMessage;
 		
-		public function readJavaUTF() : String {
-			return super.readUTF();
-		}
+		function readChar() : int;
 		
+		function readJavaUTF() : String ;
 		
-		public function readAnyArray(component_data_type : int) : Array {
-			var count : int = readInt();
-			if (count == 0) {
-				return null;
-			}
-			if (count < 0) { // 表示成员还是个数组
-				count = -count;
-				var array : Array = new Array(count);
-				for (var i : int = 0; i < count; i++) {
-					array[i] = readAnyArray(component_data_type);
-				}
-				return array;
-			} else if (count > 0) { // 表示成员是个通常对象
-				var array : Array = new Array(count);
-				for (var i : int = 0; i < count; i++) {
-					array[i] = readAny(component_data_type);
-				}
-				return array;
-			}
-			return null;
-		}
+		function readAnyArray(component_data_type : int) : Array ;
 		
+		function readAny(component_data_type : int) : Object;
 
-		public function readAny(component_data_type : int) : Object
-		{
-			switch (component_data_type) {
-				case NetDataTypes.TYPE_EXTERNALIZABLE:
-					return readExternal();
-				case NetDataTypes.TYPE_BOOLEAN:
-					return readBoolean();
-				case NetDataTypes.TYPE_BYTE:
-					return readByte();
-				case NetDataTypes.TYPE_CHAR:
-					return readChar();
-				case NetDataTypes.TYPE_SHORT:
-					return readShort();
-				case NetDataTypes.TYPE_INT:
-					return readInt();
-				case NetDataTypes.TYPE_LONG:
-					return readLong();
-				case NetDataTypes.TYPE_FLOAT:
-					return readFloat();
-				case NetDataTypes.TYPE_DOUBLE:
-					return readDouble();
-				case NetDataTypes.TYPE_STRING: 
-					return readUTF();
-//				case NetDataTypes.TYPE_OBJECT:
-//					return readObject(component_type);
-				default:
-					return null;
-			}
-			
-			return null;
-		}
-
+		
 		
 	}
 }

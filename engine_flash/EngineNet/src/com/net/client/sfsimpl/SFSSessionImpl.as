@@ -4,6 +4,8 @@ package com.net.client.sfsimpl
 	import com.cell.net.io.MutualMessage;
 	import com.cell.net.io.NetDataInput;
 	import com.cell.net.io.NetDataOutput;
+	import com.cell.net.io.bin.BinNetDataInput;
+	import com.cell.net.io.bin.BinNetDataOutput;
 	import com.net.client.*;
 	import com.smartfoxserver.v2.*;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -161,7 +163,7 @@ package com.net.client.sfsimpl
 				}
 				if (p.getMessage() != null) {
 					out.putInt	("message_type", ext_factory.getType(p.getMessage()));// 4
-					var net_out : NetDataOutput = new NetDataOutput(ext_factory);
+					var net_out : BinNetDataOutput = new BinNetDataOutput(ext_factory);
 					ext_factory.writeExternal(p.getMessage(), net_out);
 					net_out.position = 0;
 					out.putByteArray("message", net_out);
@@ -193,7 +195,7 @@ package com.net.client.sfsimpl
 			if (message_type != 0) {
 				var data : ByteArray 	= obj.getByteArray("message");
 				var msg : MutualMessage = ext_factory.createMessage(message_type);
-				var net_in : NetDataInput = new NetDataInput(ext_factory);
+				var net_in : BinNetDataInput = new BinNetDataInput(ext_factory);
 				net_in.writeBytes(data);
 				net_in.position = 0;
 				ext_factory.readExternal(msg, net_in);

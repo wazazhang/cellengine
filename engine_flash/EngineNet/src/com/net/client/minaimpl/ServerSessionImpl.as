@@ -4,6 +4,8 @@ package com.net.client.minaimpl
 	import com.cell.net.io.MutualMessage;
 	import com.cell.net.io.NetDataInput;
 	import com.cell.net.io.NetDataOutput;
+	import com.cell.net.io.bin.BinNetDataInput;
+	import com.cell.net.io.bin.BinNetDataOutput;
 	import com.cell.util.Util;
 	import com.net.client.Protocol;
 	import com.net.client.ProtocolType;
@@ -32,7 +34,7 @@ package com.net.client.minaimpl
 		private var 	message_factory		: MessageFactory;
 		
 		/** 未解析完的数据*/
-		private var 	undecoded_buffer	: NetDataInput;
+		private var 	undecoded_buffer	: BinNetDataInput;
 		
 		/** 未解析完的包*/
 		private var 	uncomplete_package	: ProtocolImpl;
@@ -218,7 +220,7 @@ package com.net.client.minaimpl
 			{
 				// 先将socket中的数据读入到 ByteArray
 				var avaliable : int = this.connector.bytesAvailable;
-				var buf : NetDataInput = new NetDataInput(message_factory);
+				var buf : BinNetDataInput = new BinNetDataInput(message_factory);
 				this.connector.readBytes(buf, 0, avaliable);
 
 				// 如果有未解析完的数据，则将新数据插入到后面
@@ -263,7 +265,7 @@ package com.net.client.minaimpl
 				
 				if (buf.bytesAvailable>0) {
 					// 把未解析完的数据存入状态
-					this.undecoded_buffer = new NetDataInput(message_factory);
+					this.undecoded_buffer = new BinNetDataInput(message_factory);
 					this.undecoded_buffer.writeBytes(buf, buf.position, buf.bytesAvailable);
 				} else {
 					// 如果无数据可以解析，则清空状态
@@ -284,7 +286,7 @@ package com.net.client.minaimpl
 		/**
 		 * 如果有数据被解析，返回true
 		 */
-		function decode(buffer : NetDataInput) : Boolean
+		function decode(buffer : BinNetDataInput) : Boolean
 		{
 			//得到上次的状态
 			var protocol : ProtocolImpl = this.uncomplete_package;
@@ -407,7 +409,7 @@ package com.net.client.minaimpl
 			{
 				protocol.setSentTime(new Date());
 				
-				var buffer : NetDataOutput = new NetDataOutput(message_factory);
+				var buffer : BinNetDataOutput = new BinNetDataOutput(message_factory);
 				
 				var oldposition : int = buffer.position;
 				{

@@ -1,5 +1,7 @@
 package com.cell.io
 {
+	import flash.utils.IDataInput;
+
 	public class TextReader
 	{
 		private var buffer : String;
@@ -48,5 +50,6 @@ package com.cell.io
 		public function remain() : int {
 			return buffer.length - pos;
 		}
+		
 	}
 }

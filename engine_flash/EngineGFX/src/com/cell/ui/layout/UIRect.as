@@ -38,6 +38,22 @@ package com.cell.ui.layout
 		{
 		}
 		
+		public function copy() : UIRect
+		{
+			var ret : UIRect = new UIRect();
+			ret.style 		= this.style;
+			ret.BorderT 	= this.BorderT;
+			ret.BorderB 	= this.BorderB;
+			ret.BorderL 	= this.BorderL;
+			ret.BorderR 	= this.BorderR;
+			ret.BackImage 	= this.BackImage;
+			ret.BorderTL 	= this.BorderTL;
+			ret.BorderTR 	= this.BorderTR;
+			ret.BorderBL 	= this.BorderBL;
+			ret.BorderBR 	= this.BorderBR;
+			ret.bitmapData	= this.bitmapData;
+			return ret;
+		}
 		
 //		------------------------------------------------------------------------------------------------------------------------------
 		
@@ -283,6 +299,11 @@ package com.cell.ui.layout
 			return this.bitmapData;
 		}
 		
+		public function initBuffer(w:int, h:int) : UIRect
+		{
+			this.createBuffer(w, h);
+			return this;
+		}
 		
 		protected function render0123_5678(g : CGraphicsBitmap, W:int, H:int) : void
 		{
@@ -399,7 +420,8 @@ package com.cell.ui.layout
 		{
 			g.drawBitmapDataScale(BackImage, 0, 0, W, H);
 		}
-				
-
+		
+		
+		
 	}
 }

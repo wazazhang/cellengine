@@ -1,7 +1,6 @@
 package com.cell.ui.component
 {
 	import com.cell.gfx.CellSprite;
-	import com.cell.ui.Alert;
 	import com.cell.ui.Anchor;
 	import com.cell.ui.Dialog;
 	import com.cell.ui.ImageButton;
@@ -18,7 +17,7 @@ package com.cell.ui.component
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 
-	public class UIAlert extends UIComponent
+	public class Alert extends UIComponent
 	{
 		private var GRID_SIZE	: int = UILayoutManager.getInstance().alertGridSize();
 		
@@ -30,7 +29,7 @@ package com.cell.ui.component
 		
 		public var closeOnOK : Boolean = true;
 		
-		public function UIAlert(
+		public function Alert(
 			htmlText:String,
 			htmlTitle:String,
 			text:String,
@@ -38,7 +37,8 @@ package com.cell.ui.component
 			hasCancel:Boolean=true,
 			hasOK:Boolean=false)
 		{
-			super(null, 300, 200);
+			this.mouseChildren = true;
+			this.mouseEnabled  = true;
 			
 			if (htmlTitle != null || title != null) {
 				_title = new TextField();
@@ -70,7 +70,7 @@ package com.cell.ui.component
 				this.addChild(_cancel);
 			}
 			
-			resize(width, height);
+			resize(300, 200);
 		}
 		
 		private function setText(tf:TextField, html:String, text:String) : void
@@ -83,39 +83,41 @@ package com.cell.ui.component
 			}
 		}
 		
-		override public function resize(w:int, h:int) : void
+		override protected function resize(w:int, h:int) : Boolean
 		{
-			bg.createBuffer(w, h);
-			
-			var btnx : int = bg.width  - GRID_SIZE;
-			var btnh : int = 0;
-			if (_ok != null) {
-				_ok.x = btnx;
-				_ok.y = bg.height - GRID_SIZE;
-				btnx -= _ok.width + GRID_SIZE;
-				btnh = _ok.height;
+			if (super.resize(w, h))
+			{
+				var btnx : int = bg.width  - GRID_SIZE;
+				var btnh : int = 0;
+				if (_ok != null) {
+					_ok.x = btnx;
+					_ok.y = bg.height - GRID_SIZE;
+					btnx -= _ok.width + GRID_SIZE;
+					btnh = _ok.height;
+				}
+				if (_cancel != null) {
+					_cancel.x = btnx;
+					_cancel.y = bg.height - GRID_SIZE;
+					btnx -= _cancel.width + GRID_SIZE;
+					btnh = _cancel.height;
+				}
+				
+				var thy : int = GRID_SIZE;
+				var thh : int = bg.height - GRID_SIZE - btnh;
+				if (_title != null) {
+					_title.x 		= GRID_SIZE;
+					_title.width	= bg.width - GRID_SIZE - GRID_SIZE;
+					_title.y 		= thy;
+					thy += _title.height + GRID_SIZE;
+					thh -= _title.height + GRID_SIZE;
+				}
+				this._text.x 		= GRID_SIZE;
+				this._text.width  	= bg.width - GRID_SIZE - GRID_SIZE;
+				this._text.y 		= thy;
+				this._text.height 	= thh;
+				return true;
 			}
-			if (_cancel != null) {
-				_cancel.x = btnx;
-				_cancel.y = bg.height - GRID_SIZE;
-				btnx -= _cancel.width + GRID_SIZE;
-				btnh = _cancel.height;
-			}
-			
-			var thy : int = GRID_SIZE;
-			var thh : int = bg.height - GRID_SIZE - btnh;
-			if (_title != null) {
-				_title.x 		= GRID_SIZE;
-				_title.width	= bg.width - GRID_SIZE - GRID_SIZE;
-				_title.y 		= thy;
-				thy += _title.height + GRID_SIZE;
-				thh -= _title.height + GRID_SIZE;
-			}
-			this._text.x 		= GRID_SIZE;
-			this._text.width  	= bg.width - GRID_SIZE - GRID_SIZE;
-			this._text.y 		= thy;
-			this._text.height 	= thh;
-			
+			return false;
 		}
 		
 		public function get btnOK() : ImageButton
@@ -148,9 +150,9 @@ package com.cell.ui.component
 		public static function showAlertText(text:String, 
 											 title:String = null,
 											 hasCancel:Boolean=true,
-											 hasOK:Boolean=false) : UIAlert
+											 hasOK:Boolean=false) : Alert
 		{
-			var alert : UIAlert = new UIAlert(null, null, text, title, hasCancel, hasOK);
+			var alert : Alert = new Alert(null, null, text, title, hasCancel, hasOK);
 			
 			alert.x = UILayoutManager.getInstance().ScreenWidth/2  - alert.bg.width/2;
 			alert.y = UILayoutManager.getInstance().ScreenHeight/2 - alert.bg.height/2;
@@ -164,9 +166,9 @@ package com.cell.ui.component
 		public static function showAlertHtml(htmlText:String, 
 										 htmlTitle:String = null,
 										 hasCancel:Boolean=true,
-										 hasOK:Boolean=false) : UIAlert
+										 hasOK:Boolean=false) : Alert
 		{
-			var alert : UIAlert = new UIAlert(htmlText, htmlTitle, null, null, hasCancel, hasOK);
+			var alert : Alert = new Alert(htmlText, htmlTitle, null, null, hasCancel, hasOK);
 			
 			alert.x = UILayoutManager.getInstance().ScreenWidth/2  - alert.bg.width/2;
 			alert.y = UILayoutManager.getInstance().ScreenHeight/2 - alert.bg.height/2;
