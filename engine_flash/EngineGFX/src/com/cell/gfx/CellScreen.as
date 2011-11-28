@@ -37,6 +37,12 @@ package com.cell.gfx
 		
 		}
 		
+		/**
+		 */
+		public function transitionCompleted() : void
+		{
+			
+		}
 		
 		/**
 		 * 获得当前帧和上一帧的时间间隔

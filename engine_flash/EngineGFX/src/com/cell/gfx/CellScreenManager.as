@@ -24,7 +24,8 @@ package com.cell.gfx
 		private var next_screen_args	: Array;
 		
 		private var transition			: IScreenTransition ;
-				
+		private var transition_running	: Boolean = false;
+		
 		public function CellScreenManager(width:int, height:int, adapter:IScreenAdapter)
 		{
 			this.adapter = adapter;
@@ -64,10 +65,12 @@ package com.cell.gfx
 					trace("transition on : " + this.transition);
 				}
 			} else if (this.transition != null) {
-				if (contains(this.transition.asSprite())) {
-					if (next_screen_name == null) {
+				if (this.transition_running) {
+					if (contains(this.transition.asSprite()) && next_screen_name == null) {
 						removeChild(this.transition.asSprite());
+						this.transition_running = false;
 						trace("transition off : " + this.transition);
+						this.current_screen.transitionCompleted();
 					}
 				}
 			}
@@ -159,6 +162,7 @@ package com.cell.gfx
 			this.next_screen_args = args;
 			if (this.transition != null) {
 				this.transition.startTransitionOut();
+				this.transition_running = true;
 			}
 		}
 		
