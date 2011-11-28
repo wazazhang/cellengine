@@ -114,40 +114,31 @@ package com.cell.ui
 				var o : DisplayObject = items[i];
 				var p : Point = itemsp[i];
 				o.visible = true;
+				p.x = sx;
+				p.y = sy;
 				
 				switch (mode) {
+					
 				case MODE_UP:
-					p.x = sx;
-					p.y = sy;
 					sy -= o.height + blank;
 					break;
 				case MODE_DOWN:
-					p.x = sx;
-					p.y = sy;
 					sy += o.height + blank;
 					break;
+				case MODE_VCENTER:
+					sy += o.height + blank;
+					break;
+				
 				case MODE_LEFT:
-					p.x = sx;
-					p.y = sy;
 					sx -= o.width + blank;
 					break;
 				case MODE_RIGHT:
-					p.x = sx;
-					p.y = sy;
 					sx += o.width + blank;
 					break;
-				
 				case MODE_HCENTER:
-					p.x = sx;
-					p.y = sy;
 					sx += o.width + blank;
 					break;
 				
-				case MODE_VCENTER:
-					p.x = sx;
-					p.y = sy;
-					sy += o.height + blank;
-					break;
 				}
 			}
 			
