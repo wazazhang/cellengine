@@ -17,6 +17,9 @@ package com.cell.ui.component
 		private var scrollH : ScrollBar;
 		private var scrollV : ScrollBar;
 		
+		private var enableScrollV : Boolean = true;
+		private var enableScrollH : Boolean = true;
+		
 		private var start_point 		: Vector3D;
 		private var move_point 			: Vector3D = new Vector3D();
 		private var end_point 			: Vector3D = new Vector3D();
@@ -57,6 +60,29 @@ package com.cell.ui.component
 			return border;
 		}
 		
+		public function setEnableScroll(h:Boolean, v:Boolean) : void
+		{
+			this.enableScrollV = v;
+			this.enableScrollH = h;
+			resize(width, height, true);
+		}
+		
+		public function getPanelChildCount() : int
+		{
+			return base.numChildren;
+		}
+		
+		public function getPanelChild(index:int) : DisplayObject
+		{
+			return base.getChildAt(index);
+		}
+		
+		public function getPanelChildIndex(o:DisplayObject) : int
+		{
+			return base.getChildIndex(o);
+		}
+		
+		
 		public function getPanelBounds() : Rectangle
 		{
 			return new Rectangle(border, border, width-border*3, height-border*3);
@@ -79,11 +105,8 @@ package com.cell.ui.component
 			var ret : Boolean = super.resize(w, h, flush);
 			
 			var border2 : int = border*2;
-			
-			scrollV.x = width - scrollV.width - border;
-			scrollV.y = border;
-			scrollH.x = border;
-			scrollH.y = height - scrollH.height - border;
+			scrollV.visible = enableScrollV;
+			scrollH.visible = enableScrollH;
 			
 			if (scrollV.visible) {
 				scrollH.width = w - border2 - scrollV.width;
@@ -95,9 +118,28 @@ package com.cell.ui.component
 			} else {
 				scrollV.height = h - border2;
 			}
+			
+			scrollV.x = width - scrollV.width - border;
+			scrollV.y = border;
+			scrollH.x = border;
+			scrollH.y = height - scrollH.height - border;
+			
+			
 			base.x = border;
 			base.y = border;
-			base.resize(w-border2-border, h-border2-border);
+			
+			if (enableScrollH && enableScrollV) {
+				base.resize(w-border2-border, h-border2-border);
+			} 
+			else if (!enableScrollH && enableScrollV) {
+				base.resize(w-border2-border, h-border2);
+			} 
+			else if (enableScrollH && !enableScrollV) {
+				base.resize(w-border2, h-border2-border);
+			} 
+			else {
+				base.resize(w-border2, h-border2);
+			}
 			
 			return ret;
 		}
@@ -109,11 +151,11 @@ package com.cell.ui.component
 			
 			scrollV.setRange(mrect.y, mrect.y + mrect.height);
 			scrollV.setValue(srect.y, srect.height);
-			scrollV.visible = scrollV.isValueIn();
+			scrollV.visible = enableScrollV && scrollV.isValueIn();
 			
 			scrollH.setRange(mrect.x, mrect.x + mrect.width);
 			scrollH.setValue(srect.x, srect.width);
-			scrollH.visible = scrollH.isValueIn();
+			scrollH.visible = enableScrollH && scrollH.isValueIn();
 			
 //			trace(scrollV.getValue() + "/" + scrollV.getMax());
 			
