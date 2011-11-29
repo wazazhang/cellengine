@@ -30,7 +30,8 @@ public class XStreamAdapter extends PersistanceManager
 //	----------------------------------------------------------------------------------------------------------
 
 	private CompositeClassLoader		composite_class_loader	= new CompositeClassLoader();
-	private XppDriver					xpp_dirver				= new XppDriver(new XmlFriendlyReplacer(".", "_"));
+	private XppDriver					xpp_dirver				= new XppDriver();
+	//new XmlFriendlyReplacer(".", "_")
 //	----------------------------------------------------------------------------------------------------------
 
 	public XStreamAdapter() {
@@ -91,12 +92,7 @@ public class XStreamAdapter extends PersistanceManager
 	class XStreamImpl extends XStream
 	{
 		public XStreamImpl() {
-			super(null, 
-					xpp_dirver, 
-					composite_class_loader, 
-					null, 
-					new DefaultConverterLookup(), 
-					null);
+			super(null, xpp_dirver, composite_class_loader, null, new DefaultConverterLookup(), null);
 		}
 		
 		protected MapperWrapper wrapMapper(MapperWrapper next) {
