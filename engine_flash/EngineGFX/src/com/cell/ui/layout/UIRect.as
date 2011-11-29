@@ -119,7 +119,7 @@ package com.cell.ui.layout
 			borderR 	: BitmapData,
 			borderBL 	: BitmapData,
 			borderB 	: BitmapData,
-			borderBR 	: BitmapData)  : void
+			borderBR 	: BitmapData) : UIRect
 		{
 			this.BorderTL = borderTL; 
 			this.BorderT  = borderT; 
@@ -163,19 +163,35 @@ package com.cell.ui.layout
 					);
 					break;
 			}
-
+			return this;
 		}
 		
 		/**将一张图片按相等的上下左右切成9格*/
-		public function setImagesClip9(src:BitmapData, clipsize:int) : void
+		public function setImagesClip9(src:BitmapData, clipsize:int) : UIRect
 		{
 			setImagesClipBorder(src, 
 					IMAGE_STYLE_ALL_9, clipsize, clipsize, clipsize, clipsize);
-			
+			return this;
+		}
+		
+		/**将一张图片按相等的上下左右切成9格*/
+		public function setImagesClip012(src:BitmapData, clipsize:int) : UIRect
+		{
+			setImagesClipBorder(src, 
+				IMAGE_STYLE_H_012, clipsize, clipsize, clipsize, clipsize);
+			return this;
+		}
+		
+		/**将一张图片按相等的上下左右切成9格*/
+		public function setImagesClip036(src:BitmapData, clipsize:int) : UIRect
+		{
+			setImagesClipBorder(src, 
+				IMAGE_STYLE_V_036, clipsize, clipsize, clipsize, clipsize);
+			return this;
 		}
 		
 		/**将一张图片上下左右切成9格*/
-		public function setImagesClipBorder(src:BitmapData, style:int, L:int, R:int, T:int, B:int) : void
+		public function setImagesClipBorder(src:BitmapData, style:int, L:int, R:int, T:int, B:int) : UIRect
 		{
 			var BorderTL	: BitmapData = null;
 			var BorderT		: BitmapData = null;
@@ -228,7 +244,8 @@ package com.cell.ui.layout
 					BorderTL, BorderT,   BorderTR, 
 					BorderL,  BackImage, BorderR, 
 					BorderBL, BorderB,   BorderBR);
-			}
+			}		
+			return this;
 		}
 		
 		

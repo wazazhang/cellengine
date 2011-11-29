@@ -11,7 +11,7 @@ package com.cell.ui.component
 		{
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
-			resize(width, height);
+			resize(width, height, true);
 		}
 		
 

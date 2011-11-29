@@ -64,6 +64,8 @@
     <classEntry path="com.cell.ui.component.Lable"/>
     <classEntry path="com.cell.ui.component.TextInput"/>
     <classEntry path="com.cell.io.TextIO"/>
+    <classEntry path="com.cell.ui.component.Panel"/>
+    <classEntry path="com.cell.ui.component.ScrollBar"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

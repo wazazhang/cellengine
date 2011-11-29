@@ -38,14 +38,14 @@ package com.cell.ui.component
 		
 		public function setSize(w:int, h:int) : void
 		{
-			this.resize(w, h);
+			this.resize(w, h, false);
 		}
 		
 		/**推荐使用setSize改变尺寸*/
 		override public function set width(w:Number) : void
 		{
 			if (super.width != w) {
-				resize(w, height);
+				resize(w, height, true);
 			}
 		}
 		
@@ -53,13 +53,13 @@ package com.cell.ui.component
 		override public function set height(h:Number) : void
 		{
 			if (super.height != h) {
-				resize(width, h);
+				resize(width, h, true);
 			}
 		}
 		
-		protected function resize(w:int, h:int) : Boolean
+		protected function resize(w:int, h:int, flush:Boolean) : Boolean
 		{
-			if (w != width || h != height) {
+			if (flush || w != width || h != height) {
 				if (bg != null) {
 					bg.createBuffer(w, h);
 				} else {

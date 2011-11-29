@@ -26,7 +26,7 @@ package com.cell.ui
 		public function TouchScrollPanel(viewW:int, viewH:int, backcolor:int=0, backalpha:Number=0)
 		{
 			super(viewW, viewH, backcolor, backalpha);
-
+			
 			addEventListener(MouseEvent.MOUSE_DOWN,	onMouseDown);
 			addEventListener(MouseEvent.MOUSE_MOVE,	onMouseMove);
 			addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);

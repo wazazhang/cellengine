@@ -1,5 +1,6 @@
 package com.cell.util
 {
+	import com.cell.gfx.game.Transform;
 	import com.cell.ui.Anchor;
 	
 	import flash.display.Bitmap;
@@ -7,6 +8,7 @@ package com.cell.util
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.ColorTransform;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
@@ -103,6 +105,36 @@ package com.cell.util
 			var ret : BitmapData = subImage(src, 0, 0, src.width, src.height);
 			var rect:Rectangle = new Rectangle(0, 0, src.width, src.height);
 			ret.colorTransform(rect, trans);
+			return ret;
+		}
+		
+		/**com.cell.gfx.game.Transform*/
+		public static function transformImage(src:BitmapData, transform:int) : BitmapData
+		{
+			var w : int = src.width;
+			var h : int = src.height;
+			
+			switch(transform) {
+				case Transform.TRANS_NONE:
+				case Transform.TRANS_180:
+				case Transform.TRANS_H:
+				case Transform.TRANS_H180:
+					break;
+				case Transform.TRANS_90:
+				case Transform.TRANS_270:
+				case Transform.TRANS_H90:
+				case Transform.TRANS_H270:	
+					w = src.height;
+					h = src.width;
+					break;
+				default:
+					throw new Error("error Transform value : " + transform);
+			}
+			
+			var ret : BitmapData = new BitmapData(w, h, src.transparent, 0xff00ff);
+			
+			ret.draw(src, Transform.getMatrix(0,0,w,h,transform));
+			
 			return ret;
 		}
 		

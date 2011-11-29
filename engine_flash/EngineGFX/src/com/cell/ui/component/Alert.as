@@ -70,7 +70,7 @@ package com.cell.ui.component
 				this.addChild(_cancel);
 			}
 			
-			resize(300, 200);
+			resize(300, 200, true);
 		}
 		
 		private function setText(tf:TextField, html:String, text:String) : void
@@ -83,9 +83,9 @@ package com.cell.ui.component
 			}
 		}
 		
-		override protected function resize(w:int, h:int) : Boolean
+		override protected function resize(w:int, h:int, flush:Boolean) : Boolean
 		{
-			if (super.resize(w, h))
+			if (super.resize(w, h, flush))
 			{
 				var btnx : int = bg.width  - GRID_SIZE;
 				var btnh : int = 0;

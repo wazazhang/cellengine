@@ -10,14 +10,15 @@ package com.cell.ui
 	{
 		private var local_bounds : Rectangle = null;
 		
+		private var backcolor:int=0;
+		private var backalpha:Number=0;
+		
 		public function BasePanel(viewW:int, viewH:int, backcolor:int=0, backalpha:Number=0)
 		{
-			if (backalpha>0) {
-				this.graphics.beginFill(backcolor, backalpha);
-				this.graphics.drawRect(0, 0, viewW, viewH);
-				this.graphics.endFill();
-			}
-			this.scrollRect = new Rectangle(0, 0, viewW, viewH);
+			this.backalpha = backalpha;
+			this.backcolor = backcolor;
+			
+			resize(viewW, viewH);
 		}
 		
 		public function addChildW(child:DisplayObject) : void
@@ -33,6 +34,16 @@ package com.cell.ui
 			super.addChild(child);
 		}
 			
+		public function resize(viewW:int, viewH:int) : void
+		{
+			if (backalpha>0) {
+				this.graphics.beginFill(backcolor, backalpha);
+				this.graphics.drawRect(0, 0, viewW, viewH);
+				this.graphics.endFill();
+			}
+			this.scrollRect = new Rectangle(0, 0, viewW, viewH);
+		}
+		
 		public function addChildH(child:DisplayObject) : void
 		{
 			if (numChildren > 0) {
@@ -65,7 +76,21 @@ package com.cell.ui
 			return local_bounds;
 		}
 		
-		protected function setCamera(cx:int, cy:int) : void
+		public function getChildBounds() : Rectangle
+		{
+			var rect : Rectangle = null;
+			for (var i:int=numChildren-1; i>=0; --i) {
+				var o:DisplayObject = getChildAt(i);
+				if (rect == null) {
+					rect = new Rectangle(o.x, o.y, o.width, o.height);
+				} else {
+					rect = rect.union(new Rectangle(o.x, o.y, o.width, o.height));
+				}
+			}
+			return rect;
+		}
+		
+		public function setCamera(cx:int, cy:int) : void
 		{
 			var cb : Rectangle = createLocalBounds();
 			var sc : Rectangle = this.scrollRect;
@@ -78,7 +103,7 @@ package com.cell.ui
 			this.scrollRect = sc;
 		}
 		
-		protected function moveCamera(dx:int, dy:int) : void
+		public function moveCamera(dx:int, dy:int) : void
 		{
 			var cb : Rectangle = createLocalBounds();
 			var sc : Rectangle = this.scrollRect;

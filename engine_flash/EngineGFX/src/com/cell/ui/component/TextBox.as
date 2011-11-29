@@ -30,10 +30,10 @@ package com.cell.ui.component
 			return textField;
 		}
 		
-		override protected function resize(w:int, h:int):Boolean
+		override protected function resize(w:int, h:int, flush:Boolean):Boolean
 		{
 			
-			if (super.resize(w, h)) {
+			if (super.resize(w, h, flush)) {
 				textField.width	 = w;
 				textField.height = h;
 				return true;
