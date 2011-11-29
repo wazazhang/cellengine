@@ -87,6 +87,9 @@ package com.cell.ui
 					rect = rect.union(new Rectangle(o.x, o.y, o.width, o.height));
 				}
 			}
+			if (rect == null) {
+				rect = new Rectangle(0, 0, width, height);
+			}
 			return rect;
 		}
 		
