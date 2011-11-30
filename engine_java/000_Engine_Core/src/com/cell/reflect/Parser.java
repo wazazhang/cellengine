@@ -1,5 +1,6 @@
 package com.cell.reflect;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -313,7 +314,7 @@ public class Parser
 			if (type.isArray() ) 
 			{
 				if (str.isEmpty()) {
-					return CUtil.newArray(type.getComponentType(), 0);
+					return Array.newInstance(type.getComponentType(), 0);
 				}
 				
 				if (type.equals(Double[].class)) 
