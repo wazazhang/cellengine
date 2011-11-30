@@ -41,7 +41,7 @@ public class NetDataOutputText implements NetDataOutput
 
 	
 	public void writeUTF(String s) throws IOException {
-		
+		buffer.putString(s);
 	}
 
 	
