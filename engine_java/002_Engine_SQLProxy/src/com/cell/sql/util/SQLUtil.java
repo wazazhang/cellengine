@@ -227,7 +227,11 @@ public class SQLUtil
 			for (int c=0; c<columns.length; c++) {
 				try {
 					Object v = columns[c].getLeafField(o);
-					line.add(v+"");
+					if (columns[c].getLeafField().getType().isArray()) {
+						line.add(CUtil.arrayObjectToString(v, ",", ""));
+					} else {
+						line.add(v+"");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					line.add("e???");

@@ -376,6 +376,23 @@ public class CUtil extends CObject
 		return arrayToString(array, ",");
 	}
 
+	public static String arrayObjectToString(Object array, String separator, String end){
+		if (array == null) {
+			return "null";
+		}
+		StringBuffer sb = new StringBuffer();
+		int count = Array.getLength(array);
+		for (int i = 0; i < count; i++) {
+			Object s = Array.get(array, i);
+			if (i != count - 1) {
+				sb.append(s + separator);
+			} else {
+				sb.append(s + end);
+			}
+		}
+		return sb.toString();
+	}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String arrayToString(byte[] array){
