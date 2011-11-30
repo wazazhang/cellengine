@@ -114,11 +114,11 @@ public class TextDeserialize extends IInput
 		return Long.parseLong(getNext(in));
 	}
 	public static double getDouble(Reader istream) throws IOException {
-		return Double.longBitsToDouble(getLong(istream));
+		return Double.parseDouble(getNext(istream));
 	}
 
 	public static float getFloat(Reader istream) throws IOException {
-		return Float.intBitsToFloat(getInt(istream));
+		return Float.parseFloat(getNext(istream));
 	}
 	//////////////////////////////////////////////////////////////////////////////////////
 	// get array
