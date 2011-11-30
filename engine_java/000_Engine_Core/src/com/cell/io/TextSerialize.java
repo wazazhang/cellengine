@@ -77,6 +77,7 @@ public class TextSerialize extends IOutput
 	{
 		putNext(ostream, value);
 	}
+	
 	public static void putFloat(Writer ostream, float value) throws IOException
 	{
 		putInt(ostream, Float.floatToIntBits(value));
@@ -84,8 +85,9 @@ public class TextSerialize extends IOutput
 	
 	public static void putDouble(Writer ostream, double value) throws IOException
 	{
-		putDouble(ostream, Double.doubleToLongBits(value));
+		putLong(ostream, Double.doubleToLongBits(value));
 	}
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// put array
 	
