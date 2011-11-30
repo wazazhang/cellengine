@@ -364,7 +364,9 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 
 	@Override
 	public void dispose() throws IOException {
-		server_listener.destory();
+		if (server_listener != null) {
+			server_listener.destory();
+		}
 	}
 	
 	@Override
