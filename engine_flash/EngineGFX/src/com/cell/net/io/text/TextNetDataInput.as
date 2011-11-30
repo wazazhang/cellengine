@@ -48,6 +48,7 @@ package com.cell.net.io.text
 					break;
 				sb += r;
 			}
+			skip(1);
 			return sb;
 		}
 		
@@ -66,6 +67,7 @@ package com.cell.net.io.text
 		}
 		
 		public function readDouble():Number {
+			
 			return Number(getNext());
 		}
 		
