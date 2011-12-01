@@ -34,8 +34,13 @@ package com.cell.net.io
 		function writeUnsignedInt(value:uint):void;
 		
 		
+		function writeLong(v : Number) : void;
+		
+		function writeChar(data : int) : void;
+		
+		
 		/**将 UTF-8 字符串写入文件流、字节流或字节数组中。*/
-		function writeUTF(value:String):void;
+		function writeJavaUTF(value:String):void;
 		
 		
 		
@@ -47,7 +52,7 @@ package com.cell.net.io
 		
 		
 
-		function writeLong(v : Number) : void;
+		
 		
 		function writeBooleanArray(array : Array) : void;
 		
@@ -67,9 +72,7 @@ package com.cell.net.io
 		
 		function writeExternal(data : MutualMessage) : void;
 		
-		function writeChar(data : int) : void;
 		
-		function writeJavaUTF(data : String) : void;
 		
 		function writeAnyArray(array : Array, component_data_type : int) : void;
 
