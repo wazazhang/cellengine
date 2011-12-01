@@ -13,10 +13,10 @@ package com.cell.net.io.text
 	{
 		private var output : TextWriter;
 		
-		public function TextNetDataOutput(factory : MessageFactory)
+		public function TextNetDataOutput(factory : MessageFactory, output:TextWriter)
 		{
 			super(factory);
-			this.output = new TextWriter();
+			this.output = output;
 			
 		}
 		

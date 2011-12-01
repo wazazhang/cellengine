@@ -34,7 +34,7 @@ package com.net.client.minaimpl
 		private var 	message_factory		: MessageFactory;
 		
 		/** 未解析完的数据*/
-		private var 	undecoded_buffer	: BinNetDataInput;
+		private var 	undecoded_buffer	: ByteArray;
 		
 		/** 未解析完的包*/
 		private var 	uncomplete_package	: ProtocolImpl;
@@ -220,7 +220,7 @@ package com.net.client.minaimpl
 			{
 				// 先将socket中的数据读入到 ByteArray
 				var avaliable : int = this.connector.bytesAvailable;
-				var buf : BinNetDataInput = new BinNetDataInput(message_factory);
+				var buf : ByteArray = new ByteArray();
 				this.connector.readBytes(buf, 0, avaliable);
 
 				// 如果有未解析完的数据，则将新数据插入到后面
@@ -265,7 +265,7 @@ package com.net.client.minaimpl
 				
 				if (buf.bytesAvailable>0) {
 					// 把未解析完的数据存入状态
-					this.undecoded_buffer = new BinNetDataInput(message_factory);
+					this.undecoded_buffer = new ByteArray();
 					this.undecoded_buffer.writeBytes(buf, buf.position, buf.bytesAvailable);
 				} else {
 					// 如果无数据可以解析，则清空状态
@@ -286,8 +286,9 @@ package com.net.client.minaimpl
 		/**
 		 * 如果有数据被解析，返回true
 		 */
-		function decode(buffer : BinNetDataInput) : Boolean
+		protected function decode(buffer : ByteArray) : Boolean
 		{
+			
 			//得到上次的状态
 			var protocol : ProtocolImpl = this.uncomplete_package;
 			
@@ -360,7 +361,8 @@ package com.net.client.minaimpl
 						// 解出包包含的二进制消息
 						if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
 							var message : MutualMessage = message_factory.createMessage(buffer.readInt());// ext 4
-							message_factory.readExternal(message, buffer);
+							var input : BinNetDataInput = new BinNetDataInput(message_factory, buffer);
+							message_factory.readExternal(message, input);
 							protocol.setMessage(message);
 						}
 						else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
@@ -403,13 +405,14 @@ package com.net.client.minaimpl
 			return true;
 		}
 		
-		function encode( protocol : ProtocolImpl) : ByteArray
+		protected function encode(protocol : ProtocolImpl) : ByteArray
 		{
 			try
 			{
 				protocol.setSentTime(new Date());
 				
-				var buffer : BinNetDataOutput = new BinNetDataOutput(message_factory);
+				var buffer : ByteArray        = new ByteArray();
+				var output : BinNetDataOutput = new BinNetDataOutput(message_factory, buffer);
 				
 				var oldposition : int = buffer.position;
 				{
@@ -436,7 +439,7 @@ package com.net.client.minaimpl
 						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_MUTUAL);	// 1
 						
 						buffer.writeInt		(message_factory.getType(protocol.getMessage()));	// ext 4
-						message_factory		.writeExternal(protocol.getMessage(), buffer);
+						message_factory		.writeExternal(protocol.getMessage(), output);
 					}
 					var end_pos : int = buffer.position;
 					
@@ -456,7 +459,7 @@ package com.net.client.minaimpl
 		
 		
 		
-		function recivedMessage(decoded : Protocol) : void
+		protected function recivedMessage(decoded : Protocol) : void
 		{
 			// 判断是否是联盟消息，协议消息等
 			switch (decoded.getProtocol()) {
@@ -484,7 +487,7 @@ package com.net.client.minaimpl
 			}
 		}
 		
-		function sentMessage(decoded : Protocol) : void
+		protected function sentMessage(decoded : Protocol) : void
 		{
 			this.listener.sentMessage(this, decoded);
 		}

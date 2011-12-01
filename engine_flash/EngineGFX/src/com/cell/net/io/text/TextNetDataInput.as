@@ -13,14 +13,12 @@ package com.cell.net.io.text
 	
 	public class TextNetDataInput extends BaseNetDataInput implements NetDataInput
 	{
-		
 		private var input : TextReader;
 		
-		public function TextNetDataInput(factory:MessageFactory, srcData:String)
+		public function TextNetDataInput(factory:MessageFactory, input:TextReader)
 		{
 			super(factory);
-			
-			this.input = new TextReader(srcData);
+			this.input = input;
 		}
 		
 		

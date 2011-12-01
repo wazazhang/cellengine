@@ -163,10 +163,11 @@ package com.net.client.sfsimpl
 				}
 				if (p.getMessage() != null) {
 					out.putInt	("message_type", ext_factory.getType(p.getMessage()));// 4
-					var net_out : BinNetDataOutput = new BinNetDataOutput(ext_factory);
+					var net_buf : ByteArray        = new ByteArray();
+					var net_out : BinNetDataOutput = new BinNetDataOutput(ext_factory, net_buf);
 					ext_factory.writeExternal(p.getMessage(), net_out);
-					net_out.position = 0;
-					out.putByteArray("message", net_out);
+					net_buf.position = 0;
+					out.putByteArray("message", net_buf);
 				} else {
 					out.putInt	("message_type", 0);//  4
 				}
@@ -195,11 +196,10 @@ package com.net.client.sfsimpl
 			if (message_type != 0) {
 				var data : ByteArray 	= obj.getByteArray("message");
 				var msg : MutualMessage = ext_factory.createMessage(message_type);
-				var net_in : BinNetDataInput = new BinNetDataInput(ext_factory);
-				net_in.writeBytes(data);
-				net_in.position = 0;
+				var net_in  : BinNetDataInput = new BinNetDataInput(ext_factory, data);
+				data.position = 0;
 				ext_factory.readExternal(msg, net_in);
-				p.setMessage			(msg);
+				p.setMessage(msg);
 			}
 			recivedMessage(p);
 			return p;
