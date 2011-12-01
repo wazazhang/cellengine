@@ -8,7 +8,7 @@ package com.cell.ui
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.net.URLRequest;
-
+	
 	public class ImageBox extends CellSprite
 	{
 		private var _anchor : int = 0;
@@ -19,24 +19,15 @@ package com.cell.ui
 		{
 			this._anchor = anchor;
 			this.o = o;
-//			this.cacheAsBitmap = true;
+			//			this.cacheAsBitmap = true;
 			addChild(o);
-			if (o is Loader) {
-				(o as Loader).contentLoaderInfo.addEventListener(Event.COMPLETE, loaded);
-			}
 			Anchor.setAnchorPos(o, _anchor);
-		}
-		
-		private function loaded(e:Event):void
-		{
-			Anchor.setAnchorPos(o, anchor);
-			(o as Loader).contentLoaderInfo.removeEventListener(Event.COMPLETE, loaded);
 		}
 		
 		override protected function update(e:Event) : void
 		{
 		}
-				
+		
 		public function set anchor(a:int) : void
 		{
 			if (_anchor != a) {
@@ -54,6 +45,13 @@ package com.cell.ui
 		{
 			var ld : Loader = UrlManager.createLoader();
 			var ret : ImageBox = new ImageBox(ld, anchor);
+			ld.contentLoaderInfo.addEventListener(
+				Event.COMPLETE, 
+				function loaded(e:Event):void{
+					ret.anchor = anchor;
+					Anchor.setAnchorPos(ld, anchor);
+				}
+			);
 			ld.load(UrlManager.getUrl(url));
 			return ret;
 		}
