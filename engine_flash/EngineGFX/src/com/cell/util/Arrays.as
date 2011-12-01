@@ -21,6 +21,18 @@ package com.cell.util
 			}
 		}
 		
+		public static function arrayLink(src:Array, dst:Array) : Array 
+		{
+			var ret : Array = new Array();
+			for each (var s : * in src) {
+				ret.push(s);
+			}
+			for each (var d : * in dst) {
+				ret.push(d);
+			}
+			return ret;
+		}
+		
 		public static function arrayFirstIndexOf(array:Array, value:*) : int
 		{
 			for (var i:int=0; i<array.length; i++) {

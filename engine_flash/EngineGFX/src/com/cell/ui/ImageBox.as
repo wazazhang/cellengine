@@ -21,7 +21,16 @@ package com.cell.ui
 			this.o = o;
 //			this.cacheAsBitmap = true;
 			addChild(o);
+			if (o is Loader) {
+				(o as Loader).contentLoaderInfo.addEventListener(Event.COMPLETE, loaded);
+			}
 			Anchor.setAnchorPos(o, _anchor);
+		}
+		
+		private function loaded(e:Event):void
+		{
+			Anchor.setAnchorPos(o, anchor);
+			(o as Loader).contentLoaderInfo.removeEventListener(Event.COMPLETE, loaded);
 		}
 		
 		override protected function update(e:Event) : void
@@ -45,13 +54,6 @@ package com.cell.ui
 		{
 			var ld : Loader = UrlManager.createLoader();
 			var ret : ImageBox = new ImageBox(ld, anchor);
-			ld.contentLoaderInfo.addEventListener(
-				Event.COMPLETE, 
-				function loaded(e:Event):void{
-					ret.anchor = anchor;
-					Anchor.setAnchorPos(ld, anchor);
-				}
-			);
 			ld.load(UrlManager.getUrl(url));
 			return ret;
 		}
