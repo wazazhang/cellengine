@@ -28,16 +28,16 @@ public interface NetDataInput extends DataInput
 	public String[] readUTFArray() throws IOException;
 
 	
-	public <T extends ExternalizableMessage> T 		readExternal(Class<T> cls) throws IOException ;
-	public <T extends ExternalizableMessage> T[] 	readExternalArray(Class<T> type) throws IOException;
+	public <T> T 	readExternal(Class<T> cls) throws IOException ;
+	public <T> T[] 	readExternalArray(Class<T> compomentType) throws IOException;
 
 	
-	public <T extends MutualMessage> T 		readMutual(Class<T> cls) throws IOException ;
-	public <T extends MutualMessage> T[] 	readMutualArray(Class<T> type) throws IOException;
+	public <T> T 	readMutual(Class<T> cls) throws IOException ;
+	public <T> T[] 	readMutualArray(Class<T> compomentType) throws IOException;
 
 	
 	public <T> T 	readObject(Class<T> type) throws IOException;
-	public <T> T[] 	readObjectArray(Class<T> type) throws IOException ;
+	public <T> T[] 	readObjectArray(Class<T> compomentType) throws IOException ;
 	
 	
 	public Object readAnyArray(Class<?> type, byte component_data_type) throws IOException;

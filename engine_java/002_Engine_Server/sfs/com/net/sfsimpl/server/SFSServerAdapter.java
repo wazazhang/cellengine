@@ -216,7 +216,7 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 			}
 			if (p.Message instanceof MutualMessage) {
 				ExternalizableFactory codec = getMessageFactory();
-				out.putInt("message_type", codec.getType(p.Message));	// ext 4
+				out.putInt("message_type", codec.getMessageType(p.Message));	// ext 4
 				NetDataOutputImpl net_out = new NetDataOutputImpl(
 						IoBuffer.allocate(PACKAGE_DEFAULT_SIZE), codec);
 				codec.getMutualCodec().writeMutual(

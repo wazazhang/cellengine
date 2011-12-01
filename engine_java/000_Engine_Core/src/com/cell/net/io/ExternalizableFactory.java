@@ -48,12 +48,16 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 		return o1.getCanonicalName().compareTo(o2.getCanonicalName());
 	}
 	
-	public int getType(MessageHeader message) {
+	public int getMessageType(MessageHeader message) {
 		return map_type_id.get(message.getClass());
 	}
 	
-	public int getType(Class<?> msg_type) {
+	public int getMessageType(Class<?> msg_type) {
 		return map_type_id.get(msg_type);
+	}
+	
+	public Class<?> getMessageClass(int msg_type) {
+		return map_id_type.get(msg_type);
 	}
 	
 	public MessageHeader createMessage(int type) throws InstantiationException, IllegalAccessException   {

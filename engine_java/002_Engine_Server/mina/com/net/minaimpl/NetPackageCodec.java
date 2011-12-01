@@ -275,12 +275,12 @@ public class NetPackageCodec extends MessageHeaderCodec
 						buffer.put		(trans_flag);			// 1
 						{
 							if (p.message instanceof ExternalizableMessage) {
-								obj_buff.putInt		(ext_factory.getType(p.message));	// ext 4
+								obj_buff.putInt		(ext_factory.getMessageType(p.message));	// ext 4
 								NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
 								((ExternalizableMessage)p.message).writeExternal(out_buff);
 							} 
 							else if (p.message instanceof MutualMessage) {
-								obj_buff.putInt		(ext_factory.getType(p.message));	// ext 4
+								obj_buff.putInt		(ext_factory.getMessageType(p.message));	// ext 4
 								NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
 								ext_factory.getMutualCodec().writeMutual(((MutualMessage)p.message), out_buff);
 							}
