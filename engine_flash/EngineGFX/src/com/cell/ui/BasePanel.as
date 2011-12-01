@@ -2,6 +2,7 @@ package com.cell.ui
 {
 	import com.cell.gfx.CellSprite;
 	
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
@@ -33,15 +34,24 @@ package com.cell.ui
 			}
 			super.addChild(child);
 		}
-			
+				
 		public function resize(viewW:int, viewH:int) : void
 		{
+			var cx : Number = 0;
+			var cy : Number = 0;
+			if (this.scrollRect!=null) {
+				cx = this.scrollRect.x;
+				cy = this.scrollRect.y;
+			}
+			this.scrollRect = new Rectangle(cx, cy, viewW, viewH);
 			if (backalpha>0) {
+				this.graphics.clear();
 				this.graphics.beginFill(backcolor, backalpha);
 				this.graphics.drawRect(0, 0, viewW, viewH);
 				this.graphics.endFill();
 			}
-			this.scrollRect = new Rectangle(0, 0, viewW, viewH);
+			var bmpData:BitmapData = new BitmapData(1, 1);
+			bmpData.draw(this);
 		}
 		
 		public function addChildH(child:DisplayObject) : void

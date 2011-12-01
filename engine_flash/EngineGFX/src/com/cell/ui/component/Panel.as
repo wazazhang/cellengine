@@ -119,10 +119,10 @@ package com.cell.ui.component
 				scrollV.height = h - border2;
 			}
 			
-			scrollV.x = width - scrollV.width - border;
+			scrollV.x = w - scrollV.width - border;
 			scrollV.y = border;
 			scrollH.x = border;
-			scrollH.y = height - scrollH.height - border;
+			scrollH.y = h - scrollH.height - border;
 			
 			
 			base.x = border;
