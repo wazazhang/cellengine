@@ -19,15 +19,23 @@ public class TextSerialize extends IOutput
 	
 	public static void putString(Writer ostream, String string) throws IOException
 	{
-		ostream.write(string.length()+",");
-		ostream.write(string+",");
+		if (string == null) {
+			ostream.write("0,");
+		} else {
+			ostream.write(string.length()+",");
+			ostream.write(string+",");
+		}
 	}
 	
 	public static void putBytesString(Writer ostream, String string) throws IOException
 	{
-		byte[] data = string.getBytes(CObject.ENCODING);
-		ostream.write(data.length+",");
-		ostream.write(string+",");
+		if (string == null) {
+			ostream.write("0,");
+		} else {
+			byte[] data = string.getBytes(CObject.ENCODING);
+			ostream.write(data.length+",");
+			ostream.write(string+",");
+		}
 	}
 	
 	public static void putByte(Writer ostream, byte value) throws IOException
