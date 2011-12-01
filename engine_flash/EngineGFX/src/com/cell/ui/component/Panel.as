@@ -104,19 +104,35 @@ package com.cell.ui.component
 		{
 			var ret : Boolean = super.resize(w, h, flush);
 			
-			var border2 : int = border*2;
-			scrollV.visible = enableScrollV;
-			scrollH.visible = enableScrollH;
-			
-			if (scrollV.visible) {
-				scrollH.width = w - border2 - scrollV.width;
-			} else {
-				scrollH.width = w - border2;
-			}
-			if (scrollH.visible) {
-				scrollV.height = h - border2 - scrollH.height;
-			} else {
-				scrollV.height = h - border2;
+			if (ret) 
+			{
+				var border2 : int = border*2;
+				scrollV.visible = enableScrollV;
+				scrollH.visible = enableScrollH;
+				
+				if (scrollV.visible) {
+					scrollH.width = w - border2 - scrollV.width;
+				} else {
+					scrollH.width = w - border2;
+				}
+				if (scrollH.visible) {
+					scrollV.height = h - border2 - scrollH.height;
+				} else {
+					scrollV.height = h - border2;
+				}
+
+				if (enableScrollH && enableScrollV) {
+					base.resize(w-border2-border, h-border2-border);
+				} 
+				else if (!enableScrollH && enableScrollV) {
+					base.resize(w-border2-border, h-border2);
+				} 
+				else if (enableScrollH && !enableScrollV) {
+					base.resize(w-border2, h-border2-border);
+				} 
+				else {
+					base.resize(w-border2, h-border2);
+				}
 			}
 			
 			scrollV.x = w - scrollV.width - border;
@@ -124,22 +140,8 @@ package com.cell.ui.component
 			scrollH.x = border;
 			scrollH.y = h - scrollH.height - border;
 			
-			
 			base.x = border;
 			base.y = border;
-			
-			if (enableScrollH && enableScrollV) {
-				base.resize(w-border2-border, h-border2-border);
-			} 
-			else if (!enableScrollH && enableScrollV) {
-				base.resize(w-border2-border, h-border2);
-			} 
-			else if (enableScrollH && !enableScrollV) {
-				base.resize(w-border2, h-border2-border);
-			} 
-			else {
-				base.resize(w-border2, h-border2);
-			}
 			
 			return ret;
 		}
