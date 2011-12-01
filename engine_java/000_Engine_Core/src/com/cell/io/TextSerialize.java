@@ -20,7 +20,7 @@ public class TextSerialize extends IOutput
 	public static void putString(Writer ostream, String string) throws IOException
 	{
 		if (string == null) {
-			ostream.write("0,");
+			ostream.write("0,,");
 		} else {
 			ostream.write(string.length()+",");
 			ostream.write(string+",");
@@ -30,7 +30,7 @@ public class TextSerialize extends IOutput
 	public static void putBytesString(Writer ostream, String string) throws IOException
 	{
 		if (string == null) {
-			ostream.write("0,");
+			ostream.write("0,,");
 		} else {
 			byte[] data = string.getBytes(CObject.ENCODING);
 			ostream.write(data.length+",");
