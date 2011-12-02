@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
+import com.cell.CUtil;
 import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.MessageHeader;
 import com.cell.net.io.MutualMessage;
@@ -257,7 +258,7 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 			send("msg", encode(p), user);
 		} catch (Throwable e) {
 			e.printStackTrace();
-			trace(e);
+			trace("SFSServerAdapter.send", e);
 		}
 	}
 
@@ -282,7 +283,7 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 			send("msg", encode(p), users);
 		} catch (Throwable e) {
 			e.printStackTrace();
-			trace(e);
+			trace("SFSServerAdapter.broadcast", e);
 		}
 	}
 
