@@ -8,7 +8,7 @@ package com.cell.sound
 
 	public class StreamSound
 	{
-		private var playing	: Boolean = true;
+		private var playing	: Boolean = false;
 		
 		private var bgS		: Sound;
 		private var bgSC	: SoundChannel;
