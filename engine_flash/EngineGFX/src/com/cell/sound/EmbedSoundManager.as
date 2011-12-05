@@ -15,12 +15,18 @@ package com.cell.sound
 			
 			private var playing_sound : Vector.<SoundChannel> = new Vector.<SoundChannel>();
 			
-			public function EmbedSoundManager(soundclass : Array)
+			public function addSoundClasses(soundclass : Array) : void
 			{
 				for each (var c : Class in soundclass) {
 					var sd : Sound = new c as Sound;
 					sound_map.put(c, sd);
 				}
+			}
+			
+			public function addSoundClass(c : Class) : void
+			{
+				var sd : Sound = new c as Sound;
+				sound_map.put(c, sd);
 			}
 			
 			public function getEnable() : Boolean

@@ -58,6 +58,13 @@
     <classEntry path="com.cell.gameedit.ResourceLoaderQueue"/>
     <classEntry path="com.cell.ui.SimpleProgress"/>
     <classEntry path="com.cell.util.ImageUtil"/>
+    <classEntry path="com.cell.openapi.PlatformManager"/>
+    <classEntry path="com.cell.openapi.SaveData"/>
+    <classEntry path="com.cell.persistance.SaveDataShared"/>
+    <classEntry path="com.cell.openapi.SaveDataEvent"/>
+    <classEntry path="com.cell.openapi.TopPlayerScore"/>
+    <classEntry path="com.cell.openapi.TopPlayers"/>
+    <classEntry path="com.cell.persistance.TopPlayersShared"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
