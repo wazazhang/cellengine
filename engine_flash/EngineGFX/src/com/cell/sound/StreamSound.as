@@ -8,6 +8,7 @@ package com.cell.sound
 
 	public class StreamSound
 	{
+		private var url 	: String = null;
 		private var playing	: Boolean = false;
 		
 		private var bgS		: Sound;
@@ -15,6 +16,10 @@ package com.cell.sound
 		
 		public function StreamSound(url:String)
 		{	
+			this.url = url;
+		}
+		
+		public function load() : void {
 			var bg : Sound = new Sound();
 			bg.addEventListener(Event.COMPLETE, bg_complete);
 			bg.load(UrlManager.getUrl(url));

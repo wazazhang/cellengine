@@ -12,20 +12,18 @@ package com.cell.sound
 			private var enable : Boolean = true;
 			
 			private var sound_map : Map = new Map();
-			
-			private var playing_sound : Vector.<SoundChannel> = new Vector.<SoundChannel>();
-			
+						
 			public function addSoundClasses(soundclass : Array) : void
 			{
 				for each (var c : Class in soundclass) {
-					var sd : Sound = new c as Sound;
-					sound_map.put(c, sd);
+					addSoundClass(c);
 				}
 			}
 			
 			public function addSoundClass(c : Class) : void
 			{
 				var sd : Sound = new c as Sound;
+				sd.play(0,0,new SoundTransform(0,0));
 				sound_map.put(c, sd);
 			}
 			
@@ -37,11 +35,6 @@ package com.cell.sound
 			public function setEnable(e:Boolean) : void
 			{
 				enable = e;
-				if (enable == false) {
-					for each (var sc : SoundChannel in playing_sound) {
-						sc.stop();
-					}
-				}
 			}
 			
 			public function playSound(cls : Class, loop:int=0) : SoundChannel
@@ -50,7 +43,6 @@ package com.cell.sound
 					var sd : Sound = sound_map.get(cls);
 					try {
 						var sc : SoundChannel = sd.play(0, loop, null);	
-						playing_sound.push(sc);
 						return sc;
 					} catch (err:Error) {
 						trace(err.getStackTrace());
