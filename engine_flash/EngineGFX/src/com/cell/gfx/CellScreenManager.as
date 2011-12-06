@@ -24,7 +24,7 @@ package com.cell.gfx
 		private var next_screen_args	: Array;
 		
 		private var transition			: IScreenTransition ;
-		private var transition_running	: Boolean = false;
+		private var transition_running	: Boolean = true;
 		
 		public function CellScreenManager(width:int, height:int, adapter:IScreenAdapter)
 		{
@@ -165,8 +165,8 @@ package com.cell.gfx
 			this.next_screen_args = args;
 			if (this.transition != null) {
 				this.transition.startTransitionOut();
-				this.transition_running = true;
-			}
+			}			
+			this.transition_running = true;
 		}
 		
 		public function getCurrentScreen() : CellScreen
