@@ -1,5 +1,6 @@
 package com.cell.ui.component
 {
+	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
 	
 	import flash.text.TextField;
@@ -12,6 +13,7 @@ package com.cell.ui.component
 		public function Lable(html:String)
 		{
 			textField = new TextField();
+			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat();
 			textField.htmlText = html;
 			textField.autoSize = TextFieldAutoSize.NONE;
 			addChild(textField);

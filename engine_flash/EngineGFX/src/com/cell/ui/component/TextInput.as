@@ -1,5 +1,7 @@
 package com.cell.ui.component
 {
+	import com.cell.ui.layout.UILayoutManager;
+	
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 
@@ -12,6 +14,7 @@ package com.cell.ui.component
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			textField = new TextField();
+			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat();
 			textField.text = text;
 			textField.width = width;
 			textField.height = height;
