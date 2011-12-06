@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -42,7 +43,8 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	final public	SQLTable		table_type;
 	final public	String			table_name;
 	final public	SQLColumn[]		table_columns;
-	
+	final private 	HashMap<String, SQLColumn>	table_columns_map;
+
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public SQLColumnAdapter(Class<R> cls)
@@ -51,6 +53,10 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		this.table_type		= cls.getAnnotation(SQLTable.class);
 		this.table_name		= table_type.name();
 		this.table_columns	= getSQLColumns(cls);
+		this.table_columns_map = new HashMap<String, SQLColumn>();
+		for (SQLColumn c : table_columns) {
+			table_columns_map.put(c.getName(), c);
+		}
 	}
 	
 	public SQLColumnAdapter(Class<R> cls, String table_name)
@@ -59,6 +65,10 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		this.table_type		= cls.getAnnotation(SQLTable.class);
 		this.table_name		= table_name;
 		this.table_columns	= getSQLColumns(cls);
+		this.table_columns_map = new HashMap<String, SQLColumn>();
+		for (SQLColumn c : table_columns) {
+			table_columns_map.put(c.getName(), c);
+		}
 	}
 	
 	/**
@@ -71,23 +81,21 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	
-	final public SQLColumn[] getColumns(String ... columns_name)
+	final public SQLColumn[] getColumns(String ... columns_name) throws SQLException
 	{
 		SQLColumn[] columns = new SQLColumn[columns_name.length];
 		for (int i=columns.length-1; i>=0; --i) {
 			columns[i] = getColumn(columns_name[i]);
+			if (columns[i] == null) {
+				throw new SQLException("Can not find column by name : " + columns_name[i]);
+			}
 		}
 		return columns;
 	}
 	
 	final public SQLColumn getColumn(String column_name)
 	{
-		for (SQLColumn c : table_columns) {
-			if (c.getName().equals(column_name)) {
-				return c;
-			}
-		}
-		return null;
+		return table_columns_map.get(column_name);
 	}
 	
 	final public SQLColumn getColumn(Field field)
