@@ -3,6 +3,7 @@ package com.cell.gfx.game.worldcraft
 	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.ICamera;
 	import com.cell.gfx.game.IGraphics;
+	import com.cell.util.Arrays;
 	import com.cell.util.CMath;
 	import com.cell.util.Util;
 	
@@ -17,7 +18,10 @@ package com.cell.gfx.game.worldcraft
 		
 		internal var _camera : ICamera;
 		
-		internal var _units : Vector.<CellUnit> = new Vector.<CellUnit>();
+		private var _units : Vector.<CellUnit> = new Vector.<CellUnit>();
+		
+		private var _units_adding : Vector.<CellUnit> = new Vector.<CellUnit>();
+		private var _units_removing : Vector.<CellUnit> = new Vector.<CellUnit>();
 		
 		public function CellWorld(
 			viewWidth:int, 
@@ -128,6 +132,18 @@ package com.cell.gfx.game.worldcraft
 			for each (var s:CellUnit in _units) {
 				s.updateIn(this);
 			}
+			if (_units_adding.length > 0) {
+				for each (var add:* in _units_adding) {
+					_units.push(add);
+				}
+				_units_adding.splice(0, _units_adding.length);
+			}
+			if (_units_removing.length > 0) {
+				for each (var remove:* in _units_removing) {
+					_units.splice(_units.indexOf(remove), 1);
+				}
+				_units_removing.splice(0, _units_removing.length);
+			}
 			onUpdate();
 		}
 		
@@ -156,7 +172,7 @@ package com.cell.gfx.game.worldcraft
 		{
 			var ret : DisplayObject = super.addChild(child);
 			if (ret != null && child is CellUnit) {
-				_units.push(child);
+				_units_adding.push(child);
 				onAddedUnit(child as CellUnit);
 			}
 			return ret;
@@ -167,7 +183,7 @@ package com.cell.gfx.game.worldcraft
 		{
 			var ret : DisplayObject = super.addChildAt(child, index);
 			if (ret != null && child is CellUnit) {
-				_units.push(child);
+				_units_adding.push(child);
 				onAddedUnit(child as CellUnit);
 			}
 			return ret;
@@ -177,7 +193,7 @@ package com.cell.gfx.game.worldcraft
 		{
 			var ret : DisplayObject = super.removeChild(child);
 			if (ret != null && child is CellUnit) {
-				_units.splice(_units.indexOf(child), 1);
+				_units_removing.push(child);
 				onRemovedUnit(child as CellUnit);
 			}
 			return ret;
@@ -187,7 +203,7 @@ package com.cell.gfx.game.worldcraft
 		{
 			var ret : DisplayObject = super.removeChildAt(index);
 			if (ret != null && ret is CellUnit) {
-				_units.splice(_units.indexOf(ret), 1);
+				_units_removing.push(ret);
 				onRemovedUnit(ret as CellUnit);
 			}
 			return ret;
