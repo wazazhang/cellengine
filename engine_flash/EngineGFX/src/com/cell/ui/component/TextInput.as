@@ -14,7 +14,7 @@ package com.cell.ui.component
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			textField = new TextField();
-			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat();
+			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat(this);
 			textField.text = text;
 			textField.width = width;
 			textField.height = height;

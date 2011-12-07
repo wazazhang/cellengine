@@ -12,6 +12,8 @@ package com.cell.ui
 		public static const ANCHOR_VCENTER 	: int = 0x10;
 		public static const ANCHOR_BOTTOM	: int = 0x20;
 		
+		public static const ANCHOR_CENTER	: int = 0x11;
+		
 		public static function setAnchorPos(o : DisplayObject, anchor : int) : void
 		{
 			if ((anchor & Anchor.ANCHOR_HCENTER)!=0) {

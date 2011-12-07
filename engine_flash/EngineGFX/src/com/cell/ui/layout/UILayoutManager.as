@@ -58,7 +58,7 @@ package com.cell.ui.layout
 			return null;
 		}
 		
-		public function defaultTextFormat() : TextFormat
+		public function defaultTextFormat(obj:UIComponent) : TextFormat
 		{
 			return new TextFormat("Verdana", 12, 0);
 		}

@@ -13,7 +13,7 @@ package com.cell.ui.component
 		public function Lable(html:String)
 		{
 			textField = new TextField();
-			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat();
+			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat(this);
 			textField.htmlText = html;
 			textField.autoSize = TextFieldAutoSize.NONE;
 			addChild(textField);
