@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Imaging;
 using System.Drawing;
+using System;
 namespace javax.microedition.lcdui{
 
 /**
@@ -175,8 +176,15 @@ public class Graphics
 					dg.ScaleTransform(-1, 1);
 					break;
 			}
-
-			dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+			//try
+			//{
+				dg.DrawImage(dimg, destPara1, srcRect, System.Drawing.GraphicsUnit.Pixel, imgAttr);
+			//}
+			//catch (Exception err)
+			//{
+			//	Console.WriteLine(err.Message);
+			//	Console.WriteLine(err.StackTrace);
+			//}
 		}
 		finally
 		{

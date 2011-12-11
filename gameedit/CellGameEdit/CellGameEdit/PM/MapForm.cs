@@ -1334,18 +1334,19 @@ namespace CellGameEdit.PM
         private void renderDstTile(Graphics g, int index, int flip, int x, int y)
         {
 			Image img = getTileImage(index);
-
-            if (img != null && flip < Graphics.FlipTable.Length)
-            {
-                if (D45.Checked)
-                {
-					g.drawImageTrans(img, x, y, flip);
-                }
-                else
-                {
-                    g.drawImageRegion(img, x, y, KeyX, KeyY, CellW, CellH, Graphics.FlipTable[flip]);
-                }
-            }
+			
+				if (img != null && flip < Graphics.FlipTable.Length)
+				{
+					if (D45.Checked)
+					{
+						g.drawImageTrans(img, x, y, flip);
+					}
+					else
+					{
+						g.drawImageRegion(img, x, y, KeyX, KeyY, CellW, CellH, Graphics.FlipTable[flip]);
+					}
+				}
+			
         }
         private void renderDstKeyAndTile(Graphics g, bool key, bool tile, int index, int x, int y)
         {
@@ -4600,6 +4601,7 @@ namespace CellGameEdit.PM
 			this.YCount = ycount;
 			this.layers = new ArrayList();
 		}
+		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
 		protected MapLayers(SerializationInfo info, StreamingContext context)
 		{
 			this.XCount = info.GetInt32("XCount");

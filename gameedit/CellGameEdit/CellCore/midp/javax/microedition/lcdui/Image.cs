@@ -26,7 +26,7 @@ public class Image
 	{
 		dimg = DImage;
 		mutable = false;
-
+		asBitmap();
 	}
 
 
