@@ -3533,19 +3533,15 @@ namespace CellGameEdit.PM
 
 		private void renderPart(Graphics g, ArrayList tile, int i, bool showimageborder, bool complex_mode)
 		{
+			Image timg = ((Image)tile[(int)SubIndex[i]]);
+			if (timg == null)
+			{
+				return;
+			}
+
 			g.pushState();
 			try
 			{
-				g.translate((int)SubX[i], (int)SubY[i]);
-				if (complex_mode)
-				{
-					g.multiplyAlpha((float)SubTAlpha[i]);
-					g.rotate((float)SubTRotate[i]);
-					g.scale((float)SubTScaleX[i], (float)SubTScaleY[i]);
-					g.shear((float)SubTShearX[i], (float)SubTShearY[i]);
-				}
-
-
 				switch (Graphics.FlipTable[(int)SubFlip[i]])
 				{
 					case System.Drawing.RotateFlipType.RotateNoneFlipNone:
@@ -3563,11 +3559,24 @@ namespace CellGameEdit.PM
 						SubW[i] = ((Image)tile[(int)SubIndex[i]]).getHeight();
 						break;
 				}
+				
 
-				Image timg = ((Image)tile[(int)SubIndex[i]]);
-				if (timg != null)
+				if (complex_mode)
 				{
-					g.drawImageTrans(timg, 0, 0, (int)SubFlip[i]);
+					float cx = ((int)SubW[i]) / 2.0f;
+					float cy = ((int)SubH[i]) / 2.0f;
+
+					g.multiplyAlpha((float)SubTAlpha[i]);
+					g.translate((int)SubX[i] + cx, (int)SubY[i] + cy);
+					g.rotate((float)SubTRotate[i]);
+					g.scale((float)SubTScaleX[i], (float)SubTScaleY[i]);
+					g.shear((float)SubTShearX[i], (float)SubTShearY[i]);
+					
+					g.drawImageTrans(timg, -cx, -cy, (int)SubFlip[i]);
+				}
+				else
+				{
+					g.drawImageTrans(timg, (int)SubX[i], (int)SubY[i], (int)SubFlip[i]);
 				}
 			}
 			finally {
