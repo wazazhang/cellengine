@@ -11,6 +11,7 @@
     <classEntry path="com.cell.crypo.IntUtil"/>
     <classEntry path="com.cell.crypo.MD5"/>
     <classEntry path="com.cell.gameedit.ResourceLoader"/>
+    <classEntry path="com.cell.gameedit.ResourceLoaderQueue"/>
     <classEntry path="com.cell.gameedit.object.worldset.MapObject"/>
     <classEntry path="com.cell.gameedit.object.worldset.RegionObject"/>
     <classEntry path="com.cell.gameedit.output.XmlCMap"/>
@@ -34,6 +35,14 @@
     <classEntry path="com.cell.math.TVector2D"/>
     <classEntry path="com.cell.net.http.HttpRequest"/>
     <classEntry path="com.cell.net.io.MutualMessage"/>
+    <classEntry path="com.cell.openapi.PlatformManager"/>
+    <classEntry path="com.cell.openapi.SaveData"/>
+    <classEntry path="com.cell.openapi.SaveDataEvent"/>
+    <classEntry path="com.cell.openapi.TopPlayerScore"/>
+    <classEntry path="com.cell.openapi.TopPlayers"/>
+    <classEntry path="com.cell.persistance.SaveDataShared"/>
+    <classEntry path="com.cell.persistance.TopPlayersShared"/>
+    <classEntry path="com.cell.sound.EmbedSoundManager"/>
     <classEntry path="com.cell.ui.Alert"/>
     <classEntry path="com.cell.ui.Anchor"/>
     <classEntry path="com.cell.ui.BasePanel"/>
@@ -44,27 +53,18 @@
     <classEntry path="com.cell.ui.ImageGroup"/>
     <classEntry path="com.cell.ui.ImageNumber"/>
     <classEntry path="com.cell.ui.PopupMenu"/>
+    <classEntry path="com.cell.ui.SimpleProgress"/>
     <classEntry path="com.cell.ui.SingleView"/>
     <classEntry path="com.cell.ui.SingleViewScrollBar"/>
     <classEntry path="com.cell.ui.TouchScrollBar"/>
     <classEntry path="com.cell.ui.TouchScrollPanel"/>
     <classEntry path="com.cell.ui.TouchToggleButton"/>
     <classEntry path="com.cell.ui.TouchTrack"/>
+    <classEntry path="com.cell.ui.component.UIComponent"/>
     <classEntry path="com.cell.ui.layout.UILayoutManager"/>
     <classEntry path="com.cell.ui.layout.UIRect"/>
     <classEntry path="com.cell.util.Arrays"/>
-    <classEntry path="com.cell.sound.EmbedSoundManager"/>
-    <classEntry path="com.cell.ui.component.UIComponent"/>
-    <classEntry path="com.cell.gameedit.ResourceLoaderQueue"/>
-    <classEntry path="com.cell.ui.SimpleProgress"/>
     <classEntry path="com.cell.util.ImageUtil"/>
-    <classEntry path="com.cell.openapi.PlatformManager"/>
-    <classEntry path="com.cell.openapi.SaveData"/>
-    <classEntry path="com.cell.persistance.SaveDataShared"/>
-    <classEntry path="com.cell.openapi.SaveDataEvent"/>
-    <classEntry path="com.cell.openapi.TopPlayerScore"/>
-    <classEntry path="com.cell.openapi.TopPlayers"/>
-    <classEntry path="com.cell.persistance.TopPlayersShared"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -2,6 +2,10 @@ package com.cell.util
 {
 	public class CMath
 	{
+		static public const PI   : Number = Math.PI;
+		static public const PI_2 : Number = Math.PI / 2;
+		static public const PI_4 : Number = Math.PI / 4;
+		
 		/**
 		 * comput cyc number: (value+d) within 0~max scope
 		 * @param value
