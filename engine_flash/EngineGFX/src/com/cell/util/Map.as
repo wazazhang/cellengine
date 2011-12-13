@@ -85,7 +85,22 @@ package com.cell.util
 		
 //		------------------------------------------------------------------------------------
 		
+		public function getNumber(key:String, defaultValue:Number) : Number
+		{
+			var value : String = this.get(key);
+			if (value != null) {
+				try {
+					var ret : Number = Number(value);
+					return ret;
+				} catch(e : Error) {
+					trace(e);
+				}
+			} 
+			return defaultValue;
+		}
 		
+//		------------------------------------------------------------------------------------
+
 		public static function readFromProperties(properties:String, equalChar:String="=") : Map
 		{
 			var lines : Array = StringUtil.splitString(properties, "\n");
