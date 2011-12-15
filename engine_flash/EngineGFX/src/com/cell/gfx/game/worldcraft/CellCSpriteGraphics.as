@@ -12,8 +12,8 @@ package com.cell.gfx.game.worldcraft
 	public class CellCSpriteGraphics extends CellCSprite
 	{
 		private var _cg		: IGraphics;
-		private var old_anim : int = 0;
-		private var old_frame : int = 0;
+		private var _old_anim : int = 0;
+		private var _old_frame : int = 0;
 		private var _repaint	: Boolean;
 		
 		public function CellCSpriteGraphics(spr:CSprite)
@@ -38,15 +38,15 @@ package com.cell.gfx.game.worldcraft
 		internal override function renderIn() : void 
 		{
 			if (_repaint || 
-				old_anim  != _spr.getCurrentAnimate() || 
-				old_frame != _spr.getCurrentFrame()) 
+				_old_anim  != _spr.getCurrentAnimate() || 
+				_old_frame != _spr.getCurrentFrame()) 
 			{
 				graphics.clear();
 				render(_cg, 0, 0, _spr.getCurrentAnimate(), _spr.getCurrentFrame());
 			}				
 			_repaint 	= false;
-			old_anim  	= _spr.getCurrentAnimate();
-			old_frame 	= _spr.getCurrentFrame();
+			_old_anim  	= _spr.getCurrentAnimate();
+			_old_frame 	= _spr.getCurrentFrame();
 		}
 
 		public function render(g:IGraphics, x:int, y:int, anim:int, frame:int) : void 

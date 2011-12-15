@@ -166,6 +166,28 @@ package com.cell.gfx.game
 //			return CCD.createCDRect2Point(0, left, top, right, bottom);
 //		}
 		
+		
+//		/**
+//		 * @param index1 frame id
+//		 * @param index2 frame id
+//		 * @return 
+//		 */
+//		public function frameEqual(index1:int, index2:int) : Boolean
+//		{
+//			if (Frames[index1].length != Frames[index2].length) {
+//				return false;
+//			}
+//			for(var i:int=Frames[index1].length-1; i>=0; i--){
+//				var idx1 : int = Frames[index1][i];
+//				var idx2 : int = Frames[index2][i];
+//				if (idx1 != idx2) {
+//					return false;
+//				}
+//			}
+//			return true;
+//		}
+		
+		
 		/**
 		 * Draw one frame with specify frame id</br>
 		 * @param g	graphics surface 

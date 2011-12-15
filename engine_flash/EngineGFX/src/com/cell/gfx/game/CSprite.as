@@ -309,8 +309,8 @@ package com.cell.gfx.game
 		public function getCurrentAnimate() : uint {
 			return CurAnimate;
 		}
-		
-		public function getFrameAnimateData(anim:int, frame:int) : int {
+		/**返回anim,frame在animates里的索引*/
+		public function getFrameAnimateIndex(anim:int, frame:int) : int {
 			return FrameAnimate[anim][frame];
 		}
 		

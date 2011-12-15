@@ -63,11 +63,14 @@ package com.cell.util
 			return true;
 		}
 		
-		public static function newArray2D(r:uint, c:uint=0) : Array
+		public static function newArray2D(r:uint, c:uint=0, defaultValue:*=null) : Array
 		{
 			var ret : Array = new Array(r);
 			for (var i : uint = 0; i < r;  i ++) {
 				ret[i] = new Array(c);
+				for (var f:int=0; f<ret[i].length; f++){ 
+					ret[i][f] = defaultValue;
+				}
 			}
 			return ret;
 		}
