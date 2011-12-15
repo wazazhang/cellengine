@@ -1830,6 +1830,9 @@ namespace CellGameEdit.PM
 
         }
 
+		System.Drawing.Pen cross_pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0, 0, 0));
+		System.Drawing.Pen rule_pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff));
+
 
         // dst box
         private void pictureBox2_Paint(object sender, PaintEventArgs e)
@@ -1837,7 +1840,7 @@ namespace CellGameEdit.PM
 			try
 			{
 				// pictureBox2.SizeMode = PictureBoxSizeMode.
-				System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0, 0, 0));
+				
 
 				int tx = pictureBox2.Width / 2;
 				int ty = pictureBox2.Height / 2;
@@ -1845,8 +1848,8 @@ namespace CellGameEdit.PM
 				if (this.显示十字ToolStripMenuItem.Checked)
 				{
 					// System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
-					e.Graphics.DrawLine(pen, tx, 0, tx, pictureBox2.Height);
-					e.Graphics.DrawLine(pen, 0, ty, pictureBox2.Width, ty);
+					e.Graphics.DrawLine(cross_pen, tx, 0, tx, pictureBox2.Height);
+					e.Graphics.DrawLine(cross_pen, 0, ty, pictureBox2.Width, ty);
 				}
 
 				{
@@ -1870,9 +1873,8 @@ namespace CellGameEdit.PM
 				}
 				if (this.显示尺子ToolStripMenuItem.Checked)
 				{
-					pen.Color = System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff);
-					e.Graphics.DrawLine(pen, rx, 0, rx, pictureBox2.Height);
-					e.Graphics.DrawLine(pen, 0, ry, pictureBox2.Width, ry);
+					e.Graphics.DrawLine(rule_pen, rx, 0, rx, pictureBox2.Height);
+					e.Graphics.DrawLine(rule_pen, 0, ry, pictureBox2.Width, ry);
 				}
 				//e.Graphics.DrawImage(pictureBox2.Image,0,0);
 			}
@@ -2173,6 +2175,19 @@ namespace CellGameEdit.PM
             if (MyDialog.ShowDialog() == DialogResult.OK)
             {
                 pictureBox2.BackColor = MyDialog.Color;
+
+				cross_pen.Color = System.Drawing.Color.FromArgb(0xFF,
+					pictureBox2.BackColor.R ^ 0xFF,
+					pictureBox2.BackColor.G ^ 0xFF,
+					pictureBox2.BackColor.B ^ 0xFF);
+
+				rule_pen.Color = System.Drawing.Color.FromArgb(0x80, 
+					cross_pen.Color.R,
+					cross_pen.Color.G,
+					cross_pen.Color.B);
+
+				pictureBox2.Refresh();
+
             }
         }
         private void toolStripButton26_Click(object sender, EventArgs e)

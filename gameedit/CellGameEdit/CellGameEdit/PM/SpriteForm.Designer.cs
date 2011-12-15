@@ -100,6 +100,8 @@
 			this.listView2 = new System.Windows.Forms.ListView();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
+			this.columnAnimBlend = new System.Windows.Forms.ColumnHeader();
+			this.columnAnimData = new System.Windows.Forms.ColumnHeader();
 			this.statusStrip3 = new System.Windows.Forms.StatusStrip();
 			this.AnimState = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip5 = new System.Windows.Forms.ToolStrip();
@@ -997,7 +999,9 @@
 			// 
 			this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader7,
-            this.columnHeader8});
+            this.columnHeader8,
+            this.columnAnimBlend,
+            this.columnAnimData});
 			this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listView2.FullRowSelect = true;
 			this.listView2.HideSelection = false;
@@ -1019,6 +1023,15 @@
 			// columnHeader8
 			// 
 			this.columnHeader8.Text = "帧数量";
+			// 
+			// columnAnimBlend
+			// 
+			this.columnAnimBlend.Text = "Blend";
+			this.columnAnimBlend.Width = 103;
+			// 
+			// columnAnimData
+			// 
+			this.columnAnimData.Text = "Data";
 			// 
 			// statusStrip3
 			// 
@@ -2482,5 +2495,7 @@
 		private System.Windows.Forms.NumericUpDown numPartScaleX;
 		private System.Windows.Forms.NumericUpDown numPartRotate;
 		private System.Windows.Forms.GroupBox groupBoxPartComplex;
+		private System.Windows.Forms.ColumnHeader columnAnimBlend;
+		private System.Windows.Forms.ColumnHeader columnAnimData;
     }
 }
