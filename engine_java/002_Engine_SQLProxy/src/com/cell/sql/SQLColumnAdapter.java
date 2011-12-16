@@ -283,32 +283,21 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		}
 	}
 	
-	final public CustomResultSet query(Connection conn, String str_query) throws Exception
-	{
+	final public ResultSet query(Connection conn, String str_query) throws Exception {
 		Statement statement = conn.createStatement();
-
-		try 
-		{
+		try {
 			ResultSet rs = statement.executeQuery(str_query);
-
-			try 
-			{				
-				return new CustomResultSet(rs);				
-			} 
-			finally 
-			{
+			try {
+				return rs;
+			} finally {
 				rs.close();
 			}
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			throw e;
-		}		
-		finally
-		{
+		} finally {
 			statement.close();
 		}
-	}	
+	}
 
 	final protected R select(K primary_key, Connection conn) throws Exception
 	{
