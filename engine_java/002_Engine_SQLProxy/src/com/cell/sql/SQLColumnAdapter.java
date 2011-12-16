@@ -115,7 +115,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param result
 	 * @throws SQLException
 	 */
-	final protected R fromResult(R row, ResultSet result) throws Exception
+	final public R fromResult(R row, ResultSet result) throws Exception
 	{
 		for (int i = 0; i < table_columns.length; i++)
 		{
@@ -147,7 +147,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param result
 	 * @throws SQLException
 	 */
-	final protected R fromResultByName(R row, ResultSet result) throws Exception
+	final public R fromResultByName(R row, ResultSet result) throws Exception
 	{
 		for (int i = 0; i < table_columns.length; i++)
 		{
@@ -170,7 +170,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param conn
 	 * @throws Exception
 	 */
-	final protected int insertWithDB(R row, Connection conn) throws Exception
+	final public int insertWithDB(R row, Connection conn) throws Exception
 	{
 		return insertWithDB(row, conn, table_columns);
 	}
@@ -180,7 +180,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param conn
 	 * @throws Exception
 	 */
-	final protected int insertWithDB(R row, Connection conn, SQLColumn[] columns) throws Exception
+	final public int insertWithDB(R row, Connection conn, SQLColumn[] columns) throws Exception
 	{
 		StringBuffer sb = new StringBuffer("INSERT INTO ");
 		sb.append(table_name);
@@ -216,7 +216,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param conn
 	 * @throws Exception
 	 */
-	final protected int updateWithDB(R row, Connection conn) throws Exception
+	final public int updateWithDB(R row, Connection conn) throws Exception
 	{
 		return updateWithDB(row, conn, table_columns);
 	}
@@ -226,7 +226,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param conn
 	 * @throws Exception
 	 */
-	final protected int updateWithDB(R row, Connection conn, SQLColumn[] columns) throws Exception
+	final public int updateWithDB(R row, Connection conn, SQLColumn[] columns) throws Exception
 	{
 		StringBuffer sb = new StringBuffer("UPDATE ");
 		sb.append(table_name);
@@ -265,7 +265,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param conn
 	 * @throws Exception
 	 */
-	final protected int deleteWithDB(K primary_key, Connection conn) throws Exception
+	final public int deleteWithDB(K primary_key, Connection conn) throws Exception
 	{
 		StringBuffer sb = new StringBuffer("DELETE FROM ");
 		sb.append(table_name);
@@ -283,39 +283,57 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		}
 	}
 	
-	final public CustomResultSet query(Connection conn, String str_query) throws Exception
-	{
+	final public CustomResultSet query(Connection conn, String str_query) throws Exception {
 		Statement statement = conn.createStatement();
-
-		try 
-		{
+		try {
 			ResultSet rs = statement.executeQuery(str_query);
-
-			try 
-			{				
-				return new CustomResultSet(rs);				
-			} 
-			finally 
-			{
+			try {
+				return new CustomResultSet(rs);
+			} finally {
 				rs.close();
 			}
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			throw e;
-		}		
-		finally
-		{
+		} finally {
 			statement.close();
 		}
-	}	
+	}
 
-	final protected R select(K primary_key, Connection conn) throws Exception
+	
+	/**
+	 * 查询所有字段
+	 * @param conn
+	 * @param str_query
+	 * @return
+	 * @throws Exception
+	 */
+	final public ArrayList<R> queryFully(Connection conn, String str_query) throws Exception
+	{
+		Statement statement = conn.createStatement();
+		try {
+			ArrayList<R> ret = new ArrayList<R>();
+			ResultSet rs = statement.executeQuery(str_query);
+			try {
+				while (rs.next()) {
+					ret.add(fromResult(newRow(), rs));
+				}
+			} finally {
+				rs.close();
+			}
+			return ret;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			statement.close();
+		}
+	}
+	
+	final public R select(K primary_key, Connection conn) throws Exception
 	{
 		return select(table_type.primary_key_name(), primary_key.toString(), conn);
 	}
 	
-	final protected R select(String field_name, String field_value, Connection conn) throws Exception
+	final public R select(String field_name, String field_value, Connection conn) throws Exception
 	{
 		R row = newRow();
 		
@@ -346,7 +364,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		return null;
 	}
 
-	final protected ArrayList<R> select(Connection conn, String sql, boolean allColumn) throws Exception
+	final public ArrayList<R> select(Connection conn, String sql, boolean allColumn) throws Exception
 	{
 		ArrayList<R> 	ret 		= new ArrayList<R>();
 		Statement		statement 	= conn.createStatement();
@@ -386,7 +404,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @return
 	 * @throws SQLException
 	 */
-	final protected ArrayList<R> selectAll(Connection conn) throws Exception
+	final public ArrayList<R> selectAll(Connection conn) throws Exception
 	{
 		return select(conn, "SELECT * FROM " + table_name + " ;", true);
 	}
@@ -397,7 +415,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 * @param block_size
 	 * @return
 	 */
-	final protected Iterator<R> selectAll(Connection conn, int block_size)
+	final public Iterator<R> selectAll(Connection conn, int block_size)
 	{
 		return new SelectIterator(conn, block_size);
 	}
