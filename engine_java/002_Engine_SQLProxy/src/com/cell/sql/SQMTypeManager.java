@@ -2,7 +2,18 @@ package com.cell.sql;
 
 public class SQMTypeManager 
 {
-	static SQLTypeComparer type_comparer;
+	static public String DEFAULT_TYPE_COMPARER = "com.cell.mysql.SQLTypeComparerMySQL";
+	static private SQLTypeComparer type_comparer;
+	
+	static public void init() {
+		if (type_comparer == null) {
+			try {
+				setTypeComparer(DEFAULT_TYPE_COMPARER);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	/**
 	 * @param typeComparer the type_comparer to set

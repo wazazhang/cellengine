@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/cell/sql/SQLStructBLOB.java|com/cell/sql/SQLStructXML.java|com/cell/sql/SQLFieldArray.java|com/cell/sql/anno/SQLArrayField.java" kind="src" path="src"/>
+	<classpathentry excluding="com/cell/sql/SQLStructBLOB.java|com/cell/sql/SQLStructXML.java|com/cell/sql/SQLFieldArray.java|com/cell/sql/anno/SQLArrayField.java|com/cell/sql/struct/clob/XMLReference.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="mysql"/>
 	<classpathentry kind="src" path="xstream"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
