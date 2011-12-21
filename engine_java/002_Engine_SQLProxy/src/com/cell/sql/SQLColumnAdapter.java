@@ -38,7 +38,6 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 {
 	final static protected Logger	log = LoggerFactory.getLogger("DB");
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
-
 	final public	Class<R> 		table_class;
 	final public	SQLTable		table_type;
 	final public	String			table_name;
@@ -46,18 +45,6 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	final private 	HashMap<String, SQLColumn>	table_columns_map;
 
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-	public SQLColumnAdapter(Class<R> cls)
-	{
-		this.table_class	= cls;
-		this.table_type		= cls.getAnnotation(SQLTable.class);
-		this.table_name		= table_type.name();
-		this.table_columns	= getSQLColumns(cls);
-		this.table_columns_map = new HashMap<String, SQLColumn>();
-		for (SQLColumn c : table_columns) {
-			table_columns_map.put(c.getName(), c);
-		}
-	}
 	
 	public SQLColumnAdapter(Class<R> cls, String table_name)
 	{

@@ -30,9 +30,9 @@ public abstract class SQLColumnManager<K, R extends SQLTableRow<K>> extends SQLC
 
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	public SQLColumnManager(Class<R> cls, SQLColumnMap<K, R> data_map)
+	public SQLColumnManager(Class<R> cls, String tableName, SQLColumnMap<K, R> data_map)
 	{
-		super(cls);
+		super(cls, tableName);
 		this.data_map		= data_map;
 	}
 	

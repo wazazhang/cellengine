@@ -456,7 +456,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 				}
 				break;
 			default:
-				throw new SQLException("unknow sql type : " + table_type.name() + " - " + c.getName() + " - " + c.getAnno().type());
+				throw new SQLException("unknow sql type : " + table_name + " - " + c.getName() + " - " + c.getAnno().type());
 			}
 		}
 		

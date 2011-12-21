@@ -19,9 +19,6 @@ import com.cell.sql.SQLType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SQLTable
 {
-	/** 数据库表名 */
-	String	name();
-	
 	/** 数据库表主键名 */
 	String	primary_key_name();
 	
