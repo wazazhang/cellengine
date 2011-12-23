@@ -17,14 +17,14 @@ package com.cell.net.io
 		
 		public static const TYPE_STRING			: int	= -9;
 //		public static const TYPE_OBJECT			: int	= -10;
-		public static const TYPE_EXTERNALIZABLE	: int	= -11;
+//		public static const TYPE_EXTERNALIZABLE	: int	= -11;
 		public static const TYPE_MUTUAL			: int	= -12;
 
 		
 		public static function toTypeName(type : int) : String {
 			switch (type) {
-				case NetDataTypes.TYPE_EXTERNALIZABLE:
-					return "TYPE_EXTERNALIZABLE";
+//				case NetDataTypes.TYPE_EXTERNALIZABLE:
+//					return "TYPE_EXTERNALIZABLE";
 				case NetDataTypes.TYPE_MUTUAL:
 					return "TYPE_MUTUAL";
 				case NetDataTypes.TYPE_BOOLEAN:
@@ -52,15 +52,15 @@ package com.cell.net.io
 			}
 		}
 		
-		public static function getCompomentType(object : Object, factory : MessageFactory) : int
-		{
-			var c : Class = Class(getDefinitionByName(getQualifiedClassName(object)));
-			var xml : XML = describeType(new c());
-			var table:String = 
-				xml.metadata.(@name=="Table").arg.(@key=="name").@value;
-		
-			
-			return 0;
-		}
+//		public static function getCompomentType(object : Object, factory : MessageFactory) : int
+//		{
+//			var c : Class = Class(getDefinitionByName(getQualifiedClassName(object)));
+//			var xml : XML = describeType(new c());
+//			var table:String = 
+//				xml.metadata.(@name=="Table").arg.(@key=="name").@value;
+//		
+//			
+//			return 0;
+//		}
 	}
 }

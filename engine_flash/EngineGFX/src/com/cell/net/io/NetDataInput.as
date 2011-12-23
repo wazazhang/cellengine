@@ -1,5 +1,7 @@
 package com.cell.net.io
 {
+	import com.cell.util.Map;
+	
 	import flash.utils.ByteArray;
 	import flash.utils.IDataInput;
 	
@@ -57,7 +59,7 @@ package com.cell.net.io
 //		----------------------------------------------------------------------------------------------------
 		
 		
-		function readExternal() : MutualMessage;
+		function readMutual() : MutualMessage;
 		
 		function readAny(component_data_type : int) : Object;
 		
@@ -77,12 +79,15 @@ package com.cell.net.io
 		
 		function readUTFArray() : Array;
 	
-		function readExternalArray() : Array;
+		function readMutualArray() : Array;
 		
 		function readAnyArray(component_data_type : int) : Array ;
 		
-
 		
+		function readCollection(compNetType:int) : Array;
+		
+		function readMap(keyNetType:int, valueNetType:int) : Map;
+
 		
 	}
 }

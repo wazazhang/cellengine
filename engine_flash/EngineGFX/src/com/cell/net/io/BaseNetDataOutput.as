@@ -1,5 +1,7 @@
 package com.cell.net.io
 {
+	import com.cell.util.Map;
+	
 	import flash.utils.ByteArray;
 	import flash.utils.IDataOutput;
 	
@@ -151,12 +153,12 @@ package com.cell.net.io
 			}
 		}
 		
-		public function writeExternalArray(array : Array) : void
+		public function writeMutualArray(array : Array) : void
 		{
 			if (array != null) {
 				this.writeInt(array.length);
 				for each (var d : MutualMessage in array) {
-					this.writeExternal(d);
+					this.writeMutual(d);
 				}
 			} else {
 				this.writeInt(0);
@@ -164,7 +166,7 @@ package com.cell.net.io
 		}
 		
 		
-		public function writeExternal(data : MutualMessage) : void
+		public function writeMutual(data : MutualMessage) : void
 		{
 			if (data != null) {
 				this.writeInt(factory.getType(data));
@@ -204,8 +206,8 @@ package com.cell.net.io
 		public function writeAny(component_data_type : int, obj : Object) : void
 		{
 			switch (component_data_type) {
-				case NetDataTypes.TYPE_EXTERNALIZABLE:
-					writeExternal(obj as MutualMessage);
+				case NetDataTypes.TYPE_MUTUAL:
+					writeMutual(obj as MutualMessage);
 					break;
 				case NetDataTypes.TYPE_BOOLEAN:
 					writeBoolean(obj as Boolean);
@@ -238,6 +240,40 @@ package com.cell.net.io
 				//					writeObject(obj);
 				//					break;
 				default:
+			}
+		}
+		
+
+		public function writeCollection(array:Array, compNetType:int) : void
+		{
+			if (array != null) {
+				var count : int = array.length;
+				writeInt(count);
+				if (count > 0) {
+					for each (var o : * in array) {
+						writeAny(compNetType, o);
+					}
+				}
+			} else {
+				writeInt(0);
+			}
+		}
+		
+		
+		public function writeMap(map:Map, keyNetType:int, valueNetType:int) : void
+		{
+			if (map != null) {
+				var count : int = map.size();
+				writeInt(count);
+				if (count > 0) {
+					for (var key : * in map) {
+						var value : * = map.get(key);
+						writeAny(keyNetType,   key);
+						writeAny(valueNetType, value);
+					}
+				}
+			} else {
+				writeInt(0);
 			}
 		}
 	}

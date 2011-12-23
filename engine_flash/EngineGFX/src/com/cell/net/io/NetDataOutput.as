@@ -1,5 +1,7 @@
 package com.cell.net.io
 {
+	import com.cell.util.Map;
+	
 	import flash.utils.ByteArray;
 	import flash.utils.IDataOutput;
 	
@@ -68,9 +70,9 @@ package com.cell.net.io
 		
 		function writeUTFArray(array : Array) : void;
 		
-		function writeExternalArray(array : Array) : void;
+		function writeMutualArray(array : Array) : void;
 		
-		function writeExternal(data : MutualMessage) : void;
+		function writeMutual(data : MutualMessage) : void;
 		
 		
 		
@@ -78,5 +80,10 @@ package com.cell.net.io
 
 		function writeAny(component_data_type : int, obj : Object) : void;
 		
+		
+		
+		function writeCollection(array:Array, compNetType:int) : void;
+		
+		function writeMap(map:Map, keyNetType:int, valueNetType:int) : void;
 	}
 }

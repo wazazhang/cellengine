@@ -1,9 +1,11 @@
 package com.cell.net.io
 {
-	import flash.utils.ByteArray;
-	import flash.utils.IDataInput;
 	import com.cell.net.io.MutualMessage;
 	import com.cell.net.io.NetDataTypes;
+	import com.cell.util.Map;
+	
+	import flash.utils.ByteArray;
+	import flash.utils.IDataInput;
 	
 	public class BaseNetDataInput implements NetDataInput
 	{
@@ -137,17 +139,17 @@ package com.cell.net.io
 			return ret;
 		}
 		
-		public function readExternalArray() : Array
+		public function readMutualArray() : Array
 		{
 			var count : int = this.readInt();
 			var ret : Array = new Array(count);
 			for (var i : int = 0; i<count; i++) {
-				ret[i] = this.readExternal();
+				ret[i] = this.readMutual();
 			}
 			return ret;
 		}
 		
-		public function readExternal() : MutualMessage
+		public function readMutual() : MutualMessage
 		{
 			var type : int = this.readInt();
 			if (type > 0) {
@@ -189,9 +191,12 @@ package com.cell.net.io
 		
 		public function readAny(component_data_type : int) : Object
 		{
-			switch (component_data_type) {
-				case NetDataTypes.TYPE_EXTERNALIZABLE:
-					return readExternal();
+			switch (component_data_type) 
+			{
+//				case NetDataTypes.TYPE_EXTERNALIZABLE:
+				case NetDataTypes.TYPE_MUTUAL:
+					return readMutual();
+					
 				case NetDataTypes.TYPE_BOOLEAN:
 					return readBoolean();
 				case NetDataTypes.TYPE_BYTE:
@@ -217,6 +222,35 @@ package com.cell.net.io
 			}
 			
 			return null;
+		}
+		
+		
+		
+		public function readCollection(compNetType:int) : Array
+		{
+			var size : int = readInt();
+			var ret : Array = new Array(size);
+			if (size > 0) {
+				for (var i:int=0; i<size; i++) {
+					var data : * = readAny(compNetType);
+					ret[i] = (data);
+				}
+			}
+			return ret;
+		}
+		
+		public function readMap(keyNetType:int, valueNetType:int) : Map
+		{
+			var size : int = readInt();
+			var ret : Map = new Map();
+			if (size > 0) {
+				for (var i:int=0; i<size; i++) {
+					var key  : * = readAny(keyNetType);
+					var value: * = readAny(valueNetType);
+					ret.put(key, value);
+				}
+			}
+			return ret;
 		}
 	}
 }
