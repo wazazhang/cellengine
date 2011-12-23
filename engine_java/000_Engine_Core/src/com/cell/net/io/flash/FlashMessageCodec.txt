@@ -5,6 +5,7 @@ package //package
 	import com.cell.net.io.NetDataInput;
 	import com.cell.net.io.NetDataOutput;
 	import com.cell.net.io.NetDataTypes;
+	import com.cell.util.Map;
 //import
 
 	/**

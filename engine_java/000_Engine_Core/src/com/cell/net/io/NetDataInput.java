@@ -2,6 +2,9 @@ package com.cell.net.io;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.Map;
 
 public interface NetDataInput extends DataInput
 {
@@ -42,7 +45,10 @@ public interface NetDataInput extends DataInput
 	
 	public Object readAnyArray(Class<?> type, byte component_data_type) throws IOException;
 	
-
+	public Collection<?> readCollection(Class<?> collectionType, byte compNetType) throws IOException;
+	
+	public Map<?,?> readMap(Class<?> mapType, byte keyNetType, byte valueNetType) throws IOException;
+	
 //	-----------------------------------------------------------------------------------------------
 
 //	-----------------------------------------------------------------------------------------------

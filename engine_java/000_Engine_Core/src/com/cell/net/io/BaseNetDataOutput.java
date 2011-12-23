@@ -2,6 +2,9 @@ package com.cell.net.io;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.cell.io.ExternalizableUtil;
 
@@ -199,4 +202,88 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		}
 	}
 
+	
+	protected void writeAnyMutual(byte component_data_type, Object obj) throws IOException 
+	{
+		switch (component_data_type) {
+//		case NetDataTypes.TYPE_EXTERNALIZABLE:
+//			writeExternal((ExternalizableMessage)obj);
+//			break;
+		case NetDataTypes.TYPE_MUTUAL:
+			writeMutual((MutualMessage)obj);
+			break;
+		case NetDataTypes.TYPE_BOOLEAN:
+			writeBoolean((Boolean)obj);
+			break;
+		case NetDataTypes.TYPE_BYTE:
+			writeByte((Byte)obj);
+			break;
+		case NetDataTypes.TYPE_CHAR: 
+			writeChar((Character)obj);
+			break;
+		case NetDataTypes.TYPE_SHORT: 
+			writeShort((Short)obj);
+			break;
+		case NetDataTypes.TYPE_INT: 
+			writeInt((Integer)obj);
+			break;
+		case NetDataTypes.TYPE_LONG: 
+			writeLong((Long)obj);
+			break;
+		case NetDataTypes.TYPE_FLOAT: 
+			writeFloat((Float)obj);
+			break;
+		case NetDataTypes.TYPE_DOUBLE: 
+			writeDouble((Double)obj);
+			break;
+		case NetDataTypes.TYPE_STRING: 
+			writeUTF((String)obj);
+			break;
+//		case NetDataTypes.TYPE_OBJECT: 
+//			writeObject(obj);
+//			break;
+		default:
+		}
+	}
+
+	
+	
+	
+	@Override
+	public void writeCollection(Collection<?> array, byte compNetType) throws IOException {
+		if (array != null) {
+			int count = array.size();
+			writeInt(count);
+			if (count > 0) {
+				for (Object o : array) {
+					writeAnyMutual(compNetType, o);
+				}
+			}
+		} else {
+			writeInt(0);
+		}
+	}
+	
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void writeMap(Map<?,?> map, byte keyNetType, byte valueNetType) throws IOException 
+	{
+		if (map != null) {
+			int count = map.size();
+			writeInt(count);
+			if (count > 0) {
+				for (Entry e : map.entrySet()) {
+					Object key = e.getKey();
+					Object value = e.getValue();
+					writeAnyMutual(keyNetType,   key);
+					writeAnyMutual(valueNetType, value);
+				}
+			}
+		} else {
+			writeInt(0);
+		}
+	}
+	
+	
 }

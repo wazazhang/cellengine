@@ -1,5 +1,9 @@
 package com.cell.net.io;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.TypeVariable;
+import java.util.Collection;
+
 
 
 
@@ -51,35 +55,34 @@ public class NetDataTypes
 		}
 	}
 	
-	public static byte getArrayCompomentType(Class<?> type, ExternalizableFactory factory) 
+	@SuppressWarnings({ "rawtypes"})
+	public static byte getNetType(Class<?> type, ExternalizableFactory factory) 
 	{
-		if (type.isArray()) {
-			return getArrayCompomentType(type.getComponentType(), factory);
-		}
-		else if (type.equals(boolean.class)) {
+		if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 			return TYPE_BOOLEAN;
 		}
-		else if (type.equals(byte.class)) {
+		else if (type.equals(byte.class) || type.equals(Byte.class)) {
 			return TYPE_BYTE;
 		}
-		else if (type.equals(char.class)) {
+		else if (type.equals(char.class) || type.equals(Character.class)) {
 			return TYPE_CHAR;
 		}
-		else if (type.equals(short.class)) {
+		else if (type.equals(short.class) || type.equals(Short.class)) {
 			return TYPE_SHORT;
 		}
-		else if (type.equals(int.class)) {
+		else if (type.equals(int.class) || type.equals(Integer.class)) {
 			return TYPE_INT;
 		}
-		else if (type.equals(long.class)) {
+		else if (type.equals(long.class) || type.equals(Long.class)) {
 			return TYPE_LONG;
 		}
-		else if (type.equals(float.class)) {
+		else if (type.equals(float.class) || type.equals(Float.class)) {
 			return TYPE_FLOAT;
 		}
-		else if (type.equals(double.class)) {
+		else if (type.equals(double.class) || type.equals(Double.class)) {
 			return TYPE_DOUBLE;
 		}
+		//
 		else if (type.equals(String.class)) {
 			return TYPE_STRING;
 		}
@@ -91,6 +94,26 @@ public class NetDataTypes
 		}
 		else {
 			return TYPE_OBJECT;
+		}
+	}
+	
+	@SuppressWarnings({ "rawtypes"})
+	public static byte getCollectionCompomentType(Collection array, ExternalizableFactory factory) 
+	{
+		for (Object o : array) {
+			if ( o != null) {
+				return getArrayCompomentType(o.getClass(), factory);
+			}
+		}
+		return 0;
+	}
+	
+	public static byte getArrayCompomentType(Class<?> type, ExternalizableFactory factory) 
+	{
+		if (type.isArray()) {
+			return getArrayCompomentType(type.getComponentType(), factory);
+		} else {
+			 return getNetType(type, factory);
 		}
 	}
 

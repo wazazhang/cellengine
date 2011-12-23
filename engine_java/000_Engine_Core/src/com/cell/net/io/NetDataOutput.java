@@ -2,6 +2,8 @@ package com.cell.net.io;
 
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 public interface NetDataOutput extends DataOutput
 {
@@ -39,9 +41,12 @@ public interface NetDataOutput extends DataOutput
 	public void writeMutual(MutualMessage data) throws IOException;
 	public void writeMutualArray(Object array) throws IOException ;
  
-
 	public void writeAnyArray(Object array, byte component_data_type) throws IOException;
 		
+	
+	public void writeCollection(Collection<?> array, byte compNetType) throws IOException ;
+
+	public void writeMap(Map<?,?> map, byte keyNetType, byte valueNetType) throws IOException ;
 	
 //	-----------------------------------------------------------------------------------------------
 

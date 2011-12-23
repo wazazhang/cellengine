@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -16,6 +19,7 @@ import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
+import com.cell.reflect.ReflectUtil;
 
 public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 {
@@ -242,22 +246,53 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 //			read.append("		" + f_name + " = input.readExternal() as " + f_type.getCanonicalName() + ";\n");
 //			write.append("		output.writeExternal(" + f_name + ");\n");
 //		} 
-		else if (MutualMessage.class.isAssignableFrom(f_type)) {
-			read.append("		" + f_name + " = input.readExternal() as " + f_type.getCanonicalName() + ";\n");
-			write.append("		output.writeExternal(" + f_name + ");\n");
+		else if (MutualMessage.class.isAssignableFrom(f_type)) 
+		{
+			read.append("		" + f_name + " = input.readMutual() as " + f_type.getCanonicalName() + ";\n");
+			write.append("		output.writeMutual(" + f_name + ");\n");
 		}
-		else if (f_type.isArray()) {
-			if (f_type.getComponentType().isArray()) {
+		else if (f_type.isArray())
+		{
+			if (f_type.getComponentType().isArray()) 
+			{
 				String leaf_type = NetDataTypes.toTypeName(NetDataTypes.getArrayCompomentType(f_type, factory));
 				read.append("		" + f_name + " = input.readAnyArray(" +
 						"NetDataTypes." + leaf_type + ");\n");
 				write.append("		output.writeAnyArray(" + f_name + ", " +
 						"NetDataTypes." + leaf_type + ");\n");
-			} else {
-				read.append("		" + f_name + " = input.readExternalArray();\n");
-				write.append("		output.writeExternalArray(" + f_name + ");\n");
+			}
+			else 
+			{
+				read.append("		" + f_name + " = input.readMutualArray();\n");
+				write.append("		output.writeMutualArray(" + f_name + ");\n");
 			}
 		} 
+		// Collections -----------------------------------------------
+		else if (Collection.class.isAssignableFrom(f_type))
+		{
+			Class argType = ReflectUtil.getFieldGenericType(f, 0);
+			byte compType = NetDataTypes.getNetType(argType, factory);
+			
+			read.append("		" + f_name + " = input.readCollection(" +
+					"NetDataTypes." + NetDataTypes.toTypeName(compType) + ");\n");
+			write.append("		output.writeCollection(" + f_name + ", " +
+					"NetDataTypes." + NetDataTypes.toTypeName(compType) + ");\n");
+		}
+		else if (Map.class.isAssignableFrom(f_type)) 
+		{
+			Class keyType 		= ReflectUtil.getFieldGenericType(f, 0);
+			byte  keyNetType 	= NetDataTypes.getNetType(keyType, factory);
+			Class valueType 	= ReflectUtil.getFieldGenericType(f, 1);
+			byte  valueNetType 	= NetDataTypes.getNetType(valueType, factory);
+			
+			read.append("		" + f_name + " = input.readMap("+
+			"NetDataTypes." + NetDataTypes.toTypeName(keyNetType) + ", " +
+			"NetDataTypes." + NetDataTypes.toTypeName(valueNetType) + ");\n");
+			
+			write.append("		output.writeMap(" + f_name + ", " +
+			"NetDataTypes." + NetDataTypes.toTypeName(keyNetType) + ", " +
+			"NetDataTypes." + NetDataTypes.toTypeName(valueNetType) + ");\n");
+		}
 		// Error -----------------------------------------------
 		else {
 			read.append("		Unsupported type : " + f_name + " " + f_type.getName() + "\n");
@@ -403,11 +438,17 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 //			return f.getName() + " :  " + f_type.getCanonicalName()+"";
 //		} 
 		else if (MutualMessage.class.isAssignableFrom(f_type)) {
-			return f.getName() + " :  " + f_type.getCanonicalName()+"";
+			return f.getName() + " :  " + f_type.getCanonicalName();
 		} 
 		else if (f_type.isArray()) {
 			return f.getName() + " :  Array";
 		} 
+		else if (Collection.class.isAssignableFrom(f_type)) {
+			return f.getName() + " :  Array";
+		}
+		else if (Map.class.isAssignableFrom(f_type)) {
+			return f.getName() + " :  com.cell.util.Map";
+		}
 		// Error -----------------------------------------------
 		else {
 			return "		Unsupported type : " + f.getName() + " " + f_type.getName();

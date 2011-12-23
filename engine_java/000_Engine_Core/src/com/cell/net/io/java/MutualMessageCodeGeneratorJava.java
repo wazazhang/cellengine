@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.cell.CIO;
@@ -14,6 +17,7 @@ import com.cell.net.io.ExternalizableMessage;
 import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
+import com.cell.reflect.ReflectUtil;
 
 
 public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
@@ -248,6 +252,34 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 				} 
 			}
 		} 
+		// Collections -----------------------------------------------
+		else if (Collection.class.isAssignableFrom(f_type)) 
+		{
+			Class argType = ReflectUtil.getFieldGenericType(f, 0);
+			byte compType = NetDataTypes.getNetType(argType, factory);
+			
+			read.append("		" + f_name + " = ("+f_type.getCanonicalName()+")in.readCollection(" +
+					f_type.getCanonicalName()+".class, " +
+					"NetDataTypes." + NetDataTypes.toTypeName(compType) + ");\n");
+			write.append("		out.writeCollection(" + f_name + ", " +
+					"NetDataTypes." + NetDataTypes.toTypeName(compType) + ");\n");
+		}
+		else if (Map.class.isAssignableFrom(f_type)) 
+		{
+			Class keyType 		= ReflectUtil.getFieldGenericType(f, 0);
+			byte  keyNetType 	= NetDataTypes.getNetType(keyType, factory);
+			Class valueType 	= ReflectUtil.getFieldGenericType(f, 1);
+			byte  valueNetType 	= NetDataTypes.getNetType(valueType, factory);
+			
+			read.append("		" + f_name + " = ("+f_type.getCanonicalName()+")in.readMap("+
+			f_type.getCanonicalName()+".class, " +
+			"NetDataTypes." + NetDataTypes.toTypeName(keyNetType) + ", " +
+			"NetDataTypes." + NetDataTypes.toTypeName(valueNetType) + ");\n");
+			
+			write.append("		out.writeMap(" + f_name + ", " +
+			"NetDataTypes." + NetDataTypes.toTypeName(keyNetType) + ", " +
+			"NetDataTypes." + NetDataTypes.toTypeName(valueNetType) + ");\n");
+		}
 		// Error -----------------------------------------------
 		else {
 			read.append("		Unsupported type : " + f_name + " " + f_type.getName() + "\n");
@@ -262,4 +294,14 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		CFile.writeText(output, genMutualMessageCodec(factory));
 		System.out.println("genCodeFileJava : " + output.getCanonicalPath());
 	}
+	
+//	public static void main(String[] args) {
+//		ArrayList a = new ArrayList();
+//		a.add("");
+//		ArrayList<Integer> b = new ArrayList<Integer>();
+//		
+//		b = a;
+//		int b0 = b.get(0);
+//		System.out.println(b0);
+//	}
 }

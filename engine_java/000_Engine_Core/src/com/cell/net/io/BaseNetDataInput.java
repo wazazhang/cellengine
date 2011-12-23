@@ -3,6 +3,10 @@ package com.cell.net.io;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.TypeVariable;
+import java.util.Collection;
+import java.util.Map;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
@@ -148,7 +152,36 @@ public abstract class BaseNetDataInput implements NetDataInput
 		}
 		return null;
 	}
+
+	protected ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
+		int type = readInt();
+		if (type != 0) {
+			try {
+				ExternalizableMessage data = (ExternalizableMessage)cls.newInstance();
+				data.readExternal(this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
+	}
 	
+
+	protected MutualMessage readAnyMutual(Class<?> cls) throws IOException {
+		int type = readInt();
+		if (type != 0) {
+			try {
+				MutualMessage data = (MutualMessage)cls.newInstance();
+				this.factory.getMutualCodec().readMutual(data, this);
+				return data;
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+		}
+		return null;
+	}
+
 	protected Object readAny(byte component_data_type, Class<?> component_type) throws IOException {
 		switch (component_data_type) {
 		case NetDataTypes.TYPE_EXTERNALIZABLE:
@@ -180,36 +213,83 @@ public abstract class BaseNetDataInput implements NetDataInput
 		}
 	}
 	
-	protected ExternalizableMessage readAnyExternal(Class<?> cls) throws IOException {
-		int type = readInt();
-		if (type != 0) {
+	protected Object readAnyMutual(byte component_data_type) throws IOException {
+		switch (component_data_type) {
+//		case NetDataTypes.TYPE_EXTERNALIZABLE:
+//			return readAnyExternal(component_type);	
+		case NetDataTypes.TYPE_MUTUAL:
 			try {
-				ExternalizableMessage data = (ExternalizableMessage)cls.newInstance();
-				data.readExternal(this);
+				int mutualType = readInt();
+				MutualMessage data = (MutualMessage)(factory.createMessage(mutualType));
+				factory.getMutualCodec().readMutual(data, this);
 				return data;
 			} catch (Exception e) {
-				throw new IOException(e);
+				e.printStackTrace();
+				return null;
 			}
+		case NetDataTypes.TYPE_BOOLEAN:
+			return readBoolean();
+		case NetDataTypes.TYPE_BYTE:
+			return readByte();
+		case NetDataTypes.TYPE_CHAR:
+			return readChar();
+		case NetDataTypes.TYPE_SHORT:
+			return readShort();
+		case NetDataTypes.TYPE_INT:
+			return readInt();
+		case NetDataTypes.TYPE_LONG:
+			return readLong();
+		case NetDataTypes.TYPE_FLOAT:
+			return readFloat();
+		case NetDataTypes.TYPE_DOUBLE:
+			return readDouble();
+		case NetDataTypes.TYPE_STRING: 
+			return readUTF();
+//		case NetDataTypes.TYPE_OBJECT:
+//			return readObject(component_type);
+		default:
+			return null;
 		}
-		return null;
 	}
 	
-
-	protected MutualMessage readAnyMutual(Class<?> cls) throws IOException {
-		int type = readInt();
-		if (type != 0) {
-			try {
-				MutualMessage data = (MutualMessage)cls.newInstance();
-				this.factory.getMutualCodec().readMutual(data, this);
-				return data;
-			} catch (Exception e) {
-				throw new IOException(e);
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Collection<?> readCollection(Class<?> collectionType, byte compNetType) throws IOException {
+		int size = readInt();
+		try {
+			Collection ret = (Collection)collectionType.newInstance();
+			if (size > 0) {
+				for (int i=0; i<size; i++) {
+					Object data = readAnyMutual(compNetType);
+					ret.add(data);
+				}
 			}
+			return ret;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Map<?,?> readMap(Class<?> mapType, byte keyNetType, byte valueNetType) throws IOException {
+		int size = readInt();
+		try {
+			Map ret = (Map)mapType.newInstance();
+			if (size > 0) {
+				for (int i=0; i<size; i++) {
+					Object key   = readAnyMutual(keyNetType);
+					Object value = readAnyMutual(valueNetType);
+					ret.put(key, value);
+				}
+			}
+			return ret;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
-
-
 }
