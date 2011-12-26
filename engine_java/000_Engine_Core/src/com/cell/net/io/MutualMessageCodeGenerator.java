@@ -1,5 +1,7 @@
 package com.cell.net.io;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Date;
 
 
@@ -15,5 +17,16 @@ public abstract class MutualMessageCodeGenerator
 	
 	public String getVersion() {
 		return new Date().toString();
+	}
+	
+	public static boolean isAllStaticField(Class<?> msg)
+	{
+		for (Field f : msg.getFields()) {
+			int modifiers = f.getModifiers();
+			if (!Modifier.isStatic(modifiers)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -68,8 +68,15 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
-			String c_name = e.getValue().getCanonicalName();
-			String s_name = e.getValue().getSimpleName();
+			Class<?> cls = e.getValue();
+			if (isAllStaticField(cls)) {
+				continue;
+			}
+			if (Modifier.isAbstract(cls.getModifiers())) {
+				continue;
+			}
+			String c_name = cls.getCanonicalName();
+			String s_name = cls.getSimpleName();
 			read_external.append(
 			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
 			"			_r((" + c_name + ")msg, in); return;\n" +
@@ -94,6 +101,8 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		return ret;
 	}
 	
+	
+	
 	/**
 	 * 产生一个方法，用于读写消息。
 	 * @param msg
@@ -110,14 +119,14 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		for (Field f : msg.getFields()) {
 			int modifiers = f.getModifiers();
 			if (!Modifier.isStatic(modifiers)) {
-				genField(msg, f, read, write, factory);
+				genCodecField(msg, f, read, write, factory);
 			}
 		}
 		
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	public static " + c_name + " new_" + m_name + "(){return new " + c_name + "();}\n");
+		//sb.append("	public static " + c_name + " new_" + m_name + "(){return new " + c_name + "();}\n");
 		sb.append("	private void _r(" + c_name + " msg, NetDataInput in) throws IOException {\n");
 		sb.append(read);
 		sb.append("	}\n");
@@ -133,7 +142,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	 * @param read
 	 * @param write
 	 */
-	protected void genField(Class<?> msg, Field f, StringBuilder read, StringBuilder write, ExternalizableFactory factory)
+	protected void genCodecField(Class<?> msg, Field f, StringBuilder read, StringBuilder write, ExternalizableFactory factory)
 	{
 		Class<?> 	f_type 		= f.getType();
 		String 		f_name 		= "msg." + f.getName();

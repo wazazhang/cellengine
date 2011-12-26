@@ -16,7 +16,11 @@ public class Fields
 		
 		Field[] d_fields = gclass.getDeclaredFields();
 		for (Field field : d_fields) {
-			ret.add(field);
+			int modifiers = field.getModifiers();
+			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+			} else {
+				ret.add(field);
+			}
 		}
 
 		Class<?> super_class = gclass.getSuperclass();
@@ -27,6 +31,26 @@ public class Fields
 		return ret;
 	}
 	
+	public static ArrayList<Field> getSuperAndDeclaredFields(Class<?> gclass)
+	{
+		ArrayList<Field> ret = new ArrayList<Field>();
+
+		Class<?> super_class = gclass.getSuperclass();
+		if (super_class!=null) {
+			ret.addAll(getSuperAndDeclaredFields(super_class));
+		}
+		
+		Field[] d_fields = gclass.getDeclaredFields();
+		for (Field field : d_fields) {
+			int modifiers = field.getModifiers();
+			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+			} else {
+				ret.add(field);
+			}
+		}
+
+		return ret;
+	}
 	
 	/**
 	 * 将src的内容完全复制给dst，通常用于将父类的内容传递给子类，

@@ -19,6 +19,7 @@ import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
+import com.cell.reflect.Fields;
 import com.cell.reflect.ReflectUtil;
 
 public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
@@ -83,6 +84,13 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
+			Class<?> cls = e.getValue();
+			if (isAllStaticField(cls)) {
+				continue;
+			}
+			if (Modifier.isAbstract(cls.getModifiers())) {
+				continue;
+			}
 			String c_name = e.getValue().getCanonicalName();
 			String s_name = e.getValue().getSimpleName();
 			int    s_type = e.getKey();
@@ -101,6 +109,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			"			if (msg is " + c_name + ") return " + s_type + ";\n");
 			new_msg.append(
 			"			case " + s_type + " : return new " + c_name + ";\n");
+			
 		}
 		
 		String ret = this.codec_template;
@@ -139,7 +148,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
-		sb.append("	public static function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
+//		sb.append("	public static function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
 		sb.append("	private function r_" + m_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
 		sb.append(read);
 		sb.append("	}\n");
@@ -316,67 +325,73 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		String	c_name 		= msg.getCanonicalName();
 		Comment	c_comment 	= msg.getAnnotation(Comment.class);
 		String 	s_name 		= msg.getSimpleName();
+		String  ext_name	= "";
 		String 	o_package 	= c_name.substring(0, c_name.length() - s_name.length() - 1);
 		String 	s_comment	= c_comment != null ? CUtil.arrayToString(c_comment.value(),",","<br>") : "";
 		
-		StringBuilder d_fields 		= new StringBuilder();
-		StringBuilder d_init_args	= new StringBuilder();		
-		StringBuilder d_init_fields = new StringBuilder();	
-		StringBuilder d_init_commet	= new StringBuilder();	
-		
-		ArrayList<Field> fields = new ArrayList<Field>();
-		for (Field f : msg.getFields()) {
-			fields.add(f);
+		if (factory.containsMessageType(msg.getSuperclass())) {
+			ext_name = "extends " + msg.getSuperclass().getCanonicalName();
 		}
-		int i = 0;
-		d_init_commet.append("		/**\n");
-		for (Field f : fields) {
+		
+		StringBuilder d_fields 		= new StringBuilder();
+		for (Field f : msg.getDeclaredFields()) 
+		{
 			int modifiers = f.getModifiers();
 			String	f_type_comment 	= f.getType().getCanonicalName();
 			Comment f_comment 		= f.getAnnotation(Comment.class);
-			String	f_leaf_name 	= NetDataTypes.toTypeName(
-					NetDataTypes.getArrayCompomentType(f.getType(), factory));
 			String	f_cline 		= "Java type is : " +
 					"<font color=#0000ff>" + f_type_comment + "</font>";
 			if (f_comment != null) {
 			d_fields.append(
 					"		/** " + CUtil.arrayToString(f_comment.value(),",","") + "<br>\n" +
 					"		  * " + f_cline + "*/\n");
-			} else {
-			d_fields.append(
-					"		/** " + f_cline + "*/\n");
 			}
-//			d_fields.append(
-//					"		[JavaType(name=\""+f_type_comment+"\", leaf_type=NetDataTypes."+f_leaf_name +")]\n");
 			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
 				Object value = null;
 				try {
 					value = f.get(null);
 				} catch (Exception e) {}
-				d_fields.append(
+				if (!Modifier.isPrivate(modifiers)) {
+					d_fields.append(
 						"		static public const " + genMsgField(factory, f) + " = " + value + ";");
+				}
 			} else {
+				if (f_comment == null) {
+					d_fields.append(
+						"		/** " + f_cline + "*/\n");
+				}
 				d_fields.append(
 						"		public var " + genMsgField(factory, f) + ";");
+			}
+			d_fields.append("\n\n");
+		}
+
+		StringBuilder d_init_args	= new StringBuilder();		
+		StringBuilder d_init_fields = new StringBuilder();	
+		StringBuilder d_init_commet	= new StringBuilder();	
+		d_init_commet.append("		/**\n");
+		ArrayList<Field> argsFields = Fields.getSuperAndDeclaredFields(msg);
+		for (int i = 0; i<argsFields.size(); i++) 
+		{
+			Field f = argsFields.get(i);
+			int modifiers = f.getModifiers();
+			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+			} else {
+				String	f_type_comment 	= f.getType().getCanonicalName();
 				d_init_commet.append(
 						"		 * @param " + f.getName() + " as <font color=#0000ff>" + f_type_comment + "</font>");
 				d_init_args.append(
 						"			" + genMsgField(factory, f) + " = " + genMsgFieldValue(f));
 				d_init_fields.append(
 						"			this." + f.getName() + " = " + f.getName()+";");
-				if (i < fields.size() - 1) {
+				if (i != argsFields.size() - 1) {
 					d_init_args.append(",\n");
 					d_init_fields.append("\n");
 					d_init_commet.append("\n");
 				}
 			}
-			if (i < fields.size() - 1) {
-				d_fields.append("\n");
-			}
-			i++;
 		}
 		d_init_commet.append("		 */");
-		
 		
 		String ret = this.message_template;
 		ret = CUtil.replaceString(ret, "//package", 		o_package);
@@ -384,6 +399,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		ret = CUtil.replaceString(ret, "//classComment", 	s_comment);
 		ret = CUtil.replaceString(ret, "//classType", 		msg_type+"");
 		ret = CUtil.replaceString(ret, "//className", 		s_name);
+		ret = CUtil.replaceString(ret, "//extendsClass", 	ext_name); 
 		ret = CUtil.replaceString(ret, "//classFullName", 	c_name);
 		ret = CUtil.replaceString(ret, "//initComment",		d_init_commet.toString());
 		ret = CUtil.replaceString(ret, "//initArgs",		d_init_args.toString());

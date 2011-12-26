@@ -56,6 +56,10 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 		return map_type_id.get(msg_type);
 	}
 	
+	public boolean containsMessageType(Class<?> msg_type) {
+		return map_type_id.containsKey(msg_type);
+	}
+	
 	public Class<?> getMessageClass(int msg_type) {
 		return map_id_type.get(msg_type);
 	}
