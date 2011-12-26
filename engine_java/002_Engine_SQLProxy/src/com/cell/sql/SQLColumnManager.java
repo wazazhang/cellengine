@@ -74,7 +74,7 @@ public abstract class SQLColumnManager<K, R extends SQLTableRow<K>> extends SQLC
 					while (true) {
 						long btime = System.currentTimeMillis();
 						String sql = "SELECT * FROM " + table_name + " LIMIT " + index + "," + block_size + ";";
-						ArrayList<R> rows = select(conn, sql, true);
+						ArrayList<R> rows = selectFully(conn, sql);
 						if (rows != null && !rows.isEmpty()) {
 							index += rows.size();
 							for (R row : rows) {
