@@ -112,13 +112,10 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 				int index = table_columns[i].getIndex();
 				Object obj = result.getObject(index);
 				table_columns[i].fromSqlData(row, obj);		
-				
 //				table_columns[i].setObject(row, result.getObject(table_columns[i].getIndex()));				
-				
 //				String name = table_columns[i].getName();
 //				Object obj = result.getObject(name);
 //				table_columns[i].setObject(row, obj);
-
 			} catch (Exception err) {
 				log.error("[" + table_name + "] read column error !\n" +
 						"\t    id = " + row.getPrimaryKey() +
@@ -140,8 +137,13 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 		{
 			try {
 				String name = table_columns[i].getName();
-				Object obj = result.getObject(name);
-				table_columns[i].fromSqlData(row, obj);
+				Object obj = null;
+				try {
+					obj = result.getObject(name);
+				} catch (Exception err) {}
+				if (obj != null) {
+					table_columns[i].fromSqlData(row, obj);
+				}
 			} catch (Exception err) {
 				log.error("[" + table_name + "] read column error !\n" +
 						"\t    id = " + row.getPrimaryKey() +
