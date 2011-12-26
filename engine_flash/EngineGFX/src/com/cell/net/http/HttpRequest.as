@@ -33,7 +33,6 @@ package com.cell.net.http
 		{
 //			scriptVars.var1 = "one";
 //			scriptVars.var2 = "two";
-			_request.digest
 			_request.method = URLRequestMethod.POST;
 			_request.data = _args;
 			_loader.load(_request);
