@@ -43,7 +43,7 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	final public	String			table_name;
 	final public	SQLColumn[]		table_columns;
 	final private 	HashMap<String, SQLColumn>	table_columns_map;
-
+	
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	public SQLColumnAdapter(Class<R> cls, String table_name)
@@ -133,16 +133,18 @@ public abstract class SQLColumnAdapter<K, R extends SQLTableRow<K>>
 	 */
 	final public R fromResultByName(R row, ResultSet result) throws Exception
 	{
-		for (int i = 0; i < table_columns.length; i++)
+		ResultSetMetaData meta = result.getMetaData();
+		for (int i = meta.getColumnCount(); i >= 1; --i)
 		{
+			String name = meta.getColumnName(i);
+			SQLColumn column = table_columns_map.get(name);
 			try {
-				String name = table_columns[i].getName();
 				Object obj = null;
 				try {
 					obj = result.getObject(name);
 				} catch (Exception err) {}
 				if (obj != null) {
-					table_columns[i].fromSqlData(row, obj);
+					column.fromSqlData(row, obj);
 				}
 			} catch (Exception err) {
 				log.error("[" + table_name + "] read column error !\n" +
