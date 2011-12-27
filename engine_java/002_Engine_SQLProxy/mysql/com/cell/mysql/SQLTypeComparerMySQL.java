@@ -287,7 +287,11 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 		case STRUCT:
 			return SQLUtil.blobToBin((Serializable)javaObject);
 		case TEXT_STRUCT:
-			return SQLUtil.clobToString((SQLStructCLOB)javaObject);
+			if (javaObject instanceof String) {
+				return (String)javaObject;
+			} else {
+				return SQLUtil.clobToString((SQLStructCLOB)javaObject);
+			}
 		case XML_STRUCT:
 			return SQLUtil.xmlToString((Serializable)javaObject);
 		default:
