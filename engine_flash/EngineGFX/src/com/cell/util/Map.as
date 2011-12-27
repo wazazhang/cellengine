@@ -74,7 +74,7 @@ package com.cell.util
 		public function getMapSet(keys:Array) : Map
 		{
 			var ret : Map = new Map();
-			for each(var key : Object in keys) { 
+			for (var key : Object in this) { 
 				var v : * = this[key];
 				if (v != null) {
 					ret.put(key, v);
@@ -99,12 +99,61 @@ package com.cell.util
 			return defaultValue;
 		}
 		
+		
+		
 //		------------------------------------------------------------------------------------
 
-		public static function readFromProperties(properties:String, equalChar:String="=") : Map
+		public function getPropertiesText() : String
 		{
+			var ret : String = "";
+			for (var key : Object in this) { 
+				ret += key + " = " + this[key] + "\n";
+			}
+			return ret;
+		}
+		
+		
+		public static function readFromProperties(properties:String, equalChar:String="=", showTrace:Boolean=false) : Map
+		{
+			var map : Map = new Map();
+			
 			var lines : Array = StringUtil.splitString(properties, "\n");
-			return readFromLines(lines, equalChar);
+			
+			var line : String = null;
+			
+			for (var i : int = 0; i < lines.length; i++)
+			{
+				try
+				{
+					if (line == null) {
+						line = StringUtil.trim(lines[i]);
+					} else {
+						line += StringUtil.trim(lines[i]);
+					}
+					// 如果是注释 #
+					if (StringUtil.trim(line).charAt(0) == '#'){
+						line = null;
+						continue;
+					}
+					// 如果是尾部出现 \
+					if (i < lines.length - 1 && line.charAt(line.length-1) == '\\') {
+						line = line.substring(0, line.length-1);
+						continue;
+					}
+					var kv : Array = StringUtil.splitString(line, equalChar, 2, true);
+					if (kv.length == 2) {
+						map.put(kv[0], kv[1]);
+//						trace(line);
+					}		
+					line = null;
+				}
+				catch(err:Error){
+					trace(err.getStackTrace());
+					line = null;
+				}
+			}
+			
+			return map;
 		}
 		
 		public static function readFromLines(lines:Array, equalChar:String="=") : Map

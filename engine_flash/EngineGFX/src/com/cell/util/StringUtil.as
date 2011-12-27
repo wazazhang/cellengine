@@ -281,16 +281,13 @@ package com.cell.util
 												limit:int=int.MAX_VALUE, 
 												autotrim:Boolean=false) : Array
 			{
-				var count : int = 0;
-				
 				var lines : Array = new Array();
 				for (var i : int = 0; i < text.length; i++) {
-					if (count < limit) {
+					if (lines.length+1 < limit) {
 						var dst : int = text.indexOf(separator, i);
 						if (dst >= 0) {
 							lines.push(text.substring(i, dst));
 							i = dst + separator.length - 1;
-							count ++;
 						} else {
 							lines.push(text.substring(i, text.length));
 							break;
