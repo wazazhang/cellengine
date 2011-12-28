@@ -4,6 +4,7 @@ package com.cell.io
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
+	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 
 	public class UrlManager
@@ -31,6 +32,16 @@ package com.cell.io
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 				s_error);
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, 			s_error);  
 			loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, 	s_error);  
+			return loader;
+		}
+		
+		public static function createURLLoader() : URLLoader
+		{
+			var loader : URLLoader = new URLLoader();
+			loader.addEventListener(Event.COMPLETE, 					s_complete);
+			loader.addEventListener(IOErrorEvent.IO_ERROR, 				s_error);
+			loader.addEventListener(IOErrorEvent.NETWORK_ERROR, 		s_error);  
+			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, 	s_error);  
 			return loader;
 		}
 		

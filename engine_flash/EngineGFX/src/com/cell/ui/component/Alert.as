@@ -21,8 +21,8 @@ package com.cell.ui.component
 	{
 		private var _borderSize	: int = 8;
 		
-		private var _cancel 	: ImageButton;
-		private var _ok 		: ImageButton;
+		private var _cancel 	: DisplayObject;
+		private var _ok 		: DisplayObject;
 		
 		private var _title 		: TextField;
 		private var _text 		: TextField;
@@ -61,14 +61,12 @@ package com.cell.ui.component
 			addChild(_text);
 			
 			if (hasOK) {
-				_ok = UILayoutManager.getInstance().createImageButton("com.cell.ui.component.Alert.ok", this);
-				_ok.anchor = Anchor.ANCHOR_RIGHT | Anchor.ANCHOR_BOTTOM;
+				_ok = UILayoutManager.getInstance().createButton("com.cell.ui.component.Alert.ok", this);
 				_ok.addEventListener(MouseEvent.CLICK, onMouseClick);
 				this.addChild(_ok);
 			}
 			if (hasCancel) {
-				_cancel= UILayoutManager.getInstance().createImageButton("com.cell.ui.component.Alert.cancel", this);
-				_cancel.anchor = Anchor.ANCHOR_RIGHT | Anchor.ANCHOR_BOTTOM;
+				_cancel= UILayoutManager.getInstance().createButton("com.cell.ui.component.Alert.cancel", this);
 				_cancel.addEventListener(MouseEvent.CLICK, onMouseClick);
 				this.addChild(_cancel);
 			}
@@ -90,45 +88,44 @@ package com.cell.ui.component
 		{
 			if (super.resize(w, h, flush))
 			{
-				var btnx : int = bg.width  - _borderSize;
+				var btnx : int = w  - _borderSize;
+				var btny : int = h  - _borderSize;
 				var btnh : int = 0;
 				if (_ok != null) {
-					_ok.x = btnx;
-					_ok.y = bg.height - _borderSize;
-					btnx -= _ok.width + _borderSize;
+					_ok.x = btnx - _ok.width;
+					_ok.y = btny - _ok.height;
+					btnx -= _borderSize;
 					btnh = _ok.height;
 				}
 				if (_cancel != null) {
-					_cancel.x = btnx;
-					_cancel.y = bg.height - _borderSize;
-					btnx -= _cancel.width + _borderSize;
+					_cancel.x = btnx - _cancel.width;
+					_cancel.y = btny - _cancel.height;
+					btnx -= _borderSize;
 					btnh = _cancel.height;
 				}
 				
-				var thy : int = _borderSize;
-				var thh : int = bg.height - _borderSize - btnh;
+				var thh : int = 0;
 				if (_title != null) {
 					_title.x 		= _borderSize;
+					_title.y 		= _borderSize;
 					_title.width	= bg.width - _borderSize - _borderSize;
-					_title.y 		= thy;
-					thy += _title.height + _borderSize;
-					thh -= _title.height + _borderSize;
+					thh = _title.height;
 				}
 				this._text.x 		= _borderSize;
+				this._text.y 		= _borderSize + thh + _borderSize;
 				this._text.width  	= bg.width - _borderSize - _borderSize;
-				this._text.y 		= thy;
-				this._text.height 	= thh;
+				this._text.height 	= h - btnh - thh - _borderSize * 4;
 				return true;
 			}
 			return false;
 		}
 		
-		public function get btnOK() : ImageButton
+		public function get btnOK() : DisplayObject
 		{
 			return _ok;
 		}
 		
-		public function get btnCancel() : ImageButton
+		public function get btnCancel() : DisplayObject
 		{
 			return _cancel;
 		}

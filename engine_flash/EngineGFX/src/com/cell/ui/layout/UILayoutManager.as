@@ -60,7 +60,7 @@ package com.cell.ui.layout
 			return new TextFormat("Verdana", 12, 0);
 		}
 
-		public function createImageButton(key:String, owner:*) : ImageButton
+		public function createButton(key:String, owner:*) : DisplayObject
 		{
 			return null;
 		}
