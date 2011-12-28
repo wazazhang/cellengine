@@ -94,13 +94,13 @@ package com.cell.ui.component
 				if (_ok != null) {
 					_ok.x = btnx - _ok.width;
 					_ok.y = btny - _ok.height;
-					btnx -= _borderSize;
+					btnx -= (_ok.width + _borderSize);
 					btnh = _ok.height;
 				}
 				if (_cancel != null) {
 					_cancel.x = btnx - _cancel.width;
 					_cancel.y = btny - _cancel.height;
-					btnx -= _borderSize;
+					btnx -= (_cancel.width + _borderSize);
 					btnh = _cancel.height;
 				}
 				
