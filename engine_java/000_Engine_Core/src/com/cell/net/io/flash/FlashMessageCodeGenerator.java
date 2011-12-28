@@ -85,9 +85,6 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			Class<?> cls = e.getValue();
-			if (isAllStaticField(cls)) {
-				continue;
-			}
 			if (Modifier.isAbstract(cls.getModifiers())) {
 				continue;
 			}
