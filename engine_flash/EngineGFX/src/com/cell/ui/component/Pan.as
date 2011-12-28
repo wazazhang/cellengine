@@ -9,6 +9,7 @@ package com.cell.ui.component
 
 		public function Pan(width:int=200, height:int=200)
 		{
+			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.Pan", this));
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			resize(width, height, true);

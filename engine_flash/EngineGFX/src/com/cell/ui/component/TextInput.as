@@ -11,10 +11,11 @@ package com.cell.ui.component
 		
 		public function TextInput(text:String)
 		{			
+			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.TextInput", this));
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			textField = new TextField();
-			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat(this);
+			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextInput.text", this);
 			textField.text = text;
 			textField.width = width;
 			textField.height = height;

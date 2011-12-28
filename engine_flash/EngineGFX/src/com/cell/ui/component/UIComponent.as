@@ -10,16 +10,12 @@ package com.cell.ui.component
 	{
 		internal var bg : UIRect = null;
 		
-		public function UIComponent(rect:UIRect=null)
+		public function UIComponent(rect:UIRect)
 		{
 			this.mouseChildren = false;
 			this.mouseEnabled  = false;
 			if (rect != null) {
 				this.bg = rect;
-			} else {
-				this.bg = UILayoutManager.getInstance().createDefaultBG(this);
-			}	
-			if (bg != null) {
 				this.addChild(bg);
 			}
 		}
@@ -74,7 +70,7 @@ package com.cell.ui.component
 				this.removeChild(bg);
 			}
 			this.bg = rect;
-			if (rect == null) {
+			if (rect != null) {
 				this.addChildAt(bg, 0);
 			}
 		}

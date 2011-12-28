@@ -21,10 +21,23 @@ package com.cell.ui.component
 		
 		public function ScrollBar(style:int)
 		{
+			super(createBG(style, this));
+			if (style == STYLE_HORIZONTAL) {
+				this.ui_strip = UILayoutManager.getInstance().createUI("com.cell.ui.component.ScrollBar.h.strip", this);
+			} else {
+				this.ui_strip = UILayoutManager.getInstance().createUI("com.cell.ui.component.ScrollBar.v.strip", this);
+			}
 			this._style = style;
-			this.ui_strip = UILayoutManager.getInstance().createScrollStrip(style);
-			super();
 			this.addChild(ui_strip);
+		}
+		
+		private static function createBG(style:int, obj:*) : UIRect
+		{
+			if (style == STYLE_HORIZONTAL) {
+				return UILayoutManager.getInstance().createUI("com.cell.ui.component.ScrollBar.h", obj);
+			} else {
+				return UILayoutManager.getInstance().createUI("com.cell.ui.component.ScrollBar.v", obj);
+			}
 		}
 		
 		public function get style() : int

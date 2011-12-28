@@ -19,7 +19,7 @@ package com.cell.ui.component
 
 	public class Alert extends UIComponent
 	{
-		private var GRID_SIZE	: int = UILayoutManager.getInstance().alertGridSize();
+		private var _borderSize	: int = 8;
 		
 		private var _cancel 	: ImageButton;
 		private var _ok 		: ImageButton;
@@ -35,8 +35,11 @@ package com.cell.ui.component
 			text:String,
 			title:String,
 			hasCancel:Boolean=true,
-			hasOK:Boolean=false)
+			hasOK:Boolean=false,
+			borderSize:int=8)
 		{
+			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.Alert", this));
+			
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			
@@ -58,13 +61,13 @@ package com.cell.ui.component
 			addChild(_text);
 			
 			if (hasOK) {
-				_ok = UILayoutManager.getInstance().alertCreateOK();
+				_ok = UILayoutManager.getInstance().createImageButton("com.cell.ui.component.Alert.ok", this);
 				_ok.anchor = Anchor.ANCHOR_RIGHT | Anchor.ANCHOR_BOTTOM;
 				_ok.addEventListener(MouseEvent.CLICK, onMouseClick);
 				this.addChild(_ok);
 			}
 			if (hasCancel) {
-				_cancel= UILayoutManager.getInstance().alertCreateCancel();
+				_cancel= UILayoutManager.getInstance().createImageButton("com.cell.ui.component.Alert.cancel", this);
 				_cancel.anchor = Anchor.ANCHOR_RIGHT | Anchor.ANCHOR_BOTTOM;
 				_cancel.addEventListener(MouseEvent.CLICK, onMouseClick);
 				this.addChild(_cancel);
@@ -79,7 +82,7 @@ package com.cell.ui.component
 				tf.htmlText = html;
 			} else {
 				tf.text 	= text;
-				tf.setTextFormat(UILayoutManager.getInstance().alertTextFormat());
+				tf.setTextFormat(UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.Alert.text", this));
 			}
 		}
 		
@@ -87,32 +90,32 @@ package com.cell.ui.component
 		{
 			if (super.resize(w, h, flush))
 			{
-				var btnx : int = bg.width  - GRID_SIZE;
+				var btnx : int = bg.width  - _borderSize;
 				var btnh : int = 0;
 				if (_ok != null) {
 					_ok.x = btnx;
-					_ok.y = bg.height - GRID_SIZE;
-					btnx -= _ok.width + GRID_SIZE;
+					_ok.y = bg.height - _borderSize;
+					btnx -= _ok.width + _borderSize;
 					btnh = _ok.height;
 				}
 				if (_cancel != null) {
 					_cancel.x = btnx;
-					_cancel.y = bg.height - GRID_SIZE;
-					btnx -= _cancel.width + GRID_SIZE;
+					_cancel.y = bg.height - _borderSize;
+					btnx -= _cancel.width + _borderSize;
 					btnh = _cancel.height;
 				}
 				
-				var thy : int = GRID_SIZE;
-				var thh : int = bg.height - GRID_SIZE - btnh;
+				var thy : int = _borderSize;
+				var thh : int = bg.height - _borderSize - btnh;
 				if (_title != null) {
-					_title.x 		= GRID_SIZE;
-					_title.width	= bg.width - GRID_SIZE - GRID_SIZE;
+					_title.x 		= _borderSize;
+					_title.width	= bg.width - _borderSize - _borderSize;
 					_title.y 		= thy;
-					thy += _title.height + GRID_SIZE;
-					thh -= _title.height + GRID_SIZE;
+					thy += _title.height + _borderSize;
+					thh -= _title.height + _borderSize;
 				}
-				this._text.x 		= GRID_SIZE;
-				this._text.width  	= bg.width - GRID_SIZE - GRID_SIZE;
+				this._text.x 		= _borderSize;
+				this._text.width  	= bg.width - _borderSize - _borderSize;
 				this._text.y 		= thy;
 				this._text.height 	= thh;
 				return true;

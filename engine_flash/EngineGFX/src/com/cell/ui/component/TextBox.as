@@ -1,5 +1,7 @@
 package com.cell.ui.component
 {
+	import com.cell.ui.layout.UILayoutManager;
+	
 	import flash.text.TextField;
 
 	public class TextBox extends UIComponent
@@ -8,7 +10,9 @@ package com.cell.ui.component
 
 		public function TextBox(text:String)
 		{			
+			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.TextBox", this));
 			textField = new TextField();
+			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextBox.text", this);
 			textField.text = text;
 			textField.width = width;
 			textField.height = height;

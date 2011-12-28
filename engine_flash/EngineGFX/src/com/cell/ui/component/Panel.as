@@ -2,6 +2,7 @@ package com.cell.ui.component
 {
 	import com.cell.ui.BasePanel;
 	import com.cell.ui.TouchScrollPanel;
+	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.util.CMath;
 	
 	import flash.display.DisplayObject;
@@ -30,6 +31,7 @@ package com.cell.ui.component
 		
 		public function Panel(width:int=300, height:int=300, border:int=10)
 		{
+			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.Panel", this));
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			this.border = border;

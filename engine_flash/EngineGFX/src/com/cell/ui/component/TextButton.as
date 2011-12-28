@@ -25,15 +25,14 @@ package com.cell.ui.component
 		{
 			super(null);
 			
-			btn_unsel 	= UILayoutManager.getInstance().createButtonUnsel();
-			btn_sel   	= UILayoutManager.getInstance().createButtonSel();
+			btn_unsel 	= UILayoutManager.getInstance().createUI("com.cell.ui.component.TextButton.up", this);
+			btn_sel   	= UILayoutManager.getInstance().createUI("com.cell.ui.component.TextButton.down", this);
 			baseButton 	= new ImageButton(btn_unsel, btn_sel);
 			baseButton.mouseEnabled = true;
 			addChild(baseButton);
 			
-			
 			textField = new TextField();
-			textField.defaultTextFormat = UILayoutManager.getInstance().defaultTextFormat(this);
+			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextButton.text", this);
 			textField.htmlText = html;
 			textField.autoSize = TextFieldAutoSize.NONE;
 			textField.mouseEnabled = false;

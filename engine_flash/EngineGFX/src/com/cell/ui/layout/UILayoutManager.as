@@ -34,18 +34,15 @@ package com.cell.ui.layout
 			UILayoutManager.instance = this;
 		}
 		
-		public function getRoot() : CellScreenManager
-		{
+		public function getRoot() : CellScreenManager {
 			return _root;
 		}
 		
-		public function get ScreenWidth() : int
-		{
+		public function get ScreenWidth() : int {
 			return _width;
 		}
 		
-		public function get ScreenHeight() : int
-		{
+		public function get ScreenHeight() : int {
 			return _height;
 		}
 		
@@ -53,60 +50,21 @@ package com.cell.ui.layout
 //		---------------------------------------------------------------------------------------------------------
 		
 		
-		public function createDefaultBG(obj:UIComponent) : UIRect
+		public function createUI(key:String, owner:*) : UIRect
 		{
 			return null;
 		}
 		
-		public function defaultTextFormat(obj:UIComponent) : TextFormat
+		public function createTextFormat(key:String, owner:*) : TextFormat
 		{
 			return new TextFormat("Verdana", 12, 0);
 		}
 
-		
-//		---------------------------------------------------------------------------------------------------------
-		
-		
-		public function alertCreateOK() : ImageButton
+		public function createImageButton(key:String, owner:*) : ImageButton
 		{
 			return null;
 		}
 		
-		public function alertCreateCancel() : ImageButton
-		{
-			return null;
-		}
-		
-		public function alertGridSize() : int
-		{
-			return 8;
-		}
-		
-		public function alertTextFormat() : TextFormat
-		{
-			return new TextFormat("Verdana", 20, 0xffffff);
-		}
-
-		
-//		---------------------------------------------------------------------------------------------------------
-		
-		public function createScrollStrip(style:int) : UIRect
-		{
-			return null;
-		}
-		
-//		---------------------------------------------------------------------------------------------------------
-		
-		public function createButtonUnsel() : UIRect
-		{
-			return null;
-		}
-		
-		public function createButtonSel() : UIRect
-		{
-			return null;
-		}
-
 
 	
 	
