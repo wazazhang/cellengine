@@ -151,8 +151,8 @@ package com.net.client.minaimpl
 			if (stream != null) {
 				stream.position = 0;
 				connector.writeBytes(stream, 0, stream.length);
-				connector.flush();				
-//				trace("Send HexDump : " + Util.dumpHex(stream));
+				connector.flush();
+//				trace("Send : " + protocol.getMessage() + " : HexDump : " + Util.dumpHex(stream));
 			}
 		}
 		
@@ -409,6 +409,10 @@ package com.net.client.minaimpl
 		{
 			try
 			{
+				var msgType: int = message_factory.getType(protocol.getMessage());
+				if (msgType == 0) {
+					throw new Error("Encode Error : message type is 0 : " + protocol.getMessage());
+				}
 				protocol.setSentTime(new Date());
 				
 				var buffer : ByteArray        = new ByteArray();
@@ -437,8 +441,7 @@ package com.net.client.minaimpl
 						}
 						
 						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_MUTUAL);	// 1
-						
-						buffer.writeInt		(message_factory.getType(protocol.getMessage()));	// ext 4
+						buffer.writeInt		(msgType);	// ext 4
 						message_factory		.writeExternal(protocol.getMessage(), output);
 					}
 					var end_pos : int = buffer.position;

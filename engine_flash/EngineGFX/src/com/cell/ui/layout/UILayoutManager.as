@@ -86,8 +86,7 @@ package com.cell.ui.layout
 		{
 			return new TextFormat("Verdana", 20, 0xffffff);
 		}
-		
-	
+
 		
 //		---------------------------------------------------------------------------------------------------------
 		
@@ -97,10 +96,20 @@ package com.cell.ui.layout
 		}
 		
 //		---------------------------------------------------------------------------------------------------------
-//		
-//		public function formCreateBG() : UIRect
-//		{
-//			return null;
-//		}
+		
+		public function createButtonUnsel() : UIRect
+		{
+			return null;
+		}
+		
+		public function createButtonSel() : UIRect
+		{
+			return null;
+		}
+
+
+	
+	
+	
 	}
 }

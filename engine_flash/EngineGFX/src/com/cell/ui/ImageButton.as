@@ -14,10 +14,10 @@ package com.cell.ui
 
 	public class ImageButton extends SimpleButton
 	{
-		private var img_up 		: DisplayObject;
-		private var img_down 	: DisplayObject;
+		internal var img_up 		: DisplayObject;
+		internal var img_down 	: DisplayObject;
 				
-		private var _anchor : int = Anchor.ANCHOR_LEFT | Anchor.ANCHOR_TOP;
+		internal var _anchor : int = Anchor.ANCHOR_LEFT | Anchor.ANCHOR_TOP;
 		
 		public function ImageButton(unsel:DisplayObject, sel:DisplayObject)
 		{

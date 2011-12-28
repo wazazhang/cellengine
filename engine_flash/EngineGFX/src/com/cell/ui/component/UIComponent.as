@@ -62,9 +62,6 @@ package com.cell.ui.component
 			if (flush || w != width || h != height) {
 				if (bg != null) {
 					bg.createBuffer(w, h);
-				} else {
-					super.width = w;
-					super.height = h;
 				}
 				return true;
 			}
