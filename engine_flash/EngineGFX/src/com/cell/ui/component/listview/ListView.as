@@ -74,12 +74,13 @@ package com.cell.ui.component.listview
 			scrollV.height = h - border3 - headerHeight;
 			base.resize(hw, scrollV.height);
 			
-			scrollV.x = w - scrollV.width - border;
-			scrollV.y = border;
+		
 			header.x = border;
 			header.y = border;
 			base.x = border;
 			base.y = border2 + headerHeight;
+			scrollV.x = w - scrollV.width - border;
+			scrollV.y = base.y;
 		}
 		
 		override protected function updateScroll(e:Event) : void
