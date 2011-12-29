@@ -40,6 +40,7 @@ package com.cell.ui.component
 		{
 			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.Alert", this));
 			
+			this._borderSize   = UILayoutManager.getInstance().getProperty("com.cell.ui.component.Alert.borderSize", this);
 			this.mouseChildren = true;
 			this.mouseEnabled  = true;
 			

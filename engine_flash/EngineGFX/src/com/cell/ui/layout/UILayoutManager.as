@@ -3,6 +3,7 @@ package com.cell.ui.layout
 	import com.cell.gfx.CellScreenManager;
 	import com.cell.ui.ImageButton;
 	import com.cell.ui.component.UIComponent;
+	import com.cell.util.Map;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -18,10 +19,12 @@ package com.cell.ui.layout
 		}
 		
 //		---------------------------------------------------------------------------------------------------------
-
-		private var _width 	: int = 320;
-		private var _height : int = 480;
-		private var _root 	: CellScreenManager;
+		
+		protected var properties	: Map = new Map();
+		
+		private var _width 			: int = 320;
+		private var _height 		: int = 480;
+		private var _root 			: CellScreenManager;
 
 		public function UILayoutManager(
 			s:CellScreenManager, 
@@ -32,6 +35,8 @@ package com.cell.ui.layout
 			this._width		= width;
 			this._height 	= height;
 			UILayoutManager.instance = this;
+			
+			properties.put("com.cell.ui.component.Alert.borderSize", 10);
 		}
 		
 		public function getRoot() : CellScreenManager {
@@ -46,13 +51,55 @@ package com.cell.ui.layout
 			return _height;
 		}
 		
+		//////////////////////////////////////////////////////////////////////////////////
+		// 
+		//////////////////////////////////////////////////////////////////////////////////
+		
+		public function getSystemPropertyEnums() : Map
+		{
+			var ret : Map = new Map();
+			ret.put("com.cell.ui.component.Alert", 				"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.Alert.text", 		"flash.text.TextFormat");
+			ret.put("com.cell.ui.component.Alert.ok", 			"flash.display.DisplayObject");
+			ret.put("com.cell.ui.component.Alert.cancel", 		"flash.display.DisplayObject");
+			ret.put("com.cell.ui.component.Alert.borderSize", 	"int");
+			
+			ret.put("com.cell.ui.component.Lable", 				"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.Lable.text", 		"flash.text.TextFormat");
+			
+			ret.put("com.cell.ui.component.Pan", 				"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.Panel", 				"com.cell.ui.layout.UIRect");
+			
+			ret.put("com.cell.ui.component.ScrollBar.h", 		"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.ScrollBar.h.strip", 	"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.ScrollBar.v", 		"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.ScrollBar.v.strip", 	"com.cell.ui.layout.UIRect");
+			
+			ret.put("com.cell.ui.component.TextBox", 			"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.TextBox.text", 		"flash.text.TextFormat");
+			
+			ret.put("com.cell.ui.component.TextButton.up", 		"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.TextButton.down", 	"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.TextButton.text", 	"flash.text.TextFormat");
+			
+			ret.put("com.cell.ui.component.TextInput", 			"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.TextInput.text", 	"flash.text.TextFormat");
+			return ret;
+		}
+		
+//		---------------------------------------------------------------------------------------------------------
+		
+		public function getProperty(key:String, owner:*) : *
+		{
+			return properties.get(key);
+		}
 		
 //		---------------------------------------------------------------------------------------------------------
 		
 		
 		public function createUI(key:String, owner:*) : UIRect
 		{
-			return null;
+			return new UIRect();
 		}
 		
 		public function createTextFormat(key:String, owner:*) : TextFormat
@@ -62,7 +109,7 @@ package com.cell.ui.layout
 
 		public function createButton(key:String, owner:*) : DisplayObject
 		{
-			return null;
+			return new UIRect().initBuffer(32, 32);
 		}
 		
 

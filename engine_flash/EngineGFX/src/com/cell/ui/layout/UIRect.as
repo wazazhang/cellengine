@@ -11,16 +11,20 @@ package com.cell.ui.layout
 
 	public class UIRect extends Bitmap
 	{
+		
+		public static const IMAGE_STYLE_COLOR 			= 0;
 		public static const IMAGE_STYLE_ALL_9 			= 1;
 		public static const IMAGE_STYLE_H_012 			= 3; 
 		public static const IMAGE_STYLE_V_036 			= 4;
 		public static const IMAGE_STYLE_BACK_4 			= 5;
 		
 		
+		
 //		------------------------------------------------------------------------------------------------------------------------------
 
 		// image layout
-		private var style : int		= 0;
+		private var style 		: int		= 0;
+		private var color		: uint		= 0;
 		
 		private var BorderT 	: BitmapData;
 		private var BorderB 	: BitmapData;
@@ -34,8 +38,11 @@ package com.cell.ui.layout
 		
 //		------------------------------------------------------------------------------------------------------------------------------
 		
-		public function UIRect()
+//		------------------------------------------------------------------------------------------------------------------------------
+		
+		public function UIRect(color:uint=0xff808080)
 		{
+			this.color = color;
 		}
 		
 		public function copy() : UIRect
@@ -95,9 +102,9 @@ package com.cell.ui.layout
 		 * Rect
 		 * 
 		 * TopLeft----------Top---------TopRight 
-		 * |                                   | 
-		 * Left         Background         Right 
-		 * |                                   | 
+		 * |-----------------------------------| 
+		 * Left---------Background---------Right 
+		 * |-----------------------------------| 
 		 * BottomLeft-----Bottom-----BottomRight 
 		 * 
 		 * images[0] images[1] images[2]         
@@ -288,12 +295,13 @@ package com.cell.ui.layout
 		{
 			if (width != W || height!=H) 
 			{
-				var ret : BitmapData = new BitmapData(W, H, true, 0);
-				
+				var ret : BitmapData = new BitmapData(W, H, true, color);
 				var g : CGraphicsBitmap = new CGraphicsBitmap(ret);
-				
 				switch(this.style)
 				{
+					case IMAGE_STYLE_COLOR:
+						
+						break;
 					case IMAGE_STYLE_ALL_9:
 						renderAll9(g, W, H);
 						break;

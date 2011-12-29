@@ -24,6 +24,13 @@ package com.cell.util
 			this[key] = value;
 		}
 		
+		public function putAll(map:Dictionary) : void
+		{
+			for (var key : Object in map) { 
+				this[key] = map[key];
+			}
+		}
+		
 		public function get(key:*) : *
 		{
 			return this[key];
