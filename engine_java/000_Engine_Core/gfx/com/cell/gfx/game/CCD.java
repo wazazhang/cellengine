@@ -34,7 +34,7 @@ public class CCD extends CObject implements Serializable
 
 	transient public Object Data;
 	
-	transient public String[] SetData;
+	transient public String SetData;
 	
 	public CCD() {}
 

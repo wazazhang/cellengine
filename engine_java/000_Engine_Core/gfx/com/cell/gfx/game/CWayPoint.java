@@ -18,7 +18,7 @@ public class CWayPoint extends CObject implements Serializable
 	
 	public Object Data;
 	
-	public String[] SetData;
+	public String SetData;
 	
 	public CWayPoint(int x,int y){
 		X = x;

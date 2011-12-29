@@ -99,6 +99,26 @@ abstract public class BaseOutput implements OutputLoader
 		}catch (Exception e) {}
 		return list.toArray(new String[list.size()]);
 	}
+	
+	/**
+	 * input 3,123,4,5678
+	 * return [123] [5678]
+	 * @param text
+	 * @return
+	 */
+	public static String getArray1DLines(String text)
+	{
+		StringReader reader = new StringReader(text);
+		StringBuilder ret = new StringBuilder();
+		try{
+			while(true){
+				String line = TextDeserialize.getString(reader);
+				ret.append(line+"\n");
+			}
+		}catch (Exception e) {}
+		return ret.toString();
+	}
+	
 //	------------------------------------------------------------------------------------------------
 
 
