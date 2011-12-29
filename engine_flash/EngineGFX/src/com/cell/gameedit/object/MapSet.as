@@ -48,8 +48,8 @@ package com.cell.gameedit.object
 		/**int[][][]*/
 		public var LayersBlock2D	: Array;
 		
-		/**String[]*/
-		public var AppendData	: Array;
+		/**String*/
+		public var AppendData	: String;
 
 		
 		

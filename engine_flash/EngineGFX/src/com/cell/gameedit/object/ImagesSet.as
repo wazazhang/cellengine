@@ -22,8 +22,8 @@ package com.cell.gameedit.object
 		public var CustomOut	: String;
 		
 		public var CustomExt	: String;
-		/**String[]*/
-		public var AppendData	: Array;
+		/**String*/
+		public var AppendData	: String;
 		
 		public function getIndex() : int {
 			return Index;

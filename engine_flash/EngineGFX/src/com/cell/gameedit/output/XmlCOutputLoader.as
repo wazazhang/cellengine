@@ -125,7 +125,7 @@ package com.cell.gameedit.output
 			ret.ClipsKey 	= new Array(ret.Count);
 			
 			try {
-				ret.AppendData = StringUtil.getArray1D(xml.Append[0].attribute("data"));
+				ret.AppendData = StringUtil.getArray1DLines(xml.Append[0].attribute("data"));
 			} catch (err:Error) {}
 
 			for each (var e:XML in xml.clip) 
@@ -178,7 +178,7 @@ package com.cell.gameedit.output
 			ret.LayersBlock2D	= new Array(ret.LayerCount);
 			
 			try {
-				ret.AppendData = StringUtil.getArray1D(map.Append[0].attribute("data"));
+				ret.AppendData = StringUtil.getArray1DLines(map.Append[0].attribute("data"));
 			} catch (err:Error) {}
 			
 			
@@ -255,7 +255,7 @@ package com.cell.gameedit.output
 			}
 			
 			try {
-				ret.AppendData = StringUtil.getArray1D(sprite.Append[0].attribute("data"));
+				ret.AppendData = StringUtil.getArray1DLines(sprite.Append[0].attribute("data"));
 			} catch (err:Error) {}
 			
 			ret.PartX 			= new Array(scenePartCount);
