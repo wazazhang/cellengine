@@ -413,7 +413,7 @@ abstract public class OutputXml extends BaseOutput
 					map.X 			= Integer.parseInt(e.getAttribute("x"));
 					map.Y 			= Integer.parseInt(e.getAttribute("y"));
 					map.ImagesID 	= e.getAttribute("images");
-					map.Data		= e.getAttribute("data");
+					map.Data		= e.getAttribute("map_data");
 					set.Maps.put(map.Index, map);
 				}
 				else if (e.getNodeName().equals("unit_sprite"))
@@ -427,7 +427,7 @@ abstract public class OutputXml extends BaseOutput
 					spr.X 			= Integer.parseInt(e.getAttribute("x"));
 					spr.Y 			= Integer.parseInt(e.getAttribute("y"));
 					spr.ImagesID 	= e.getAttribute("images");
-					spr.Data		= e.getAttribute("data");
+					spr.Data		= e.getAttribute("spr_data");
 					set.Sprs.put(spr.Index, spr);
 				}
 				else if (e.getNodeName().equals("waypoint"))
@@ -436,7 +436,7 @@ abstract public class OutputXml extends BaseOutput
 					wp.Index 		= Integer.parseInt(e.getAttribute("index"));
 					wp.X 			= Integer.parseInt(e.getAttribute("x"));
 					wp.Y 			= Integer.parseInt(e.getAttribute("y"));
-					wp.Data			= getArray1D(e.getAttribute("data"));
+					wp.Data			= getArray1D(e.getAttribute("path_data"));
 					set.WayPoints.put(wp.Index, wp);
 				}
 				else if (e.getNodeName().equals("region"))
@@ -447,7 +447,7 @@ abstract public class OutputXml extends BaseOutput
 					wr.Y 			= Integer.parseInt(e.getAttribute("y"));
 					wr.W 			= Integer.parseInt(e.getAttribute("width"));
 					wr.H 			= Integer.parseInt(e.getAttribute("height"));
-					wr.Data			= getArray1D(e.getAttribute("data"));
+					wr.Data			= getArray1D(e.getAttribute("region_data"));
 					set.Regions.put(wr.Index, wr);
 				}
 			}
