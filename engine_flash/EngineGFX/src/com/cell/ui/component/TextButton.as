@@ -34,7 +34,7 @@ package com.cell.ui.component
 			textField = new TextField();
 			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextButton.text", this);
 			textField.htmlText = html;
-			textField.autoSize = TextFieldAutoSize.NONE;
+			textField.autoSize = TextFieldAutoSize.LEFT;
 			textField.mouseEnabled = false;
 			addChild(textField);
 			
@@ -46,8 +46,8 @@ package com.cell.ui.component
 		public function setHTMLText(html:String):void
 		{
 			textField.htmlText = html;
-//			textField.x = width/2  - textField.textWidth/2;
-//			textField.y = height/2 - textField.textHeight/2;
+			textField.x = width/2 - textField.width/2;
+			textField.y = height/2 - textField.height/2;
 		}
 		
 		public function getTextField() : TextField
@@ -63,8 +63,8 @@ package com.cell.ui.component
 				bmpData.draw(this);
 				btn_unsel.createBuffer(w, h);
 				btn_sel.createBuffer(w, h);
-				textField.x = w/2 - textField.textWidth/2;
-				textField.y = h/2 - textField.textHeight/2;
+				textField.x = w/2 - textField.width/2;
+				textField.y = h/2 - textField.height/2;
 				return true;
 			} else {
 				return false;

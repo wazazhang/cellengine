@@ -37,6 +37,9 @@ package com.cell.ui.layout
 			UILayoutManager.instance = this;
 			
 			properties.put("com.cell.ui.component.Alert.borderSize", 10);
+			properties.put("com.cell.ui.component.listview.ListView.headerHeight", 25);
+			properties.put("com.cell.ui.component.listview.ListView.border", 8);
+			
 		}
 		
 		public function getRoot() : CellScreenManager {
@@ -84,6 +87,11 @@ package com.cell.ui.layout
 			
 			ret.put("com.cell.ui.component.TextInput", 			"com.cell.ui.layout.UIRect");
 			ret.put("com.cell.ui.component.TextInput.text", 	"flash.text.TextFormat");
+			
+			ret.put("com.cell.ui.component.listview.ListView", 	"com.cell.ui.layout.UIRect");
+			ret.put("com.cell.ui.component.listview.ListView.headerHeight", "int");
+			ret.put("com.cell.ui.component.listview.ListView.border", "int");
+			
 			return ret;
 		}
 		

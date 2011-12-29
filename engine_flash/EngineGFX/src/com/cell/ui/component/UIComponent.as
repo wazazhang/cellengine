@@ -66,12 +66,15 @@ package com.cell.ui.component
 		
 		public function setBG(rect:UIRect) : void
 		{
+			var w : int = width;
+			var h : int = height;
 			if (this.bg!=null) {
 				this.removeChild(bg);
 			}
 			this.bg = rect;
 			if (rect != null) {
 				this.addChildAt(bg, 0);
+				resize(w, h, true);
 			}
 		}
 		

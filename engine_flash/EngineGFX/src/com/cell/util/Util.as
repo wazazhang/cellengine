@@ -40,6 +40,13 @@ package com.cell.util
 		
 //		-------------------------------------------------------------------------------------------------------------------------------
 		
+		private static var bmpData:BitmapData = new BitmapData(1, 1);
+		
+		public static function updateScrollRect(d:DisplayObject) : void
+		{
+			bmpData.draw(d);
+		}
+		
 		public static function clearChilds(container:DisplayObjectContainer) : int
 		{
 			var count : int = 0;

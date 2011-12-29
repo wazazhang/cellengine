@@ -1,6 +1,7 @@
 package com.cell.ui
 {
 	import com.cell.gfx.CellSprite;
+	import com.cell.util.Util;
 	
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -50,8 +51,7 @@ package com.cell.ui
 				this.graphics.drawRect(0, 0, viewW, viewH);
 				this.graphics.endFill();
 			}
-			var bmpData:BitmapData = new BitmapData(1, 1);
-			bmpData.draw(this);
+			Util.updateScrollRect(this);
 		}
 		
 		public function addChildH(child:DisplayObject) : void

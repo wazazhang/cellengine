@@ -1,5 +1,7 @@
 package com.cell.ui.component
 {
+	import com.cell.gfx.CellSprite;
+	import com.cell.gfx.game.worldcraft.CellCSprite;
 	import com.cell.ui.Anchor;
 	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
@@ -7,22 +9,19 @@ package com.cell.ui.component
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 
-	public class Lable extends UIComponent
+	public class TextPan extends CellSprite
 	{
 		protected var textField : TextField;
-	
+		
 		private var _anchor : int = Anchor.ANCHOR_CENTER;
 		
-		public function Lable(html:String)
+		public function TextPan(html:String)
 		{
-			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.Lable", this));
 			textField = new TextField();
-			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.Lable.text", this)
+			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextPan.text", this)
 			textField.htmlText = html;
 			textField.autoSize = TextFieldAutoSize.LEFT;
 			addChild(textField);
-			super.setSize(100, 20);
-			Anchor.setAnchorRect(textField, _anchor, width, height);
 		}
 		
 		public function setHTMLText(html:String):void
@@ -49,13 +48,9 @@ package com.cell.ui.component
 			return _anchor;
 		}
 		
-		override protected function resize(w:int, h:int, flush:Boolean):Boolean
+		public function resize(w:int, h:int):void
 		{
-			if (super.resize(w, h, flush)) {
-				Anchor.setAnchorRect(textField, _anchor, w, h);
-				return true;
-			}
-			return false;
+			Anchor.setAnchorRect(textField, _anchor, w, h);
 		}
 		
 		

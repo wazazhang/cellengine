@@ -35,5 +35,32 @@ package com.cell.ui
 				o.y = 0;
 			}
 		}
+		
+		public static function setAnchorRect(o : DisplayObject, anchor : int, width:int, height:int) : void
+		{
+			if ((anchor & Anchor.ANCHOR_HCENTER)!=0) {
+				o.x = width/2-o.width/2;
+			}
+			else if ((anchor & Anchor.ANCHOR_RIGHT)!=0) {
+				o.x = width-o.width;
+			}
+			else {
+				o.x = 0;
+			}
+			if ((anchor & Anchor.ANCHOR_VCENTER)!=0) {
+				o.y = height/2-o.height/2;
+			}
+			else if ((anchor & Anchor.ANCHOR_BOTTOM)!=0) {
+				o.y = height-o.height;
+			}
+			else {
+				o.y = 0;
+			}
+		}
+		
+		
+		
+
+		
 	}
 }
