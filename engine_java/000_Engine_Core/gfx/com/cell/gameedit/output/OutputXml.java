@@ -94,19 +94,22 @@ abstract public class OutputXml extends BaseOutput
 			if (node instanceof Element) {
 				Element e = (Element)node;
 				if (e.getNodeName().equals("images")) {
-					initImages(e);
+					ImagesSet is = initImages(e);
+					super.ImgTable.put(is.Name, is);
 				}
 				else if (e.getNodeName().equals("map")) {
-					initMap(e);
+					MapSet ms = initMap(e);
+					super.MapTable.put(ms.Name, ms);
 				}
 				else if (e.getNodeName().equals("sprite")) {
-					initSprite(e);
+					SpriteSet ss = initSprite(e);
+					super.SprTable.put(ss.Name, ss);
 				}
 			}
 		}
 	}
 	
-	private void initImages(Element images)  throws IOException 
+	private ImagesSet initImages(Element images)  throws IOException 
 	{
 		ImagesSet set = new ImagesSet(
 				Integer.parseInt(images.getAttribute("index")), 
@@ -135,9 +138,11 @@ abstract public class OutputXml extends BaseOutput
 				}
 			}
 		}
+		
+		return set;
 	}
 
-	private void initMap(Element map)  throws IOException 
+	private MapSet initMap(Element map)  throws IOException 
 	{
 		MapSet set = new MapSet(
 				Integer.parseInt(map.getAttribute("index")), 
@@ -222,9 +227,10 @@ abstract public class OutputXml extends BaseOutput
 			}
 		}
 	
+		return set;
 	}
 
-	private void initSprite(Element sprite) throws IOException 
+	private SpriteSet initSprite(Element sprite) throws IOException 
 	{
 		SpriteSet set = new SpriteSet(
 				Integer.parseInt(sprite.getAttribute("index")), 
@@ -339,6 +345,8 @@ abstract public class OutputXml extends BaseOutput
 				}
 			}
 		}
+		
+		return set;
 	}
 	
 	private void initLevel(Element level)  throws IOException 
@@ -352,14 +360,15 @@ abstract public class OutputXml extends BaseOutput
 			if (node instanceof Element) {
 				Element e = (Element)node;
 				if (e.getNodeName().equals("world")) {
-					initWorld(e);
+					WorldSet ws = initWorld(e);
+					super.WorldTable.put(ws.Name, ws);
 				}
 			}
 		}
 	}
 	
 
-	private void initWorld(Element world) throws IOException 
+	private WorldSet initWorld(Element world) throws IOException 
 	{
 		WorldSet set = new WorldSet(
 				Integer.parseInt(world.getAttribute("index")), 
@@ -456,6 +465,8 @@ abstract public class OutputXml extends BaseOutput
 				}
 			}
 		}
+		
+		return set;
 	}
 	
 //	------------------------------------------------------------------------------------------------
