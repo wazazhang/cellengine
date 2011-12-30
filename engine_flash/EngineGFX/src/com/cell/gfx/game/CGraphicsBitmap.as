@@ -122,7 +122,11 @@ package com.cell.gfx.game
 			var sx : int = x;
 			for (var ix:int = 0; ix<rw; ix+=sw) {
 				sx = ix + x;
-				drawBitmapDataScale(img, sx, y, sw, rh);
+				if (img.height != rh) {
+					drawBitmapDataScale(img, sx, y, sw, rh);
+				} else {
+					drawBitmapData(img, sx, y, false);
+				}
 			}
 		}
 		
@@ -132,7 +136,11 @@ package com.cell.gfx.game
 			var sy : int = y;
 			for (var iy:int = 0; iy<rh; iy+=sh) {
 				sy = iy + y;
-				drawBitmapDataScale(img, x, sy, rw, sh);
+				if (img.width != rw) {
+					drawBitmapDataScale(img, x, sy, rw, sh);
+				} else {
+					drawBitmapData(img, x, sy, false);
+				}
 			}
 		}
 		
