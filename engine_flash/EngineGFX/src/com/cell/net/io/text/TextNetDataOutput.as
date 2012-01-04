@@ -104,6 +104,7 @@ package com.cell.net.io.text
 				this.putNextLen(data);
 			} else {
 				this.writeShort(0);
+				this.putNext("");
 			}
 		}
 		
