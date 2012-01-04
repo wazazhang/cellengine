@@ -77,7 +77,7 @@ public abstract class BaseNetDataInput implements NetDataInput
 				((ExternalizableMessage)data).readExternal(this);
 				return data;
 			} catch (Exception e) {
-				throw new IOException(e);
+				throw new IOException(cls.getCanonicalName(), e);
 			}
 		}
 		return null;
@@ -101,7 +101,7 @@ public abstract class BaseNetDataInput implements NetDataInput
 				this.factory.getMutualCodec().readMutual((MutualMessage)data, this);
 				return data;
 			} catch (Exception e) {
-				throw new IOException(e);
+				throw new IOException(cls.getCanonicalName(), e);
 			}
 		}
 		return null;
@@ -161,7 +161,7 @@ public abstract class BaseNetDataInput implements NetDataInput
 				data.readExternal(this);
 				return data;
 			} catch (Exception e) {
-				throw new IOException(e);
+				throw new IOException(cls.getCanonicalName(), e);
 			}
 		}
 		return null;
@@ -176,7 +176,7 @@ public abstract class BaseNetDataInput implements NetDataInput
 				this.factory.getMutualCodec().readMutual(data, this);
 				return data;
 			} catch (Exception e) {
-				throw new IOException(e);
+				throw new IOException(cls.getCanonicalName(), e);
 			}
 		}
 		return null;
