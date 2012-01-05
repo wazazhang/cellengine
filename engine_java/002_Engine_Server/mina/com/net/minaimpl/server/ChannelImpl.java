@@ -76,7 +76,9 @@ public class ChannelImpl implements Channel
 	public boolean leave(ClientSession session) {
 		ClientSessionImpl old = sessions.remove(session);
 		if (old != null) {
-			server.write(old.Session, null, Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, getID(), 0);
+			if (!old.Session.isClosing() && old.Session.isConnected()) {
+				server.write(old.Session, null, Protocol.PROTOCOL_CHANNEL_LEAVE_S2C, getID(), 0);
+			}
 			Listener.sessionLeaved(this, session);
 			return true;
 		}
