@@ -78,5 +78,9 @@ package com.cell.ui.component
 			}
 		}
 		
+		public function getBG() : UIRect
+		{
+			return bg;
+		}
 	}
 }

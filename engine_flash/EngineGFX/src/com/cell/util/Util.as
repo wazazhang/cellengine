@@ -46,6 +46,11 @@ package com.cell.util
 		{
 			bmpData.draw(d);
 		}
+		public static function setScrollRect(d:DisplayObject, rect:Rectangle) : void
+		{
+			d.scrollRect = rect;
+			bmpData.draw(d);
+		}
 		
 		public static function clearChilds(container:DisplayObjectContainer) : int
 		{

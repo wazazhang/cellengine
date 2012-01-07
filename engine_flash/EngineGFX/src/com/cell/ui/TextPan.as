@@ -1,8 +1,7 @@
-package com.cell.ui.component
+package com.cell.ui
 {
 	import com.cell.gfx.CellSprite;
 	import com.cell.gfx.game.worldcraft.CellCSprite;
-	import com.cell.ui.Anchor;
 	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
 	
@@ -37,10 +36,8 @@ package com.cell.ui.component
 		
 		public function set textAnchor(anchor:int):void
 		{
-			if (_anchor != anchor) {
-				_anchor = anchor;
-				Anchor.setAnchorRect(textField, _anchor, width, height);
-			}
+			_anchor = anchor;
+			Anchor.setAnchorRect(textField, _anchor, width, height);
 		}
 		
 		public function get textAnchor() : int

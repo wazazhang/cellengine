@@ -1,6 +1,7 @@
 package com.cell.ui
 {
 	import flash.display.DisplayObject;
+	import flash.text.TextField;
 
 	public class Anchor
 	{

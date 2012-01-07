@@ -72,7 +72,7 @@
     <classEntry path="com.cell.ui.component.ScrollPan"/>
     <classEntry path="com.cell.ui.component.listview.DefaultListViewItem"/>
     <classEntry path="com.cell.ui.component.listview.Item"/>
-    <classEntry path="com.cell.ui.component.TextPan"/>
+    <classEntry path="com.cell.ui.TextPan"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
