@@ -73,7 +73,7 @@ public class ClientSessionImpl implements ClientSession
 
 	public boolean isConnected() 
 	{
-		return Session.isConnected();
+		return Session.isConnected() && !Session.isClosing();
 	}
 
 	void setListener(ClientSessionListener listener) {
