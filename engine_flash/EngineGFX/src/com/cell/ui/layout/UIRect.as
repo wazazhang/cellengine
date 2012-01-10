@@ -406,7 +406,7 @@ package com.cell.ui.layout
 			var bl : int = BorderTL.width;
 			var br : int = BorderTR.width;
 			//画血条时可能会用到，当血条长度小于左右块长度
-			if (bl + br >= W) {
+			if (bl + br < W) {
 				var clip_scale : Number = W / Number(bl + br);
 				var wl : int = (bl*clip_scale);
 				var wr : int = (br*clip_scale);
@@ -426,7 +426,7 @@ package com.cell.ui.layout
 			var bt : int = BorderTL.height;
 			var bb : int = BorderBL.height;
 			//画血条时可能会用到，当血条长度小于左右块长度
-			if (bt + bb >= H) {
+			if (bt + bb < H) {
 				var clip_scale : Number = H / Number(bt + bb);
 				var ht : int = (bt*clip_scale);
 				var hb : int = (bb*clip_scale);

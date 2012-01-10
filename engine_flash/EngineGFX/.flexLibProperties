@@ -74,6 +74,7 @@
     <classEntry path="com.cell.ui.component.listview.Item"/>
     <classEntry path="com.cell.ui.TextPan"/>
     <classEntry path="com.cell.ui.TextLable"/>
+    <classEntry path="com.cell.ui.component.Guage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

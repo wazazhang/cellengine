@@ -8,14 +8,12 @@ package com.cell.ui.component
 	{		
 		protected var textField : TextField;
 
-		public function TextBox(text:String)
+		public function TextBox()
 		{			
 			super(UILayoutManager.getInstance().createUI("com.cell.ui.component.TextBox", this));
 			textField = new TextField();
 			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextBox.text", this);
-			textField.text = text;
-			textField.width = width;
-			textField.height = height;
+			textField.multiline = true;
 			addChild(textField);
 		}
 		
