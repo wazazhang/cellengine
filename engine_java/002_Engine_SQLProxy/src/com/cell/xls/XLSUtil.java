@@ -90,11 +90,11 @@ public class XLSUtil {
 										sql_column.setLeafField(instance, value);
 									}
 									else {
-										throw new NullPointerException(
-													"format error at" +
-													" column [" + sql_column.getName() + " = \""+ row.get(sql_column.getName()) +"\"]" +
-													" row [" + r + "]" +
-													" sheet [" + rs.getName()+"]");
+//										throw new NullPointerException(
+//													"format error at" +
+//													" column [" + sql_column.getName() + " = \""+ row.get(sql_column.getName()) +"\"]" +
+//													" row [" + r + "]" +
+//													" sheet [" + rs.getName()+"]");
 									}
 								}
 							} catch (Exception e) {
