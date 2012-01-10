@@ -227,8 +227,12 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		log.error(cause.getMessage() + " : " + session, cause);
 		if (CloseOnError) {
-			if (session.isConnected() && !session.isClosing()) {
-				session.close(false);
+			try {
+				if (session.isConnected() && !session.isClosing()) {
+					session.close(false);
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
 			}
 		}
 	}
@@ -236,8 +240,12 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
 		log.debug("sessionIdle : " + session + " : " + status);
 		if (CloseOnError) {
-			if (session.isConnected() && !session.isClosing()) {
-				session.close(false);
+			try {
+				if (session.isConnected() && !session.isClosing()) {
+					session.close(false);
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
 			}
 		}
 	}
