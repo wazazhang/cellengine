@@ -66,15 +66,7 @@
     <classEntry path="com.cell.util.Arrays"/>
     <classEntry path="com.cell.util.ImageUtil"/>
     <classEntry path="com.cell.ui.component.listview.ListView"/>
-    <classEntry path="com.cell.ui.component.listview.DefaultListViewHeader"/>
     <classEntry path="com.cell.io.IOUtil"/>
-    <classEntry path="com.cell.ui.layout.DefaultLayoutManager"/>
-    <classEntry path="com.cell.ui.component.ScrollPan"/>
-    <classEntry path="com.cell.ui.component.listview.DefaultListViewItem"/>
-    <classEntry path="com.cell.ui.component.listview.Item"/>
-    <classEntry path="com.cell.ui.TextPan"/>
-    <classEntry path="com.cell.ui.TextLable"/>
-    <classEntry path="com.cell.ui.component.Guage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
