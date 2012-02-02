@@ -500,6 +500,10 @@ package com.net.client.minaimpl
 					this.listener.receivedMessage(this, decoded);
 					break;
 				}
+				case ProtocolType.PROTOCOL_SYSTEM_NOTIFY:{
+					this.listener.receivedMessage(this, decoded);
+					break;
+				}
 				default:{
 					if (decoded.getMessage() != null) {
 						this.listener.receivedMessage(this, decoded);
