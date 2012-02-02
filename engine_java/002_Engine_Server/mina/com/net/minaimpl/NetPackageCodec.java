@@ -147,32 +147,39 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    					p.ChannelID 			= in.getInt();		// 4
 	    					obj_size -= 4;
 	    					break;
+	    				case ProtocolImpl.PROTOCOL_SYSTEM_NOTIFY:
+	    					p.SystemMessage 		= in.getInt();		// 4
+	    					obj_size -= 4;
+	    					break;
 	    				}
     					
     					p.transmission_flag			= in.get();			// 1
-    					obj_size -= 1;
+						obj_size -= 1;
     					
-    					IoBuffer obj_in = in;
-    					// 确定是否要解压缩
-    					if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_COMPRESSING) != 0) {
-    						obj_in = decompress(in, obj_size);
+    					if (p.transmission_flag != 0) 
+    					{
+        					IoBuffer obj_in = in;
+        					// 确定是否要解压缩
+        					if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_COMPRESSING) != 0) {
+        						obj_in = decompress(in, obj_size);
+        					}
+        					// 解出包包含的二进制消息
+    						if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
+    							p.message = ext_factory.createMessage(obj_in.getInt());	// ext 4
+    							ExternalizableMessage ext = (ExternalizableMessage)p.message;
+    							NetDataInputImpl in_buff = new NetDataInputImpl(obj_in, ext_factory);
+    							ext.readExternal(in_buff);
+    						}
+    						else if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
+    							p.message = ext_factory.createMessage(obj_in.getInt());	// ext 4
+    							MutualMessage mutual = (MutualMessage)p.message;
+    							NetDataInputImpl in_buff = new NetDataInputImpl(obj_in, ext_factory);
+    							ext_factory.getMutualCodec().readMutual(mutual, in_buff);
+     						}
+    						else if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE) != 0) {
+     							p.message = (MessageHeader)obj_in.getObject(class_loader);
+     						}
     					}
-    					// 解出包包含的二进制消息
-						if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
-							p.message = ext_factory.createMessage(obj_in.getInt());	// ext 4
-							ExternalizableMessage ext = (ExternalizableMessage)p.message;
-							NetDataInputImpl in_buff = new NetDataInputImpl(obj_in, ext_factory);
-							ext.readExternal(in_buff);
-						}
-						else if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
-							p.message = ext_factory.createMessage(obj_in.getInt());	// ext 4
-							MutualMessage mutual = (MutualMessage)p.message;
-							NetDataInputImpl in_buff = new NetDataInputImpl(obj_in, ext_factory);
-							ext_factory.getMutualCodec().readMutual(mutual, in_buff);
- 						}
-						else if ((p.transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE) != 0) {
- 							p.message = (MessageHeader)obj_in.getObject(class_loader);
- 						}
     					
 	    				// 告诉 Protocol Handler 有消息被接收到
 	    				out.write(p);
@@ -252,47 +259,57 @@ public class NetPackageCodec extends MessageHeaderCodec
 	    				case Protocol.PROTOCOL_CHANNEL_MESSAGE:
 	    					buffer.putInt	(p.ChannelID);			// 4
 							break;
+	    				case ProtocolImpl.PROTOCOL_SYSTEM_NOTIFY:
+	    					buffer.putInt	(p.SystemMessage);		// 4
+	    					break;
 						}
 						
-						
-						byte trans_flag = ProtocolImpl.TRANSMISSION_TYPE_UNKNOW;
-						IoBuffer obj_buff = buffer;
-						// 是否压缩
-						if (p.message instanceof CompressingMessage) {
-							obj_buff = IoBuffer.allocate(buffer.remaining(), false).setAutoExpand(true);
-							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_COMPRESSING;
-						}
-						if (p.message instanceof ExternalizableMessage) {
-							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE;
-						} 
-						else if (p.message instanceof MutualMessage) {
-							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_MUTUAL;
-						}
-						else if (p.message instanceof MessageHeader) {
-							trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE;
-						}
-						
-						buffer.put		(trans_flag);			// 1
+						if (p.message == null) 
 						{
+							buffer.put		((byte)0);				// 1
+						}
+						else
+						{
+							byte trans_flag = ProtocolImpl.TRANSMISSION_TYPE_UNKNOW;
+							IoBuffer obj_buff = buffer;
+							// 是否压缩
+							if (p.message instanceof CompressingMessage) {
+								obj_buff = IoBuffer.allocate(buffer.remaining(), false).setAutoExpand(true);
+								trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_COMPRESSING;
+							}
 							if (p.message instanceof ExternalizableMessage) {
-								obj_buff.putInt		(ext_factory.getMessageType(p.message));	// ext 4
-								NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
-								((ExternalizableMessage)p.message).writeExternal(out_buff);
+								trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE;
 							} 
 							else if (p.message instanceof MutualMessage) {
-								obj_buff.putInt		(ext_factory.getMessageType(p.message));	// ext 4
-								NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
-								ext_factory.getMutualCodec().writeMutual(((MutualMessage)p.message), out_buff);
+								trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_MUTUAL;
 							}
 							else if (p.message instanceof MessageHeader) {
-								obj_buff.putObject	(p.message);
+								trans_flag |= ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE;
+							}
+							
+							buffer.put		(trans_flag);			// 1
+							{
+								if (p.message instanceof ExternalizableMessage) {
+									obj_buff.putInt		(ext_factory.getMessageType(p.message));	// ext 4
+									NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
+									((ExternalizableMessage)p.message).writeExternal(out_buff);
+								} 
+								else if (p.message instanceof MutualMessage) {
+									obj_buff.putInt		(ext_factory.getMessageType(p.message));	// ext 4
+									NetDataOutputImpl out_buff = new NetDataOutputImpl(obj_buff, ext_factory);
+									ext_factory.getMutualCodec().writeMutual(((MutualMessage)p.message), out_buff);
+								}
+								else if (p.message instanceof MessageHeader) {
+									obj_buff.putObject	(p.message);
+								}
+							}
+							if (p.message instanceof CompressingMessage) {
+								obj_buff.rewind();
+								compress(obj_buff, buffer);
+								obj_buff.free();
 							}
 						}
-						if (p.message instanceof CompressingMessage) {
-							obj_buff.rewind();
-							compress(obj_buff, buffer);
-							obj_buff.free();
-						}
+						
 	    			}
 	    			buffer.putInt(4, protocol_fixed_size + (buffer.position() - cur));
 	    		}

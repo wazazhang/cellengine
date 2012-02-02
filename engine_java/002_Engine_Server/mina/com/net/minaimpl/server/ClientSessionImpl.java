@@ -3,6 +3,7 @@ package com.net.minaimpl.server;
 import java.net.SocketAddress;
 import java.util.Set;
 
+import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,18 +87,20 @@ public class ClientSessionImpl implements ClientSession
 	}
 	
 	public boolean send(MessageHeader message) {
-		return Server.write(Session, 
+		WriteFuture future = Server.write(Session, 
 				message, 
 				Protocol.PROTOCOL_SESSION_MESSAGE, 
-				0, 0);
+				0, 0, 0);
+		return future != null;
 	}
 	
 	
 	public boolean sendResponse(Protocol request, MessageHeader response){
-		return Server.write(Session, 
+		WriteFuture future = Server.write(Session, 
 				response, 
 				Protocol.PROTOCOL_SESSION_MESSAGE, 
-				0, request.getPacketNumber());
+				0, request.getPacketNumber(), 0);
+		return future != null;
 	}
 	
 	

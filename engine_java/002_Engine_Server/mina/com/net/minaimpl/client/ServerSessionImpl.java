@@ -324,6 +324,10 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 					}
 					break;
 				}
+				case ProtocolImpl.PROTOCOL_SYSTEM_NOTIFY:{
+					Listener.receivedMessage(this, header, header.getMessage());
+					break;
+				}
 				default:
 					log.error("messageReceived : " +
 							"unknow protocol(" + Integer.toString(header.getProtocol(), 16) + ")" + " : " +

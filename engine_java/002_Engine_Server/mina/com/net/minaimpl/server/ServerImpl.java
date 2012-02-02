@@ -10,6 +10,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.IoSession;
@@ -22,6 +23,7 @@ import com.net.Protocol;
 import com.net.minaimpl.ProtocolImpl;
 import com.net.minaimpl.ProtocolPool;
 import com.net.minaimpl.SessionAttributeKey;
+import com.net.minaimpl.SystemMessages;
 import com.net.server.Channel;
 import com.net.server.ChannelManager;
 import com.net.server.ClientSession;
@@ -35,6 +37,10 @@ public class ServerImpl extends AbstractServer
 		new HashMap<Class<?>, AtomicLong>();
 	protected Map<Class<?>, AtomicLong>	message_sent_count = 
 		new HashMap<Class<?>, AtomicLong>();
+	
+	private ReentrantLock session_lock = new ReentrantLock();
+	
+	private int max_session_count = 0;
 	
 //	----------------------------------------------------------------------------------------------------------------------
 	
@@ -160,6 +166,22 @@ public class ServerImpl extends AbstractServer
 		return (ClientSessionImpl)session.getAttribute(SessionAttributeKey.CLIENT_SESSION);
 	}
 	
+	/**
+	 * 设置最大连结数，0表示无限
+	 * @param count
+	 */
+	public void setMaxSession(int count)
+	{
+		synchronized (session_lock) {
+			this.max_session_count = count;
+		}
+	}
+	
+	public int getMaxSession()
+	{
+		return max_session_count;
+	}
+	
 //	class SessionIterator implements Iterator<ClientSession>
 //	{
 //		public SessionIterator() {
@@ -234,9 +256,23 @@ public class ServerImpl extends AbstractServer
 
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("sessionOpened : " + session);
-		ClientSessionImpl client = new ClientSessionImpl(session, this);
-		session.setAttribute(SessionAttributeKey.CLIENT_SESSION, client);
-		client.setListener(SrvListener.connected(client));
+		try {
+			if (max_session_count > 0) {
+				synchronized (session_lock) {
+					if (Acceptor.getManagedSessionCount() >= max_session_count) {
+						WriteFuture future = write(session, null, Protocol.PROTOCOL_SESSION_MESSAGE, 0, 0, ProtocolImpl.SYSTEM_NOTIFY_SERVER_FULL);
+						future.await(1);
+						session.close(false);
+						return;
+					}
+				}
+			}
+			ClientSessionImpl client = new ClientSessionImpl(session, this);
+			client.setListener(SrvListener.connected(client));
+			session.setAttribute(SessionAttributeKey.CLIENT_SESSION, client);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	public void sessionClosed(IoSession session) throws Exception {

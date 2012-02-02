@@ -252,12 +252,13 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 
 //	-----------------------------------------------------------------------------------------------------------------------
 	
-	protected boolean write(
+	protected WriteFuture write(
 			IoSession 		session, 
 			MessageHeader 	message,
 			byte			protocol, 
 			int				channel_id, 
-			int				packnumber)
+			int				packnumber,
+			int				system_notify)
 	{
 		try {
 			if (session.isConnected() && !session.isClosing()) {
@@ -265,12 +266,12 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 //				p.SessionID			= session.getId();
 				p.Protocol			= protocol;
 				p.PacketNumber		= packnumber;
+				p.SystemMessage		= system_notify;
 				p.message			= message;			
 				p.ChannelID			= channel_id;
 //				p.ChannelSessionID	= channel_sender_id;
 //				session.resumeWrite();
 				WriteFuture future = session.write(p);
-				
 //				// Wait until the message is completely written out to the O/S
 //				// buffer.
 //				future.awaitUninterruptibly();
@@ -283,12 +284,12 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 //					// (e.g. Connection is closed)
 //					return false;
 //				}
-				return false;
+				return future;
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return false;
+		return null;
 	}
 
 //	----------------------------------------------------------------------------------------------------------------------

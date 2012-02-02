@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.cell.net.io.MessageHeader;
+import com.cell.net.io.MutualMessage;
 import com.net.minaimpl.server.ServerImpl;
 
-public interface SystemMessages 
+public interface SystemMessages
 {
-
+	
 	
 //	public static class SystemMessageS2C extends MessageHeader
 //	{	
@@ -19,15 +20,16 @@ public interface SystemMessages
 //		}
 //	}
 	
+		
 	
-	public static class ServerStatusRequestC2S implements MessageHeader
+	public static class ServerStatusRequestC2S implements MessageHeader , MutualMessage
 	{
 		private static final long serialVersionUID = 1L;
 		public ServerStatusRequestC2S() {}
 	}
 	
 	
-	public static class ServerStatusResponseS2C implements MessageHeader
+	public static class ServerStatusResponseS2C implements MessageHeader , MutualMessage
 	{
 		private static final long serialVersionUID = 1L;
 		
@@ -44,7 +46,8 @@ public interface SystemMessages
 		public long HeapAvaliable;
 		public long HeapTotal;
 		public long HeapMax;
-		
+
+		public ServerStatusResponseS2C() {}
 		public ServerStatusResponseS2C(ServerImpl server) 
 		{
 			
@@ -62,7 +65,6 @@ public interface SystemMessages
 			HeapTotal				= Runtime.getRuntime().totalMemory();
 			HeapMax					= Runtime.getRuntime().maxMemory();
 		}
-		
 	}
 	
 }
