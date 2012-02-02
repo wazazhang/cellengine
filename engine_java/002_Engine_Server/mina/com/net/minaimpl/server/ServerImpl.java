@@ -258,10 +258,10 @@ public class ServerImpl extends AbstractServer
 		log.debug("sessionOpened : " + session);
 		try {
 			if (max_session_count > 0) {
+				int ccount = Acceptor.getManagedSessionCount();
 				synchronized (session_lock) {
-					if (Acceptor.getManagedSessionCount() >= max_session_count) {
+					if (ccount > max_session_count) {
 						WriteFuture future = write(session, null, Protocol.PROTOCOL_SESSION_MESSAGE, 0, 0, ProtocolImpl.SYSTEM_NOTIFY_SERVER_FULL);
-						future.await(1);
 						session.close(false);
 						return;
 					}
