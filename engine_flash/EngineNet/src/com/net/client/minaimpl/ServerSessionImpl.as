@@ -348,29 +348,36 @@ package com.net.client.minaimpl
 						case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
-							protocol.setChannelID			(buffer.readInt());		// utf
+							protocol.setChannelID			(buffer.readInt());		// 4
+							break;
+						case ProtocolType.PROTOCOL_SYSTEM_NOTIFY:
+							protocol.setSystemMessage		(buffer.readInt());		// 4
 							break;
 						}
 						
 						var transmission_flag : int	= buffer.readByte();			// 1
 						
-						// 确定是否要解压缩
-						if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_COMPRESSING) != 0) {
-							trace("not supprot TRANSMISSION_TYPE_COMPRESSING");
+						if (transmission_flag != 0) 
+						{
+							// 确定是否要解压缩
+							if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_COMPRESSING) != 0) {
+								trace("not supprot TRANSMISSION_TYPE_COMPRESSING");
+							}
+							// 解出包包含的二进制消息
+							if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
+								var message : MutualMessage = message_factory.createMessage(buffer.readInt());// ext 4
+								var input : BinNetDataInput = new BinNetDataInput(message_factory, buffer);
+								message_factory.readExternal(message, input);
+								protocol.setMessage(message);
+							}
+							else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
+								trace("not supprot TRANSMISSION_TYPE_EXTERNALIZABLE");
+							}
+							else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE) != 0) {
+								trace("not supprot TRANSMISSION_TYPE_SERIALIZABLE");
+							}
 						}
-						// 解出包包含的二进制消息
-						if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_MUTUAL) != 0) {
-							var message : MutualMessage = message_factory.createMessage(buffer.readInt());// ext 4
-							var input : BinNetDataInput = new BinNetDataInput(message_factory, buffer);
-							message_factory.readExternal(message, input);
-							protocol.setMessage(message);
-						}
-						else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_EXTERNALIZABLE) != 0) {
-							trace("not supprot TRANSMISSION_TYPE_EXTERNALIZABLE");
-						}
-						else if ((transmission_flag & ProtocolImpl.TRANSMISSION_TYPE_SERIALIZABLE) != 0) {
-							trace("not supprot TRANSMISSION_TYPE_SERIALIZABLE");
-						}
+						
 						
 						// 告诉 Protocol Handler 有消息被接收到
 						recivedMessage(protocol);
@@ -436,13 +443,24 @@ package com.net.client.minaimpl
 						case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:
 						case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:
-							buffer.writeInt	(protocol.getChannelID());		// utf
+							buffer.writeInt	(protocol.getChannelID());		// 4
+							break;
+						case ProtocolType.PROTOCOL_SYSTEM_NOTIFY:
+							buffer.writeInt	(protocol.getSystemMessage());
 							break;
 						}
 						
-						buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_MUTUAL);	// 1
-						buffer.writeInt		(msgType);	// ext 4
-						message_factory		.writeExternal(protocol.getMessage(), output);
+						if (protocol.getMessage() == null) 
+						{
+							buffer.writeByte	(0);	// 1
+						}
+						else
+						{
+							buffer.writeByte	(ProtocolImpl.TRANSMISSION_TYPE_MUTUAL);	// 1
+							buffer.writeInt		(msgType);	// ext 4
+							message_factory		.writeExternal(protocol.getMessage(), output);
+						}
+						
 					}
 					var end_pos : int = buffer.position;
 					

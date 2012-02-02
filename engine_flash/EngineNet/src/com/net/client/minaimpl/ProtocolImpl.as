@@ -18,6 +18,7 @@ package com.net.client.minaimpl
 		
 		protected var		protocol 			: int ;
 		protected var		packet_number 		: int;
+		protected var		system_message 		: int;
 		protected var 		channel_id 			: int;
 		protected var 		sent_time 			: Date;
 		protected var 		received_time 		: Date;
@@ -36,6 +37,9 @@ package com.net.client.minaimpl
 		}
 		function setPacketNumber(packet_number : int) : void {
 			this.packet_number = packet_number;
+		}
+		function setSystemMessage(system_message : int) : void {
+			this.system_message = system_message;
 		}
 		function setChannelID(channel_id : int) : void {
 			this.channel_id = channel_id;
@@ -59,6 +63,10 @@ package com.net.client.minaimpl
 		/**匹配Request和Response的值，如果为0，则代表为Notify*/
 		public function		getPacketNumber() : int {
 			return this.packet_number;
+		}
+		
+		public function		getSystemMessage() : int {
+			return this.system_message;
 		}
 		
 		/**频道ID<br>
