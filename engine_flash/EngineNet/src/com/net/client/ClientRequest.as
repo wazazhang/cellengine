@@ -56,7 +56,7 @@ package com.net.client
 			this.set(protocol.getMessage());
 			if (fresponse != null) {
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, client, 
-					protocol.getChannelID(), this.request, protocol.getMessage(), null);
+					protocol, this.request, null);
 				for each (var response : Function in this.fresponse) {
 					try {
 						response.call(response, event);
@@ -71,7 +71,7 @@ package com.net.client
 		{
 			if (ftimeout != null) {
 				var event : ClientEvent = new ClientEvent(ClientEvent.REQUEST_TIMEOUT, client, 
-					0, this.request, null, null);
+					null, this.request, null);
 				for each (var timeout : Function in this.ftimeout) {
 					try {
 						timeout.call(timeout, event);

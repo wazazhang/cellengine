@@ -34,12 +34,12 @@ package com.net.client
 			client.receivedMessage(session, protocol);
 		}
 
-		final public function joinedChannel(channel_id : int, session : ServerSession)  : void
+		final public function joinedChannel(channel_id : Protocol, session : ServerSession)  : void
 		{
 			client.joinedChannel(channel_id, session);
 		}
 		
-		final public function leftChannel(channel_id : int, session : ServerSession) : void
+		final public function leftChannel(channel_id : Protocol, session : ServerSession) : void
 		{
 			client.leftChannel(channel_id, session);
 		}

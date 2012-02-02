@@ -485,11 +485,11 @@ package com.net.client.minaimpl
 			// 判断是否是联盟消息，协议消息等
 			switch (decoded.getProtocol()) {
 				case ProtocolType.PROTOCOL_CHANNEL_JOIN_S2C:{
-					this.listener.joinedChannel(decoded.getChannelID(), this);
+					this.listener.joinedChannel(decoded, this);
 					break;
 				}
 				case ProtocolType.PROTOCOL_CHANNEL_LEAVE_S2C:{
-					this.listener.leftChannel(decoded.getChannelID(), this);
+					this.listener.leftChannel(decoded, this);
 					break;
 				}
 				case ProtocolType.PROTOCOL_CHANNEL_MESSAGE:{

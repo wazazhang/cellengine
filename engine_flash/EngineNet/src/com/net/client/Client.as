@@ -194,21 +194,21 @@ package com.net.client
 		{
 			trace("connected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.CONNECTED, this, 
-				0, null, null, null));
+				null, null, null));
 		}
 		
 		final function disconnected(session : ServerSession, reason:String) : void
 		{
 			trace("disconnected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this, 
-				0, null, null, reason));
+				null, null, reason));
 		}
 		
 		final function sentMessage(session : ServerSession, protocol : Protocol) : void
 		{
 			//trace("sentMessage : " + protocol);
 			dispatchEvent(new ClientEvent(ClientEvent.SENT_MESSAGE, this, 
-				protocol.getChannelID(), protocol.getMessage(), null, null));
+				protocol, protocol.getMessage(), null));
 		}
 		
 		final function receivedMessage(session : ServerSession, protocol : Protocol) : void
@@ -220,27 +220,27 @@ package com.net.client
 					delete request_listeners[protocol.getPacketNumber()];
 					request.onResponse(this, protocol);
 					dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_RESPONSE, this, 
-						protocol.getChannelID(), request.getRequest(), protocol.getMessage(), null));
+						protocol, request.getRequest(), null));
 				}
 			}
 			else {
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
-					protocol.getChannelID(), null, protocol.getMessage(), null));
+					protocol, null, null));
 			}
 		}
 
-		final function joinedChannel(channel_id : int, session : ServerSession)  : void
+		final function joinedChannel(channel_id : Protocol, session : ServerSession)  : void
 		{
 			trace("joinedChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.JOINED_CHANNEL, this, 
-				channel_id, null, null, null));
+				channel_id, null, null));
 		}
 		
-		final function leftChannel(channel_id : int, session : ServerSession) : void
+		final function leftChannel(channel_id : Protocol, session : ServerSession) : void
 		{
 			trace("leftChannel : " + channel_id);
 			dispatchEvent(new ClientEvent(ClientEvent.LEFT_CHANNEL, this, 
-				channel_id, null, null, null));
+				channel_id, null, null));
 		}
 
 		

@@ -12,9 +12,9 @@ package com.net.client
 		function receivedMessage( session : ServerSession, protocol : Protocol) : void;
 		
 		
-		function joinedChannel	(channel_id : int, session : ServerSession)  : void;
+		function joinedChannel	(channel_id : Protocol, session : ServerSession)  : void;
 		
-		function leftChannel	(channel_id : int, session : ServerSession) : void;
+		function leftChannel	(channel_id : Protocol, session : ServerSession) : void;
 
 	}
 }

@@ -1,7 +1,8 @@
 package com.net.client
 {
-	import flash.events.Event;
 	import com.cell.net.io.MutualMessage;
+	
+	import flash.events.Event;
 	
 	public class ClientEvent extends Event
 	{
@@ -25,29 +26,28 @@ package com.net.client
 		
 		
 		private var client 		: Client;
+		private var protocol	: Protocol;
 		private var request		: MutualMessage;
-		private var message		: MutualMessage;
-		private var channel_id	: int;
 		private var reason		: String;
+		
 		
 		public function ClientEvent(
 			evt 		: String, 
 			client 		: Client,
-			channel_id	: int = 0,
+			protocol	: Protocol = null,
 			request		: MutualMessage = null,
-			message		: MutualMessage = null,
 			reason		: String = null
 		) 
 		{
 			super(evt);
 			this.client 	= client;
-			this.message	= message;
+			this.protocol	= protocol;
 			this.request	= request;
 			this.reason		= reason;
 		}
 		
 		override public function clone() : Event {  
-			return new ClientEvent(this.type, this.client, this.channel_id, this.request, this.message, this.reason);  
+			return new ClientEvent(this.type, this.client, this.protocol, this.request, this.reason);  
 		}
 		
 		public function getRequest() : MutualMessage {
@@ -55,15 +55,19 @@ package com.net.client
 		}
 		
 		public function getResponse() : MutualMessage {
-			return message;
+			return protocol.getMessage();
 		}
 		
 		public function getNotify() : MutualMessage {
-			return message;
+			return protocol.getMessage();
 		}
 	
 		public function getChannelID() : int {
-			return channel_id;
+			return protocol.getChannelID();
+		}
+		
+		public function getProtocol() : Protocol {
+			return protocol;
 		}
 		
 		public function getClient() : Client {
