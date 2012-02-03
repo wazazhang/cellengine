@@ -14,6 +14,8 @@ package com.cell.ui.component
 
 	public class ScrollPan extends UIComponent
 	{
+		public var touch_acc 			: Vector3D = new Vector3D();
+		
 		protected var base 				: BasePanel;
 		
 		private var start_point 		: Vector3D;
@@ -21,8 +23,9 @@ package com.cell.ui.component
 		private var end_point 			: Vector3D = new Vector3D();
 		private var start_camera_point 	: Vector3D = new Vector3D();
 		private var speed 				: Vector3D;
-		public var touch_acc 			: Vector3D = new Vector3D();
 		
+		
+		private var touch_moved			: Boolean = false;
 		
 		public function ScrollPan(rect:UIRect, width:int, height:int)
 		{
@@ -73,6 +76,10 @@ package com.cell.ui.component
 			updateScroll();
 		}
 		
+		public function get isTouchMoved() : Boolean
+		{
+			return touch_moved;
+		}
 
 		protected function updateScroll(e:Event) : void
 		{
@@ -106,10 +113,13 @@ package com.cell.ui.component
 			end_point.x = (this.mouseX);
 			end_point.y = (this.mouseY);
 			speed = null;
+			
+			touch_moved = false;
 		}
 		
 		protected function onMouseMove(e:MouseEvent) : void {
 			if (start_point != null) {
+				touch_moved = true;
 				base.setCamera(
 					start_camera_point.x + (start_point.x - move_point.x),
 					start_camera_point.y + (start_point.y - move_point.y)
@@ -117,7 +127,7 @@ package com.cell.ui.component
 				speed = null;
 			}
 		}
-		
+	
 		protected function onMouseUp(e:MouseEvent) : void {
 			if (start_point != null) {
 				speed = new Vector3D();

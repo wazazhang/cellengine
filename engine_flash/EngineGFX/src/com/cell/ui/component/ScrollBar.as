@@ -3,6 +3,8 @@ package com.cell.ui.component
 	import com.cell.gfx.CellSprite;
 	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
+	
+	import flash.events.Event;
 
 	public class ScrollBar extends UIComponent
 	{
@@ -17,7 +19,11 @@ package com.cell.ui.component
 		private var range 		: Number = 1;
 		private var min 		: Number = 0;
 		private var max 		: Number = 1;
-
+		
+		public var auto_hide	: Boolean = true;
+		public var view_timer_max 	: uint = 20;
+		private var view_timer		: int = 0;
+		
 		
 		public function ScrollBar(style:int)
 		{
@@ -92,6 +98,23 @@ package com.cell.ui.component
 			return false;
 		}
 		
+		override protected function update(e:Event):void
+		{
+			super.update(e);
+			
+			if (view_timer <= 0) {
+				this.alpha = 0;
+			} else if (view_timer < view_timer_max/2) {
+				this.alpha = (view_timer / (view_timer_max/2.0));
+				view_timer --;
+			} else {
+				this.alpha = 1;
+				view_timer --;
+			}
+		}
+		
+		
+		
 		public function isValueIn() : Boolean
 		{
 			var tlen : Number = max - min;
@@ -101,6 +124,8 @@ package com.cell.ui.component
 		
 		public function reset() : void
 		{
+			this.view_timer = view_timer_max;
+			
 			var tlen : Number = max - min;
 			if (tlen <= range) {
 				ui_strip.visible = false;
