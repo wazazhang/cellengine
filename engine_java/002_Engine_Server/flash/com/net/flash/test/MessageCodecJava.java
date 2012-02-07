@@ -10,7 +10,7 @@ import com.cell.net.io.*;
 public class MessageCodecJava implements MutualMessageCodec
 {
 	public String getVersion() {
-		return "1323421055223";
+		return "1327999485437";
 	}
 
 	public void readMutual(MutualMessage msg, NetDataInput in) throws IOException 
@@ -62,7 +62,6 @@ public class MessageCodecJava implements MutualMessageCodec
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.Data
 //	----------------------------------------------------------------------------------------------------
-	public static com.net.flash.test.Messages.Data new_com_net_flash_test_Messages_Data(){return new com.net.flash.test.Messages.Data();}
 	private void _r(com.net.flash.test.Messages.Data msg, NetDataInput in) throws IOException {
 		msg.message2 = in.readUTF();
 		msg.d0 = in.readBoolean();
@@ -101,7 +100,6 @@ public class MessageCodecJava implements MutualMessageCodec
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.Echo2Request
 //	----------------------------------------------------------------------------------------------------
-	public static com.net.flash.test.Messages.Echo2Request new_com_net_flash_test_Messages_Echo2Request(){return new com.net.flash.test.Messages.Echo2Request();}
 	private void _r(com.net.flash.test.Messages.Echo2Request msg, NetDataInput in) throws IOException {
 		msg.message = in.readUTF();
 	}
@@ -112,7 +110,6 @@ public class MessageCodecJava implements MutualMessageCodec
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.Echo2Response
 //	----------------------------------------------------------------------------------------------------
-	public static com.net.flash.test.Messages.Echo2Response new_com_net_flash_test_Messages_Echo2Response(){return new com.net.flash.test.Messages.Echo2Response();}
 	private void _r(com.net.flash.test.Messages.Echo2Response msg, NetDataInput in) throws IOException {
 		msg.message = in.readUTF();
 	}
@@ -123,7 +120,6 @@ public class MessageCodecJava implements MutualMessageCodec
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.EchoNotify
 //	----------------------------------------------------------------------------------------------------
-	public static com.net.flash.test.Messages.EchoNotify new_com_net_flash_test_Messages_EchoNotify(){return new com.net.flash.test.Messages.EchoNotify();}
 	private void _r(com.net.flash.test.Messages.EchoNotify msg, NetDataInput in) throws IOException {
 		msg.message = in.readUTF();
 	}
@@ -134,7 +130,6 @@ public class MessageCodecJava implements MutualMessageCodec
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.EchoRequest
 //	----------------------------------------------------------------------------------------------------
-	public static com.net.flash.test.Messages.EchoRequest new_com_net_flash_test_Messages_EchoRequest(){return new com.net.flash.test.Messages.EchoRequest();}
 	private void _r(com.net.flash.test.Messages.EchoRequest msg, NetDataInput in) throws IOException {
 		msg.message = in.readUTF();
 		msg.data = in.readMutual(com.net.flash.test.Messages.Data.class);
@@ -151,7 +146,6 @@ public class MessageCodecJava implements MutualMessageCodec
 //	----------------------------------------------------------------------------------------------------
 //	com.net.flash.test.Messages.EchoResponse
 //	----------------------------------------------------------------------------------------------------
-	public static com.net.flash.test.Messages.EchoResponse new_com_net_flash_test_Messages_EchoResponse(){return new com.net.flash.test.Messages.EchoResponse();}
 	private void _r(com.net.flash.test.Messages.EchoResponse msg, NetDataInput in) throws IOException {
 		msg.message = in.readUTF();
 		msg.data = in.readMutual(com.net.flash.test.Messages.Data.class);
