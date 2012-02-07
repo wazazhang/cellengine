@@ -21,8 +21,9 @@ package com.cell.persistance
 				var so:SharedObject	= SharedObject.getLocal(getKey());
 				var bin : ByteArray	= so.data.bin;
 				var key : String 	= so.data.key;
+				super._data = bin;
 			} catch (e:Error) {
-				evt.error = e;
+				throw e;
 			}
 			dispatchEvent(evt);
 		}
@@ -31,6 +32,7 @@ package com.cell.persistance
 		{
 			var evt : SaveDataEvent = new SaveDataEvent(SaveDataEvent.SAVED);
 			evt.data = this;
+			this._data = data;
 			try {
 				var so:SharedObject = SharedObject.getLocal(getKey());
 				so.clear();
@@ -38,8 +40,9 @@ package com.cell.persistance
 				so.data.bin = data;
 				so.flush();
 			} catch (e:Error) {
-				evt.error = e;
+				throw e;
 			}
+			this._data.position = 0;
 			dispatchEvent(evt);
 		}
 
