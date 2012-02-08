@@ -129,5 +129,10 @@ package com.cell.ui
 			this.scrollRect = sc;
 		}
 
+		public function getCamera() : Rectangle
+		{
+			var sc : Rectangle = this.scrollRect;
+			return new Rectangle(sc.x, sc.y, sc.width, sc.height);
+		}
 	}
 }

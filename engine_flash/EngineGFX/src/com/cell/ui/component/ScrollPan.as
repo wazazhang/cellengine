@@ -76,7 +76,7 @@ package com.cell.ui.component
 			updateScroll();
 		}
 		
-		public function get isTouchMoved() : Boolean
+		public function isTouchMoved() : Boolean
 		{
 			return touch_moved;
 		}
@@ -119,11 +119,14 @@ package com.cell.ui.component
 		
 		protected function onMouseMove(e:MouseEvent) : void {
 			if (start_point != null) {
-				touch_moved = true;
+				var sc : Rectangle = base.getCamera();
 				base.setCamera(
-					start_camera_point.x + (start_point.x - move_point.x),
-					start_camera_point.y + (start_point.y - move_point.y)
-				);
+					start_camera_point.x + (start_point.x - move_point.x), 
+					start_camera_point.y + (start_point.y - move_point.y));
+				var dc : Rectangle = base.getCamera();
+				if (sc.x != dc.x || sc.y != dc.y) {
+					this.touch_moved = true;
+				}
 				speed = null;
 			}
 		}
