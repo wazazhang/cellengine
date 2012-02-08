@@ -81,7 +81,7 @@ package com.cell.util
 		public function getMapSet(keys:Array) : Map
 		{
 			var ret : Map = new Map();
-			for (var key : Object in keys) { 
+			for each(var key : Object in keys) { 
 				var v : * = this[key];
 				if (v != null) {
 					ret.put(key, v);
