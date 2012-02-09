@@ -38,14 +38,16 @@ package com.cell.util
 		
 		public function remove(key:*) : *
 		{
-			return delete[key];
+			var ret : * = this[key];
+			delete this[key];
+			return ret;
 		}
 		
 		public function removeValue(value:*) : void
 		{
 			for (var key : Object in this) { 
 				if (this[key] == value) {
-					delete[key];
+					delete this[key];
 				}
 			}
 		}
@@ -72,8 +74,8 @@ package com.cell.util
 		public function values() : Array
 		{
 			var ret : Array = new Array();
-			for (var key : Object in this) { 
-				ret.push(this[key]);
+			for each (var v : * in this) { 
+				ret.push(v);
 			}
 			return ret;
 		}

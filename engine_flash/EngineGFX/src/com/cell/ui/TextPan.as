@@ -36,20 +36,14 @@ package com.cell.ui
 			return textField;
 		}
 		
-		
-		public function set textAnchor(anchor:int):void
-		{
-			_anchor = anchor;
-			Anchor.setAnchorRect(textField, _anchor, width, height);
-		}
-		
 		public function get textAnchor() : int
 		{
 			return _anchor;
 		}
 		
-		public function resize(w:int, h:int):void
+		public function resize(w:int, h:int, anchor:int=Anchor.ANCHOR_CENTER):void
 		{
+			_anchor = anchor;
 			Anchor.setAnchorRect(textField, _anchor, w, h);
 		}
 		
