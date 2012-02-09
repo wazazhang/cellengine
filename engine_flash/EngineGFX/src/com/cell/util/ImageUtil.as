@@ -21,6 +21,17 @@ package com.cell.util
 		public static const CHANNEL_GREEN 	: int = 2;
 		public static const CHANNEL_BLUE 	: int = 3;
 		
+		public static function resizeImage(src:BitmapData, width:int, height:int) : BitmapData
+		{
+			var bm : BitmapData = new BitmapData(width, height, true);
+			var sb : Bitmap = new Bitmap(src);
+			sb.scaleX = width  / src.width;
+			sb.scaleY = height / src.height;
+			sb.cacheAsBitmap = true;
+			bm.draw(src, null, null, null, null, true);
+			return bm;
+		}
+		
 		/**
 		 * 整合所有Bitmap Class
 		 * */
