@@ -70,23 +70,23 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			Class<?> cls = e.getValue();
-			if (Modifier.isAbstract(cls.getModifiers())) {
-				continue;
-			}
 			String c_name = cls.getCanonicalName();
 			String s_name = cls.getSimpleName();
-			
+
 			classesArray.append("\t\t\t"+c_name+".class,\n");
 			
-			read_external.append(
-			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
-			"			_r((" + c_name + ")msg, in); return;\n" +
-			"		}\n");
-			write_external.append(
-			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
-			"			_w((" + c_name + ")msg, out); return;\n" +
-			"		}\n");
-			genMethod(e.getValue(), classesIO, factory);
+			if (!Modifier.isAbstract(cls.getModifiers())) 
+			{
+				read_external.append(
+						"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
+						"			_r((" + c_name + ")msg, in); return;\n" +
+						"		}\n");
+						write_external.append(
+						"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
+						"			_w((" + c_name + ")msg, out); return;\n" +
+						"		}\n");
+						genMethod(e.getValue(), classesIO, factory);
+			}
 		}
 		
 		String ret = this.template;

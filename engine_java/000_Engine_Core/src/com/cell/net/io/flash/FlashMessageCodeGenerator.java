@@ -85,28 +85,30 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			Class<?> cls = e.getValue();
-			if (Modifier.isAbstract(cls.getModifiers())) {
-				continue;
-			}
+
 			String c_name = e.getValue().getCanonicalName();
 			String s_name = e.getValue().getSimpleName();
 			int    s_type = e.getKey();
-			String m_name = s_name + "_" + s_type;
 			
-			read_external.append(
-			"		if (msg is " + c_name + ") {\n" +
-			"			r_" + m_name + "(" + c_name + "(msg), input); return;\n" +
-			"		}\n");
-			write_external.append(
-			"		if (msg is " + c_name + ") {\n" +
-			"			w_" + m_name + "(" + c_name + "(msg), output); return;\n" +
-			"		}\n");
-			genCodecMethod(factory, e.getValue(), s_type, classes);
 			get_type.append(
 			"			if (msg is " + c_name + ") return " + s_type + ";\n");
-			new_msg.append(
-			"			case " + s_type + " : return new " + c_name + ";\n");
-			
+
+			if (!Modifier.isAbstract(cls.getModifiers())) 
+			{
+				String m_name = s_name + "_" + s_type;
+				read_external.append(
+				"		if (msg is " + c_name + ") {\n" +
+				"			r_" + m_name + "(" + c_name + "(msg), input); return;\n" +
+				"		}\n");
+				write_external.append(
+				"		if (msg is " + c_name + ") {\n" +
+				"			w_" + m_name + "(" + c_name + "(msg), output); return;\n" +
+				"		}\n");
+				genCodecMethod(factory, e.getValue(), s_type, classes);
+				
+				new_msg.append(
+				"			case " + s_type + " : return new " + c_name + ";\n");
+			}
 		}
 		
 		String ret = this.codec_template;
