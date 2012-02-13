@@ -64,7 +64,8 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	{
 		StringBuilder read_external		= new StringBuilder();
 		StringBuilder write_external	= new StringBuilder();
-		StringBuilder classes			= new StringBuilder();
+		StringBuilder classesIO			= new StringBuilder();
+		StringBuilder classesArray		= new StringBuilder();
 
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
@@ -74,6 +75,9 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			}
 			String c_name = cls.getCanonicalName();
 			String s_name = cls.getSimpleName();
+			
+			classesArray.append("\t\t\t"+c_name+".class,\n");
+			
 			read_external.append(
 			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
 			"			_r((" + c_name + ")msg, in); return;\n" +
@@ -82,7 +86,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
 			"			_w((" + c_name + ")msg, out); return;\n" +
 			"		}\n");
-			genMethod(e.getValue(), classes, factory);
+			genMethod(e.getValue(), classesIO, factory);
 		}
 		
 		String ret = this.template;
@@ -94,7 +98,8 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		
 		ret = CUtil.replaceString(ret, "//readExternal",	read_external.toString());
 		ret = CUtil.replaceString(ret, "//writeExternal",	write_external.toString());
-		ret = CUtil.replaceString(ret, "//classes",			classes.toString());
+		ret = CUtil.replaceString(ret, "//classesIO",		classesIO.toString());
+		ret = CUtil.replaceString(ret, "//classesArray",	classesArray.toString());
 		return ret;
 	}
 	

@@ -153,8 +153,9 @@ public class Messages
 					return date+"";
 				}
 			};
-			gen_as.genCodeFile(factory, 
-					new File(args[0]));
+			System.out.println(gen_as.genMutualMessageCodec(factory));
+//			gen_as.genCodeFile(factory, 
+//					new File(args[0]));
 		}
 		
 		

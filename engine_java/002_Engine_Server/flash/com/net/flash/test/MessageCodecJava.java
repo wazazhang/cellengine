@@ -10,9 +10,22 @@ import com.cell.net.io.*;
 public class MessageCodecJava implements MutualMessageCodec
 {
 	public String getVersion() {
-		return "1327999485437";
+		return "1329117903896";
 	}
 
+	public Class<?>[] getClasses()
+	{
+		return new Class<?>[]{
+			com.net.flash.test.Messages.Data.class,
+			com.net.flash.test.Messages.Echo2Request.class,
+			com.net.flash.test.Messages.Echo2Response.class,
+			com.net.flash.test.Messages.EchoNotify.class,
+			com.net.flash.test.Messages.EchoRequest.class,
+			com.net.flash.test.Messages.EchoResponse.class,
+
+		};
+	}
+	
 	public void readMutual(MutualMessage msg, NetDataInput in) throws IOException 
 	{
 		if (msg.getClass().equals(com.net.flash.test.Messages.Data.class)) {
@@ -156,6 +169,7 @@ public class MessageCodecJava implements MutualMessageCodec
 		out.writeMutual(msg.data);
 		out.writeMutualArray(msg.datas);
 	}
+
 
 
 }

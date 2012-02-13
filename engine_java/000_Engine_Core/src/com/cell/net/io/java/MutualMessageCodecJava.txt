@@ -13,6 +13,13 @@ public class //className implements MutualMessageCodec
 		return "//version";
 	}
 
+	public Class<?>[] getClasses()
+	{
+		return new Class<?>[]{
+//classesArray
+		};
+	}
+	
 	public void readMutual(MutualMessage msg, NetDataInput in) throws IOException 
 	{
 //readExternal
@@ -23,5 +30,6 @@ public class //className implements MutualMessageCodec
 //writeExternal
 	}
 
-//classes
+//classesIO
+
 }
