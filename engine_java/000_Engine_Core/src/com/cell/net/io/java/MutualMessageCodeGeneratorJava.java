@@ -306,6 +306,20 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		System.out.println("genCodeFileJava : " + output.getCanonicalPath());
 	}
 	
+	
+	public static Class<?>[] findClasses(File srcdir, String package_prefix) throws Exception
+	{
+		ArrayList<Class<?>> ret = new ArrayList<Class<?>>();
+		for (File f : srcdir.listFiles()) {
+			if (f.getName().endsWith(".java")) {
+				String className = f.getName().substring(0, f.getName().length()-5);
+				Class<?> cls = Class.forName(package_prefix + "." + className);
+				ret.add(cls);
+			}
+		}
+		return ret.toArray(new Class<?>[ret.size()]);
+	}
+	
 //	public static void main(String[] args) {
 //		ArrayList a = new ArrayList();
 //		a.add("");
