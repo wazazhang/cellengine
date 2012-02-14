@@ -6,8 +6,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.cell.CIO;
 import com.cell.CUtil;
@@ -309,7 +311,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	
 	public static Class<?>[] findClasses(File srcdir, String package_prefix) throws Exception
 	{
-		ArrayList<Class<?>> ret = new ArrayList<Class<?>>();
+		LinkedHashSet<Class<?>> ret = new LinkedHashSet<Class<?>>();
 		for (File f : srcdir.listFiles()) {
 			if (f.getName().endsWith(".java")) {
 				String className = f.getName().substring(0, f.getName().length()-5);
@@ -318,6 +320,39 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			}
 		}
 		return ret.toArray(new Class<?>[ret.size()]);
+	}
+	
+	public static Class<?>[] findClasses(File srcroot) throws Exception
+	{
+		LinkedHashSet<Class<?>> ret = new LinkedHashSet<Class<?>>();
+		for (File f : srcroot.listFiles()) {
+			findClasses(srcroot, f, ret);
+		}
+		return ret.toArray(new Class<?>[ret.size()]);
+	}
+	
+	private static void findClasses(File srcroot, File child, Set<Class<?>> ret) throws Exception
+	{
+		String package_prefix = child.getCanonicalPath().substring(srcroot.getCanonicalPath().length());
+		package_prefix = package_prefix.replace('\\', '.');
+		package_prefix = package_prefix.replace('/', '.');
+		while (package_prefix.charAt(0)=='.') {
+			package_prefix = package_prefix.substring(1);
+		}
+		while (package_prefix.charAt(package_prefix.length()-1)=='.') {
+			package_prefix = package_prefix.substring(0, package_prefix.length()-1);
+		}
+		for (File f : child.listFiles()) {
+			if (!f.isHidden()) {
+				if (f.isDirectory()) {
+					findClasses(srcroot, f, ret);
+				} else if (f.getName().endsWith(".java")) {
+					String className = f.getName().substring(0, f.getName().length()-5);
+					Class<?> cls = Class.forName(package_prefix + "." + className);
+					ret.add(cls);
+				}
+			}
+		}
 	}
 	
 //	public static void main(String[] args) {
