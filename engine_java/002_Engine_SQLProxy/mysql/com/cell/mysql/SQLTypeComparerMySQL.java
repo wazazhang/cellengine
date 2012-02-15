@@ -6,13 +6,29 @@ import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.Writer;
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Stack;
 
+import com.cell.CUtil;
+import com.cell.reflect.Fields;
 import com.cell.sql.SQLColumn;
+import com.cell.sql.SQLColumnAdapter;
+import com.cell.sql.SQLFieldGroup;
 import com.cell.sql.SQLStructCLOB;
 import com.cell.sql.SQLType;
 import com.cell.sql.SQLTypeComparer;
+import com.cell.sql.SQMTypeManager;
+import com.cell.sql.anno.SQLField;
+import com.cell.sql.anno.SQLGroupField;
 import com.cell.sql.anno.SQLTable;
 import com.cell.sql.util.SQLUtil;
 import com.cell.xstream.XStreamAdapter;
@@ -332,6 +348,99 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 		return null;
 	}
 	
+	
+	
+	public String createInsertSQL(String table_name, SQLColumn[] columns)
+	{
+		StringBuffer sb = new StringBuffer("INSERT INTO ");
+		sb.append(table_name);
+		sb.append("(\n");
+		
+		for (int i=0; i<columns.length; i++){
+			SQLColumn c = columns[i];
+			sb.append("\t"); 
+			sb.append(c.getName());
+			sb.append(getSplitChar(i, columns.length));
+		}
+		sb.append(") VALUES (\n");
+		for (int i=0; i<columns.length; i++){
+			sb.append("\t?"); 
+			sb.append(getSplitChar(i, columns.length));
+		}
+		sb.append(");");
+		
+		return sb.toString();
+	}
+	
+	public String createUpdateSQL(String table_name, SQLColumn[] columns, String primary_key_name, Object primary_key_value)
+	{
+		StringBuffer sb = new StringBuffer("UPDATE ");
+		sb.append(table_name);
+		sb.append(" SET\n");
+		
+		for (int i=0; i<columns.length; i++){
+			SQLColumn c = columns[i];
+			sb.append("\t"); 
+			sb.append(c.getName()); 
+			sb.append("=?"); 
+			sb.append(getSplitChar(i, columns.length));
+		}
+		
+		sb.append("WHERE "); 
+		sb.append(primary_key_name); 
+		sb.append("='");
+		sb.append(primary_key_value); 
+		sb.append("';");
+		
+		return sb.toString();
+	}
+	
+	public String createDeleteSQL(String table_name, String primary_key_name, Object primary_key_value)
+	{
+		StringBuffer sb = new StringBuffer("DELETE FROM ");
+		sb.append(table_name);
+		sb.append(" WHERE ");
+		sb.append(primary_key_name); 
+		sb.append("='"); 
+		sb.append(primary_key_value);
+		sb.append("';");
+		return sb.toString();
+	}
+	
+	public String createSelectRowSQL(String table_name, String field_name, Object field_value)
+	{
+		StringBuffer sb = new StringBuffer("SELECT * FROM ");
+		sb.append(table_name);
+		sb.append(" WHERE ");
+		sb.append(field_name);
+		sb.append("='");
+		sb.append(field_value);
+		sb.append("';");
+		
+		return sb.toString();
+	}
+	
+	public String createSelectAllLimitSQL(String table_name, int startIndex, int count)
+	{
+		return "SELECT * FROM " + table_name + " LIMIT " + startIndex + "," + count + ";";
+	}
+	
+//	public String createSelectFieldsSQL(String table_name, String field_names[], Object field_value)
+//	{
+//		String sql = "SELECT " + CUtil.arrayToString(fieldName, ",", "") + " FROM " + table_name + " WHERE player_id='" + key + "';";
+//
+//		return sql;
+//	}
+	
+	final private String getSplitChar(int i, int len) {
+		return ((i != len - 1) ? ",\n" : "\n");
+	}
+
+
+//	---------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//	---------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	/***
 	 * <b>对InnoDB表的限制（form：mysql中文文档）</b>
 <pre>
@@ -423,7 +532,43 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 
 	 * @return
 	 */
-	public void validateTable(
+	public boolean validateTable(Connection conn, SQLColumnAdapter<?, ?> table,
+			boolean auto_create_struct,
+			boolean sort_field,
+			boolean create_comment) throws SQLException
+	{
+		// 验证表结构
+		table.log.info("validating table struct [" + table.table_name + "] ...");
+		
+		ValidateResult result = validateTableColumns(conn, table);
+		
+		if (result != ValidateResult.OK)
+		{
+			table.log.warn("validate error [" + table.table_name + "] : " + result);
+			
+			if (result == ValidateResult.ERROR_NOT_EXIST && auto_create_struct)
+			{
+				table.log.info("creating table struct [" + table.table_name + "] ...");
+				
+				Statement statement = conn.createStatement();
+				
+				String create = getCreateTableSQL(table, sort_field, create_comment);
+				System.out.println(create);
+				statement.execute(create);
+				statement.close();
+				
+				result = validateTableColumns(conn, table);
+			}
+			else
+			{
+				throw new SQLException("table struct [" + table.table_name + "] not validate !");
+			}
+		}
+
+		return result == ValidateResult.OK;
+	}
+	
+	private void validateTableLimit(
 			Class<?> table_class, 
 			SQLTable table_type,
 			String table_name,
@@ -468,6 +613,367 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 			throw new SQLException("row size over limit " + max_limit_size + " < " + row_limit_size);
 		}
 	}
+
 	
+	/**
+	 * 检查指定数据库里的表结构是否符合java的结构
+	 * @param tableClass
+	 * @param statement
+	 * @return
+	 */
+	private ValidateResult validateTableColumns(Connection conn, SQLColumnAdapter<?, ?> table) throws SQLException
+	{
+		try {
+			validateTableLimit(
+					table.table_class,
+					table.table_type, 
+					table.table_name, 
+					table.table_columns);
+		} catch (SQLException err) {
+			table.log.error(err.getMessage(), err);
+			return ValidateResult.ERROR_DRIVER_LIMITED;
+		}
+		
+		ValidateResult vresult = validateAndAutoFix(conn, table);
+		
+		if (vresult == ValidateResult.OK)
+		{
+			String sql = "SELECT * FROM " + table.table_name + " LIMIT 0;";
+			
+			Statement statement = conn.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			ResultSetMetaData metadata = result.getMetaData();
+			result.close();
+			statement.close();
+			
+			// last validate
+			for (int rc = 1; rc <= metadata.getColumnCount(); rc++) 
+			{
+				String 		rname 	= metadata.getColumnName(rc);
+				SQLColumn 	c 		= table.getColumn(rname);
+				String 		tname 	= c.getName();
+				
+				// 检测名字是否正确
+				if (!rname.equalsIgnoreCase(tname)) 
+				{
+					System.err.println(
+							"Table '" + table.table_name + "' " +
+							"field name ["+rname+","+tname+"] not equal! " +
+							"at column " + rc 
+							);
+					return ValidateResult.ERROR_NAME;
+				}
+				
+				// 检查类型是否正确
+				if (!c.getAnno().type().typeEquals(metadata.getColumnType(rc))) 
+				{
+					String	rtypename	= metadata.getColumnTypeName(rc);
+					int		rtype		= metadata.getColumnType(rc);
+					String	ttypename	= c.getAnno().type().getDirverTypeName();
+					int		ttype		= c.getAnno().type().getJdbcType();
+					
+					System.err.println(
+							"Table '" + table.table_name + "' " +
+							"field type ["+rtypename+"("+rtype+")"+","+ttypename+"("+ttype+")"+"] not equal! " +
+							"at column " + rc 
+							);
+					
+					return ValidateResult.ERROR_TYPE;
+				}
+			}
+			return ValidateResult.OK;
+		}
+		
+		return vresult;
+	}
+	
+	private ValidateResult validateAndAutoFix(Connection conn, SQLColumnAdapter<?, ?> table) throws SQLException
+	{
+		String sql = "SELECT * FROM " + table.table_name + " LIMIT 0;";
+
+		Statement statement = conn.createStatement();
+		
+		while(true)
+		{
+			ResultSet result = null;
+
+			try {
+				result = statement.executeQuery(sql);
+			} catch (Exception e) {
+				return ValidateResult.ERROR_NOT_EXIST;
+			}
+			
+			ResultSetMetaData metadata = result.getMetaData();
+			result.close();
+			
+			ArrayList<SQLColumn> not_exists = new ArrayList<SQLColumn>();
+			
+			for (SQLColumn c : table.table_columns)
+			{
+				int rc = indexOfSQLColumn(metadata, c);
+				
+				if (rc == 0) 
+				{
+					not_exists.add(c);
+				} 
+				else if (rc < 0)
+				{
+					String	rtypename	= metadata.getColumnTypeName(-rc);
+					int		rtype		= metadata.getColumnType(-rc);
+					String	ttypename	= c.getAnno().type().getDirverTypeName();
+					int		ttype		= c.getAnno().type().getJdbcType();
+					
+					String reson = (
+							"Table '" + table.table_name + "' " +
+							"field : " + c.getName() + " : type ["+rtypename+"("+rtype+")"+","+ttypename+"("+ttype+")"+"] not equal! " +
+							"at column " + -rc);
+					
+					throw new SQLException(reson);
+				}
+			}
+			
+			if (!not_exists.isEmpty())
+			{
+				for (SQLColumn c : not_exists)
+				{
+					String add_sql = getAlterTableAddColumnSQL(c, table.table_name);
+					System.out.println(add_sql);
+					statement.executeUpdate(add_sql);
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		statement.close();
+				
+		return ValidateResult.OK;
+		
+	}
+
+
+	public void syncTableColumns(Connection conn, SQLColumnAdapter<?, ?> table) throws SQLException
+	{
+		ValidateResult vresult = validateTableColumns(conn, table);
+		
+		if (vresult == ValidateResult.OK)
+		{
+			Statement statement = conn.createStatement();
+			
+			String sql = "SELECT * FROM " + table.table_name + " LIMIT 0;";
+			try
+			{
+				ResultSet 			result			= statement.executeQuery(sql);
+				ResultSetMetaData	metadata		= result.getMetaData();
+				result.close();
+				
+				for (int rc = metadata.getColumnCount() - 1; rc >= 0; --rc)
+				{
+					SQLColumn c  = table.getColumn(metadata.getColumnName(rc));
+					String rtname = metadata.getColumnTypeName(rc);
+					String ttname = c.getAnno().type().getDirverTypeName();
+					
+					if (rtname.equalsIgnoreCase(ttname)) {
+						String change_sql = getAlterTableChangeColumnSQL(c, table.table_name);
+						System.out.println(change_sql);
+						statement.executeUpdate(change_sql);
+					}
+				}
+				
+			} finally {
+				statement.close();
+			}
+		}
+	}
+	
+//	---------------------------------------------------------------------------------------------------------------------------------
+
+	
+	
+	/**
+	 * @param metadata
+	 * @param c
+	 * @return 
+	 * >=1 : index of column<br>
+	 * 0 : not exist<br>
+	 * <=1 : index of column, but type not equal<br>
+	 * @throws SQLException
+	 */
+	int indexOfSQLColumn(ResultSetMetaData metadata, SQLColumn c) throws SQLException
+	{
+		String	tname	= c.getName();
+		SQLType	ttype	= c.getAnno().type();
+		
+		for (int rc = 1; rc <= metadata.getColumnCount(); rc++) {
+			// 检测名字是否正确
+			if (tname.equalsIgnoreCase(metadata.getColumnName(rc))) {
+				// 检查字段类型是否正确
+				if (ttype.typeEquals(metadata.getColumnType(rc))) {
+					return rc;
+				}else{
+					return -rc;
+				}
+			}
+		}
+		return 0;
+	}
+	
+	
+//	---------------------------------------------------------------------------------------------------------------------------------
+//	alter table 'name' change 'columna' 'columnb' longblob
+//
+//	---------------------------------------------------------------------------------------------------------------------------------
+
+
+//	---------------------------------------------------------------------------------------------------------------------------------
+	
+	public String getAlterTableChangeColumnSQL(SQLColumn c, String table_name)
+	{
+		StringBuilder add_sql = new StringBuilder();
+		add_sql.append("ALTER TABLE `" + table_name + "` CHANGE ");
+		add_sql.append("`" + c.getName() + "` ");
+		add_sql.append("`" + c.getName() + "` ");
+		add_sql.append(c.getAnno().type() + " ");
+		add_sql.append(c.getConstraint());
+		String comment = c.getAllComment();
+		if (comment != null && comment.length() > 0) {
+			add_sql.append(" COMMENT '" + comment + "'");
+		}
+		add_sql.append(";");
+		return add_sql.toString();
+	}
+	
+	public String getAlterTableAddColumnSQL(SQLColumn c, String table_name) 
+	{
+		StringBuilder add_sql = new StringBuilder();
+		add_sql.append("ALTER TABLE `" + table_name + "` ADD COLUMN ");
+		add_sql.append("`" + c.getName() + "` ");
+		add_sql.append(c.getAnno().type() + " ");
+		add_sql.append(c.getConstraint());
+		String comment = c.getAllComment();
+		if (comment != null && comment.length() > 0) {
+			add_sql.append(" COMMENT '" + comment + "'");
+		}
+		add_sql.append(";");
+		return add_sql.toString();
+	}
+
+//	--------------------------------------------------------------------------------------------------------
+	
+	public class CreateTableColumnSorter implements Comparator<SQLColumn> 
+	{
+		final SQLTable		table_type;
+		final boolean		sort_by_name;
+		
+		public CreateTableColumnSorter(SQLTable table_type, boolean sort_by_name) {
+			this.table_type		= table_type;
+			this.sort_by_name	= sort_by_name;
+		}
+		
+		public int compare(SQLColumn a, SQLColumn b)
+		{
+			if (a.getName().equals(table_type.primary_key_name())) return -1;
+			if (b.getName().equals(table_type.primary_key_name())) return 1;
+			int priority = b.getAnno().index_priority() - a.getAnno().index_priority();
+			if (priority != 0) {
+				return priority;
+			}
+			if (sort_by_name) {
+				return a.getName().compareToIgnoreCase(b.getName());
+			}
+			return 0;
+		}
+	}
+	
+	
+	/**
+	 * 获得该类型对应SQL的创建语句
+	 * @param sorter			是否对列进行排序
+	 * @param create_comment	是否产生注释信息
+	 * @return 
+	 * @throws SQLException
+	 */
+	public String getCreateTableSQL(
+			SQLColumnAdapter<?, ?> table,
+			Comparator<SQLColumn> sorter, 
+			boolean create_comment)
+	{
+		SQLColumn[] columnss = new SQLColumn[table.table_columns.length];
+		System.arraycopy(table.table_columns, 0, columnss, 0, columnss.length);
+		Arrays.sort(columnss, sorter);
+		
+		String sql = "CREATE TABLE `" + table.table_name + "` (\n";
+		int name_max_len = 1;
+		for (int i = 0; i < columnss.length; i++) {
+			name_max_len = Math.max(columnss[i].getName().length()+4, name_max_len);
+		}
+		
+		for (int i = 0; i < columnss.length; i++)
+		{
+			SQLColumn column = columnss[i];
+			
+			sql += "\t" + CUtil.snapStringRightSize(
+					"`"+ column.getName() + "`", name_max_len, ' ') + 
+					" " + column.getAnno().type();
+			
+				String constraint = column.getConstraint();
+				if (constraint != null && constraint.length() > 0) {
+					sql += " " + constraint;
+				}
+				if (create_comment) {
+					String comment = column.getAllComment();
+					if (comment != null && comment.length() > 0) {
+						sql += " COMMENT '" + comment + "'";
+					}
+				}
+				sql += ",\n";
+		}
+		
+		sql += "\tPRIMARY KEY (" + table.table_type.primary_key_name() + ")";
+		if (!table.table_type.constraint().trim().isEmpty()) {
+			sql += ", " + table.table_type.constraint() + "\n";
+		} else {
+			sql += "\n";
+		}
+		sql += ")";
+		
+		if (!table.table_type.properties().trim().isEmpty()) {
+			sql += " " + table.table_type.properties();
+		}
+		if (create_comment && !table.table_type.comment().trim().isEmpty()) {
+			sql += " COMMENT='" + table.table_type.comment() + "'";
+		}
+		sql += ";";
+		return sql;
+	
+	}
+	
+	/**
+	 * 获得该类型对应SQL的创建语句
+	 * @param table
+	 * @param sort_fields		是否对列进行默认排序
+	 * @param create_comment	是否产生注释信息
+	 * @return 
+	 * @throws SQLException
+	 */
+	public String getCreateTableSQL(
+			SQLColumnAdapter<?, ?> table,
+			boolean sort_fields, 
+			boolean create_comment)
+	{
+		return getCreateTableSQL(table, new CreateTableColumnSorter(table.table_type, sort_fields), create_comment);
+	}
+
+	/**
+	 * 获得该类型对应SQL的创建语句
+	 * @param table
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getCreateTableSQL(SQLColumnAdapter<?, ?> table)
+	{
+		return getCreateTableSQL(table, true, true);
+	}
 }
 

@@ -11,10 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cell.CUtil.ICompare;
+import com.cell.reflect.Fields;
 import com.cell.sql.anno.SQLField;
 import com.cell.sql.anno.SQLGroupField;
 
-public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
+public class SQLColumn
 {
 	final public static Logger 		log 		= LoggerFactory.getLogger(SQLColumn.class);
 	
@@ -32,9 +33,9 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 	
 //	/**在层次中，是否有标注过只读*/
 //	private boolean 				is_read_only = false;
-	
-	/** 该字段在数据库中的位置 */
-	private int						index;
+//	
+//	/** 该字段在数据库中的位置 */
+//	private int						index;
 
 	public SQLColumn(SQLField anno, Stack<Field> fields_stack)
 	{
@@ -64,9 +65,9 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 		this.name		= name;
 	}
 
-	final int getIndex() {
-		return index;
-	}
+//	final public int getIndex() {
+//		return index;
+//	}
 
 	final public SQLField getAnno() {
 		return anno;
@@ -80,9 +81,9 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 		return leaf_field;
 	}
 	
-	final void setIndex(int i){
-		index = i;
-	}
+//	final void setIndex(int i){
+//		index = i;
+//	}
 
 	public String getConstraint()
 	{
@@ -129,9 +130,9 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 		return getClass().getSimpleName() + " : " + getName();
 	}
 
-	public int compare(SQLColumn a, SQLColumn b) {
-		return b.index - a.index;
-	}
+//	public int compare(SQLColumn a, SQLColumn b) {
+//		return b.index - a.index;
+//	}
 
 	SQLFieldGroup getLeafTable(SQLFieldGroup table) throws Exception
 	{
@@ -220,4 +221,87 @@ public class SQLColumn implements ICompare<SQLColumn, SQLColumn>
 		}
 	}
 
+	
+//	
+	
+
+	static public SQLColumn[] getSQLColumns(Class<?> tableClass)
+	{
+		SQLColumn[] columns = null;
+		try 
+		{
+			ArrayList<SQLColumn>	full_columns_list 	= new ArrayList<SQLColumn>();
+			Stack<Field> 			fields_stack		= new Stack<Field>();
+
+			getSQLColumns(
+					tableClass, 
+					full_columns_list, 
+					fields_stack);
+			
+			columns = full_columns_list.toArray(new SQLColumn[full_columns_list.size()]);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return columns;
+	}
+
+	/**
+	 * 递归该类（包括子字段），找到所有SQLField字段
+	 * @param gclass
+	 * @param full_columns_list
+	 * @param fields_stack
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	static void getSQLColumns(
+			Class<?>				gclass,
+			ArrayList<SQLColumn> 	full_columns_list, 
+			Stack<Field> 			fields_stack
+			) throws IllegalArgumentException, IllegalAccessException
+	{
+		ArrayList<Field> fields = Fields.getDeclaredAndSuperFields(gclass);
+		
+		for (Field field : fields)
+		{
+			fields_stack.push(field);
+			
+			SQLField sql_field_anno = field.getAnnotation(SQLField.class);
+			
+			if (sql_field_anno != null)
+			{
+				full_columns_list.add(new SQLColumn(sql_field_anno, fields_stack));
+			}
+			else
+			{			
+				// 得到SQLFieldGroup子复合类型
+				SQLGroupField sql_group_field_anno = field.getAnnotation(SQLGroupField.class);
+				
+				if (sql_group_field_anno != null)
+				{
+					// 得到SQLFieldGroup子复合类型
+					try
+					{
+						field.getType().asSubclass(SQLFieldGroup.class);
+						// 递归
+						getSQLColumns(field.getType(), full_columns_list, fields_stack);
+					}
+					catch (Exception e) 
+					{
+//						// 得到SQLField字段
+//						SQLField anno = field.getAnnotation(SQLField.class);
+//						if (anno != null)
+//							full_columns_list.add(new SQLColumn(anno, fields_stack));
+
+						// 必须是annotation SQLGroupField的且是SQLFieldGroup子类的才可以继续处理内部表结构
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			fields_stack.pop();
+		}
+	}
+	
+	
 }

@@ -18,7 +18,6 @@ import com.cell.CUtil;
 import com.cell.sql.SQLColumn;
 import com.cell.sql.SQLFieldGroup;
 import com.cell.sql.SQLStructCLOB;
-import com.cell.sql.SQLTableManager;
 import com.cell.sql.SQMTypeManager;
 
 public class SQLUtil
@@ -165,7 +164,7 @@ public class SQLUtil
 	 */
 	public static <T extends SQLFieldGroup> void setSQLFields(T src, T dst) throws Exception
 	{
-		setSQLFields(SQLTableManager.getSQLColumns(src.getClass()), src, dst);
+		setSQLFields(SQLColumn.getSQLColumns(src.getClass()), src, dst);
 	}
 	
 	/**
@@ -193,12 +192,12 @@ public class SQLUtil
 	 */
 	public static SQLColumn[] getSQLColumns(Class<? extends SQLFieldGroup> clazz)
 	{
-		return SQLTableManager.getSQLColumns(clazz);
+		return SQLColumn.getSQLColumns(clazz);
 	}
 
 	public static HashMap<String, SQLColumn> getSQLColumnsMap(Class<? extends SQLFieldGroup> clazz)
 	{
-		SQLColumn[] columns = SQLTableManager.getSQLColumns(clazz);
+		SQLColumn[] columns = SQLColumn.getSQLColumns(clazz);
 		
 		HashMap<String, SQLColumn> ret = new HashMap<String, SQLColumn>(columns.length);
 		

@@ -30,7 +30,7 @@ public abstract class SQLColumnManager<K, R extends SQLTableRow<K>> extends SQLC
 
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	public SQLColumnManager(Class<R> cls, String tableName, SQLColumnMap<K, R> data_map)
+	public SQLColumnManager(Class<R> cls, String tableName, SQLColumnMap<K, R> data_map) throws Exception
 	{
 		super(cls, tableName);
 		this.data_map		= data_map;
@@ -52,63 +52,63 @@ public abstract class SQLColumnManager<K, R extends SQLTableRow<K>> extends SQLC
 	
 //	---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	public void loadAll(Connection conn, int block_size) throws Exception
-	{
-		// 读入表数据
-		try
-		{
-			if (data_map.size() > 0) {
-				throw new Exception("already loaded [" + table_name + "] data  !");
-			}
-			
-			long starttime = System.currentTimeMillis();
-			log.info("loading [" + table_name + "] ...");
-			
-			ValidateResult vresult = validateAndAutoFix(conn);
-			
-			if (vresult == ValidateResult.OK)
-			{
-				data_writeLock.lock();
-				try {
-					int index = 0;
-					while (true) {
-						long btime = System.currentTimeMillis();
-						String sql = "SELECT * FROM " + table_name + " LIMIT " + index + "," + block_size + ";";
-						ArrayList<R> rows = selectFully(conn, sql);
-						if (rows != null && !rows.isEmpty()) {
-							index += rows.size();
-							for (R row : rows) {
-								data_map.put(row.getPrimaryKey(), row);
-							}
-							log.info("loading [" + table_name + "]" +
-									" : block size = " + rows.size()+
-									" : last id = " + rows.get(rows.size()-1).getPrimaryKey() +
-									" : use time = " + (System.currentTimeMillis() - btime) + "(ms)");
-						} else {
-							break;
-						}
-					}
-//					ArrayList<R> rows = selectAll(conn);
-//					for (R row : rows) {
-//						data_map.put(row.getPrimaryKey(), row);
+//	public void loadAll(Connection conn, int block_size) throws Exception
+//	{
+//		// 读入表数据
+//		try
+//		{
+//			if (data_map.size() > 0) {
+//				throw new Exception("already loaded [" + table_name + "] data  !");
+//			}
+//			
+//			long starttime = System.currentTimeMillis();
+//			log.info("loading [" + table_name + "] ...");
+//			
+//			SQMTypeManager.ValidateResult vresult = validateAndAutoFix(conn);
+//			
+//			if (vresult == SQMTypeManager.ValidateResult.OK)
+//			{
+//				data_writeLock.lock();
+//				try {
+//					int index = 0;
+//					while (true) {
+//						long btime = System.currentTimeMillis();
+//						String sql = "SELECT * FROM " + table_name + " LIMIT " + index + "," + block_size + ";";
+//						ArrayList<R> rows = selectFully(conn, sql);
+//						if (rows != null && !rows.isEmpty()) {
+//							index += rows.size();
+//							for (R row : rows) {
+//								data_map.put(row.getPrimaryKey(), row);
+//							}
+//							log.info("loading [" + table_name + "]" +
+//									" : block size = " + rows.size()+
+//									" : last id = " + rows.get(rows.size()-1).getPrimaryKey() +
+//									" : use time = " + (System.currentTimeMillis() - btime) + "(ms)");
+//						} else {
+//							break;
+//						}
 //					}
-				} finally {
-					data_writeLock.unlock();
-				}
-				log.info("loaded  [" + table_name + "]" +
-						" : total size = " + size() + 
-						" : use time = " + (System.currentTimeMillis() - starttime) + "(ms)");
-			}
-			else
-			{
-				throw new SQLException("validate error !");
-			}
-		} 
-		catch (Exception e) {
-			log.error("load table [" + table_name + "] faild!\n" + e.getMessage(), e);
-			throw e;
-		}
-	}
+////					ArrayList<R> rows = selectAll(conn);
+////					for (R row : rows) {
+////						data_map.put(row.getPrimaryKey(), row);
+////					}
+//				} finally {
+//					data_writeLock.unlock();
+//				}
+//				log.info("loaded  [" + table_name + "]" +
+//						" : total size = " + size() + 
+//						" : use time = " + (System.currentTimeMillis() - starttime) + "(ms)");
+//			}
+//			else
+//			{
+//				throw new SQLException("validate error !");
+//			}
+//		} 
+//		catch (Exception e) {
+//			log.error("load table [" + table_name + "] faild!\n" + e.getMessage(), e);
+//			throw e;
+//		}
+//	}
 	
 	public void close(Connection conn)
 	{

@@ -2,21 +2,14 @@ package com.cell.xls;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import jxl.Sheet;
 import jxl.Workbook;
 
 import com.cell.CIO;
-import com.cell.reflect.Parser;
 import com.cell.sql.SQLColumn;
-import com.cell.sql.SQLStructCLOB;
-import com.cell.sql.SQLTableManager;
 import com.cell.sql.SQLTableRow;
 
 public class XLSTable<V extends SQLTableRow<?>>
@@ -59,7 +52,7 @@ public class XLSTable<V extends SQLTableRow<?>>
 	{
 	    System.out.println("Init XLSTable : table class : " + cls.getSimpleName());
 	    
-		SQLColumn[]	sql_columns		= SQLTableManager.getSQLColumns(cls);
+		SQLColumn[]	sql_columns		= SQLColumn.getSQLColumns(cls);
 		Workbook	work_book		= Workbook.getWorkbook(is);
 		try {
 			for (String rs : work_book.getSheetNames()) {

@@ -12,12 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class SQLTableManager<K, R extends SQLTableRow<K>> extends SQLColumnManager<K, R>
 {
-	public SQLTableManager(Class<R> cls, String tableName)
+	public SQLTableManager(Class<R> cls, String tableName) throws Exception
 	{
 		super(cls, tableName, new ConcurrentSQLColumnMap<K, R>(1024));
 	}
 	
-	public SQLTableManager(Class<R> cls, String tableName, int base_size)
+	public SQLTableManager(Class<R> cls, String tableName, int base_size) throws Exception
 	{
 		super(cls, tableName, new ConcurrentSQLColumnMap<K, R>(base_size));
 	}

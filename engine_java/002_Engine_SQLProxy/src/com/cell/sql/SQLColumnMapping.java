@@ -12,7 +12,7 @@ import java.sql.Connection;
  */
 public abstract class SQLColumnMapping<K, R extends SQLTableRow<K>> extends SQLColumnAdapter<K, R>
 {
-	public SQLColumnMapping(Class<R> cls, String tableName)
+	public SQLColumnMapping(Class<R> cls, String tableName) throws Exception
 	{
 		super(cls, tableName);
 	}

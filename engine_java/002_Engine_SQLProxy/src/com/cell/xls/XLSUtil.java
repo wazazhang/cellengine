@@ -1,21 +1,17 @@
 package com.cell.xls;
 
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import jxl.Sheet;
 import jxl.Workbook;
 
-import com.cell.CUtil;
 import com.cell.reflect.Parser;
 import com.cell.sql.SQLColumn;
 import com.cell.sql.SQLStructCLOB;
-import com.cell.sql.SQLTableManager;
 import com.cell.sql.SQLTableRow;
 
 public class XLSUtil {
