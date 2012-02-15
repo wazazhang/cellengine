@@ -85,34 +85,6 @@ public class SQLColumn
 //		index = i;
 //	}
 
-	public String getConstraint()
-	{
-		StringBuilder ret = new StringBuilder();
-		
-		SQLField anno = getAnno();
-		
-		if (anno.size()>0) {
-			ret.append(" (" + getAnno().size() +")");
-		}
-		
-		if (anno.not_null()) {
-			ret.append(" NOT NULL");
-		} else {
-			ret.append(" NULL");
-		}
-		
-		if (anno.auto_increment()) {
-			ret.append(" AUTO_INCREMENT");
-		}
-		
-		String default_value = anno.default_value();
-		if (default_value != null && !default_value.isEmpty()) {
-			ret.append(" DEFAULT '" + anno.default_value() + "'");
-		}
-		
-		return ret.toString();
-	}
-	
 	final public String getAllComment() {
 		String comment = getAnno().comment();
 		for (int i = fields.size() - 2; i >= 0; i--) {

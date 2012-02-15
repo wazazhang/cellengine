@@ -825,6 +825,34 @@ public class MySQLDriver implements SQLDriver
 //
 //	---------------------------------------------------------------------------------------------------------------------------------
 
+	public String getColumnConstraint(SQLColumn c)
+	{
+		StringBuilder ret = new StringBuilder();
+		
+		SQLField anno = c.getAnno();
+		
+		if (anno.size()>0) {
+			ret.append(" (" + c.getAnno().size() +")");
+		}
+		
+		if (anno.not_null()) {
+			ret.append(" NOT NULL");
+		} else {
+			ret.append(" NULL");
+		}
+		
+		if (anno.auto_increment()) {
+			ret.append(" AUTO_INCREMENT");
+		}
+		
+		String default_value = anno.default_value();
+		if (default_value != null && !default_value.isEmpty()) {
+			ret.append(" DEFAULT '" + anno.default_value() + "'");
+		}
+		
+		return ret.toString();
+	}
+	
 
 //	---------------------------------------------------------------------------------------------------------------------------------
 	
@@ -835,7 +863,7 @@ public class MySQLDriver implements SQLDriver
 		add_sql.append("`" + c.getName() + "` ");
 		add_sql.append("`" + c.getName() + "` ");
 		add_sql.append(c.getAnno().type() + " ");
-		add_sql.append(c.getConstraint());
+		add_sql.append(getColumnConstraint(c));
 		String comment = c.getAllComment();
 		if (comment != null && comment.length() > 0) {
 			add_sql.append(" COMMENT '" + comment + "'");
@@ -850,7 +878,7 @@ public class MySQLDriver implements SQLDriver
 		add_sql.append("ALTER TABLE `" + table_name + "` ADD COLUMN ");
 		add_sql.append("`" + c.getName() + "` ");
 		add_sql.append(c.getAnno().type() + " ");
-		add_sql.append(c.getConstraint());
+		add_sql.append(getColumnConstraint(c));
 		String comment = c.getAllComment();
 		if (comment != null && comment.length() > 0) {
 			add_sql.append(" COMMENT '" + comment + "'");
@@ -917,7 +945,7 @@ public class MySQLDriver implements SQLDriver
 					"`"+ column.getName() + "`", name_max_len, ' ') + 
 					" " + column.getAnno().type();
 			
-				String constraint = column.getConstraint();
+				String constraint = getColumnConstraint(column);
 				if (constraint != null && constraint.length() > 0) {
 					sql += " " + constraint;
 				}
