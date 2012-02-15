@@ -85,17 +85,19 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) 
 		{
 			Class<?> cls = e.getValue();
-
-			String c_name = e.getValue().getCanonicalName();
-			String s_name = e.getValue().getSimpleName();
+			String c_name = cls.getCanonicalName();
+			String s_name = cls.getSimpleName();
+			
 			int    s_type = e.getKey();
 			
-			get_type.append(
-			"			if (msg is " + c_name + ") return " + s_type + ";\n");
-
 			if (!Modifier.isAbstract(cls.getModifiers())) 
 			{
 				String m_name = s_name + "_" + s_type;
+				String q_name = c_name.substring(0, c_name.length() - s_name.length() - 1) + "::" + s_name;
+				
+				get_type.append(
+				"			if (cname == \"" + q_name + "\") return " + s_type + ";\n");
+				
 				read_external.append(
 				"		if (msg is " + c_name + ") {\n" +
 				"			r_" + m_name + "(" + c_name + "(msg), input); return;\n" +
@@ -108,6 +110,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 				
 				new_msg.append(
 				"			case " + s_type + " : return new " + c_name + ";\n");
+				
 			}
 		}
 		

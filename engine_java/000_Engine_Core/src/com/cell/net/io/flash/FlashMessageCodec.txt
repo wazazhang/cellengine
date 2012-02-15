@@ -6,6 +6,8 @@ package //package
 	import com.cell.net.io.NetDataOutput;
 	import com.cell.net.io.NetDataTypes;
 	import com.cell.util.Map;
+
+	import flash.utils.getQualifiedClassName;	
 //import
 
 	/**
@@ -18,8 +20,10 @@ package //package
 			return "//version";
 		}
 	
-		public function	getType(msg : MutualMessage) : int 
+		public function	getType(msg : Object) : int 
 		{
+			var cname : String = getQualifiedClassName(msg);
+			
 //getType
 			return 0;
 		}
