@@ -7,7 +7,7 @@ package com.cell.net.io
 		function	getVersion() : String;
 		
 		/**获得此消息体的类型ID*/
-		function	getType(message:MutualMessage) : int;
+		function	getType(message : Object) : int;
 		
 		/**通过类型ID获得消息体*/
 		function	createMessage(type:int) : MutualMessage;
