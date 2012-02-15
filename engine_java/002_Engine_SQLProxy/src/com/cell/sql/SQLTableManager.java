@@ -108,28 +108,6 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 	 * @param result
 	 * @throws SQLException
 	 */
-	final public R fromResult(R row, ResultSet result) throws Exception
-	{
-		for (int i = 0; i < table_columns.length; i++)
-		{
-			try {
-				Object obj = result.getObject(table_columns[i].getName());
-				table_columns[i].fromSqlData(row, obj);		
-			} catch (Exception err) {
-				log.error("[" + table_name + "] read column error !\n" +
-						"\t    id = " + row.getPrimaryKey() +
-						"\t cause = " + err.getMessage() +
-						"", err);
-			}
-		}
-		return row;
-	}
-	
-	/**
-	 * 从结果集中读入数据
-	 * @param result
-	 * @throws SQLException
-	 */
 	final public R fromResultByName(R row, ResultSet result) throws Exception
 	{
 		ResultSetMetaData meta = result.getMetaData();
@@ -138,10 +116,7 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 			String name = meta.getColumnName(i);
 			SQLColumn column = table_columns_map.get(name);
 			try {
-				Object obj = null;
-				try {
-					obj = result.getObject(name);
-				} catch (Exception err) {}
+				Object obj = result.getObject(name);
 				if (obj != null) {
 					column.fromSqlData(row, obj);
 				}
@@ -258,35 +233,6 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 //			statement.close();
 //		}
 //	}
-
-	
-	/**
-	 * 查询所有字段
-	 * @param conn
-	 * @param str_query
-	 * @return
-	 * @throws Exception
-	 */
-	final public ArrayList<R> queryRows(Connection conn, String str_query) throws Exception
-	{
-		Statement statement = conn.createStatement();
-		try {
-			ArrayList<R> ret = new ArrayList<R>();
-			ResultSet rs = statement.executeQuery(str_query);
-			try {
-				while (rs.next()) {
-					ret.add(fromResult(newRow(), rs));
-				}
-			} finally {
-				rs.close();
-			}
-			return ret;
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			statement.close();
-		}
-	}
 	
 	final public R select(K primary_key, Connection conn) throws Exception
 	{
@@ -303,7 +249,7 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 					table_name, field_name, field_value));
 			try {
 				if (result.next()) {
-					return fromResult(row, result);
+					return fromResultByName(row, result);
 				}
 			} finally {
 				result.close();
@@ -317,52 +263,26 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 		return null;
 	}
 
-	final public ArrayList<R> select(Connection conn, String sql) throws Exception
-	{
-		ArrayList<R> 	ret 		= new ArrayList<R>();
-		Statement		statement 	= conn.createStatement();
-		ResultSet 		result 		= statement.executeQuery(sql);
-		try {
-			while (result.next()) {
-				try {
-					ret.add(fromResultByName(newRow(), result));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			try {
-				result.close();
-			} catch (Exception err) {}
-			try {
-				statement.close();
-			} catch (Exception err) {}
-		}
-		return ret;
-		
-	}
-
 	final public ArrayList<R> selectRows(Connection conn, String sql) throws Exception
 	{
 		ArrayList<R> 	ret 		= new ArrayList<R>();
-		Statement		statement 	= conn.createStatement();
-		ResultSet 		result 		= statement.executeQuery(sql);
+		Statement statement = conn.createStatement();
 		try {
-			while (result.next()) {
-				try {
-					ret.add(fromResult(newRow(), result));
-				} catch (Exception e) {
-					e.printStackTrace();
+			ResultSet result = statement.executeQuery(sql);
+			try {
+				while (result.next()) {
+					try {
+						ret.add(fromResultByName(newRow(), result));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+			} finally {
+				result.close();
 			}
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			try {
-				result.close();
-			} catch (Exception err) {}
 			try {
 				statement.close();
 			} catch (Exception err) {}
