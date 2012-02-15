@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.cell.sql.SQMTypeManager;
+import com.cell.sql.SQLDriverManager;
 import com.cell.util.concurrent.ThreadPool;
 
 
@@ -175,7 +175,7 @@ public class SQLPool
 	
 	private void init(String dirver, String url, Properties info) throws Exception
 	{
-		SQMTypeManager.init();
+		SQLDriverManager.init();
 		
 		Class.forName("org.logicalcobwebs.proxool.ProxoolDriver");
 		info.setProperty("proxool.house-keeping-test-sql", "select CURRENT_DATE");

@@ -18,7 +18,7 @@ import com.cell.CUtil;
 import com.cell.sql.SQLColumn;
 import com.cell.sql.SQLFieldGroup;
 import com.cell.sql.SQLStructCLOB;
-import com.cell.sql.SQMTypeManager;
+import com.cell.sql.SQLDriverManager;
 
 public class SQLUtil
 {
@@ -121,7 +121,7 @@ public class SQLUtil
 			return ZERO_TEXT;
 		}
 		StringWriter 		sw	= new StringWriter(1024);
-		ObjectOutputStream	oos	= SQMTypeManager.getTypeComparer().getXMLOutputStream(sw);
+		ObjectOutputStream	oos	= SQLDriverManager.getDriver().getXMLOutputStream(sw);
 		try{
 			oos.writeObject(struct);
 			oos.flush();
@@ -144,7 +144,7 @@ public class SQLUtil
 			return null;
 		}
 		StringReader		sr	= new StringReader(data);
-		ObjectInputStream	ois	= SQMTypeManager.getTypeComparer().getXMLInputStream(sr);
+		ObjectInputStream	ois	= SQLDriverManager.getDriver().getXMLInputStream(sr);
 		try{
 			Serializable ret = (Serializable)ois.readObject();
 			return ret;

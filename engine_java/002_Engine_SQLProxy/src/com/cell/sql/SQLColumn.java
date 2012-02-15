@@ -176,7 +176,7 @@ public class SQLColumn
 		if (table != null) {
 			Object java_object = table.getField(getLeafField());
 			try{
-				return SQMTypeManager.getTypeComparer().toSQLObject(
+				return SQLDriverManager.getDriver().toSQLObject(
 						getAnno().type(), 
 						getLeafField().getType(),
 						java_object);
@@ -203,7 +203,7 @@ public class SQLColumn
 				Field leaf_field = getLeafField();
 				Class<?> leaf_field_type = leaf_field.getType();
 				
-				Object value = SQMTypeManager.getTypeComparer().toJavaObject(
+				Object value = SQLDriverManager.getDriver().toJavaObject(
 								getAnno().type(),
 								leaf_field_type,
 								data);

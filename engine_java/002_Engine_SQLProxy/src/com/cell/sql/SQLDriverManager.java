@@ -17,15 +17,15 @@ import com.cell.sql.anno.SQLField;
 import com.cell.sql.anno.SQLGroupField;
 import com.cell.sql.anno.SQLTable;
 
-public class SQMTypeManager 
+public class SQLDriverManager 
 {
-	static public String DEFAULT_TYPE_COMPARER = "com.cell.mysql.SQLTypeComparerMySQL";
-	static private SQLTypeComparer type_comparer;
+	static public String DEFAULT_TYPE_COMPARER = "com.cell.mysql.MySQLDriver";
+	static private SQLDriver type_comparer;
 	
 	static public void init() {
 		if (type_comparer == null) {
 			try {
-				setTypeComparer(DEFAULT_TYPE_COMPARER);
+				setDriver(DEFAULT_TYPE_COMPARER);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -35,21 +35,21 @@ public class SQMTypeManager
 	/**
 	 * @param typeComparer the type_comparer to set
 	 */
-	static public void setTypeComparer(SQLTypeComparer typeComparer) {
+	static public void setDriver(SQLDriver typeComparer) {
 		type_comparer = typeComparer;
-		System.out.println("SQMTypeManager : " + typeComparer.getClass().getName());
+		System.out.println("SQLDriverManager : " + typeComparer.getClass().getName());
 	}
 	
-	static public void setTypeComparer(String typeDirver) throws Exception {
+	static public void setDriver(String typeDirver) throws Exception {
 		Class<?> cls = Class.forName(typeDirver);
-		type_comparer = (SQLTypeComparer)cls.newInstance();
+		type_comparer = (SQLDriver)cls.newInstance();
 	}
 	
 
 	/**
 	 * @return
 	 */
-	static public SQLTypeComparer getTypeComparer() {
+	static public SQLDriver getDriver() {
 		return type_comparer;
 	}
 	

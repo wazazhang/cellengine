@@ -50,7 +50,7 @@ public enum SQLType
 	}
 
 	public boolean typeEquals(int jdbcType) {
-		return SQMTypeManager.getTypeComparer().typeEquals(this, jdbcType);
+		return SQLDriverManager.getDriver().typeEquals(this, jdbcType);
 	}
 
 	public int getJdbcType() {
@@ -58,7 +58,7 @@ public enum SQLType
 	}
 
 	public String getDirverTypeName() {
-		return SQMTypeManager.getTypeComparer().getDirverTypeString(this).toLowerCase();
+		return SQLDriverManager.getDriver().getDirverTypeString(this).toLowerCase();
 	}
 	
 	

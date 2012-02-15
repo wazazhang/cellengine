@@ -21,12 +21,12 @@ import java.util.Stack;
 import com.cell.CUtil;
 import com.cell.reflect.Fields;
 import com.cell.sql.SQLColumn;
-import com.cell.sql.SQLColumnAdapter;
+import com.cell.sql.SQLTableManager;
 import com.cell.sql.SQLFieldGroup;
 import com.cell.sql.SQLStructCLOB;
 import com.cell.sql.SQLType;
-import com.cell.sql.SQLTypeComparer;
-import com.cell.sql.SQMTypeManager;
+import com.cell.sql.SQLDriver;
+import com.cell.sql.SQLDriverManager;
 import com.cell.sql.anno.SQLField;
 import com.cell.sql.anno.SQLGroupField;
 import com.cell.sql.anno.SQLTable;
@@ -240,7 +240,7 @@ import com.cell.xstream.XStreamAdapter;
 </body>
 </html>
  */
-public class SQLTypeComparerMySQL implements SQLTypeComparer 
+public class MySQLDriver implements SQLDriver 
 {
 	public boolean typeEquals(SQLType type, int jdbc_type) 
 	{
@@ -532,7 +532,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 
 	 * @return
 	 */
-	public boolean validateTable(Connection conn, SQLColumnAdapter<?, ?> table,
+	public boolean validateTable(Connection conn, SQLTableManager<?, ?> table,
 			boolean auto_create_struct,
 			boolean sort_field,
 			boolean create_comment) throws SQLException
@@ -621,7 +621,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 	 * @param statement
 	 * @return
 	 */
-	private ValidateResult validateTableColumns(Connection conn, SQLColumnAdapter<?, ?> table) throws SQLException
+	private ValidateResult validateTableColumns(Connection conn, SQLTableManager<?, ?> table) throws SQLException
 	{
 		try {
 			validateTableLimit(
@@ -687,7 +687,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 		return vresult;
 	}
 	
-	private ValidateResult validateAndAutoFix(Connection conn, SQLColumnAdapter<?, ?> table) throws SQLException
+	private ValidateResult validateAndAutoFix(Connection conn, SQLTableManager<?, ?> table) throws SQLException
 	{
 		String sql = "SELECT * FROM " + table.table_name + " LIMIT 0;";
 
@@ -753,7 +753,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 	}
 
 
-	public void syncTableColumns(Connection conn, SQLColumnAdapter<?, ?> table) throws SQLException
+	public void syncTableColumns(Connection conn, SQLTableManager<?, ?> table) throws SQLException
 	{
 		ValidateResult vresult = validateTableColumns(conn, table);
 		
@@ -895,7 +895,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 	 * @throws SQLException
 	 */
 	public String getCreateTableSQL(
-			SQLColumnAdapter<?, ?> table,
+			SQLTableManager<?, ?> table,
 			Comparator<SQLColumn> sorter, 
 			boolean create_comment)
 	{
@@ -958,7 +958,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 	 * @throws SQLException
 	 */
 	public String getCreateTableSQL(
-			SQLColumnAdapter<?, ?> table,
+			SQLTableManager<?, ?> table,
 			boolean sort_fields, 
 			boolean create_comment)
 	{
@@ -971,7 +971,7 @@ public class SQLTypeComparerMySQL implements SQLTypeComparer
 	 * @return
 	 * @throws SQLException
 	 */
-	public String getCreateTableSQL(SQLColumnAdapter<?, ?> table)
+	public String getCreateTableSQL(SQLTableManager<?, ?> table)
 	{
 		return getCreateTableSQL(table, true, true);
 	}

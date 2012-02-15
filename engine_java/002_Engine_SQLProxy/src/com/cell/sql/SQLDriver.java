@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 import com.cell.sql.anno.SQLTable;
 
-public interface SQLTypeComparer
+public interface SQLDriver
 {
 	/**
 	 * 检查该驱动下 jdbc_type 是否和 SQLType 兼容
@@ -101,7 +101,7 @@ public interface SQLTypeComparer
 		ERROR_DRIVER_LIMITED,
 	}
 	
-	public boolean validateTable(Connection conn, SQLColumnAdapter<?, ?> table,
+	public boolean validateTable(Connection conn, SQLTableManager<?, ?> table,
 			boolean auto_create_struct,
 			boolean sort_field,
 			boolean create_comment) throws SQLException;
@@ -115,7 +115,7 @@ public interface SQLTypeComparer
 	 * @throws SQLException
 	 */
 	public String getCreateTableSQL(
-			SQLColumnAdapter<?, ?> table,
+			SQLTableManager<?, ?> table,
 			boolean sort_fields, 
 			boolean create_comment);
 }
