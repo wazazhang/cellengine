@@ -236,10 +236,10 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 	
 	final public R select(K primary_key, Connection conn) throws Exception
 	{
-		return select(table_type.primary_key_name(), primary_key.toString(), conn);
+		return select(conn, table_type.primary_key_name(), primary_key.toString());
 	}
 	
-	final public R select(String field_name, String field_value, Connection conn) throws Exception
+	final public R select(Connection conn, String field_name, String field_value) throws Exception
 	{
 		R row = newRow();
 		
