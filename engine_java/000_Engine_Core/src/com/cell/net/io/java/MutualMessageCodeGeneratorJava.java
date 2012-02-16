@@ -75,8 +75,8 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			String c_name = cls.getCanonicalName();
 			String s_name = cls.getSimpleName();
 
-			classesArray.append("\t\t\t"+c_name+".class,\n");
-			
+			classesArray.append("\t\t\t"+c_name+".class, //"+ factory.getMessageType(cls) +"\n");
+		
 			if (!Modifier.isAbstract(cls.getModifiers())) 
 			{
 				read_external.append(
