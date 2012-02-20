@@ -43,7 +43,6 @@
     <classEntry path="com.cell.persistance.SaveDataShared"/>
     <classEntry path="com.cell.persistance.TopPlayersShared"/>
     <classEntry path="com.cell.sound.EmbedSoundManager"/>
-    <classEntry path="com.cell.ui.Alert"/>
     <classEntry path="com.cell.ui.Anchor"/>
     <classEntry path="com.cell.ui.BasePanel"/>
     <classEntry path="com.cell.ui.Dialog"/>
