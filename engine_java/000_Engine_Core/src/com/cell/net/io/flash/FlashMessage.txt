@@ -12,7 +12,7 @@ package //package
 	 * 此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。
 	 */
 	[Bindable] 
-	public class //className //extendsClass implements MutualMessage
+	public //dynamic class //className //extendsClass implements MutualMessage
 	{
 //fields
 
@@ -22,5 +22,8 @@ package //package
 		{
 //initFields
 		}
+		
+//asFunctions
+
 	}
 }

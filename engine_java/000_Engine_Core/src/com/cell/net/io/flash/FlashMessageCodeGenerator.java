@@ -3,6 +3,7 @@ package com.cell.net.io.flash;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,6 +75,64 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		}
 	}
 
+	protected String toASType(Class<?> 	f_type)
+	{
+		// boolean -----------------------------------------------
+		if (f_type.equals(boolean.class)) {
+			return "Boolean";
+		}
+		// byte -----------------------------------------------
+		else if (f_type.equals(byte.class)) {
+			return "int";
+		}
+		// short -----------------------------------------------
+		else if (f_type.equals(short.class)) {
+			return "int";
+		}
+		// char -----------------------------------------------
+		else if (f_type.equals(char.class)) {
+			return "int";
+		}
+		// int -----------------------------------------------
+		else if (f_type.equals(int.class)) {
+			return "int";
+		}
+		// long -----------------------------------------------
+		else if (f_type.equals(long.class)) {
+			return "Number";
+		}
+		// float -----------------------------------------------
+		else if (f_type.equals(float.class)) {
+			return "Number";
+		}
+		// double -----------------------------------------------
+		else if (f_type.equals(double.class)) {
+			return "Number";
+		}	
+		// String -----------------------------------------------
+		else if (f_type.equals(String.class)) {
+			return "String";
+		}
+		// ExternalizableMessage -----------------------------------------------
+		else if (MutualMessage.class.isAssignableFrom(f_type)) {
+			return "" + f_type.getCanonicalName();
+		} 
+		else if (f_type.isArray()) {
+			return "Array";
+		} 
+		else if (Collection.class.isAssignableFrom(f_type)) {
+			return "Array";
+		}
+		else if (Map.class.isAssignableFrom(f_type)) {
+			return "com.cell.util.Map";
+		}
+		// Error -----------------------------------------------
+		else {
+			return "		Unsupported type : " + f_type.getName();
+		}
+	}
+	
+	
 	public String genMutualMessageCodec(ExternalizableFactory factory)
 	{
 		StringBuilder read_external		= new StringBuilder();
@@ -326,6 +385,8 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	{
 		String	c_name 		= msg.getCanonicalName();
 		Comment	c_comment 	= msg.getAnnotation(Comment.class);
+		ASClass	c_as_class	= msg.getAnnotation(ASClass.class);
+		String	c_dynamic	= (c_as_class != null && c_as_class.dynamic())?"dynamic":"";
 		String 	s_name 		= msg.getSimpleName();
 		String  ext_name	= "";
 		String 	o_package 	= c_name.substring(0, c_name.length() - s_name.length() - 1);
@@ -335,39 +396,58 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			ext_name = "extends " + msg.getSuperclass().getCanonicalName();
 		}
 		
-		StringBuilder d_fields 		= new StringBuilder();
+		StringBuilder d_fields = new StringBuilder();
+		
 		for (Field f : msg.getDeclaredFields()) 
 		{
 			int modifiers = f.getModifiers();
+			
 			String	f_type_comment 	= f.getType().getCanonicalName();
 			Comment f_comment 		= f.getAnnotation(Comment.class);
+			
 			String	f_cline 		= "Java type is : " +
 					"<font color=#0000ff>" + f_type_comment + "</font>";
-			if (f_comment != null) {
-			d_fields.append(
+			
+			if (f_comment != null) 
+			{
+				d_fields.append(
 					"		/** " + CUtil.arrayToString(f_comment.value(),",","") + "<br>\n" +
 					"		  * " + f_cline + "*/\n");
 			}
-			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+			
+			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) 
+			{
 				Object value = null;
 				try {
 					value = f.get(null);
 				} catch (Exception e) {}
 				if (!Modifier.isPrivate(modifiers)) {
 					d_fields.append(
-						"		static public const " + genMsgField(factory, f) + " = " + value + ";");
+					"		static public const " + f.getName() + " : " +  toASType(f.getType()) + " = " + value + ";");
 				}
-			} else {
+			}
+			else
+			{
 				if (f_comment == null) {
 					d_fields.append(
 						"		/** " + f_cline + "*/\n");
 				}
 				d_fields.append(
-						"		public var " + genMsgField(factory, f) + ";");
+						"		public var " + f.getName() + " : " +  toASType(f.getType()) + ";");
 			}
 			d_fields.append("\n\n");
 		}
 
+		StringBuilder d_functions = new StringBuilder();
+		
+		for (Method m : msg.getDeclaredMethods()) 
+		{
+			ASFunction m_function = m.getAnnotation(ASFunction.class);
+			if (m_function != null) {
+				d_functions.append(m_function.value() + "\n\n");
+			}
+		}
+		
 		StringBuilder d_init_args	= new StringBuilder();		
 		StringBuilder d_init_fields = new StringBuilder();	
 		StringBuilder d_init_commet	= new StringBuilder();	
@@ -383,7 +463,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 				d_init_commet.append(
 						"		 * @param " + f.getName() + " as <font color=#0000ff>" + f_type_comment + "</font>");
 				d_init_args.append(
-						"			" + genMsgField(factory, f) + " = " + genMsgFieldValue(f));
+						"			" + f.getName() + " : " + toASType(f.getType()) + " = " + genMsgFieldValue(f));
 				d_init_fields.append(
 						"			this." + f.getName() + " = " + f.getName()+";");
 				if (i != argsFields.size() - 1) {
@@ -400,6 +480,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		ret = CUtil.replaceString(ret, "//import", 			message_import);
 		ret = CUtil.replaceString(ret, "//classComment", 	s_comment);
 		ret = CUtil.replaceString(ret, "//classType", 		msg_type+"");
+		ret = CUtil.replaceString(ret, "//dynamic", 		c_dynamic);
 		ret = CUtil.replaceString(ret, "//className", 		s_name);
 		ret = CUtil.replaceString(ret, "//extendsClass", 	ext_name); 
 		ret = CUtil.replaceString(ret, "//classFullName", 	c_name);
@@ -407,70 +488,9 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		ret = CUtil.replaceString(ret, "//initArgs",		d_init_args.toString());
 		ret = CUtil.replaceString(ret, "//initFields",		d_init_fields.toString());
 		ret = CUtil.replaceString(ret, "//fields",			d_fields.toString());
+		ret = CUtil.replaceString(ret, "//asFunctions",		d_functions.toString());
+		
 		return ret;
-	}
-	
-	
-	protected String genMsgField(ExternalizableFactory factory, Field f) 
-	{
-		Class<?> 	f_type 		= f.getType();
-	
-		// boolean -----------------------------------------------
-		if (f_type.equals(boolean.class)) {
-			return f.getName() + " :  Boolean";
-		}
-		// byte -----------------------------------------------
-		else if (f_type.equals(byte.class)) {
-			return f.getName() + " :  int";
-		}
-		// short -----------------------------------------------
-		else if (f_type.equals(short.class)) {
-			return f.getName() + " :  int";
-		}
-		// char -----------------------------------------------
-		else if (f_type.equals(char.class)) {
-			return f.getName() + " :  int";
-		}
-		// int -----------------------------------------------
-		else if (f_type.equals(int.class)) {
-			return f.getName() + " :  int";
-		}
-		// long -----------------------------------------------
-		else if (f_type.equals(long.class)) {
-			return f.getName() + " : Number";
-		}
-		// float -----------------------------------------------
-		else if (f_type.equals(float.class)) {
-			return f.getName() + " :  Number";
-		}
-		// double -----------------------------------------------
-		else if (f_type.equals(double.class)) {
-			return f.getName() + " : Number";
-		}	
-		// String -----------------------------------------------
-		else if (f_type.equals(String.class)) {
-			return f.getName() + " :  String";
-		}
-		// ExternalizableMessage -----------------------------------------------
-//		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
-//			return f.getName() + " :  " + f_type.getCanonicalName()+"";
-//		} 
-		else if (MutualMessage.class.isAssignableFrom(f_type)) {
-			return f.getName() + " :  " + f_type.getCanonicalName();
-		} 
-		else if (f_type.isArray()) {
-			return f.getName() + " :  Array";
-		} 
-		else if (Collection.class.isAssignableFrom(f_type)) {
-			return f.getName() + " :  Array";
-		}
-		else if (Map.class.isAssignableFrom(f_type)) {
-			return f.getName() + " :  com.cell.util.Map";
-		}
-		// Error -----------------------------------------------
-		else {
-			return "		Unsupported type : " + f.getName() + " " + f_type.getName();
-		}
 	}
 	
 	protected Object genMsgFieldValue(Field f) 
