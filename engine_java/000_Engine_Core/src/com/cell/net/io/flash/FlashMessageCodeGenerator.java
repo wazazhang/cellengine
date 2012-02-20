@@ -81,32 +81,56 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		if (f_type.equals(boolean.class)) {
 			return "Boolean";
 		}
+		else if (f_type.equals(Boolean.class)) {
+			return "Boolean";
+		}
 		// byte -----------------------------------------------
 		else if (f_type.equals(byte.class)) {
+			return "int";
+		}
+		else if (f_type.equals(Byte.class)) {
 			return "int";
 		}
 		// short -----------------------------------------------
 		else if (f_type.equals(short.class)) {
 			return "int";
 		}
+		else if (f_type.equals(Short.class)) {
+			return "int";
+		}
 		// char -----------------------------------------------
 		else if (f_type.equals(char.class)) {
+			return "int";
+		}
+		else if (f_type.equals(Character.class)) {
 			return "int";
 		}
 		// int -----------------------------------------------
 		else if (f_type.equals(int.class)) {
 			return "int";
 		}
+		else if (f_type.equals(Integer.class)) {
+			return "int";
+		}
 		// long -----------------------------------------------
 		else if (f_type.equals(long.class)) {
+			return "Number";
+		}
+		else if (f_type.equals(Long.class)) {
 			return "Number";
 		}
 		// float -----------------------------------------------
 		else if (f_type.equals(float.class)) {
 			return "Number";
 		}
+		else if (f_type.equals(Float.class)) {
+			return "Number";
+		}
 		// double -----------------------------------------------
 		else if (f_type.equals(double.class)) {
+			return "Number";
+		}	
+		else if (f_type.equals(Double.class)) {
 			return "Number";
 		}	
 		// String -----------------------------------------------
