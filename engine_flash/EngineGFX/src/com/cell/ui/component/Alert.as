@@ -2,7 +2,7 @@ package com.cell.ui.component
 {
 	import com.cell.gfx.CellSprite;
 	import com.cell.ui.Anchor;
-	import com.cell.ui.Dialog;
+	import com.cell.ui.DialogGround;
 	import com.cell.ui.ImageButton;
 	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
@@ -158,7 +158,7 @@ package com.cell.ui.component
 			alert.x = UILayoutManager.getInstance().ScreenWidth/2  - alert.bg.width/2;
 			alert.y = UILayoutManager.getInstance().ScreenHeight/2 - alert.bg.height/2;
 			
-			Dialog.showAsDialog(
+			DialogGround.showAsDialog(
 				alert, 
 				UILayoutManager.getInstance().getRoot().getCurrentScreen());
 			return alert;
@@ -174,7 +174,7 @@ package com.cell.ui.component
 			alert.x = UILayoutManager.getInstance().ScreenWidth/2  - alert.bg.width/2;
 			alert.y = UILayoutManager.getInstance().ScreenHeight/2 - alert.bg.height/2;
 			
-			Dialog.showAsDialog(
+			DialogGround.showAsDialog(
 				alert, 
 				UILayoutManager.getInstance().getRoot().getCurrentScreen());
 			return alert;

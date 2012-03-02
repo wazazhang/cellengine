@@ -45,7 +45,7 @@
     <classEntry path="com.cell.sound.EmbedSoundManager"/>
     <classEntry path="com.cell.ui.Anchor"/>
     <classEntry path="com.cell.ui.BasePanel"/>
-    <classEntry path="com.cell.ui.Dialog"/>
+    <classEntry path="com.cell.ui.DialogGround"/>
     <classEntry path="com.cell.ui.ImageBox"/>
     <classEntry path="com.cell.ui.ImageButton"/>
     <classEntry path="com.cell.ui.ImageGallery"/>

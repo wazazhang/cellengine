@@ -9,16 +9,17 @@ package com.cell.ui
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	public class Dialog extends Sprite
+	public class DialogGround extends Sprite
 	{
 		var src : DisplayObject;
 		var dst : DisplayObjectContainer;
 		
-		public function Dialog(src:DisplayObject, 
-							   dst:DisplayObjectContainer,
-									 bg_color:int=0xffffff, 
-									 bg_alpha:Number = 0.01,
-									bg_mouseEnable:Boolean=true)
+		public function DialogGround(
+			src:DisplayObject, 
+			dst:DisplayObjectContainer,
+			bg_color:int=0xffffff, 
+			bg_alpha:Number = 0.01,
+			bg_mouseEnable:Boolean=true)
 		{
 			this.src = src;
 			this.dst = dst;
@@ -53,15 +54,16 @@ package com.cell.ui
 			}
 		}
 		
-		public static function showAsDialog(src:DisplayObject, 
-										  dst:DisplayObjectContainer, 
-										  bg_color:int=0xffffff, 
-										  bg_alpha:Number = 0.01,
-										  bg_mouseEnable:Boolean=true) : Dialog
+		public static function showAsDialog(
+			dialog:DisplayObject, 
+			root:DisplayObjectContainer, 
+			bg_color:int=0xffffff, 
+			bg_alpha:Number = 0.01,
+			bg_mouseEnable:Boolean=true) : DialogGround
 		{
-			var ret : Dialog = new Dialog(src, dst, bg_color, bg_alpha, bg_mouseEnable);
-			dst.addChild(ret)
-			dst.addChild(src);
+			var ret : DialogGround = new DialogGround(dialog, root, bg_color, bg_alpha, bg_mouseEnable);
+			root.addChild(ret)
+			root.addChild(dialog);
 			return ret;
 		}
 		
