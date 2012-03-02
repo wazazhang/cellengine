@@ -2,12 +2,13 @@ package com.cell.ui.component.listview
 {
 	import com.cell.ui.component.Lable;
 	import com.cell.ui.component.UIComponent;
-	import com.cell.ui.component.listview.ListView;
+	import com.cell.ui.component.ListView;
 	import com.cell.ui.layout.UIRect;
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.text.TextField;
+	import com.cell.ui.component.ListView;
 	
 	public class DefaultListViewItem extends UIComponent implements Item
 	{

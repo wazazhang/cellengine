@@ -16,7 +16,7 @@ package com.cell.ui.component
 	{
 		public var touch_acc 			: Vector3D = new Vector3D();
 		
-		protected var base 				: BasePanel;
+		internal var base 				: BasePanel;
 		
 		private var start_point 		: Vector3D;
 		private var move_point 			: Vector3D = new Vector3D();
@@ -48,6 +48,8 @@ package com.cell.ui.component
 			this.addEventListener(Event.ENTER_FRAME, updateScroll);
 		}
 		
+//		----------------------------------------------------------------------------
+		
 		public function getPanelChildCount() : int
 		{
 			return base.numChildren;
@@ -76,6 +78,23 @@ package com.cell.ui.component
 			updateScroll();
 		}
 		
+		public function removePanelChild(o:DisplayObject) : DisplayObject
+		{
+			return this.base.removeChild(o);
+			updateScroll();
+		}
+		
+		public function removePanelChildAt(index:int) : DisplayObject
+		{
+			return this.base.removeChildAt(index);
+			updateScroll();
+		}
+		
+
+		
+//		----------------------------------------------------------------------------
+		
+		
 		public function isTouchMoved() : Boolean
 		{
 			return touch_moved;
@@ -92,9 +111,11 @@ package com.cell.ui.component
 			if (speed != null) {
 				if (int(speed.x) != 0 || int(speed.y) != 0) {
 					base.moveCamera(speed.x, speed.y);
+					speed.x *= touch_acc.x;
+					speed.y *= touch_acc.y;
+				} else {
+					speed = null;
 				}
-				speed.x *= touch_acc.x;
-				speed.y *= touch_acc.y;
 			}
 		}
 		

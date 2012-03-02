@@ -64,9 +64,10 @@
     <classEntry path="com.cell.ui.layout.UIRect"/>
     <classEntry path="com.cell.util.Arrays"/>
     <classEntry path="com.cell.util.ImageUtil"/>
-    <classEntry path="com.cell.ui.component.listview.ListView"/>
+    <classEntry path="com.cell.ui.component.ListView"/>
     <classEntry path="com.cell.io.IOUtil"/>
     <classEntry path="com.cell.gfx.rpg.intention.TouchCameraMotion"/>
+    <classEntry path="com.cell.ui.component.event.ScrollPanEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
