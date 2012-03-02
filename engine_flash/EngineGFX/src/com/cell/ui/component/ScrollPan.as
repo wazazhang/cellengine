@@ -90,6 +90,23 @@ package com.cell.ui.component
 			updateScroll();
 		}
 		
+		public function addChildEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+		{
+			for (var i:int=base.numChildren-1; i>=0; --i) {
+				var o : * = base.getChildAt(i);
+				o.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+		}
+		
+		public function removeChildEventListener(type:String, listener:Function, useCapture:Boolean=false):void
+		{
+			for (var i:int=base.numChildren-1; i>=0; --i) {
+				var o : * = base.getChildAt(i);
+				o.removeEventListener(type, listener, useCapture);
+			}
+		}
+		
+		
 
 		
 //		----------------------------------------------------------------------------
