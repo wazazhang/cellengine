@@ -67,7 +67,6 @@
     <classEntry path="com.cell.ui.component.ListView"/>
     <classEntry path="com.cell.io.IOUtil"/>
     <classEntry path="com.cell.gfx.rpg.intention.TouchCameraMotion"/>
-    <classEntry path="com.cell.ui.component.event.ScrollPanEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
