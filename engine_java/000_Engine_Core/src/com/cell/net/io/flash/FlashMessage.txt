@@ -17,8 +17,7 @@ package //package
 //fields
 
 //initComment
-		public function //className(
-//initArgs) 
+		public function //className(//initArgs) 
 		{
 //initFields
 		}

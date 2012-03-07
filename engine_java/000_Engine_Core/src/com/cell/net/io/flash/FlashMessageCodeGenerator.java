@@ -480,29 +480,34 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		StringBuilder d_init_args	= new StringBuilder();		
 		StringBuilder d_init_fields = new StringBuilder();	
 		StringBuilder d_init_commet	= new StringBuilder();	
-		d_init_commet.append("		/**\n");
 		ArrayList<Field> argsFields = Fields.getSuperAndDeclaredFields(msg);
-		for (int i = 0; i<argsFields.size(); i++) 
+		if (!argsFields.isEmpty()) 
 		{
-			Field f = argsFields.get(i);
-			int modifiers = f.getModifiers();
-			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
-			} else {
-				String	f_type_comment 	= f.getType().getCanonicalName();
-				d_init_commet.append(
-						"		 * @param " + f.getName() + " as <font color=#0000ff>" + f_type_comment + "</font>");
-				d_init_args.append(
-						"			" + f.getName() + " : " + toASType(f.getType()) + " = " + genMsgFieldValue(f));
-				d_init_fields.append(
-						"			this." + f.getName() + " = " + f.getName()+";");
-				if (i != argsFields.size() - 1) {
-					d_init_args.append(",\n");
-					d_init_fields.append("\n");
-					d_init_commet.append("\n");
+			d_init_args.append("\n");
+			d_init_commet.append("		/**\n");
+			for (int i = 0; i<argsFields.size(); i++) 
+			{
+				Field f = argsFields.get(i);
+				int modifiers = f.getModifiers();
+				if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+				} else {
+					String	f_type_comment 	= f.getType().getCanonicalName();
+					d_init_commet.append(
+							"		 * @param " + f.getName() + " as <font color=#0000ff>" + f_type_comment + "</font>");
+					d_init_args.append(
+							"			" + f.getName() + " : " + toASType(f.getType()) + " = " + genMsgFieldValue(f));
+					d_init_fields.append(
+							"			this." + f.getName() + " = " + f.getName()+";");
+					if (i != argsFields.size() - 1) {
+						d_init_args.append(",\n");
+						d_init_fields.append("\n");
+						d_init_commet.append("\n");
+					}
 				}
 			}
+			d_init_commet.append("		 */");
 		}
-		d_init_commet.append("		 */");
+		
 		
 		String ret = this.message_template;
 		ret = CUtil.replaceString(ret, "//package", 		o_package);
