@@ -22,6 +22,7 @@ import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
 import com.cell.reflect.Fields;
 import com.cell.reflect.ReflectUtil;
+import com.cell.util.StringUtil;
 
 public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 {
@@ -468,7 +469,11 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		{
 			ASFunction m_function = m.getAnnotation(ASFunction.class);
 			if (m_function != null) {
-				d_functions.append(m_function.value() + "\n\n");
+				String tabPrifix = CUtil.stringFill("\t", m_function.tabCount());
+				for (String fline : m_function.value()) {
+					d_functions.append(tabPrifix + fline + "\n");
+				}
+				d_functions.append("\n");
 			}
 		}
 		

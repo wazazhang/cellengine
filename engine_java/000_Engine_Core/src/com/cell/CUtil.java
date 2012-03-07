@@ -2159,6 +2159,14 @@ public class CUtil extends CObject
 		return out;
 	}
 	
+	public static String stringFill(String src, int count) 
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int i=count-1; i>=0; --i) {
+			sb.append(src);
+		}
+		return sb.toString();
+	}
 	
     /**
      * <summary>  
