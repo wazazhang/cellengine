@@ -14,6 +14,7 @@ package com.cell.ui.component
 			textField = new TextField();
 			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.TextBox.text", this);
 			textField.multiline = true;
+			textField.wordWrap 	= true;
 			addChild(textField);
 		}
 		
