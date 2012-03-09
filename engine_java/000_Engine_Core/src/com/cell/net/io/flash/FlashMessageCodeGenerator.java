@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -138,6 +139,10 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		else if (f_type.equals(String.class)) {
 			return "String";
 		}
+		// Date -----------------------------------------------
+		else if (Date.class.isAssignableFrom(f_type)) {
+			return "Date";
+		}	
 		// ExternalizableMessage -----------------------------------------------
 		else if (MutualMessage.class.isAssignableFrom(f_type)) {
 			return "" + f_type.getCanonicalName();
@@ -340,6 +345,11 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			read.append("		" + f_name + " = input.readUTFArray();\n");
 			write.append("		output.writeUTFArray(" + f_name + ");\n");
 		}	
+		// Date -----------------------------------------------
+		else if (Date.class.isAssignableFrom(f_type)) {
+			read.append("		" + f_name + " = input.readDate();\n");
+			write.append("		output.writeDate(" + f_name + ");\n");
+		}
 		// ExternalizableMessage -----------------------------------------------
 //		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
 //			read.append("		" + f_name + " = input.readExternal() as " + f_type.getCanonicalName() + ";\n");

@@ -308,13 +308,17 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
 			writeByte(1);
+			
 			writeShort(cal.get(Calendar.YEAR));
 			writeByte(cal.get(Calendar.MONTH));
 			writeByte(cal.get(Calendar.DATE));
+			
 			writeByte(cal.get(Calendar.HOUR_OF_DAY));
 			writeByte(cal.get(Calendar.MINUTE));
 			writeByte(cal.get(Calendar.SECOND));
+			
 			writeShort(cal.get(Calendar.MILLISECOND));
+			
 			cal = null;
 		}
 	}

@@ -225,14 +225,16 @@ public abstract class BaseNetDataInput implements NetDataInput
 //		case NetDataTypes.TYPE_EXTERNALIZABLE:
 //			return readAnyExternal(component_type);	
 		case NetDataTypes.TYPE_MUTUAL:
+			int mutualType = readInt();
+			if (mutualType == 0) {
+				return null;
+			}
 			try {
-				int mutualType = readInt();
 				MutualMessage data = (MutualMessage)(factory.createMessage(mutualType));
 				factory.getMutualCodec().readMutual(data, this);
 				return data;
 			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				throw new IOException("crate message : " + mutualType, e);
 			}
 		case NetDataTypes.TYPE_BOOLEAN:
 			return readBoolean();
@@ -313,9 +315,11 @@ public abstract class BaseNetDataInput implements NetDataInput
 				short YY = readShort();
 				byte MM = readByte();
 				byte DD = readByte();
+				
 				byte hh = readByte();
 				byte mm = readByte();
 				byte ss = readByte();
+				
 				short ms = readShort();
 
 				Date ret = (Date)cls.newInstance();

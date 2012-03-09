@@ -115,16 +115,18 @@ public abstract class SQLTableManager<K, R extends SQLTableRow<K>>
 		{
 			String name = meta.getColumnName(i);
 			SQLColumn column = table_columns_map.get(name);
-			try {
-				Object obj = result.getObject(name);
-				if (obj != null) {
-					column.fromSqlData(row, obj);
+			if (column != null) {
+				try {
+					Object obj = result.getObject(name);
+					if (obj != null) {
+						column.fromSqlData(row, obj);
+					}
+				} catch (Exception err) {
+					log.error("[" + table_name + "] read column["+name+"] error !\n" +
+							"\t    id = " + row.getPrimaryKey() +
+							"\t cause = " + err.getMessage() +
+							"", err);
 				}
-			} catch (Exception err) {
-				log.error("[" + table_name + "] read column error !\n" +
-						"\t    id = " + row.getPrimaryKey() +
-						"\t cause = " + err.getMessage() +
-						"", err);
 			}
 		}
 		return row;

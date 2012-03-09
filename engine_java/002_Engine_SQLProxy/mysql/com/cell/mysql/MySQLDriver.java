@@ -649,37 +649,42 @@ public class MySQLDriver implements SQLDriver
 			// last validate
 			for (int rc = 1; rc <= metadata.getColumnCount(); rc++) 
 			{
-				String 		rname 	= metadata.getColumnName(rc);
-				SQLColumn 	c 		= table.getColumn(rname);
-				String 		tname 	= c.getName();
+				String rname = metadata.getColumnName(rc);
+				SQLColumn c = table.getColumn(rname);
 				
-				// 检测名字是否正确
-				if (!rname.equalsIgnoreCase(tname)) 
+				if (c != null) 
 				{
-					System.err.println(
-							"Table '" + table.table_name + "' " +
-							"field name ["+rname+","+tname+"] not equal! " +
-							"at column " + rc 
-							);
-					return ValidateResult.ERROR_NAME;
+					String tname = c.getName();
+					
+					// 检测名字是否正确
+					if (!rname.equalsIgnoreCase(tname)) 
+					{
+						System.err.println(
+								"Table '" + table.table_name + "' " +
+								"field name ["+rname+","+tname+"] not equal! " +
+								"at column " + rc 
+								);
+						return ValidateResult.ERROR_NAME;
+					}
+					
+					// 检查类型是否正确
+					if (!c.getAnno().type().typeEquals(metadata.getColumnType(rc))) 
+					{
+						String	rtypename	= metadata.getColumnTypeName(rc);
+						int		rtype		= metadata.getColumnType(rc);
+						String	ttypename	= c.getAnno().type().getDirverTypeName();
+						int		ttype		= c.getAnno().type().getJdbcType();
+						
+						System.err.println(
+								"Table '" + table.table_name + "' " +
+								"field type ["+rtypename+"("+rtype+")"+","+ttypename+"("+ttype+")"+"] not equal! " +
+								"at column " + rc 
+								);
+						
+						return ValidateResult.ERROR_TYPE;
+					}
 				}
 				
-				// 检查类型是否正确
-				if (!c.getAnno().type().typeEquals(metadata.getColumnType(rc))) 
-				{
-					String	rtypename	= metadata.getColumnTypeName(rc);
-					int		rtype		= metadata.getColumnType(rc);
-					String	ttypename	= c.getAnno().type().getDirverTypeName();
-					int		ttype		= c.getAnno().type().getJdbcType();
-					
-					System.err.println(
-							"Table '" + table.table_name + "' " +
-							"field type ["+rtypename+"("+rtype+")"+","+ttypename+"("+ttype+")"+"] not equal! " +
-							"at column " + rc 
-							);
-					
-					return ValidateResult.ERROR_TYPE;
-				}
 			}
 			return ValidateResult.OK;
 		}

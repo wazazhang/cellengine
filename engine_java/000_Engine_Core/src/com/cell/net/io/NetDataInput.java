@@ -43,11 +43,11 @@ public interface NetDataInput extends DataInput
 	public <T> T[] 	readObjectArray(Class<T> compomentType) throws IOException ;
 	
 	
-	public Object readAnyArray(Class<?> type, byte component_data_type) throws IOException;
+	public Object 			readAnyArray(Class<?> type, byte component_data_type) throws IOException;
 	
-	public Collection<?> readCollection(Class<?> collectionType, byte compNetType) throws IOException;
+	public Collection<?> 	readCollection(Class<?> collectionType, byte compNetType) throws IOException;
 	
-	public Map<?,?> readMap(Class<?> mapType, byte keyNetType, byte valueNetType) throws IOException;
+	public Map<?,?> 		readMap(Class<?> mapType, byte keyNetType, byte valueNetType) throws IOException;
 	
 //	-----------------------------------------------------------------------------------------------
 
