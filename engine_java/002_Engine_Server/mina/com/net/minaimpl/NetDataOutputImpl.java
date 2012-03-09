@@ -129,9 +129,5 @@ public class NetDataOutputImpl extends BaseNetDataOutput
 		buffer.putShort((short)v);
 	}
 	
-	@Override
-	public void writeDate(Date date) throws IOException {
-		buffer.putLong(date.getTime());
-	}
 	
 }
