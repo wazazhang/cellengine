@@ -11,7 +11,7 @@ package com.cell.net.io
 		public static const TYPE_SHORT	 : int	= -3;
 		public static const TYPE_CHAR	 : int	= -4;
 		public static const TYPE_INT	 : int	= -5;
-		public static const TYPE_LONG	 : int	= -6;
+//		public static const TYPE_LONG	 : int	= -6;
 		public static const TYPE_FLOAT	 : int	= -7;
 		public static const TYPE_DOUBLE	 : int	= -8;	
 		
@@ -19,6 +19,8 @@ package com.cell.net.io
 //		public static const TYPE_OBJECT			: int	= -10;
 //		public static const TYPE_EXTERNALIZABLE	: int	= -11;
 		public static const TYPE_MUTUAL			: int	= -12;
+		
+		public static const TYPE_DATE			: int	= -13;
 
 		
 		public static function toTypeName(type : int) : String {
@@ -37,14 +39,16 @@ package com.cell.net.io
 					return "TYPE_SHORT";
 				case NetDataTypes.TYPE_INT:
 					return "TYPE_INT";
-				case NetDataTypes.TYPE_LONG:
-					return "TYPE_LONG";
+//				case NetDataTypes.TYPE_LONG:
+//					return "TYPE_LONG";
 				case NetDataTypes.TYPE_FLOAT:
 					return "TYPE_FLOAT";
 				case NetDataTypes.TYPE_DOUBLE:
 					return "TYPE_DOUBLE";
 				case NetDataTypes.TYPE_STRING:
 					return "TYPE_STRING";
+				case NetDataTypes.TYPE_DATE:
+					return "TYPE_DATE";
 //				case NetDataTypes.TYPE_OBJECT:
 //					return "TYPE_OBJECT";
 				default:

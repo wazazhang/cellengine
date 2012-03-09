@@ -50,9 +50,9 @@ package com.cell.net.io
 			throw new Error("Not impl in abstract class!");
 		}
 				
-		public function writeLong(v : Number) : void{
-			throw new Error("Not impl in abstract class!");
-		}
+//		public function writeLong(v : Number) : void{
+//			throw new Error("Not impl in abstract class!");
+//		}
 		
 		public function writeChar(data : int) : void{
 			throw new Error("Not impl in abstract class!");
@@ -63,7 +63,29 @@ package com.cell.net.io
 		}
 		
 		
-		
+		public function writeDate(date : Date) : void
+		{
+			if (date == null)
+			{
+				writeByte(0);
+			}
+			else 
+			{
+				writeByte(1);
+				
+				writeShort(date.fullYear);
+				writeByte(date.month);
+				writeByte(date.date);
+				
+				writeByte(date.hours);
+				writeByte(date.minutes);
+				writeByte(date.seconds);
+				
+				writeShort(date.milliseconds);
+			}
+			
+			
+		}
 		
 		
 		
@@ -224,9 +246,9 @@ package com.cell.net.io
 				case NetDataTypes.TYPE_INT: 
 					writeInt(obj as int);
 					break;
-				case NetDataTypes.TYPE_LONG: 
-					writeLong(obj as int);
-					break;
+//				case NetDataTypes.TYPE_LONG: 
+//					writeLong(obj as int);
+//					break;
 				case NetDataTypes.TYPE_FLOAT: 
 					writeFloat(obj as Number);
 					break;

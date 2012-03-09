@@ -101,10 +101,10 @@ package com.cell.net.io.text
 			return this.readShort();
 		}
 		
-		override public function readLong() : Number
-		{
-			return Number(getNext());
-		}
+//		override public function readLong() : Number
+//		{
+//			return Number(getNext());
+//		}
 		
 		override public function readJavaUTF() : String {
 			var len:int = readUnsignedShort();

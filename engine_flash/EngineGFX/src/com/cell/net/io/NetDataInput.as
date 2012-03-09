@@ -47,12 +47,13 @@ package com.cell.net.io
 		function readUnsignedShort():uint;
 		
 		
-		function readLong() : Number;
+//		function readLong() : Number;
 		
 		function readChar() : int;
 		
 		function readJavaUTF() : String ;
 		
+		function readDate() : Date;
 		
 //		----------------------------------------------------------------------------------------------------
 //		复杂类型

@@ -421,6 +421,40 @@ package com.cell.util
 				return ret;
 			}
 			
+//			------------------------------------------------------------------------------------------------------
+			
+			public static function bin2hex(data:ByteArray) : String
+			{
+				var ret : String = "";
+				var count : int = data.length;
+				var old_p : int = data.position;
+				data.position = 0;
+				for (var i : int = 0; i<count; i++) {
+					var dn : String = data.readUnsignedByte().toString(16);
+					if (dn.length==2) {
+						ret += dn;
+					} else {
+						ret += "0" + dn;
+					}
+				}
+				data.position = old_p;
+				return ret;
+			}
+			
+			public static function hex2bin(hex:String) : ByteArray
+			{
+				if (hex.length % 2 != 0) {
+					hex = "0" + hex;
+				}
+				var count : int = hex.length;
+				var os : ByteArray = new ByteArray();
+				for (var i:int = 0; i < count; i+=2) {
+					var read : int = parseInt(hex.substring(i, i+2), 16);
+					os.writeByte(read);
+				}				
+				os.position = 0;
+				return os;
+			}	
 			
 		}
 	

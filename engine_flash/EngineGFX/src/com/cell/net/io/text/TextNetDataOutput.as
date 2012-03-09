@@ -88,10 +88,10 @@ package com.cell.net.io.text
 			putNext(value);
 		}
 		
-		override public function writeLong(v : Number) : void
-		{
-			putNext(v);
-		}
+//		override public function writeLong(v : Number) : void
+//		{
+//			putNext(v);
+//		}
 		
 		override public function writeChar(data : int) : void
 		{

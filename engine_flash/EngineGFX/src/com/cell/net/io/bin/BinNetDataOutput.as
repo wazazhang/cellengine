@@ -62,13 +62,13 @@ package com.cell.net.io.bin
 		}
 		
 		
-		override public function writeLong(v : Number) : void
-		{
-			var l : int = v & 0xffffffff;
-			var h : int = (v>>32) & 0xffffffff;
-			output.writeInt(h);
-			output.writeInt(l);
-		}
+//		override public function writeLong(v : Number) : void
+//		{
+//			var l : int = v & 0xffffffff;
+//			var h : int = (v>>32) & 0xffffffff;
+//			output.writeInt(h);
+//			output.writeInt(l);
+//		}
 		
 		override public function writeChar(data : int) : void
 		{

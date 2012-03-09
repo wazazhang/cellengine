@@ -36,7 +36,7 @@ package com.cell.net.io
 		function writeUnsignedInt(value:uint):void;
 		
 		
-		function writeLong(v : Number) : void;
+//		function writeLong(v : Number) : void;
 		
 		function writeChar(data : int) : void;
 		
@@ -45,7 +45,7 @@ package com.cell.net.io
 		function writeJavaUTF(value:String):void;
 		
 		
-		
+		function writeDate(date:Date) : void;
 		
 		
 		

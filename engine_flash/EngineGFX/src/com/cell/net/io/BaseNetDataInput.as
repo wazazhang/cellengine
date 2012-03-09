@@ -60,12 +60,30 @@ package com.cell.net.io
 			throw new Error("Not impl in abstract class!");
 			}
 		
-		public function readLong() : Number{
-			throw new Error("Not impl in abstract class!");
+//		public function readLong() : Number{
+//			throw new Error("Not impl in abstract class!");
+//		}
+		
+		
+		public function readDate() : Date
+		{
+			var size : int = readByte();
+			if (size != 0) 
+			{
+				var YY : int = readShort();
+				var MM : int = readByte();
+				var DD : int = readByte();
+				
+				var hh : int = readByte();
+				var mm : int = readByte();
+				var ss : int = readByte();
+				
+				var ms : int = readShort();
+				
+				return new Date(YY, MM, DD, hh, mm, ss, ms);
+			}
+			return null;
 		}
-		
-		
-		
 		
 		
 		
@@ -207,14 +225,16 @@ package com.cell.net.io
 					return readShort();
 				case NetDataTypes.TYPE_INT:
 					return readInt();
-				case NetDataTypes.TYPE_LONG:
-					return readLong();
+//				case NetDataTypes.TYPE_LONG:
+//					return readLong();
 				case NetDataTypes.TYPE_FLOAT:
 					return readFloat();
 				case NetDataTypes.TYPE_DOUBLE:
 					return readDouble();
 				case NetDataTypes.TYPE_STRING: 
 					return readJavaUTF();
+				case NetDataTypes.TYPE_DATE:
+					return readDate();
 					//				case NetDataTypes.TYPE_OBJECT:
 					//					return readObject(component_type);
 				default:

@@ -57,12 +57,12 @@ package com.cell.net.io.bin
 			return input.readUnsignedShort();
 		}
 		
-		override public function readLong() : Number
-		{
-			var h : int = input.readInt();
-			var l : int = input.readInt();
-			return (h << 32) + l;
-		}
+//		override public function readLong() : Number
+//		{
+//			var h : int = input.readInt();
+//			var l : int = input.readInt();
+//			return (h << 32) + l;
+//		}
 		
 		override public function readChar() : int
 		{
