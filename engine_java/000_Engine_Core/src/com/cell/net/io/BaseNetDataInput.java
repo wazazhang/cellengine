@@ -207,8 +207,12 @@ public abstract class BaseNetDataInput implements NetDataInput
 			return readFloat();
 		case NetDataTypes.TYPE_DOUBLE:
 			return readDouble();
+			
 		case NetDataTypes.TYPE_STRING: 
 			return readUTF();
+		case NetDataTypes.TYPE_DATE: 
+			return readDate(component_type);
+			
 		case NetDataTypes.TYPE_OBJECT:
 			return readObject(component_type);
 		default:
@@ -248,6 +252,9 @@ public abstract class BaseNetDataInput implements NetDataInput
 			return readDouble();
 		case NetDataTypes.TYPE_STRING: 
 			return readUTF();
+		case NetDataTypes.TYPE_DATE: 
+			return readDate(java.sql.Date.class);
+			
 //		case NetDataTypes.TYPE_OBJECT:
 //			return readObject(component_type);
 		default:
@@ -296,7 +303,7 @@ public abstract class BaseNetDataInput implements NetDataInput
 	}
 	
 	@Override
-	public <T extends Date> T readDate(Class<T> cls) throws IOException 
+	public <T> T readDate(Class<T> cls) throws IOException 
 	{
 		try 
 		{
@@ -311,13 +318,13 @@ public abstract class BaseNetDataInput implements NetDataInput
 				byte ss = readByte();
 				short ms = readShort();
 
-				T ret = cls.newInstance();
+				Date ret = (Date)cls.newInstance();
 				Calendar cal = Calendar.getInstance();
 				cal.set(Calendar.MILLISECOND, ms);
 				cal.set(YY, MM, DD, hh, mm, ss);
 				ret.setTime(cal.getTimeInMillis());
 				
-				return ret;
+				return (T)ret;
 			}
 		} catch (IOException e1) {
 			throw e1;

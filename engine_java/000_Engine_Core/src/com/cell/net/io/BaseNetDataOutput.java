@@ -194,12 +194,18 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		case NetDataTypes.TYPE_DOUBLE: 
 			writeDouble((Double)obj);
 			break;
+			
 		case NetDataTypes.TYPE_STRING: 
 			writeUTF((String)obj);
 			break;
+		case NetDataTypes.TYPE_DATE:
+			writeDate((Date)obj);
+			break;
+			
 		case NetDataTypes.TYPE_OBJECT: 
 			writeObject(obj);
 			break;
+		
 		default:
 		}
 	}
@@ -238,9 +244,14 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		case NetDataTypes.TYPE_DOUBLE: 
 			writeDouble((Double)obj);
 			break;
+			
 		case NetDataTypes.TYPE_STRING: 
 			writeUTF((String)obj);
 			break;
+		case NetDataTypes.TYPE_DATE: 
+			writeDate((Date)obj);
+			break;
+			
 //		case NetDataTypes.TYPE_OBJECT: 
 //			writeObject(obj);
 //			break;

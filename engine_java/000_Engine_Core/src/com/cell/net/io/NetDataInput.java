@@ -51,7 +51,7 @@ public interface NetDataInput extends DataInput
 	
 //	-----------------------------------------------------------------------------------------------
 
-	public <T extends java.util.Date> T readDate(Class<T> cls) throws IOException;
+	public <T> T readDate(Class<T> cls) throws IOException;
 	
 //	-----------------------------------------------------------------------------------------------
 //
