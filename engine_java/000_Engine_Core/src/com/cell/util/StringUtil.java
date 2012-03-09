@@ -1,5 +1,8 @@
 package com.cell.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+
 
 
 
@@ -185,6 +188,60 @@ public class StringUtil
 
 		return ret;
 	}	
+
+	public static String hex2str(String hex) 
+	{
+		StringBuilder bindata = new StringBuilder();
+		if (hex.length() % 2 != 0) {
+			hex = "0" + hex;
+		}
+		for (int i = 0; i < hex.length(); i += 2) {
+			bindata.append((char) Integer.parseInt(hex.substring(i, i + 2), 16));
+		}
+		return bindata.toString();
+	}
+
+	public static String str2hex(String str) 
+	{
+		StringBuilder hexdata = new StringBuilder();
+		for (int i = 0; i < str.length(); i += 1) {
+			String hex = Integer.toHexString(str.charAt(i));
+			if (hex.length() < 2) {
+				hexdata.append("0" + hex);
+			} else {
+				hexdata.append(hex);
+			}
+		}
+		return hexdata.toString();
+	}
+
+	public static String bin2hex(byte[] bin) 
+	{
+		StringBuilder hexdata = new StringBuilder();
+		for (int i = 0; i < bin.length; i++) {
+			String hex = Integer.toHexString(bin[i]);
+			if (hex.length() < 2) {
+				hexdata.append("0" + hex);
+			} else {
+				hexdata.append(hex);
+			}
+		}
+		return hexdata.toString();
+	}
+	
+	public static byte[] hex2bin(String hex) 
+	{
+		if (hex.length() % 2 != 0) {
+			hex = "0" + hex;
+		}
+		int count = hex.length();
+		ByteArrayOutputStream os = new ByteArrayOutputStream(count / 2 + 1);
+		for (int i = 0; i < count; i+=2) {
+			int read = Integer.parseInt(hex.substring(i, i + 2), 16);
+			os.write(read);
+		}
+		return os.toByteArray();
+	}
 	
 }; // class
 

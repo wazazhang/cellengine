@@ -11,6 +11,7 @@ import sun.misc.BASE64Encoder;
 import com.cell.CIO;
 import com.cell.CObject;
 import com.cell.security.MD5;
+import com.cell.util.StringUtil;
 import com.sun.corba.se.impl.ior.ByteBuffer;
 
 public class Crypt
@@ -73,35 +74,13 @@ public class Crypt
 	
 	
 	static public String encryptHex(String txt, String crykey) {
-		return str2hex(encrypt(txt, crykey));
+		return StringUtil.str2hex(encrypt(txt, crykey));
 	}
 	
 	static public String decryptHex(String txt, String crykey) {
-		return decrypt(hex2str(txt), crykey);
+		return decrypt(StringUtil.hex2str(txt), crykey);
 	}
 	
-	static String hex2str(String hex) 
-	{
-	    String bindata = "";
-	    if (hex.length() % 2 != 0) {
-	    	hex = "0" + hex;
-	    }
-	    for(int i=0; i < hex.length(); i += 2) {
-	    	bindata += ((char)Integer.parseInt(hex.substring(i, i+2), 16));
-	    }
-	    return bindata;
-	}
-	
-	static String str2hex(String str) 
-	{
-		 String hexdata = "";
-		 for(int i=0; i < str.length(); i += 1) {
-			 String hex = Integer.toHexString(str.charAt(i));
-			 if (hex.length()<2) hex = "0" + hex;
-			 hexdata += hex;
-		 }
-		 return hexdata;
-	}
 	
 	
 //	---------------------------------------------------------------------------------------------------------------------------------------
@@ -111,7 +90,7 @@ public class Crypt
 	{
 		System.out.println("input :");
 		
-		System.out.println(str2hex("中文"));
+		System.out.println(StringUtil.str2hex("中文"));
 		System.out.println("e4b8ade69687");
 		System.out.println(new BASE64Encoder().encode("中文".getBytes("UTF-8")));
 		

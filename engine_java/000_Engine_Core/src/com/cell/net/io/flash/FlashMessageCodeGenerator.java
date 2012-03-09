@@ -301,14 +301,18 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			write.append("		output.writeIntArray(" + f_name + ");\n");
 		}
 		// long -----------------------------------------------
-		else if (f_type.equals(long.class)) {
-			read.append("		" + f_name + " = input.readLong();\n");
-			write.append("		output.writeLong(" + f_name + ");\n");
-		}
-		else if (f_type.equals(long[].class)) {
-			read.append("		" + f_name + " = input.readLongArray();\n");
-			write.append("		output.writeLongArray(" + f_name + ");\n");
-		}
+//		else if (f_type.equals(long.class)) {
+//			//read.append("		" + f_name + " = input.readLong();\n");
+//			//write.append("		output.writeLong(" + f_name + ");\n");
+//			read.append("		error: not support long type !\n");
+//			write.append("		error: not support long type !\n");
+//		}
+//		else if (f_type.equals(long[].class)) {
+//			//read.append("		" + f_name + " = input.readLongArray();\n");
+//			//write.append("		output.writeLongArray(" + f_name + ");\n");
+//			read.append("		error: not support long type !\n");
+//			write.append("		error: not support long type !\n");
+//		}
 		// float -----------------------------------------------
 		else if (f_type.equals(float.class)) {
 			read.append("		" + f_name + " = input.readFloat();\n");
