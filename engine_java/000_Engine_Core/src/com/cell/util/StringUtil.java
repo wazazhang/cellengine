@@ -237,7 +237,8 @@ public class StringUtil
 		int count = hex.length();
 		ByteArrayOutputStream os = new ByteArrayOutputStream(count / 2 + 1);
 		for (int i = 0; i < count; i+=2) {
-			int read = Integer.parseInt(hex.substring(i, i + 2), 16);
+			String hch = hex.substring(i, i + 2);
+			int read = Integer.parseInt(hch, 16);
 			os.write(read);
 		}
 		return os.toByteArray();

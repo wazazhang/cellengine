@@ -302,9 +302,12 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 	@Override
 	public void writeDate(Date date) throws IOException 
 	{
-		if (date == null) {
+		if (date == null)
+		{
 			writeByte(0);
-		} else {
+		}
+		else 
+		{
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
 			writeByte(1);

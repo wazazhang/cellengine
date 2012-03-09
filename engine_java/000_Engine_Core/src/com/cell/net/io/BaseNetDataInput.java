@@ -270,17 +270,18 @@ public abstract class BaseNetDataInput implements NetDataInput
 	public Collection<?> readCollection(Class<?> collectionType, byte compNetType) throws IOException {
 		int size = readInt();
 		try {
-			Collection ret = (Collection)collectionType.newInstance();
+			Collection ret = (Collection) collectionType.newInstance();
 			if (size > 0) {
-				for (int i=0; i<size; i++) {
+				for (int i = 0; i < size; i++) {
 					Object data = readAnyMutual(compNetType);
 					ret.add(data);
 				}
 			}
 			return ret;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		} catch (InstantiationException e) {
+			throw new IOException(e);
+		} catch (IllegalAccessException e) {
+			throw new IOException(e);
 		}
 	}
 
@@ -298,9 +299,10 @@ public abstract class BaseNetDataInput implements NetDataInput
 				}
 			}
 			return ret;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		} catch (InstantiationException e) {
+			throw new IOException(e);
+		} catch (IllegalAccessException e) {
+			throw new IOException(e);
 		}
 	}
 	
