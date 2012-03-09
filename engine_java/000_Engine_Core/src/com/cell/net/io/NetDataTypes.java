@@ -3,6 +3,7 @@ package com.cell.net.io;
 import java.lang.reflect.Field;
 import java.lang.reflect.TypeVariable;
 import java.util.Collection;
+import java.util.Date;
 
 
 
@@ -23,6 +24,8 @@ public class NetDataTypes
 	public final static byte TYPE_OBJECT			= -10;
 	public final static byte TYPE_EXTERNALIZABLE	= -11;
 	public final static byte TYPE_MUTUAL			= -12;
+	
+	public final static byte TYPE_DATE			= -13;
 	
 	public static String toTypeName(byte type) {
 		switch (type) {
@@ -46,10 +49,17 @@ public class NetDataTypes
 			return "TYPE_FLOAT";
 		case NetDataTypes.TYPE_DOUBLE:
 			return "TYPE_DOUBLE";
+			
 		case NetDataTypes.TYPE_STRING:
 			return "TYPE_STRING";
+			
+		case NetDataTypes.TYPE_DATE:
+			return "TYPE_DATE";
+			
 		case NetDataTypes.TYPE_OBJECT:
 			return "TYPE_OBJECT";
+			
+			
 		default:
 			return null;
 		}
@@ -86,6 +96,10 @@ public class NetDataTypes
 		else if (type.equals(String.class)) {
 			return TYPE_STRING;
 		}
+		else if (Date.class.isAssignableFrom(type)) {
+			return TYPE_DATE;
+		}
+		
 		else if (ExternalizableMessage.class.isAssignableFrom(type)) {
 			return TYPE_EXTERNALIZABLE;
 		}

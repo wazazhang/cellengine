@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.Date;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
@@ -131,4 +132,17 @@ public class NetDataInputImpl extends BaseNetDataInput
 	
 //	--------------------------------------------------------------------------------------------------------------
 
+	@Override
+	public <T extends Date> T readDate(Class<T> cls) throws IOException {
+		try {
+			T ret = cls.newInstance();
+			long time = readLong();
+			ret.setTime(time);
+			return ret;
+		} catch (IOException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new IOException(e2);
+		}
+	}
 }

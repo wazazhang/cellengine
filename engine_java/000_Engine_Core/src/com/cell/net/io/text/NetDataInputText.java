@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.Date;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
@@ -95,6 +96,18 @@ public class NetDataInputText extends BaseNetDataInput
 //	--------------------------------------------------------------------------------------------------------------
 	
 //	--------------------------------------------------------------------------------------------------------------
-
 	
+	@Override
+	public <T extends Date> T readDate(Class<T> cls) throws IOException {
+		try {
+			T ret = cls.newInstance();
+			long time = readLong();
+			ret.setTime(time);
+			return ret;
+		} catch (IOException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new IOException(e2);
+		}
+	}
 }

@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.util.Date;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
@@ -128,6 +129,9 @@ public class NetDataOutputImpl extends BaseNetDataOutput
 		buffer.putShort((short)v);
 	}
 	
-
+	@Override
+	public void writeDate(Date date) throws IOException {
+		buffer.putLong(date.getTime());
+	}
 	
 }

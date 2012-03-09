@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.util.Date;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
@@ -91,6 +92,9 @@ public class NetDataOutputText extends BaseNetDataOutput
 		buffer.putShort((short)v);
 	}
 	
-
+	@Override
+	public void writeDate(Date date) throws IOException {
+		buffer.putLong(date.getTime());
+	}
 	
 }

@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -231,6 +232,11 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		else if (f_type.equals(String[].class)) {
 			read.append("		" + f_name + " = in.readUTFArray();\n");
 			write.append("		out.writeUTFArray(" + f_name + ");\n");
+		}	
+		// Date -----------------------------------------------
+		else if (Date.class.isAssignableFrom(f_type)) {
+			read.append("		" + f_name + " = in.readDate(" + f_type.getCanonicalName() + ".class);\n");
+			write.append("		out.writeDate(" + f_name + ");\n");
 		}	
 		// ExternalizableMessage -----------------------------------------------
 		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
