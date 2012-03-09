@@ -5,7 +5,10 @@ import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.TypeVariable;
+import java.sql.Time;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 import com.cell.CUtil;
@@ -292,4 +295,35 @@ public abstract class BaseNetDataInput implements NetDataInput
 		}
 	}
 	
+	@Override
+	public <T extends Date> T readDate(Class<T> cls) throws IOException 
+	{
+		try 
+		{
+			byte size = readByte();
+			if (size > 0) 
+			{
+				short YY = readShort();
+				byte MM = readByte();
+				byte DD = readByte();
+				byte hh = readByte();
+				byte mm = readByte();
+				byte ss = readByte();
+				short ms = readShort();
+
+				T ret = cls.newInstance();
+				Calendar cal = Calendar.getInstance();
+				cal.set(Calendar.MILLISECOND, ms);
+				cal.set(YY, MM, DD, hh, mm, ss);
+				ret.setTime(cal.getTimeInMillis());
+				
+				return ret;
+			}
+		} catch (IOException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new IOException(e2);
+		}
+		return null;
+	}
 }

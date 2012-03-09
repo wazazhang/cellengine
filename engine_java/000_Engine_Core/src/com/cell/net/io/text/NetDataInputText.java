@@ -97,17 +97,5 @@ public class NetDataInputText extends BaseNetDataInput
 	
 //	--------------------------------------------------------------------------------------------------------------
 	
-	@Override
-	public <T extends Date> T readDate(Class<T> cls) throws IOException {
-		try {
-			T ret = cls.newInstance();
-			long time = readLong();
-			ret.setTime(time);
-			return ret;
-		} catch (IOException e1) {
-			throw e1;
-		} catch (Exception e2) {
-			throw new IOException(e2);
-		}
-	}
+
 }

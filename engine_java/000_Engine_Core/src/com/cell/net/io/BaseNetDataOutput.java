@@ -2,7 +2,9 @@ package com.cell.net.io;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -284,6 +286,28 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 			writeInt(0);
 		}
 	}
+	
+
+	@Override
+	public void writeDate(Date date) throws IOException 
+	{
+		if (date == null) {
+			writeByte(0);
+		} else {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			writeByte(1);
+			writeShort(cal.get(Calendar.YEAR));
+			writeByte(cal.get(Calendar.MONTH));
+			writeByte(cal.get(Calendar.DATE));
+			writeByte(cal.get(Calendar.HOUR_OF_DAY));
+			writeByte(cal.get(Calendar.MINUTE));
+			writeByte(cal.get(Calendar.SECOND));
+			writeShort(cal.get(Calendar.MILLISECOND));
+			cal = null;
+		}
+	}
+	
 	
 	
 }
