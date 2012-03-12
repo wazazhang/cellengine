@@ -1,4 +1,4 @@
-package com.cell.net.io.text;
+package com.cell.net.io;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -7,25 +7,20 @@ import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
 import com.cell.io.TextSerialize;
-import com.cell.net.io.BaseNetDataOutput;
-import com.cell.net.io.ExternalizableFactory;
-import com.cell.net.io.ExternalizableMessage;
-import com.cell.net.io.MutualMessage;
-import com.cell.net.io.NetDataOutput;
-import com.cell.net.io.NetDataTypes;
 import com.cell.reflect.Parser;
 
-public class NetDataOutputText extends BaseNetDataOutput
+public class TextNetDataOutput extends BaseNetDataOutput
 {	
 	final TextSerialize buffer ;
 	
-	public NetDataOutputText(TextSerialize buffer, ExternalizableFactory factory) {
+	public TextNetDataOutput(TextSerialize buffer, ExternalizableFactory factory) {
 		super(factory);
 		this.buffer = buffer;
 	}
@@ -92,6 +87,17 @@ public class NetDataOutputText extends BaseNetDataOutput
 		buffer.putShort((short)v);
 	}
 	
-
+	@Override
+	public void writeDate(Date date) throws IOException 
+	{
+		if (date == null)
+		{
+			writeDouble(0);
+		}
+		else 
+		{
+			writeDouble(date.getTime());
+		}
+	}
 	
 }

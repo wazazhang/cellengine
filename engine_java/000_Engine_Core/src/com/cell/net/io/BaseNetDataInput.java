@@ -330,7 +330,7 @@ public abstract class BaseNetDataInput implements NetDataInput
 				cal.set(YY, MM, DD, hh, mm, ss);
 				ret.setTime(cal.getTimeInMillis());
 				
-				return (T)ret;
+				return cls.cast(ret);
 			}
 		} catch (IOException e1) {
 			throw e1;

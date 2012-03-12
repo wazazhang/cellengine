@@ -1,4 +1,4 @@
-package com.cell.net.io.text;
+package com.cell.net.io;
 
 import java.io.DataInput;
 import java.io.Externalizable;
@@ -7,24 +7,19 @@ import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
 import com.cell.io.TextDeserialize;
-import com.cell.net.io.BaseNetDataInput;
-import com.cell.net.io.ExternalizableFactory;
-import com.cell.net.io.ExternalizableMessage;
-import com.cell.net.io.MutualMessage;
-import com.cell.net.io.NetDataInput;
-import com.cell.net.io.NetDataTypes;
 
-public class NetDataInputText extends BaseNetDataInput
+public class TextNetDataInput extends BaseNetDataInput
 {	
 	final TextDeserialize buffer ;
 
-	public NetDataInputText(StringReader reader, ExternalizableFactory factory) {
+	public TextNetDataInput(StringReader reader, ExternalizableFactory factory) {
 		super(factory);
 		this.buffer = new TextDeserialize(reader);
 	}
@@ -97,5 +92,19 @@ public class NetDataInputText extends BaseNetDataInput
 	
 //	--------------------------------------------------------------------------------------------------------------
 	
-
+	@Override
+	public <T> T readDate(Class<T> cls) throws IOException 
+	{
+		try 
+		{
+			double dd = readDouble();
+			Date ret = (Date)cls.newInstance();
+			ret.setTime((long)dd);
+			return cls.cast(ret);
+		} catch (IOException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new IOException(e2);
+		}
+	}
 }
