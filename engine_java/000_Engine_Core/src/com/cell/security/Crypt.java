@@ -10,6 +10,7 @@ import sun.misc.BASE64Encoder;
 
 import com.cell.CIO;
 import com.cell.CObject;
+import com.cell.CUtil;
 import com.cell.security.MD5;
 import com.cell.util.StringUtil;
 import com.sun.corba.se.impl.ior.ByteBuffer;
@@ -74,11 +75,11 @@ public class Crypt
 	
 	
 	static public String encryptHex(String txt, String crykey) {
-		return StringUtil.str2hex(encrypt(txt, crykey));
+		return CUtil.str2hex(encrypt(txt, crykey));
 	}
 	
 	static public String decryptHex(String txt, String crykey) {
-		return decrypt(StringUtil.hex2str(txt), crykey);
+		return decrypt(CUtil.hex2str(txt), crykey);
 	}
 	
 	
@@ -90,7 +91,7 @@ public class Crypt
 	{
 		System.out.println("input :");
 		
-		System.out.println(StringUtil.str2hex("中文"));
+		System.out.println(CUtil.str2hex("中文"));
 		System.out.println("e4b8ade69687");
 		System.out.println(new BASE64Encoder().encode("中文".getBytes("UTF-8")));
 		

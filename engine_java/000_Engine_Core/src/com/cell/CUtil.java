@@ -920,12 +920,74 @@ public class CUtil extends CObject
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//	---------------------------------------------------------------------------------------------------------------
+
+	public static String hex2str(String hex) 
+	{
+		StringBuilder bindata = new StringBuilder();
+		if (hex.length() % 2 != 0) {
+			hex = "0" + hex;
+		}
+		for (int i = 0; i < hex.length(); i += 2) {
+			bindata.append((char) Integer.parseInt(hex.substring(i, i + 2), 16));
+		}
+		return bindata.toString();
+	}
+
+	public static String str2hex(String str) 
+	{
+		StringBuilder hexdata = new StringBuilder();
+		for (int i = 0; i < str.length(); i += 1) {
+			String hex = Integer.toString(0x00ff & str.charAt(i), 16);
+			if (hex.length() < 2) {
+				hexdata.append("0" + hex);
+			} else {
+				hexdata.append(hex);
+			}
+		}
+		return hexdata.toString();
+	}
+
+	public static String bin2hex(byte[] bin) 
+	{
+		StringBuilder hexdata = new StringBuilder();
+		for (int i = 0; i < bin.length; i++) {
+			String hex = Integer.toString(0x00ff & bin[i], 16);
+			if (hex.length() < 2) {
+				hexdata.append("0" + hex);
+			} else if (hex.length() == 2) {
+				hexdata.append(hex);
+			} else {
+				System.out.println(bin[i] + " swap to " + hex);
+			}
+		}
+		return hexdata.toString();
+	}
+	
+	public static byte[] hex2bin(String hex) 
+	{
+		if (hex.length() % 2 != 0) {
+			hex = "0" + hex;
+		}
+		int count = hex.length();
+		ByteArrayOutputStream os = new ByteArrayOutputStream(count / 2 + 1);
+		for (int i = 0; i < count; i+=2) {
+			String hch = hex.substring(i, i + 2);
+			int read = Integer.parseInt(hch, 16);
+			os.write(read);
+		}
+		return os.toByteArray();
+	}
+
+
+//	---------------------------------------------------------------------------------------------------------------
+
 	public static String getHexDump(byte[] data)
 	{
 		String dump = "";
 		for (int i=0; i<data.length; i++){
 			if (i%16==0) dump += "\n";
-			String hex = Integer.toString(data[i], 16);
+			String hex = Integer.toString(0xff & data[i], 16);
 			if (hex.length()<2){
 				hex = "0"+hex;
 			}
@@ -933,31 +995,7 @@ public class CUtil extends CObject
 		}
 		return dump;
 	}
-	
-	public static String toHex(byte[] data)
-	{
-		String dump = "";
-		for (int i=0; i<data.length; i++){
-			String hex = Integer.toString(0x00ff & data[i], 16);
-			if (hex.length()<2){
-				hex = "0"+hex;
-			}
-			dump += hex;
-		}
-		return dump;
-	}
-	
-	public static byte[] fromHex(String text)
-	{
-		int size = text.length() / 2;
-		byte[] data = new byte[size];
-		for (int i=0; i<size; i++) {
-			int v = Integer.parseInt(text.substring(i*2, i*2+2), 16);
-			data[i] = (byte)v;
-		}
-		return data;
-	}
-	
+
 	public static String toBytesSizeString(long bytes) 
 	{
 		return getBytesSizeString(bytes);
