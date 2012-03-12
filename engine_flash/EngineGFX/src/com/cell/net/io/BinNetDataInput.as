@@ -1,10 +1,5 @@
-package com.cell.net.io.bin
+package com.cell.net.io
 {
-	import com.cell.net.io.BaseNetDataInput;
-	import com.cell.net.io.MessageFactory;
-	import com.cell.net.io.MutualMessage;
-	import com.cell.net.io.NetDataInput;
-	import com.cell.net.io.NetDataTypes;
 	
 	import flash.utils.ByteArray;
 	import flash.utils.IDataInput;

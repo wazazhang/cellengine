@@ -1,12 +1,7 @@
-package com.cell.net.io.text
+package com.cell.net.io
 {
 	import com.cell.io.TextDeserialize;
 	import com.cell.io.TextReader;
-	import com.cell.net.io.BaseNetDataInput;
-	import com.cell.net.io.MessageFactory;
-	import com.cell.net.io.MutualMessage;
-	import com.cell.net.io.NetDataInput;
-	import com.cell.net.io.NetDataTypes;
 	
 	import flash.utils.ByteArray;
 	import flash.utils.IDataInput;
@@ -113,6 +108,13 @@ package com.cell.net.io.text
 		
 		
 		
+		override public function readDate() : Date
+		{
+			var dd : Number = readDouble();
+			var ret : Date = new Date();
+			ret.setTime(dd);
+			return ret;
+		}
 		
 		
 		
