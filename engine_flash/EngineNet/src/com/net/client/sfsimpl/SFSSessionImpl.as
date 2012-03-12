@@ -4,8 +4,8 @@ package com.net.client.sfsimpl
 	import com.cell.net.io.MutualMessage;
 	import com.cell.net.io.NetDataInput;
 	import com.cell.net.io.NetDataOutput;
-	import com.cell.net.io.bin.BinNetDataInput;
-	import com.cell.net.io.bin.BinNetDataOutput;
+	import com.cell.net.io.BinNetDataInput;
+	import com.cell.net.io.BinNetDataOutput;
 	import com.net.client.*;
 	import com.smartfoxserver.v2.*;
 	import com.smartfoxserver.v2.core.SFSEvent;
