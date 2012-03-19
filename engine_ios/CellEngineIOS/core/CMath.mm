@@ -303,7 +303,7 @@ namespace com_cell
 		return v;
 	}
 		
-	Vector2D vectorScale(Vector2D const &a, float scale)
+	Vector2D Math::vectorScale(Vector2D const &a, float scale)
 	{
 		Vector2D v;
 		v.x = (a.x * scale);
@@ -316,8 +316,28 @@ namespace com_cell
 	// 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	
+	float Math::rSqrt(float number)
+	{
+		long i;
+		float x2, y;
+		const float threehalfs = 1.5F;
 		
-    
+		x2 = number * 0.5F;
+		y  = number;
+		i  = * ( long * ) &y;                       // evil floating point bit level hacking
+		i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+		y  = * ( float * ) &i;
+		
+		// 以下代码可以一直加，直到想要的精度
+		//y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+		//y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+		
+		for (int ci=0; ci<1; ci++) {
+			y  = y * ( threehalfs - ( x2 * y * y ) );   // iteration
+		}
+		
+		return y;
+	}
 	
 	
 }; // namespace com.cell

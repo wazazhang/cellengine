@@ -274,9 +274,12 @@ namespace com_cell
 		//////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
-		
-		
-		
+		/**
+		 * 1/sqrt(number)
+		 * @param number
+		 * @return
+		 */
+		static float rSqrt(float number);		
 		
 		
 		
