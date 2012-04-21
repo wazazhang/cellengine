@@ -1615,12 +1615,25 @@ namespace CellGameEdit.PM
                 }
             }
         }
-        private void renderDst(Graphics g, int x, int y, System.Drawing.Rectangle screen, 
+		private void renderDst(Graphics g, int x, int y, System.Drawing.Rectangle screen,
+		   Boolean grid,
+		   Boolean tag,
+		   Boolean tagAnim,
+		   Boolean anim,
+		   int timer)
+		{
+			renderDst(g, x, y, screen, grid, tag, tagAnim, anim, timer, false);
+		}
+
+        private void renderDst(
+			Graphics g, int x, int y, 
+			System.Drawing.Rectangle screen, 
             Boolean grid, 
             Boolean tag, 
             Boolean tagAnim,
             Boolean anim,
-            int timer)
+            int timer,
+			Boolean layerHilight)
         {
             int sx = (screen.X >= 0) ? (screen.X / CellW) : 0;
             int sy = (screen.Y >= 0) ? (screen.Y / CellH) : 0;
@@ -1633,6 +1646,15 @@ namespace CellGameEdit.PM
 				MapLayer layer = layers.getLayer(L);
 				if (layer.visible)
 				{
+					g.pushState();
+
+					if (layerHilight && getCurLayer() != layer)
+					{
+						g.multiplyAlpha(0.5f);
+						//g.setColor(0x80, 0x808080);
+						//g.fillRect(screen.X, screen.Y, screen.Width, screen.Height);
+					}
+
 					for (int by = sy; by < sy + sh && by < layers.YCount; by++)
 					{
 						for (int bx = sx; bx < sx + sw && bx < layers.XCount; bx++)
@@ -1643,7 +1665,7 @@ namespace CellGameEdit.PM
 							int tilei = layer.MatrixTile[by][bx];
 							int flipi = layer.MatrixFlip[by][bx];
 							int tagi = layer.MatrixTag[by][bx];
-
+							/*
 							if (animi > 0 && animi < listView1.Items.Count)
 							{
 								renderAnimate(g, animi, anim ? timer : 0, drawx, drawy, tagAnim);
@@ -1652,7 +1674,8 @@ namespace CellGameEdit.PM
 							{
 								renderCombo(g, -animi, drawx, drawy, tagAnim);
 							}
-							else if (tilei >= 0 && tilei < getTileCount())
+							else */
+							if (tilei >= 0 && tilei < getTileCount())
 							{
 								renderDstTile(g, tilei, flipi, drawx, drawy);
 								renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked, tilei, drawx, drawy);
@@ -1670,6 +1693,9 @@ namespace CellGameEdit.PM
 							}
 						}
 					}
+
+					g.popState();
+					
 				}
 			}
             if (grid)
@@ -2815,7 +2841,8 @@ namespace CellGameEdit.PM
                     toolStripButton12.Checked || toolCDBrush.Checked,
                     toolAnimBrush.Checked,
                     toolStripButton14.Checked,
-                    curTime
+                    curTime,
+					checkLayerHilight.Checked
                     );
 
                 renderMapSelecter(g, e, viewRect);
@@ -4292,6 +4319,11 @@ namespace CellGameEdit.PM
 		{
 			layers.addLayer();
 			syncMapLayer();
+		}
+
+		private void 图层高亮ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
 		}
 
 		private void 上移图层ToolStripMenuItem_Click(object sender, EventArgs e)

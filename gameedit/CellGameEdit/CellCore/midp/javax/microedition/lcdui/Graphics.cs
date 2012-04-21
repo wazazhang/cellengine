@@ -84,6 +84,8 @@ public class Graphics
 		this.imgAttr = imageAtt;
 	}
 
+
+
 	public void translate(float x, float y)
 	{
 		dg.TranslateTransform(x, y);

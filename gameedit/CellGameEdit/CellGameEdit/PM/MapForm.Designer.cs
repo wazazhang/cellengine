@@ -113,9 +113,13 @@
 			this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
 			this.LayerView = new System.Windows.Forms.ToolStripDropDownButton();
 			this.添加图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkLayerHilight = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
 			this.上移图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.下移图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
 			this.隐藏图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem16 = new System.Windows.Forms.ToolStripSeparator();
 			this.删除图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolSelecter = new System.Windows.Forms.ToolStripButton();
@@ -163,8 +167,6 @@
 			this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripSeparator();
 			this.统计相同的地块ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -342,6 +344,7 @@
 			// splitContainer3
 			// 
 			this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer3.Enabled = false;
 			this.splitContainer3.Location = new System.Drawing.Point(3, 3);
 			this.splitContainer3.Name = "splitContainer3";
 			this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -1136,11 +1139,13 @@
 			this.LayerView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.LayerView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.添加图层ToolStripMenuItem,
+            this.checkLayerHilight,
             this.toolStripMenuItem14,
             this.上移图层ToolStripMenuItem,
             this.下移图层ToolStripMenuItem,
             this.toolStripMenuItem15,
             this.隐藏图层ToolStripMenuItem,
+            this.toolStripMenuItem16,
             this.删除图层ToolStripMenuItem});
 			this.LayerView.Image = ((System.Drawing.Image)(resources.GetObject("LayerView.Image")));
 			this.LayerView.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -1154,6 +1159,19 @@
 			this.添加图层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.添加图层ToolStripMenuItem.Text = "添加图层";
 			this.添加图层ToolStripMenuItem.Click += new System.EventHandler(this.添加图层ToolStripMenuItem_Click);
+			// 
+			// checkLayerHilight
+			// 
+			this.checkLayerHilight.CheckOnClick = true;
+			this.checkLayerHilight.Name = "checkLayerHilight";
+			this.checkLayerHilight.Size = new System.Drawing.Size(152, 22);
+			this.checkLayerHilight.Text = "图层高亮";
+			this.checkLayerHilight.Click += new System.EventHandler(this.图层高亮ToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem14
+			// 
+			this.toolStripMenuItem14.Name = "toolStripMenuItem14";
+			this.toolStripMenuItem14.Size = new System.Drawing.Size(149, 6);
 			// 
 			// 上移图层ToolStripMenuItem
 			// 
@@ -1169,12 +1187,22 @@
 			this.下移图层ToolStripMenuItem.Text = "下移图层";
 			this.下移图层ToolStripMenuItem.Click += new System.EventHandler(this.下移图层ToolStripMenuItem_Click);
 			// 
+			// toolStripMenuItem15
+			// 
+			this.toolStripMenuItem15.Name = "toolStripMenuItem15";
+			this.toolStripMenuItem15.Size = new System.Drawing.Size(149, 6);
+			// 
 			// 隐藏图层ToolStripMenuItem
 			// 
 			this.隐藏图层ToolStripMenuItem.Name = "隐藏图层ToolStripMenuItem";
 			this.隐藏图层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.隐藏图层ToolStripMenuItem.Text = "隐藏/显示";
 			this.隐藏图层ToolStripMenuItem.Click += new System.EventHandler(this.隐藏图层ToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem16
+			// 
+			this.toolStripMenuItem16.Name = "toolStripMenuItem16";
+			this.toolStripMenuItem16.Size = new System.Drawing.Size(149, 6);
 			// 
 			// 删除图层ToolStripMenuItem
 			// 
@@ -1286,12 +1314,14 @@
 			// 
 			this.toolAnimBrush.CheckOnClick = true;
 			this.toolAnimBrush.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolAnimBrush.Enabled = false;
 			this.toolAnimBrush.Image = global::CellGameEdit.Resource1.Image31;
 			this.toolAnimBrush.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolAnimBrush.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolAnimBrush.Name = "toolAnimBrush";
 			this.toolAnimBrush.Size = new System.Drawing.Size(23, 22);
 			this.toolAnimBrush.Text = "动态地表工具";
+			this.toolAnimBrush.Visible = false;
 			this.toolAnimBrush.Click += new System.EventHandler(this.toolStriptoolStripButton_Clicked);
 			// 
 			// toolCDBrush
@@ -1606,16 +1636,6 @@
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
 			this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStripMenuItem14
-			// 
-			this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-			this.toolStripMenuItem14.Size = new System.Drawing.Size(149, 6);
-			// 
-			// toolStripMenuItem15
-			// 
-			this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-			this.toolStripMenuItem15.Size = new System.Drawing.Size(149, 6);
-			// 
 			// MapForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1817,5 +1837,7 @@
 		private System.Windows.Forms.ToolStripMenuItem 隐藏图层ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
+		private System.Windows.Forms.ToolStripMenuItem checkLayerHilight;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
     }
 }
