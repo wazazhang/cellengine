@@ -13,12 +13,15 @@ namespace CellGameEdit.PM
 {
     public partial class ImageProcessDialog : Form
     {
+		private ImagesForm srcForm;
 
         ArrayList selected_images = new ArrayList();
 
         public ImageProcessDialog(ImagesForm src, ArrayList dstImages, bool all)
         {
             InitializeComponent();
+
+			this.srcForm = src;
 
             foreach (Object io in dstImages) 
             {
@@ -50,8 +53,12 @@ namespace CellGameEdit.PM
                 int dcv = (int)(0xffffffff & dcc);
                 int trans = imageFlipToolStripButton1.getFlipIndex();
 
+				ArrayList events = new ArrayList();
+
                 foreach (javax.microedition.lcdui.Image img in selected_images)
                 {
+					ImageChange change = new ImageChange();
+
                     if (checkSetKeyColor.Checked)
                     {
                         img.swapColor(scv, dcv);
@@ -62,9 +69,15 @@ namespace CellGameEdit.PM
                     }
 					if (chkOptImageSize.Checked)
 					{
-						img.cutTransparentImageSize();
+						change.srcRect = new Rectangle(0, 0, img.getWidth(), img.getHeight());
+						change.dstRect = img.cutTransparentImageSize();
+						change.dstImage = img;
 					}
+
+					events.Add(change);
                 }
+
+				srcForm.onProcessImageSizeChanged(events);
             }
             catch (Exception err)
             {
@@ -97,4 +110,15 @@ namespace CellGameEdit.PM
         }
 
     }
+
+	public class ImageChange
+	{
+		public System.Drawing.Rectangle srcRect;
+
+		public System.Drawing.Rectangle dstRect;
+
+		public javax.microedition.lcdui.Image dstImage;
+
+		
+	}
 }

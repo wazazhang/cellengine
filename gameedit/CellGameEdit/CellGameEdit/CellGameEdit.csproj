@@ -580,6 +580,9 @@
     <None Include="Resources\ImageMapClip.png" />
     <None Include="Resources\image74.bmp" />
     <None Include="Resources\Image141.bmp" />
+    <None Include="Resources\Image74.png" />
+    <None Include="Resources\Image75.bmp" />
+    <None Include="Resources\Image76.bmp" />
     <Content Include="Resources\MainHelp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

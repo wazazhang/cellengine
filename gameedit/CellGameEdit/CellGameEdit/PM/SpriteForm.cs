@@ -35,7 +35,7 @@ namespace CellGameEdit.PM
 
         //[NoneSerializable]
         ArrayList srcTiles;
-        int srcIndex = 0;
+      //  int srcIndex = 0;
         Image srcImage;
         System.Drawing.Rectangle srcRect;
 
@@ -75,16 +75,17 @@ namespace CellGameEdit.PM
             srcTiles = super.dstImages;
             for (int i = 0; i < srcGetCount(); i++)
             {
-                if (srcGetImage(i) != null)
-                {
-                    srcIndex = i;
-                    srcImage = srcGetImage(i);
-                    srcRect.X = srcGetImage(i).x;
-                    srcRect.Y = srcGetImage(i).y;
-                    srcRect.Width = srcGetImage(i).getWidth();
-                    srcRect.Height = srcGetImage(i).getHeight();
-                    break;
-                }
+				Image img = srcGetImage(i);
+				if (img != null)
+				{
+					//srcIndex = i;
+					srcImage = img;
+					srcRect.X = img.x;
+					srcRect.Y = img.y;
+					srcRect.Width = img.getWidth();
+					srcRect.Height = img.getHeight();
+					break;
+				}
             }
 
             AnimTable = new Hashtable();
@@ -243,14 +244,15 @@ namespace CellGameEdit.PM
             srcTiles = super.dstImages;
             for (int i = 0; i < srcGetCount(); i++)
             {
-                if (srcGetImage(i) != null)
+				Image img = srcGetImage(i);
+				if (img != null)
                 {
-                    srcIndex = i;
-                    srcImage = srcGetImage(i);
-                    srcRect.X = srcGetImage(i).x;
-                    srcRect.Y = srcGetImage(i).y;
-                    srcRect.Width = srcGetImage(i).getWidth();
-                    srcRect.Height = srcGetImage(i).getHeight();
+                   // srcIndex = i;
+					srcImage = img;
+					srcRect.X = img.x;
+					srcRect.Y = img.y;
+					srcRect.Width = img.getWidth();
+					srcRect.Height = img.getHeight();
                     break;
                 }
             }
@@ -893,7 +895,7 @@ namespace CellGameEdit.PM
                         {
 
                             srcRect = dst;
-                            srcIndex = i;
+                            //srcIndex = i;
                             srcImage = srcGetImage(i);
 
                             toolStripLabel1.Text =
@@ -1340,24 +1342,31 @@ namespace CellGameEdit.PM
 
         private void dstAddPart()
         {
-            if (framesGetCurFrame() != null)
-            {
-				ListViewItem item = framesGetCurFrame().insertFSub(
-                    0,
-                    srcIndex,
-                    -srcImage.getWidth() / 2,
-                    -srcImage.getHeight() / 2,
-                    srcImage.getWidth(),
-                    srcImage.getHeight(),
-                    0, 0, 1, 1, 1, 0, 0
-                    );
-                item.Focused = true;
-				item.Selected = true; 
+			dstAddPart(srcImage);
+        }
+
+		private void dstAddPart(Image img)
+		{
+			Frame curf = framesGetCurFrame();
+			if (curf != null)
+			{
+				ListViewItem item = curf.insertFSub(
+						0,
+						img.indexOfImages,
+						-img.getWidth() / 2,
+						-img.getHeight() / 2,
+						img.getWidth(),
+						img.getHeight(),
+						0, 0, 1, 1, 1, 0, 0
+						);
+				item.Focused = true;
+				item.Selected = true;
 				item.Checked = true;
 				//listView3.Items.Add(item);
 				listView3.Items.Insert(0, item);
-            }
-        }
+			}
+		}
+
         private void dstAddCD()
         {
             if (framesGetCurFrame() != null)
@@ -1396,7 +1405,7 @@ namespace CellGameEdit.PM
                 {
                     int flip = (int)framesGetCurFrame().SubFlip[dstGetCurSubIndexes()[0]];
 
-                    framesGetCurFrame().SubIndex[dstGetCurSubIndexes()[0]] = srcIndex;
+                    framesGetCurFrame().SubIndex[dstGetCurSubIndexes()[0]] = srcImage.indexOfImages;
 
                     switch (Graphics.FlipTable[flip])
                     {
@@ -1404,15 +1413,15 @@ namespace CellGameEdit.PM
                         case System.Drawing.RotateFlipType.Rotate180FlipNone:
                         case System.Drawing.RotateFlipType.Rotate180FlipX:
                         case System.Drawing.RotateFlipType.RotateNoneFlipX:
-                            framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]] = srcGetImage(srcIndex).getWidth();
-                            framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]] = srcGetImage(srcIndex).getHeight();
+							framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]] = srcImage.getWidth();
+							framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]] = srcImage.getHeight();
                             break;
                         case System.Drawing.RotateFlipType.Rotate90FlipNone:
                         case System.Drawing.RotateFlipType.Rotate270FlipNone:
                         case System.Drawing.RotateFlipType.Rotate270FlipX:
                         case System.Drawing.RotateFlipType.Rotate90FlipX:
-                            framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]] = srcGetImage(srcIndex).getHeight();
-                            framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]] = srcGetImage(srcIndex).getWidth();
+							framesGetCurFrame().SubW[dstGetCurSubIndexes()[0]] = srcImage.getHeight();
+							framesGetCurFrame().SubH[dstGetCurSubIndexes()[0]] = srcImage.getWidth();
                             break;
                     }
 
@@ -2418,7 +2427,17 @@ namespace CellGameEdit.PM
 			framesRefersh();
 
 		}
-
+	
+		private void btnAddSequence_Click(object sender, EventArgs e)
+		{
+			ArrayList added = super.addDirImages();
+			foreach (Image img in added)
+			{
+				framesAdd();
+				dstAddPart(img);
+			}
+			framesRefersh();
+		}
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
@@ -2522,7 +2541,8 @@ namespace CellGameEdit.PM
             //    //{
             //    //    control.Enabled = true;
             //    //}
-            //}
+			//}
+			trackBar1.Value = trackBar1.Minimum;
             timer1.Start();
             framesRefersh();
         }
@@ -2700,16 +2720,23 @@ namespace CellGameEdit.PM
         }
         private void listView2_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            if (listView2.SelectedItems != null && listView2.SelectedItems.Count > 0)
-            {
-                if (animGetCurFrames() != null)
-                {
-                    trackBar1.Maximum = Math.Max(animGetCurFrames().Count - 1, 0);
-                    trackBar1.Value = 0;
-                }
+			if (listView2.SelectedItems != null && listView2.SelectedItems.Count > 0)
+			{
+				toolStrip4.Enabled = true;
+				tabControl1.Enabled = true;
+				if (animGetCurFrames() != null)
+				{
+					trackBar1.Maximum = Math.Max(animGetCurFrames().Count - 1, 0);
+					trackBar1.Value = 0;
+				}
 
-                AnimState.Text = "" + e.ItemIndex;
-            }
+				AnimState.Text = "" + e.ItemIndex;
+			}
+			else
+			{
+				toolStrip4.Enabled = false; 
+				tabControl1.Enabled = false;
+			}
             framesRefersh();
         }
 
@@ -2803,7 +2830,7 @@ namespace CellGameEdit.PM
                 }
                 else
                 {
-                    trackBar1.Value = trackBar1.Minimum;
+                    //trackBar1.Value = trackBar1.Minimum;
                     toolStripButton7.Checked = false;
                     toolStripButton7_Click(toolStripButton7,null);
                     timer1.Stop();
@@ -2904,9 +2931,27 @@ namespace CellGameEdit.PM
 			groupBoxPartComplex.Enabled = checkComplexMode.Checked;
 		}
 
+		
 
 
 
+
+		public void onProcessImageSizeChanged(ImagesForm src, ArrayList events)
+		{
+			try
+			{
+				foreach (ArrayList animFrames in AnimTable.Values)
+				{
+					foreach (Frame frame in animFrames)
+					{
+						frame.onImagePartsChange(srcTiles, events);
+					}
+				}
+			}
+			catch (Exception err)
+			{
+			}
+		}
 
 
 
@@ -3545,6 +3590,22 @@ namespace CellGameEdit.PM
 
             return rect;
         }
+
+		public void onImagePartsChange(ArrayList tile, ArrayList events)
+		{
+			foreach (ImageChange ic in events) 
+			{
+				for (int i = SubIndex.Count - 1; i >= 0; --i)
+				{
+					Image srcimg = ((Image)tile[(int)SubIndex[i]]);
+					Image dstimg = ic.dstImage;
+					if (srcimg == dstimg) {
+						SubX[i] = (int)SubX[i] + ic.dstRect.X;
+						SubY[i] = (int)SubY[i] + ic.dstRect.Y;
+					}
+				}
+			}
+		}
 
 		private void renderPart(Graphics g, ArrayList tile, int i, bool showimageborder, bool complex_mode)
 		{

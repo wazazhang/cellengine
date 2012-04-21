@@ -82,11 +82,13 @@
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton18 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton17 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton14 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnAddSequence = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripButton22 = new System.Windows.Forms.ToolStripButton();
@@ -755,6 +757,7 @@
 			// 
 			// toolStrip4
 			// 
+			this.toolStrip4.Enabled = false;
 			this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnAddFrameAndSub,
             this.toolStripButton1,
@@ -762,11 +765,13 @@
             this.toolStripButton3,
             this.toolStripButton18,
             this.toolStripButton17,
-            this.toolStripSeparator1,
+            this.toolStripSeparator13,
             this.toolStripButton4,
             this.toolStripButton6,
             this.toolStripButton7,
             this.toolStripButton14,
+            this.toolStripSeparator1,
+            this.btnAddSequence,
             this.toolStripSeparator4,
             this.toolStripLabel2,
             this.toolStripButton22,
@@ -799,7 +804,7 @@
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
 			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text = "添加帧";
+			this.toolStripButton1.Text = "添加空白帧";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
 			// 
 			// toolStripButton2
@@ -846,10 +851,10 @@
 			this.toolStripButton17.Text = "将当前帧右移";
 			this.toolStripButton17.Click += new System.EventHandler(this.toolStripButton17_Click);
 			// 
-			// toolStripSeparator1
+			// toolStripSeparator13
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
 			// 
 			// toolStripButton4
 			// 
@@ -896,6 +901,22 @@
 			this.toolStripButton14.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButton14.Text = "跳到结束";
 			this.toolStripButton14.Click += new System.EventHandler(this.toolStripButton14_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btnAddSequence
+			// 
+			this.btnAddSequence.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnAddSequence.Image = global::CellGameEdit.Resource1.Image75;
+			this.btnAddSequence.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.btnAddSequence.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnAddSequence.Name = "btnAddSequence";
+			this.btnAddSequence.Size = new System.Drawing.Size(23, 22);
+			this.btnAddSequence.Text = "添加图片序列到动画";
+			this.btnAddSequence.Click += new System.EventHandler(this.btnAddSequence_Click);
 			// 
 			// toolStripSeparator4
 			// 
@@ -1155,6 +1176,7 @@
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Enabled = false;
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -2497,5 +2519,7 @@
 		private System.Windows.Forms.GroupBox groupBoxPartComplex;
 		private System.Windows.Forms.ColumnHeader columnAnimBlend;
 		private System.Windows.Forms.ColumnHeader columnAnimData;
+		private System.Windows.Forms.ToolStripButton btnAddSequence;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
     }
 }

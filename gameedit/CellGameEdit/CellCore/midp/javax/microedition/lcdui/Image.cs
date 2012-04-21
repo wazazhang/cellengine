@@ -4,7 +4,7 @@ namespace javax.microedition.lcdui
 
 public class Image
 {
-
+	
 	public System.Drawing.Image dimg;
 	private bool mutable = true;
 
@@ -13,7 +13,7 @@ public class Image
 	public int y = 0;
 
 	public bool used = false;
-
+	public int indexOfImages;
 	public bool killed = false;
 
 	private bool hasColorKey = false;
@@ -137,9 +137,11 @@ public class Image
         dimg = dst.dimg;
     }
 
-	public void cutTransparentImageSize()
+	public System.Drawing.Rectangle cutTransparentImageSize()
 	{
 		System.Drawing.Bitmap image = asBitmap();
+
+		System.Drawing.Rectangle ret = new System.Drawing.Rectangle();
 
 		int left = 0;
 		int right = image.Width - 1;
@@ -228,12 +230,17 @@ public class Image
 				break;
 			}
 		}
-
-		Image dst = createImage(right - left + 1, bottom - top + 1);
+		ret.X = left;
+		ret.Y = top;
+		ret.Width = right - left + 1;
+		ret.Height = bottom - top + 1;
+		Image dst = createImage(ret.Width, ret.Height);
 		Graphics dstg = dst.getGraphics();
 		dstg.drawImage(this, -left, -top);
 		dimg = dst.dimg;
 		dst = null;
+
+		return ret;
 	}
 
 

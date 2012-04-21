@@ -1486,8 +1486,29 @@ namespace CellGameEdit.PM
         }
 
 
+	
 
+		public ArrayList getImangesFormChilds(ImagesForm src)
+		{
+			ArrayList ret = new ArrayList();
 
+			foreach (TreeNode node in formTable.Keys)
+            {
+                if (node.Text.Equals(src.getID()))
+                {
+                    if (formTable[node].GetType().Equals(typeof(ImagesForm)))
+                    {
+						foreach (TreeNode subNode in node.Nodes)
+						{
+							ret.Add(formTable[subNode]);
+						}
+						return ret;
+                    }
+                }
+            }
+
+			return null;
+		}
 
 
      
