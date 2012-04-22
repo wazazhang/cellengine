@@ -101,26 +101,6 @@
         <CELL_W>               /*(int) 该地图 每格宽度 */
         <CELL_H>               /*(int) 该地图 每格高度 */
 
-        <SCENE_PART_COUNT>     /*(int) 该地图 帧部件数量 */
-        <SCENE_PART>          /* 帧部件 开始 */
-            <INDEX>                /*(int) 该部件 号码 */
-            <TILE>                 /*(int) 该部件 图片索引 */
-            <TRANS>                /*(int) 该部件 图片翻转方式 */
-            <ALPHA>
-            <ROTATE>
-            <SCALE_X>
-            <SCALE_Y>
-            <SHEAR_X>
-            <SHEAR_Y>        
-        </SCENE_PART>      /* 帧部件 结束 */
-
-        <SCENE_FRAME_COUNT>    /*(int) 该地图 帧数量 */
-        <SCENE_FRAME>         /* 帧 开始 */
-            <INDEX>                /*(int) 该帧 号码 */
-            <DATA_SIZE>            /*(int) 该帧 组合部件数量 */
-            <DATA>                 /*(int)[] 该帧 组合部件数组*/
-        </SCENE_FRAME>     /* 帧 结束 */
-
         <CD_PART_COUNT>        /*(int) 该地图 碰撞部件数量 */
         <CD_PART>             /* 碰撞部件 开始 */
             <INDEX>                /*(int) 该部件 号码 */
@@ -136,8 +116,9 @@
 
 		<LAYER>
 			<INDEX>			/**图层号*/
-			<TILE_MATRIX>   /*(int)[][] 地图图象二维数组 格式为 matrix[y count][x count] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... 数据为帧号码（该数据的绝对值表示对应的帧号码，符号用来区分多重贴图和动画（value<0多层  value>=0动画）） */
-			<FLAG_MATRIX>   /*(int)[][] 地图碰撞二维数组 格式为 matrix[y count][x count] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... 数据为碰撞部件号码 */
+			<TILE_MATRIX>   /*(int)[][] 地图图象二维数组 格式为 matrix[y][x] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... 图片tile id） */
+			<FLIP_MATRIX>	/*(int)[][] 地图翻转二维数组 格式为 matrix[y][x] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... 翻转方式 */
+			<FLAG_MATRIX>   /*(int)[][] 地图碰撞二维数组 格式为 matrix[y][x] = {x0y0,x1y0,x2y0,...},{x0y1,x1y1,x2y1,...},... 数据为碰撞部件号码 */
 		</LAYER>
 		
         <APPEND_DATA>		/*(str[]) 附加数据 ，以字符串数组形式输出 */

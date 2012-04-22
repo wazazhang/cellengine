@@ -143,6 +143,7 @@ namespace CellGameEdit.PM
 		public static String Y_COUNT = "<Y_COUNT>";
 		public static String LAYER_COUNT = "<LAYER_COUNT>";
         public static String TILE_MATRIX = "<TILE_MATRIX>";
+		public static String FLIP_MATRIX = "<FLIP_MATRIX>";
         public static String FLAG_MATRIX = "<FLAG_MATRIX>";
         public static String SCENE_PART_COUNT = "<SCENE_PART_COUNT>";
         public static String SCENE_FRAME_COUNT = "<SCENE_FRAME_COUNT>";

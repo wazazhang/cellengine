@@ -480,164 +480,33 @@ namespace CellGameEdit.PM
 
         private void initOutput(
 			int[][][] OutputTileMatrix,
-			int[][][] OutputFlagMatrix,
-			Animates OutputAnimates)
+			int[][][] OutputFlipMatrix,
+			int[][][] OutputFlagMatrix)
 		{
             //init
 			for (int L = 0; L < layers.getCount(); L++ )
 			{
 				MapLayer layer = layers.getLayer(L);
+
 				OutputTileMatrix[L] = new int[layers.YCount][];
+				OutputFlipMatrix[L] = new int[layers.YCount][];
 				OutputFlagMatrix[L] = new int[layers.YCount][];
+
 				for (int y = 0; y < layers.YCount; y++)
 				{
 					OutputTileMatrix[L][y] = new int[layers.XCount];
+					OutputFlipMatrix[L][y] = new int[layers.XCount];
 					OutputFlagMatrix[L][y] = new int[layers.XCount];
+
 					for (int x = 0; x < layers.XCount; x++)
 					{
-						OutputTileMatrix[L][y][x] = 0;
+						OutputTileMatrix[L][y][x] = (int)layer.MatrixTile[y][x];
+						OutputFlipMatrix[L][y][x] = (int)layer.MatrixFlip[y][x];
 						OutputFlagMatrix[L][y][x] = (int)layer.MatrixTag[y][x];
 					}
 				}
 			}
-           
-            // subs
-			for (int L = 0; L < layers.getCount(); L++)
-			{
-				MapLayer layer = layers.getLayer(L);
-				for (int y = 0; y < layers.YCount; y++)
-				{
-					for (int x = 0; x < layers.XCount; x++)
-					{
-						int indexSub = OutputAnimates.subIndexOf(layer.MatrixTile[y][x], layer.MatrixFlip[y][x]);
-						if (indexSub < 0)
-						{
-							OutputAnimates.subAdd(layer.MatrixTile[y][x], layer.MatrixFlip[y][x]);
-							indexSub = OutputAnimates.subGetCount() - 1;
-						}
-
-						ArrayList frame = new ArrayList();
-						frame.Add(indexSub);
-
-						int indexFrame = OutputAnimates.frameIndexOf(frame);
-						if (indexFrame < 0)
-						{
-							OutputAnimates.frameAdd(frame);
-							indexFrame = OutputAnimates.frameGetCount() - 1;
-						}
-
-						OutputTileMatrix[L][y][x] = (int)indexFrame;
-
-					}
-				}
-			}
-			for (int L = 0; L < layers.getCount(); L++)
-			{
-				MapLayer layer = layers.getLayer(L);
-				for (int y = 0; y < layers.YCount; y++)
-				{
-					for (int x = 0; x < layers.XCount; x++)
-					{
-						int anim = Math.Abs(layer.MatrixAnim[y][x]);
-
-						if (anim > 0 && getFrame(anim) != null && getFrame(anim).Count > 0)
-						{
-							ArrayList frame = new ArrayList();
-
-							for (int i = 0; i < getFrame(anim).Count; i++)
-							{
-								int indexSub = OutputAnimates.subIndexOf(
-									(int)(getFrame(anim)[i]),
-									(int)(getFrameFlip(anim)[i]));
-								if (indexSub < 0)
-								{
-									OutputAnimates.subAdd(
-										(int)(getFrame(anim)[i]), 
-										(int)(getFrameFlip(anim)[i]));
-									indexSub = OutputAnimates.subGetCount() - 1;
-								}
-								frame.Add(indexSub);
-							}
-
-							int indexFrame = OutputAnimates.frameIndexOf(frame);
-							if (indexFrame < 0)
-							{
-								OutputAnimates.frameAdd(frame);
-								indexFrame = OutputAnimates.frameGetCount() - 1;
-							}
-
-
-							// 和JAVA端相反
-							if (layer.MatrixAnim[y][x] < 0)//多层
-							{
-								OutputTileMatrix[L][y][x] = indexFrame;
-							}
-							else
-							{
-								OutputTileMatrix[L][y][x] = -indexFrame;
-							}
-
-							//Console.WriteLine(" OutputTileMatrix = " + OutputTileMatrix[y][x].ToString("d"));
-
-						}
-					}
-				}
-			}
-
-        }
-
-        //public void Output(System.IO.StringWriter sw)
-        //{
-
-        //    initOutput();
-
-        //    sw.WriteLine();
-        //    sw.WriteLine("final static public CMap createMap_" + super.id + "_" + this.id + "(IImages tiles,boolean isAnimate,boolean isCyc)");
-        //    sw.WriteLine("{");
-        //    // OutputAnimates
-        //    sw.WriteLine("    CAnimates OutputAnimates = new CAnimates("+OutputAnimates.subGetCount()+",tiles);");
-        //for (int i = 0; i < OutputAnimates.subGetCount(); i++)  
-        //    sw.WriteLine("    OutputAnimates.addPart(0,0," + OutputAnimates.SubPart[i] + "," + flipTableJ2me[(int)(OutputAnimates.SubFlip[i])] + ");");
-        //    sw.WriteLine("    OutputAnimates.setFrame(new int[" + OutputAnimates.frameGetCount() + "][]);");
-        //for (int i = 0; i < OutputAnimates.frameGetCount(); i++)
-        //    sw.WriteLine("    OutputAnimates.setComboFrame(new int[]{"+Util.toTextArray((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))))+"},"+i+");");
-        //    sw.WriteLine();
-        //    // collides
-        //    sw.WriteLine("    CCollides collides = new CCollides(8);");
-        //    sw.WriteLine("    collides.addCDRect(0x00000000, 0, 0, " + CellW + "," + CellH + ");");
-        //    sw.WriteLine("    collides.addCDRect(0x00000001, " + 0 + ", " + 0 + ", " + CellW + "," + CellH + ");");
-        //    sw.WriteLine("    collides.addCDRect(0x00000002, " + 0 + ", " + 0 + ", " + CellW + "," + 1 + ");");
-        //    sw.WriteLine("    collides.addCDRect(0x00000004, " + 0 + ", " + (CellH - 1) + ", " + CellW + "," + 1 + ");");
-        //    sw.WriteLine("    collides.addCDRect(0x00000008, " + 0 + ", " + 0 + ", " + 1 + "," + CellH + ");");
-        //    sw.WriteLine("    collides.addCDRect(0x00000010, " + (CellW - 1) + ", " + 0 + ", " + 1 + "," + CellH + ");");
-        //    sw.WriteLine("    collides.addCDLine(0x00000020, " + 0 + ", " + 0 + ", " + (CellW-1) + "," + (CellH-1) + ");");
-        //    sw.WriteLine("    collides.addCDLine(0x00000040, " + (CellW-1) + ", " + 0 + ", " + 0 + "," + (CellH-1) + ");");
-        //    sw.WriteLine();
-        //    // map matrix
-        //    sw.WriteLine("    short[][] OutputTileMatrix = new short[][]{");
-        //for (int i = 0; i < YCount; i++)
-        //    sw.WriteLine("        {"+ Util.toTextArray(OutputTileMatrix[i]) +"},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine("    short[][] OutputFlagMatrix = new short[][]{");
-        //for (int i = 0; i < YCount; i++)
-        //    sw.WriteLine("        {" + Util.toTextArray(OutputFlagMatrix[i]) + "},");
-        //    sw.WriteLine("    };");
-        //    sw.WriteLine();
-        //    // map new
-        //    sw.WriteLine("    CMap ret = new CMap(");
-        //    sw.WriteLine("            OutputAnimates, ");
-        //    sw.WriteLine("            collides, ");
-        //    sw.WriteLine("            " + CellW + ", " + CellH + ", ");
-        //    sw.WriteLine("            OutputTileMatrix, ");
-        //    sw.WriteLine("            OutputFlagMatrix, ");
-        //    sw.WriteLine("            isAnimate,isCyc ");
-        //    sw.WriteLine("            );");
-        //    sw.WriteLine();
-        //    sw.WriteLine("    return ret;");
-        //    sw.WriteLine();
-        //    sw.WriteLine("}");
-
-        //}
+		}
 
         public void OutputCustom(int index, String script, System.IO.StringWriter output)
         {
@@ -646,85 +515,33 @@ namespace CellGameEdit.PM
                 try
 				{
 					int[][][] OutputTileMatrix = new int[layers.getCount()][][];
+					int[][][] OutputFlipMatrix = new int[layers.getCount()][][];
 					int[][][] OutputFlagMatrix = new int[layers.getCount()][][];
-					Animates OutputAnimates  = new Animates();
 
-					initOutput(OutputTileMatrix, OutputFlagMatrix, OutputAnimates);
+					//Animates OutputAnimates  = new Animates();
+					//initOutput(OutputTileMatrix, OutputFlagMatrix, OutputAnimates);
+
+					initOutput(OutputTileMatrix, OutputFlipMatrix, OutputFlagMatrix);
 
                     String map = Util.getFullTrunkScript(script, SC._MAP, SC._END_MAP);
 
                     bool fix = false;
 
-                    // OutputAnimates part
-                    do
-                    {
-                        String[] senceParts = new string[OutputAnimates.subGetCount()];
-                        for (int i = 0; i < OutputAnimates.subGetCount(); i++)
-                        {
-                            string TILE = OutputAnimates.SubPart[i].ToString();
-                            string TRANS = OutputAnimates.SubFlip[i].ToString();
-
-                            senceParts[i] = Util.replaceKeywordsScript(map, SC._SCENE_PART, SC._END_SCENE_PART,
-                                new string[] { SC.INDEX, SC.TILE, SC.TRANS },
-                                new string[] { i.ToString(), TILE, TRANS }
-                                );
-                        }
-                        string temp = Util.replaceSubTrunksScript(map, SC._SCENE_PART, SC._END_SCENE_PART, senceParts);
-                        if (temp == null)
-                        {
-                            fix = false;
-                        }
-                        else
-                        {
-                            fix = true;
-                            map = temp;
-                        }
-                    } while (fix);
-
-
-                    // OutputAnimates frame
-                    do
-                    {
-                        String[] senceFrames = new string[OutputAnimates.frameGetCount()];
-                        for (int i = 0; i < OutputAnimates.frameGetCount(); i++)
-                        {
-                            //string DATA = Util.toTextArray((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))));
-                            int[] frames = ((int[])(OutputAnimates.frameGetFrame(i).ToArray(typeof(int))));
-                            string DATA = Util.toNumberArray1D<int>(ref frames);
-
-                            senceFrames[i] = Util.replaceKeywordsScript(map, SC._SCENE_FRAME, SC._END_SCENE_FRAME,
-                                new string[] { SC.INDEX, SC.DATA_SIZE, SC.DATA },
-                                new string[] { i.ToString(), OutputAnimates.frameGetFrame(i).Count.ToString(), DATA }
-                                );
-                        }
-                        string temp = Util.replaceSubTrunksScript(map, SC._SCENE_FRAME, SC._END_SCENE_FRAME, senceFrames);
-                        if (temp == null)
-                        {
-                            fix = false;
-                        }
-                        else
-                        {
-                            fix = true;
-                            map = temp;
-                        }
-                    } while (fix);
-
-
-
 
                     // cd parts
-                    int[][] cds = new int[][]{
-                     new int[]{1,0x00000000, 0, 0, CellW, CellH, CellW, CellH},//null
-                     new int[]{1,0x00000001, 0, 0, CellW, CellH, CellW, CellH},//full
+					int[][] cds = new int[][]
+					{
+						 new int[]{1,0x00000000, 0, 0, CellW, CellH, CellW, CellH},//null
+						 new int[]{1,0x00000001, 0, 0, CellW, CellH, CellW, CellH},//full
 
-                     new int[]{1,0x00000002, 0,       0,       CellW,   1,       CellW ,   CellH},//
-                     new int[]{1,0x00000004, 0,       CellH-1, CellW,   1,       CellW ,   CellH},//
-                     new int[]{1,0x00000008, 0,       0,       1,       CellH,   CellW ,   CellH},//
-                     new int[]{1,0x00000010, CellW-1, 0,       1,       CellH,   CellW ,   CellH},//
+						 new int[]{1,0x00000002, 0,       0,       CellW,   1,       CellW ,   CellH},//
+						 new int[]{1,0x00000004, 0,       CellH-1, CellW,   1,       CellW ,   CellH},//
+						 new int[]{1,0x00000008, 0,       0,       1,       CellH,   CellW ,   CellH},//
+						 new int[]{1,0x00000010, CellW-1, 0,       1,       CellH,   CellW ,   CellH},//
 
-                     new int[]{2,0x00000020, 0,       0,       CellW,   CellH,   CellW-1 , CellH-1},//
-                     new int[]{2,0x00000040, CellW-1, 0,       CellW,   CellH,   0 ,       CellH-1},//
-                };
+						 new int[]{2,0x00000020, 0,       0,       CellW,   CellH,   CellW-1 , CellH-1},//
+						 new int[]{2,0x00000040, CellW-1, 0,       CellW,   CellH,   0 ,       CellH-1},//
+					};
 
                     do
                     {
@@ -768,12 +585,14 @@ namespace CellGameEdit.PM
 
 							// tile matrix
 							String senceMatrix = Util.toNumberArray2D<int>(ref (OutputTileMatrix[L]));
+							// flip matrix
+							String flipMatrix = Util.toNumberArray2D<int>(ref (OutputFlipMatrix[L]));
 							// cd matrix
 							String cdMatrix = Util.toNumberArray2D<int>(ref (OutputFlagMatrix[L]));
 
 							slayers[L] = Util.replaceKeywordsScript(map, SC._LAYER, SC._END_LAYER,
-								new string[] { SC.INDEX, SC.TILE_MATRIX, SC.FLAG_MATRIX },
-								new string[] { L.ToString(), senceMatrix, cdMatrix }
+								new string[] { SC.INDEX, SC.TILE_MATRIX, SC.FLIP_MATRIX, SC.FLAG_MATRIX },
+								new string[] { L.ToString(), senceMatrix, flipMatrix, cdMatrix }
 								);
 						}
 						string temp = Util.replaceSubTrunksScript(map, SC._LAYER, SC._END_LAYER, slayers);
@@ -805,8 +624,8 @@ namespace CellGameEdit.PM
 						 SC.LAYER_COUNT,
 						 //SC.TILE_MATRIX,
 						 //SC.FLAG_MATRIX,
-						 SC.SCENE_PART_COUNT,
-						 SC.SCENE_FRAME_COUNT,
+						 //SC.SCENE_PART_COUNT,
+						 //SC.SCENE_FRAME_COUNT,
 						 SC.CD_PART_COUNT,
 						 SC.APPEND_DATA
 					},
@@ -821,8 +640,8 @@ namespace CellGameEdit.PM
 						layers.getCount().ToString(),
 						//senceMatrix,
 						//cdMatrix,
-						OutputAnimates.subGetCount().ToString(),
-						OutputAnimates.frameGetCount().ToString(),
+						//OutputAnimates.subGetCount().ToString(),
+						//OutputAnimates.frameGetCount().ToString(),
 						"8",
 						APPEND_DATA
 						}
@@ -1661,7 +1480,7 @@ namespace CellGameEdit.PM
 						{
 							int drawx = x + bx * CellW;
 							int drawy = y + by * CellH;
-							int animi = layer.MatrixAnim[by][bx];
+							//int animi = layer.MatrixAnim[by][bx];
 							int tilei = layer.MatrixTile[by][bx];
 							int flipi = layer.MatrixFlip[by][bx];
 							int tagi = layer.MatrixTag[by][bx];
@@ -1680,12 +1499,12 @@ namespace CellGameEdit.PM
 								renderDstTile(g, tilei, flipi, drawx, drawy);
 								renderDstKeyAndTile(g, isShowKey.Checked, isShowTileID.Checked, tilei, drawx, drawy);
 							}
-
-							if (tag && animi != 0)
-							{
-								g.setColor(0, 0, 0xff);
-								g.drawRect(drawx, drawy, CellW, CellH);
-							}
+							
+// 							if (tag && animi != 0)
+// 							{
+// 								g.setColor(0, 0, 0xff);
+// 								g.drawRect(drawx, drawy, CellW, CellH);
+// 							}
 
 							if (tag && tagi != 0)
 							{
@@ -4429,7 +4248,7 @@ namespace CellGameEdit.PM
 
 
     }
-
+	/*
     class Animates 
     {
 
@@ -4512,7 +4331,7 @@ namespace CellGameEdit.PM
         }
 
     }
-
+	*/
 	//----------------------------------------------------------------------------------------------------------------
 	[Serializable]
 	public class MapLayer : ISerializable

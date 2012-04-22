@@ -36,18 +36,13 @@
 		layer_count="<LAYER_COUNT>"
 		cellw="<CELL_W>" 
 		cellh="<CELL_H>"
-		scene_part_count="<SCENE_PART_COUNT>"
-		scene_frame_count="<SCENE_FRAME_COUNT>"
 		cd_part_count="<CD_PART_COUNT>">
-		<SCENE_PART>
-		<scene_part index="<INDEX>" tile="<TILE>" trans="<TRANS>" /></SCENE_PART>
-		<SCENE_FRAME>
-		<scene_frame index="<INDEX>" data_size="<DATA_SIZE>" data="<DATA>" /></SCENE_FRAME>
 		<CD_PART>
 		<cd_part index="<INDEX>" type="<TYPE>" mask="<MASK>" x1="<X1>" y1="<Y1>" x2="<X2>" y2="<Y2>" width="<W>" height="<H>" /></CD_PART>
 		<LAYER>
 		<layer index="<INDEX>"
 			tile_matrix="<TILE_MATRIX>"
+			flip_matrix="<FLIP_MATRIX>"
 			flag_matrix="<FLAG_MATRIX>"
 		/>
 		</LAYER>
