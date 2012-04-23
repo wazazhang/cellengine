@@ -104,6 +104,7 @@
 		unit_count_sprite="<UNIT_SPRITE_COUNT>"
 		waypoint_count="<WAYPOINT_COUNT>"
 		region_count="<REGION_COUNT>"
+		event_count="<EVENT_COUNT>"
 		data="<DATA>"
 		terrain="<TERRAIN>">
 		<UNIT_MAP>
@@ -116,6 +117,8 @@
 		<waypoint_link start="<START>" end="<END>" /></WAYPOINT_LINK>
 		<REGION>
 		<region index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" region_data="<REGION_DATA>" /></REGION>
+		<EVENT>
+		<event index="<INDEX>" id="<ID>" event_name="<EVENT_NAME>" event_file="<EVENT_FILE>" x="<X>" y="<Y>" event_data="<EVENT_DATA>" /></EVENT>
 	</world>
 	</WORLD>
 	

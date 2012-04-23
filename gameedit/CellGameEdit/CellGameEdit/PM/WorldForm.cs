@@ -222,7 +222,7 @@ namespace CellGameEdit.PM
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            Console.WriteLine("Serializ World : " + id);
+            Console.WriteLine("Serialize World : " + id);
 
             resetTerrainSize();
 
@@ -251,9 +251,9 @@ namespace CellGameEdit.PM
                     }
                 }
                 info.AddValue("Units", Units);
-                //info.AddValue("UnitList", UnitList);
+                info.AddValue("UnitList", UnitList);
                 #endregion
-
+				//////////////////////////////////////////////
                 #region WayPoints
                 ArrayList WayPoints = new ArrayList();
                 for (int i = 0; i < listView2.Items.Count; i++)
@@ -270,9 +270,9 @@ namespace CellGameEdit.PM
                     }
                 }
                 info.AddValue("WayPoints", WayPoints);
-                //info.AddValue("WayPointsList", WayPointsList);
+                info.AddValue("WayPointsList", WayPointsList);
                 #endregion
-
+				/////////////////////////////////////////
                 #region Regions
                 ArrayList Regions = new ArrayList();
                 for (int i = 0; i < listView3.Items.Count; i++)
@@ -289,9 +289,9 @@ namespace CellGameEdit.PM
                     }
                 }
                 info.AddValue("Regions", Regions);
-                //info.AddValue("RegionsList", RegionsList);
+                info.AddValue("RegionsList", RegionsList);
                 #endregion
-
+				//////////////////////////////////////
                 #region Events
                 ArrayList Events = new ArrayList();
                 for (int i = 0; i < listView4.Items.Count; i++)
@@ -307,7 +307,7 @@ namespace CellGameEdit.PM
                     }
                 }
                 info.AddValue("Events", Events);
-                //info.AddValue("EventsList", EventList);
+                info.AddValue("EventsList", EventList);
                 #endregion
 
                 ///////////////////////////////////////////////////////////////////////////
@@ -470,10 +470,27 @@ namespace CellGameEdit.PM
                         }
                     }
 
+					ArrayList oEvents = new ArrayList();
+					for (int i = 0; i < listView4.Items.Count; i++)
+					{
+						try
+						{
+							Event ee = (Event)EventList[listView4.Items[i]];
+							oEvents.Add(ee);
+							//Console.WriteLine("Level: Add " + ((Unit)UnitList[listView1.Items[i]]).id);
+						}
+						catch (Exception err)
+						{
+							Console.WriteLine(this.id + " : " + err.StackTrace);
+						}
+					}
+
+
                     bool fix = false;
 
-                    // maps
-                    do
+					// maps
+					#region output_map
+					do
                     {
                         String[] map = new string[maps.Count];
                         for (int i = 0; i < map.Length; i++)
@@ -517,9 +534,11 @@ namespace CellGameEdit.PM
                             world = temp;
                         }
                     } while (fix);
+					#endregion
 
-                    // sprs
-                    do
+					// sprs
+					#region output_spr
+					do
                     {
                         String[] spr = new string[sprs.Count];
                         for (int i = 0; i < spr.Length; i++)
@@ -566,9 +585,11 @@ namespace CellGameEdit.PM
                             world = temp;
                         }
                     } while (fix);
+					#endregion
 
-                    //way points
-                    do
+					//way points
+					#region output_waypoint
+					do
                     {
                         String[] wp = new string[WayPoints.Count];
                         for (int i = 0; i < wp.Length; i++)
@@ -637,9 +658,11 @@ namespace CellGameEdit.PM
                             world = temp;
                         }
                     } while (fix);
+					#endregion
 
-                    // regions 
-                    do
+					// regions 
+					#region output_region
+					do
                     {
                         String[] region = new string[Regions.Count];
                         for (int i = 0; i < region.Length; i++)
@@ -666,6 +689,43 @@ namespace CellGameEdit.PM
                             world = temp;
                         }
                     } while (fix);
+					#endregion
+
+					// events
+					#region output_events
+					do
+					{
+						String[] events = new string[oEvents.Count];
+						for (int i = 0; i < events.Length; i++)
+						{
+							Event r = ((Event)oEvents[i]);
+							string[] data = Util.toStringMultiLine(r.Data.ToString());
+							string EVENT_DATA = Util.toStringArray1D(ref data);
+							events[i] = Util.replaceKeywordsScript(world, "<EVENT>", "</EVENT>",
+								   new string[] { 
+									   "<INDEX>", "<ID>", 
+									   "<EVENT_NAME>", "<EVENT_FILE>", 
+									   "<X>", "<Y>", 
+									   "<EVENT_DATA>" },
+								   new string[] { 
+									   i.ToString(), r.ID.ToString(),  
+									   r.getEventName(), r.getEventFile(), 
+									   r.getWX().ToString(), r.getWY().ToString(), 
+									   EVENT_DATA });
+						}
+						string temp = Util.replaceSubTrunksScript(world, "<EVENT>", "</EVENT>", events);
+						if (temp == null)
+						{
+							fix = false;
+						}
+						else
+						{
+							fix = true;
+							world = temp;
+						}
+					} while (fix);
+					#endregion
+
 
                     //world data
                     string[] world_data = Util.toStringMultiLine(this.Data.ToString());
@@ -698,6 +758,7 @@ namespace CellGameEdit.PM
                             "<UNIT_SPRITE_COUNT>",
                             "<WAYPOINT_COUNT>",
                             "<REGION_COUNT>",
+							"<EVENT_COUNT>"
                     },
                         new string[] { 
                             this.id, 
@@ -714,6 +775,7 @@ namespace CellGameEdit.PM
                             sprs.Count.ToString(),
                             WayPoints.Count.ToString(),
                             Regions.Count.ToString(),
+							oEvents.Count.ToString()
                     }
                         );
 
@@ -764,7 +826,8 @@ namespace CellGameEdit.PM
         private void WorldForm_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
-            {
+			{
+				tabControl1.SelectTab(3);
                 tabControl1.SelectTab(2);
                 tabControl1.SelectTab(1);
                 tabControl1.SelectTab(0);
@@ -1327,7 +1390,7 @@ namespace CellGameEdit.PM
 
         private void drawEvents(javax.microedition.lcdui.Graphics g)
         {
-            if (checkEditEvent.Checked)
+            if (checkShowEvent.Checked)
             {
                 Rectangle rect = new Rectangle(
                                                   -pictureBox1.Location.X,
@@ -1345,7 +1408,7 @@ namespace CellGameEdit.PM
                         if (item.Selected)
                         {
                             toolStripStatusLabel1.Text =
-                                "Event[" + listView3.Items.IndexOf(item) + "]:" +
+                                "Event[" + listView4.Items.IndexOf(item) + "]:" +
                                 "X=" + (e.getWX()) + "," +
                                 "Y=" + (e.getWY()) + ",";
                         }
@@ -1614,7 +1677,7 @@ namespace CellGameEdit.PM
                             }
                         }
                         // show event
-                        if (checkEditEvent.Checked)
+                        if (checkShowEvent.Checked)
                         {
                             if (listView4.SelectedItems.Count > 0)
                             {
@@ -1724,7 +1787,7 @@ namespace CellGameEdit.PM
                             }
                         }
                         // select event
-                        if (isChecked == false && checkEditEvent.Checked)
+                        if (isChecked == false && checkShowEvent.Checked)
                         {
                             foreach (ListViewItem item in listView4.Items)
                             {
@@ -1824,7 +1887,7 @@ namespace CellGameEdit.PM
                             }
                         }
                         //select events
-                        if (isChecked == false && checkEditEvent.Checked)
+                        if (isChecked == false && checkShowEvent.Checked)
                         {
                             foreach (ListViewItem item in listView4.Items)
                             {
@@ -1879,7 +1942,7 @@ namespace CellGameEdit.PM
                             menuPath.Items[4].Visible = false;
                             menuPath.Show(pictureBox1, e.Location);
                         } 
-                        else if (listView4.SelectedItems.Count > 0 && checkEditEvent.Checked)
+                        else if (listView4.SelectedItems.Count > 0 && checkShowEvent.Checked)
                         {
                             menuEvent.Opacity = 0.8;
                             menuEvent.Show(pictureBox1, e.Location);
@@ -1980,6 +2043,28 @@ namespace CellGameEdit.PM
 
                 }else
                 #endregion
+
+					#region events
+					if (listView4.SelectedItems.Count > 0)
+					{
+						Event ee = getSelectedEvent();
+
+						if (!checkStickyToCell.Checked)
+						{
+							ee.point.X += eX;
+							ee.point.Y += eY;
+						}
+						else
+						{
+							ee.point.X += eX * CellW;
+							ee.point.Y += eY * CellH;
+						}
+						if (ee.point.X < 0) ee.point.X = 0;
+						if (ee.point.Y < 0) ee.point.Y = 0;
+						ee.updateListViewItem();
+					}
+					else
+					#endregion
 
                 #region waypoint
                 if (listView2.SelectedItems.Count>0)
@@ -2592,16 +2677,20 @@ namespace CellGameEdit.PM
         }
         private void toolEvent_CheckedChanged(object sender, EventArgs e)
         {
-            FormEventTemplate fet = ProjectForm.getInstance().getEventTemplateForm();
-            if (checkEditEvent.Checked)
-            {
-                fet.Show();
-            }
-            else
-            {
-                fet.Hide();
-            }
-        }
+			pictureBox1.Refresh();
+		}
+		private void toolAddEvent_Click(object sender, EventArgs e)
+		{
+			FormEventTemplate fet = ProjectForm.getInstance().getEventTemplateForm();
+			if (fet.Visible)
+			{
+				fet.Hide();
+			}
+			else
+			{
+				fet.Show();
+			}
+		}
 		/*
         private void listView1_BeforeLabelEdit(object sender, LabelEditEventArgs e)
         {
@@ -3001,6 +3090,8 @@ namespace CellGameEdit.PM
                 return 0;
             }
         }
+
+	
 
     
 
@@ -4156,6 +4247,14 @@ namespace CellGameEdit.PM
             listItem.SubItems[3].Text = Data.ToString();
         }
 
+		public String getEventFile()
+		{
+			return et_file;
+		}
+		public String getEventName()
+		{
+			return et_name;
+		}
         public int getWX()
         {
             return point.X;

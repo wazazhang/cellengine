@@ -133,7 +133,9 @@ namespace CellGameEdit.PM
             listView1.Items.Clear();
             foreach (EventTemplate et in lines.Values)
             {
-                ListViewItem item = new ListViewItem(et.columns);
+                ListViewItem item = new ListViewItem(new String[]{
+					et.name, Util.toArray1D(ref et.columns)
+				});
                 item.Tag = et;
                 item.ImageKey = et.imageKey;
                 listView1.Items.Add(item);
@@ -169,7 +171,6 @@ namespace CellGameEdit.PM
     public class EventTemplate
     {
         public String filename;
-        public String type;
         public String name;
         public String imageKey;
         public javax.microedition.lcdui.Image icon;
@@ -184,9 +185,8 @@ namespace CellGameEdit.PM
             }
             this.filename = filename;
             this.columns = columns;
-            this.type = columns[0];
-            this.name = columns[1];
-            this.imageKey = columns[2];
+            this.name = columns[0];
+            this.imageKey = columns[1];
         }
     }
 }
