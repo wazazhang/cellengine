@@ -157,6 +157,12 @@
     <Compile Include="PM\DataGridConfig.Designer.cs">
       <DependentUpon>DataGridConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="PM\FormEventTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PM\FormEventTemplate.Designer.cs">
+      <DependentUpon>FormEventTemplate.cs</DependentUpon>
+    </Compile>
     <Compile Include="PM\GameObject.cs" />
     <Compile Include="PM\IEditForm.cs" />
     <Compile Include="PM\com\ImageFlipToolStripButton.cs">
@@ -282,6 +288,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PM\com\ImageFlipToolStripButton.resx">
       <DependentUpon>ImageFlipToolStripButton.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PM\FormEventTemplate.resx">
+      <DependentUpon>FormEventTemplate.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PM\ImageProcessDialog.resx">
@@ -573,6 +583,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\IconLord9.ico" />
+    <None Include="Resources\ajax-refresh-icon.gif" />
     <Content Include="Resources\Bitmap1.bmp" />
     <Content Include="Resources\Icon_1.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -583,9 +594,15 @@
     <None Include="Resources\Image74.png" />
     <None Include="Resources\Image75.bmp" />
     <None Include="Resources\Image76.bmp" />
+    <None Include="Resources\ImageLock.bmp" />
+    <None Include="Resources\lock_16.png" />
+    <None Include="Resources\ImageToolEvent.bmp" />
+    <None Include="Resources\ImageRefresh.bmp" />
+    <None Include="Resources\ImageAddEvent.bmp" />
     <Content Include="Resources\MainHelp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\refresh.png" />
     <None Include="Resources\Image73.bmp" />
     <None Include="Resources\Image72.bmp" />
     <None Include="Resources\Image68.bmp" />

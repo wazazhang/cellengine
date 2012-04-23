@@ -179,7 +179,10 @@ namespace CellGameEdit
             {
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
                 openFileDialog1.Filter = "CPJ files (*.cpj)|*.cpj";
-				openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastProjectOpenDir);
+                try
+                {
+                    openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastProjectOpenDir);
+                }catch(Exception err){}
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     try

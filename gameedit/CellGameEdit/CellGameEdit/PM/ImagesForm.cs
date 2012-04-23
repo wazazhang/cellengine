@@ -740,8 +740,12 @@ namespace CellGameEdit.PM
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
-			openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			try
+            {
+	            openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
+            }
+            catch (System.Exception e){}
+             if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				Config.Default.LastImageOpenDir = System.IO.Path.GetDirectoryName(openFileDialog1.FileName);
 				Config.Default.Save();
@@ -805,7 +809,14 @@ namespace CellGameEdit.PM
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Multiselect = true;
             openFileDialog1.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
-			openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
+			try
+			{
+				openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
+			}
+			catch (System.Exception e)
+			{
+				
+			}
 		
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -1059,7 +1070,14 @@ namespace CellGameEdit.PM
             {
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
                 openFileDialog1.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
-				openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
+				try
+				{
+					openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
+				}
+				catch (System.Exception e)
+				{
+					
+				}
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
 				{
 					Config.Default.LastImageOpenDir = System.IO.Path.GetDirectoryName(openFileDialog1.FileName);

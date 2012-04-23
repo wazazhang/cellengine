@@ -49,6 +49,8 @@ namespace CellGameEdit.PM
         //ArrayList formGroup;
         Hashtable formTable;
 
+        private FormEventTemplate form_event_templates;
+
         //-----------------------------------------------------------------------------------------------------------------------------------
         // new 
         public ProjectForm()
@@ -158,6 +160,7 @@ namespace CellGameEdit.PM
 		{
 			ArrayList form_maps = new ArrayList();
 			ArrayList form_sprites = new ArrayList();
+
 			foreach (TreeNode node in nodeReses.Nodes)
 			{
 				foreach (TreeNode subnode in node.Nodes)
@@ -177,11 +180,21 @@ namespace CellGameEdit.PM
 					}
 				}
 			}
+
+
 			foreach (TreeNode node in nodeLevels.Nodes)
 			{
 				WorldForm wf = (WorldForm)getForm(node);
 				wf.ChangeAllUnits(form_maps, form_sprites);
 			}
+
+            getEventTemplateForm();
+
+            foreach (TreeNode node in nodeLevels.Nodes)
+            {
+                WorldForm wf = (WorldForm)getForm(node);
+                wf.loadOver();
+            }
 		}
 
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
@@ -1018,6 +1031,13 @@ namespace CellGameEdit.PM
             treeView1.SelectedNode = null;
         }
 
+        public FormEventTemplate getEventTemplateForm()
+        {
+            if (form_event_templates == null) { 
+                form_event_templates = new FormEventTemplate(); 
+            }
+            return form_event_templates;
+        }
 
         //------------------------------------------------------------------------------------------------------------------------------------
 
