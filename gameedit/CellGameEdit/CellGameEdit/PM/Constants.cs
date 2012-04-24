@@ -74,7 +74,12 @@ namespace CellGameEdit.PM
 
         public static String LEVEL_WORLD_COUNT = "<LEVEL_WORLD_COUNT>";
 
-
+         public static String EVENT_TEMPLATE_COUNT  = "<EVENT_TEMPLATE_COUNT>";
+         public static String EVENT_TEMPLATE        = "<EVENT_TEMPLATE>";
+         public static String EVENT_FILE            = "<EVENT_FILE>";
+         public static String EVENT_MAME            = "<EVENT_MAME>";
+         public static String EVENT_COLUMNS         = "<COLUMNS>";
+         public static String EVENT_TEMPLATE_END    = "</EVENT_TEMPLATE>";
 
 
         public static String _COMMAND = "<COMMAND>";

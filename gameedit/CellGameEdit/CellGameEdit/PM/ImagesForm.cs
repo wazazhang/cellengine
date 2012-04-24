@@ -2027,11 +2027,11 @@ namespace CellGameEdit.PM
 
         public SpriteForm createSpriteForm(String name)
         {
-            if (dstImages.Count < 1)
-            {
-                MessageBox.Show("Tile容量不能为0！");
-                return null;
-            }
+//             if (dstImages.Count < 1)
+//             {
+//                 MessageBox.Show("Tile容量不能为0！");
+//                 return null;
+//             }
             for (int i = 0; i < dstImages.Count; i++)
             {
                 if (((Image)dstImages[i]) == null) continue;

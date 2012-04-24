@@ -439,8 +439,10 @@ namespace CellGameEdit.PM
                         Util.setFormatArray2D(Util.getCommandScript(script, SC.FORMAT_ARRAY_2D), "<>");
 
                         Util.setFixedStringArray(Util.getCommandScript(script, SC.FIXED_STRING_ARRAY));
-
+                        
+                        ///////////////////////////////////////////////////////////////////
                         script = fillScriptNode(script);
+                        ///////////////////////////////////////////////////////////////////
 
                         script = Util.replaceFuncScript(script);
 
@@ -552,9 +554,6 @@ namespace CellGameEdit.PM
 
         public string fillScriptNode(string src)
         {
-
-            
-
             string script = src.Substring(0, src.Length);
 
 #region build resource trunk
@@ -584,7 +583,8 @@ namespace CellGameEdit.PM
                         SC._END_RESOURCE,
                      new string[] { SC.RES_IMAGES_COUNT, SC.RES_MAP_COUNT, SC.RES_SPRITE_COUNT },
                      new string[] { FormsImages.Count.ToString(), FormsMap.Count.ToString(), FormsSprite.Count.ToString() });
-                    script = Util.replaceSubTrunksScript(script, SC._RESOURCE, SC._END_RESOURCE, new string[] { resource });
+                    script = Util.replaceSubTrunksScript(script, SC._RESOURCE, SC._END_RESOURCE, 
+                        new string[] { resource });
             } 
             }
             catch (Exception err) { MessageBox.Show(err.StackTrace + "  at  " +err.Message); }

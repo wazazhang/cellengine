@@ -19,6 +19,9 @@
 <resource images_count="<RES_IMAGES_COUNT>" map_count="<RES_MAP_COUNT>" sprite_count="<RES_SPRITE_COUNT>" >
 	
 	<IMAGES>
+  <!--
+  <IGNORE_NULL_CLIP> true
+  -->
 	<images index="<IMAGES_INDEX>" name="<NAME>" size="<COUNT>" 
 		output_type="<OUTPUT_IMAGE_TYPE>"
 		output_file="<OUTPUT_IMAGE_FILE>">
@@ -90,7 +93,7 @@
 </RESOURCE>
 
 <LEVEL>
-<level world_count="<LEVEL_WORLD_COUNT>">
+<level world_count="<LEVEL_WORLD_COUNT>" >
 
 	<WORLD>
 	<world index="<WORLD_INDEX>" name="<NAME>" 

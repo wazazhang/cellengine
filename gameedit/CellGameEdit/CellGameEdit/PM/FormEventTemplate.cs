@@ -22,7 +22,7 @@ namespace CellGameEdit.PM
             InitializeComponent();
             refreshFiles();
         }
-         
+
         private void FormEventTemplate_Load(object sender, EventArgs e)
         {
             
@@ -181,6 +181,18 @@ namespace CellGameEdit.PM
             return imageList1;
         }
 
+        public ArrayList getAllEventTemplates()
+        {
+            ArrayList ret = new ArrayList();
+            foreach (Hashtable fht in MapEventFile.Values)
+            {
+                foreach (EventTemplate et in fht.Values)
+                {
+                    ret.Add(et);
+                }
+            }
+            return ret;
+        }
     }
 
     public class EventTemplate
