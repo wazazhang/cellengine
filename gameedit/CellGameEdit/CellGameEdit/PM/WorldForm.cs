@@ -1850,6 +1850,10 @@ namespace CellGameEdit.PM
                                 r.isSub = false;
                             }
                         }
+                        foreach (ListViewItem item in listView4.Items)
+                        {
+                            item.Selected = false;
+                        }
 
                         bool isChecked = false;
                         //select way point

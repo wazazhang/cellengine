@@ -33,6 +33,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_50E74AE688C649DA9A9561173A346ACD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6451F1E83CB842FBA1B4E97E73585DAF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_669968ECEF3340AD95F93D966D9B9523"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_696A48030FA0478298C1BF85DE6F1382"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -45,8 +69,32 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9F42E3F7795C3F53D6129EF94C8D43B8"
+        "MsmKey" = "8:_8116615EE6D0E0C1DFE6850781FC3E9C"
+        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8116615EE6D0E0C1DFE6850781FC3E9C"
+        "OwnerKey" = "8:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_91A6E02826AD22FD90200507CBEB70B9"
         "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_988677D6693B4A54BF0EA060C986AFDE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9C05B684F12F4033ADEFCBDD87601489"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -57,19 +105,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
-        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmKey" = "8:_A4AE7B9C5C434D559B2A0C26E548DB14"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
-        "OwnerKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
+        "MsmKey" = "8:_A9223056E246464798D9983F93CEE791"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
+        "MsmKey" = "8:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
         "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -81,6 +129,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EC5F94EB7E7F4129B92838316EE6C335"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FFC151B2E128422894C15EBC4ACAFB5E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
         "MsmSig" = "8:_UNDEFINED"
@@ -88,25 +148,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F42E3F7795C3F53D6129EF94C8D43B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C87A3FE071C84A2B090B9ABE5A911F19"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C63A2772B735F7EC225CFCEBFD92C8FE"
+        "OwnerKey" = "8:_91A6E02826AD22FD90200507CBEB70B9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8116615EE6D0E0C1DFE6850781FC3E9C"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -249,6 +309,86 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_50E74AE688C649DA9A9561173A346ACD"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\043-Item12.png"
+            "TargetName" = "8:043-Item12.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6451F1E83CB842FBA1B4E97E73585DAF"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\048-Skill05.png"
+            "TargetName" = "8:048-Skill05.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_669968ECEF3340AD95F93D966D9B9523"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\034-Item03.png"
+            "TargetName" = "8:034-Item03.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_696A48030FA0478298C1BF85DE6F1382"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\050-Skill07.png"
+            "TargetName" = "8:050-Skill07.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7FEDE0FFB4BD4559898579B01B220E2F"
             {
             "SourcePath" = "8:..\\ScriptExample\\output.properties"
@@ -269,14 +409,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9F42E3F7795C3F53D6129EF94C8D43B8"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8116615EE6D0E0C1DFE6850781FC3E9C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9F42E3F7795C3F53D6129EF94C8D43B8"
+                    "_8116615EE6D0E0C1DFE6850781FC3E9C"
                     {
                     "Name" = "8:CellCore.dll"
                     "Attributes" = "3:512"
@@ -298,6 +438,77 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_91A6E02826AD22FD90200507CBEB70B9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_91A6E02826AD22FD90200507CBEB70B9"
+                    {
+                    "Name" = "8:CellCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_988677D6693B4A54BF0EA060C986AFDE"
+            {
+            "SourcePath" = "8:..\\EventExample\\EventTemplate.txt"
+            "TargetName" = "8:EventTemplate.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_CFF84712808F4E19B33354AD2FBECC21"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9C05B684F12F4033ADEFCBDD87601489"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\047-Skill04.png"
+            "TargetName" = "8:047-Skill04.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12C6107140342789E5AADB7EAD4D447"
@@ -320,23 +531,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C63A2772B735F7EC225CFCEBFD92C8FE"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4AE7B9C5C434D559B2A0C26E548DB14"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_C63A2772B735F7EC225CFCEBFD92C8FE"
-                    {
-                    "Name" = "8:CellCore.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CellCore.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\EventExample\\icons\\049-Skill06.png"
+            "TargetName" = "8:049-Skill06.png"
             "Tag" = "8:"
-            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -348,17 +548,37 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C87A3FE071C84A2B090B9ABE5A911F19"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A9223056E246464798D9983F93CEE791"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\025-Herb01.png"
+            "TargetName" = "8:025-Herb01.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:CellGameEdit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C87A3FE071C84A2B090B9ABE5A911F19"
+                    "_BDB2834CC9E4D7346A0DB38E1D8B3A85"
                     {
                     "Name" = "8:CellGameEdit.exe"
                     "Attributes" = "3:512"
@@ -388,6 +608,46 @@
             "TargetName" = "8:md6.jar"
             "Tag" = "8:"
             "Folder" = "8:_86104FEE39CE4FC0B9A4840EACD42A4F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EC5F94EB7E7F4129B92838316EE6C335"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\046-Skill03.png"
+            "TargetName" = "8:046-Skill03.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FFC151B2E128422894C15EBC4ACAFB5E"
+            {
+            "SourcePath" = "8:..\\EventExample\\icons\\032-Item01.png"
+            "TargetName" = "8:032-Item01.png"
+            "Tag" = "8:"
+            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -472,6 +732,28 @@
                     "Property" = "8:_1A70F8EAB18E41B7BF8B9E8B85157416"
                         "Folders"
                         {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_CFF84712808F4E19B33354AD2FBECC21"
+                    {
+                    "Name" = "8:events"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_DDB43A43D5CC428EA22E2FE875A0C3E2"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_2AC56FA783F641B1BD8ECA74EA9A9E07"
+                            {
+                            "Name" = "8:icons"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_5EE29E03FCD643E483794D498E9E97A3"
+                                "Folders"
+                                {
+                                }
+                            }
                         }
                     }
                 }
@@ -1110,7 +1392,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_483B5D3B48954255AB1A16180A4BD6E2"
             {
-            "SourcePath" = "8:..\\CellGameOutput\\obj\\Release\\CellGameOutput.exe"
+            "SourcePath" = "8:..\\CellGameOutput\\obj\\Debug\\CellGameOutput.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
@@ -1138,7 +1420,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_70BA54391A194B2385F85D2824EEFD9F"
             {
-            "SourcePath" = "8:..\\CellGameEdit\\obj\\Release\\CellGameEdit.exe"
+            "SourcePath" = "8:..\\CellGameEdit\\obj\\Debug\\CellGameEdit.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
