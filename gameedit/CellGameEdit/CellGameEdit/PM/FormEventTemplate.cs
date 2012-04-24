@@ -99,14 +99,17 @@ namespace CellGameEdit.PM
                             string[] columns = line.Split(new char[] { '|' });
                             EventTemplate et = new EventTemplate(subfile, columns);
                             javax.microedition.lcdui.Image icon = (javax.microedition.lcdui.Image)Images[et.imageKey];
-                            if (icon == null)
+                            if (icon == null && et.imageKey.Length > 0)
                             {
-                                try {
+                                try
+                                {
                                     icon = new javax.microedition.lcdui.Image(
                                         Image.FromFile(Application.StartupPath + "\\events\\" + et.imageKey)
                                         );
                                     imageList1.Images.Add(et.imageKey, icon.dimg);
-                                } catch(Exception err) {
+                                }
+                                catch (Exception err)
+                                {
                                 }
                             }
                             et.icon = icon;
@@ -133,8 +136,20 @@ namespace CellGameEdit.PM
             listView1.Items.Clear();
             foreach (EventTemplate et in lines.Values)
             {
+                String[] newcc;
+
+                if (et.columns.Length > 2)
+                {
+                    newcc = new String[et.columns.Length - 2]; 
+                    Array.Copy(et.columns, 2, newcc, 0, newcc.Length);
+                }
+                else
+                {
+                    newcc = new String[0];
+                }
+                
                 ListViewItem item = new ListViewItem(new String[]{
-					et.name, Util.toArray1D(ref et.columns)
+					et.name, Util.toArray1D(ref newcc)
 				});
                 item.Tag = et;
                 item.ImageKey = et.imageKey;
@@ -186,7 +201,13 @@ namespace CellGameEdit.PM
             this.filename = filename;
             this.columns = columns;
             this.name = columns[0];
-            this.imageKey = columns[1];
+            if (columns.Length > 1) {
+                this.imageKey = columns[1]; 
+            } else {
+                this.imageKey = "";
+            }
         }
+
+
     }
 }

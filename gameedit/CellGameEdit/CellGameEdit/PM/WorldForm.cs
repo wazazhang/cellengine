@@ -4126,6 +4126,9 @@ namespace CellGameEdit.PM
     [Serializable]
     public class Event : WorldListViewObject, ISerializable
     {
+        public static javax.microedition.lcdui.Image quest =
+           new javax.microedition.lcdui.Image(Resource1.Question);
+
         private EventTemplate et;
 
         private String et_file;
@@ -4155,7 +4158,11 @@ namespace CellGameEdit.PM
             get { return Data; }
         }
 
-        private Rectangle rect = new Rectangle(-8, -8, 16, 16);
+        private Rectangle rect = new Rectangle(
+            -quest.getWidth()/2,
+            -quest.getHeight()/2,
+            quest.getWidth(),
+            quest.getHeight());
 
         public Event(EventTemplate et, int x, int y, long id)
         {
@@ -4283,6 +4290,10 @@ namespace CellGameEdit.PM
             if (et != null && et.icon!= null) 
             {
                 g.drawImage(et.icon, point.X + rect.X, point.Y + rect.Y);
+            }
+            else
+            {
+                g.drawImage(quest, point.X + rect.X, point.Y + rect.Y);
             }
             if (selected)
             {
