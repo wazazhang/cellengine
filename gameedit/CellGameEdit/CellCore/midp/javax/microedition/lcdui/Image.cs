@@ -137,7 +137,7 @@ public class Image
         dimg = dst.dimg;
     }
 
-	public System.Drawing.Rectangle cutTransparentImageSize()
+    public System.Drawing.Rectangle cutTransparentImageSize(int broadPixel)
 	{
 		System.Drawing.Bitmap image = asBitmap();
 
@@ -151,8 +151,9 @@ public class Image
 		int y = 0;
 		System.Drawing.Color c;
 
-		bool finded = false;
-		// left
+        #region findTBLR
+        bool finded = false;
+		// find left
 		for (x = 0; x < image.Width; x++)
 		{
 			for (y = image.Height - 1; y >= 0; --y)
@@ -230,6 +231,13 @@ public class Image
 				break;
 			}
 		}
+        #endregion
+
+        left    = Math.Max(0, left - broadPixel);
+        right   = Math.Min(image.Width-1, right + broadPixel);
+        top     = Math.Max(0, top - broadPixel);
+        bottom  = Math.Min(image.Height - 1, bottom + broadPixel);
+
 		ret.X = left;
 		ret.Y = top;
 		ret.Width = right - left + 1;

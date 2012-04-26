@@ -55,6 +55,8 @@ namespace CellGameEdit.PM
 
 				ArrayList events = new ArrayList();
 
+                int broadPixel = (int)(numBoardPixel.Value);
+
                 foreach (javax.microedition.lcdui.Image img in selected_images)
                 {
 					ImageChange change = new ImageChange();
@@ -70,7 +72,7 @@ namespace CellGameEdit.PM
 					if (chkOptImageSize.Checked)
 					{
 						change.srcRect = new Rectangle(0, 0, img.getWidth(), img.getHeight());
-						change.dstRect = img.cutTransparentImageSize();
+						change.dstRect = img.cutTransparentImageSize(broadPixel);
 						change.dstImage = img;
 					}
 

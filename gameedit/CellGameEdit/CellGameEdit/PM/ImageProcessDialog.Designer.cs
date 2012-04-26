@@ -42,17 +42,20 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.labelSelectedCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.chkOptImageSize = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkOptImageSize = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numBoardPixel = new System.Windows.Forms.NumericUpDown();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBoardPixel)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -185,6 +188,17 @@
             this.panel1.Size = new System.Drawing.Size(438, 327);
             this.panel1.TabIndex = 7;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.numBoardPixel);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.chkOptImageSize);
+            this.groupBox3.Location = new System.Drawing.Point(12, 176);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(379, 94);
+            this.groupBox3.TabIndex = 9;
+            this.groupBox3.TabStop = false;
+            // 
             // chkOptImageSize
             // 
             this.chkOptImageSize.AutoSize = true;
@@ -194,16 +208,6 @@
             this.chkOptImageSize.TabIndex = 6;
             this.chkOptImageSize.Text = "去除多余透明像素区域";
             this.chkOptImageSize.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.checkSetKeyColor);
-            this.groupBox1.Controls.Add(this.toolStrip2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(379, 76);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
             // 
             // groupBox2
             // 
@@ -215,14 +219,36 @@
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             // 
-            // groupBox3
+            // groupBox1
             // 
-            this.groupBox3.Controls.Add(this.chkOptImageSize);
-            this.groupBox3.Location = new System.Drawing.Point(12, 176);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(379, 71);
-            this.groupBox3.TabIndex = 9;
-            this.groupBox3.TabStop = false;
+            this.groupBox1.Controls.Add(this.checkSetKeyColor);
+            this.groupBox1.Controls.Add(this.toolStrip2);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(379, 76);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 12);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "间隔像素(3D贴图)";
+            // 
+            // numBoardPixel
+            // 
+            this.numBoardPixel.Location = new System.Drawing.Point(113, 49);
+            this.numBoardPixel.Name = "numBoardPixel";
+            this.numBoardPixel.Size = new System.Drawing.Size(67, 21);
+            this.numBoardPixel.TabIndex = 8;
+            this.numBoardPixel.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // ImageProcessDialog
             // 
@@ -243,12 +269,13 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBoardPixel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -274,5 +301,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown numBoardPixel;
+        private System.Windows.Forms.Label label1;
     }
 }
