@@ -109,6 +109,11 @@ namespace CellGameEdit.PM
             }
         }
 
+        private void checkFlip_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 
 	public class ImageChange

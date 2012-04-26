@@ -43,16 +43,22 @@
             this.labelSelectedCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkOptImageSize = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(342, 228);
+            this.buttonOK.Location = new System.Drawing.Point(351, 301);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 0;
@@ -63,7 +69,7 @@
             // checkSetKeyColor
             // 
             this.checkSetKeyColor.AutoSize = true;
-            this.checkSetKeyColor.Location = new System.Drawing.Point(15, 12);
+            this.checkSetKeyColor.Location = new System.Drawing.Point(6, 20);
             this.checkSetKeyColor.Name = "checkSetKeyColor";
             this.checkSetKeyColor.Size = new System.Drawing.Size(72, 16);
             this.checkSetKeyColor.TabIndex = 1;
@@ -73,12 +79,13 @@
             // checkFlip
             // 
             this.checkFlip.AutoSize = true;
-            this.checkFlip.Location = new System.Drawing.Point(15, 83);
+            this.checkFlip.Location = new System.Drawing.Point(6, 20);
             this.checkFlip.Name = "checkFlip";
             this.checkFlip.Size = new System.Drawing.Size(48, 16);
             this.checkFlip.TabIndex = 3;
             this.checkFlip.Text = "翻转";
             this.checkFlip.UseVisualStyleBackColor = true;
+            this.checkFlip.CheckedChanged += new System.EventHandler(this.checkFlip_CheckedChanged);
             // 
             // toolStrip1
             // 
@@ -87,7 +94,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
             this.imageFlipToolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(15, 102);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 39);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(102, 25);
             this.toolStrip1.TabIndex = 4;
@@ -118,7 +125,7 @@
             this.textColor,
             this.toolStripLabel3,
             this.textDstColor});
-            this.toolStrip2.Location = new System.Drawing.Point(15, 31);
+            this.toolStrip2.Location = new System.Drawing.Point(3, 39);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(325, 25);
             this.toolStrip2.TabIndex = 5;
@@ -154,9 +161,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelSelectedCount});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 264);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 327);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(429, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(438, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -168,34 +175,61 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.chkOptImageSize);
-            this.panel1.Controls.Add(this.checkSetKeyColor);
+            this.panel1.Controls.Add(this.groupBox3);
+            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.buttonOK);
-            this.panel1.Controls.Add(this.toolStrip2);
-            this.panel1.Controls.Add(this.checkFlip);
-            this.panel1.Controls.Add(this.toolStrip1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(429, 264);
+            this.panel1.Size = new System.Drawing.Size(438, 327);
             this.panel1.TabIndex = 7;
             // 
             // chkOptImageSize
             // 
             this.chkOptImageSize.AutoSize = true;
-            this.chkOptImageSize.Location = new System.Drawing.Point(15, 148);
+            this.chkOptImageSize.Location = new System.Drawing.Point(6, 20);
             this.chkOptImageSize.Name = "chkOptImageSize";
             this.chkOptImageSize.Size = new System.Drawing.Size(144, 16);
             this.chkOptImageSize.TabIndex = 6;
             this.chkOptImageSize.Text = "去除多余透明像素区域";
             this.chkOptImageSize.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.checkSetKeyColor);
+            this.groupBox1.Controls.Add(this.toolStrip2);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(379, 76);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkFlip);
+            this.groupBox2.Controls.Add(this.toolStrip1);
+            this.groupBox2.Location = new System.Drawing.Point(12, 94);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(379, 76);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.chkOptImageSize);
+            this.groupBox3.Location = new System.Drawing.Point(12, 176);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(379, 71);
+            this.groupBox3.TabIndex = 9;
+            this.groupBox3.TabStop = false;
+            // 
             // ImageProcessDialog
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 286);
+            this.ClientSize = new System.Drawing.Size(438, 349);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "ImageProcessDialog";
@@ -209,7 +243,12 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,5 +271,8 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripTextBox textDstColor;
 		private System.Windows.Forms.CheckBox chkOptImageSize;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }
