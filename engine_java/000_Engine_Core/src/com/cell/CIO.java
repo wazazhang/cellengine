@@ -436,7 +436,8 @@ public class CIO extends CObject
 		}
 		return null;
 	}
-
+	
+	
 	/**
 	 * 只要InputStream里有数据，
 	 * 该方法都将阻塞，直到 available <= 0，

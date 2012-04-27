@@ -212,6 +212,14 @@ public class CUtil extends CObject
 		return true;
 	}
 	
+	public static boolean arrayEquals(byte[] src, int srcIndex, byte[] dst, int dstIndex, int length) {
+		for (int i=0; i<length; i++) {
+			if (src[srcIndex + i] != dst[dstIndex + i]) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	public static boolean arrayEquals(byte[] array1, byte[] array2) {
 		if (array1 == array2) {

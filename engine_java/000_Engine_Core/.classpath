@@ -4,6 +4,7 @@
 	<classpathentry excluding="com/cell/gfx/game/edit/" kind="src" path="gfx"/>
 	<classpathentry kind="src" path="snd"/>
 	<classpathentry excluding="com/cell/j2se/GameApplet.java|com/cell/j2se/GameCanvas.java|com/cell/j2se/GameWindow.java" kind="src" path="j2se"/>
+	<classpathentry kind="src" path="tools"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

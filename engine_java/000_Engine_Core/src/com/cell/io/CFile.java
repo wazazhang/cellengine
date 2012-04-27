@@ -65,6 +65,26 @@ public class CFile
 		return null;
 	}
 	
+	public static byte[] readData(java.io.File file, int start, int length)
+	{
+		if (file.exists()) {
+			FileInputStream fis = null;
+			try {
+				fis = new FileInputStream(file);
+				byte[] ret = new byte[length];
+				fis.read(ret, start, length);
+				return ret;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					fis.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return null;
+	}
 	
 	public static void writeData(java.io.File file, byte[] data)
 	{
