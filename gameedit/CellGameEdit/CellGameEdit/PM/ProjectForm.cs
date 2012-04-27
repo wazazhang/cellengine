@@ -159,10 +159,18 @@ namespace CellGameEdit.PM
 		private void loadOver()
 		{
 			ArrayList form_maps = new ArrayList();
-			ArrayList form_sprites = new ArrayList();
+            ArrayList form_sprites = new ArrayList();
+            ArrayList form_images = new ArrayList();
 
 			foreach (TreeNode node in nodeReses.Nodes)
 			{
+                Form imgf = getForm(node);
+
+                if (imgf != null && imgf.GetType() == typeof(ImagesForm))
+                {
+                    form_images.Add(imgf);
+                }
+
 				foreach (TreeNode subnode in node.Nodes)
 				{
 					Form sf = getForm(subnode);
@@ -185,7 +193,7 @@ namespace CellGameEdit.PM
 			foreach (TreeNode node in nodeLevels.Nodes)
 			{
 				WorldForm wf = (WorldForm)getForm(node);
-				wf.ChangeAllUnits(form_maps, form_sprites);
+                wf.ChangeAllUnits(form_maps, form_sprites, form_images);
 			}
 
             getEventTemplateForm();
@@ -1418,7 +1426,7 @@ namespace CellGameEdit.PM
                         if (formTable[super].GetType().Equals(typeof(WorldForm)))
                         {
                             initForms();
-                            ((WorldForm)form).ChangeAllUnits(FormsMap,FormsSprite);
+                            ((WorldForm)form).ChangeAllUnits(FormsMap,FormsSprite,FormsImages);
                         }
                         if (formTable[super].GetType().Equals(typeof(CommandForm)))
                         {
