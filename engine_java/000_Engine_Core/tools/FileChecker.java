@@ -12,7 +12,9 @@ public class FileChecker
 {
 	public static void main(String[] args)
 	{
-		String usage = "FileChecker [file header hex] [input folder] [rename suffix]";
+		String usage = 
+			"将一个目录里所有以指定前缀二进制数据的文件重命名为另外一种后缀。\n" +
+			"FileChecker [file header hex] [input folder] [rename suffix]";
 		
 		if (args.length >= 3) 
 		{
