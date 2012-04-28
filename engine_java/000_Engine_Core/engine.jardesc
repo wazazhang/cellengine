@@ -11,9 +11,10 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=000_Engine_Core/tools"/>
         <javaElement handleIdentifier="=000_Engine_Core/snd"/>
-        <javaElement handleIdentifier="=000_Engine_Core/gfx"/>
         <javaElement handleIdentifier="=000_Engine_Core/j2se"/>
+        <javaElement handleIdentifier="=000_Engine_Core/gfx"/>
         <javaElement handleIdentifier="=000_Engine_Core/src"/>
     </selectedElements>
 </jardesc>
