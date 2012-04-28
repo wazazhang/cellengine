@@ -978,20 +978,25 @@ namespace CellGameEdit.PM
 
         private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            if (getForm((TreeNode)e.Item) != null)
+            Form dform = getForm((TreeNode)e.Item);
+            if (dform != null)
             {
 
-                if (getForm((TreeNode)e.Item).GetType().Equals(typeof(SpriteForm)))
+                if (dform.GetType().Equals(typeof(SpriteForm)))
                 {
-                    DoDragDrop((SpriteForm)getForm((TreeNode)e.Item), DragDropEffects.Link);
+                    DoDragDrop((SpriteForm)dform, DragDropEffects.Link);
                     //Console.WriteLine("Spr drag");
                 }
-                if (getForm((TreeNode)e.Item).GetType().Equals(typeof(MapForm)))
+                if (dform.GetType().Equals(typeof(MapForm)))
                 {
-                    DoDragDrop((MapForm)getForm((TreeNode)e.Item), DragDropEffects.Link);
+                    DoDragDrop((MapForm)dform, DragDropEffects.Link);
                     //Console.WriteLine("map drag");
                 }
-
+                if (dform.GetType().Equals(typeof(ImagesForm)))
+                {
+                    DoDragDrop((ImagesForm)dform, DragDropEffects.Link);
+                    //Console.WriteLine("map drag");
+                }
             }
            
         }

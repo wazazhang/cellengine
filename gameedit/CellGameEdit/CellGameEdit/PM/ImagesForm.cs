@@ -944,6 +944,10 @@ namespace CellGameEdit.PM
             return (((Image)(dstImages[index])));
         }
 
+        public int getCurrentImageIndex() {
+            return dstSelectIndex;
+        }
+
         public int getDstImageCount()
         {
             return dstImages.Count;

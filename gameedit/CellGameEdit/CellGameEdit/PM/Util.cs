@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace CellGameEdit.PM
 {
@@ -1268,6 +1269,27 @@ namespace CellGameEdit.PM
         }
 
 
+
+        public static object GetValue(SerializationInfo info, string name, Type type, object defaultValue)
+        {
+            try {
+                return info.GetValue(name, type);
+            } catch (Exception err) {
+                return defaultValue;
+            }
+        }
+        	
+     /**
+	 * comput cyc number: (value+d) within 0~max scope
+	 * @param value
+	 * @param d
+	 * @param max
+	 * @return 
+	 */
+	static public int cycNum(int value, int d, int max) {
+		value += d;
+		return (value>=0)?(value % max):((max + value % max) % max) ;
+	}
     }
 
 

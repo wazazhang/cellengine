@@ -803,6 +803,8 @@ namespace CellGameEdit.PM
 
             listView1.ListViewItemSorter = new ObjectsViewSorter(UnitList);
             listView1.Sort();
+
+            pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
         }
 
         private void WorldForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -813,7 +815,6 @@ namespace CellGameEdit.PM
                 this.Hide();
             }
         }
-
 
 
         private void WorldForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -840,13 +841,13 @@ namespace CellGameEdit.PM
             }
         }
 
-        public void addUnitAsMap(MapForm map)
+        public void addUnitAsMap(MapForm map, int x, int y)
         {
             Unit unit = new Unit(map, "M" + (listView1.Items.Count).ToString("d3") + "_", listView1);
             ListViewItem item = unit.listItem;
             unit.listItem = item;
-            unit.x = 0;
-            unit.y = 0;
+            unit.x = x;
+            unit.y = y;
             listView1.Items.Add(item);
             UnitList.Add(item, unit);
             item.Selected = true;
@@ -858,18 +859,36 @@ namespace CellGameEdit.PM
             CellW = map.CellW;
             CellH = map.CellH;
 
-            numericUpDown1.Value = CellW;
-            numericUpDown2.Value = CellH;
-            numericUpDown3.Value = pictureBox1.Width;
-            numericUpDown4.Value = pictureBox1.Height;
+            if (!chkLockSize.Checked) {
+                pictureBox1.Width = map.getWidth();
+                pictureBox1.Height = map.getHeight();
+                numericUpDown1.Value = CellW;
+                numericUpDown2.Value = CellH;
+                numericUpDown3.Value = pictureBox1.Width;
+                numericUpDown4.Value = pictureBox1.Height;
+            }
         }
 
-        public void addUnitAsSpr(SpriteForm spr)
+        public void addUnitAsSpr(SpriteForm spr, int x, int y)
         {
             Unit unit = new Unit(spr, "S" + (listView1.Items.Count).ToString("d3") + "_", listView1);
-            unit.x = -unit.Bounds.Left;
-            unit.y = -unit.Bounds.Top; ;
+            unit.x = x;
+            unit.y = y;
 
+            ListViewItem item = unit.listItem;
+            item.Checked = true;
+            unit.listItem = item;
+          
+            listView1.Items.Add(item);
+            UnitList.Add(item, unit);
+            item.Selected = true;
+            item.EnsureVisible();
+        }
+
+        public void addUnitAsImage(ImagesForm img, int x, int y, int tileID)
+        {
+            Unit unit = new Unit(img, "T" + (listView1.Items.Count).ToString("d3") + "_", listView1, tileID);
+          
             ListViewItem item = unit.listItem;
             item.Checked = true;
             unit.listItem = item;
@@ -886,14 +905,19 @@ namespace CellGameEdit.PM
             if ((MapForm)e.Data.GetData(typeof(MapForm)) != null)
             {
                 MapForm map = ((MapForm)e.Data.GetData(typeof(MapForm)));
-				addUnitAsMap(map);
+				addUnitAsMap(map, 0, 0);
             }
             if ((SpriteForm)e.Data.GetData(typeof(SpriteForm)) != null)
             {
                 SpriteForm spr = ((SpriteForm)e.Data.GetData(typeof(SpriteForm)));
-				addUnitAsSpr(spr);
+                addUnitAsSpr(spr, pictureBox1.Width/2, pictureBox1.Height/2);
             }
-
+            if ((ImagesForm)e.Data.GetData(typeof(ImagesForm)) != null)
+            {
+                ImagesForm img = ((ImagesForm)e.Data.GetData(typeof(ImagesForm)));
+                addUnitAsImage(img, pictureBox1.Width / 2, pictureBox1.Height / 2,
+                    img.getCurrentImageIndex());
+            }
             listView1.Refresh();
             pictureBox1.Refresh();
 
@@ -1209,13 +1233,26 @@ namespace CellGameEdit.PM
                                                panel1.Width,
                                                panel1.Height
                                                );
+                Rectangle drawRectMap1 = new System.Drawing.Rectangle(
+                                        -pictureBox1.Location.X,
+                                        -pictureBox1.Location.Y,
+                                        panel1.Width,
+                                        panel1.Height
+                                   );
+                Rectangle drawRectSpr = new System.Drawing.Rectangle(
+                                        -pictureBox1.Location.X,
+                                        -pictureBox1.Location.Y,
+                                        splitContainer1.Panel2.Width,
+                                        splitContainer1.Panel2.Height
+                                   );
+
                 foreach (ListViewItem item in listView1.Items)
                 {
                     try
                     {
                         Unit unit = ((Unit)UnitList[item]);
 
-                        if (unit.type == "Map" && checkShowMap.Checked)
+                        if (unit.type == Unit.TYPE_MAP && checkShowMap.Checked)
                         {
                             // cyc map
                             if (toolStripButton10.Checked)
@@ -1247,7 +1284,8 @@ namespace CellGameEdit.PM
                                                ),
                                                listView1.SelectedItems.Contains(item),
                                                checkShowUnitBounds.Checked,
-                                               toolStripButton2.Checked
+                                               toolStripButton2.Checked,
+                                               toolShowLock.Checked
                                             );
                                             unit.x = tx;
                                             unit.y = ty;
@@ -1259,34 +1297,36 @@ namespace CellGameEdit.PM
                             {
                                 unit.render(
                                    g,
-                                   new System.Drawing.Rectangle(
-                                        -pictureBox1.Location.X,
-                                        -pictureBox1.Location.Y,
-                                        panel1.Width,
-                                        panel1.Height
-                                   ),
-                                   listView1.SelectedItems.Contains(item),
+                                   drawRectMap1,
+                                   item.Selected,
                                    checkShowUnitBounds.Checked,
-                                   toolStripButton2.Checked
+                                   toolStripButton2.Checked,
+                                   toolShowLock.Checked
                                 );
                             }
                         }
-                        else if (unit.type == "Sprite" && checkShowSprite.Checked)
+                        else if (unit.type == Unit.TYPE_SPRITE && checkShowSprite.Checked)
                         {
                             unit.render(
                                    g,
-                                    new System.Drawing.Rectangle(
-                                        -pictureBox1.Location.X,
-                                        -pictureBox1.Location.Y,
-                                        splitContainer1.Panel2.Width,
-                                        splitContainer1.Panel2.Height
-                                   ),
-                                   listView1.SelectedItems.Contains(item),
+                                   drawRectSpr,
+                                   item.Selected,
                                    checkShowUnitBounds.Checked,
-                                   toolStripButton2.Checked
+                                   toolStripButton2.Checked,
+                                   toolShowLock.Checked
                                 );
                         }
-
+                        else if (unit.type == Unit.TYPE_IMAGE && checkShowTile.Checked)
+                        {
+                            unit.render(
+                                   g,
+                                   drawRectSpr,
+                                   item.Selected,
+                                   checkShowUnitBounds.Checked,
+                                   toolStripButton2.Checked,
+                                   toolShowLock.Checked
+                                );
+                        }
                         if (item.Selected)
                         {
                             toolStripStatusLabel1.Text =
@@ -1690,6 +1730,22 @@ namespace CellGameEdit.PM
                                 }
                             }
                         }
+                        //select image
+                        if (checkShowTile.Checked)
+                        {
+                            if (listView1.SelectedItems.Count > 0)
+                            {
+                                Unit unit = getSelectedUnit();
+                                if (unit.images() != null)
+                                {
+                                    if (unit.listItem.Checked)
+                                    {
+                                        unit.x = e.X;
+                                        unit.y = e.Y;
+                                    }
+                                }
+                            }
+                        }
                         // show event
                         if (checkShowEvent.Checked)
                         {
@@ -1819,16 +1875,17 @@ namespace CellGameEdit.PM
                             }
                         }
                         //select unit
-                        if (isChecked == false && (checkShowMap.Checked || checkShowSprite.Checked))
+                        if (isChecked == false && 
+                            (checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
                         {
                             for (int i = listView1.Items.Count - 1; i >= 0; i--)
                             {
                                 Unit unit = ((Unit)UnitList[listView1.Items[i]]);
 
                                 if (unit.map() != null && checkShowMap.Checked ||
-                                    unit.spr() != null && checkShowSprite.Checked)
+                                    unit.spr() != null && checkShowSprite.Checked ||
+                                    unit.images() != null && checkShowTile.Checked)
                                 {
-
                                     if (unit.getGobalBounds().Contains(e.X, e.Y))
 									{
 										//unit.updateListViewItem();
@@ -1922,13 +1979,15 @@ namespace CellGameEdit.PM
                             }
                         }
                         //select unit
-                        if (isChecked == false && (checkShowMap.Checked || checkShowSprite.Checked))
+                        if (isChecked == false &&
+                            (checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
                         {
                             for (int i = listView1.Items.Count - 1; i >= 0; i--)
                             {
                                 Unit unit = ((Unit)UnitList[listView1.Items[i]]);
                                 if (unit.map() != null && checkShowMap.Checked ||
-                                    unit.spr() != null && checkShowSprite.Checked)
+                                    unit.spr() != null && checkShowSprite.Checked ||
+                                    unit.images() != null && checkShowTile.Checked)
                                 {
                                     if (unit.getGobalBounds().Contains(e.X, e.Y))
                                     {
@@ -2006,6 +2065,16 @@ namespace CellGameEdit.PM
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             listView1.Sort();
+            pictureBox1.Refresh();
+        }
+
+        private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Unit unit = getSelectedUnit();
+            if (unit != null) {
+                unit.nextAnim(e.Delta);
+                unit.updateListViewItem();
+            }
             pictureBox1.Refresh();
         }
 
@@ -2677,6 +2746,11 @@ namespace CellGameEdit.PM
         {
             pictureBox1.Refresh();
         }
+        private void checkShowTile_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
+
         // back color
         private void toolStripButton5_Click_1(object sender, EventArgs e)
         {
@@ -2760,13 +2834,13 @@ namespace CellGameEdit.PM
         {
             try
             {
-                toolStripDropDownButton1.DropDownItems.Clear();
+                dropChangeAnimID.DropDownItems.Clear();
 
                 foreach (ListViewItem item in listView1.SelectedItems)
                 {
                     Unit unit = ((Unit)UnitList[item]);
 
-                    if (unit.type == "Sprite")
+                    if (unit.type == Unit.TYPE_SPRITE)
                     {
                         for (int i = 0; i < unit.spr().GetAnimateCount(); i++)
                         {
@@ -2782,7 +2856,7 @@ namespace CellGameEdit.PM
                             pop.Image = icon;
                             pop.ImageScaling = ToolStripItemImageScaling.None;
 
-                            toolStripDropDownButton1.DropDownItems.Add(pop);
+                            dropChangeAnimID.DropDownItems.Add(pop);
                         }
                         break;
                     }
@@ -2796,12 +2870,12 @@ namespace CellGameEdit.PM
         {
             try
             {
-                int index = toolStripDropDownButton1.DropDownItems.IndexOf(e.ClickedItem);
+                int index = dropChangeAnimID.DropDownItems.IndexOf(e.ClickedItem);
                 foreach (ListViewItem item in listView1.SelectedItems)
                 {
                     Unit unit = ((Unit)UnitList[item]);
 
-                    if (unit.type == "Sprite")
+                    if (unit.type == Unit.TYPE_SPRITE)
                     {
                         item.SubItems[1].Text = index.ToString();
                         unit.animID = index;
@@ -2812,6 +2886,7 @@ namespace CellGameEdit.PM
             }
             catch (Exception err) { }
         }
+
 
         // center map block
         private void toolStripButton11_Click(object sender, EventArgs e)
@@ -2890,7 +2965,8 @@ namespace CellGameEdit.PM
                                                ),
                                                listView1.SelectedItems.Contains(item),
                                                checkShowUnitBounds.Checked,
-                                               toolStripButton2.Checked
+                                               toolStripButton2.Checked,
+                                                toolShowLock.Checked
                                             );
                                             unit.x = tx;
                                             unit.y = ty;
@@ -2910,7 +2986,8 @@ namespace CellGameEdit.PM
                                    ),
                                    listView1.SelectedItems.Contains(item),
                                    checkShowUnitBounds.Checked,
-                                   toolStripButton2.Checked
+                                   toolStripButton2.Checked,
+                                   toolShowLock.Checked
                                 );
                             }
                         }
@@ -2927,7 +3004,8 @@ namespace CellGameEdit.PM
                                    ),
                                    listView1.SelectedItems.Contains(item),
                                    checkShowUnitBounds.Checked,
-                                   toolStripButton2.Checked
+                                   toolStripButton2.Checked,
+                                   toolShowLock.Checked
                                 );
                         }
 
@@ -3026,6 +3104,14 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
+
+	
+
+    
 
         // delete all waypoints
         private void btnWaypointsDeleteAll_Click(object sender, EventArgs e)
@@ -3108,10 +3194,6 @@ namespace CellGameEdit.PM
                 return 0;
             }
         }
-
-	
-
-    
 
        
 
@@ -3694,7 +3776,14 @@ namespace CellGameEdit.PM
 		}
 
     }
-    
+
+    [Serializable]
+    public enum ImageAnchor
+    {
+        L_T, C_T, R_T,
+        L_C, C_C, R_C,
+        L_B, C_B, R_B,
+    };
    
     [Serializable]
 	public class Unit : WorldListViewObject, ISerializable
@@ -3708,41 +3797,19 @@ namespace CellGameEdit.PM
 
 #region 属性
         public int frameID = 0;
-        [Description("当前帧"), Category("属性")]
-        public int m_FrameID
+
+        public ImageAnchor anchor = ImageAnchor.L_T;
+        [Description("图片锚点"), Category("属性")]
+        public ImageAnchor m_ImageAnchor
         {
-            get { return frameID; }
-            set { 
-                frameID = value;
-                if (spr() != null) {
-                    if (frameID >= spr().GetFrameCount(animID)) frameID = spr().GetFrameCount(animID)-1;
-                    if (frameID < 0) frameID = 0;
-                }
-            }
+            get { return anchor; }
+            set { anchor = value; resetImageBounds(); }
         }
 
         public int animID = 0;
-        [Description("当前动画"), Category("属性")]
-        public int m_AnimateID
-        {
-            get{return animID;}
-            //set{
-            //    animID = value;
-            //    if (spr != null)
-            //    {
-            //        if (animID >= spr.GetAnimateCount()) animID = spr.GetAnimateCount() - 1;
-            //        if (animID < 0) animID = 0;
-            //    }
-            //}
-        }
-
+     
         public StringBuilder Data = new StringBuilder();
-        [Description("数据"), Category("属性")]
-        public StringBuilder m_Data
-        {
-            get { return Data; }
-        }
-
+     
         public String id = "null";
         [Description("数据"), Category("属性")]
         public String m_ID
@@ -3752,11 +3819,6 @@ namespace CellGameEdit.PM
         }
 
         public String type = "null";
-        [Description("数据"), Category("属性")]
-        public String m_Type
-        {
-            get { return type; }
-        }
 
         [Description("图片组"), Category("属性")]
         public String m_Tiles
@@ -3906,30 +3968,11 @@ namespace CellGameEdit.PM
                 id = (String)info.GetValue("id", typeof(String));
                 x = (int)info.GetValue("x", typeof(int));
                 y = (int)info.GetValue("y", typeof(int));
-                try
-                {
-                    m_Priority = (int)info.GetValue("priority", typeof(int));
-                }
-                catch (Exception err)
-                {
-                    m_Priority = 0;
-                }
-                try
-                {
-                    animID = (int)info.GetValue("animID", typeof(int));
-                }
-                catch (Exception err)
-                {
-                    animID = 0;
-                }
-                try
-                {
-                    isSaveChecked = (Boolean)info.GetValue("isSaveChecked", typeof(Boolean));
-                }
-                catch (Exception err)
-                {
-                    isSaveChecked = false;
-                }
+                anchor = (ImageAnchor)Util.GetValue(info, "anchor", typeof(ImageAnchor), ImageAnchor.L_T);
+                m_Priority = (int)Util.GetValue(info, "priority", typeof(int), 0);
+                animID = (int)Util.GetValue(info, "animID",   typeof(int), 0);
+                isSaveChecked = (Boolean)Util.GetValue(info, "isSaveChecked", typeof(Boolean), false);
+              
 				try
 				{
 					type = (String)info.GetValue("Type", typeof(String));
@@ -3994,7 +4037,6 @@ namespace CellGameEdit.PM
                 this._map = mapf;
                 this.type = TYPE_MAP;
                 this.Bounds = new Rectangle(0, 0, mapf.CellW, mapf.CellH);
-                
             }
 			else if (sprf != null)
             {
@@ -4006,11 +4048,56 @@ namespace CellGameEdit.PM
             {
                 this._images = imagesf;
                 this.type = TYPE_IMAGE;
-                this.Bounds = new Rectangle(0, 0,
-                    imagesf.getDstImage(animID).getWidth(),
-                    imagesf.getDstImage(animID).getHeight());
+                this.Bounds = resetImageBounds();
             }
 		}
+
+        private Rectangle resetImageBounds()
+        {
+            if (_images != null)
+            {
+                javax.microedition.lcdui.Image img = _images.getDstImage(animID);
+                this.Bounds = new Rectangle(
+                    0, 0,
+                    img.getWidth(),
+                    img.getHeight());
+
+                switch (anchor)
+                {
+                    case ImageAnchor.L_T: 
+                        break;
+                    case ImageAnchor.C_T:
+                        this.Bounds.X -= img.getWidth() / 2;
+                        break;
+                    case ImageAnchor.R_T:
+                        this.Bounds.X -= img.getWidth();
+                        break;
+                    case ImageAnchor.L_C:
+                        this.Bounds.Y -= img.getHeight() / 2;
+                        break;
+                    case ImageAnchor.C_C:
+                        this.Bounds.X -= img.getWidth() / 2;
+                        this.Bounds.Y -= img.getHeight() / 2;
+                        break;
+                    case ImageAnchor.R_C:
+                        this.Bounds.X -= img.getWidth();
+                        this.Bounds.Y -= img.getHeight() / 2;
+                        break;
+                    case ImageAnchor.L_B:
+                        this.Bounds.Y -= img.getHeight();
+                        break;
+                    case ImageAnchor.C_B:
+                        this.Bounds.X -= img.getWidth() / 2;
+                        this.Bounds.Y -= img.getHeight();
+                        break;
+                    case ImageAnchor.R_B:
+                        this.Bounds.X -= img.getWidth();
+                        this.Bounds.Y -= img.getHeight();
+                        break;
+                }
+            }
+            return Bounds;
+        }
 
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -4023,6 +4110,7 @@ namespace CellGameEdit.PM
                 info.AddValue("animID", animID);
                 info.AddValue("priority", m_Priority);
                 info.AddValue("isSaveChecked", isSaveChecked);
+                info.AddValue("anchor", anchor);
 				/*
                 if (!ProjectForm.IsCopy)
                 {
@@ -4080,6 +4168,16 @@ namespace CellGameEdit.PM
 		}
 
 
+        public void nextAnim(int delta)
+        {
+            if (_spr != null) {
+                animID = Util.cycNum(animID, delta, _spr.GetAnimateCount()); 
+            }
+            else if (_images != null) {
+                animID = Util.cycNum(animID, delta, _images.getDstImageCount()); 
+            }
+        }
+
         public bool isKilled()
         {
             if (spr() == null && map() == null && images() == null)
@@ -4120,7 +4218,8 @@ namespace CellGameEdit.PM
             System.Drawing.Rectangle scope,
             Boolean selected,
             Boolean select,
-            Boolean debug)
+            Boolean debug,
+            Boolean showLock)
         {
 
             if (_spr != null)
@@ -4136,7 +4235,10 @@ namespace CellGameEdit.PM
             else if (_images != null)
             {
                 javax.microedition.lcdui.Image img = _images.getDstImage(animID);
-                g.drawImage(img, x, y);
+                g.drawImage(img,
+                          x + Bounds.X,
+                          y + Bounds.Y);
+                
             }
 
             if (select)
@@ -4147,21 +4249,20 @@ namespace CellGameEdit.PM
 
             if (selected)
             {
-                g.setColor(0x80, 0xff, 0xff, 0xff);
+                g.setColor(0x40, 0xff, 0xff, 0xff);
                 g.fillRect(x + Bounds.X, y + Bounds.Y, Bounds.Width, Bounds.Height);
-            }
-
-            if (selected)
-            {
+            
                 if (WorldForm.IsShowDataString)
                 {
                     g.setColor(0xff, 0xff, 0xff, 0xff);
                     g.dg.DrawString(Data.ToString(), javax.microedition.lcdui.Graphics.font, g.brush, new System.Drawing.Rectangle(x, y, 400, 400));
-
                 }
+                g.setColor(0xff, 0xffffff);
+                g.drawLine(x - 10, y, x + 10, y);
+                g.drawLine(x, y - 10, x, y + 10);
             }
 
-            if (!listItem.Checked)
+            if (showLock && !listItem.Checked)
             {
                 g.drawImage(imgLock, x + Bounds.X, y + Bounds.Y);
             }

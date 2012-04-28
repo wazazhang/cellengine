@@ -207,6 +207,12 @@
       <DependentUpon>SpriteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PM\Util.cs" />
+    <Compile Include="PM\WorldAddUnitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PM\WorldAddUnitForm.Designer.cs">
+      <DependentUpon>WorldAddUnitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PM\WorldForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -313,6 +319,10 @@
     <EmbeddedResource Include="PM\SpriteForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SpriteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PM\WorldAddUnitForm.resx">
+      <DependentUpon>WorldAddUnitForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PM\WorldForm.resx">
       <SubType>Designer</SubType>
@@ -599,6 +609,7 @@
     <None Include="Resources\ImageToolEvent.bmp" />
     <None Include="Resources\ImageRefresh.bmp" />
     <None Include="Resources\ImageAddEvent.bmp" />
+    <None Include="Resources\ImageShowTile.bmp" />
     <Content Include="Resources\MainHelp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
