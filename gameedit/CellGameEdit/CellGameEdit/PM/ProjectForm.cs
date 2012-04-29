@@ -346,7 +346,7 @@ namespace CellGameEdit.PM
                 try
                 {
 
-                    initForms();
+					initOutputForms();
 
 
                     if (System.IO.File.Exists(fileName))
@@ -709,7 +709,7 @@ namespace CellGameEdit.PM
 
 
 
-        public void initForms()
+        private void initOutputForms()
         {
             FormsImages.Clear();
             FormsMap.Clear();
@@ -718,12 +718,12 @@ namespace CellGameEdit.PM
             FormsObjects.Clear();
             FormsCommands.Clear();
 
-            initForms(nodeReses);
-            initForms(nodeLevels);
-            initForms(nodeObjects);
-            initForms(nodeCommands);
+			initOutputForms(nodeReses);
+			initOutputForms(nodeLevels);
+			initOutputForms(nodeObjects);
+			initOutputForms(nodeCommands);
         }
-        public void initForms(TreeNode node)
+		private void initOutputForms(TreeNode node)
         {
             if (formTable[node] != null)
             {
@@ -762,7 +762,7 @@ namespace CellGameEdit.PM
             {
                 foreach (TreeNode sub in node.Nodes)
                 {
-                    initForms(sub);
+					initOutputForms(sub);
                 }
             }
 
@@ -880,6 +880,46 @@ namespace CellGameEdit.PM
 
             return list;
         }
+
+		public ArrayList getSpritess(ImagesForm images)
+		{
+			ArrayList list = new ArrayList();
+
+			foreach (TreeNode node in nodeReses.Nodes)
+			{
+				foreach (TreeNode subnode in node.Nodes)
+				{
+					Form frm = getForm(subnode);
+
+					if (frm.GetType().Equals(typeof(SpriteForm)))
+					{
+						SpriteForm spr = (SpriteForm)frm;
+
+						if (spr.super == images)
+						{
+							list.Add(spr);
+						}
+					}
+				}
+			}
+
+			return list;
+		}
+
+		public ArrayList getAllImages()
+		{
+			ArrayList list = new ArrayList();
+
+			foreach (Object frm in formTable.Values)
+			{
+				if (frm.GetType() == typeof(ImagesForm))
+				{
+					list.Add(frm);
+				}
+			}
+
+			return list;
+		}
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -1430,7 +1470,7 @@ namespace CellGameEdit.PM
                         }
                         if (formTable[super].GetType().Equals(typeof(WorldForm)))
                         {
-                            initForms();
+							initOutputForms();
                             ((WorldForm)form).ChangeAllUnits(FormsMap,FormsSprite,FormsImages);
                         }
                         if (formTable[super].GetType().Equals(typeof(CommandForm)))

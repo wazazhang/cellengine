@@ -13,7 +13,7 @@ namespace CellGameEdit.PM
     {
         private ImagesForm currentImages;
         System.Drawing.Rectangle currentImageRect;
-        System.Drawing.Rectangle currentImageIndex;
+        int currentImageIndex;
 
         public WorldAddUnitForm()
         {
@@ -24,79 +24,13 @@ namespace CellGameEdit.PM
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                e.Cancel = true;
-                this.Hide();
+               e.Cancel = true;
+               //this.Hide();
             }
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////
         // src tile
-
-        private void srcRender(Graphics g, int index, int flip, int x, int y, Boolean showimageborder)
-        {
-            Image img = srcGetImage(index);
-            if (img != null && !img.killed && flip < Graphics.FlipTable.Length)
-            {
-                g.drawImageScale(img, x, y, Graphics.FlipTable[flip], srcScale);
-
-                if (showimageborder)
-                {
-                    g.setColor(0x80, 0xff, 0xff, 0xff);
-                    g.drawRect(x, y, img.getWidth(), img.getHeight());
-                }
-            }
-        }
-        private void srcRenderAll(Graphics g, int x, int y, System.Drawing.Rectangle screen, Boolean showimageborder)
-        {
-            for (int i = currentImages.getDstImageCount() - 1; i >= 0; i--)
-            {
-                Image img = currentImages.getDstImage(i);
-                if (img != null &&
-                    screen.IntersectsWith(new System.Drawing.Rectangle(
-                        x + img.x,
-                        y + img.y,
-                        img.getWidth(),
-                        img.getHeight())
-                    ))
-                {
-                    srcRender(g, i, 0,
-                        x + img.x,
-                        y + img.y, 
-                        showimageborder);
-                }
-            }
-
-        }
-
-        private void srcBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (currentImages != null)
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    System.Drawing.Rectangle dst = new System.Drawing.Rectangle(0, 0, 1, 1);
-                    for (int i = 0; i < currentImages.getDstImageCount(); i++)
-                    {
-                        Image srcImage = currentImages.getDstImage(i);
-                        if (srcImage != null && srcImage.killed == false)
-                        {
-                            dst.X = srcImage.x;
-                            dst.Y = srcImage.y;
-                            dst.Width = srcImage.getWidth();
-                            dst.Height = srcImage.getHeight();
-
-                            if (dst.Contains(e.X, e.Y))
-                            {
-                                currentImageRect = dst;
-                                currentImageIndex = i;
-                                pictureBox1.Refresh();
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         private void srcBox_Paint(object sender, PaintEventArgs e)
         {
@@ -141,6 +75,93 @@ namespace CellGameEdit.PM
 
             }
         }
+
+		private void srcRender(Graphics g, int index, int flip, int x, int y, Boolean showimageborder)
+		{
+			Image img = currentImages.getDstImage(index);
+			if (img != null && !img.killed && flip < Graphics.FlipTable.Length)
+			{
+				g.drawImageScale(img, x, y, Graphics.FlipTable[flip], 1);
+
+				if (showimageborder)
+				{
+					g.setColor(0x80, 0xff, 0xff, 0xff);
+					g.drawRect(x, y, img.getWidth(), img.getHeight());
+				}
+			}
+		}
+		private void srcRenderAll(Graphics g, int x, int y, System.Drawing.Rectangle screen, Boolean showimageborder)
+		{
+			for (int i = currentImages.getDstImageCount() - 1; i >= 0; i--)
+			{
+				Image img = currentImages.getDstImage(i);
+				if (img != null &&
+					screen.IntersectsWith(new System.Drawing.Rectangle(
+						x + img.x,
+						y + img.y,
+						img.getWidth(),
+						img.getHeight())
+					))
+				{
+					srcRender(g, i, 0,
+						x + img.x,
+						y + img.y,
+						showimageborder);
+				}
+			}
+
+		}
+
+		private void srcBox_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (currentImages != null)
+			{
+				if (e.Button == MouseButtons.Left)
+				{
+					System.Drawing.Rectangle dst = new System.Drawing.Rectangle(0, 0, 1, 1);
+					for (int i = 0; i < currentImages.getDstImageCount(); i++)
+					{
+						Image srcImage = currentImages.getDstImage(i);
+						if (srcImage != null && srcImage.killed == false)
+						{
+							dst.X = srcImage.x;
+							dst.Y = srcImage.y;
+							dst.Width = srcImage.getWidth();
+							dst.Height = srcImage.getHeight();
+
+							if (dst.Contains(e.X, e.Y))
+							{
+								currentImageRect = dst;
+								currentImageIndex = i;
+								pictureBox1.Refresh();
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private void comboSelectImages_DropDown(object sender, EventArgs e)
+		{
+			comboSelectImages.Items.Clear();
+			foreach (ImagesForm imf in ProjectForm.getInstance().getAllImages()) {
+				comboSelectImages.Items.Add(imf.getID());
+			}
+		}
+
+		private void comboSelectImages_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			try {
+				object obj = comboSelectImages.SelectedItem;
+				ImagesForm imf = ProjectForm.getInstance().getImagesFormByName(obj.ToString());
+				if (imf != null)
+				{
+					this.currentImages = imf;
+					pictureBox1.Refresh();
+				}
+			} catch (Exception err) {}
+		}
 
       
     }

@@ -888,7 +888,9 @@ namespace CellGameEdit.PM
         public void addUnitAsImage(ImagesForm img, int x, int y, int tileID)
         {
             Unit unit = new Unit(img, "T" + (listView1.Items.Count).ToString("d3") + "_", listView1, tileID);
-          
+			unit.x = x;
+			unit.y = y;
+
             ListViewItem item = unit.listItem;
             item.Checked = true;
             unit.listItem = item;
@@ -2078,6 +2080,45 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
+		private void pictureBox1_DragDrop(object sender, DragEventArgs e)
+		{
+		}
+		private void pictureBox1_DragEnter(object sender, DragEventArgs e)
+		{
+		}
+
+		private void panel1_DragDrop(object sender, DragEventArgs e)
+		{
+			Point loc = pictureBox1.PointToClient(new Point(e.X, e.Y));
+			if ((MapForm)e.Data.GetData(typeof(MapForm)) != null)
+			{
+				MapForm map = ((MapForm)e.Data.GetData(typeof(MapForm)));
+				addUnitAsMap(map, 0, 0);
+			}
+			if ((SpriteForm)e.Data.GetData(typeof(SpriteForm)) != null)
+			{
+				SpriteForm spr = ((SpriteForm)e.Data.GetData(typeof(SpriteForm)));
+				addUnitAsSpr(spr,
+					loc.X,
+					loc.Y);
+			}
+			if ((ImagesForm)e.Data.GetData(typeof(ImagesForm)) != null)
+			{
+				ImagesForm img = ((ImagesForm)e.Data.GetData(typeof(ImagesForm)));
+				addUnitAsImage(img,
+					loc.X,
+					loc.Y,
+					img.getCurrentImageIndex());
+			}
+			listView1.Refresh();
+			pictureBox1.Refresh();
+		}
+
+		private void panel1_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = e.AllowedEffect;
+		}
+
         // key adjust
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -2771,7 +2812,8 @@ namespace CellGameEdit.PM
         {
 			pictureBox1.Refresh();
 		}
-		private void toolAddEvent_Click(object sender, EventArgs e)
+	
+		private void toolAddEvent_Click_1(object sender, EventArgs e)
 		{
 			FormEventTemplate fet = ProjectForm.getInstance().getEventTemplateForm();
 			if (fet.Visible)
@@ -2783,6 +2825,13 @@ namespace CellGameEdit.PM
 				fet.Show();
 			}
 		}
+
+		private void toolAddUnit_Click_2(object sender, EventArgs e)
+		{
+			WorldAddUnitForm addunit = new WorldAddUnitForm();
+			addunit.Show();
+		}
+
 		/*
         private void listView1_BeforeLabelEdit(object sender, LabelEditEventArgs e)
         {
@@ -3167,7 +3216,7 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
-
+	
 
         class ObjectsViewSorter : IComparer
         {
@@ -3195,6 +3244,13 @@ namespace CellGameEdit.PM
             }
         }
 
+	
+
+	
+
+	
+
+	
        
 
       
