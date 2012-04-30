@@ -25,7 +25,7 @@ namespace CellGameEdit.PM
             if (e.CloseReason == CloseReason.UserClosing)
             {
                e.Cancel = true;
-               //this.Hide();
+               this.Hide();
             }
         }
 

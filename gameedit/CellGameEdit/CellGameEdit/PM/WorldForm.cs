@@ -804,7 +804,8 @@ namespace CellGameEdit.PM
             listView1.ListViewItemSorter = new ObjectsViewSorter(UnitList);
             listView1.Sort();
 
-            pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
+			pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
+			textBox1.MouseWheel += new MouseEventHandler(textBox1_MouseWheel);
         }
 
         private void WorldForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -2119,6 +2120,17 @@ namespace CellGameEdit.PM
 			e.Effect = e.AllowedEffect;
 		}
 
+		private void textBox1_MouseWheel(object sender, MouseEventArgs e)
+		{
+			Unit unit = getSelectedUnit();
+			if (unit != null)
+			{
+				unit.nextAnim(e.Delta);
+				unit.updateListViewItem();
+			}
+			pictureBox1.Refresh();
+		}
+
         // key adjust
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -2828,8 +2840,15 @@ namespace CellGameEdit.PM
 
 		private void toolAddUnit_Click_2(object sender, EventArgs e)
 		{
-			WorldAddUnitForm addunit = new WorldAddUnitForm();
-			addunit.Show();
+			WorldAddUnitForm addunit = ProjectForm.getInstance().getWorldAddUnitForm();
+			if (addunit.Visible)
+			{
+				addunit.Hide();
+			}
+			else
+			{
+				addunit.Show();
+			}
 		}
 
 		/*

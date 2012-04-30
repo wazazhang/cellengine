@@ -50,7 +50,7 @@ namespace CellGameEdit.PM
         Hashtable formTable;
 
         private FormEventTemplate form_event_templates;
-
+		private WorldAddUnitForm form_world_add_unit;
         //-----------------------------------------------------------------------------------------------------------------------------------
         // new 
         public ProjectForm()
@@ -1091,6 +1091,14 @@ namespace CellGameEdit.PM
             }
             return form_event_templates;
         }
+
+		public WorldAddUnitForm getWorldAddUnitForm() {
+			if (form_world_add_unit == null)
+			{
+				form_world_add_unit = new WorldAddUnitForm();
+			}
+			return form_world_add_unit;
+		}
 
         //------------------------------------------------------------------------------------------------------------------------------------
 
