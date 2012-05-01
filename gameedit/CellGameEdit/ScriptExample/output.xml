@@ -114,6 +114,8 @@
 		<unit_map index="<INDEX>" map_name="<MAP_NAME>" id="<IDENTIFY>" x="<X>" y="<Y>" images="<SUPER>" map_data="<MAP_DATA>" priority="<PRIORITY>" /></UNIT_MAP>
 		<UNIT_SPRITE>
 		<unit_sprite index="<INDEX>" spr_name="<SPR_NAME>" id="<IDENTIFY>" animate_id="<ANIMATE_ID>" frame_id="<FRAME_ID>" x="<X>" y="<Y>" images="<SUPER>" spr_data="<SPR_DATA>" priority="<PRIORITY>" /></UNIT_SPRITE>
+		<UNIT_IMAGE>
+		<unit_image index="<INDEX>" img_name="<IMG_NAME>" id="<IDENTIFY>" tile_id="<TILE_ID>" anchor="<ANCHOR>" x="<X>" y="<Y>" img_data="<IMG_DATA>" priority="<PRIORITY>" /></UNIT_IMAGE>
 		<WAYPOINT>
 		<waypoint index="<INDEX>" x="<X>" y="<Y>" path_data="<PATH_DATA>" /></WAYPOINT>
 		<WAYPOINT_LINK>

@@ -433,13 +433,15 @@ namespace CellGameEdit.PM
 
                     ArrayList maps = new ArrayList();
                     ArrayList sprs = new ArrayList();
+					ArrayList imgs = new ArrayList();
                     foreach (ListViewItem item in listView1.Items)
                     {
                         try
                         {
                             Unit unit = ((Unit)UnitList[item]);
-                            if (unit.type == "Map") maps.Add(unit);
-                            if (unit.type == "Sprite") sprs.Add(unit);
+							if (unit.type == Unit.TYPE_MAP) { maps.Add(unit); }
+							if (unit.type == Unit.TYPE_SPRITE) { sprs.Add(unit); }
+							if (unit.type == Unit.TYPE_IMAGE) { imgs.Add(unit); }
                             unit.id = item.Text;
 
                         }
@@ -592,6 +594,72 @@ namespace CellGameEdit.PM
                         }
                     } while (fix);
 					#endregion
+
+					//image tile
+					#region imageTile
+					do
+					{
+						String[] imga = new string[imgs.Count];
+						for (int i = 0; i < imga.Length; i++)
+						{
+							Unit img = (Unit)imgs[i];
+
+							string X = img.x.ToString();
+							string Y = img.y.ToString();
+							string ID = img.images().id;
+							string NAME = img.id;
+							string ANCHOR = img.anchor.ToString();
+							string TILE_ID = img.animID.ToString();
+							string PRIORITY = img.Priority.ToString();
+
+							String ignoreKey = null;
+							if (Util.testIgnore("<IGNORE_IMG>", world, ID, ref ignoreKey) == true)
+							{
+								imga[i] = "";
+								continue;
+							}
+
+							String keepKey = null;
+							if (Util.testKeep("<KEEP_IMG>", world, ID, ref keepKey) == false)
+							{
+								imga[i] = "";
+								continue;
+							}
+
+							string[] data = Util.toStringMultiLine(img.Data.ToString());
+							string IMG_DATA = Util.toStringArray1D(ref data);
+							imga[i] = Util.replaceKeywordsScript(world, "<UNIT_IMAGE>", "</UNIT_IMAGE>",
+								   new string[] { "<IMG_NAME>",
+									   "<IDENTIFY>", 
+									   "<INDEX>", 
+									   "<X>", "<Y>", 
+									   "<TILE_ID>",
+									   "<ANCHOR>",
+									   "<IMG_DATA>",
+									   "<PRIORITY>" },
+								   new string[] { NAME,
+									   ID,
+									   i.ToString(), 
+									   X, Y, 
+									   TILE_ID, 
+									   ANCHOR, 
+									   IMG_DATA,
+									   PRIORITY });
+						}
+						string temp = Util.replaceSubTrunksScript(world, 
+							"<UNIT_IMAGE>", "</UNIT_IMAGE>", img);
+						if (temp == null)
+						{
+							fix = false;
+						}
+						else
+						{
+							fix = true;
+							world = temp;
+						}
+					} while (fix);
+					#endregion
+					
 
 					//way points
 					#region output_waypoint
