@@ -72,7 +72,7 @@ void MyNode::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 { 
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it); 
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
 	actor_node->setPosition(m_curPoint);
 	m_mouseDown = true;
 }
@@ -81,7 +81,7 @@ void MyNode::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
 	actor_node->setPosition(m_curPoint);
 
 	getParent()->addChild(SelfNode::node(
@@ -96,7 +96,7 @@ void MyNode::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
 	actor_node->setPosition(m_curPoint);
 	m_mouseDown = false;
 }

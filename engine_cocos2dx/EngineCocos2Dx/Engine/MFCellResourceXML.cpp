@@ -380,7 +380,101 @@ namespace mf
 	
 	void XMLOutputLoader::initWorld(XMLNode *world)
 	{
-		
+		WorldSet set(
+			world->getAttributeAsInt("index"), 
+			world->getAttribute("name"));
+
+		set.GridXCount	= (world.getAttributeAsInt("grid_x_count"));
+		set.GridYCount	= (world.getAttributeAsInt("grid_y_count"));
+		set.GridW		= (world.getAttributeAsInt("grid_w"));
+		set.GridH		= (world.getAttributeAsInt("grid_h"));
+		set.Width		= (world.getAttributeAsInt("width"));
+		set.Height		= (world.getAttributeAsInt("height"));
+
+		//		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
+		//		int sprs_count	= Integer.parseInt(world.getAttribute("unit_count_sprite"));
+		//		int wpss_count	= Integer.parseInt(world.getAttribute("waypoint_count"));
+		//		int wrss_count	= Integer.parseInt(world.getAttribute("region_count"));
+
+		set.Data		= world.getAttribute("data");
+
+		int terrains_count = set.GridXCount * set.GridYCount;
+		set.Terrian .resize(set.GridXCount);//= new int[set.GridXCount][set.GridYCount];
+		String terrains[] = CUtil.splitString(world.getAttribute("terrain"), ",");
+		for (int i = 0; i < terrains_count; i++) {
+			int x = i / set.GridYCount;
+			int y = i % set.GridYCount;
+			set.Terrian[x][y] = Integer.parseInt(terrains[i]);
+		}
+
+		NodeList list = world.getChildNodes();
+
+		for (int s = list.getLength() - 1; s >= 0; --s) 
+		{
+			Node node = list.item(s);
+			if (node instanceof Element) {
+				Element e = (Element)node;
+				if (e.getNodeName().equals("unit_map")) 
+				{
+					WorldSet.MapObject map = new WorldSet.MapObject();
+					map.Index 		= Integer.parseInt(e.getAttribute("index"));
+					map.UnitName 	= e.getAttribute("map_name");
+					map.MapID 		= e.getAttribute("id");
+					map.X 			= Integer.parseInt(e.getAttribute("x"));
+					map.Y 			= Integer.parseInt(e.getAttribute("y"));
+					map.ImagesID 	= e.getAttribute("images");
+					map.Data		= e.getAttribute("data");
+					set.Maps.put(map.Index, map);
+				}
+				else if (e.getNodeName().equals("unit_sprite"))
+				{
+					WorldSet.SpriteObject spr = new WorldSet.SpriteObject();
+					spr.Index 		= Integer.parseInt(e.getAttribute("index"));
+					spr.UnitName 	= e.getAttribute("spr_name");
+					spr.SprID 		= e.getAttribute("id");
+					spr.Anim		= Integer.parseInt(e.getAttribute("animate_id"));
+					spr.Frame		= Integer.parseInt(e.getAttribute("frame_id"));
+					spr.X 			= Integer.parseInt(e.getAttribute("x"));
+					spr.Y 			= Integer.parseInt(e.getAttribute("y"));
+					spr.ImagesID 	= e.getAttribute("images");
+					spr.Data		= e.getAttribute("data");
+					set.Sprs.put(spr.Index, spr);
+				}
+				else if (e.getNodeName().equals("waypoint"))
+				{
+					WorldSet.WaypointObject wp = new WorldSet.WaypointObject();
+					wp.Index 		= Integer.parseInt(e.getAttribute("index"));
+					wp.X 			= Integer.parseInt(e.getAttribute("x"));
+					wp.Y 			= Integer.parseInt(e.getAttribute("y"));
+					wp.Data			= getArray1D(e.getAttribute("data"));
+					set.WayPoints.put(wp.Index, wp);
+				}
+				else if (e.getNodeName().equals("region"))
+				{
+					WorldSet.RegionObject wr = new WorldSet.RegionObject();
+					wr.Index 		= Integer.parseInt(e.getAttribute("index"));
+					wr.X 			= Integer.parseInt(e.getAttribute("x"));
+					wr.Y 			= Integer.parseInt(e.getAttribute("y"));
+					wr.W 			= Integer.parseInt(e.getAttribute("width"));
+					wr.H 			= Integer.parseInt(e.getAttribute("height"));
+					wr.Data			= getArray1D(e.getAttribute("data"));
+					set.Regions.put(wr.Index, wr);
+				}
+			}
+		}
+
+		for (int s = list.getLength() - 1; s >= 0; --s) 
+		{
+			Node node = list.item(s);
+			if (node instanceof Element) {
+				Element e = (Element)node;
+				if (e.getNodeName().equals("waypoint_link")) {
+					int start	= Integer.parseInt(e.getAttribute("start"));
+					int end 	= Integer.parseInt(e.getAttribute("end"));
+					set.WayPoints.get(start).Nexts.add(set.WayPoints.get(end));
+				}
+			}
+		}
 	}
 	
 	/*

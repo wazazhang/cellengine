@@ -16,13 +16,71 @@
 </IMAGE_GROUP>
 
 
-<resource images_count="2" map_count="2" sprite_count="1" >
+<resource images_count="4" map_count="3" sprite_count="1" >
 	
 	
   <!--
   <IGNORE_NULL_CLIP> true
   -->
-	<images index="0" name="unamed_Tile" size="32" 
+	<images index="0" name="mapObjTile" size="3" 
+		output_type=""
+		output_file="">
+		
+		<clip index="0" x="0" y="0" width="59" height="40" data="" />
+		<clip index="1" x="0" y="40" width="65" height="49" data="" />
+		<clip index="2" x="59" y="0" width="48" height="37" data="" />
+		<Append data="0,," />
+	</images>
+	
+
+  <!--
+  <IGNORE_NULL_CLIP> true
+  -->
+	<images index="1" name="mapTile" size="33" 
+		output_type=""
+		output_file="">
+		
+		<clip index="0" x="256" y="0" width="32" height="32" data="" />
+		<clip index="1" x="0" y="0" width="32" height="32" data="" />
+		<clip index="2" x="32" y="0" width="32" height="32" data="" />
+		<clip index="3" x="64" y="0" width="32" height="32" data="" />
+		<clip index="4" x="96" y="0" width="32" height="32" data="" />
+		<clip index="5" x="128" y="0" width="32" height="32" data="" />
+		<clip index="6" x="160" y="0" width="32" height="32" data="" />
+		<clip index="7" x="192" y="0" width="32" height="32" data="" />
+		<clip index="8" x="224" y="0" width="32" height="32" data="" />
+		<clip index="9" x="0" y="32" width="32" height="32" data="" />
+		<clip index="10" x="32" y="32" width="32" height="32" data="" />
+		<clip index="11" x="64" y="32" width="32" height="32" data="" />
+		<clip index="12" x="96" y="32" width="32" height="32" data="" />
+		<clip index="13" x="128" y="32" width="32" height="32" data="" />
+		<clip index="14" x="160" y="32" width="32" height="32" data="" />
+		<clip index="15" x="192" y="32" width="32" height="32" data="" />
+		<clip index="16" x="224" y="32" width="32" height="32" data="" />
+		<clip index="17" x="0" y="64" width="32" height="32" data="" />
+		<clip index="18" x="32" y="64" width="32" height="32" data="" />
+		<clip index="19" x="64" y="64" width="32" height="32" data="" />
+		<clip index="20" x="96" y="64" width="32" height="32" data="" />
+		<clip index="21" x="128" y="64" width="32" height="32" data="" />
+		<clip index="22" x="160" y="64" width="32" height="32" data="" />
+		<clip index="23" x="192" y="64" width="32" height="32" data="" />
+		<clip index="24" x="224" y="64" width="32" height="32" data="" />
+		<clip index="25" x="0" y="96" width="32" height="32" data="" />
+		<clip index="26" x="32" y="96" width="32" height="32" data="" />
+		<clip index="27" x="64" y="96" width="32" height="32" data="" />
+		<clip index="28" x="96" y="96" width="32" height="32" data="" />
+		<clip index="29" x="128" y="96" width="32" height="32" data="" />
+		<clip index="30" x="160" y="96" width="32" height="32" data="" />
+		<clip index="31" x="192" y="96" width="32" height="32" data="" />
+		<clip index="32" x="224" y="96" width="32" height="32" data="" />
+		<Append data="0,," />
+	</images>
+	
+
+  <!--
+  <IGNORE_NULL_CLIP> true
+  -->
+	<images index="2" name="unamed_Tile" size="32" 
 		output_type=",tile"
 		output_file="">
 		
@@ -49,7 +107,7 @@
   <!--
   <IGNORE_NULL_CLIP> true
   -->
-	<images index="1" name="unamed_Tile2" size="192" 
+	<images index="3" name="unamed_Tile2" size="192" 
 		output_type=""
 		output_file="">
 		
@@ -251,7 +309,35 @@
 
 	
 	
-	<map index="0" name="unamed_Map" 
+	<map index="0" name="map000000" 
+		images_name="mapTile" 
+		xcount="20" 
+		ycount="20"
+		layer_count="1"
+		cellw="32" 
+		cellh="32"
+		cd_part_count="8">
+		
+		<cd_part index="0" type="rect" mask="0" x1="0" y1="0" x2="32" y2="32" width="32" height="32" />
+		<cd_part index="1" type="rect" mask="1" x1="0" y1="0" x2="32" y2="32" width="32" height="32" />
+		<cd_part index="2" type="rect" mask="2" x1="0" y1="0" x2="32" y2="32" width="32" height="1" />
+		<cd_part index="3" type="rect" mask="4" x1="0" y1="31" x2="32" y2="32" width="32" height="1" />
+		<cd_part index="4" type="rect" mask="8" x1="0" y1="0" x2="32" y2="32" width="1" height="32" />
+		<cd_part index="5" type="rect" mask="16" x1="31" y1="0" x2="32" y2="32" width="1" height="32" />
+		<cd_part index="6" type="line" mask="32" x1="0" y1="0" x2="31" y2="31" width="32" height="32" />
+		<cd_part index="7" type="line" mask="64" x1="31" y1="0" x2="0" y2="31" width="32" height="32" />
+		
+		<layer index="0"
+			tile_matrix="{20,20,20,20,20,20,21,20,20,21,21,20,21,21,21,20,21,20,20,20,},{28,28,28,28,28,20,21,20,20,21,29,28,29,29,29,20,21,20,21,21,},{28,29,20,21,20,21,29,20,20,21,28,28,28,29,21,20,21,20,21,21,},{28,29,21,20,28,20,20,28,20,21,29,29,25,26,29,20,20,21,29,21,},{25,26,20,21,21,28,28,29,28,20,20,21,28,29,21,20,28,29,20,21,},{20,21,28,29,20,21,21,29,28,28,28,20,20,20,20,20,21,21,20,21,},{20,21,28,28,28,29,29,29,20,21,21,21,21,20,21,21,21,25,26,21,},{28,29,29,28,28,28,29,20,28,29,29,21,29,28,29,29,29,29,20,21,},{20,20,20,25,26,20,28,28,28,28,28,29,20,25,26,29,29,21,20,21,},{20,21,21,21,20,21,21,20,20,20,20,20,28,20,28,29,28,29,28,29,},{20,21,29,21,20,20,20,21,20,20,28,28,29,20,21,28,28,29,20,21,},{20,21,29,29,21,25,26,29,28,28,29,20,20,28,29,29,25,26,20,21,},{20,21,21,20,21,28,29,21,29,20,20,21,28,29,20,21,20,21,20,21,},{28,20,20,28,29,29,21,20,20,28,28,20,21,21,21,29,20,21,20,21,},{28,20,28,29,21,29,29,20,20,20,20,28,29,21,29,21,20,21,28,29,},{20,28,25,26,21,25,26,26,20,28,28,29,28,29,28,29,20,21,20,21,},{28,29,29,21,29,29,21,28,28,29,29,29,28,29,20,21,25,26,20,21,},{28,29,21,29,21,29,29,28,29,29,21,21,25,26,21,21,20,21,20,21,},{28,25,26,28,29,20,20,21,21,28,29,29,28,29,21,21,21,21,21,21,},{25,26,29,28,29,20,21,29,29,28,28,20,28,29,29,29,29,29,21,29,},"
+			flip_matrix="{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},"
+			flag_matrix="{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},"
+		/>
+		
+		<Append data="0,," />
+	</map>
+	
+
+	<map index="1" name="unamed_Map" 
 		images_name="unamed_Tile2" 
 		xcount="20" 
 		ycount="20"
@@ -285,7 +371,7 @@
 	</map>
 	
 
-	<map index="1" name="unamed_Map2" 
+	<map index="2" name="unamed_Map2" 
 		images_name="unamed_Tile2" 
 		xcount="20" 
 		ycount="20"
@@ -390,10 +476,40 @@
 
 
 
-<level world_count="2" >
+<level world_count="3" >
 
 	
-	<world index="0" name="unamed_Level" 
+	<world index="0" name="scene000000" 
+		grid_x_count="20"
+		grid_y_count="20"
+		grid_w="32"
+		grid_h="32"
+		width="640"
+		height="640"
+		unit_count_map="1"
+		unit_count_sprite="3"
+		unit_count_image="1"
+		waypoint_count="0"
+		region_count="0"
+		event_count="0"
+		data="0,,"
+		terrain="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,">
+		
+		<unit_map index="0" map_name="M000_map000000" id="map000000" x="0" y="0" images="mapTile" map_data="0,," priority="0" />
+		
+		<unit_sprite index="0" spr_name="S001_unamed_Sprite" id="unamed_Sprite" animate_id="0" frame_id="0" x="191" y="86" images="unamed_Tile" spr_data="0,," priority="0" />
+		<unit_sprite index="1" spr_name="S002_unamed_Sprite" id="unamed_Sprite" animate_id="0" frame_id="0" x="433" y="263" images="unamed_Tile" spr_data="0,," priority="0" />
+		<unit_sprite index="2" spr_name="S003_unamed_Sprite" id="unamed_Sprite" animate_id="2" frame_id="0" x="142" y="281" images="unamed_Tile" spr_data="0,," priority="0" />
+		
+		<unit_image index="0" img_name="T004_mapObjTile" id="mapObjTile" tile_id="1" anchor="L_T" x="308" y="264" img_data="0,," priority="0" />
+		
+		
+		
+		
+	</world>
+	
+
+	<world index="1" name="unamed_Level" 
 		grid_x_count="20"
 		grid_y_count="20"
 		grid_w="32"
@@ -402,6 +518,7 @@
 		height="640"
 		unit_count_map="1"
 		unit_count_sprite="4"
+		unit_count_image="0"
 		waypoint_count="0"
 		region_count="0"
 		event_count="10"
@@ -414,6 +531,7 @@
 		<unit_sprite index="1" spr_name="S002_unamed_Sprite" id="unamed_Sprite" animate_id="1" frame_id="0" x="394" y="318" images="unamed_Tile" spr_data="0,," priority="0" />
 		<unit_sprite index="2" spr_name="S003_unamed_Sprite" id="unamed_Sprite" animate_id="2" frame_id="0" x="285" y="327" images="unamed_Tile" spr_data="0,," priority="0" />
 		<unit_sprite index="3" spr_name="S004_unamed_Sprite" id="unamed_Sprite" animate_id="3" frame_id="0" x="339" y="389" images="unamed_Tile" spr_data="0,," priority="0" />
+		
 		
 		
 		
@@ -431,7 +549,7 @@
 	</world>
 	
 
-	<world index="1" name="unamed_Level2" 
+	<world index="2" name="unamed_Level2" 
 		grid_x_count="20"
 		grid_y_count="20"
 		grid_w="32"
@@ -440,6 +558,7 @@
 		height="640"
 		unit_count_map="1"
 		unit_count_sprite="0"
+		unit_count_image="0"
 		waypoint_count="0"
 		region_count="0"
 		event_count="3"
@@ -447,6 +566,7 @@
 		terrain="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,">
 		
 		<unit_map index="0" map_name="M000_unamed_Map2" id="unamed_Map2" x="0" y="0" images="unamed_Tile2" map_data="0,," priority="0" />
+		
 		
 		
 		
