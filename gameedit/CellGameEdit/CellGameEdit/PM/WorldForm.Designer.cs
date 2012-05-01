@@ -70,6 +70,8 @@
 			this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
+			this.toolStrip6 = new System.Windows.Forms.ToolStrip();
+			this.toolAddEvent = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip5 = new System.Windows.Forms.ToolStrip();
 			this.btnDeleteEventAll = new System.Windows.Forms.ToolStripButton();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -148,8 +150,6 @@
 			this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStrip6 = new System.Windows.Forms.ToolStrip();
-			this.toolAddEvent = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -161,6 +161,7 @@
 			this.tabPage4.SuspendLayout();
 			this.toolStrip4.SuspendLayout();
 			this.tabPage5.SuspendLayout();
+			this.toolStrip6.SuspendLayout();
 			this.toolStrip5.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
@@ -176,7 +177,6 @@
 			this.menuUnit.SuspendLayout();
 			this.menuRegion.SuspendLayout();
 			this.menuEvent.SuspendLayout();
-			this.toolStrip6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -567,6 +567,27 @@
 			// 
 			this.columnHeader18.Text = "Data";
 			this.columnHeader18.Width = 67;
+			// 
+			// toolStrip6
+			// 
+			this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAddEvent});
+			this.toolStrip6.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip6.Name = "toolStrip6";
+			this.toolStrip6.Size = new System.Drawing.Size(233, 25);
+			this.toolStrip6.TabIndex = 2;
+			this.toolStrip6.Text = "toolStrip6";
+			// 
+			// toolAddEvent
+			// 
+			this.toolAddEvent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolAddEvent.Image = global::CellGameEdit.Resource1.ImageAddEvent;
+			this.toolAddEvent.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.toolAddEvent.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolAddEvent.Name = "toolAddEvent";
+			this.toolAddEvent.Size = new System.Drawing.Size(23, 22);
+			this.toolAddEvent.Text = "toolStripButton1";
+			this.toolAddEvent.Click += new System.EventHandler(this.toolAddEvent_Click_1);
 			// 
 			// toolStrip5
 			// 
@@ -1395,27 +1416,6 @@
 			this.删除ToolStripMenuItem1.Text = "删除";
 			this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
 			// 
-			// toolStrip6
-			// 
-			this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolAddEvent});
-			this.toolStrip6.Location = new System.Drawing.Point(0, 0);
-			this.toolStrip6.Name = "toolStrip6";
-			this.toolStrip6.Size = new System.Drawing.Size(233, 25);
-			this.toolStrip6.TabIndex = 2;
-			this.toolStrip6.Text = "toolStrip6";
-			// 
-			// toolAddEvent
-			// 
-			this.toolAddEvent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolAddEvent.Image = global::CellGameEdit.Resource1.ImageAddEvent;
-			this.toolAddEvent.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.toolAddEvent.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolAddEvent.Name = "toolAddEvent";
-			this.toolAddEvent.Size = new System.Drawing.Size(23, 22);
-			this.toolAddEvent.Text = "toolStripButton1";
-			this.toolAddEvent.Click += new System.EventHandler(this.toolAddEvent_Click_1);
-			// 
 			// WorldForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1453,6 +1453,8 @@
 			this.toolStrip4.PerformLayout();
 			this.tabPage5.ResumeLayout(false);
 			this.tabPage5.PerformLayout();
+			this.toolStrip6.ResumeLayout(false);
+			this.toolStrip6.PerformLayout();
 			this.toolStrip5.ResumeLayout(false);
 			this.toolStrip5.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
@@ -1472,8 +1474,6 @@
 			this.menuUnit.ResumeLayout(false);
 			this.menuRegion.ResumeLayout(false);
 			this.menuEvent.ResumeLayout(false);
-			this.toolStrip6.ResumeLayout(false);
-			this.toolStrip6.PerformLayout();
 			this.ResumeLayout(false);
 
         }

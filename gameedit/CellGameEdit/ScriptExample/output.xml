@@ -105,6 +105,7 @@
 		height="<HEIGHT>"
 		unit_count_map="<UNIT_MAP_COUNT>"
 		unit_count_sprite="<UNIT_SPRITE_COUNT>"
+		unit_count_image="<UNIT_IMAGE_COUNT>"
 		waypoint_count="<WAYPOINT_COUNT>"
 		region_count="<REGION_COUNT>"
 		event_count="<EVENT_COUNT>"

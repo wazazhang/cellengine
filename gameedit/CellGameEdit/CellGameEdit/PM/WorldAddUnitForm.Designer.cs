@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
 			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.comboSelectImages = new System.Windows.Forms.ToolStripComboBox();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabControl1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -55,26 +55,6 @@
 			this.tabControl1.Size = new System.Drawing.Size(292, 371);
 			this.tabControl1.TabIndex = 0;
 			// 
-			// tabPage1
-			// 
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(284, 345);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "精灵";
-			this.tabPage1.UseVisualStyleBackColor = true;
-			// 
-			// tabPage2
-			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(284, 345);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "地图";
-			this.tabPage2.UseVisualStyleBackColor = true;
-			// 
 			// tabPage3
 			// 
 			this.tabPage3.Controls.Add(this.panel1);
@@ -88,6 +68,8 @@
 			// 
 			// panel1
 			// 
+			this.panel1.AllowDrop = true;
+			this.panel1.AutoScroll = true;
 			this.panel1.Controls.Add(this.pictureBox1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 25);
@@ -123,6 +105,26 @@
 			this.comboSelectImages.Size = new System.Drawing.Size(121, 25);
 			this.comboSelectImages.SelectedIndexChanged += new System.EventHandler(this.comboSelectImages_SelectedIndexChanged);
 			this.comboSelectImages.DropDown += new System.EventHandler(this.comboSelectImages_DropDown);
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(284, 345);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "精灵";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(284, 345);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "地图";
+			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// WorldAddUnitForm
 			// 

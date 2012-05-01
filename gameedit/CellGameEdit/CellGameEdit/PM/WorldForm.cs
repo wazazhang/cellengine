@@ -647,7 +647,7 @@ namespace CellGameEdit.PM
 									   PRIORITY });
 						}
 						string temp = Util.replaceSubTrunksScript(world, 
-							"<UNIT_IMAGE>", "</UNIT_IMAGE>", img);
+							"<UNIT_IMAGE>", "</UNIT_IMAGE>", imga);
 						if (temp == null)
 						{
 							fix = false;
@@ -830,6 +830,7 @@ namespace CellGameEdit.PM
                             "<TERRAIN>",
                             "<UNIT_MAP_COUNT>" ,
                             "<UNIT_SPRITE_COUNT>",
+							"<UNIT_IMAGE_COUNT>",
                             "<WAYPOINT_COUNT>",
                             "<REGION_COUNT>",
 							"<EVENT_COUNT>"
@@ -847,6 +848,7 @@ namespace CellGameEdit.PM
                             terrain_data,
                             maps.Count.ToString(),
                             sprs.Count.ToString(),
+							imgs.Count.ToString(),
                             WayPoints.Count.ToString(),
                             Regions.Count.ToString(),
 							oEvents.Count.ToString()
@@ -2193,7 +2195,7 @@ namespace CellGameEdit.PM
 			Unit unit = getSelectedUnit();
 			if (unit != null)
 			{
-				unit.nextAnim(e.Delta);
+				unit.nextAnim(Util.getDirect(e.Delta));
 				unit.updateListViewItem();
 			}
 			pictureBox1.Refresh();
