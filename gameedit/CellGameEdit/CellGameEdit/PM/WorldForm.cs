@@ -989,7 +989,7 @@ namespace CellGameEdit.PM
             {
                 ImagesForm img = ((ImagesForm)e.Data.GetData(typeof(ImagesForm)));
                 addUnitAsImage(img, pictureBox1.Width / 2, pictureBox1.Height / 2,
-                    img.getCurrentImageIndex());
+					img.getAvaliableImageIndex());
             }
             listView1.Refresh();
             pictureBox1.Refresh();
@@ -2179,7 +2179,7 @@ namespace CellGameEdit.PM
 				addUnitAsImage(img,
 					loc.X,
 					loc.Y,
-					img.getCurrentImageIndex());
+					img.getAvaliableImageIndex());
 			}
 			listView1.Refresh();
 			pictureBox1.Refresh();
@@ -4198,8 +4198,12 @@ namespace CellGameEdit.PM
 		}
 
         private Rectangle resetImageBounds()
-        {
-            if (_images != null)
+		{
+			if (_spr != null)
+			{
+				this.Bounds = _spr.getVisibleBounds(animID, 0);
+			}
+            else if (_images != null)
             {
                 javax.microedition.lcdui.Image img = _images.getDstImage(animID);
                 this.Bounds = new Rectangle(
@@ -4240,7 +4244,7 @@ namespace CellGameEdit.PM
                         this.Bounds.Y -= img.getHeight();
                         break;
                 }
-            }
+			} 
             return Bounds;
         }
 
@@ -4321,6 +4325,8 @@ namespace CellGameEdit.PM
             else if (_images != null) {
                 animID = Util.cycNum(animID, delta, _images.getDstImageCount()); 
             }
+
+			this.Bounds = resetImageBounds();
         }
 
         public bool isKilled()

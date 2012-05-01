@@ -944,9 +944,22 @@ namespace CellGameEdit.PM
             return (((Image)(dstImages[index])));
         }
 
-        public int getCurrentImageIndex() {
-            return dstSelectIndex;
-        }
+		public int getAvaliableImageIndex()
+		{
+			Image img = getDstImage(dstSelectIndex);
+			if (img == null)
+			{
+				int count = getDstImageCount();
+				for (int i = 0; i < count; i++)
+				{
+					img = getDstImage(i);
+					if (img != null) {
+						return i;
+					}
+				}
+			}
+			return dstSelectIndex;
+		}
 
         public int getDstImageCount()
         {
