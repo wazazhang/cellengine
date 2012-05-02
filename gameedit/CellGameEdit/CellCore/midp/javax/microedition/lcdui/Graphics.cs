@@ -12,6 +12,7 @@ public class Graphics
 	public static System.Drawing.Font font = new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace, 8);
 
 
+
 	public System.Drawing.Graphics dg;
 
 	public System.Drawing.Pen pen = System.Drawing.Pens.Black;
@@ -398,6 +399,10 @@ public class Graphics
     //
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public System.Drawing.Font getFont()
+	{
+		return font;
+	}
 
     static public System.Drawing.RotateFlipType[] FlipTable = new System.Drawing.RotateFlipType[]
         {
