@@ -14,6 +14,7 @@ using System.IO;
 using javax.microedition.lcdui;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
+using Cell;
 
 namespace CellGameEdit.PM
 {
@@ -611,7 +612,7 @@ namespace CellGameEdit.PM
 							string ANCHOR = img.anchor.ToString();
 							string TILE_ID = img.animID.ToString();
 							string PRIORITY = img.Priority.ToString();
-
+                            string TRANS = img.trans.ToString();
 							String ignoreKey = null;
 							if (Util.testIgnore("<IGNORE_IMG>", world, ID, ref ignoreKey) == true)
 							{
@@ -634,7 +635,7 @@ namespace CellGameEdit.PM
 									   "<INDEX>", 
 									   "<X>", "<Y>", 
 									   "<TILE_ID>",
-									   "<ANCHOR>",
+									   "<ANCHOR>", "<TRANS>",
 									   "<IMG_DATA>",
 									   "<PRIORITY>" },
 								   new string[] { NAME,
@@ -642,7 +643,7 @@ namespace CellGameEdit.PM
 									   i.ToString(), 
 									   X, Y, 
 									   TILE_ID, 
-									   ANCHOR, 
+									   ANCHOR, TRANS,
 									   IMG_DATA,
 									   PRIORITY });
 						}
@@ -3929,7 +3930,7 @@ namespace CellGameEdit.PM
         L_C, C_C, R_C,
         L_B, C_B, R_B,
     };
-   
+
     [Serializable]
 	public class Unit : WorldListViewObject, ISerializable
     {
@@ -3940,7 +3941,7 @@ namespace CellGameEdit.PM
         public static javax.microedition.lcdui.Image imgLock =
             new javax.microedition.lcdui.Image(Resource1.lock_16);
 
-#region 属性
+        #region 属性
         public int frameID = 0;
 
         public ImageAnchor anchor = ImageAnchor.L_T;
@@ -3949,6 +3950,14 @@ namespace CellGameEdit.PM
         {
             get { return anchor; }
             set { anchor = value; resetImageBounds(); }
+        }
+
+        public ImageTrans trans = ImageTrans.NONE;
+        [Description("图片翻转"), Category("属性")]
+        public ImageTrans m_ImageTrans
+        {
+            get { return trans; }
+            set { trans = value; resetImageBounds(); }
         }
 
         public int animID = 0;
@@ -4036,7 +4045,7 @@ namespace CellGameEdit.PM
 			}
 		}
 
-#endregion
+        #endregion
 
 #region 事件
 
@@ -4114,10 +4123,11 @@ namespace CellGameEdit.PM
                 x = (int)info.GetValue("x", typeof(int));
                 y = (int)info.GetValue("y", typeof(int));
                 anchor = (ImageAnchor)Util.GetValue(info, "anchor", typeof(ImageAnchor), ImageAnchor.L_T);
+                trans = (ImageTrans)Util.GetValue(info, "trans", typeof(ImageTrans), ImageTrans.NONE);
                 m_Priority = (int)Util.GetValue(info, "priority", typeof(int), 0);
                 animID = (int)Util.GetValue(info, "animID",   typeof(int), 0);
                 isSaveChecked = (Boolean)Util.GetValue(info, "isSaveChecked", typeof(Boolean), false);
-              
+
 				try
 				{
 					type = (String)info.GetValue("Type", typeof(String));
@@ -4211,37 +4221,48 @@ namespace CellGameEdit.PM
                     img.getWidth(),
                     img.getHeight());
 
+                switch (trans)
+                {
+                    case ImageTrans.R_90:
+                    case ImageTrans.R_270:
+                    case ImageTrans.MR_90:
+                    case ImageTrans.MR_270:
+                        this.Bounds.Width = img.getHeight();
+                        this.Bounds.Height = img.getWidth();
+                        break;
+                }
+
                 switch (anchor)
                 {
-                    case ImageAnchor.L_T: 
+                    case ImageAnchor.L_T:
                         break;
                     case ImageAnchor.C_T:
-                        this.Bounds.X -= img.getWidth() / 2;
+                        this.Bounds.X -= Bounds.Width / 2;
                         break;
                     case ImageAnchor.R_T:
-                        this.Bounds.X -= img.getWidth();
+                        this.Bounds.X -= Bounds.Width;
                         break;
                     case ImageAnchor.L_C:
-                        this.Bounds.Y -= img.getHeight() / 2;
+                        this.Bounds.Y -= Bounds.Height / 2;
                         break;
                     case ImageAnchor.C_C:
-                        this.Bounds.X -= img.getWidth() / 2;
-                        this.Bounds.Y -= img.getHeight() / 2;
+                        this.Bounds.X -= Bounds.Width / 2;
+                        this.Bounds.Y -= Bounds.Height / 2;
                         break;
                     case ImageAnchor.R_C:
-                        this.Bounds.X -= img.getWidth();
-                        this.Bounds.Y -= img.getHeight() / 2;
+                        this.Bounds.X -= Bounds.Width;
+                        this.Bounds.Y -= Bounds.Height / 2;
                         break;
                     case ImageAnchor.L_B:
-                        this.Bounds.Y -= img.getHeight();
+                        this.Bounds.Y -= Bounds.Height;
                         break;
                     case ImageAnchor.C_B:
-                        this.Bounds.X -= img.getWidth() / 2;
-                        this.Bounds.Y -= img.getHeight();
+                        this.Bounds.X -= Bounds.Width / 2;
+                        this.Bounds.Y -= Bounds.Height;
                         break;
                     case ImageAnchor.R_B:
-                        this.Bounds.X -= img.getWidth();
-                        this.Bounds.Y -= img.getHeight();
+                        this.Bounds.X -= Bounds.Width;
+                        this.Bounds.Y -= Bounds.Height;
                         break;
                 }
 			} 
@@ -4260,6 +4281,7 @@ namespace CellGameEdit.PM
                 info.AddValue("priority", m_Priority);
                 info.AddValue("isSaveChecked", isSaveChecked);
                 info.AddValue("anchor", anchor);
+                info.AddValue("trans", trans);
 				/*
                 if (!ProjectForm.IsCopy)
                 {
@@ -4386,10 +4408,10 @@ namespace CellGameEdit.PM
             else if (_images != null)
             {
                 javax.microedition.lcdui.Image img = _images.getDstImage(animID);
-                g.drawImage(img,
+                g.drawImageTrans(img,
                           x + Bounds.X,
-                          y + Bounds.Y);
-                
+                          y + Bounds.Y,
+                          trans);
             }
 
             if (select)

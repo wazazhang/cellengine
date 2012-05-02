@@ -272,7 +272,8 @@
             <ANCHOR>             
             <X>                    
             <Y>                      
-            <PRIORITY>			
+            <PRIORITY>
+            <TRANS>		
         </UNIT_IMAGE>
         
         

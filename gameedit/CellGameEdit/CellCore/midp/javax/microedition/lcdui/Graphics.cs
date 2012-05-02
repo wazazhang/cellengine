@@ -1,6 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using System.Drawing;
 using System;
+using Cell;
 namespace javax.microedition.lcdui{
 
 /**
@@ -249,6 +250,46 @@ public class Graphics
 	public void drawImageTrans(javax.microedition.lcdui.Image src, float x, float y, int transform)
     {
 		drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(), FlipTable[transform]);
+    }
+
+    public void drawImageTrans(javax.microedition.lcdui.Image src, float x, float y, ImageTrans transform)
+    {
+        switch (transform)
+        {
+            case ImageTrans.NONE:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.RotateNoneFlipNone);
+                break;
+            case ImageTrans.R_90:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(), 
+                    System.Drawing.RotateFlipType.Rotate90FlipNone);
+                break;
+            case ImageTrans.R_180:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.Rotate180FlipNone);
+                break;
+            case ImageTrans.R_270:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.Rotate270FlipNone);
+                break;
+            case ImageTrans.MIRROR:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.RotateNoneFlipX);
+                break;
+            case ImageTrans.MR_90:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.Rotate90FlipX);
+                break;
+            case ImageTrans.MR_180:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.Rotate180FlipX);
+                break;
+            case ImageTrans.MR_270:
+                drawImageRegion(src, x, y, 0, 0, src.getWidth(), src.getHeight(),
+                    System.Drawing.RotateFlipType.Rotate270FlipX);
+                break;
+        }
+        
     }
 	
 

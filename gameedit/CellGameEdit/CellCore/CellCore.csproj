@@ -70,6 +70,7 @@
     <Compile Include="midp\javax\microedition\lcdui\Image.cs" />
     <Compile Include="midp\javax\microedition\rms\RecordListener.cs" />
     <Compile Include="midp\javax\microedition\rms\RecordStore.cs" />
+    <Compile Include="midp\Type.cs" />
     <Compile Include="midp\Util.cs" />
     <Compile Include="src\Cell\Game\CImages.cs">
       <SubType>Code</SubType>
