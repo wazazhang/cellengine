@@ -33,7 +33,7 @@ import com.cell.rpg.scene.script.SceneScriptManager;
 import com.cell.sound.mute_impl.NullSoundManager;
 import com.cell.sound.openal_impl.JALSoundManager;
 import com.cell.sound.util.StaticSoundPlayer;
-import com.cell.sql.SQMTypeManager;
+import com.cell.sql.SQLDriverManager;
 import com.cell.util.concurrent.ThreadPool;
 import com.g2d.awt.util.AbstractFrame;
 import com.g2d.awt.util.Drawing;
@@ -129,7 +129,7 @@ public class Studio extends AbstractFrame
 		
 		RPGConfig.IS_EDIT_MODE = true;
 		RPGObjectMap.setPersistanceManagerDriver	(Config.PERSISTANCE_MANAGER);
-		SQMTypeManager.setTypeComparer				(Config.PERSISTANCE_SQL_TYPE);
+		SQLDriverManager.setDriver					(Config.PERSISTANCE_SQL_TYPE);
 		Builder.setBuilder							(Config.BUILDER_CLASS, project_path.getPath());
 
 		try {

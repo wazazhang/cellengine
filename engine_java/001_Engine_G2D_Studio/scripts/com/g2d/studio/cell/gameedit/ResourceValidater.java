@@ -3,9 +3,8 @@ package com.g2d.studio.cell.gameedit;
 import com.cell.CObject;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
-import com.cell.mysql.SQLTypeComparerMySQL;
 import com.cell.rpg.res.ResourceManager;
-import com.cell.sql.SQMTypeManager;
+import com.cell.sql.SQLDriverManager;
 import com.cell.util.concurrent.ThreadPoolService;
 import com.cell.xstream.XStreamAdapter;
 import com.g2d.cell.CellSetResource;
@@ -28,7 +27,7 @@ public class ResourceValidater extends ResourceManager
 	{
 		CAppBridge.init();
 		// 初始化服务器配置文件
-		SQMTypeManager.setTypeComparer(new SQLTypeComparerMySQL());
+		SQLDriverManager.init();
 		ResourceValidater res = new ResourceValidater(args[0]);
 		res.check();
 		

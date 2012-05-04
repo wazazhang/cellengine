@@ -84,7 +84,7 @@ public class Config extends com.cell.util.Config
 	/**XML持久化工具*/
 	public static String PERSISTANCE_MANAGER		= "com.cell.xstream.XStreamAdapter";
 	/**SQL持久化工具*/
-	public static String PERSISTANCE_SQL_TYPE		= "com.cell.mysql.SQLTypeComparerMySQL";
+	public static String PERSISTANCE_SQL_TYPE		= "com.cell.mysql.MySQLDriver";
 
 //	--------------------------------------------------------------------------------------------------------
 //	--------------------------------------------------------------------------------------------------------
