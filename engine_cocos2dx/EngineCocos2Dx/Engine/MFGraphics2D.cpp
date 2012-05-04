@@ -12,35 +12,9 @@
 
 namespace mf
 {
+	using namespace std;
+	using namespace cocos2d;
 
-
-	void mfSetVertices(GLfloat* vertices, GLfloat cw, GLfloat ch)
-	{
-		vertices[0] = 0;
-		vertices[1] = 0;
-		vertices[2] = cw;
-		vertices[3] = 0;
-		vertices[4] = 0;
-		vertices[5] = ch;
-		vertices[6] = cw;
-		vertices[7] = ch;
-	}
-
-	void mfSetTexcoords(
-		GLfloat* texcoords, 
-		GLfloat cx, GLfloat cy,
-		GLfloat cw, GLfloat ch,
-		GLfloat tw, GLfloat th)
-	{
-		texcoords[0] = (cx) / tw;
-		texcoords[1] = (cy) / th;
-		texcoords[2] = (cx + cw) / tw;
-		texcoords[3] = (cy) / th;
-		texcoords[4] = (cx) / tw;
-		texcoords[5] = (cy + ch) / th;
-		texcoords[6] = (cx + cw) / tw;
-		texcoords[7] = (cy + ch) / th;
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Graphics2D::Graphics2D()
@@ -62,20 +36,19 @@ namespace mf
 		// 前3参数为向量，最后参数为距离，这样可以确定由原点到目标的一个切割平面。
 		
 		GLfloat e0[4] = { -1, 0, 0.0, x2};
-		glClipPlanef(GL_CLIP_PLANE0, e0);
-		glEnable(GL_CLIP_PLANE0);
-
 		GLfloat e1[4] = {  1, 0, 0.0, -x};
-		glClipPlanef(GL_CLIP_PLANE1, e1);
-		glEnable(GL_CLIP_PLANE1);
-
 		GLfloat e2[4] = { 0, -1, 0.0, y2};
-		glClipPlanef(GL_CLIP_PLANE2, e2);
-		glEnable(GL_CLIP_PLANE2);
-
 		GLfloat e3[4] = { 0,  1, 0.0, -y};
+
+		glClipPlanef(GL_CLIP_PLANE0, e0);
+		glClipPlanef(GL_CLIP_PLANE1, e1);
+		glClipPlanef(GL_CLIP_PLANE2, e2);
 		glClipPlanef(GL_CLIP_PLANE3, e3);
-		glEnable(GL_CLIP_PLANE3);
+
+		glEnable(GL_CLIP_PLANE0);
+ 		glEnable(GL_CLIP_PLANE1);
+ 		glEnable(GL_CLIP_PLANE2);
+ 		glEnable(GL_CLIP_PLANE3);
 
 		//gl.glScissor(b.x, b.y, b.width, b.height);
 	}
@@ -402,12 +375,205 @@ namespace mf
         m_stack_blend.pop_back();
     }
 	
+	/////////////////////////////////////////////////////////////////////////
+	BufferedGraphis2D::BufferedGraphis2D(int width, int height)
+	{
+		pBuff = CCRenderTexture::renderTextureWithWidthAndHeight(width, height);
+		if (pBuff) {
+			pBuff->clear(0,0,0,0);
+		} else {
+			printf("can not gen frame buffer");
+		}
+	}
+
+	BufferedGraphis2D::~BufferedGraphis2D()
+	{
+		if (pBuff) {
+			delete pBuff;
+		}
+	}
+
+	CCRenderTexture* BufferedGraphis2D::getBuffer()
+	{
+		return pBuff;
+	}
+
+	void BufferedGraphis2D::begin(void)
+	{
+		if (pBuff) {
+			pBuff->begin();
+		}
+	}
+
+	void BufferedGraphis2D::end(void)
+	{
+		if (pBuff) {
+			pBuff->end();
+		}
+	}
+
+	void BufferedGraphis2D::clear(Color const &color)
+	{
+		if (pBuff) {
+			pBuff->clear(color.R, color.G, color.B, color.A);
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+
+	IImage* IImage::createFromFile(string const &path)
+	{
+		CCTexture2D *pTexture = cocos2d::CCTextureCache::sharedTextureCache()->addImage(path.c_str());
+		if (pTexture) {
+			IImage* ret = new IImage(pTexture);
+			ret->m_texture_f = pTexture;
+			return ret;
+		} 
+		return NULL;
+	}
+
+	IImage* IImage::createWithSize(int width, int height)
+	{
+		int pixcelCount = width*height;
+		void* data = malloc(pixcelCount*4);
+		memset(data, 0, sizeof(data));
+		CCSize ret_size;
+		CCTexture2D *pTexture = new CCTexture2D();
+		pTexture->autorelease();
+		pTexture->initWithData(data, 
+			CCTexture2DPixelFormat::kCCTexture2DPixelFormat_RGBA8888, 
+			width, height, ret_size);
+		free(data);
+		if (pTexture) {
+			IImage* ret = new IImage(pTexture);
+			ret->m_texture_s = pTexture;
+			return ret;
+		} 
+		return NULL;
+	}
+
+
+	IImage::IImage(CCTexture2D* texture)
+	{
+		this->m_texture = texture;
+		this->m_texture_f = 0;
+		this->m_texture_s = 0;
+		this->m_width = texture->getPixelsWide();
+		this->m_height = texture->getPixelsHigh();
+	}
+
+	IImage::~IImage()
+	{
+		if (this->m_texture_f) {
+			CCTextureCache::sharedTextureCache()->removeTexture(this->m_texture_f);
+		}
+		if (this->m_texture_s) {
+			delete this->m_texture_s;
+		}
+		
+	}
+
+	int IImage::getWidth()
+	{
+		return m_width;
+	}
+
+	int IImage::getHeight()
+	{
+		return m_height;
+	}
+
+	GLuint IImage::getTextureName()
+	{	
+		return m_texture->getName();
+	}
+
+	void IImage::render(Graphics2D *g, float PosX, float PosY)
+	{
+		m_texture->drawAtPoint(ccp(PosX, PosY));
+	}
 
     
     
 	//////////////////////////////////////////////////////////////////////
 	// 整图输出
 	//////////////////////////////////////////////////////////////////////
+
+
+	void mfSetVertices(GLfloat* vertices, GLfloat cw, GLfloat ch)
+	{
+		vertices[0] = 0;
+		vertices[1] = 0;
+		vertices[2] = cw;
+		vertices[3] = 0;
+		vertices[4] = 0;
+		vertices[5] = ch;
+		vertices[6] = cw;
+		vertices[7] = ch;
+	}
+
+	void mfSetTexcoords(
+		GLfloat* texcoords, 
+		GLfloat cx, GLfloat cy,
+		GLfloat cw, GLfloat ch,
+		GLfloat tw, GLfloat th)
+	{
+		texcoords[0] = (cx) / tw;
+		texcoords[1] = (cy) / th;
+		texcoords[2] = (cx + cw) / tw;
+		texcoords[3] = (cy) / th;
+		texcoords[4] = (cx) / tw;
+		texcoords[5] = (cy + ch) / th;
+		texcoords[6] = (cx + cw) / tw;
+		texcoords[7] = (cy + ch) / th;
+	}
+
+	void transform(Graphics2D *g, float width, float height, int trans)
+	{
+		switch (trans) 
+		{
+		case ITiles::TRANS_ROT90: {
+			g->translate(height, 0);
+			g->rotate(MF_ANGLE_90);
+			break;
+						  }
+		case  ITiles::TRANS_ROT180: {
+			g->translate(width, height);
+			g->rotate(MF_ANGLE_180);
+			break;
+						   }
+		case  ITiles::TRANS_ROT270: {
+			g->translate(0, width);
+			g->rotate(MF_ANGLE_270);
+			break;
+						   }
+		case  ITiles::TRANS_MIRROR: {
+			g->translate(width, 0);
+			g->scale(-1, 1);
+			break;
+						   }
+		case  ITiles::TRANS_MIRROR_ROT90: {
+			g->translate(height, 0);
+			g->rotate(MF_ANGLE_90);
+			g->translate(width, 0);
+			g->scale(-1, 1);
+			break;
+								 }
+		case  ITiles::TRANS_MIRROR_ROT180: {
+			g->translate(width, 0);
+			g->scale(-1, 1);
+			g->translate(width, height);
+			g->rotate(MF_ANGLE_180);
+			break;
+								  }
+		case  ITiles::TRANS_MIRROR_ROT270: {
+			g->rotate(MF_ANGLE_270);
+			g->scale(-1, 1);
+			break;
+								  }
+		}
+	}
+
 
 	TilesGroup::TilesGroup(int count, int imageWidth, int imageHeight)
 	{
@@ -419,6 +585,8 @@ namespace mf
 		{
 			GLfloat* texcoords = (GLfloat*)malloc(sizeof(GLfloat) * 8);
 			GLfloat* vertices  = (GLfloat*)malloc(sizeof(GLfloat) * 8);
+			memset(texcoords, 0, sizeof(texcoords));
+			memset(vertices, 0, sizeof(vertices));
 			tile_texcoords.push_back(texcoords);
 			tile_vertices.push_back(vertices);
 		}
@@ -430,6 +598,11 @@ namespace mf
 			free (tile_texcoords[i]);
 			free (tile_vertices[i]);
 		}
+	}
+
+	bool TilesGroup::isActive(int Index)
+	{
+		return getWidth(Index) != 0 && getHeight(Index) != 0;
 	}
 
 	void TilesGroup::setTile(int index, int cx, int cy, int cw, int ch)
@@ -466,20 +639,51 @@ namespace mf
 	{
 		if (tuxture_name) 
 		{
-			glTranslatef(PosX, PosY, 0);
-			glVertexPointer(2, GL_FLOAT, 0, tile_vertices[Index]);          
-			glTexCoordPointer(2, GL_FLOAT, 0, tile_texcoords[Index]);
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
-			glTranslatef(-PosX, -PosY, 0);	
+			if (trans != TRANS_NONE) {
+				glPushMatrix();
+				glTranslatef(PosX, PosY, 0);
+				transform(g, tile_vertices[Index][6], tile_vertices[Index][7], trans);
+				glVertexPointer(2, GL_FLOAT, 0, tile_vertices[Index]);          
+				glTexCoordPointer(2, GL_FLOAT, 0, tile_texcoords[Index]);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
+				glPopMatrix();
+			} else {
+				glTranslatef(PosX, PosY, 0);
+				glVertexPointer(2, GL_FLOAT, 0, tile_vertices[Index]);          
+				glTexCoordPointer(2, GL_FLOAT, 0, tile_texcoords[Index]);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
+				glTranslatef(-PosX, -PosY, 0);
+			}
 		}
 	}
-	
+
+	void TilesGroup::copyPixcel(Graphics2D *g, int Index, float PosX, float PosY, int trans)
+	{
+		if (tuxture_name) 
+		{
+			if (trans != TRANS_NONE) {
+				glPushMatrix();
+				glTranslatef(PosX, PosY, 0);
+				transform(g, tile_vertices[Index][6], tile_vertices[Index][7], trans);
+				glVertexPointer(2, GL_FLOAT, 0, tile_vertices[Index]);          
+				glTexCoordPointer(2, GL_FLOAT, 0, tile_texcoords[Index]);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
+				glPopMatrix();
+			} else {
+				glTranslatef(PosX, PosY, 0);
+				glVertexPointer(2, GL_FLOAT, 0, tile_vertices[Index]);          
+				glTexCoordPointer(2, GL_FLOAT, 0, tile_texcoords[Index]);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
+				glTranslatef(-PosX, -PosY, 0);
+			}
+		}
+	}
+
 	void TilesGroup::renderEnd(Graphics2D *g)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-    
-    
+
     
     
 };

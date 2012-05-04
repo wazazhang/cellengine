@@ -27,6 +27,11 @@ CCScene* HelloWorld::scene()
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
+
+	//setPosition(0, -size.height);
+	setScaleY(-1);
+
     bool bRet = false;
     do 
     {
@@ -36,7 +41,7 @@ bool HelloWorld::init()
 
         CC_BREAK_IF(! CCLayer::init());
 
-		CCSize size = CCDirector::sharedDirector()->getWinSize();
+		
         //////////////////////////////////////////////////////////////////////////
         // add your codes below...
         //////////////////////////////////////////////////////////////////////////

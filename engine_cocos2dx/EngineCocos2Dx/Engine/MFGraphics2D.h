@@ -13,6 +13,9 @@
 
 namespace mf
 {
+	using namespace std;
+	using namespace cocos2d;
+
 	typedef struct Blend
 	{
 		int sfactor;
@@ -207,12 +210,60 @@ namespace mf
         // 弹出渲染模式
         void    popBlend();
 	};
-    
+
+	//------------------------------------------------------------------------------------------------
+	// GraphicsImage2D
+	//------------------------------------------------------------------------------------------------
+	class BufferedGraphis2D : public Graphics2D
+	{
+	protected:
+		CCRenderTexture* pBuff;
+	public:
+		BufferedGraphis2D(int width, int height);
+		virtual ~BufferedGraphis2D();
+
+		CCRenderTexture* getBuffer();
+		void begin(void);
+		void end(void);
+		void clear(Color const &color);
+	};
+	//------------------------------------------------------------------------------------------------
+	// Image
+	//------------------------------------------------------------------------------------------------
+
+	class IImage
+	{
+	private:
+		cocos2d::CCTexture2D* m_texture; // render texture
+	protected:
+		cocos2d::CCTexture2D* m_texture_f; // from a file
+		cocos2d::CCTexture2D* m_texture_s; // from size
+		GLuint m_width;
+		GLuint m_height;
+
+	protected:
+		IImage(cocos2d::CCTexture2D* m_texture);
+		virtual ~IImage();
+
+		int getWidth();
+		int getHeight();
+		GLuint getTextureName();
+
+		virtual void render(Graphics2D *g, float PosX, float PosY);
+
+	public:
+
+		static IImage* createFromFile(string const &path);
+
+		static IImage* createWithSize(int width, int height);
+
+	};
+
 
 	//------------------------------------------------------------------------------------------------
 	// Tiles
 	//------------------------------------------------------------------------------------------------
-
+	
 
 	class ITiles
 	{
@@ -241,8 +292,12 @@ namespace mf
 		virtual void	renderBegin(Graphics2D *g) = 0;
 
 		virtual void	render(Graphics2D *g, int Index, float PosX, float PosY, int trans) = 0;
-	
+
 		virtual void	renderEnd(Graphics2D *g) = 0;
+
+		virtual void	copyPixcel(Graphics2D *g, int Index, float PosX, float PosY, int trans) = 0;
+
+		virtual bool	isActive(int Index) = 0;
 
 	}; // class ITiles
 	
@@ -283,6 +338,9 @@ namespace mf
 
 		virtual void	renderEnd(Graphics2D *g);
 
+		virtual void	copyPixcel(Graphics2D *g, int Index, float PosX, float PosY, int trans);
+
+		virtual bool	isActive(int Index);
 	};
 
 }; // namespace mf

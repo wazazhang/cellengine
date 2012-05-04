@@ -147,6 +147,8 @@ namespace mf
 
 	//-------------------------------------------------------------------------------------
 	
+	
+
 	typedef struct WorldObjectMap
 	{
 		int Index;
@@ -173,6 +175,49 @@ namespace mf
 
 	} WorldObjectSprite;
 
+	enum ImageAnchor
+	{
+		L_T,
+		C_T,
+		R_T,
+		L_C,
+		C_C,
+		R_C,
+		L_B,
+		C_B,
+		R_B,
+	};
+
+	enum ImageTrans
+	{
+		NONE = ITiles::TRANS_NONE,
+		R_90 = ITiles::TRANS_ROT90, 
+		R_180 = ITiles::TRANS_ROT180,
+		R_270 = ITiles::TRANS_ROT270,
+		MIRROR = ITiles::TRANS_MIRROR,
+		MR_90 = ITiles::TRANS_MIRROR_ROT90, 
+		MR_180 = ITiles::TRANS_MIRROR_ROT180,
+		MR_270 = ITiles::TRANS_MIRROR_ROT270,
+	};
+
+	typedef struct WorldObjectImage
+	{
+		int Index;
+		string UnitName;
+		string ImagesID;
+		int TileID;
+		int Anchor;
+		int Trans;
+		int X;
+		int Y;
+		string Data;
+
+	public:
+		static int stringToAnchor(string const &str);
+		static int stringToTrans(string const &str);
+
+	} WorldObjectImage;
+
 	typedef struct WorldObjectWaypoint
 	{
 		int Index;
@@ -180,7 +225,7 @@ namespace mf
 		int Y;
 		string Data;
 		
-		vector<int> Nexts;
+		vector<WorldObjectWaypoint*> Nexts;
 		
 	} WorldObjectWaypoint;
 	
@@ -207,7 +252,7 @@ namespace mf
 
 	} WorldObjectEvent;
 	
-	class WorldSet : SetObject
+	class WorldSet : public SetObject
 	{
 	public:
 		
@@ -220,6 +265,7 @@ namespace mf
 		
 		map<int, WorldObjectSprite>		Sprs;
 		map<int, WorldObjectMap> 		Maps;
+		map<int, WorldObjectImage>		Images;
 		map<int, WorldObjectWaypoint>	WayPoints;
 		map<int, WorldObjectRegion>		Regions;
 		map<int, WorldObjectEvent>		Events;
@@ -315,9 +361,9 @@ namespace mf
 
 	public:
 
-		CellResource(OutputLoader *adapter);
+		virtual void init(OutputLoader *adapter);
 
-		~CellResource();
+		virtual void destory(void);
 
 		//	-------------------------------------------------------------------------------------------------------------------------------
 		//	Set Object in <setfile>.properties

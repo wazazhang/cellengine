@@ -15,13 +15,13 @@
 namespace mf
 {
 
-#define MF_ABS(x)				(x<0?-x:x)
+	#define MF_ABS(x)				(x<0?-x:x)
 
-#define MF_PI					(3.14159265358979323846264338327950288)
+	#define MF_PI					(3.14159265358979323846264338327950288)
 
-#define MF_ANGLE_90				= MF_PI / 2;
-#define MF_ANGLE_180			= MF_PI ;
-#define MF_ANGLE_270			= MF_PI * 3 / 2;
+	const float MF_ANGLE_90				= 90;
+	const float MF_ANGLE_180			= 180 ;
+	const float MF_ANGLE_270			= 270;
 
     class Math
     {

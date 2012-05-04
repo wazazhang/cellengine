@@ -5,6 +5,7 @@
 #include "MFCellResource.h"
 #include "MFCellSprite.h"
 #include "MFCellMap.h"
+#include "MFCellWorld.h"
 
 #include "MFGameObject.h"
 #include "MFGraphics2D.h"

@@ -43,11 +43,26 @@ MyNode::MyNode()
 	CellResource * res_test = getResourceManager()->getResource("edit/output/ccc.xml");
 	CellResource* res_actor = getResourceManager()->getResource("actor_000000/output/actor.xml");
 	
-	map_node = new CCellMapDirect(
+// 	map_node = new CCellMapDirect(
+// 		res_test->getMapMeta("unamed_Map"),
+// 		400, 400);
+// 	map_node->setPosition(50, 50);
+// 	addChild(map_node, -1);
+	map_node = new CCellMapBuffer(
 		res_test->getMapMeta("unamed_Map"),
-		400, 400);
-	map_node->setPosition(50, wsize.height-50);
+		200, 200);
+	map_node->setPosition(100, 100);
 	addChild(map_node, -1);
+
+
+
+	world_node = new CCellWorld();
+	world_node->init(
+		res_test, 
+		res_test->getSetWorld("scene000000"));
+	world_node->setPosition(50, 50);
+	world_node->setCameraSize(400, 400);
+	//addChild(world_node);
 
 	actor_node = new CCellSprite(
 		res_actor->getSpriteMeta("000000"));
@@ -72,16 +87,29 @@ void MyNode::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 { 
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it); 
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
+	m_curPoint = convertToNodeSpace(m_curPoint);
+
 	actor_node->setPosition(m_curPoint);
 	m_mouseDown = true;
+
+	printf("screen(%f,%f) local(%f,%f)\n", 
+		touch->locationInView(0).x,
+		touch->locationInView(0).y, 
+		m_curPoint.x,
+		m_curPoint.y
+		);
 }
 
 void MyNode::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
+	m_curPoint = convertToNodeSpace(m_curPoint);
+
 	actor_node->setPosition(m_curPoint);
 
 	getParent()->addChild(SelfNode::node(
@@ -96,7 +124,8 @@ void MyNode::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
+	m_curPoint = convertToNodeSpace(m_curPoint);
 	actor_node->setPosition(m_curPoint);
 	m_mouseDown = false;
 }
@@ -108,9 +137,12 @@ void MyNode::update(ccTime dt)
 	CCSize wsize = CCDirector::sharedDirector()->getWinSize();
 	if (m_mouseDown) 
 	{
-		map_node->moveCamera(
-			Math::getDirect(m_curPoint.x - wsize.width/2), 
-			-Math::getDirect(m_curPoint.y - wsize.height/2));
+		float dx = Math::getDirect(m_curPoint.x - wsize.width/2);
+		float dy = Math::getDirect(m_curPoint.y - wsize.height/2);
+
+		map_node->moveCamera(dx, dy);
+
+		world_node->moveCamera(dx, dy);
 	}
 	actor_node->nextCycFrame();
 	m_timer += 0.1f;

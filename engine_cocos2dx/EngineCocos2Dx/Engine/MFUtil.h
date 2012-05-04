@@ -35,6 +35,13 @@ namespace mf
     #define _FLOAT2STR(f)	(::mf::Format<char,1024>("%f", (f)).Buffer)
 
 
+	template <class Class, typename T>
+	inline bool instanceof(T const &object)
+	{
+		return dynamic_cast<Class const *>(&object);
+	}
+
+
 	///////////////////////////////////////////////////////////////////////////////////////
 	// string util
 	///////////////////////////////////////////////////////////////////////////////////////

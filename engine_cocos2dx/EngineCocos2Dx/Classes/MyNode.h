@@ -20,7 +20,9 @@ private:
 
 	CCellSprite*	actor_node;
 
-	CCellMapDirect*	map_node;
+	CCellMap*		map_node;
+
+	CCellWorld*		world_node;
 
 	CCPoint m_curPoint;
 

@@ -223,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Engine\MFCellWorld.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Engine\MFGameObject.cpp"
 				>
 			</File>
@@ -236,6 +240,10 @@
 			</File>
 			<File
 				RelativePath=".\Engine\MFNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Engine\MFPathFinder.cpp"
 				>
 			</File>
 			<File
@@ -300,6 +308,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Engine\MFCellWorld.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Engine\MFEngine.h"
 				>
 			</File>
@@ -317,6 +329,10 @@
 			</File>
 			<File
 				RelativePath=".\Engine\MFNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Engine\MFPathFinder.h"
 				>
 			</File>
 			<File

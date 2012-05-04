@@ -340,12 +340,12 @@ namespace mf
 
 	void CCellSprite::render(Graphics2D *g)
 	{
-		g->pushTransform();
-		g->scale(1, -1);
+		//g->pushTransform();
+		//g->scale(1, -1);
 		meta->render(g, CurAnimate, CurFrame);
 		if (IsDebug) {
 			meta->renderDebug(g, CurAnimate, CurFrame);
 		}
-		g->popTransform();
+		//g->popTransform();
 	}
 };

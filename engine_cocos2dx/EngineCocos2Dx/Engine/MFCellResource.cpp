@@ -54,6 +54,72 @@ namespace mf
 		return PartY[Parts[FrameAnimate[anim][frame]][subpart]];
 	}
 
+	int WorldObjectImage::stringToAnchor(string const &str)
+	{
+		if (stringEquals(str,  "L_T")) {
+			return ImageAnchor::L_T;
+		}
+		if (stringEquals(str,  "C_T")) {
+			return ImageAnchor::C_T;
+		}
+		if (stringEquals(str,  "R_T")) {
+			return ImageAnchor::R_T;
+		}
+
+		if (stringEquals(str,  "L_C")) {
+			return ImageAnchor::L_C;
+		}
+		if (stringEquals(str,  "C_C")) {
+			return ImageAnchor::C_C;
+		}
+		if (stringEquals(str,  "R_C")) {
+			return ImageAnchor::R_C;
+		}
+
+		if (stringEquals(str,  "L_B")) {
+			return ImageAnchor::L_B;
+		}
+		if (stringEquals(str,  "C_B")) {
+			return ImageAnchor::C_B;
+		}
+		if (stringEquals(str,  "R_B")) {
+			return ImageAnchor::R_B;
+		}
+
+		return 0;
+	}
+
+	int WorldObjectImage::stringToTrans(string const &str)
+	{
+		if (stringEquals(str,  "NONE")) {
+			return ImageTrans::NONE;
+		}
+		if (stringEquals(str,  "R_90")) {
+			return ImageTrans::R_90;
+		}
+		if (stringEquals(str,  "R_180")) {
+			return ImageTrans::R_180;
+		}
+		if (stringEquals(str,  "R_270")) {
+			return ImageTrans::R_270;
+		}
+
+		if (stringEquals(str,  "MIRROR")) {
+			return ImageTrans::MIRROR;
+		}
+		if (stringEquals(str,  "MR_90")) {
+			return ImageTrans::MR_90;
+		}
+		if (stringEquals(str,  "MR_180")) {
+			return ImageTrans::MR_180;
+		}
+		if (stringEquals(str,  "MR_270")) {
+			return ImageTrans::MR_270;
+		}
+
+		return 0;
+	}
+
 	WorldSet::WorldSet(int index, string const &name) {
 		Index = index;
 		Name = name;
@@ -148,7 +214,7 @@ namespace mf
 
 
 
-	CellResource::CellResource(OutputLoader *adapter)
+	void CellResource::init(OutputLoader *adapter)
 	{
 		output_adapter = adapter;
 		output_adapter->getSetObjects(ImgTable, SprTable, MapTable, WorldTable);
@@ -186,7 +252,7 @@ namespace mf
 	}
 
 
-	CellResource::~CellResource()
+	void CellResource::destory()
 	{
 		for (map<string, ITiles*>::iterator it = res_map_tiles.begin(); 
 			it!=res_map_tiles.end(); ++it) {
@@ -272,7 +338,8 @@ namespace mf
 				printf("Create CellResource : %s\n", filename.c_str());
 				OutputLoader *output = new XMLOutputLoader(node, filename);
 				delete node;
-				CellResource *resource = new CellResource(output);
+				CellResource *resource = new CellResource();
+				resource->init(output);
 				return resource;
 			}
 		}
@@ -321,6 +388,7 @@ namespace mf
 		if (it != m_resources.end()) 
 		{
 			CellResource* ret = (it->second);
+			ret->destory();
 			delete ret;
 			return true;
 		}
@@ -336,6 +404,7 @@ namespace mf
 			it!=m_resources.end(); ++it)
 		{
 			CellResource* ret = (it->second);
+			ret->destory();
 			delete ret;
 		}
 	}

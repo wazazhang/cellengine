@@ -107,12 +107,20 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	// enable High Resource Mode(2x, such as iphone4) and maintains low resource on other devices.
 //     pDirector->enableRetinaDisplay(true);
+	glDisable(GL_POINT_SMOOTH);   
+	glDisable(GL_LINE_SMOOTH);   
+	glHint(GL_POINT_SMOOTH_HINT, GL_FASTEST); // Make round points, not square points   
+	glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);  // Antialias the lines   
 
     // turn on display FPS
     pDirector->setDisplayFPS(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
+
+
+	pDirector->setDepthTest(false);
+	//pDirector->setDeviceOrientation(CCDeviceOrientationLandscapeLeft);
 
     // create a scene. it's an autorelease object
     CCScene *pScene = HelloWorld::scene();

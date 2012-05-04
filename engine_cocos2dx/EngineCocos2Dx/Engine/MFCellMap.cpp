@@ -115,25 +115,22 @@ namespace mf
 		mTiles->render(g, tileid, dx, dy, transt);
 	}
 
-	void CMapMeta::renderRegion(Graphics2D* g, u32 cax, u32 cay, u32 caw, u32 cah)
+	void CMapMeta::renderBath(Graphics2D* g, u32 cax, u32 cay, u32 caw, u32 cah)
 	{
 		u32 sbx1 = cax / mCellW;
 		u32 sby1 = cay / mCellH;
-		u32 sbx2 = MIN(cax + (caw / mCellW) + 1, getWidthBlock()-1);
-		u32 sby2 = MIN(cay + (cah / mCellH) + 1, getHeighBlock()-1);
+		u32 sbx2 = MIN((cax + caw ) / mCellW + 1, getWidthBlock()-1);
+		u32 sby2 = MIN((cay + cah ) / mCellH + 1, getHeighBlock()-1);
 
 		int layerCount = getLayerCount();
 
-		u32 osx = Math::cycNum(0, cax, mCellW);
-		u32 osy = Math::cycNum(0, cay, mCellH);
-
-		s32 dx;
-		s32 dy;
+		s32 startX = sbx1 * mCellW;
+		s32 startY = sby1 * mCellH;
 
 		for (int la=0; la<layerCount; ++la) 
 		{
-			dx = -osx;
-			dy = -osy;
+			s32 dx = startX;
+			s32 dy = startY;
 
 			for (int bx = sbx1; bx <= sbx2; ++bx) 
 			{
@@ -143,7 +140,7 @@ namespace mf
 					dy += mCellW;
 				}
 				dx += mCellH;
-				dy = -osy;
+				dy = startY;
 			}
 		}
 	}
@@ -191,10 +188,9 @@ namespace mf
 	{
 		glDisable(GL_COLOR_ARRAY);
 		g->pushTransform();
-		g->scale(1, -1);
 		g->clipRect(0, 0, mCamera.width, mCamera.height);
 		mMeta->getTiles()->renderBegin(g);
-		mMeta->renderRegion(g, 
+		mMeta->renderBath(g, 
 			ceil(mCamera.x), 
 			ceil(mCamera.y), 
 			ceil(mCamera.width), 
@@ -206,4 +202,64 @@ namespace mf
 		glEnable(GL_COLOR_ARRAY);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// CCellMapBuffer
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	CCellMapBuffer::CCellMapBuffer(CMapMeta* meta, float width, float height)
+	{
+		this->mMeta = meta;
+		this->mCamera.width  = MIN(width,  mMeta->getWidthPixel());
+		this->mCamera.height = MIN(height, mMeta->getHeighPixel());
+		this->mBuffer = new BufferedGraphis2D(mCamera.width, mCamera.height);
+		mBuffer->getBuffer()->setScaleY(-1);
+		mBuffer->getBuffer()->setPosition(0, 0);
+		this->addChild(mBuffer->getBuffer());
+	}
+
+	CCellMapBuffer::~CCellMapBuffer()
+	{
+		delete this->mBuffer;
+	}
+
+	void CCellMapBuffer::locateCamera(float x, float y)
+	{
+		this->mCamera.x = MAX(0, MIN(x, mMeta->getWidthPixel()-mCamera.width));
+		this->mCamera.y = MAX(0, MIN(y, mMeta->getHeighPixel()-mCamera.height));
+	}
+
+	void CCellMapBuffer::moveCamera(float x, float y)
+	{
+		locateCamera(mCamera.x + x, mCamera.y + y);
+	}
+
+	void CCellMapBuffer::draw(void)
+	{
+		mBuffer->begin();
+		render(mBuffer);
+		mBuffer->end();
+		mf::Graphics2D g;
+		g.drawRect(0, 0, mCamera.width, mCamera.height);
+	}
+
+	// call in draw , implements replace
+	void CCellMapBuffer::render(Graphics2D *g)
+	{
+		glDisable(GL_COLOR_ARRAY);
+		g->pushTransform();
+		g->translate(-mCamera.x, -mCamera.y);
+		g->clipRect(0, 0, mCamera.width, mCamera.height);
+		mMeta->getTiles()->renderBegin(g);
+		mMeta->renderBath(g, 
+			ceil(mCamera.x), 
+			ceil(mCamera.y), 
+			ceil(mCamera.width), 
+			ceil(mCamera.height));
+		mMeta->getTiles()->renderEnd(g);
+		g->clipClean();
+		g->popTransform();
+		glEnable(GL_COLOR_ARRAY);
+
+		g->drawRect(0, 0, 32, 32);
+	}
 }; // namespace mf

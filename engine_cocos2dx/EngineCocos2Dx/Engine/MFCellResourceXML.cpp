@@ -145,6 +145,12 @@ namespace mf
 		set.ClipsH.resize(set.Count);
 		set.ClipsKey.resize(set.Count);
 
+		for (int i=0; i<set.Count;i++) {
+			set.ClipsX[i] = 0;
+			set.ClipsY[i] = 0;
+			set.ClipsW[i] = 0;
+			set.ClipsH[i] = 0;
+		}
 		for (vector<XMLNode*>::const_iterator it=images->childBegin(); 
 			 it!=images->childEnd(); ++it) 
 		{
@@ -384,209 +390,132 @@ namespace mf
 			world->getAttributeAsInt("index"), 
 			world->getAttribute("name"));
 
-		set.GridXCount	= (world.getAttributeAsInt("grid_x_count"));
-		set.GridYCount	= (world.getAttributeAsInt("grid_y_count"));
-		set.GridW		= (world.getAttributeAsInt("grid_w"));
-		set.GridH		= (world.getAttributeAsInt("grid_h"));
-		set.Width		= (world.getAttributeAsInt("width"));
-		set.Height		= (world.getAttributeAsInt("height"));
+		set.GridXCount	= (world->getAttributeAsInt("grid_x_count"));
+		set.GridYCount	= (world->getAttributeAsInt("grid_y_count"));
+		set.GridW		= (world->getAttributeAsInt("grid_w"));
+		set.GridH		= (world->getAttributeAsInt("grid_h"));
+		set.Width		= (world->getAttributeAsInt("width"));
+		set.Height		= (world->getAttributeAsInt("height"));
 
-		//		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
-		//		int sprs_count	= Integer.parseInt(world.getAttribute("unit_count_sprite"));
-		//		int wpss_count	= Integer.parseInt(world.getAttribute("waypoint_count"));
-		//		int wrss_count	= Integer.parseInt(world.getAttribute("region_count"));
-
-		set.Data		= world.getAttribute("data");
+		set.Data		= world->getAttribute("data");
 
 		int terrains_count = set.GridXCount * set.GridYCount;
-		set.Terrian .resize(set.GridXCount);//= new int[set.GridXCount][set.GridYCount];
-		String terrains[] = CUtil.splitString(world.getAttribute("terrain"), ",");
-		for (int i = 0; i < terrains_count; i++) {
-			int x = i / set.GridYCount;
-			int y = i % set.GridYCount;
-			set.Terrian[x][y] = Integer.parseInt(terrains[i]);
+		vector<string> terrains = stringSplit(world->getAttribute("terrain"), ",", INT_MAX);
+		set.Terrian.resize(set.GridXCount);//= new int[set.GridXCount][set.GridYCount];
+		for (int x=0, i=0; x<set.GridXCount; ++x) {
+			set.Terrian[x].resize(set.GridYCount);
+			for (int y=0; y<set.GridYCount; ++y) {
+				set.Terrian[x][y] = stringToInt(terrains[i]);
+				i++;
+			}
 		}
-
-		NodeList list = world.getChildNodes();
-
-		for (int s = list.getLength() - 1; s >= 0; --s) 
+		
+		for (vector<XMLNode*>::const_iterator it=world->childBegin(); 
+			it!=world->childEnd(); ++it) 
 		{
-			Node node = list.item(s);
-			if (node instanceof Element) {
-				Element e = (Element)node;
-				if (e.getNodeName().equals("unit_map")) 
-				{
-					WorldSet.MapObject map = new WorldSet.MapObject();
-					map.Index 		= Integer.parseInt(e.getAttribute("index"));
-					map.UnitName 	= e.getAttribute("map_name");
-					map.MapID 		= e.getAttribute("id");
-					map.X 			= Integer.parseInt(e.getAttribute("x"));
-					map.Y 			= Integer.parseInt(e.getAttribute("y"));
-					map.ImagesID 	= e.getAttribute("images");
-					map.Data		= e.getAttribute("data");
-					set.Maps.put(map.Index, map);
-				}
-				else if (e.getNodeName().equals("unit_sprite"))
-				{
-					WorldSet.SpriteObject spr = new WorldSet.SpriteObject();
-					spr.Index 		= Integer.parseInt(e.getAttribute("index"));
-					spr.UnitName 	= e.getAttribute("spr_name");
-					spr.SprID 		= e.getAttribute("id");
-					spr.Anim		= Integer.parseInt(e.getAttribute("animate_id"));
-					spr.Frame		= Integer.parseInt(e.getAttribute("frame_id"));
-					spr.X 			= Integer.parseInt(e.getAttribute("x"));
-					spr.Y 			= Integer.parseInt(e.getAttribute("y"));
-					spr.ImagesID 	= e.getAttribute("images");
-					spr.Data		= e.getAttribute("data");
-					set.Sprs.put(spr.Index, spr);
-				}
-				else if (e.getNodeName().equals("waypoint"))
-				{
-					WorldSet.WaypointObject wp = new WorldSet.WaypointObject();
-					wp.Index 		= Integer.parseInt(e.getAttribute("index"));
-					wp.X 			= Integer.parseInt(e.getAttribute("x"));
-					wp.Y 			= Integer.parseInt(e.getAttribute("y"));
-					wp.Data			= getArray1D(e.getAttribute("data"));
-					set.WayPoints.put(wp.Index, wp);
-				}
-				else if (e.getNodeName().equals("region"))
-				{
-					WorldSet.RegionObject wr = new WorldSet.RegionObject();
-					wr.Index 		= Integer.parseInt(e.getAttribute("index"));
-					wr.X 			= Integer.parseInt(e.getAttribute("x"));
-					wr.Y 			= Integer.parseInt(e.getAttribute("y"));
-					wr.W 			= Integer.parseInt(e.getAttribute("width"));
-					wr.H 			= Integer.parseInt(e.getAttribute("height"));
-					wr.Data			= getArray1D(e.getAttribute("data"));
-					set.Regions.put(wr.Index, wr);
-				}
+			XMLNode *e = (*it);
+		
+			if (stringEquals(e->getName(), "unit_map")) 
+			{
+				WorldObjectMap map;
+				map.Index 		= e->getAttributeAsInt("index");
+				map.UnitName 	= e->getAttribute("map_name");
+				map.MapID 		= e->getAttribute("id");
+				map.X 			= e->getAttributeAsInt("x");
+				map.Y 			= e->getAttributeAsInt("y");
+				map.ImagesID 	= e->getAttribute("images");
+				map.Data		= e->getAttribute("data");
+				set.Maps[map.Index] = map;
+			}
+			else if (stringEquals(e->getName(), "unit_sprite")) 
+			{
+				WorldObjectSprite spr;
+				spr.Index 		= e->getAttributeAsInt("index");
+				spr.UnitName 	= e->getAttribute("spr_name");
+				spr.SprID 		= e->getAttribute("id");
+				spr.Anim		= e->getAttributeAsInt("animate_id");
+				spr.Frame		= e->getAttributeAsInt("frame_id");
+				spr.X 			= e->getAttributeAsInt("x");
+				spr.Y 			= e->getAttributeAsInt("y");
+				spr.ImagesID 	= e->getAttribute("images");
+				spr.Data		= e->getAttribute("spr_data");
+				set.Sprs[spr.Index] = spr;
+			}
+			else if (stringEquals(e->getName(), "unit_image")) 
+			{
+				WorldObjectImage img;
+				img.Index 		= e->getAttributeAsInt("index");
+				img.UnitName 	= e->getAttribute("img_name");
+				img.ImagesID 	= e->getAttribute("id");
+				img.TileID		= e->getAttributeAsInt("tile_id");
+				img.Anchor		= WorldObjectImage::stringToAnchor(e->getAttribute("anchor"));
+				img.Trans		= WorldObjectImage::stringToTrans(e->getAttribute("trans"));
+				img.X 			= e->getAttributeAsInt("x");
+				img.Y 			= e->getAttributeAsInt("y");
+				img.Data		= e->getAttribute("img_data");
+				
+				set.Images[img.Index] = img;
+			}
+			else if (stringEquals(e->getName(), "waypoint")) 
+			{
+				WorldObjectWaypoint wp;
+				wp.Index 		= e->getAttributeAsInt("index");
+				wp.X 			= e->getAttributeAsInt("x");
+				wp.Y 			= e->getAttributeAsInt("y");
+				wp.Data			= e->getAttribute("path_data");
+				set.WayPoints[wp.Index] = wp;
+			}
+			else if (stringEquals(e->getName(), "region")) 
+			{
+				WorldObjectRegion wr;
+				wr.Index 		= e->getAttributeAsInt("index");
+				wr.X 			= e->getAttributeAsInt("x");
+				wr.Y 			= e->getAttributeAsInt("y");
+				wr.W 			= e->getAttributeAsInt("width");
+				wr.H 			= e->getAttributeAsInt("height");
+				wr.Data			= e->getAttribute("region_data");
+				set.Regions[wr.Index] = wr;
+			}
+			else if (stringEquals(e->getName(), "event")) 
+			{
+				WorldObjectEvent ev;
+				ev.Index 		= e->getAttributeAsInt("index");
+				ev.ID			= e->getAttributeAsInt("id");
+				ev.X 			= e->getAttributeAsInt("x");
+				ev.Y 			= e->getAttributeAsInt("y");
+				ev.EventName 	= e->getAttribute("event_name");
+				ev.EventFile 	= e->getAttribute("event_file");
+				ev.Data		 	= e->getAttribute("event_data");
+				set.Events[ev.Index] = ev;
 			}
 		}
 
-		for (int s = list.getLength() - 1; s >= 0; --s) 
+		for (vector<XMLNode*>::const_iterator it=world->childBegin(); 
+			it!=world->childEnd(); ++it) 
 		{
-			Node node = list.item(s);
-			if (node instanceof Element) {
-				Element e = (Element)node;
-				if (e.getNodeName().equals("waypoint_link")) {
-					int start	= Integer.parseInt(e.getAttribute("start"));
-					int end 	= Integer.parseInt(e.getAttribute("end"));
-					set.WayPoints.get(start).Nexts.add(set.WayPoints.get(end));
-				}
+			XMLNode *e = (*it);
+
+			if (stringEquals(e->getName(), "waypoint_link")) 
+			{
+				int start	= e->getAttributeAsInt("start");
+				int end 	= e->getAttributeAsInt("end");
+
+				WorldObjectWaypoint &r_start = set.WayPoints[start];
+				WorldObjectWaypoint &r_end = set.WayPoints[end];
+				r_start.Nexts.push_back(&r_end);
 			}
 		}
+
+		m_worlds[set.Name] = set;
 	}
 	
-	/*
-	void XMLOutputLoader::initWorld(XMLNode &world)
-	{
-		WorldSet set(world.getAttributeAsInt("index"), 
-					 world.getAttribute("name"));
-		
-		set.GridXCount	= (world.getAttributeAsInt("grid_x_count"));
-		set.GridYCount	= (world.getAttributeAsInt("grid_y_count"));
-		set.GridW		= (world.getAttributeAsInt("grid_w"));
-		set.GridH		= (world.getAttributeAsInt("grid_h"));
-		set.Width		= (world.getAttributeAsInt("width"));
-		set.Height		= (world.getAttributeAsInt("height"));
-		
-		//		int maps_count	= Integer.parseInt(world.getAttribute("unit_count_map"));
-		//		int sprs_count	= Integer.parseInt(world.getAttribute("unit_count_sprite"));
-		//		int wpss_count	= Integer.parseInt(world.getAttribute("waypoint_count"));
-		//		int wrss_count	= Integer.parseInt(world.getAttribute("region_count"));
-		
-		set.Data		= world.getAttribute("data");
-		
-		int terrains_count = set.GridXCount * set.GridYCount;
-		set.Terrian .resize(set.GridXCount);//= new int[set.GridXCount][set.GridYCount];
-		String terrains[] = CUtil.splitString(world.getAttribute("terrain"), ",");
-		for (int i = 0; i < terrains_count; i++) {
-			int x = i / set.GridYCount;
-			int y = i % set.GridYCount;
-			set.Terrian[x][y] = Integer.parseInt(terrains[i]);
-		}
-		
-		NodeList list = world.getChildNodes();
-		
-		for (int s = list.getLength() - 1; s >= 0; --s) 
-		{
-			Node node = list.item(s);
-			if (node instanceof Element) {
-				Element e = (Element)node;
-				if (e.getNodeName().equals("unit_map")) 
-				{
-					WorldSet.MapObject map = new WorldSet.MapObject();
-					map.Index 		= Integer.parseInt(e.getAttribute("index"));
-					map.UnitName 	= e.getAttribute("map_name");
-					map.MapID 		= e.getAttribute("id");
-					map.X 			= Integer.parseInt(e.getAttribute("x"));
-					map.Y 			= Integer.parseInt(e.getAttribute("y"));
-					map.ImagesID 	= e.getAttribute("images");
-					map.Data		= e.getAttribute("data");
-					set.Maps.put(map.Index, map);
-				}
-				else if (e.getNodeName().equals("unit_sprite"))
-				{
-					WorldSet.SpriteObject spr = new WorldSet.SpriteObject();
-					spr.Index 		= Integer.parseInt(e.getAttribute("index"));
-					spr.UnitName 	= e.getAttribute("spr_name");
-					spr.SprID 		= e.getAttribute("id");
-					spr.Anim		= Integer.parseInt(e.getAttribute("animate_id"));
-					spr.Frame		= Integer.parseInt(e.getAttribute("frame_id"));
-					spr.X 			= Integer.parseInt(e.getAttribute("x"));
-					spr.Y 			= Integer.parseInt(e.getAttribute("y"));
-					spr.ImagesID 	= e.getAttribute("images");
-					spr.Data		= e.getAttribute("data");
-					set.Sprs.put(spr.Index, spr);
-				}
-				else if (e.getNodeName().equals("waypoint"))
-				{
-					WorldSet.WaypointObject wp = new WorldSet.WaypointObject();
-					wp.Index 		= Integer.parseInt(e.getAttribute("index"));
-					wp.X 			= Integer.parseInt(e.getAttribute("x"));
-					wp.Y 			= Integer.parseInt(e.getAttribute("y"));
-					wp.Data			= getArray1D(e.getAttribute("data"));
-					set.WayPoints.put(wp.Index, wp);
-				}
-				else if (e.getNodeName().equals("region"))
-				{
-					WorldSet.RegionObject wr = new WorldSet.RegionObject();
-					wr.Index 		= Integer.parseInt(e.getAttribute("index"));
-					wr.X 			= Integer.parseInt(e.getAttribute("x"));
-					wr.Y 			= Integer.parseInt(e.getAttribute("y"));
-					wr.W 			= Integer.parseInt(e.getAttribute("width"));
-					wr.H 			= Integer.parseInt(e.getAttribute("height"));
-					wr.Data			= getArray1D(e.getAttribute("data"));
-					set.Regions.put(wr.Index, wr);
-				}
-			}
-		}
-		
-		for (int s = list.getLength() - 1; s >= 0; --s) 
-		{
-			Node node = list.item(s);
-			if (node instanceof Element) {
-				Element e = (Element)node;
-				if (e.getNodeName().equals("waypoint_link")) {
-					int start	= Integer.parseInt(e.getAttribute("start"));
-					int end 	= Integer.parseInt(e.getAttribute("end"));
-					set.WayPoints.get(start).Nexts.add(set.WayPoints.get(end));
-				}
-			}
-		}
-	}
-	*/
 	
 	ITiles*	XMLOutputLoader::createImagesFromSet(ImagesSet const &img)
 	{
 		XMLTiles *tiles = new XMLTiles(img, this);
 		return tiles;
 	}
-// 	CTiles* XMLOutputLoader::createImagesFromSet(ImagesSet const &img)
-// 	{
-// 		return new XMLTiles(img, this);
-// 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// XMLTiles
 	//-------------------------------------------------------------------------------------------------------

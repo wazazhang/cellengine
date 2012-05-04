@@ -83,11 +83,20 @@ namespace mf
 		int getFlag(int layer, int bx,int by);
 		
 		void renderCell(Graphics2D* g, int layer, int sbx, int sby, int dx, int dy);
-		void renderRegion(Graphics2D* g, u32 cax, u32 cay, u32 caw, u32 cah);
+
+		void renderBath(Graphics2D* g, u32 cax, u32 cay, u32 caw, u32 cah);
 
 	};
 
-	class CCellMapDirect : public cocos2d::CCNode
+	class CCellMap : public cocos2d::CCNode
+	{
+	public:
+		virtual void locateCamera(float x, float y) = 0;
+
+		virtual void moveCamera(float x, float y) = 0;
+	};
+
+	class CCellMapDirect : public CCellMap
 	{
 	protected:
 
@@ -103,12 +112,40 @@ namespace mf
 
 		void setCameraSize(float width, float height);
 
-		void locateCamera(float x, float y);
+		virtual void locateCamera(float x, float y);
 		
-		void moveCamera(float x, float y);
+		virtual void moveCamera(float x, float y);
 
 		virtual void draw(void);
 		
+	protected:
+
+		// call in draw , implements replace
+		virtual void render(Graphics2D *g);
+	};
+
+	class CCellMapBuffer : public CCellMap
+	{
+	protected:
+
+		CMapMeta* mMeta;
+
+		BufferedGraphis2D* mBuffer;
+
+		Rectangle2D mCamera;
+		
+	public:
+
+		CCellMapBuffer(CMapMeta* mMeta, float width, float height);
+
+		virtual ~CCellMapBuffer();
+
+		virtual void locateCamera(float x, float y);
+
+		virtual void moveCamera(float x, float y);
+
+		virtual void draw(void);
+
 	protected:
 
 		// call in draw , implements replace

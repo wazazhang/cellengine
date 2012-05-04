@@ -12,6 +12,8 @@
 #include "MFGameObject.h"
 #include "MFUtil.h"
 
+#include "cocos2d.h"
+
 namespace mf
 {
 	using namespace std;
