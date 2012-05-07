@@ -1,11 +1,58 @@
 package com.cell.gfx;
 
-
 public interface IGraphics
 {
 	final static public double ANGLE_90		= Math.PI / 2;
 	final static public double ANGLE_270	= Math.PI * 3 / 2;
+
+	public static enum ImageAnchor
+	{
+		L_T,
+		C_T,
+		R_T,
+		L_C,
+		C_C,
+		R_C,
+		L_B,
+		C_B,
+		R_B,
+	};
 	
+	public static enum ImageTrans
+	{
+		NONE,
+		R_90, 
+		R_180,
+		R_270,
+		MIRROR,
+		MR_90, 
+		MR_180,
+		MR_270;
+		
+		public static int stringToTrans(ImageTrans trans)
+		{
+			switch (trans) {
+			case NONE:
+				return IGraphics.TRANS_NONE;
+			case R_90:
+				return IGraphics.TRANS_ROT90;
+			case R_180:
+				return IGraphics.TRANS_ROT180;
+			case R_270:
+				return IGraphics.TRANS_ROT270;
+			case MIRROR:
+				return IGraphics.TRANS_MIRROR;
+			case MR_90:
+				return IGraphics.TRANS_MIRROR_ROT90;
+			case MR_180:
+				return IGraphics.TRANS_MIRROR_ROT180;
+			case MR_270:
+				return IGraphics.TRANS_MIRROR_ROT270;
+			}
+			return 0;
+		}
+	};
+
 	
     public static final int TRANS_NONE = 0;
     public static final int TRANS_ROT90 = 1;

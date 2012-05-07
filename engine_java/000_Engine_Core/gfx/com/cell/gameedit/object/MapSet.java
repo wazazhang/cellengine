@@ -12,20 +12,11 @@ public class MapSet implements SetObject
 	
 	public String 		ImagesName;
 	
-	
 	public int 			XCount;
 	public int 			YCount;
 	public int			CellW;
 	public int			CellH;
-	
-	/** TImages.Clips*[index] */
-	public int[] 		TileID;
-	public int[] 		TileTrans;
-	/** TileID[index] & TileTrans[index] */
-	public int[][] 		Animates;
-	/** TerrainScene2D[y][x] == Animates[index] */
-	public int[][] 		TerrainScene2D;
-	
+	public int			LayerCount;
 	
 	public int[] 		BlocksType;
 	public int[] 		BlocksMask;
@@ -35,9 +26,11 @@ public class MapSet implements SetObject
 	public int[] 		BlocksY2;
 	public int[] 		BlocksW;
 	public int[] 		BlocksH;
-	
-	/** TerrainBlock2D[y][x] == BlocksType[index] */
-	public int[][]		TerrainBlock2D;
+
+	/** [layer][y][x] */
+	public int[][][] 	TerrainTile;
+	public int[][][] 	TerrainFlip;
+	public int[][][] 	TerrainFlag;
 	
 	
 
@@ -55,13 +48,5 @@ public class MapSet implements SetObject
 		return Name;
 	}
 
-	public int getLayerImagesIndex(int x, int y, int layer){
-		return TileID[Animates[TerrainScene2D[y][x]][layer]];
-	}
-	
-	public int getLayerTrans(int x, int y, int layer){
-		return TileTrans[Animates[TerrainScene2D[y][x]][layer]];
-	}
-	
 }
 

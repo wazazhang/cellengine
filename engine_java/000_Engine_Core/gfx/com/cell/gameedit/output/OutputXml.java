@@ -29,6 +29,8 @@ import com.cell.gameedit.object.TableSet;
 import com.cell.gameedit.object.WorldSet;
 import com.cell.gameedit.object.WorldSet.RegionObject;
 import com.cell.gameedit.object.WorldSet.WaypointObject;
+import com.cell.gfx.IGraphics.ImageAnchor;
+import com.cell.gfx.IGraphics.ImageTrans;
 import com.cell.gfx.IImage;
 import com.cell.gfx.IImages;
 import com.cell.gfx.game.CAnimates;
@@ -153,14 +155,9 @@ abstract public class OutputXml extends BaseOutput
 		set.YCount 			= Integer.parseInt(map.getAttribute("ycount"));
 		set.CellW 			= Integer.parseInt(map.getAttribute("cellw"));
 		set.CellH 			= Integer.parseInt(map.getAttribute("cellh"));
-
-		int scenePartCount 	= Integer.parseInt(map.getAttribute("scene_part_count"));
-		int animateCount 	= Integer.parseInt(map.getAttribute("scene_frame_count"));
+		set.LayerCount		= Integer.parseInt(map.getAttribute("layer_count"));
 		int cdCount 		= Integer.parseInt(map.getAttribute("cd_part_count"));
 
-		set.TileID 			= new int[scenePartCount];
-		set.TileTrans 		= new int[scenePartCount];
-		set.Animates 		= new int[animateCount][];
 		set.BlocksType 		= new int[cdCount];
 		set.BlocksMask 		= new int[cdCount];
 		set.BlocksX1 		= new int[cdCount];
@@ -170,8 +167,9 @@ abstract public class OutputXml extends BaseOutput
 		set.BlocksW 		= new int[cdCount];
 		set.BlocksH 		= new int[cdCount];
 		
-		set.TerrainScene2D	= new int[set.YCount][set.XCount];
-		set.TerrainBlock2D	= new int[set.YCount][set.XCount];
+		set.TerrainTile		= new int[set.LayerCount][set.YCount][set.XCount];
+		set.TerrainFlip		= new int[set.LayerCount][set.YCount][set.XCount];
+		set.TerrainFlag		= new int[set.LayerCount][set.YCount][set.XCount];
 
 		NodeList list = map.getChildNodes();
 		
@@ -180,25 +178,7 @@ abstract public class OutputXml extends BaseOutput
 			Node node = list.item(s);
 			if (node instanceof Element) {
 				Element e = (Element)node;
-				if (e.getNodeName().equals("scene_part")) 
-				{
-					int index 			= Integer.parseInt(e.getAttribute("index"));
-					set.TileID[index]	= Integer.parseInt(e.getAttribute("tile"));
-					set.TileTrans[index]= Integer.parseInt(e.getAttribute("trans"));
-				}
-				else if (e.getNodeName().equals("scene_frame")) 
-				{
-					int index = Integer.parseInt(e.getAttribute("index"));
-					int frameCount = Integer.parseInt(e.getAttribute("data_size"));
-					set.Animates[index] = new int[frameCount];
-					if (frameCount > 0) {
-						String[] data = CUtil.splitString(e.getAttribute("data"), ",");
-						for (int f = 0; f < frameCount; f++) {
-							set.Animates[index][f] = Integer.parseInt(data[f]);
-						}
-					}
-				}
-				else if (e.getNodeName().equals("cd_part")) 
+				if (e.getNodeName().equals("cd_part")) 
 				{
 					int index = Integer.parseInt(e.getAttribute("index"));
 					set.BlocksType[index]	= "rect".equals(e.getAttribute("type")) ?
@@ -211,16 +191,20 @@ abstract public class OutputXml extends BaseOutput
 					set.BlocksW[index] 		= Integer.parseInt(e.getAttribute("width"));
 					set.BlocksH[index] 		= Integer.parseInt(e.getAttribute("height"));
 				}
-				else if (e.getNodeName().equals("matrix")) 
+				else if (e.getNodeName().equals("layer")) 
 				{
+					int layerIndex			= Integer.parseInt(e.getAttribute("index"));
 					String tile_matrix[]	= getArray2D(e.getAttribute("tile_matrix"));
-					String cd_matrix[] 		= getArray2D(e.getAttribute("flag_matrix"));
+					String flip_matrix[]	= getArray2D(e.getAttribute("flip_matrix"));
+					String flag_matrix[] 	= getArray2D(e.getAttribute("flag_matrix"));
 					for (int y = 0; y < set.YCount; y++) {
 						String[] tline = CUtil.splitString(tile_matrix[y], ",");
-						String[] cline = CUtil.splitString(cd_matrix[y],   ",");
+						String[] fline = CUtil.splitString(flip_matrix[y], ",");
+						String[] cline = CUtil.splitString(flag_matrix[y], ",");
 						for (int x = 0; x < set.XCount; x++) {
-							set.TerrainScene2D[y][x] = Integer.parseInt(tline[x]);
-							set.TerrainBlock2D[y][x] = Integer.parseInt(cline[x]);
+							set.TerrainTile[layerIndex][y][x] = Integer.parseInt(tline[x]);
+							set.TerrainFlip[layerIndex][y][x] = Integer.parseInt(fline[x]);
+							set.TerrainFlag[layerIndex][y][x] = Integer.parseInt(cline[x]);
 						}
 					}
 				}
@@ -368,6 +352,47 @@ abstract public class OutputXml extends BaseOutput
 	}
 	
 
+//	<world index="0" name="scene000000" 
+//		grid_x_count="20"
+//		grid_y_count="20"
+//		grid_w="32"
+//		grid_h="32"
+//		width="640"
+//		height="640"
+//		unit_count_map="1"
+//		unit_count_sprite="3"
+//		unit_count_image="3"
+//		waypoint_count="3"
+//		region_count="2"
+//		event_count="4"
+//		data="0,,"
+//		terrain="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,">
+//		
+//		<unit_map index="0" map_name="M000_map000000" id="map000000" x="0" y="0" images="mapTile" map_data="0,," priority="0" />
+//		
+//		<unit_sprite index="0" spr_name="S001_unamed_Sprite" id="unamed_Sprite" animate_id="0" frame_id="0" x="197" y="86" images="unamed_Tile" spr_data="0,," priority="0" />
+//		<unit_sprite index="1" spr_name="S002_unamed_Sprite" id="unamed_Sprite" animate_id="0" frame_id="0" x="422" y="222" images="unamed_Tile" spr_data="0,," priority="0" />
+//		<unit_sprite index="2" spr_name="S003_unamed_Sprite" id="unamed_Sprite" animate_id="2" frame_id="0" x="142" y="281" images="unamed_Tile" spr_data="0,," priority="0" />
+//		
+//		<unit_image index="0" img_name="T004_mapObjTile" id="mapObjTile" tile_id="0" anchor="C_C" x="240" y="172" trans="MR_90" img_data="0,," priority="0" />
+//		<unit_image index="1" img_name="T006_mapObjTile" id="mapObjTile" tile_id="2" anchor="L_T" x="243" y="244" trans="R_90" img_data="0,," priority="0" />
+//		<unit_image index="2" img_name="T005_mapObjTile" id="mapObjTile" tile_id="1" anchor="C_C" x="205" y="366" trans="NONE" img_data="0,," priority="0" />
+//		
+//		<waypoint index="0" x="220" y="301" path_data="0,," />
+//		<waypoint index="1" x="495" y="395" path_data="0,," />
+//		<waypoint index="2" x="312" y="414" path_data="0,," />
+//		
+//		<waypoint_link start="0" end="2" />
+//		<waypoint_link start="2" end="0" />
+//		
+//		<region index="0" x="367" y="342" width="238" height="125" region_data="0,," />
+//		<region index="1" x="30" y="359" width="101" height="120" region_data="0,," />
+//		
+//		<event index="0" id="0" event_name="��xxx" event_file="EventTemplate.txt" x="111" y="146" event_data="0,," />
+//		<event index="1" id="1" event_name="��xxx" event_file="EventTemplate.txt" x="435" y="115" event_data="0,," />
+//		<event index="2" id="2" event_name="��xxx" event_file="EventTemplate.txt" x="537" y="154" event_data="0,," />
+//		<event index="3" id="3" event_name="��ͷ��" event_file="EventTemplate.txt" x="348" y="321" event_data="0,," />
+//	</world>
 	private WorldSet initWorld(Element world) throws IOException 
 	{
 		WorldSet set = new WorldSet(
@@ -430,6 +455,20 @@ abstract public class OutputXml extends BaseOutput
 					spr.Data		= getArray1DLines(e.getAttribute("spr_data"));
 					set.Sprs.put(spr.Index, spr);
 				}
+				else if (e.getNodeName().equals("unit_image")) 
+				{
+					WorldSet.ImageObject img = new WorldSet.ImageObject();
+					img.Index 		= Integer.parseInt(e.getAttribute("index"));
+					img.UnitName 	= e.getAttribute("img_name");
+					img.ImagesID 	= e.getAttribute("id");
+					img.TileID		= Integer.parseInt(e.getAttribute("tile_id"));
+					img.Anchor		= ImageAnchor.valueOf(e.getAttribute("anchor"));
+					img.Trans		= ImageTrans.valueOf(e.getAttribute("trans"));
+					img.X 			= Integer.parseInt(e.getAttribute("x"));
+					img.Y 			= Integer.parseInt(e.getAttribute("y"));
+					img.Data		= getArray1DLines(e.getAttribute("img_data"));
+					set.Imgs.put(img.Index, img);
+				}
 				else if (e.getNodeName().equals("waypoint"))
 				{
 					WorldSet.WaypointObject wp = new WorldSet.WaypointObject();
@@ -449,6 +488,18 @@ abstract public class OutputXml extends BaseOutput
 					wr.H 			= Integer.parseInt(e.getAttribute("height"));
 					wr.Data			= getArray1DLines(e.getAttribute("region_data"));
 					set.Regions.put(wr.Index, wr);
+				}
+				else if (stringEquals(e->getName(), "event")) 
+				{
+					WorldObjectEvent ev;
+					ev.Index 		= e->getAttributeAsInt("index");
+					ev.ID			= e->getAttributeAsInt("id");
+					ev.X 			= e->getAttributeAsInt("x");
+					ev.Y 			= e->getAttributeAsInt("y");
+					ev.EventName 	= e->getAttribute("event_name");
+					ev.EventFile 	= e->getAttribute("event_file");
+					ev.Data		 	= e->getAttribute("event_data");
+					set.Events[ev.Index] = ev;
 				}
 			}
 		}

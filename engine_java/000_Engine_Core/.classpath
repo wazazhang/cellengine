@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="com/cell/game/hud/|com/cell/hud/|com/cell/math/CLine.java|com/cell/math/CMathFP.java|com/cell/math/CRect.java|com/cell/math/CVector2.java|com/cell/util/task/CronJob.java|com/cell/util/task/CronJobExecutionContext.java|com/cell/util/task/CronScheduler.java|com/cell/game/ai/CAStar.java|com/cell/game/ai/CopyOfCAStar.java|com/cell/game/ai/AstarOld.java|com/cell/game/ai/AstarBack.java" kind="src" path="src"/>
-	<classpathentry excluding="com/cell/gfx/game/edit/" kind="src" path="gfx"/>
+	<classpathentry excluding="com/cell/gfx/game/edit/|com/cell/gameedit/output/OutputProperties.java|com/cell/gameedit/output/OutputPropertiesDir.java" kind="src" path="gfx"/>
 	<classpathentry kind="src" path="snd"/>
 	<classpathentry excluding="com/cell/j2se/GameApplet.java|com/cell/j2se/GameCanvas.java|com/cell/j2se/GameWindow.java" kind="src" path="j2se"/>
 	<classpathentry kind="src" path="tools"/>
