@@ -30,7 +30,7 @@ public abstract class CPJObject <T extends SetObject> extends G2DTreeNode<CPJObj
 		this.parent 	= parent;
 		this.name		= name;
 		this.res_type	= res_type;
-		this.set_object	= parent.getSetResource().getSetObject(type, name);
+		//this.set_object	= parent.getSetResource().getSetObject(type, name);
 	}
 	
 	@Override

@@ -366,10 +366,10 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 				new RefreshTask(tree, root).start();
 			}
 			else if (e.getSource() == build_new) {
-				new BuildResourceTask(root.children(), true).start();
+				new BuildResourceTask(tree, root.children(), true).start();
 			}
 			else if (e.getSource() == build_all) {
-				new BuildResourceTask(root.children(), false).start();
+				new BuildResourceTask(tree, root.children(), false).start();
 			}
 		}
 	}
@@ -428,7 +428,9 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 				for (File file : new_files) {
 					if (!cur_files_map.containsKey(file)) {
 						try {
-							root.add(new CPJFile(file, root.res_type));
+							CPJFile new_cpj = new CPJFile(file, root.res_type);
+							new_cpj.refresh();
+							root.add(new_cpj);
 							System.out.println("找到新资源 : " + file);
 						} catch (Throwable e) {
 							e.printStackTrace();
@@ -457,6 +459,8 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 	class BuildResourceTask extends AbstractDialog implements ActionListener
 	{
 		private static final long serialVersionUID = 1L;
+
+		G2DTree 		tree;
 		
 		BuilderThread	thread;
 		
@@ -466,7 +470,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		
 		JProgressBar	progress = new JProgressBar();
 		
-		public BuildResourceTask(Enumeration<?> childs, boolean ignore_on_exists) 
+		public BuildResourceTask(G2DTree tree, Enumeration<?> childs, boolean ignore_on_exists) 
 		{
 			super(CPJResourceManager.this);
 			super.setSize(500, 90);
@@ -474,8 +478,8 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 			super.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			super.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 			super.setAlwaysOnTop(false);
-			
-			progress.setStringPainted(true);
+			this.tree = tree;
+			this.progress.setStringPainted(true);
 			super.add(progress, BorderLayout.CENTER);
 			
 			JPanel south = new JPanel(new FlowLayout());
@@ -552,7 +556,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 				setTitle("总共用时: " + CObject.timesliceToStringHour(System.currentTimeMillis()-start_time));
 				terminate.setText("关闭");
 				setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				
+				tree.reload();
 //				try{
 //					Studio.getInstance().getObjectManager().resetAllResources(CPJFile.this);
 //					Studio.getInstance().getSceneManager().resetAllResources(CPJFile.this);

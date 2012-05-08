@@ -1,6 +1,6 @@
 package com.g2d.studio.sample;
 
-import java.io.File;
+
 import java.io.IOException;
 
 import com.cell.mysql.MySQLDriver;
@@ -10,7 +10,9 @@ import com.cell.xstream.XStreamAdapter;
 import com.g2d.studio.StudioConfig;
 import com.g2d.studio.StudioPlugin;
 import com.g2d.studio.cell.gameedit.Builder;
+import com.g2d.studio.io.File;
 import com.g2d.studio.io.file.FileIO;
+import com.g2d.studio.sample.builder.SampleBuilder;
 import com.g2d.studio.sample.entity.TPlayer;
 import com.g2d.studio.sample.item.EatItemPropertyManager;
 import com.g2d.studio.sample.scene.EatSceneAbilityManager;
@@ -54,8 +56,8 @@ public class SamplePlugin implements StudioPlugin
 	}
 
 	@Override
-	public Builder createResourceBuilder() {
-		return null;
+	public Builder createResourceBuilder(File g2d_root) throws IOException {
+		return new SampleBuilder(g2d_root.getPath());
 	}
 	
 	

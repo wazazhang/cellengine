@@ -1,15 +1,15 @@
 package com.g2d.studio.cell.gameedit;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.cell.CUtil;
 import com.cell.io.CFile;
 import com.cell.script.js.JSManager;
 import com.g2d.cell.CellGameEditWrap;
 import com.g2d.studio.StudioResource;
 import com.g2d.studio.cpj.CPJResourceType;
-import com.g2d.studio.io.File;
-import com.g2d.studio.io.IO;
 
 public abstract class Builder 
 {
@@ -27,30 +27,101 @@ public abstract class Builder
 	}
 
 //	----------------------------------------------------------------------------------------------------------
-	
+	final protected java.io.File g2d_project_root;
+
 	protected JSManager external_script_manager = new JSManager();
 	
+	public Builder(String g2d_project_root) throws IOException
+	{
+		this.g2d_project_root = new java.io.File(g2d_project_root).getCanonicalFile();
+	}
+
+	protected java.io.File getLocalFile(String cpj_file) {
+		try {
+			return new java.io.File(cpj_file).getCanonicalFile();
+		} catch (Exception err) {
+			err.printStackTrace();
+			return new java.io.File(cpj_file);
+		}
+	}
+
 	/**
 	 * 打开编辑器编辑
 	 * @param cpj_file
 	 * @return
 	 */
-	public abstract Process openCellGameEdit(String cpj_file);
+	public Process openCellGameEdit(String cpj_file) 
+	{
+		return CellGameEditWrap.openCellGameEdit(
+				"CellGameEdit.exe", 
+				getLocalFile(cpj_file)
+				);
+	}
 	
 	/**
 	 * 执行导出脚本
 	 * @param cpj_file
 	 * @return
 	 */
-	public abstract Process execCellGameOutput(String cpj_file, String[] args);
+	public Process execCellGameOutput(String cpj_file, String[] args)
+	{
+		return CellGameEditWrap.openCellGameEdit(
+				"CellGameOutput.exe", 
+				getLocalFile(cpj_file),
+				args
+				);
+	}
 	
+	public JSBuildOutputScript createOutputScript(File scfile)
+	{
+		try {
+			if (scfile.exists()) {
+				JSBuildOutputScript script = external_script_manager.getInterface(
+						scfile.getCanonicalPath(), 
+						JSBuildOutputScript.class);
+				return script;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public JSBuildCustomScript createCustomScript(File scfile)
+	{
+		try {
+			if (scfile.exists()) {
+				JSBuildCustomScript script = external_script_manager.getInterface(
+						scfile.getCanonicalPath(), 
+						JSBuildCustomScript.class);
+				return script;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 * 导出精灵文件
 	 * @param cpj_file_name
 	 * @param ignore_on_exist 只有在资源不存在时，才执行。一般用在新加的资源。
 	 * @return
 	 */
-	public abstract void buildSprite(File cpj_file_name, boolean ignore_on_exist);
+	public void buildSprite(String cpj_file, boolean ignore_on_exist)
+	{
+		try {
+			File cpj_file_name = getLocalFile(cpj_file);
+			BuilderTask pb = preBuild(cpj_file_name);
+			if (ignore_on_exist && pb.checkOutputExists()) {
+				System.out.println("ignore : " + cpj_file);
+				return;
+			}
+			pb.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * 导出场景文件
@@ -58,7 +129,29 @@ public abstract class Builder
 	 * @param ignore_on_exist 只有在资源不存在时，才执行。一般用在新加的资源。
 	 * @return
 	 */
-	public abstract void buildScene(File cpj_file_name, boolean ignore_on_exist);
+	public void buildScene(String cpj_file, boolean ignore_on_exist)
+	{
+		try {
+			File cpj_file_name = getLocalFile(cpj_file);
+			BuilderTask pb = preBuild(cpj_file_name);
+			if (ignore_on_exist && pb.checkOutputExists()) {
+				System.out.println("ignore : " + cpj_file);
+				return;
+			}
+			pb.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	
+	/**
+	 * 创建编译脚本
+	 * @param cpj_file_name
+	 * @return
+	 */
+	abstract protected BuilderTask preBuild(File cpj_file_name) throws Exception;
 	
 	/**
 	 * 创建资源实体
@@ -73,7 +166,9 @@ public abstract class Builder
 	 * @param res_type
 	 * @return
 	 */
-	public abstract com.g2d.studio.io.File getCPJFile(com.g2d.studio.io.File file, CPJResourceType res_type);
+	public abstract com.g2d.studio.io.File getCPJFile(
+			com.g2d.studio.io.File file, 
+			CPJResourceType res_type);
 	
 	/**
 	 * 执行自定义操作指令
@@ -109,20 +204,19 @@ public abstract class Builder
 	{
 		JSBuildOutputScript script;
 		BuildProcess bp;
-		java.io.File dir;
-		java.io.File cpjFile;
-		java.io.File g2dRoot;
+		final java.io.File dir;
+		final java.io.File cpjFile;
+		final java.io.File g2dRoot;
 		int timeoutMS = 60000;
 		
 		public BuilderTask(
 				JSBuildOutputScript script, 
 				java.io.File cpjFile, 
-				java.io.File g2dRoot,
 				int timeoutMS) throws Exception
 		{
 			this.script = script;
 			this.cpjFile = cpjFile;
-			this.g2dRoot = g2dRoot;
+			this.g2dRoot = g2d_project_root;
 			this.timeoutMS = timeoutMS;
 			this.dir = cpjFile.getParentFile().getCanonicalFile();
 			this.bp = new BuildProcess(dir, g2dRoot);
@@ -130,10 +224,14 @@ public abstract class Builder
 			
 		public boolean checkOutputExists() {
 			if (bp != null) {
-				try {
-					return script.checkOutputExists(bp, dir, cpjFile);
-				} catch (Throwable e) {
-					e.printStackTrace();
+				if (script != null) {
+					try {
+						return script.checkOutputExists(bp, dir, cpjFile);
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+				} else {
+					return new File(cpjFile.getParentFile(), "output").exists();
 				}
 			}
 			return false;
@@ -142,7 +240,7 @@ public abstract class Builder
 		public void build()
 		{
 			try {
-				System.out.print("build " + cpjFile.getName() + " : " + cpjFile.getPath());
+				System.out.println("build " + cpjFile.getName() + " : " + cpjFile.getPath());
 				String[] output_sc = this.selectOuputScript();
 				Process process = execCellGameOutput(
 						cpjFile.getCanonicalPath(), 
@@ -160,7 +258,7 @@ public abstract class Builder
 					}
 				}
 				this.runCustomOutput();
-				System.out.println(" : done !");
+				System.out.println("done !");
 			} catch (Throwable e) {
 				e.printStackTrace();
 			} finally {
@@ -172,33 +270,37 @@ public abstract class Builder
 		{
 			if (bp != null) {
 				try {
-					ArrayList<String> output_files = new ArrayList<String>();
-					script.selectOuputScript(bp, dir, cpjFile, output_files);
-					if (!output_files.isEmpty()) {
-						String[] ret = new String[output_files.size()];
-						int i = 0;
-						for (String file : output_files) {
-							java.io.File sc_file = new java.io.File(g2dRoot, file);
-							ret[i] = sc_file.getCanonicalPath();
-							i++;
+					if (script != null) {
+						ArrayList<String> output_files = new ArrayList<String>();
+						script.selectOuputScript(bp, dir, cpjFile, output_files);
+						if (!output_files.isEmpty()) {
+							String[] ret = new String[output_files.size()];
+							int i = 0;
+							for (String file : output_files) {
+								java.io.File sc_file = new java.io.File(g2dRoot, file);
+								ret[i] = sc_file.getCanonicalPath();
+								i++;
+							}
+							return ret;
 						}
-						return ret;
-					}
+					} 
 				} catch (Throwable ex) {
 					ex.printStackTrace();
 				}
 			}
-			return new String[]{};
+			return new String[]{"output.xml"};
 		}
 
 
 		private void runCustomOutput() 
 		{
 			if (bp != null) {
-				try {
-					script.output(bp, dir, cpjFile);
-				} catch (Throwable ex) {
-					ex.printStackTrace();
+				if (script != null) {
+					try {
+						script.output(bp, dir, cpjFile);
+					} catch (Throwable ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		}
@@ -206,10 +308,12 @@ public abstract class Builder
 		
 		private void saveBuildBat() {
 			if (bp != null) {
-				try {
-					script.saveBuildBat(bp, dir, cpjFile);
-				} catch (Throwable ex) {
-					ex.printStackTrace();
+				if (script != null) {
+					try {
+						script.saveBuildBat(bp, dir, cpjFile);
+					} catch (Throwable ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		}

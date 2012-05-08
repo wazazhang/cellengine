@@ -53,14 +53,26 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 		this.res_root		= cpj_file.getParentFile().getParentFile().getName();
 		this.res_type		= res_type;
 
-		
 //		if (!output_file.exists()) {
 //			throw new IOException("path not a cpj file : " + output_file.getPath());
 //		}
-
+//
 //		set_resource = new StudioResource(output_file, name);
 		
 //		refresh();
+	}
+	
+	public void addChildInfo(String imagesName, String childName) {
+		switch (res_type) {
+		case ACTOR:	
+		case AVATAR:
+		case EFFECT:
+			putSpriteInfo(childName);
+			break;
+		case WORLD:
+			putWorldInfo(childName);
+			break;
+		}
 	}
 	
 	@Override
@@ -124,6 +136,15 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 
 //	------------------------------------------------------------------------------------------------------------------------------
 
+	private CPJSprite putSpriteInfo(String name) {
+		CPJSprite ret = sprites.get(name);
+		if (ret == null) {
+			ret = new CPJSprite(this, name, res_type);
+			sprites.put(name, ret);
+			add(ret);
+		}
+		return ret;
+	}
 	//
 	private CPJSprite loadSprite(String name, CPJResourceType res_type) {
 		com.cell.gameedit.object.SpriteSet set = set_resource.getSetSprite(name);
@@ -132,6 +153,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 			try{
 				if (set!=null) {
 					ret = new CPJSprite(this, name, res_type);
+					ret.setSetObject(set);
 					sprites.put(name, ret);
 				}
 				add(ret);
@@ -144,6 +166,16 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 		return ret;
 	}
 	
+	private CPJWorld putWorldInfo(String name) {
+		CPJWorld ret = worlds.get(name);
+		if (ret == null) {
+			ret = new CPJWorld(this, name);
+			worlds.put(name, ret);
+			add(ret);
+		}
+		return ret;
+	}
+	
 	//	
 	private CPJWorld loadWorld(String name) {
 		WorldSet wordset = set_resource.getSetWorld(name);
@@ -152,6 +184,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 			try{
 				if (wordset!=null) {
 					ret = new CPJWorld(this, name);
+					ret.setSetObject(wordset);
 					worlds.put(name, ret);
 				}
 				add(ret);
@@ -234,11 +267,16 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 			case ACTOR:	
 			case AVATAR:
 			case EFFECT:
-				Builder.getInstance().buildSprite(cpj_file, ignore_on_exist);
+				Builder.getInstance().buildSprite(cpj_file.getPath(), ignore_on_exist);
 				break;
 			case WORLD:
-				Builder.getInstance().buildScene(cpj_file, ignore_on_exist);
+				Builder.getInstance().buildScene(cpj_file.getPath(), ignore_on_exist);
 				break;
+			}
+			try {
+				refresh();
+			} catch (Throwable e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -314,18 +352,21 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 			try {
 				String info[] = CUtil.splitString(line, ";");
 				if (info.length >= 3) {
-					if (!ret.containsKey(info[0])) {
+					CPJFile cpjNode = ret.get(info[0]);
+					if (cpjNode == null) {
 						File cpj = root.getChildFile(info[0]);
 						if (cpj.exists()) {
 							try {
 								progress.increment();
-								ret.put(info[0], new CPJFile(cpj, res_type));
+								cpjNode = new CPJFile(cpj, res_type);
+								ret.put(info[0], cpjNode);
 							} catch(Throwable err){
 								System.err.println("init cpj file error : " + cpj.getPath());
 								err.printStackTrace();
 							}
 						}
 					}
+					cpjNode.addChildInfo(info[1], info[2]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

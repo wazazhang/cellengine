@@ -1,6 +1,6 @@
 package com.g2d.studio;
 
-import java.io.File;
+
 import java.io.IOException;
 
 import com.cell.rpg.item.ItemPropertyManager;
@@ -9,6 +9,7 @@ import com.cell.rpg.scene.SceneAbilityManager;
 import com.cell.util.anno.ConfigField;
 import com.cell.util.anno.ConfigSeparator;
 import com.g2d.studio.cell.gameedit.Builder;
+import com.g2d.studio.io.File;
 import com.g2d.studio.io.file.FileIO;
 
 /**
@@ -73,6 +74,6 @@ public interface StudioPlugin
 //	--------------------------------------------------------------------------------------------------------
 	
 	/**资源打包工具, 执行Builder的类*/
-	public Builder	createResourceBuilder();
+	public Builder	createResourceBuilder(File g2d_root)throws IOException;
 	
 }

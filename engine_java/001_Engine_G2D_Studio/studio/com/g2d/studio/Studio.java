@@ -147,7 +147,7 @@ public class Studio extends AbstractFrame
 		SQLDriverManager.setDriver(
 				studio_plugin.getSQLDriver());
 		Builder.setBuilder(
-				studio_plugin.createResourceBuilder());
+				studio_plugin.createResourceBuilder(project_path));
 
 //		this.scene_script_manager	= studio_plugin.createSceneScriptManager();
 		
