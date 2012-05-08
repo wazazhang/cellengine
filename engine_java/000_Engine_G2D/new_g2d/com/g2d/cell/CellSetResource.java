@@ -10,8 +10,6 @@ import com.cell.gameedit.SetResource;
 import com.cell.gameedit.StreamTiles;
 import com.cell.gameedit.object.ImagesSet;
 import com.cell.gameedit.object.SpriteSet;
-import com.cell.gameedit.output.OutputProperties;
-import com.cell.gameedit.output.OutputPropertiesDir;
 import com.cell.gfx.game.CSprite;
 import com.cell.util.concurrent.ThreadPoolService;
 
@@ -24,17 +22,6 @@ public class CellSetResource extends SetResource
 	final private String Path;
 
 //	-------------------------------------------------------------------------------------
-	
-	public CellSetResource(File file) throws Exception
-	{
-		this(file.getPath());
-	}
-	
-	public CellSetResource(String file) throws Exception
-	{
-		super(new OutputPropertiesDir(file));
-		this.Path = ((OutputPropertiesDir) getOutput()).path;
-	}
 	
 	public CellSetResource(OutputLoader output, String path) throws Exception
 	{
