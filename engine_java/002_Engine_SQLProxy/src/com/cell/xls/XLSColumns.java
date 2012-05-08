@@ -66,10 +66,11 @@ public class XLSColumns extends LinkedHashMap<String, String> implements Seriali
 			e.printStackTrace();
 		}
 		finally{
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+				}
 			}
 		}
 		return null;
