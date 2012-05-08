@@ -9,6 +9,6 @@ public class VersionFrame extends AbstractDialog
 	public VersionFrame() {
 		super(Studio.getInstance());
 		super.setSize(400, 300);
-		super.setTitle(Config.TITLE + " version:" + Version.getFullVersion());
+		super.setTitle(StudioConfig.TITLE + " version:" + Version.getFullVersion());
 	}
 }

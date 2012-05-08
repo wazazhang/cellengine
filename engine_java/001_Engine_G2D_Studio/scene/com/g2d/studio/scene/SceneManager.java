@@ -32,7 +32,7 @@ import com.cell.rpg.scene.SceneAbilityManager;
 import com.cell.rpg.scene.graph.SceneGraph;
 import com.cell.util.IDFactoryInteger;
 import com.g2d.Tools;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.SaveProgressForm;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Studio.ProgressForm;
@@ -83,15 +83,17 @@ public class SceneManager extends JPanel implements IDynamicIDFactory<SceneNode>
 	{
 		super(new BorderLayout());
 		
-		if (Config.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS != null) {
-			try {
-				Class<?> cls = Class.forName(Config.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS);
-				SceneAbilityManager manager = (SceneAbilityManager)cls.newInstance();
-				SceneAbilityManager.setManager(manager);
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-		}
+//		if (StudioConfig.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS != null) {
+//			try {
+//				Class<?> cls = Class.forName(StudioConfig.DYNAMIC_SCENE_ABILITY_MANAGER_CLASS);
+//				SceneAbilityManager manager = (SceneAbilityManager)cls.newInstance();
+//				SceneAbilityManager.setManager(manager);
+//			} catch (Throwable e) {
+//				e.printStackTrace();
+//			}
+//		}
+		SceneAbilityManager.setManager(
+				studio.getPlugin().createSceneAbilityManager());
 		
 		progress.startReadBlock("初始化场景...");
 		instance = this;

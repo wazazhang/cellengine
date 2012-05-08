@@ -29,7 +29,7 @@ import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
 import com.cell.rpg.RPGConfig;
 import com.cell.rpg.io.RPGObjectMap;
-import com.cell.rpg.scene.script.SceneScriptManager;
+//import com.cell.rpg.scene.script.SceneScriptManager;
 import com.cell.sound.mute_impl.NullSoundManager;
 import com.cell.sound.openal_impl.JALSoundManager;
 import com.cell.sound.util.StaticSoundPlayer;
@@ -80,7 +80,9 @@ public class Studio extends AbstractFrame
 	
 	com.cell.sound.SoundManager		sound_system;
 	
-	private SceneScriptManager		scene_script_manager;
+//	final private SceneScriptManager	scene_script_manager;
+	
+	final private StudioPlugin 			studio_plugin;
 	
 //	final private FileOutputStream	project_lock;
 	
@@ -125,33 +127,48 @@ public class Studio extends AbstractFrame
 		
 		project_file 		= g2d_file;
 		project_path 		= io.createFile(project_file.getParent());
-		project_save_path	= io.createFile(project_file.getParentFile(), Config.G2D_SAVE_NAME);
+		project_save_path	= io.createFile(project_file.getParentFile(), StudioConfig.G2D_SAVE_NAME);
 		
-		RPGConfig.IS_EDIT_MODE = true;
-		RPGObjectMap.setPersistanceManagerDriver	(Config.PERSISTANCE_MANAGER);
-		SQLDriverManager.setDriver					(Config.PERSISTANCE_SQL_TYPE);
-		Builder.setBuilder							(Config.BUILDER_CLASS, project_path.getPath());
-
-		try {
-			scene_script_manager = (SceneScriptManager)Class.forName(
-					Config.DYNAMIC_SCENE_SCRIPT_MANAGER_CLASS).newInstance();
+		RPGConfig.IS_EDIT_MODE = true;try {
+		studio_plugin = (StudioPlugin)Class.forName(
+				StudioConfig.DYNAMIC_STUDIO_PLUGIN_CLASS
+				).newInstance();
 		} catch (Exception err) {
-			System.err.println("can not found scene script manager class : " +
-					Config.DYNAMIC_SCENE_SCRIPT_MANAGER_CLASS);
-//			err.printStackTrace();
-//			System.exit(1);
+			String msg = "can not found plugin class : " +
+			StudioConfig.DYNAMIC_STUDIO_PLUGIN_CLASS;
+			System.err.println(msg);
+			throw new Error(msg, err);
 		}
 		
-		root_icon_path		= getFile				(Config.RES_ICON_ROOT);
-		root_sound_path		= getFile				(Config.RES_SOUND_ROOT);
-		root_talk_path		= getFile				(Config.RES_TALK_ROOT);
+		RPGObjectMap.setPersistanceManagerDriver(
+				studio_plugin.getPersistanceManager());
+		SQLDriverManager.setDriver(
+				studio_plugin.getSQLDriver());
+		Builder.setBuilder(
+				studio_plugin.createResourceBuilder());
+
+//		this.scene_script_manager	= studio_plugin.createSceneScriptManager();
 		
-		xls_tplayer			= getFile				(Config.XLS_TPLAYER);
-		xls_tunit			= getFile				(Config.XLS_TUNIT);
-		xls_tpet			= getFile				(Config.XLS_TPET);
-		xls_titem			= getFile				(Config.XLS_TITEM);
-		xls_tshopitem		= getFile				(Config.XLS_TSHOPITEM);
-		xls_tskill			= getFile				(Config.XLS_TSKILL);
+//		try {
+//			scene_script_manager = (SceneScriptManager)Class.forName(
+//					StudioConfig.DYNAMIC_SCENE_SCRIPT_MANAGER_CLASS).newInstance();
+//		} catch (Exception err) {
+//			System.err.println("can not found scene script manager class : " +
+//					StudioConfig.DYNAMIC_SCENE_SCRIPT_MANAGER_CLASS);
+////			err.printStackTrace();
+////			System.exit(1);
+//		}
+		
+		root_icon_path		= getFile				(StudioConfig.RES_ICON_ROOT);
+		root_sound_path		= getFile				(StudioConfig.RES_SOUND_ROOT);
+		root_talk_path		= getFile				(StudioConfig.RES_TALK_ROOT);
+		
+		xls_tplayer			= getFile				(StudioConfig.XLS_TPLAYER);
+		xls_tunit			= getFile				(StudioConfig.XLS_TUNIT);
+		xls_tpet			= getFile				(StudioConfig.XLS_TPET);
+		xls_titem			= getFile				(StudioConfig.XLS_TITEM);
+		xls_tshopitem		= getFile				(StudioConfig.XLS_TSHOPITEM);
+		xls_tskill			= getFile				(StudioConfig.XLS_TSKILL);
 		
 //		File talk_example_file = getFile			(Config.TALK_EXAMPLE);
 		talk_example = "// talk example";
@@ -169,7 +186,7 @@ public class Studio extends AbstractFrame
 			err.printStackTrace();
 		}
 		try {
-			Font font = new Font(Config.DEFAULT_FONT, Font.PLAIN, Config.DEFAULT_FONT_SIZE);
+			Font font = new Font(StudioConfig.DEFAULT_FONT, Font.PLAIN, StudioConfig.DEFAULT_FONT_SIZE);
 			this.setFont(font);
 //			FontUIResource fontRes = new FontUIResource(font);
 //		    for(Enumeration<?> keys = UIManager.getDefaults().keys(); keys.hasMoreElements();){
@@ -197,7 +214,7 @@ public class Studio extends AbstractFrame
 		System.out.println(System.setProperty("user.dir", project_path.getPath()));
 		System.out.println(System.getProperty("user.dir"));
 		
-		this.setTitle(Config.TITLE);
+		this.setTitle(StudioConfig.TITLE);
 		this.setIconImage(Res.icon_edit);
 		this.setSize(300, AbstractFrame.getScreenHeight()-60);
 		this.setLocation(0, 0);
@@ -249,7 +266,7 @@ public class Studio extends AbstractFrame
 	
 	
 	// init tool bar
-	private void initToolBar(ProgressForm progress)
+	private void initToolBar(ProgressForm progress) throws Exception
 	{
 		JToolBar tool_bar_1 	= new JToolBar();
 		JToolBar tool_bar_2 	= new JToolBar();
@@ -442,15 +459,18 @@ public class Studio extends AbstractFrame
 		return sound_system;
 	}		
 	
+	public StudioPlugin getPlugin() {
+		return studio_plugin;
+	}
 
 	public CPJResourceManager getCPJResourceManager() {
 		return frame_cpj_resource_manager;
 	}
 
-	public SceneScriptManager getSceneScriptManager() {
-		return scene_script_manager;
-	}
-	
+//	public SceneScriptManager getSceneScriptManager() {
+//		return scene_script_manager;
+//	}
+//	
 	public ObjectManager getObjectManager() {
 		return frame_object_manager;
 	}
@@ -573,7 +593,7 @@ public class Studio extends AbstractFrame
 		
 		public ProgressForm()
 		{
-			this.setTitle(Config.TITLE);
+			this.setTitle(StudioConfig.TITLE);
 			this.setSize(Res.img_splash.getWidth(), Res.img_splash.getHeight()+40);
 			this.setResizable(false);
 
@@ -693,7 +713,9 @@ public class Studio extends AbstractFrame
 		{
 			if (args == null || args.length == 0) 
 			{
-				System.err.println("usage : g2dstudio.jar [g2d file path] <IO class name>");
+				String usage = "usage : g2dstudio.jar [g2d file path] <IO class name>";
+				System.err.println();
+				JOptionPane.showMessageDialog(null, usage);
 				return;
 			} 
 			else
@@ -703,7 +725,7 @@ public class Studio extends AbstractFrame
 					new CAppBridge(
 					Studio.class.getClassLoader(), 
 					Studio.class));
-				Config.load(args[0]);
+				StudioConfig.load(args[0]);
 				new AwtEngine();
 				
 				IO io = null;

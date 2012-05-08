@@ -15,7 +15,7 @@ import javax.swing.JToolBar;
 import javax.swing.ListModel;
 
 import com.cell.sound.util.StaticSoundPlayer;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormList;
 import com.g2d.studio.ManagerFormTreeList;
@@ -81,7 +81,7 @@ public class SoundManager extends ManagerFormTreeList<SoundFile>
 		private static final long serialVersionUID = 1L;
 
 		public SoundList(String title, ProgressForm progress, File resRoot, File saveListFile) {
-			super(title, progress, resRoot, saveListFile, Config.SOUND_SUFFIX);	
+			super(title, progress, resRoot, saveListFile, StudioConfig.SOUND_SUFFIX);	
 			getList().addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -96,7 +96,7 @@ public class SoundManager extends ManagerFormTreeList<SoundFile>
 		
 		@Override
 		public SoundFile createItem(File file) {
-			if (file.getName().endsWith(Config.SOUND_SUFFIX)) {
+			if (file.getName().endsWith(StudioConfig.SOUND_SUFFIX)) {
 				SoundFile n = new SoundFile(file);
 				return n;
 			}

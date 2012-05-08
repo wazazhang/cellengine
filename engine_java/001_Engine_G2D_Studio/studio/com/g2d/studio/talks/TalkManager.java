@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormList;
 import com.g2d.studio.ManagerFormTreeList;
@@ -48,12 +48,12 @@ public class TalkManager extends ManagerFormTreeList<TalkFile>
 		private static final long serialVersionUID = 1L;
 
 		public TalkList(String title, ProgressForm progress, File resRoot, File saveListFile) {
-			super(title, progress, resRoot, saveListFile, Config.TALK_SUFFIX);
+			super(title, progress, resRoot, saveListFile, StudioConfig.TALK_SUFFIX);
 		}
 		
 		@Override
 		public TalkFile createItem(File file) {
-			if (file.getName().endsWith(Config.TALK_SUFFIX)) {
+			if (file.getName().endsWith(StudioConfig.TALK_SUFFIX)) {
 				TalkFile n = new TalkFile(file);
 				return n;
 			}

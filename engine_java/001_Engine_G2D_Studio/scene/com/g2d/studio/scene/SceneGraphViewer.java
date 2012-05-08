@@ -29,7 +29,7 @@ import com.g2d.display.ui.Menu;
 import com.g2d.display.ui.Panel;
 import com.g2d.editor.DisplayObjectPanel;
 import com.g2d.geom.Point2D;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.scene.entity.SceneNode;
@@ -49,7 +49,7 @@ public class SceneGraphViewer extends AbstractDialog
 		super.setSize(Studio.getInstance().getIconManager().getSize());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.display_object_panel = new DisplayObjectPanel(
-				new DisplayObjectPanel.ObjectStage(new Color(Config.DEFAULT_BACK_COLOR)));
+				new DisplayObjectPanel.ObjectStage(new Color(StudioConfig.DEFAULT_BACK_COLOR)));
 		this.add(display_object_panel, BorderLayout.CENTER);
 		
 		refreshSceneGraph(Studio.getInstance().getSceneManager().createSceneGraph());
@@ -78,7 +78,7 @@ public class SceneGraphViewer extends AbstractDialog
 			addChild(new SceneGraphPanel(sg));
 		}
 		public void added(com.g2d.display.DisplayObjectContainer parent) {
-			getRoot().setFPS(Config.DEFAULT_FPS);
+			getRoot().setFPS(StudioConfig.DEFAULT_FPS);
 		}
 		public void removed(DisplayObjectContainer parent) {}
 		public void render(Graphics2D g) {

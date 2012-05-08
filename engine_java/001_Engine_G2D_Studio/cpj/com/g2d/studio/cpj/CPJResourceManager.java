@@ -25,7 +25,7 @@ import javax.swing.tree.TreePath;
 
 import com.cell.CObject;
 import com.g2d.awt.util.*;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.SaveProgressBar;
 import com.g2d.studio.Studio;
@@ -64,7 +64,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// actors
 		{
 			unit_root = new CPJRootNode("单位模板", 
-					Config.RES_ACTOR_ROOT,
+					StudioConfig.RES_ACTOR_ROOT,
 					save_dir.getChildFile("actor_list.list"), 
 					CPJResourceType.ACTOR,
 					progress);
@@ -77,7 +77,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// avatars
 		{
 			avatar_root = new CPJRootNode("AVATAR模板",
-					Config.RES_AVATAR_ROOT,
+					StudioConfig.RES_AVATAR_ROOT,
 					save_dir.getChildFile("avatar_list.list"), 
 					CPJResourceType.AVATAR, 
 					progress);
@@ -90,7 +90,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// effect
 		{
 			effect_root = new CPJRootNode("特效模板",
-					Config.RES_EFFECT_ROOT,
+					StudioConfig.RES_EFFECT_ROOT,
 					save_dir.getChildFile("effect_list.list"),
 					CPJResourceType.EFFECT,
 					progress);
@@ -103,7 +103,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		// scenes
 		{
 			scene_root = new CPJRootNode("场景模板",
-					Config.RES_SCENE_ROOT,
+					StudioConfig.RES_SCENE_ROOT,
 					save_dir.getChildFile("scene_list.list"),
 					CPJResourceType.WORLD, 
 					progress);

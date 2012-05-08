@@ -9,7 +9,7 @@ import javax.swing.JList;
 
 import com.g2d.awt.util.*;
 
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.fileobj.FileObject;
 import com.g2d.studio.io.File;
 import com.g2d.studio.swing.G2DListItem;
@@ -20,7 +20,7 @@ public class IconFile extends FileObject
 	transient private ImageIcon 	icon;	
 	
 	IconFile(File file) {
-		super(file.getName().substring(0, file.getName().length() - Config.ICON_SUFFIX.length()), file);
+		super(file.getName().substring(0, file.getName().length() - StudioConfig.ICON_SUFFIX.length()), file);
 	}
 	
 	IconFile(String name, File file, BufferedImage image, ImageIcon icon) {

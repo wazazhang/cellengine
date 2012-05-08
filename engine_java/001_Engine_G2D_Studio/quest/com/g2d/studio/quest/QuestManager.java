@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 import com.cell.rpg.quest.formula.TriggerUnitMethod;
 import com.g2d.awt.util.*;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormDynamic;
 import com.g2d.studio.Studio;
@@ -33,7 +33,7 @@ public class QuestManager extends ManagerFormDynamic
 	{
 		super(studio, progress, "任务管理器", Res.icon_quest);
 
-		initDynamicClasses();
+		initDynamicClasses(studio);
 
 		btn_quest_group.setText("任务编组");
 		btn_quest_group.setIcon(Tools.createIcon(Res.icon_quest_group));
@@ -51,26 +51,27 @@ public class QuestManager extends ManagerFormDynamic
 		
 	}
 	
-	private void initDynamicClasses()
+	private void initDynamicClasses(Studio studio)
 	{
-		Class<?> player_class 	= null;
-		Class<?> pet_class 		= null;
-		Class<?> npc_class 		= null;
-		try {
-			player_class 	= Class.forName(Config.DYNAMIC_QUEST_PLAYER_CLASS);
-		} catch (Exception err) {
-			System.err.println("错误：未定义玩家类型");
-		}
-		try {
-			pet_class 		= Class.forName(Config.DYNAMIC_QUEST_PET_CLASS);
-		} catch (Exception err) {
-			System.err.println("错误：未定义宠物类型");
-		}
-		try {
-			npc_class 		= Class.forName(Config.DYNAMIC_QUEST_NPC_CLASS);
-		} catch (Exception err) {
-			System.err.println("错误：未定义NPC类型");
-		}
+		Class<?> player_class 	= studio.getPlugin().getPlayerClass();
+		Class<?> pet_class 		= studio.getPlugin().getPetClass();
+		Class<?> npc_class 		= studio.getPlugin().getNpcClass();
+//		try {
+//			player_class 	= studio.getPlugin().getPlayerClass();
+			//Class.forName(StudioConfig.DYNAMIC_QUEST_PLAYER_CLASS);
+//		} catch (Exception err) {
+//			System.err.println("错误：未定义玩家类型");
+//		}
+//		try {
+//			pet_class 		= Class.forName(StudioConfig.DYNAMIC_QUEST_PET_CLASS);
+//		} catch (Exception err) {
+//			System.err.println("错误：未定义宠物类型");
+//		}
+//		try {
+//			npc_class 		= Class.forName(StudioConfig.DYNAMIC_QUEST_NPC_CLASS);
+//		} catch (Exception err) {
+//			System.err.println("错误：未定义NPC类型");
+//		}
 		TriggerUnitMethod.setTriggerUnitClass(
 				player_class, 
 				pet_class, 

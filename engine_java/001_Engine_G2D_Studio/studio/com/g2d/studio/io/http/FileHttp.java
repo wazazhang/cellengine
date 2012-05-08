@@ -31,7 +31,7 @@ import com.cell.net.http.HttpPost;
 import com.cell.net.http.HttpQuery;
 import com.cell.net.http.HttpRequester;
 import com.cell.net.http.HttpResponse;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.io.File;
 import com.g2d.studio.io.IO;
 

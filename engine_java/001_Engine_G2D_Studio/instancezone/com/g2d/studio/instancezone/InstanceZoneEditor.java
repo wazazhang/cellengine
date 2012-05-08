@@ -40,7 +40,7 @@ import com.cell.rpg.scene.SceneUnit;
 import com.cell.rpg.scene.ability.ActorTransport;
 import com.cell.rpg.scene.instance.InstanceZone;
 import com.cell.rpg.scene.instance.InstanceZone.BindedScene;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.gameedit.ObjectViewer;
 import com.g2d.studio.io.File;
@@ -48,8 +48,8 @@ import com.g2d.studio.res.Res;
 import com.g2d.studio.scene.editor.SceneEditor;
 import com.g2d.studio.scene.editor.SceneSelectDialog;
 import com.g2d.studio.scene.entity.SceneNode;
-import com.g2d.studio.scene.script.TriggerGeneratorPanel;
-import com.g2d.studio.scene.script.TriggersEditor;
+//import com.g2d.studio.scene.script.TriggerGeneratorPanel;
+//import com.g2d.studio.scene.script.TriggersEditor;
 import com.g2d.awt.util.*;
 
 
@@ -63,7 +63,7 @@ public class InstanceZoneEditor extends ObjectViewer<InstanceZoneNode> implement
 	
 	PageDiscussion			page_discussion;
 	PageScenes				page_scenes;
-	PageTriggers			page_triggers;
+//	PageTriggers			page_triggers;
 	PageDatas				page_datas;
 	
 //	-------------------------------------------------------------------------------------
@@ -98,21 +98,21 @@ public class InstanceZoneEditor extends ObjectViewer<InstanceZoneNode> implement
 		this.page_discussion 		= new PageDiscussion();
 		this.page_scenes 			= new PageScenes();
 		this.page_datas				= new PageDatas();
-		this.page_triggers 			= new PageTriggers();
+//		this.page_triggers 			= new PageTriggers();
 		
 		table.addTab("介绍", 		page_discussion);
 		table.addTab("属性", 		page_object_panel);
 		table.addTab("能力", 		page_abilities);
 		table.addTab("场景", 		page_scenes);
 		table.addTab("副本变量", 		page_datas);
-		table.addTab("绑定的触发器", 	page_triggers);
+//		table.addTab("绑定的触发器", 	page_triggers);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		if (e.getSource() == btn_triggers_package) {
-			new DialogTriggers().setVisible(true);
+//			new DialogTriggers().setVisible(true);
 		}
 		else if (e.getSource() == btn_add_scene) {
 			SceneSelectDialog dialog = new SceneSelectDialog(this, true);
@@ -151,7 +151,7 @@ public class InstanceZoneEditor extends ObjectViewer<InstanceZoneNode> implement
 	{
 		public PageDiscussion() 
 		{
-			Font font = new Font(Config.DEFAULT_FONT, 
+			Font font = new Font(StudioConfig.DEFAULT_FONT, 
 					getTextPane().getFont().getStyle(), 
 					getTextPane().getFont().getSize());
 			getTextPane().setFont(font);
@@ -360,15 +360,15 @@ public class InstanceZoneEditor extends ObjectViewer<InstanceZoneNode> implement
 		}
 	}
 //	-------------------------------------------------------------------------------------
-	class PageTriggers extends TriggerGeneratorPanel
-	{
-		public PageTriggers() 
-		{
-			super(getData().getBindedTriggers(),
-					getData().getTriggersPackage(), 
-					com.cell.rpg.scene.script.entity.InstanceZone.class);
-		}
-	}
+//	class PageTriggers extends TriggerGeneratorPanel
+//	{
+//		public PageTriggers() 
+//		{
+//			super(getData().getBindedTriggers(),
+//					getData().getTriggersPackage(), 
+//					com.cell.rpg.scene.script.entity.InstanceZone.class);
+//		}
+//	}
 //	-------------------------------------------------------------------------------------
 
 	class PageDatas extends InstanceZoneDataTable
@@ -379,21 +379,21 @@ public class InstanceZoneEditor extends ObjectViewer<InstanceZoneNode> implement
 	}
 	
 //	-------------------------------------------------------------------------------------
-	public class DialogTriggers extends AbstractDialog
-	{
-		TriggersEditor triggers;
-		
-		public DialogTriggers() {
-			super(InstanceZoneEditor.this);
-			super.setTitle(getData().getName() + " : 发布的触发器");
-			super.setSize(800, 600);
-			super.setIconImage(Res.icon_action);
-			super.setCenter();
-			super.setLayout(new BorderLayout());
-			this.triggers = new TriggersEditor(this, getData());
-			this.add(triggers, BorderLayout.CENTER);
-		}
-	}
+//	public class DialogTriggers extends AbstractDialog
+//	{
+//		TriggersEditor triggers;
+//		
+//		public DialogTriggers() {
+//			super(InstanceZoneEditor.this);
+//			super.setTitle(getData().getName() + " : 发布的触发器");
+//			super.setSize(800, 600);
+//			super.setIconImage(Res.icon_action);
+//			super.setCenter();
+//			super.setLayout(new BorderLayout());
+//			this.triggers = new TriggersEditor(this, getData());
+//			this.add(triggers, BorderLayout.CENTER);
+//		}
+//	}
 //	-------------------------------------------------------------------------------------
 	
 }

@@ -7,7 +7,7 @@ import javax.swing.JList;
 
 import com.cell.sound.util.StaticSoundPlayer;
 import com.g2d.awt.util.Tools;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.fileobj.FileObject;
 import com.g2d.studio.io.File;
@@ -20,7 +20,7 @@ public class SoundFile extends FileObject
 	
 	SoundFile(File file) 
 	{
-		super(file.getName().substring(0, file.getName().length() - Config.SOUND_SUFFIX.length()), file);
+		super(file.getName().substring(0, file.getName().length() - StudioConfig.SOUND_SUFFIX.length()), file);
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class SoundFile extends FileObject
 	
 	public StaticSoundPlayer createSoundPlayer()
 	{
-		String file = Studio.getInstance().root_sound_path.getPath() + "/" + getName() + Config.SOUND_SUFFIX;
+		String file = Studio.getInstance().root_sound_path.getPath() + "/" + getName() + StudioConfig.SOUND_SUFFIX;
 		System.out.println("play sound : " + file);
 		StaticSoundPlayer sound_player = new StaticSoundPlayer(file);
 		return sound_player;

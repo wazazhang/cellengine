@@ -13,7 +13,7 @@ import com.cell.rpg.instance.zones.ability.InstanceZoneUnitVisible;
 import com.cell.rpg.particle.ParticleAppearanceType.DisplayNodeImage;
 import com.cell.rpg.particle.ParticleAppearanceType.DisplayNodeSprite;
 import com.cell.rpg.scene.Effect;
-import com.cell.rpg.scene.script.entity.SceneUnit;
+//import com.cell.rpg.scene.script.entity.SceneUnit;
 import com.g2d.BufferedImage;
 import com.g2d.Color;
 import com.g2d.Graphics2D;
@@ -235,9 +235,9 @@ public class SceneEffect extends com.g2d.game.rpg.Unit implements SceneUnitTag<E
 		
 		if (editor!=null)
 		{
-			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
-				g.drawImage(img_script, -img_script.getWidth()/2, 0);
-			}
+//			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
+//				g.drawImage(img_script, -img_script.getWidth()/2, 0);
+//			}
 			if (editor.getSelectedPage().isSelectedType(getClass())) 
 			{
 				g.setColor(Color.YELLOW);

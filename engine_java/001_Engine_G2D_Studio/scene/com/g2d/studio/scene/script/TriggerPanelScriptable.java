@@ -35,7 +35,7 @@ import com.cell.rpg.scene.script.trigger.Event;
 
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.awt.util.TextEditor;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.scene.script.TriggerPanel.TriggerEventRoot;
 import com.g2d.studio.swing.G2DTree;
@@ -61,7 +61,7 @@ implements ActionListener, AncestorListener, KeyListener, PropertyChangeListener
 		
 		last_script = "";
 		script_text.setPreferredSize(new Dimension(200, 400));
-		Font font = new Font(Config.DEFAULT_FONT, 
+		Font font = new Font(StudioConfig.DEFAULT_FONT, 
 				script_text.getFont().getStyle(), 
 				script_text.getFont().getSize());
 		script_text.getTextPane().setFont(font);

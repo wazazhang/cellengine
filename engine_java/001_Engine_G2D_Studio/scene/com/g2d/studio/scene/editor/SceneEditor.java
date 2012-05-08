@@ -44,10 +44,10 @@ import com.cell.rpg.scene.Actor;
 import com.cell.rpg.scene.Region;
 import com.cell.rpg.scene.SceneAbilityManager;
 import com.cell.rpg.scene.SceneSprite;
-import com.cell.rpg.scene.SceneTrigger;
-import com.cell.rpg.scene.SceneTriggerScriptable;
+//import com.cell.rpg.scene.SceneTrigger;
+//import com.cell.rpg.scene.SceneTriggerScriptable;
 import com.cell.rpg.scene.SceneUnit;
-import com.cell.rpg.scene.TriggerGenerator;
+//import com.cell.rpg.scene.TriggerGenerator;
 import com.cell.sound.util.StaticSoundPlayer;
 import com.cell.util.Pair;
 
@@ -74,7 +74,7 @@ import com.g2d.geom.AffineTransform;
 import com.g2d.geom.Point;
 import com.g2d.geom.Point2D;
 import com.g2d.geom.Rectangle;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.StudioResource;
 import com.g2d.studio.cpj.entity.CPJSprite;
@@ -85,7 +85,7 @@ import com.g2d.studio.rpg.AbilityAdapter;
 import com.g2d.studio.rpg.AbilityPanel;
 import com.g2d.studio.rpg.RPGObjectPanel;
 import com.g2d.studio.scene.entity.SceneNode;
-import com.g2d.studio.scene.script.TriggerGeneratorPanel;
+//import com.g2d.studio.scene.script.TriggerGeneratorPanel;
 import com.g2d.studio.scene.units.SceneActor;
 import com.g2d.studio.scene.units.SceneEffect;
 import com.g2d.studio.scene.units.SceneImmutable;
@@ -431,10 +431,10 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 			save();
 			Studio.getInstance().getSceneManager().saveScene(scene_node);
 		}
-		else if (e.getSource() == tool_triggers) {
-			SceneTriggers st = new SceneTriggers(this);
-			st.setVisible(true);
-		}
+//		else if (e.getSource() == tool_triggers) {
+//			SceneTriggers st = new SceneTriggers(this);
+//			st.setVisible(true);
+//		}
 		else if (e.getSource() == tool_edit_prop) {
 			CellEditAdapter<?>[] adapters = new CellEditAdapter[] {
 					new SceneAbilityAdapters.SceneBGMAdapter(),
@@ -459,11 +459,11 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 			DisplayObjectEditor<SceneContainer> editor = new DisplayObjectEditor<SceneContainer>(
 					scene_container,
 					new RPGObjectPanel(scene_node.getData(), adapters),
-					new AbilityPanel(scene_node.getData(), adapters),
+					new AbilityPanel(scene_node.getData(), adapters)/*,
 					new TriggerGeneratorPanel(
 							scene_node.getData().getBindedTriggers(),
 							scene_node.getData().getTriggersPackage(),
-							com.cell.rpg.scene.script.entity.Scene.class)
+							com.cell.rpg.scene.script.entity.Scene.class)*/
 			);
 			editor.setCenter();
 			editor.setVisible(true);
@@ -612,7 +612,7 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		
 		public void added(DisplayObjectContainer parent) {			
 			addChild(scene_panel);
-			getRoot().setFPS(Config.DEFAULT_FPS);
+			getRoot().setFPS(StudioConfig.DEFAULT_FPS);
 		}
 		public void removed(DisplayObjectContainer parent) {}
 		public void render(Graphics2D g) {
@@ -1081,9 +1081,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 					sb.append("<html><body>");
 					sb.append("<p>");
 					sb.append(actor.getListName());
-					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
-						sb.append("<font color=0000ff>(S)</font>");
-					}
+//					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
+//						sb.append("<font color=0000ff>(S)</font>");
+//					}
 					sb.append("<font color=808080> - " + actor.xls_unit.getName() + "</font>");
 					sb.append("</p>");
 					sb.append("</body></html>");
@@ -1196,9 +1196,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 					sb.append("<html><body>");
 					sb.append("<p>");
 					sb.append(actor.getListName());	
-					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
-						sb.append("<font color=0000ff>(S)</font>");
-					}
+//					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
+//						sb.append("<font color=0000ff>(S)</font>");
+//					}
 					sb.append("<font color=808080> - " + actor.cpj_spr.getName() + "</font>");
 					sb.append("</p>");
 					sb.append("</body></html>");
@@ -1311,9 +1311,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 					sb.append("<html><body>");
 					sb.append("<p>");
 					sb.append(actor.getListName());	
-					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
-						sb.append("<font color=0000ff>(S)</font>");
-					}
+//					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
+//						sb.append("<font color=0000ff>(S)</font>");
+//					}
 					sb.append("</p>");
 					sb.append("</body></html>");
 					this.setText(sb.toString());
@@ -1408,9 +1408,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 					sb.append("<html><body>");
 					sb.append("<p>");
 					sb.append(actor.getListName());	
-					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
-						sb.append("<font color=0000ff>(S)</font>");
-					}
+//					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
+//						sb.append("<font color=0000ff>(S)</font>");
+//					}
 					sb.append("</p>");
 					sb.append("</body></html>");
 					this.setText(sb.toString());
@@ -1494,9 +1494,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 					sb.append("<html><body>");
 					sb.append("<p>");
 					sb.append(actor.getListName());	
-					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
-						sb.append("<font color=0000ff>(S)</font>");
-					}
+//					if (actor.getUnit().getBindedTriggers().getTriggerCount()>0) {
+//						sb.append("<font color=0000ff>(S)</font>");
+//					}
 					sb.append("</p>");
 					sb.append("</body></html>");
 					this.setText(sb.toString());

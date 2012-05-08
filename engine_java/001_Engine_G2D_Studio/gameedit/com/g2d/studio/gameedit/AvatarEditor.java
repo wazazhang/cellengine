@@ -27,7 +27,7 @@ import com.g2d.cell.CellSprite;
 import com.g2d.display.Sprite;
 import com.g2d.display.event.MouseWheelEvent;
 import com.g2d.editor.DisplayObjectPanel;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.cpj.CPJIndex;
 import com.g2d.studio.cpj.CPJResourceSelectDialog;
@@ -68,7 +68,7 @@ public class AvatarEditor extends AbstractFrame
 	{
 		ReentrantLock 		lock 			= new ReentrantLock();
 		DisplayObjectPanel	stage_view 		= new DisplayObjectPanel(
-				new DisplayObjectPanel.ObjectStage(new com.g2d.Color(Config.DEFAULT_BACK_COLOR)));
+				new DisplayObjectPanel.ObjectStage(new com.g2d.Color(StudioConfig.DEFAULT_BACK_COLOR)));
 		AvatarSprite		avatar_group	= new AvatarSprite();
 		DAvatar 			current_avatar;
 		
@@ -91,7 +91,7 @@ public class AvatarEditor extends AbstractFrame
 			{
 				right.add(stage_view);
 				stage_view.getStage().addChild(avatar_group);
-				stage_view.getCanvas().setFPS(Config.DEFAULT_FPS);
+				stage_view.getCanvas().setFPS(StudioConfig.DEFAULT_FPS);
 				stage_view.getSimpleCanvas().addMouseListener(new MouseAdapter() {
 					@Override
 					public void mousePressed(MouseEvent e) {

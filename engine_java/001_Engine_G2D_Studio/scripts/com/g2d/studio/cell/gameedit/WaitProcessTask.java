@@ -26,27 +26,6 @@ public class WaitProcessTask extends Thread
 				e.printStackTrace();
 			}
 		}
-		
-//		try {
-//			Thread.sleep(1000);
-//			InputStream is = p.getInputStream();
-//			ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-//			try {
-//				while (is.available() > 0) {
-//					byte[] data = new byte[1024];
-//					int read_bytes = is.read(data);
-//					if (read_bytes <= 0) {
-//						break;
-//					} else {
-//						baos.write(data, 0, read_bytes);
-//					}
-//				}
-//			} catch (Exception e) {
-//			}
-//			System.out.println(new String(baos.toByteArray()));
-//		}catch(Exception err) {}
-
-		
 		try {
 			int exitcode = p.exitValue();
 //			System.out.println("exit code = " + exitcode);

@@ -229,9 +229,9 @@ public class ScenePoint extends com.g2d.game.rpg.Unit implements SceneUnitTag<Po
 		
 		if (editor!=null) 
 		{
-			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
-				g.drawImage(img_script, 0, 0);
-			}
+//			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
+//				g.drawImage(img_script, 0, 0);
+//			}
 			if (editor.getSelectedPage().isSelectedType(getClass())) 
 			{
 				g.setColor(color);

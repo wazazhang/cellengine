@@ -14,7 +14,7 @@ import javax.swing.JToolBar;
 
 import com.g2d.awt.util.CompositeRule;
 import com.g2d.editor.DisplayObjectPanel;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.gameedit.EffectEditor;
 
 public class ParticleViewer extends JFrame implements ActionListener
@@ -62,7 +62,7 @@ public class ParticleViewer extends JFrame implements ActionListener
 		}
 		
 		display_object_panel	= new DisplayObjectPanel(new DisplayObjectPanel.ObjectStage(com.g2d.Color.GREEN));
-		display_object_panel.getCanvas().setFPS(Config.DEFAULT_FPS);
+		display_object_panel.getCanvas().setFPS(StudioConfig.DEFAULT_FPS);
 		
 		add(display_object_panel, BorderLayout.CENTER);
 		add(tools, BorderLayout.SOUTH);

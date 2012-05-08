@@ -15,7 +15,7 @@ import javax.swing.JToolBar;
 import com.cell.io.CFile;
 import com.cell.rpg.RPGObject;
 import com.cell.rpg.io.RPGSerializationListener;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.Studio;
 import com.g2d.studio.gameedit.ObjectViewer;
 import com.g2d.studio.io.File;
@@ -89,7 +89,7 @@ public class QuestEditor extends ObjectViewer<QuestNode> implements RPGSerializa
 		if (e.getSource() == btn_discussion) {
 			new DiscussionForm(
 					Studio.getInstance().project_save_path.getChildFile(
-					"quests/" + tobject.getIntID() + ".xml" + Config.TALK_SUFFIX)
+					"quests/" + tobject.getIntID() + ".xml" + StudioConfig.TALK_SUFFIX)
 					).setVisible(true);
 		}
 	}

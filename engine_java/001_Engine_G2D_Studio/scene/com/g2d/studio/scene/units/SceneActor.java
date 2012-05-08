@@ -26,7 +26,7 @@ import com.cell.rpg.scene.ability.ActorSellItem;
 import com.cell.rpg.scene.ability.ActorSkillTrainer;
 import com.cell.rpg.scene.ability.ActorTalk;
 import com.cell.rpg.scene.ability.ActorTransport;
-import com.cell.rpg.scene.script.trigger.Event;
+//import com.cell.rpg.scene.script.trigger.Event;
 import com.g2d.annotation.Property;
 import com.g2d.awt.util.Tools;
 import com.g2d.cell.CellSetResource;
@@ -275,9 +275,9 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 
 		if (editor != null) 
 		{
-			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
-				g.drawImage(img_script, -img_script.getWidth()/2, local_bounds.y);
-			}
+//			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
+//				g.drawImage(img_script, -img_script.getWidth()/2, local_bounds.y);
+//			}
 			g.pushStroke();
 			try
 			{

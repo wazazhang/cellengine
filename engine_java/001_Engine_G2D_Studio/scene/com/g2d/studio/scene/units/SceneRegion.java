@@ -255,9 +255,9 @@ public class SceneRegion extends com.g2d.game.rpg.Unit implements SceneUnitTag<R
 		
 		if (editor!=null)
 		{
-			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
-				g.drawImage(img_script, 0, 0);
-			}
+//			if (getUnit().getBindedTriggers().getTriggerCount() > 0) {
+//				g.drawImage(img_script, 0, 0);
+//			}
 			if (editor.getSelectedPage().isSelectedType(getClass())) {
 				g.setColor(color);
 				g.fill(local_bounds);

@@ -13,7 +13,7 @@ import com.cell.CObject;
 import com.cell.CUtil;
 import com.cell.io.CFile;
 import com.cell.util.Pair;
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.io.File;
 import com.g2d.studio.io.IO;
 

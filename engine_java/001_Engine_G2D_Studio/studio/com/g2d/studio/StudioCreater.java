@@ -36,23 +36,23 @@ public class StudioCreater {
 		if (!project_file.exists()) 
 		{
 			CFile.writeText(project_file, 
-					Config.toProperties(Config.class), "UTF-8");
+					StudioConfig.toProperties(StudioConfig.class), "UTF-8");
 			
-			new File(root, Config.RES_ACTOR_ROOT).mkdirs();
-			new File(root, Config.RES_AVATAR_ROOT).mkdirs();
-			new File(root, Config.RES_EFFECT_ROOT).mkdirs();
-			new File(root, Config.RES_SCENE_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_ACTOR_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_AVATAR_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_EFFECT_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_SCENE_ROOT).mkdirs();
 			
-			new File(root, Config.RES_ICON_ROOT).mkdirs();
-			new File(root, Config.RES_SOUND_ROOT).mkdirs();
-			new File(root, Config.RES_TALK_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_ICON_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_SOUND_ROOT).mkdirs();
+			new File(root, StudioConfig.RES_TALK_ROOT).mkdirs();
 
-			createXLS(new File(root, Config.XLS_TPLAYER));
-			createXLS(new File(root, Config.XLS_TPET));
-			createXLS(new File(root, Config.XLS_TITEM));
-			createXLS(new File(root, Config.XLS_TSHOPITEM));
-			createXLS(new File(root, Config.XLS_TSKILL));
-			createXLS(new File(root, Config.XLS_TUNIT));
+			createXLS(new File(root, StudioConfig.XLS_TPLAYER));
+			createXLS(new File(root, StudioConfig.XLS_TPET));
+			createXLS(new File(root, StudioConfig.XLS_TITEM));
+			createXLS(new File(root, StudioConfig.XLS_TSHOPITEM));
+			createXLS(new File(root, StudioConfig.XLS_TSKILL));
+			createXLS(new File(root, StudioConfig.XLS_TUNIT));
 		}
 		else 
 		{

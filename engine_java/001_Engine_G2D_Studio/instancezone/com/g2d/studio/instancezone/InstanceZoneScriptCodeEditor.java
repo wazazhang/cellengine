@@ -22,7 +22,7 @@ import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import com.cell.rpg.scene.script.SceneScriptManager;
+//import com.cell.rpg.scene.script.SceneScriptManager;
 import com.cell.rpg.struct.InstanceZoneScriptCode;
 import com.g2d.awt.util.AbstractOptionDialog;
 import com.g2d.editor.property.CellEditAdapter;
@@ -137,14 +137,14 @@ PropertyCellEdit<InstanceZoneScriptCode>
 			try {
 				if (zone != null) {
 					HashMap<String, Object> data_map = zone.getData().getData().asMap();
-					if (Studio.getInstance().getSceneScriptManager().checkScriptCode(
-							getUserObject(null), 
-							data_map
-							)) {
-						build_state.setText("<html><body><font color=\"#00ff00\">succeed</font></body></html>");
-					} else {
-						build_state.setText("<html><body><font color=\"#ff0000\">未知错误</font></body></html>");
-					}
+//					if (Studio.getInstance().getSceneScriptManager().checkScriptCode(
+//							getUserObject(null), 
+//							data_map
+//							)) {
+//						build_state.setText("<html><body><font color=\"#00ff00\">succeed</font></body></html>");
+//					} else {
+//						build_state.setText("<html><body><font color=\"#ff0000\">未知错误</font></body></html>");
+//					}
 				}
 			} catch (Exception err) {
 				err.printStackTrace();

@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-import com.g2d.studio.Config;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormList;
 import com.g2d.studio.ManagerFormTreeList;
@@ -69,12 +69,12 @@ public class IconManager extends ManagerFormTreeList<IconFile>
 		private static final long serialVersionUID = 1L;
 
 		public IconList(String title, ProgressForm progress, File resRoot, File saveListFile) {
-			super(title, progress, resRoot, saveListFile, Config.ICON_SUFFIX);
+			super(title, progress, resRoot, saveListFile, StudioConfig.ICON_SUFFIX);
 		}
 		
 		@Override
 		public IconFile createItem(File file) {
-			if (file.getName().endsWith(Config.ICON_SUFFIX)) {
+			if (file.getName().endsWith(StudioConfig.ICON_SUFFIX)) {
 				IconFile icon = new IconFile(file);
 				return icon;
 			}

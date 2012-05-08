@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
-import com.cell.rpg.scene.script.SceneScriptManager;
-import com.g2d.studio.Config;
+//import com.cell.rpg.scene.script.SceneScriptManager;
+import com.g2d.studio.StudioConfig;
 import com.g2d.studio.ManagerForm;
 import com.g2d.studio.ManagerFormDynamic;
 import com.g2d.studio.Studio;

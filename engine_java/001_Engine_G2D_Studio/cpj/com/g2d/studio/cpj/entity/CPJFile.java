@@ -24,7 +24,6 @@ import com.g2d.studio.Studio;
 import com.g2d.studio.StudioResource;
 import com.g2d.studio.Studio.ProgressForm;
 import com.g2d.studio.cell.gameedit.Builder;
-import com.g2d.studio.cell.gameedit.EatBuilder;
 import com.g2d.studio.cpj.CPJResourceType;
 import com.g2d.studio.gameedit.entity.IProgress;
 import com.g2d.studio.io.File;
@@ -210,7 +209,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 		{
 			System.out.println("refresh resource : " + getName());
 			try {
-				set_resource = EatBuilder.getInstance().createResource(cpj_file);
+				set_resource = Builder.getInstance().createResource(cpj_file);
 				switch (res_type) {
 				case ACTOR:	
 				case AVATAR:
@@ -248,7 +247,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	public void openEdit()
 	{
 		if (cpj_file.exists()) {
-			Builder.getInstance().openCellGameEdit(cpj_file);
+			Builder.getInstance().openCellGameEdit(cpj_file.getPath());
 		}
 	}
 //	------------------------------------------------------------------------------------------------------------------------------
