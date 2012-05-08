@@ -1,0 +1,174 @@
+<object-stream>
+  <com.cell.rpg.quest.Quest>
+    <id>1</id>
+    <abilities/>
+    <int__id>1</int__id>
+    <name>test</name>
+    <quest__flags>
+      <type__map>
+        <entry>
+          <java-class>com.cell.rpg.quest.QuestFlags$Story</java-class>
+          <com.cell.rpg.quest.QuestFlags_-Story/>
+        </entry>
+      </type__map>
+    </quest__flags>
+    <auto__accept>false</auto__accept>
+    <auto__commit>false</auto__commit>
+    <quest__generator>
+      <abilities>
+        <com.cell.rpg.quest.QuestGenerator_-System/>
+      </abilities>
+    </quest__generator>
+    <accept__condition>
+      <list>
+        <com.cell.util.Pair>
+          <key class="string">item_0</key>
+          <value class="com.cell.rpg.quest.QuestItem">
+            <id>1</id>
+            <abilities>
+              <com.cell.rpg.quest.QuestItem_-TagValueComparison>
+                <boolean__condition>TRUE</boolean__condition>
+                <src__value class="com.cell.rpg.formula.Value">
+                  <value>1.0</value>
+                </src__value>
+                <comparison>EQUAL</comparison>
+                <dst__value class="com.cell.rpg.formula.Value">
+                  <value>1.0</value>
+                </dst__value>
+              </com.cell.rpg.quest.QuestItem_-TagValueComparison>
+            </abilities>
+            <type>1</type>
+            <is__result>false</is__result>
+            <name>未命名条件</name>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">item_name_list</key>
+          <value class="tree-set">
+            <no-comparator/>
+            <string>1</string>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">items_count</key>
+          <value class="int">1</value>
+        </com.cell.util.Pair>
+      </list>
+    </accept__condition>
+    <accept__award>
+      <list>
+        <com.cell.util.Pair>
+          <key class="string">item_0</key>
+          <value class="com.cell.rpg.quest.QuestItem">
+            <id>2</id>
+            <abilities/>
+            <type>2</type>
+            <is__result>true</is__result>
+            <name>未命名奖励</name>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">item_name_list</key>
+          <value class="tree-set">
+            <no-comparator/>
+            <string>2</string>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">items_count</key>
+          <value class="int">1</value>
+        </com.cell.util.Pair>
+      </list>
+    </accept__award>
+    <complete__condition>
+      <list>
+        <com.cell.util.Pair>
+          <key class="string">item_0</key>
+          <value class="com.cell.rpg.quest.QuestItem">
+            <id>3</id>
+            <abilities>
+              <com.cell.rpg.quest.QuestItem_-TagValueComparison>
+                <boolean__condition>TRUE</boolean__condition>
+                <src__value class="com.cell.rpg.formula.Value">
+                  <value>1.0</value>
+                </src__value>
+                <comparison>EQUAL</comparison>
+                <dst__value class="com.cell.rpg.formula.Value">
+                  <value>1.0</value>
+                </dst__value>
+              </com.cell.rpg.quest.QuestItem_-TagValueComparison>
+            </abilities>
+            <type>3</type>
+            <is__result>false</is__result>
+            <name>未命名条件</name>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">item_name_list</key>
+          <value class="tree-set">
+            <no-comparator/>
+            <string>3</string>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">items_count</key>
+          <value class="int">1</value>
+        </com.cell.util.Pair>
+      </list>
+    </complete__condition>
+    <complete__award>
+      <list>
+        <com.cell.util.Pair>
+          <key class="string">item_0</key>
+          <value class="com.cell.rpg.quest.QuestItem">
+            <id>4</id>
+            <abilities>
+              <com.cell.rpg.quest.QuestItem_-DropItem>
+                <titem__index>-1</titem__index>
+                <titem__count class="com.cell.rpg.formula.Value">
+                  <value>1.0</value>
+                </titem__count>
+              </com.cell.rpg.quest.QuestItem_-DropItem>
+            </abilities>
+            <type>4</type>
+            <is__result>true</is__result>
+            <name>未命名奖励</name>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">item_name_list</key>
+          <value class="tree-set">
+            <no-comparator/>
+            <string>4</string>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">items_count</key>
+          <value class="int">1</value>
+        </com.cell.util.Pair>
+      </list>
+    </complete__award>
+    <discard__action>
+      <list>
+        <com.cell.util.Pair>
+          <key class="string">item_name_list</key>
+          <value class="tree-set">
+            <no-comparator/>
+          </value>
+        </com.cell.util.Pair>
+        <com.cell.util.Pair>
+          <key class="string">items_count</key>
+          <value class="int">0</value>
+        </com.cell.util.Pair>
+      </list>
+    </discard__action>
+    <is__team__quest>false</is__team__quest>
+    <is__team__event__quest>false</is__team__event__quest>
+    <is__player__quest>false</is__player__quest>
+    <is__single__quest>false</is__single__quest>
+    <is__transient__quest>false</is__transient__quest>
+    <is__hidden__quest>false</is__hidden__quest>
+    <is__positive__acceptable__quest>false</is__positive__acceptable__quest>
+    <is__not__binded__npc>false</is__not__binded__npc>
+  </com.cell.rpg.quest.Quest>
+</object-stream>
