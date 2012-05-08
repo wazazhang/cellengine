@@ -60,7 +60,11 @@ public class StudioCreater {
 		}
 	}
 	
-	static private void createXLS(File file) {
+	static public void createXLS(String path) {
+		createXLS(new File(path));
+	}
+	
+	static public void createXLS(File file) {
 		try {
 			file.getParentFile().mkdirs();
 			WritableWorkbook wb = Workbook.createWorkbook(file);

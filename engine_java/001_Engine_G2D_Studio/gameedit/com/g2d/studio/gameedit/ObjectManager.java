@@ -40,16 +40,18 @@ public class ObjectManager
 	private XLSColumns unit_xls_columns;
 	private XLSColumns pet_xls_columns;
 	
-	private			LinkedHashMap<Class<?>, ObjectManagerTree<?, ?>> 
-								managers = new LinkedHashMap<Class<?>, ObjectManagerTree<?,?>>();
-	
+	private LinkedHashMap<Class<?>, ObjectManagerTree<?, ?>> managers = 
+		new LinkedHashMap<Class<?>, ObjectManagerTree<?, ?>>();	
 	
 	
 	public ObjectManager(Studio studio) 
 	{
-		this.objects_dir 			= Studio.getInstance().project_save_path.getChildFile("objects");
-		this.player_xls_columns		= XLSColumns.getXLSColumns(studio.xls_tplayer.getInputStream());
-		this.pet_xls_columns 		= XLSColumns.getXLSColumns(studio.xls_tpet.getInputStream());
+		this.objects_dir 			= 
+			Studio.getInstance().project_save_path.getChildFile("objects");
+		this.player_xls_columns		= 
+			XLSColumns.getXLSColumns(studio.xls_tplayer.getInputStream());
+		this.pet_xls_columns 		= 
+			XLSColumns.getXLSColumns(studio.xls_tpet.getInputStream());
 	}
 	
 	/**

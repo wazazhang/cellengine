@@ -11,35 +11,36 @@ import com.g2d.studio.StudioConfig;
 import com.g2d.studio.StudioPlugin;
 import com.g2d.studio.cell.gameedit.Builder;
 import com.g2d.studio.io.file.FileIO;
+import com.g2d.studio.sample.entity.TPlayer;
+import com.g2d.studio.sample.item.EatItemPropertyManager;
+import com.g2d.studio.sample.scene.EatSceneAbilityManager;
 
 public class SamplePlugin implements StudioPlugin
 {
 
 	@Override
 	public ItemPropertyManager createItemPropertyManager() {
-		return null;
+		return new EatItemPropertyManager();
 	}
 
 	@Override
 	public SceneAbilityManager createSceneAbilityManager() {
-		return null;
+		return new EatSceneAbilityManager();
 	}
 
 	@Override
 	public Class<?> getPlayerClass() {
-		return null;
+		return TPlayer.class;
 	}
 
 	@Override
 	public Class<?> getPetClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return TPlayer.class;
 	}
 
 	@Override
 	public Class<?> getNpcClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return TPlayer.class;
 	}
 
 	@Override
@@ -54,7 +55,6 @@ public class SamplePlugin implements StudioPlugin
 
 	@Override
 	public Builder createResourceBuilder() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

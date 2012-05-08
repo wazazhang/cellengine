@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import com.cell.CIO;
 import com.cell.CObject;
 import com.cell.CUtil;
+import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
 import com.cell.rpg.RPGConfig;
@@ -34,6 +35,7 @@ import com.cell.sound.mute_impl.NullSoundManager;
 import com.cell.sound.openal_impl.JALSoundManager;
 import com.cell.sound.util.StaticSoundPlayer;
 import com.cell.sql.SQLDriverManager;
+import com.cell.util.anno.ConfigField;
 import com.cell.util.concurrent.ThreadPool;
 import com.g2d.awt.util.AbstractFrame;
 import com.g2d.awt.util.Drawing;
@@ -159,16 +161,21 @@ public class Studio extends AbstractFrame
 ////			System.exit(1);
 //		}
 		
-		root_icon_path		= getFile				(StudioConfig.RES_ICON_ROOT);
-		root_sound_path		= getFile				(StudioConfig.RES_SOUND_ROOT);
-		root_talk_path		= getFile				(StudioConfig.RES_TALK_ROOT);
+		root_icon_path 	= getOrCreateDir(StudioConfig.RES_ICON_ROOT);
+		root_sound_path	= getOrCreateDir(StudioConfig.RES_SOUND_ROOT);
+		root_talk_path 	= getOrCreateDir(StudioConfig.RES_TALK_ROOT);
 		
-		xls_tplayer			= getFile				(StudioConfig.XLS_TPLAYER);
-		xls_tunit			= getFile				(StudioConfig.XLS_TUNIT);
-		xls_tpet			= getFile				(StudioConfig.XLS_TPET);
-		xls_titem			= getFile				(StudioConfig.XLS_TITEM);
-		xls_tshopitem		= getFile				(StudioConfig.XLS_TSHOPITEM);
-		xls_tskill			= getFile				(StudioConfig.XLS_TSKILL);
+		getOrCreateDir(StudioConfig.RES_ACTOR_ROOT);
+		getOrCreateDir(StudioConfig.RES_AVATAR_ROOT);
+		getOrCreateDir(StudioConfig.RES_EFFECT_ROOT);
+		getOrCreateDir(StudioConfig.RES_SCENE_ROOT);
+		
+		xls_tplayer 	= getOrCreateXlsFile(StudioConfig.XLS_TPLAYER);
+		xls_tunit 		= getOrCreateXlsFile(StudioConfig.XLS_TUNIT);
+		xls_tpet 		= getOrCreateXlsFile(StudioConfig.XLS_TPET);
+		xls_titem 		= getOrCreateXlsFile(StudioConfig.XLS_TITEM);
+		xls_tshopitem 	= getOrCreateXlsFile(StudioConfig.XLS_TSHOPITEM);
+		xls_tskill 		= getOrCreateXlsFile(StudioConfig.XLS_TSKILL);
 		
 //		File talk_example_file = getFile			(Config.TALK_EXAMPLE);
 		talk_example = "// talk example";
@@ -453,8 +460,28 @@ public class Studio extends AbstractFrame
 	{
 		return io.createFile(project_path, path);
 	}
-
+	
+	public File getOrCreateXlsFile(String path)
+	{
+		File file = io.createFile(project_path, path);
+		if (!file.exists()) {
+			StudioCreater.createXLS(file.getPath());
+			file = io.createFile(file.getPath());
+		}
+		return file;
+	}
+	
+	public File getOrCreateDir(String path)
+	{
+		File file = io.createFile(project_path, path);
+		if (!file.exists()) {
+			new java.io.File(file.getPath()).mkdirs();
+		}
+		return file;
+	}
+	
 //-----------------------------------------------------------------------------------------------------------
+	
 	public com.cell.sound.SoundManager getSoundSystem() {
 		return sound_system;
 	}		
