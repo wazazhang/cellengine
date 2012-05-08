@@ -2,7 +2,7 @@ package com.cell.rpg.scene.ability;
 
 import java.io.ObjectStreamException;
 
-import com.cell.rpg.ability.AbilitiesVector;
+import com.cell.rpg.ability.AbilitiesList;
 import com.cell.rpg.ability.AbstractAbility;
 import com.cell.rpg.template.ability.UnitBattleTeam.SpawnTypes;
 import com.cell.rpg.template.ability.UnitBattleTeam.TeamNode;
@@ -35,23 +35,15 @@ public class RegionSpawnNPC extends AbstractAbility
 	public int spawn_interval = 10000;	
 	
 	@Property("产生的单位")
-	public AbilitiesVector spawn_types = new AbilitiesVector(NPCSpawn.class){
-		private static final long serialVersionUID = 1L;
-		public String toString() {
-			return getAbilitiesCount() + "个单位";
-		}
-	};
+	public SpawnTypes spawn_types = new SpawnTypes();
 
-	public RegionSpawnNPC() {
-		this.spawn_types = new SpawnTypes();
-	}
+	public RegionSpawnNPC() {}
 	
 	protected Object writeReplace() throws ObjectStreamException {
 		return this;
 	}
 	
 	protected Object readResolve() throws ObjectStreamException {
-		spawn_types = new SpawnTypes(spawn_types);
 		return this;
 	}
 	
@@ -65,23 +57,32 @@ public class RegionSpawnNPC extends AbstractAbility
 		return super.toString() + " : " + unit_trig + " : max=" + spawn_unit_count + " : inerval=" + spawn_interval + " : types=" + spawn_types;
 	}
 	
-	public static class SpawnTypes extends AbilitiesVector
+	public static class SpawnTypes extends AbilitiesList
 	{
+//		private static final long serialVersionUID = 1L;
+//		public SpawnTypes() {
+//			super(NPCSpawn.class);
+//		}
+//		public SpawnTypes(AbilitiesVector vector) {
+//			super(NPCSpawn.class);
+//			if (vector != null) {
+//				for (AbstractAbility a : vector.getAbilities()) {
+//					this.addAbility(a);
+//				}
+//			}
+//		}
+//		public String toString() {
+//			return getAbilitiesCount() + "个单位";
+//		}
 		private static final long serialVersionUID = 1L;
-		public SpawnTypes() {
-			super(NPCSpawn.class);
-		}
-		public SpawnTypes(AbilitiesVector vector) {
-			super(NPCSpawn.class);
-			if (vector != null) {
-				for (AbstractAbility a : vector.getAbilities()) {
-					this.addAbility(a);
-				}
-			}
-		}
 		public String toString() {
 			return getAbilitiesCount() + "个单位";
 		}
+		@Override
+		public Class<?>[] getSubAbilityTypes() {
+			return new Class[]{NPCSpawn.class};
+		}
+	
 	}
 
 	/**

@@ -3,12 +3,14 @@ package com.cell.rpg.display;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.cell.net.io.MutualMessage;
+
 /**
  * 为组织SceneGraph结构的Node
  * @author WAZA
  *
  */
-public abstract class Node implements Serializable
+public abstract class Node implements Serializable, MutualMessage
 {
 	private static final long serialVersionUID = 1L;
 	

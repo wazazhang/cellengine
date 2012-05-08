@@ -13,7 +13,7 @@ public abstract class DObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	transient private MarkedHashtable	data_group;
+	//transient private MarkedHashtable	data_group;
 	
 	protected DObject(){
 		init_field();

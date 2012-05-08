@@ -6,6 +6,7 @@ import java.util.Vector;
 import com.cell.CUtil;
 import com.cell.DObject;
 import com.cell.exception.NotImplementedException;
+import com.cell.net.io.MutualMessage;
 import com.cell.rpg.ability.Abilities;
 import com.cell.rpg.ability.AbstractAbility;
 import com.cell.rpg.io.RPGSerializationListener;
@@ -16,7 +17,8 @@ import com.cell.util.zip.ZipNode;
 
 
 
-public abstract class RPGObject extends DObject implements Abilities, ZipNode, RPGSerializationListener
+public abstract class RPGObject extends DObject 
+implements Abilities, ZipNode, RPGSerializationListener, MutualMessage
 {
 //	------------------------------------------------------------------------------------------------------------------
 	

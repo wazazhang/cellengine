@@ -3,6 +3,7 @@ package com.cell.rpg.ability;
 import java.util.ArrayList;
 
 import com.cell.exception.NotImplementedException;
+import com.cell.net.io.MutualMessage;
 
 /**
  * 一组能力的集合，如果子类实现该接口，则在
@@ -10,7 +11,7 @@ import com.cell.exception.NotImplementedException;
  * @author WAZA
  * @see AbilityPanel
  */
-public interface Abilities
+public interface Abilities extends MutualMessage
 {
 	public void clearAbilities();
 	

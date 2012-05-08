@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import com.cell.CUtil;
+import com.cell.net.io.MutualMessage;
 import com.g2d.editor.property.Util;
 
 /**
@@ -12,7 +13,8 @@ import com.g2d.editor.property.Util;
  * @author WAZA
  *
  */
-public abstract class AbstractAbility implements Serializable, Comparable<AbstractAbility>
+public abstract class AbstractAbility 
+implements Serializable, Comparable<AbstractAbility>, MutualMessage
 {
 	private static final long serialVersionUID = 1L;
 

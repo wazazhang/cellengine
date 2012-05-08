@@ -3,7 +3,6 @@ package com.cell.rpg.scene.ability;
 import java.io.Serializable;
 
 import com.cell.rpg.ability.AbilitiesList;
-import com.cell.rpg.ability.AbilitiesVector;
 import com.cell.rpg.ability.AbstractAbility;
 import com.g2d.annotation.Property;
 

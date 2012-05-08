@@ -2,7 +2,7 @@ package com.cell.rpg.template.ability;
 
 import java.io.ObjectStreamException;
 
-import com.cell.rpg.ability.AbilitiesVector;
+import com.cell.rpg.ability.AbilitiesList;
 import com.cell.rpg.ability.AbstractAbility;
 import com.cell.rpg.anno.PropertyAdapter;
 import com.cell.rpg.anno.PropertyType;
@@ -17,12 +17,7 @@ public class UnitBattleTeam extends AbstractAbility
 	private static final long serialVersionUID = 1L;
 
 	@Property("绑定的单位")
-	public AbilitiesVector	spawn_types = new AbilitiesVector(TeamNode.class){
-		private static final long serialVersionUID = 1L;
-		public String toString() {
-			return getAbilitiesCount() + "个单位";
-		}
-	};
+	public SpawnTypes	spawn_types = new SpawnTypes();
 	
 	@Property("队伍人数是否会因玩家发生变化")
 	public boolean is_variable_team = false;
@@ -43,27 +38,26 @@ public class UnitBattleTeam extends AbstractAbility
 	}
 	
 	protected Object readResolve() throws ObjectStreamException {
-		if (spawn_types instanceof SpawnTypes) {
-		} else {
-			spawn_types = new SpawnTypes(spawn_types);
-		}
 		return this;
 	}
 
 
-	public static class SpawnTypes extends AbilitiesVector
+	public static class SpawnTypes extends AbilitiesList
 	{
 		private static final long serialVersionUID = 1L;
 		public SpawnTypes() {
-			super(TeamNode.class);
+//			super(TeamNode.class);
 		}
-		public SpawnTypes(AbilitiesVector vector) {
-			super(TeamNode.class);
-			if (vector != null) {
-				for (AbstractAbility a : vector.getAbilities()) {
-					this.addAbility(a);
-				}
-			}
+//		public SpawnTypes(AbilitiesVector vector) {
+//			super(TeamNode.class);
+//			if (vector != null) {
+//				for (AbstractAbility a : vector.getAbilities()) {
+//					this.addAbility(a);
+//				}
+//			}
+//		}
+		public java.lang.Class<?>[] getSubAbilityTypes() {
+			return new Class[]{TeamNode.class};
 		}
 		public String toString() {
 			return getAbilitiesCount() + "个单位";
