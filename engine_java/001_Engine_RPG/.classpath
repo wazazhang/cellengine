@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="com/cell/rpg/struct/DateUtil.java|com/cell/rpg/item/ItemPropertyData.java|com/cell/rpg/instance/zones/Event.java|com/cell/rpg/res/Resource.java" kind="src" path="rpg"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_G2D"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/002_Engine_SQLProxy"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Sound"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
