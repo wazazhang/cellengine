@@ -51,7 +51,7 @@ public class CPJSprite extends CPJObject<SpriteSet>
 					}
 				}
 				
-				if (snapshoot == null) 
+				if (snapshoot == null && parent.getSetResource() != null) 
 				{
 					synchronized (parent.getSetResource()) 
 					{

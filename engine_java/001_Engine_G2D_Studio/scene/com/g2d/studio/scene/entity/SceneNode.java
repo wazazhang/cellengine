@@ -88,7 +88,7 @@ final public class SceneNode extends DynamicNode<Scene>
 		if (world_display==null) {
 			System.out.println("load world display : " + world_index.set_object_name);
 			this.world_display = Studio.getInstance().getCPJResourceManager().getNode(world_index);
-			if (this.world_display != null) {
+			if (this.world_display != null && world_display.getSetObject() != null) {
 				this.bind_data.scene_node.width		= world_display.getSetObject().Width;
 				this.bind_data.scene_node.height	= world_display.getSetObject().Height;
 			}

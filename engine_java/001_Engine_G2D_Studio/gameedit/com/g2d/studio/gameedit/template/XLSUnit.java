@@ -74,10 +74,14 @@ final public class XLSUnit extends XLSTemplateNode<TUnit>
 	public ImageIcon createIcon() {
 		getCPJSprite();
 		if (cpj_sprite != null) {
-			return Tools.createIcon(Tools.combianImage(20, 20, cpj_sprite.getIcon(true).getImage()));
-		} else {
-			return super.createIcon();
+			ImageIcon icom = cpj_sprite.getIcon(true);
+			if (icom != null) {
+				return Tools.createIcon(
+						Tools.combianImage(20, 20, 
+								icom.getImage()));
+			}
 		}
+		return super.createIcon();
 	}
 
 	public ObjectViewer<?> getEditComponent(){

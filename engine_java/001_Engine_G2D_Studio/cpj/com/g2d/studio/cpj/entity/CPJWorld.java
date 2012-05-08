@@ -46,7 +46,8 @@ public class CPJWorld extends CPJObject<WorldSet>
 	public BufferedImage getSnapShoot() {
 		if (snapshoot==null) {
 			try{
-				File snap_file = Studio.getInstance().getIO().createFile(parent.getCPJDir(), name + ".png");
+				File snap_file = Studio.getInstance().getIO().createFile(
+						parent.getCPJDir(), name + ".png");
 				if (snap_file.exists()) {
 					byte[] data = snap_file.readBytes();
 					if (data != null) {
