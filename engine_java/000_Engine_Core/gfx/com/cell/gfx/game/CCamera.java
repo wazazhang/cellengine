@@ -429,34 +429,6 @@ public class CCamera extends CUnit {
     	
 		if (IsBackBuffer)
 		{
-			if(Map.IsAnimate && AnimateTimerOld != Map.AnimateTimer)
-			{
-				int sbx = vMapX/CellW;
-				int sby = vMapY/CellH;
-				int dbx = vBufX/CellW;
-				int dby = vBufY/CellH;
-				
-				for(int y=0;y<BufBH;y++)
-				{
-					for(int x=0;x<BufBW;x++)
-					{
-						if(!Map.testSameAnimateTile(AnimateTimerOld, Map.AnimateTimer, sbx, sby))
-						{
-							Map.renderCell(bg, dbx*CellW, dby*CellH, sbx, sby);
-							//println("draw "+CScreen.getTimer());
-						}
-						sbx = CMath.cycNum(sbx,+1,MapBW);
-						dbx = CMath.cycNum(dbx,+1,BufBW);
-					}
-					sbx = vMapX/CellW;
-					dbx = vBufX/CellW;
-					sby = CMath.cycNum(sby,+1,MapBH);
-					dby = CMath.cycNum(dby,+1,BufBH);
-				}
-				
-				AnimateTimerOld = Map.AnimateTimer;
-			}
-			
 			int w1 = BufW-vBufX<=WorldW?BufW-vBufX:WorldW;
 			int h1 = BufH-vBufY<=WorldH?BufH-vBufY:WorldH;
 			int w2 = WorldW - w1;

@@ -387,7 +387,7 @@ abstract public class SetResource
 	
 //	########################################################################################################################
 
-	protected CMap createMapFromSet(MapSet tmap, IImages tiles, boolean isAnimate, boolean isCyc)
+	protected CMap createMapFromSet(MapSet tmap, IImages tiles, boolean isCyc)
 	{
 
 		CMap ret = null;
@@ -402,35 +402,6 @@ abstract public class SetResource
 				int ycount = tmap.YCount;	// --> u16
 				int cellw = tmap.CellW;		// --> u16
 				int cellh = tmap.CellH;		// --> u16
-//				--------------------------------------------------------------------------------------------------------------
-//				parts
-				int scenePartCount = tmap.TileID.length;	// --> u16
-			    CAnimates animates = new CAnimates(scenePartCount,tiles);
-			    for(int i=0;i<scenePartCount;i++){
-			    	int tileID = tmap.TileID[i];	// --> s16 * count
-			    	int trans = tmap.TileTrans[i];	// --> s8  * count
-			    	animates.addPart(0,0,tileID,trans);
-			    }
-//				--------------------------------------------------------------------------------------------------------------
-//				frames
-				int animateCount = tmap.Animates.length;		// --> u16
-				short[][] animates_frame = new short[animateCount][];
-				for(int i=0;i<animateCount;i++){
-					int frameCount =  tmap.Animates[i].length;	// --> u16 * count
-					animates_frame[i] = new short[frameCount];
-					for(int f=0;f<frameCount;f++){
-						animates_frame[i][f] = (short)tmap.Animates[i][f];// --> s16 * length * count
-					}
-				}
-				animates.setFrames(animates_frame);
-//				--------------------------------------------------------------------------------------------------------------
-//				tile matrix
-				short[][] tileMatrix = new short[ycount][xcount];
-				for(int y=0; y<ycount; y++){
-					for(int x=0; x<xcount; x++){
-						tileMatrix[y][x] = (short)tmap.TerrainScene2D[y][x];// --> s16 * xcount * ycount
-					}
-				}
 //				--------------------------------------------------------------------------------------------------------------
 //				cds
 				int cdCount = tmap.BlocksType.length;	// --> u16
@@ -448,23 +419,15 @@ abstract public class SetResource
 					if(type==1) collides.addCDLine(mask, x1, y1,x2,y2);
 				}
 //				--------------------------------------------------------------------------------------------------------------
-//				cd matrix
-				short[][] flagMatrix = new short[ycount][xcount];
-				for(int y=0; y<ycount; y++){
-					for(int x=0; x<xcount; x++){
-						flagMatrix[y][x] = (short)tmap.TerrainBlock2D[y][x];// --> s16 * xcount * ycount
-					}
-				}
-//				--------------------------------------------------------------------------------------------------------------
 				ret = new CMap(
-						animates, 
+						tiles, 
 						collides, 
 						cellw, cellh, 
-						tileMatrix, 
-						flagMatrix, 
+						tmap.TerrainTile, 
+						tmap.TerrainFlip,
+						tmap.TerrainFlag,
 						isCyc 
 						);
-				ret.IsAnimate = isAnimate;
 			}
 
 		}catch(Exception err){

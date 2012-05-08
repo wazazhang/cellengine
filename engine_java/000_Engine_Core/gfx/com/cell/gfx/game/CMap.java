@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import com.cell.gfx.IGraphics;
 import com.cell.gfx.IImage;
+import com.cell.gfx.IImages;
 
 
 
@@ -17,34 +18,33 @@ import com.cell.gfx.IImage;
 public class CMap extends CUnit implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-
-	public	int AnimateTimer = 0;
 	
 //	----------------------------------------------------------------------------------------------
 
 	protected int CellW;
 	protected int CellH;
 
-	protected CAnimates		Tiles;
+	protected IImages		Tiles;
 	protected CCollides 	Collides;
 	
-	protected short[][] MatrixTile;
-	protected short[][] MatrixFlag;
+	protected int[][][] MatrixTile;
+	protected int[][][] MatrixFlip;
+	protected int[][][] MatrixFlag;
 	
 	protected boolean IsCyc 	= false;
-	public boolean IsAnimate 	= false;
-	public boolean IsCombo 		= false;
+
 	protected int Width;
 	protected int Height;
 //	----------------------------------------------------------------------------------------------
 
 	public CMap(
-			CAnimates tiles, 
+			IImages tiles, 
 			CCollides collides,
 			int cellw, 
 			int cellh,
-			short[][] tile_matrix, 
-			short[][] flag_matrix,
+			int[][][] tile_matrix, 
+			int[][][] flip_matrix,
+			int[][][] flag_matrix,
 			boolean isCyc
 			) {
 		IsCyc 		= isCyc;
@@ -52,6 +52,7 @@ public class CMap extends CUnit implements Serializable
 		Tiles 		= tiles;
 		Collides 	= collides;
 		MatrixTile 	= tile_matrix;
+		MatrixFlip 	= flip_matrix;
 		MatrixFlag 	= flag_matrix;
 		
 		CellW = cellw;
@@ -61,14 +62,14 @@ public class CMap extends CUnit implements Serializable
 		Height	= MatrixTile.length * CellH;
 	}
 	
-	public CMap(CMap map,boolean isCyc){
+	public CMap(CMap map,boolean isCyc)
+	{
 		IsCyc 		= isCyc;
-		IsAnimate 	= map.IsAnimate;
-		IsCombo 	= map.IsCombo;
 		
 		Tiles 		= map.Tiles;
 		Collides 	= map.Collides;
 		MatrixTile 	= map.MatrixTile;
+		MatrixFlip 	= map.MatrixFlip;
 		MatrixFlag 	= map.MatrixFlag;
 		
 		CellW = map.CellW;
@@ -80,6 +81,10 @@ public class CMap extends CUnit implements Serializable
 
 //	----------------------------------------------------------------------------------------------------------------
 	
+	public IImages getTiles() {
+		return Tiles;
+	}
+	
 	/**
 	 * before added world call
 	 * @param cyc
@@ -88,10 +93,9 @@ public class CMap extends CUnit implements Serializable
 		IsCyc = cyc;
 	}
 	
-//	final public boolean isMiniMap(){
-//		return TilesColor!=null;
-//	}
-	
+	public int getLayerCount() {
+		return MatrixTile.length;
+	}	
 	public int getWidth() {
 		return Width;
 	}
@@ -116,83 +120,42 @@ public class CMap extends CUnit implements Serializable
 		return CellH;
 	}
 
-	public CCD getCD(int bx,int by){
-		return Collides.getCD(MatrixFlag[by][bx]); 
+	public CCD getCD(int layer, int bx, int by) {
+		return Collides.getCD(MatrixFlag[layer][bx][by]);
 	}
-	
-	public IImage getImage(int bx,int by, int layer){
-		int id = Math.abs(MatrixTile[by][bx]);
-		return Tiles.getFrameImage(id, layer % Tiles.Frames[id].length);
+
+	public IImage getImage(int layer, int bx, int by) {
+		return Tiles.getImage(MatrixTile[layer][bx][by]);
 	}
-	
-	public int getTileLayerCount(int bx,int by){
-		int id = Math.abs(MatrixTile[by][bx]);
-		return Tiles.Frames[id].length;
+
+	public int getFlag(int layer, int bx, int by) {
+		return MatrixFlag[layer][bx][by];
 	}
-	
-	public int getFlag(int bx,int by){
-		return MatrixFlag[by][bx];
+
+	public int getTile(int layer, int bx, int by) {
+		return MatrixTile[layer][bx][by];
 	}
-	public int getTile(int bx,int by){
-		return Math.abs(MatrixTile[by][bx]);
-	}
-	public int getTileValue(int bx,int by){
-		return MatrixTile[by][bx];
-	}
-	public void putFlag(int bx,int by,int data){
-		MatrixFlag[by][bx] = (short)data;
-	}
-	public void putTile(int bx,int by,int data){
-		MatrixTile[by][bx] = (short)data;
-	}
-	
-	public CAnimates getAnimates(){
-		return Tiles;
-	}
-	
-	public CCollides getCollides(){
-		return Collides;
-	}
-	
-	public boolean testSameAnimateTile(int time1,int time2,int bx,int by){
-		if( MatrixTile[by][bx] >= 0 )return true;
-		if( Tiles.Frames[-MatrixTile[by][bx]].length>1 &&
-			Tiles.Frames[-MatrixTile[by][bx]][time1%Tiles.Frames[-MatrixTile[by][bx]].length]==
-		    Tiles.Frames[-MatrixTile[by][bx]][time2%Tiles.Frames[-MatrixTile[by][bx]].length]){
-			//println("same at : " + Tiles.Frames[-MatrixTile[by][bx]][time1%Tiles.Frames[-MatrixTile[by][bx]].length]);
-			return true;
-		}
-		return false;
+
+	public void putFlag(int layer, int bx, int by, int data) {
+		MatrixFlag[layer][by][bx] = data;
 	}
 	//	-------------------------------------------------------------------------------
 
+	public void renderCell(IGraphics g, int layer, int x, int y, int cellX, int cellY)
+	{
+		Tiles.render(g, 
+				MatrixTile[layer][cellX][cellY], 
+				x, y,
+				MatrixFlip[layer][cellX][cellY]);
+	}
+	
 	public void renderCell(IGraphics g, int x, int y, int cellX, int cellY)
 	{
-		if(MatrixTile[cellY][cellX]>=0)
-		{
-			if(IsCombo)
-			{
-				Tiles.renderSingle(g, MatrixTile[cellY][cellX], x, y);
-			}
-			else
-			{                                      
-				int idx = Tiles.Frames[MatrixTile[cellY][cellX]][0];
-				Tiles.images.render(g,Tiles.STileID[idx], x , y , Tiles.SFlip[idx]);
-			}
+		for (int layer=0; layer<MatrixTile.length; layer++) {
+			Tiles.render(g, 
+					MatrixTile[layer][cellX][cellY], 
+					x, y,
+					MatrixFlip[layer][cellX][cellY]);
 		}
-		else
-		{
-			int index = AnimateTimer%Tiles.Frames[-MatrixTile[cellY][cellX]].length;
-			int idx = Tiles.Frames[-MatrixTile[cellY][cellX]][index];
-			Tiles.images.render(g,Tiles.STileID[idx], x , y , Tiles.SFlip[idx]);
-		}
-		
-//#ifdef _DEBUG
-		if(IsDebug && MatrixFlag[cellY][cellX]>0)
-		{
-			Collides.render(g, MatrixFlag[cellY][cellX], x, y, 0xff00ff00);
-		}
-//#endif
 	}
-
 }

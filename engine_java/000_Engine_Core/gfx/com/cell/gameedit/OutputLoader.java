@@ -15,12 +15,6 @@ import com.cell.gameedit.object.TableSet;
 import com.cell.gameedit.object.WorldSet;
 import com.cell.gameedit.object.WorldSet.RegionObject;
 import com.cell.gameedit.object.WorldSet.WaypointObject;
-import com.cell.gfx.IImage;
-import com.cell.gfx.IImages;
-import com.cell.gfx.game.CCD;
-import com.cell.gfx.game.CMap;
-import com.cell.gfx.game.CSprite;
-import com.cell.gfx.game.CWayPoint;
 
 
 /**

@@ -53,6 +53,26 @@ abstract public class OutputXml extends BaseOutput
 	private boolean	image_tile;
 	private boolean	image_group;
 	
+
+	protected void init(InputStream is) throws Exception 
+	{
+		try {
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(is);
+			this.init(doc);
+		} catch (SAXParseException err) {
+			System.out.println("** Parsing error" + ", line "
+					+ err.getLineNumber() + ", uri " + err.getSystemId());
+			System.out.println(" " + err.getMessage());
+			throw err;
+		} catch (SAXException e) {
+			Exception x = e.getException();
+			((x == null) ? e : x).printStackTrace();
+			throw e;
+		}
+	}
+	
 	final protected void init(Document doc) throws Exception
 	{
 		Element element = doc.getDocumentElement();
@@ -489,17 +509,17 @@ abstract public class OutputXml extends BaseOutput
 					wr.Data			= getArray1DLines(e.getAttribute("region_data"));
 					set.Regions.put(wr.Index, wr);
 				}
-				else if (stringEquals(e->getName(), "event")) 
+				else if (e.getNodeName().equals("event"))
 				{
-					WorldObjectEvent ev;
-					ev.Index 		= e->getAttributeAsInt("index");
-					ev.ID			= e->getAttributeAsInt("id");
-					ev.X 			= e->getAttributeAsInt("x");
-					ev.Y 			= e->getAttributeAsInt("y");
-					ev.EventName 	= e->getAttribute("event_name");
-					ev.EventFile 	= e->getAttribute("event_file");
-					ev.Data		 	= e->getAttribute("event_data");
-					set.Events[ev.Index] = ev;
+					WorldSet.EventObject ev = new WorldSet.EventObject();
+					ev.Index 		= Integer.parseInt(e.getAttribute("index"));
+					ev.ID			= Integer.parseInt(e.getAttribute("id"));
+					ev.X 			= Integer.parseInt(e.getAttribute("x"));
+					ev.Y 			= Integer.parseInt(e.getAttribute("y"));
+					ev.EventName 	= e.getAttribute("event_name");
+					ev.EventFile 	= e.getAttribute("event_file");
+					ev.Data		 	= e.getAttribute("event_data");
+					set.Events.put(ev.Index, ev);
 				}
 			}
 		}

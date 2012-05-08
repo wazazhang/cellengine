@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import com.cell.CIO;
+import com.cell.CObject;
 import com.cell.CUtil;
 import com.cell.gameedit.OutputLoader;
 import com.cell.gameedit.object.ImagesSet;
@@ -40,6 +41,7 @@ import com.cell.gfx.game.CMap;
 import com.cell.gfx.game.CSprite;
 import com.cell.gfx.game.CWayPoint;
 import com.cell.io.TextDeserialize;
+import com.cell.j2se.CAppBridge;
 import com.cell.util.PropertyGroup;
 
 
@@ -57,23 +59,9 @@ public class OutputXmlDir extends OutputXml
 		this.path 		= file.replace('\\', '/');
 		this.root		= path.substring(0, path.lastIndexOf("/")+1);
 		this.file_name	= path.substring(root.length());
-		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			InputStream is = CIO.getInputStream(file);
-			Document doc = docBuilder.parse(is);
-			this.init(doc);
-		} catch (SAXParseException err) {
-			System.out.println("** Parsing error" + ", line "
-					+ err.getLineNumber() + ", uri " + err.getSystemId());
-			System.out.println(" " + err.getMessage());
-			throw err;
-		} catch (SAXException e) {
-			Exception x = e.getException();
-			((x == null) ? e : x).printStackTrace();
-			throw e;
-		}
+		init(CIO.getInputStream(file));
 	}
+	
 	
 	public byte[] loadRes(String path, AtomicReference<Float> percent)
 	{
@@ -87,11 +75,11 @@ public class OutputXmlDir extends OutputXml
 	
 	public static void main(String argv[]) {
 		try {
+			CAppBridge.init();
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			InputStream is = CIO.getInputStream(
-					"E:/Projects/hf_elex_svn/santc/data/edit/res/actor/" +
-					"actor_000000/output/actor.xml");
+					"/com/cell/gameedit/output/ccc.xml");
 			Document doc = docBuilder.parse(is);
 			new OutputXml() {
 				@Override

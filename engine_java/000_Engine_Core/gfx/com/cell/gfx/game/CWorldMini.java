@@ -10,7 +10,7 @@ import com.cell.gfx.IImages;
 
 public class CWorldMini extends CObject {
 
-	public int[] MapColor;
+//	public int[] MapColor;
 
 	public int CameraX = 0;
 	public int CameraY = 0;
@@ -95,29 +95,20 @@ public class CWorldMini extends CObject {
 		}
 		
 		if(ShowMap){
-			int[] mapColor = new int[world.getMap().getAnimates().getCount()];
-	    	for(int i=0;i<mapColor.length;i++){
-	    		try {
-	    			IImages images = world.getMap().getAnimates().images;
-	       			int index = world.getMap().getAnimates().STileID[world.getMap().getAnimates().Frames[i][0]];
-	    			mapColor[i] = images.getPixel(
-	    					index, 
-	    					colorKeyMapPos%images.getWidth(index),
-	    					colorKeyMapPos/images.getWidth(index)
-							);
-				} catch (RuntimeException e){
-					System.out.println(e.getMessage());
-					mapColor[i] = 0xff00ff00;
-				}
-	       	}
-	    	MapColor = mapColor;
-	    	
+			CMap cmap = world.getMap();
+			IImages images = world.getMap().getTiles();
 	    	Buffer = surface.createBuffer(WTW ,WTH);
 			bg = Buffer.createGraphics();
-			for (int by = 0; by < world.getMap().getYCount(); by++) {
-				for (int bx = 0; bx < world.getMap().getXCount(); bx++) {
-					bg.setColor(MapColor[World.Map.getTile(bx, by)]);
-					bg.fillRect(bx*CW, by*CH, CW, CH);
+			for (int ly =0; ly < cmap.getWidth(); ly++) {
+				for (int by = 0; by < world.getMap().getYCount(); by++) {
+					for (int bx = 0; bx < world.getMap().getXCount(); bx++) {
+						int tileI = cmap.getTile(ly, bx, by);
+						int color = images.getPixel(tileI, 
+								colorKeyMapPos%images.getWidth(tileI),
+		    					colorKeyMapPos/images.getWidth(tileI));
+						bg.setColor(color);
+						bg.fillRect(bx*CW, by*CH, CW, CH);
+					}
 				}
 			}
 		}

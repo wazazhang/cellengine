@@ -483,33 +483,33 @@ public class CSprite extends CUnit implements Serializable
 		return false;
 	}
 	
-	static public boolean touch_Spr_Map(CSprite spr,int type,CMap map)
+	static public boolean touch_Spr_Map(CSprite spr,int type,CMap map, int mapLayer)
 	{
-		return touch_SprFrame_Map(spr, spr.CurAnimate, spr.CurFrame, type, map);
+		return touch_SprFrame_Map(spr, spr.CurAnimate, spr.CurFrame, type, map, mapLayer);
 	}
 	
 
-	static public boolean touch_SprFrame_Map(CSprite spr, int anim, int frame, int type, CMap map)
+	static public boolean touch_SprFrame_Map(CSprite spr, int anim, int frame, int type, CMap map, int mapLayer)
 	{
 		switch (type) {
 		case CD_TYPE_MAP:
 			for (int sub = 0; sub < spr.collides.Frames[spr.FrameCDMap[anim][frame]].length; sub++) {
-				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map))
+				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map, mapLayer))
 					return true;
 			}
 		case CD_TYPE_ATK:
 			for (int sub = 0; sub < spr.collides.Frames[spr.FrameCDAtk[anim][frame]].length; sub++) {
-				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map))
+				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map, mapLayer))
 					return true;
 			}
 		case CD_TYPE_DEF:
 			for (int sub = 0; sub < spr.collides.Frames[spr.FrameCDDef[anim][frame]].length; sub++) {
-				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map))
+				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map, mapLayer))
 					return true;
 			}
 		case CD_TYPE_EXT:
 			for (int sub = 0; sub < spr.collides.Frames[spr.FrameCDExt[anim][frame]].length; sub++) {
-				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map))
+				if (touch_SprFrameSub_Map(spr, anim, frame, type, sub, map, mapLayer))
 					return true;
 			}
 		}	
@@ -518,14 +518,13 @@ public class CSprite extends CUnit implements Serializable
 	}
 
 	
-	static public boolean touch_SprSub_Map(CSprite spr,int type,int sub,CMap map)
+	static public boolean touch_SprSub_Map(CSprite spr,int type,int sub,CMap map, int mapLayer)
 	{
-		return touch_SprFrameSub_Map(spr, spr.CurAnimate, spr.CurFrame, type, sub, map);
+		return touch_SprFrameSub_Map(spr, spr.CurAnimate, spr.CurFrame, type, sub, map, mapLayer);
 	}
 	
-	static public boolean touch_SprFrameSub_Map(CSprite spr, int anim, int frame, int type,int sub,CMap map)
+	static public boolean touch_SprFrameSub_Map(CSprite spr, int anim, int frame, int type,int sub,CMap map, int mapLayer)
 	{
-		
 			int mbx = (spr.X+spr.getCurrentCD(type,sub).X1)/map.CellW-((spr.X+spr.getCurrentCD(type,sub).X1)<0?1:0);//
 			int mby = (spr.Y+spr.getCurrentCD(type,sub).Y1)/map.CellH-((spr.Y+spr.getCurrentCD(type,sub).Y1)<0?1:0);//
 			int mbw = (spr.X+spr.getCurrentCD(type,sub).X2)/map.CellW-((spr.X+spr.getCurrentCD(type,sub).X2)<0?1:0);//
@@ -533,11 +532,11 @@ public class CSprite extends CUnit implements Serializable
 			if(map.IsCyc==false){
 				for (int y=mby<0?0:mby; y<=mbh && y<map.getYCount(); y++) {
 					for (int x=mbx<0?0:mbx; x<=mbw && x<map.getXCount(); x++) {
-						if (map.MatrixFlag[y][x] > 0) //
+						if (map.MatrixFlag[mapLayer][y][x] > 0) //
 						{	
 							if(CSprite.touch_SprFrameSub_CD(
 									spr, anim, frame, type, sub,
-									map.getCD(x, y), 
+									map.getCD(mapLayer, x, y), 
 									x*map.CellW, 
 									y*map.CellH) 
 							){
@@ -549,11 +548,13 @@ public class CSprite extends CUnit implements Serializable
 			}else{
 				for (int y = mby; y <= mbh; y++) {
 					for (int x = mbx; x <= mbw; x++) {
-						if (map.MatrixFlag[CMath.cycNum(y,0,map.getYCount())][CMath.cycNum(x, 0, map.getXCount())] > 0) //
+						int cycX = CMath.cycNum(x, 0, map.getXCount());
+						int cycY = CMath.cycNum(y, 0, map.getYCount());
+						if (map.MatrixFlag[mapLayer][cycX][cycY] > 0) //
 						{
 							if(CSprite.touch_SprFrameSub_CD(
 									spr, anim, frame, type, sub,
-									map.getCD(CMath.cycNum(x, 0, map.getXCount()), CMath.cycNum(y,0,map.getYCount())), 
+									map.getCD(mapLayer, cycX, cycY), 
 									x*map.CellW, 
 									y*map.CellH)
 							){
@@ -574,11 +575,11 @@ public class CSprite extends CUnit implements Serializable
 	{
 		if (world.MovingFirstMapCD >= 0) 
 		{
-			return touch_SprSub_Map(this, CD_TYPE_MAP, world.MovingFirstMapCD, world.Map);
+			return touch_SprSub_Map(this, CD_TYPE_MAP, world.MovingFirstMapCD, world.Map, 0);
 		} 
 		else 
 		{
-			return touch_Spr_Map(this, CD_TYPE_MAP, world.Map);
+			return touch_Spr_Map(this, CD_TYPE_MAP, world.Map, 0);
 		}
 	}
 	
