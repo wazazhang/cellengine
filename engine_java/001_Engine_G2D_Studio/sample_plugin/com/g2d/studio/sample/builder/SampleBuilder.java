@@ -48,7 +48,7 @@ public class SampleBuilder extends Builder
 //	-------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public com.g2d.studio.io.File getCPJFile(
+	public com.g2d.studio.io.File findCPJFile(
 			com.g2d.studio.io.File file,
 			CPJResourceType resType) 
 	{
@@ -79,7 +79,7 @@ public class SampleBuilder extends Builder
 
 	
 	@Override
-	protected BuilderTask preBuild(File cpj_file_name) throws Exception
+	public BuilderTask preBuild(File cpj_file_name) throws Exception
 	{	
 		//JSBuildOutputScript js = createOutputScript(scfile);
 		return new BuilderTask(null, cpj_file_name, 60000);

@@ -144,13 +144,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 			if (file instanceof CPJFile) 
 			{
 				CPJFile cpj = (CPJFile)file;
-				if (cpj.getSetResource() == null) {
-					try {
-						cpj.refresh();
-					} catch (Throwable e) {
-						e.printStackTrace();
-					}
-				}
+				cpj.refreshIfNotLoad();
 				
 				G2DTreeNode<?> node = null;
 				switch(index.res_type)
@@ -411,7 +405,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 				for (CPJFile file : cur_files) {
 					try {
 						cur_files_map.put(file.getFile(), file);
-						file.refresh();
+						file.refreshIfNotLoad();
 					} catch (Throwable e1) {
 						e1.printStackTrace();
 					}	

@@ -151,7 +151,7 @@ public abstract class Builder
 	 * @param cpj_file_name
 	 * @return
 	 */
-	abstract protected BuilderTask preBuild(File cpj_file_name) throws Exception;
+	abstract public BuilderTask preBuild(File cpj_file_name) throws Exception;
 	
 	/**
 	 * 创建资源实体
@@ -166,7 +166,7 @@ public abstract class Builder
 	 * @param res_type
 	 * @return
 	 */
-	public abstract com.g2d.studio.io.File getCPJFile(
+	public abstract com.g2d.studio.io.File findCPJFile(
 			com.g2d.studio.io.File file, 
 			CPJResourceType res_type);
 	

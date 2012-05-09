@@ -236,6 +236,16 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 
 //	------------------------------------------------------------------------------------------------------------------------------
 
+	public void refreshIfNotLoad()
+	{
+		if (set_resource == null) {
+			try {
+				refresh();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public void refresh() throws Throwable
 	{
 		if (cpj_file != null && cpj_file.exists())
@@ -396,7 +406,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 			File[] files = root_file.listFiles();
 			progress.setMaximum(res_root, files.length);
 			for (File file : files) {
-				File cpj = Builder.getInstance().getCPJFile(file, res_type);
+				File cpj = Builder.getInstance().findCPJFile(file, res_type);
 				if (cpj != null && cpj.exists()) {
 					progress.increment();
 					ret.add(cpj);

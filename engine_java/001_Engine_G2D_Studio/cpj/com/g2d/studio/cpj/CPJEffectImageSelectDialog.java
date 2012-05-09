@@ -190,20 +190,23 @@ public class CPJEffectImageSelectDialog extends AbstractDialog implements Action
 			super.setVisibleRowCount(-1);
 
 			Vector<SubImage> items = new Vector<SubImage>();
-			synchronized (sprite.parent.getSetResource()) {
-				boolean unload = !sprite.parent.getSetResource().isLoadImages();
-				try{
-					sprite.parent.getSetResource().initAllStreamImages();
-					IImages tiles = sprite.parent.getSetResource().getImages(sprite.getSetObject().ImagesName);
-					for (int i=0; i<tiles.getCount(); i++) {
-						IImage tile = tiles.getImage(i);
-						if (tile != null) {
-							items.add(new SubImage(tile, i));
+			sprite.parent.refreshIfNotLoad();
+			if (sprite.parent.getSetResource() != null) {
+				synchronized (sprite.parent.getSetResource()) {
+					boolean unload = !sprite.parent.getSetResource().isLoadImages();
+					try{
+						sprite.parent.getSetResource().initAllStreamImages();
+						IImages tiles = sprite.parent.getSetResource().getImages(sprite.getSetObject().ImagesName);
+						for (int i=0; i<tiles.getCount(); i++) {
+							IImage tile = tiles.getImage(i);
+							if (tile != null) {
+								items.add(new SubImage(tile, i));
+							}
 						}
-					}
-				} finally {
-					if (unload) {
-						sprite.parent.getSetResource().destoryAllStreamImages();
+					} finally {
+						if (unload) {
+							sprite.parent.getSetResource().destoryAllStreamImages();
+						}
 					}
 				}
 			}
