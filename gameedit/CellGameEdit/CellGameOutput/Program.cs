@@ -26,8 +26,8 @@ namespace CellGameOutput
                         Console.Out.WriteLine("Load script file : " + scripts[i - 1]);
                     }
 
-                    new Output(filePath, scripts);
-
+                    Output output =  new Output(filePath, scripts);
+                    output.run();
                     return;
                 }
                 catch (Exception err)

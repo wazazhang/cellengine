@@ -10,18 +10,23 @@ namespace CellGameOutput
 {
     class Output
     {
+        string FileName;
+        string[] Scripts;
+
         public Output(String file, String[] scripts)
         {
             ProjectForm.IsOutEncodingInfo = false;
 
-            string FileName = Path.GetFullPath(file);
-            string[] Scripts = scripts;
+            FileName = Path.GetFullPath(file);
+            Scripts = scripts;
+        }
 
+        public void run()
+        {
             if (FileName != null && Scripts != null)
             {
-               DirectOutput(FileName, Scripts);
+                DirectOutput(FileName, Scripts);
             }
-           
         }
 
         private void DirectOutput(string FileName, string[] Scripts)
@@ -30,7 +35,7 @@ namespace CellGameOutput
             {
                 if (FileName != null && Scripts != null)
                 {
-                    Console.WriteLine("Loding : " + FileName);
+                    Console.WriteLine("Loading : " + FileName);
 
                     string name = System.IO.Path.GetFileName(FileName);
                     string dir = System.IO.Path.GetDirectoryName(FileName);
@@ -46,6 +51,7 @@ namespace CellGameOutput
                     if (stream.Length != 0)
                     {
                         project = (ProjectForm)formatter.Deserialize(stream);
+                        project.BeginOutputDirect();
                     }
 
                     stream.Close();

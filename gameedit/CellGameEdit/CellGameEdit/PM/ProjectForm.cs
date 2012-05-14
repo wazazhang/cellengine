@@ -338,7 +338,12 @@ namespace CellGameEdit.PM
         Boolean ImageGroup;
         Boolean ImageGroupData;
 
-        
+        public void BeginOutputDirect()
+        {
+            sortTreeView();
+            loadOver();
+        }
+
         public void OutputCustom(String fileName)
         {
             lock (this)
