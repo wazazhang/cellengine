@@ -133,7 +133,7 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 			else if (MutualMessage.class.isAssignableFrom(cls)) {
 				all_types.add(cls);
 			}
-			for (Class<?> sub : cls.getClasses()) {
+			for (Class<?> sub : cls.getDeclaredClasses()) {
 				registClasses(sub);
 			}
 		}
