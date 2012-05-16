@@ -29,7 +29,7 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 		this(null, classes);
 	}
 	public ExternalizableFactory(MutualMessageCodec mutual_codec) {
-		this(mutual_codec, new Class<?>[]{});
+		this(mutual_codec, mutual_codec.getClasses());
 	}
 	public ExternalizableFactory(MutualMessageCodec mutual_codec, Class<?> ... classes) {
 		this.mutual_codec = mutual_codec;
