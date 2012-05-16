@@ -10,7 +10,7 @@
             <packagesToUnSeal/>
         </sealing>
     </manifest>
-    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <javaElement handleIdentifier="=000_Engine_Core/tools"/>
         <javaElement handleIdentifier="=000_Engine_Core/snd"/>
         <javaElement handleIdentifier="=002_Engine_SQLProxy/src"/>
