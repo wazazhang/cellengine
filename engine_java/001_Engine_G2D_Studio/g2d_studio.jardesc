@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="001_Engine_G2D_Studio/sample_g2d.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/001_Engine_G2D_Studio/sample_g2d.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="001_Engine_G2D_Studio/g2d_studio.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/001_Engine_G2D_Studio/g2d_studio.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="/020_EatWorld_Edit/lib/deploy/client.mf" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
