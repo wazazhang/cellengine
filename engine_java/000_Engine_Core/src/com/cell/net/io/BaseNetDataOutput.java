@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.cell.io.ExternalizableUtil;
+import com.cell.util.EnumManager;
+import com.cell.util.EnumManager.ValueEnum;
 
 public abstract class BaseNetDataOutput implements NetDataOutput
 {
@@ -201,6 +203,9 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		case NetDataTypes.TYPE_DATE:
 			writeDate((Date)obj);
 			break;
+		case NetDataTypes.TYPE_ENUM:
+			writeEnum(obj);
+			break;
 			
 		case NetDataTypes.TYPE_OBJECT: 
 			writeObject(obj);
@@ -209,7 +214,12 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		default:
 		}
 	}
-
+	
+	protected void writeDynamicAny(Object obj) throws IOException 
+	{
+		byte data_type = NetDataTypes.getNetType(obj.getClass(), factory);
+		writeAny(data_type, obj);
+	}
 	
 	protected void writeAnyMutual(byte component_data_type, Object obj) throws IOException 
 	{
@@ -326,6 +336,17 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		}
 	}
 	
+	@Override
+	public void writeEnum(Object eo) throws IOException 
+	{
+		if (eo instanceof ValueEnum) {
+			writeBoolean(true);
+			writeDynamicAny(((ValueEnum<?>)eo).getValue());
+		} else {
+			writeBoolean(false);
+			writeUTF(eo.toString());
+		}
+	}
 	
 	
 }

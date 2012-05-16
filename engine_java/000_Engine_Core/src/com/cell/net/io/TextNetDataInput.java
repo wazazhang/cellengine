@@ -14,6 +14,8 @@ import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
 import com.cell.io.TextDeserialize;
+import com.cell.util.EnumManager;
+import com.cell.util.EnumManager.ValueEnum;
 
 public class TextNetDataInput extends BaseNetDataInput
 {	
@@ -106,5 +108,11 @@ public class TextNetDataInput extends BaseNetDataInput
 		} catch (Exception e2) {
 			throw new IOException(e2);
 		}
+	}
+	
+	@Override
+	public <T> T readEnum(Class<T> cls) throws IOException 
+	{
+		throw new NotImplementedException("Not Support Method");
 	}
 }

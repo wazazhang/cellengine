@@ -51,7 +51,9 @@ public interface NetDataInput extends DataInput
 	
 //	-----------------------------------------------------------------------------------------------
 
-	public <T> T readDate(Class<T> cls) throws IOException;
+	public <T> T 			readDate(Class<T> cls) throws IOException;
+	
+	public <T> T			readEnum(Class<T> cls) throws IOException;
 	
 //	-----------------------------------------------------------------------------------------------
 //

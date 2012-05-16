@@ -68,7 +68,7 @@ public class DateUtil
 		}
 		
 		public static DayOfWeek fromValue(int value) {
-			return EnumManager.toEnum(DayOfWeek.class, (byte)value);
+			return EnumManager.getEnum(DayOfWeek.class, (byte)value);
 		}
 		
 	}
@@ -115,7 +115,7 @@ public class DateUtil
 			return super.toString();
 		}
 		public static MonthOfYear fromValue(int value) {
-			return EnumManager.toEnum(MonthOfYear.class, (byte)value);
+			return EnumManager.getEnum(MonthOfYear.class, (byte)value);
 		}
 	}
 }

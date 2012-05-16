@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,6 +23,8 @@ import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
 import com.cell.reflect.ReflectUtil;
+import com.cell.util.EnumManager;
+import com.cell.util.EnumManager.ValueEnum;
 
 
 public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
@@ -233,6 +237,11 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			read.append("		" + f_name + " = in.readUTFArray();\n");
 			write.append("		out.writeUTFArray(" + f_name + ");\n");
 		}	
+		// Enum -----------------------------------------------
+		else if (f_type.isEnum()) {
+			read.append("		" + f_name + " = in.readEnum(" + f_type.getCanonicalName() + ".class);\n");
+			write.append("		out.writeEnum(" + f_name + ");\n");
+		}
 		// Date -----------------------------------------------
 		else if (Date.class.isAssignableFrom(f_type)) {
 			read.append("		" + f_name + " = in.readDate(" + f_type.getCanonicalName() + ".class);\n");
@@ -249,26 +258,45 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 					f_type.getCanonicalName() + ".class);\n");
 			write.append("		out.writeMutual(" + f_name + ");\n");
 		} 
-		else if (f_type.isArray()) {
-			if (f_type.getComponentType().isArray()) {
-				String leaf_type = NetDataTypes.toTypeName(NetDataTypes.getArrayCompomentType(f_type, factory));
+		else if (f_type.isArray()) 
+		{
+			// array[0][1]...[n]
+			if (f_type.getComponentType().isArray()) 
+			{
+				String leaf_type = NetDataTypes.toTypeName(
+						NetDataTypes.getArrayCompomentType(f_type, factory));
 				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
 						f_type.getCanonicalName() + ".class, " +
 						"NetDataTypes." + leaf_type + ");\n");
 				write.append("		out.writeAnyArray(" + f_name + ", " +
 						"NetDataTypes." + leaf_type + ");\n");
-			} else {
+			} 
+			else
+			{
 				Class<?> comp_type = f_type.getComponentType();
-				if (ExternalizableMessage.class.isAssignableFrom(comp_type)) {
+				// 
+				if (ExternalizableMessage.class.isAssignableFrom(comp_type))
+				{
 					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
 							comp_type.getCanonicalName() + ".class);\n");
 					write.append("		out.writeExternalArray(" + f_name + ");\n");
 				} 
-				else if (MutualMessage.class.isAssignableFrom(comp_type)) {
+				else if (MutualMessage.class.isAssignableFrom(comp_type))
+				{
 					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readMutualArray(" + 
 							comp_type.getCanonicalName() + ".class);\n");
 					write.append("		out.writeMutualArray(" + f_name + ");\n");
 				} 
+				else
+				{
+					String leaf_type = NetDataTypes.toTypeName(
+							NetDataTypes.getNetType(comp_type, factory));
+					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
+							f_type.getCanonicalName() + ".class, " +
+							"NetDataTypes." + leaf_type + ");\n");
+					write.append("		out.writeAnyArray(" + f_name + ", " +
+							"NetDataTypes." + leaf_type + ");\n");
+				}
 			}
 		} 
 		// Collections -----------------------------------------------

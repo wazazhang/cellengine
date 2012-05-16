@@ -15,6 +15,7 @@ import com.cell.CUtil;
 import com.cell.exception.NotImplementedException;
 import com.cell.io.ExternalizableUtil;
 import com.cell.io.TextDeserialize;
+import com.cell.util.EnumManager;
 
 public abstract class BaseNetDataInput implements NetDataInput
 {	
@@ -212,12 +213,19 @@ public abstract class BaseNetDataInput implements NetDataInput
 			return readUTF();
 		case NetDataTypes.TYPE_DATE: 
 			return readDate(component_type);
+		case NetDataTypes.TYPE_ENUM:
+			return readEnum(component_type);
 			
 		case NetDataTypes.TYPE_OBJECT:
 			return readObject(component_type);
 		default:
 			return null;
 		}
+	}
+	
+	protected Object readDynamicAny(Class<?> type) throws IOException {
+		byte data_type = NetDataTypes.getNetType(type, factory);
+		return readAny(data_type, type);
 	}
 	
 	protected Object readAnyMutual(byte component_data_type) throws IOException {
@@ -338,5 +346,28 @@ public abstract class BaseNetDataInput implements NetDataInput
 			throw new IOException(e2);
 		}
 		return null;
+	}
+	
+	
+	@Override
+	public <T> T readEnum(Class<T> cls) throws IOException
+	{
+		try 
+		{	
+			boolean isValueEnum = readBoolean();
+			if (isValueEnum) {
+				Class<?> gpt = EnumManager.getValueEnumGenreicType(cls);
+				Object ret = readDynamicAny(gpt);
+				return cls.cast(EnumManager.toEnum(cls, ret));
+			} else {
+				String enumName = readUTF();
+				T result = EnumManager.valueOf(cls, enumName);
+				return result;
+			}
+		} catch (IOException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new IOException(e2);
+		}
 	}
 }

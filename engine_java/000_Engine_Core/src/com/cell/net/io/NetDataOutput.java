@@ -52,6 +52,8 @@ public interface NetDataOutput extends DataOutput
 //	-----------------------------------------------------------------------------------------------
 
 	public void writeDate(Date date) throws IOException;
+
+	public void writeEnum(Object eo) throws IOException;
 	
 //// -----------------------------------------------------------------------------------------------
 //

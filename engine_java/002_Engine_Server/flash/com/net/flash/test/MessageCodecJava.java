@@ -10,18 +10,18 @@ import com.cell.net.io.*;
 public class MessageCodecJava implements MutualMessageCodec
 {
 	public String getVersion() {
-		return "1329117903896";
+		return "1337163089359";
 	}
 
 	public Class<?>[] getClasses()
 	{
 		return new Class<?>[]{
-			com.net.flash.test.Messages.Data.class,
-			com.net.flash.test.Messages.Echo2Request.class,
-			com.net.flash.test.Messages.Echo2Response.class,
-			com.net.flash.test.Messages.EchoNotify.class,
-			com.net.flash.test.Messages.EchoRequest.class,
-			com.net.flash.test.Messages.EchoResponse.class,
+			com.net.flash.test.Messages.Data.class, //1
+			com.net.flash.test.Messages.Echo2Request.class, //2
+			com.net.flash.test.Messages.Echo2Response.class, //3
+			com.net.flash.test.Messages.EchoNotify.class, //4
+			com.net.flash.test.Messages.EchoRequest.class, //5
+			com.net.flash.test.Messages.EchoResponse.class, //6
 
 		};
 	}
@@ -91,6 +91,10 @@ public class MessageCodecJava implements MutualMessageCodec
 		msg.a_d4 = in.readIntArray();
 		msg.a_d5 = in.readFloatArray();
 		msg.b_d5 = (float[][])in.readAnyArray(float[][].class, NetDataTypes.TYPE_FLOAT);
+		msg.enum_ts = in.readEnum(com.net.flash.test.Messages.TargetState.class);
+		msg.enum_sb = in.readEnum(com.net.flash.test.Messages.StateInBattle.class);
+		msg.enums_ts = (com.net.flash.test.Messages.TargetState[])in.readAnyArray(com.net.flash.test.Messages.TargetState[].class, NetDataTypes.TYPE_ENUM);
+		msg.enums_sb = (com.net.flash.test.Messages.StateInBattle[])in.readAnyArray(com.net.flash.test.Messages.StateInBattle[].class, NetDataTypes.TYPE_ENUM);
 	}
 	private void _w(com.net.flash.test.Messages.Data msg, NetDataOutput out) throws IOException {
 		out.writeUTF(msg.message2);
@@ -108,6 +112,10 @@ public class MessageCodecJava implements MutualMessageCodec
 		out.writeIntArray(msg.a_d4);
 		out.writeFloatArray(msg.a_d5);
 		out.writeAnyArray(msg.b_d5, NetDataTypes.TYPE_FLOAT);
+		out.writeEnum(msg.enum_ts);
+		out.writeEnum(msg.enum_sb);
+		out.writeAnyArray(msg.enums_ts, NetDataTypes.TYPE_ENUM);
+		out.writeAnyArray(msg.enums_sb, NetDataTypes.TYPE_ENUM);
 	}
 
 //	----------------------------------------------------------------------------------------------------

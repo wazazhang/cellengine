@@ -100,4 +100,9 @@ public class TextNetDataOutput extends BaseNetDataOutput
 		}
 	}
 	
+	@Override
+	public void writeEnum(Object eo) throws IOException
+	{
+		throw new NotImplementedException("Not Support Method");
+	}
 }

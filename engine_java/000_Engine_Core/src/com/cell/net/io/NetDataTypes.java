@@ -26,6 +26,7 @@ public class NetDataTypes
 	public final static byte TYPE_MUTUAL			= -12;
 	
 	public final static byte TYPE_DATE			= -13;
+	public final static byte TYPE_ENUM			= -14;
 	
 	public static String toTypeName(byte type) {
 		switch (type) {
@@ -55,6 +56,8 @@ public class NetDataTypes
 			
 		case NetDataTypes.TYPE_DATE:
 			return "TYPE_DATE";
+		case NetDataTypes.TYPE_ENUM:
+			return "TYPE_ENUM";
 			
 		case NetDataTypes.TYPE_OBJECT:
 			return "TYPE_OBJECT";
@@ -98,6 +101,9 @@ public class NetDataTypes
 		}
 		else if (Date.class.isAssignableFrom(type)) {
 			return TYPE_DATE;
+		}
+		else if (type.isEnum()) {
+			return TYPE_ENUM;
 		}
 		
 		else if (ExternalizableMessage.class.isAssignableFrom(type)) {

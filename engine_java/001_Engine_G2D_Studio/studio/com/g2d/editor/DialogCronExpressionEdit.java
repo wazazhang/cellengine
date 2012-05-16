@@ -182,12 +182,17 @@ public class DialogCronExpressionEdit<T extends CronExpression>
 			// set default value
 			try
 			{
+
+				MonthOfYear moy = EnumManager.getEnum(MonthOfYear.class, date.month.getKey());
+
+				DayOfWeek dow = EnumManager.getEnum(DayOfWeek.class, date.day_of_week.getKey());
+				
 				combo_year			.setValue(date.year.getKey());
-				combo_month			.setValue(EnumManager.toEnum(MonthOfYear.class, date.month.getKey()));
+				combo_month			.setValue(moy);
 				combo_day_of_month	.setValue(date.day_of_month.getKey());
 //				combo_week_of_year	.setValue(date.week_of_year.getKey());
 				combo_week_of_month	.setValue(date.week_of_month.getKey());
-				combo_day_of_week	.setValue(EnumManager.toEnum(DayOfWeek.class, date.day_of_week.getKey()));
+				combo_day_of_week	.setValue(dow);
 				combo_hour			.setValue(date.hour.getKey());
 				combo_minute		.setValue(date.minute.getKey());
 				combo_second		.setValue(date.second.getKey());
