@@ -595,14 +595,22 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		if (msg.isEnum()) 
 		{
 			ret = StringUtil.delStringRange(ret, 
-					MSG_RANGE_CONSTRUCT[0], 
-					MSG_RANGE_CONSTRUCT[1],
-					true);
-			
-			ret = StringUtil.delStringRange(ret, 
 					MSG_RANGE_IMPLEMENTS[0], 
 					MSG_RANGE_IMPLEMENTS[1],
 					true);
+			ret = StringUtil.delStringRange(ret, 
+					MSG_RANGE_CONSTRUCT[0], 
+					MSG_RANGE_CONSTRUCT[1],
+					true);
+		}
+		else
+		{
+			ret = StringUtil.cleanStringRangeKV(ret, 
+					MSG_RANGE_IMPLEMENTS[0], 
+					MSG_RANGE_IMPLEMENTS[1]);
+			ret = StringUtil.cleanStringRangeKV(ret, 
+					MSG_RANGE_CONSTRUCT[0], 
+					MSG_RANGE_CONSTRUCT[1]);
 		}
 		return ret;
 	}

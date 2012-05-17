@@ -237,6 +237,27 @@ public class StringUtil
 		}
 	}
 	
+	/**
+	 * 删除begin,end
+	 * @param src
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public static String cleanStringRangeKV(String src, String begin, String end)
+	{
+		int si = src.indexOf(begin);
+		int ei = src.lastIndexOf(end);
+		if (si >= 0 && ei > 0) {
+			return
+			src.substring(0, si) + 
+			src.substring(si + begin.length(), ei) + 
+			src.substring(ei + end.length());
+		} else {
+			return src;
+		}
+	}
+	
 }; // class
 
 
