@@ -86,6 +86,11 @@ package com.cell.net.io
 		}
 		
 		
+		public function readEnum() : String
+		{
+			return readJavaUTF();
+		}
+		
 		
 		public function readBooleanArray() : Array
 		{

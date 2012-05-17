@@ -87,7 +87,10 @@ package com.cell.net.io
 			
 		}
 		
-		
+		public function writeEnum(e:String) : void
+		{
+			writeJavaUTF(e);
+		}
 		
 		
 		

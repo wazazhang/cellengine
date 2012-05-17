@@ -47,8 +47,7 @@ package com.cell.net.io
 		
 		function writeDate(date:Date) : void;
 		
-		
-		
+		function writeEnum(e:String) : void;
 		
 		
 		
