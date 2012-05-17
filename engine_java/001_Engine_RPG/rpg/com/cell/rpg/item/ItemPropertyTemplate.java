@@ -23,10 +23,10 @@ public abstract class ItemPropertyTemplate extends AbstractAbility
 {
 	private static final long serialVersionUID = 1L;
 
-	public static Random RANDOM = new Random();
-	
-	private transient Integer	save_type 	= null;
-	private transient Field[]	save_fields = null;
+//	public static Random RANDOM = new Random();
+//	
+//	private transient Integer	save_type 	= null;
+//	private transient Field[]	save_fields = null;
 	
 	@Override
 	public boolean isMultiField() 
@@ -34,29 +34,29 @@ public abstract class ItemPropertyTemplate extends AbstractAbility
 		return true;
 	}
 	
-	final public Integer getSaveType() 
-	{
-		if (save_type == null) {
-			save_type = getType(getClass());
-		}
-		return save_type;
-	}
-	
-	final public Field[] getSaveFields() 
-	{
-		if (save_fields == null) {
-			ArrayList<Field> fields = new ArrayList<Field>();
-			for (Field field : getClass().getDeclaredFields()) {
-				ItemPersistenceField pro = field.getAnnotation(ItemPersistenceField.class);
-				if (pro != null) {
-					fields.add(field);
-				}
-			}
-			save_fields = fields.toArray(new Field[fields.size()]);
-		}
-		return save_fields;
-	}
-	
+//	final public Integer getSaveType() 
+//	{
+//		if (save_type == null) {
+//			save_type = getType(getClass());
+//		}
+//		return save_type;
+//	}
+//	
+//	final public Field[] getSaveFields() 
+//	{
+//		if (save_fields == null) {
+//			ArrayList<Field> fields = new ArrayList<Field>();
+//			for (Field field : getClass().getDeclaredFields()) {
+//				ItemPersistenceField pro = field.getAnnotation(ItemPersistenceField.class);
+//				if (pro != null) {
+//					fields.add(field);
+//				}
+//			}
+//			save_fields = fields.toArray(new Field[fields.size()]);
+//		}
+//		return save_fields;
+//	}
+//	
 //	final public ItemPropertyData createData() throws Exception 
 //	{
 //		ItemPropertyData data = new ItemPropertyData();
@@ -73,22 +73,22 @@ public abstract class ItemPropertyTemplate extends AbstractAbility
 //		
 //		return data;
 //	}
-	
-	/**
-	 * 子类可以自定义存储自己的复杂格式参数
-	 * @param field
-	 * @return
-	 * @throws Exception
-	 */
-	protected Object createFieldData(Field field) throws Exception
-	{
-		Object data = field.get(this);
-		if (data instanceof ArgTemplate<?>) {
-			return ((ArgTemplate<?>)data).getValue();
-		}
-		return data;
-	}
-	
+//	
+//	/**
+//	 * 子类可以自定义存储自己的复杂格式参数
+//	 * @param field
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	protected Object createFieldData(Field field) throws Exception
+//	{
+//		Object data = field.get(this);
+//		if (data instanceof ArgTemplate<?>) {
+//			return ((ArgTemplate<?>)data).getValue();
+//		}
+//		return data;
+//	}
+//	
 //	/**
 //	 * 子类实现道具计算公式及能力，可以用做攻击时，装备时，使用时等。
 //	 * @param data 输入任意参数
@@ -152,7 +152,7 @@ public abstract class ItemPropertyTemplate extends AbstractAbility
 		public T getValue() 
 		{
 			return Parser.castNumber(CUtil.getRandom(
-					RANDOM, 
+					CUtil.getRandom(), 
 					arg_create_min.doubleValue(),
 					arg_create_max.doubleValue()), 
 					value_type);
@@ -181,19 +181,9 @@ public abstract class ItemPropertyTemplate extends AbstractAbility
 	}
 	
 //	-----------------------------------------------------------------------------------
-
-	public static Integer getType(Class<?> cls) 
-	{
-		ItemType type = cls.getAnnotation(ItemType.class);
-		if (type != null) {
-			return type.value();
-		} else {
-			return null;
-		}
-	}
-	
+//
 //	-----------------------------------------------------------------------------------
-	
+//	
 //	public static void main(String[] args)
 //	{
 //		ArgTemplate<Integer> var = new ArgTemplate<Integer>(1, 1);

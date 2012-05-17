@@ -7,7 +7,7 @@ import com.cell.rpg.item.ItemPropertyManager;
 import com.g2d.editor.property.PropertyEditor;
 
 
-public class EatItemPropertyManager implements ItemPropertyManager
+public class EatItemPropertyManager extends ItemPropertyManager
 {
 	HashSet<Class<?>> classes = new HashSet<Class<?>>();
 		
