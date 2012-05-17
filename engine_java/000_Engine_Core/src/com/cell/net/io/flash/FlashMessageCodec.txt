@@ -25,7 +25,7 @@ package //package
 			var cname : String = getQualifiedClassName(msg);
 			
 //getType
-			return 0;
+			throw new Error("Object is not a MutualMessage : " + msg);
 		}
 		
 		public function	createMessage(type : int) : MutualMessage
@@ -34,17 +34,27 @@ package //package
 			{
 //createMessage
 			}
-			return null;
+			throw new Error("Can not create message : " + type);
 		}
 		
 		public function	readExternal(msg : MutualMessage,  input : NetDataInput) : void  
 		{
+			var type : int = getType(msg);
+			switch(type)
+			{
 //readExternal
+			}
+			throw new Error("Can not decode message : " + type + " : " + msg);
 		}
 		
 		public function	writeExternal(msg : MutualMessage, output : NetDataOutput) : void  
 		{
+			var type : int = getType(msg);
+			switch(type)
+			{
 //writeExternal
+			}
+			throw new Error("Can not encode message : " + type + " : " + msg);
 		}
 		
 //classes

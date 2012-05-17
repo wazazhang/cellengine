@@ -167,9 +167,15 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			return "		Unsupported type : " + f_type.getName();
 		}
 	}
-	
-
 	////////////////////////////////////////////////////////////////////
+	
+	private String tb(int count){
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i<count; i++) {
+			sb.append('\t');
+		}
+		return sb.toString();
+	}
 	
 	public String DAC_FIELD_PACKAGE			= "//package";
 	public String DAC_FIELD_IMPORT			= "//import";
@@ -197,27 +203,30 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			
 			int    s_type = e.getKey();
 			
-			if (!Modifier.isAbstract(cls.getModifiers())) 
+			if (!Modifier.isAbstract(cls.getModifiers()) && !cls.isEnum()) 
 			{
 				String m_name = s_name + "_" + s_type;
 				String q_name = c_name.substring(0, c_name.length() - s_name.length() - 1) + "::" + s_name;
 				
 				get_type.append(
-				"			if (cname == \"" + q_name + "\") return " + s_type + ";\n");
-				
+						tb(3) + "if (cname == \"" + q_name + "\") return " + s_type + ";\n");
+//				read_external.append(
+//						tb(2) + "if (msg is " + c_name + ") {\n" +
+//						tb(3) + "r_" + m_name + "(" + c_name + "(msg), input); return;\n" +
+//						tb(2) + "}\n");
+//				write_external.append(
+//						tb(2) + "\t\tif (msg is " + c_name + ") {\n" +
+//						tb(3) + "w_" + m_name + "(" + c_name + "(msg), output); return;\n" +
+//						tb(2) + "}\n");
 				read_external.append(
-				"		if (msg is " + c_name + ") {\n" +
-				"			r_" + m_name + "(" + c_name + "(msg), input); return;\n" +
-				"		}\n");
+						tb(3) + "case " + s_type + " : " +
+						"r_"+s_type+"(" + c_name + "(msg), input); return;\n");
 				write_external.append(
-				"		if (msg is " + c_name + ") {\n" +
-				"			w_" + m_name + "(" + c_name + "(msg), output); return;\n" +
-				"		}\n");
+						tb(3) + "case " + s_type + " : " +
+						"w_"+s_type+"(" + c_name + "(msg), output); return;\n");
 				genCodecMethod(factory, e.getValue(), s_type, classes);
-				
 				new_msg.append(
-				"			case " + s_type + " : return new " + c_name + ";\n");
-				
+						tb(3) + "case " + s_type + " : return new " + c_name + ";\n");
 			}
 		}
 
@@ -258,10 +267,10 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		sb.append("//	" + c_name + "\n");
 		sb.append("//	----------------------------------------------------------------------------------------------------\n");
 //		sb.append("	public static function new_" + m_name + "() : " + c_name + " {return new " + c_name + "();}\n");
-		sb.append("	private function r_" + m_name + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
+		sb.append("	private function r_" + msg_type + "(msg : " + c_name + ", input : NetDataInput) : void {\n");
 		sb.append(read);
 		sb.append("	}\n");
-		sb.append("	private function w_" + m_name + "(msg : " + c_name + ", output : NetDataOutput) : void {\n");
+		sb.append("	private function w_" + msg_type + "(msg : " + c_name + ", output : NetDataOutput) : void {\n");
 		sb.append(write);
 		sb.append("	}\n\n");
 	}
@@ -363,6 +372,11 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			read.append("		" + f_name + " = input.readUTFArray();\n");
 			write.append("		output.writeUTFArray(" + f_name + ");\n");
 		}	
+		// Enum -----------------------------------------------
+		else if (f_type.isEnum()) {
+			read.append("		" + f_name + " = input.readEnum();\n");
+			write.append("		output.writeEnum(" + f_name + ");\n");
+		}
 		// Date -----------------------------------------------
 		else if (Date.class.isAssignableFrom(f_type)) {
 			read.append("		" + f_name + " = input.readDate();\n");
