@@ -93,12 +93,14 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 			for (Class<?> cls : all_types) {
 				map_id_type.put(index, cls);
 				map_type_id.put(cls, index);
-				try {
-					if (cls.getConstructor() == null) {}
-				} catch (SecurityException e1) {
-					e1.printStackTrace();
-				} catch (NoSuchMethodException e1) {
-					System.err.println("Message : " + e1.getClass() + " : " + e1.getMessage());
+				if (!cls.isEnum()) {
+					try {
+						if (cls.getConstructor() == null) {}
+					} catch (SecurityException e1) {
+						e1.printStackTrace();
+					} catch (NoSuchMethodException e1) {
+						System.err.println("Message : " + e1.getClass() + " : " + e1.getMessage());
+					}
 				}
 				index ++;
 			}
@@ -131,6 +133,9 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 				all_types.add(cls);
 			}
 			else if (MutualMessage.class.isAssignableFrom(cls)) {
+				all_types.add(cls);
+			}
+			else if (cls.isEnum()) {
 				all_types.add(cls);
 			}
 			for (Class<?> sub : cls.getDeclaredClasses()) {

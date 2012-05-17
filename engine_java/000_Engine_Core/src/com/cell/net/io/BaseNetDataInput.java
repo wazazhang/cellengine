@@ -223,11 +223,6 @@ public abstract class BaseNetDataInput implements NetDataInput
 		}
 	}
 	
-	protected Object readDynamicAny(Class<?> type) throws IOException {
-		byte data_type = NetDataTypes.getNetType(type, factory);
-		return readAny(data_type, type);
-	}
-	
 	protected Object readAnyMutual(byte component_data_type) throws IOException {
 		switch (component_data_type) {
 //		case NetDataTypes.TYPE_EXTERNALIZABLE:
@@ -264,7 +259,10 @@ public abstract class BaseNetDataInput implements NetDataInput
 			return readUTF();
 		case NetDataTypes.TYPE_DATE: 
 			return readDate(java.sql.Date.class);
-			
+		case NetDataTypes.TYPE_ENUM: 
+			int enumClassType = readInt();
+			Class<?> enumClass= factory.getMessageClass(enumClassType);
+			return readEnum(enumClass);
 //		case NetDataTypes.TYPE_OBJECT:
 //			return readObject(component_type);
 		default:
@@ -353,17 +351,10 @@ public abstract class BaseNetDataInput implements NetDataInput
 	public <T> T readEnum(Class<T> cls) throws IOException
 	{
 		try 
-		{	
-			boolean isValueEnum = readBoolean();
-			if (isValueEnum) {
-				Class<?> gpt = EnumManager.getValueEnumGenreicType(cls);
-				Object ret = readDynamicAny(gpt);
-				return cls.cast(EnumManager.toEnum(cls, ret));
-			} else {
-				String enumName = readUTF();
-				T result = EnumManager.valueOf(cls, enumName);
-				return result;
-			}
+		{
+			String enumName = readUTF();
+			T result = EnumManager.valueOf(cls, enumName);
+			return result;
 		} catch (IOException e1) {
 			throw e1;
 		} catch (Exception e2) {

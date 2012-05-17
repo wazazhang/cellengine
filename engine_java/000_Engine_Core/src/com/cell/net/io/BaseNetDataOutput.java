@@ -215,12 +215,6 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		}
 	}
 	
-	protected void writeDynamicAny(Object obj) throws IOException 
-	{
-		byte data_type = NetDataTypes.getNetType(obj.getClass(), factory);
-		writeAny(data_type, obj);
-	}
-	
 	protected void writeAnyMutual(byte component_data_type, Object obj) throws IOException 
 	{
 		switch (component_data_type) {
@@ -261,7 +255,11 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 		case NetDataTypes.TYPE_DATE: 
 			writeDate((Date)obj);
 			break;
-			
+		case NetDataTypes.TYPE_ENUM: 
+			int enumClassType = getFactory().getMessageType(obj.getClass());
+			writeInt(enumClassType);
+			writeEnum(obj);
+			break;
 //		case NetDataTypes.TYPE_OBJECT: 
 //			writeObject(obj);
 //			break;
@@ -339,13 +337,7 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 	@Override
 	public void writeEnum(Object eo) throws IOException 
 	{
-		if (eo instanceof ValueEnum) {
-			writeBoolean(true);
-			writeDynamicAny(((ValueEnum<?>)eo).getValue());
-		} else {
-			writeBoolean(false);
-			writeUTF(eo.toString());
-		}
+		writeUTF(eo.toString());
 	}
 	
 	

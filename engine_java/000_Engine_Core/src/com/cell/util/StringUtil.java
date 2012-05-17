@@ -190,6 +190,53 @@ public class StringUtil
 	}	
 	
 	
+
+	/**
+	 * 得到范围内的内容
+	 * @param src
+	 * @param begin
+	 * @param end
+	 * @param include 是否包含 begin,end
+	 * @return
+	 */
+	public static String getStringRange(String src, String begin, String end, boolean include)
+	{
+		int si = src.indexOf(begin);
+		int ei = src.lastIndexOf(end);
+		if (si >= 0 && ei > 0) {
+			if (include) {
+				return src.substring(si, ei + end.length());
+			} else {
+				return src.substring(si + begin.length(), ei);
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * 删除范围内的内容
+	 * @param src
+	 * @param begin
+	 * @param end
+	 * @param include 是否包含 begin,end
+	 * @return
+	 */
+	public static String delStringRange(String src, String begin, String end, boolean include)
+	{
+		int si = src.indexOf(begin);
+		int ei = src.lastIndexOf(end);
+		if (si >= 0 && ei > 0) {
+			if (include) {
+				return src.substring(0, si) + src.substring(ei + end.length());
+			} else {
+				return src.substring(0, si + begin.length()) + src.substring(ei);
+			}
+		} else {
+			return src;
+		}
+	}
+	
 }; // class
 
 

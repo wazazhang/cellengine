@@ -193,9 +193,8 @@ public class Messages
 					return date+"";
 				}
 			};
-			System.out.println(gen_as.genMutualMessageCodec(factory));
-//			gen_as.genCodeFile(factory, 
-//					new File(args[0]));
+			gen_as.genCodeFile(factory, 
+					new File("./flash"));
 		}
 		
 		

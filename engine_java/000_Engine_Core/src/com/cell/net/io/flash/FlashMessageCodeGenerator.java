@@ -37,6 +37,8 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			"/com/cell/net/io/flash/FlashMessage.txt");
 	private String message_import	= "";
 	
+	////////////////////////////////////////////////////////////////////
+	
 	public FlashMessageCodeGenerator() {
 		this(null, null, null, null);
 	}
@@ -139,6 +141,10 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		else if (f_type.equals(String.class)) {
 			return "String";
 		}
+		// Enum -----------------------------------------------
+		else if (f_type.isEnum()) {
+			return "String";
+		}	
 		// Date -----------------------------------------------
 		else if (Date.class.isAssignableFrom(f_type)) {
 			return "Date";
@@ -162,6 +168,18 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		}
 	}
 	
+
+	////////////////////////////////////////////////////////////////////
+	
+	public String DAC_FIELD_PACKAGE			= "//package";
+	public String DAC_FIELD_IMPORT			= "//import";
+	public String DAC_FIELD_CLASSNAME		= "//className";
+	public String DAC_FIELD_VERSION			= "//version";
+	public String DAC_FIELD_GETTYPE			= "//getType";
+	public String DAC_FIELD_CREATEMESSAGE	= "//createMessage";
+	public String DAC_FIELD_READEXTERNAL	= "//readExternal";
+	public String DAC_FIELD_WRITEEXTERNAL	= "//writeExternal";
+	public String DAC_FIELD_CLASSES			= "//classes";
 	
 	public String genMutualMessageCodec(ExternalizableFactory factory)
 	{
@@ -202,17 +220,17 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 				
 			}
 		}
-		
+
 		String ret = this.codec_template;
-		ret = CUtil.replaceString(ret, "//package", 		codec_package);
-		ret = CUtil.replaceString(ret, "//import", 			codec_import);
-		ret = CUtil.replaceString(ret, "//className", 		codec_class_name);	
-		ret = CUtil.replaceString(ret, "//version",			getVersion());
-		ret = CUtil.replaceString(ret, "//getType", 		get_type.toString());
-		ret = CUtil.replaceString(ret, "//createMessage", 	new_msg.toString());	
-		ret = CUtil.replaceString(ret, "//readExternal",	read_external.toString());
-		ret = CUtil.replaceString(ret, "//writeExternal",	write_external.toString());
-		ret = CUtil.replaceString(ret, "//classes",			classes.toString());
+		ret = CUtil.replaceString(ret, DAC_FIELD_PACKAGE, 		codec_package);
+		ret = CUtil.replaceString(ret, DAC_FIELD_IMPORT, 		codec_import);
+		ret = CUtil.replaceString(ret, DAC_FIELD_CLASSNAME, 	codec_class_name);	
+		ret = CUtil.replaceString(ret, DAC_FIELD_VERSION,		getVersion());
+		ret = CUtil.replaceString(ret, DAC_FIELD_GETTYPE, 		get_type.toString());
+		ret = CUtil.replaceString(ret, DAC_FIELD_CREATEMESSAGE, new_msg.toString());	
+		ret = CUtil.replaceString(ret, DAC_FIELD_READEXTERNAL,	read_external.toString());
+		ret = CUtil.replaceString(ret, DAC_FIELD_WRITEEXTERNAL,	write_external.toString());
+		ret = CUtil.replaceString(ret, DAC_FIELD_CLASSES,		classes.toString());
 		return ret;
 	}
 		
@@ -410,6 +428,23 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	}
 	
 //	------------------------------------------------------------------------------------------------------------------
+
+	public String[] MSG_RANGE_CONSTRUCT 	= {"<CONSTRUCT>",  "</CONSTRUCT>"};
+	public String[] MSG_RANGE_IMPLEMENTS 	= {"<IMPLEMENTS>", "</IMPLEMENTS>"};
+
+	public String MSG_FIELD_PACKAGE			= "//package";
+	public String MSG_FIELD_IMPORT			= "//import";
+	public String MSG_FIELD_CLASSCOMMENT	= "//classComment";
+	public String MSG_FIELD_CLASSTYPE		= "//classType";
+	public String MSG_FIELD_DYNAMIC			= "//dynamic";
+	public String MSG_FIELD_CLASSNAME		= "//className";
+	public String MSG_FIELD_EXTENDSCLASS	= "//extendsClass";
+	public String MSG_FIELD_CLASSFULLNAME	= "//classFullName";
+	public String MSG_FIELD_INITCOMMENT		= "//initComment";
+	public String MSG_FIELD_INITARGS		= "//initArgs";
+	public String MSG_FIELD_INITFIELDS		= "//initFields";
+	public String MSG_FIELD_FIELDS			= "//fields";
+	public String MSG_FIELD_ASFUNCTIONS		= "//asFunctions";
 	
 	public TreeMap<Class<?>, String> genMutualMessages(ExternalizableFactory factory)
 	{
@@ -431,12 +466,18 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		String 	o_package 	= c_name.substring(0, c_name.length() - s_name.length() - 1);
 		String 	s_comment	= c_comment != null ? CUtil.arrayToString(c_comment.value(),",","<br>") : "";
 		
-		if (factory.containsMessageType(msg.getSuperclass())) {
-			ext_name = "extends " + msg.getSuperclass().getCanonicalName();
+		
+		if (factory.containsMessageType(msg.getSuperclass())) 
+		{
+			// 枚举不需要继承
+			if (!msg.isEnum()) {
+				ext_name = "extends " + msg.getSuperclass().getCanonicalName();
+			}
 		}
 		
 		StringBuilder d_fields = new StringBuilder();
 		
+		// 创建各个字段
 		for (Field f : msg.getDeclaredFields()) 
 		{
 			int modifiers = f.getModifiers();
@@ -453,19 +494,33 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 					"		/** " + CUtil.arrayToString(f_comment.value(),",","") + "<br>\n" +
 					"		  * " + f_cline + "*/\n");
 			}
-			
+			// 静态或常量
 			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) 
 			{
 				Object value = null;
 				try {
 					value = f.get(null);
 				} catch (Exception e) {}
-				if (!Modifier.isPrivate(modifiers)) {
-					d_fields.append(
-					"		static public const " + f.getName() + " : " +  toASType(f.getType()) + " = " + value + ";");
+				
+				// message is enum
+				if (!Modifier.isPrivate(modifiers)) 
+				{
+					if (msg.isEnum()) 
+					{
+						d_fields.append(
+						"		static public const " + f.getName() + 
+						" : " +  toASType(f.getType()) + " = \"" + value + "\";");
+					}
+					else
+					{
+						d_fields.append(
+						"		static public const " + f.getName() + 
+						" : " +  toASType(f.getType()) + " = " + value + ";");
+					}
 				}
 			}
-			else
+			// 非枚举变量
+			else if (!msg.isEnum())
 			{
 				if (f_comment == null) {
 					d_fields.append(
@@ -522,22 +577,33 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			d_init_commet.append("		 */");
 		}
 		
-		
 		String ret = this.message_template;
-		ret = CUtil.replaceString(ret, "//package", 		o_package);
-		ret = CUtil.replaceString(ret, "//import", 			message_import);
-		ret = CUtil.replaceString(ret, "//classComment", 	s_comment);
-		ret = CUtil.replaceString(ret, "//classType", 		msg_type+"");
-		ret = CUtil.replaceString(ret, "//dynamic", 		c_dynamic);
-		ret = CUtil.replaceString(ret, "//className", 		s_name);
-		ret = CUtil.replaceString(ret, "//extendsClass", 	ext_name); 
-		ret = CUtil.replaceString(ret, "//classFullName", 	c_name);
-		ret = CUtil.replaceString(ret, "//initComment",		d_init_commet.toString());
-		ret = CUtil.replaceString(ret, "//initArgs",		d_init_args.toString());
-		ret = CUtil.replaceString(ret, "//initFields",		d_init_fields.toString());
-		ret = CUtil.replaceString(ret, "//fields",			d_fields.toString());
-		ret = CUtil.replaceString(ret, "//asFunctions",		d_functions.toString());
+		ret = CUtil.replaceString(ret, MSG_FIELD_PACKAGE, 		o_package);
+		ret = CUtil.replaceString(ret, MSG_FIELD_IMPORT, 		message_import);
+		ret = CUtil.replaceString(ret, MSG_FIELD_CLASSCOMMENT, 	s_comment);
+		ret = CUtil.replaceString(ret, MSG_FIELD_CLASSTYPE, 	msg_type+"");
+		ret = CUtil.replaceString(ret, MSG_FIELD_DYNAMIC, 		c_dynamic);
+		ret = CUtil.replaceString(ret, MSG_FIELD_CLASSNAME, 	s_name);
+		ret = CUtil.replaceString(ret, MSG_FIELD_EXTENDSCLASS, 	ext_name); 
+		ret = CUtil.replaceString(ret, MSG_FIELD_CLASSFULLNAME, c_name);
+		ret = CUtil.replaceString(ret, MSG_FIELD_INITCOMMENT,	d_init_commet.toString());
+		ret = CUtil.replaceString(ret, MSG_FIELD_INITARGS,		d_init_args.toString());
+		ret = CUtil.replaceString(ret, MSG_FIELD_INITFIELDS,	d_init_fields.toString());
+		ret = CUtil.replaceString(ret, MSG_FIELD_FIELDS,		d_fields.toString());
+		ret = CUtil.replaceString(ret, MSG_FIELD_ASFUNCTIONS,	d_functions.toString());
 		
+		if (msg.isEnum()) 
+		{
+			ret = StringUtil.delStringRange(ret, 
+					MSG_RANGE_CONSTRUCT[0], 
+					MSG_RANGE_CONSTRUCT[1],
+					true);
+			
+			ret = StringUtil.delStringRange(ret, 
+					MSG_RANGE_IMPLEMENTS[0], 
+					MSG_RANGE_IMPLEMENTS[1],
+					true);
+		}
 		return ret;
 	}
 	

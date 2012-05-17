@@ -82,7 +82,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 
 			classesArray.append("\t\t\t"+c_name+".class, //"+ factory.getMessageType(cls) +"\n");
 		
-			if (!Modifier.isAbstract(cls.getModifiers())) 
+			if (!Modifier.isAbstract(cls.getModifiers()) && !cls.isEnum()) 
 			{
 				read_external.append(
 						"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
