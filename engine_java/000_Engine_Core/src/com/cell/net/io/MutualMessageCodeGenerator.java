@@ -30,6 +30,14 @@ public abstract class MutualMessageCodeGenerator
 		return true;
 	}
 	
+
+	public static String tb(int count){
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i<count; i++) {
+			sb.append('\t');
+		}
+		return sb.toString();
+	}
 	
 
 }

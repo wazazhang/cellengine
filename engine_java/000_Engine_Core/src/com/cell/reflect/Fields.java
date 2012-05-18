@@ -9,6 +9,23 @@ import com.cell.CUtil;
 
 public class Fields
 {
+	public static void setField(
+			FieldGroup fg, 
+			String fieldName, 
+			Object value) throws Exception
+	{
+		Field field = fg.getClass().getField(fieldName);
+		fg.setField(field, value);
+	}
+	
+	public static Object getField(
+			FieldGroup fg, 
+			String fieldName) throws Exception
+	{
+		Field field = fg.getClass().getField(fieldName);
+		return fg.getField(field);
+	}
+	
 	// 得到所有的field(包括父类) @see Class.getDeclaredFields()
 	public static ArrayList<Field> getDeclaredAndSuperFields(Class<?> gclass)
 	{

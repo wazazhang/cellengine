@@ -37,6 +37,8 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			"/com/cell/net/io/flash/FlashMessage.txt");
 	private String message_import	= "";
 	
+	public boolean EnableConstruct = false;
+	
 	////////////////////////////////////////////////////////////////////
 	
 	public FlashMessageCodeGenerator() {
@@ -168,14 +170,6 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		}
 	}
 	////////////////////////////////////////////////////////////////////
-	
-	private String tb(int count){
-		StringBuilder sb = new StringBuilder();
-		for (int i=0; i<count; i++) {
-			sb.append('\t');
-		}
-		return sb.toString();
-	}
 	
 	public String DAC_FIELD_PACKAGE			= "//package";
 	public String DAC_FIELD_IMPORT			= "//import";
@@ -622,9 +616,16 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			ret = StringUtil.cleanStringRangeKV(ret, 
 					MSG_RANGE_IMPLEMENTS[0], 
 					MSG_RANGE_IMPLEMENTS[1]);
-			ret = StringUtil.cleanStringRangeKV(ret, 
-					MSG_RANGE_CONSTRUCT[0], 
-					MSG_RANGE_CONSTRUCT[1]);
+			if (EnableConstruct) {
+				ret = StringUtil.cleanStringRangeKV(ret, 
+						MSG_RANGE_CONSTRUCT[0], 
+						MSG_RANGE_CONSTRUCT[1]);
+			} else {
+				ret = StringUtil.delStringRange(ret, 
+						MSG_RANGE_CONSTRUCT[0], 
+						MSG_RANGE_CONSTRUCT[1],
+						true);
+			}
 		}
 		return ret;
 	}

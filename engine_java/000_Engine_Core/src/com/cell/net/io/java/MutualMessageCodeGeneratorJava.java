@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.cell.CIO;
 import com.cell.CUtil;
@@ -22,6 +23,7 @@ import com.cell.net.io.ExternalizableMessage;
 import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
+import com.cell.reflect.FieldGroup;
 import com.cell.reflect.ReflectUtil;
 import com.cell.util.EnumManager;
 import com.cell.util.EnumManager.ValueEnum;
@@ -85,13 +87,13 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			if (!Modifier.isAbstract(cls.getModifiers()) && !cls.isEnum()) 
 			{
 				read_external.append(
-						"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
-						"			_r((" + c_name + ")msg, in); return;\n" +
-						"		}\n");
+						tb(2) + "if (msg.getClass().equals(" + c_name + ".class)) {\n" +
+						tb(2) + "	_r((" + c_name + ")msg, in); return;\n" +
+						tb(2) + "}\n");
 						write_external.append(
-						"		if (msg.getClass().equals(" + c_name + ".class)) {\n" +
-						"			_w((" + c_name + ")msg, out); return;\n" +
-						"		}\n");
+						tb(2) + "if (msg.getClass().equals(" + c_name + ".class)) {\n" +
+						tb(2) + "	_w((" + c_name + ")msg, out); return;\n" +
+						tb(2) + "}\n");
 						genMethod(e.getValue(), classesIO, factory);
 			}
 		}
@@ -128,7 +130,12 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		for (Field f : msg.getFields()) {
 			int modifiers = f.getModifiers();
 			if (!Modifier.isStatic(modifiers)) {
-				genCodecField(msg, f, read, write, factory);
+				AtomicReference<String> oread  = new AtomicReference<String>();
+				AtomicReference<String> owrite = new AtomicReference<String>();
+				genCodecField(msg, f, oread, owrite, factory);
+				replaceCodecField(msg, f, oread, owrite, factory);
+				read.append(oread.get());
+				write.append(owrite.get());
 			}
 		}
 		
@@ -144,6 +151,35 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		sb.append("	}\n\n");
 	}
 	
+	protected void replaceCodecField(
+			Class<?> msg, Field f, 
+			AtomicReference<String> read, 
+			AtomicReference<String> write, 
+			ExternalizableFactory factory)
+	{
+		Class<?> 	f_type 		= f.getType();
+		String 		f_name 		= "msg." + f.getName();
+		
+		if (!Modifier.isPublic(f.getModifiers()) &&
+			FieldGroup.class.isAssignableFrom(msg)) 
+		{
+			String r = read.get();
+			r = CUtil.replaceString(r, 
+					f_name + " = ", 
+					"Fields.setField(msg, \"" + f.getName() + "\", ");
+			r = CUtil.replaceString(r, 
+					";\n", 
+					");\n");
+			read.set(r);
+			
+			String w = write.get();
+			w = CUtil.replaceString(r, 
+					f_name, 
+					"Fields.getField(msg, \"" + f.getName() + "\")");
+			write.set(w);
+		}
+	}
+	
 	/**
 	 * 产生一行代码，用于读写一个消息内的字段
 	 * @param msg
@@ -151,112 +187,116 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	 * @param read
 	 * @param write
 	 */
-	protected void genCodecField(Class<?> msg, Field f, StringBuilder read, StringBuilder write, ExternalizableFactory factory)
+	protected void genCodecField(
+			Class<?> msg, Field f, 
+			AtomicReference<String> read, 
+			AtomicReference<String> write, 
+			ExternalizableFactory factory)
 	{
 		Class<?> 	f_type 		= f.getType();
 		String 		f_name 		= "msg." + f.getName();
 	
 		// boolean -----------------------------------------------
 		if (f_type.equals(boolean.class)) {
-			read.append("		" + f_name + " = in.readBoolean();\n");
-			write.append("		out.writeBoolean(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readBoolean();\n");
+			write.set(tb(2) + "out.writeBoolean(" + f_name + ");\n");
 		}
 		else if (f_type.equals(boolean[].class)) {
-			read.append("		" + f_name + " = in.readBooleanArray();\n");
-			write.append("		out.writeBooleanArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readBooleanArray();\n");
+			write.set(tb(2) + "out.writeBooleanArray(" + f_name + ");\n");
 		}
 		// byte -----------------------------------------------
 		else if (f_type.equals(byte.class)) {
-			read.append("		" + f_name + " = in.readByte();\n");
-			write.append("		out.writeByte(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readByte();\n");
+			write.set(tb(2) + "out.writeByte(" + f_name + ");\n");
 		}
 		else if (f_type.equals(byte[].class)) {
-			read.append("		" + f_name + " = in.readByteArray();\n");
-			write.append("		out.writeByteArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readByteArray();\n");
+			write.set(tb(2) + "out.writeByteArray(" + f_name + ");\n");
 		}
 		// short -----------------------------------------------
 		else if (f_type.equals(short.class)) {
-			read.append("		" + f_name + " = in.readShort();\n");
-			write.append("		out.writeShort(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readShort();\n");
+			write.set(tb(2) + "out.writeShort(" + f_name + ");\n");
 		}
 		else if (f_type.equals(short[].class)) {
-			read.append("		" + f_name + " = in.readShortArray();\n");
-			write.append("		out.writeShortArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readShortArray();\n");
+			write.set(tb(2) + "out.writeShortArray(" + f_name + ");\n");
 		}
 		// char -----------------------------------------------
 		else if (f_type.equals(char.class)) {
-			read.append("		" + f_name + " = in.readChar();\n");
-			write.append("		out.writeChar(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readChar();\n");
+			write.set(tb(2) + "out.writeChar(" + f_name + ");\n");
 		}
 		else if (f_type.equals(char[].class)) {
-			read.append("		" + f_name + " = in.readCharArray();\n");
-			write.append("		out.writeCharArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readCharArray();\n");
+			write.set(tb(2) + "out.writeCharArray(" + f_name + ");\n");
 		}
 		// int -----------------------------------------------
 		else if (f_type.equals(int.class)) {
-			read.append("		" + f_name + " = in.readInt();\n");
-			write.append("		out.writeInt(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readInt();\n");
+			write.set(tb(2) + "out.writeInt(" + f_name + ");\n");
 		}
 		else if (f_type.equals(int[].class)) {
-			read.append("		" + f_name + " = in.readIntArray();\n");
-			write.append("		out.writeIntArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readIntArray();\n");
+			write.set(tb(2) + "out.writeIntArray(" + f_name + ");\n");
 		}
 		// long -----------------------------------------------
 		else if (f_type.equals(long.class)) {
-			read.append("		" + f_name + " = in.readLong();\n");
-			write.append("		out.writeLong(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readLong();\n");
+			write.set(tb(2) + "out.writeLong(" + f_name + ");\n");
 		}
 		else if (f_type.equals(long[].class)) {
-			read.append("		" + f_name + " = in.readLongArray();\n");
-			write.append("		out.writeLongArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readLongArray();\n");
+			write.set(tb(2) + "out.writeLongArray(" + f_name + ");\n");
 		}
 		// float -----------------------------------------------
 		else if (f_type.equals(float.class)) {
-			read.append("		" + f_name + " = in.readFloat();\n");
-			write.append("		out.writeFloat(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readFloat();\n");
+			write.set(tb(2) + "out.writeFloat(" + f_name + ");\n");
 		}
 		else if (f_type.equals(float[].class)) {
-			read.append("		" + f_name + " = in.readFloatArray();\n");
-			write.append("		out.writeFloatArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readFloatArray();\n");
+			write.set(tb(2) + "out.writeFloatArray(" + f_name + ");\n");
 		}
 		// double -----------------------------------------------
 		else if (f_type.equals(double.class)) {
-			read.append("		" + f_name + " = in.readDouble();\n");
-			write.append("		out.writeDouble(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readDouble();\n");
+			write.set(tb(2) + "out.writeDouble(" + f_name + ");\n");
 		}	
 		else if (f_type.equals(double[].class)) {
-			read.append("		" + f_name + " = in.readDoubleArray();\n");
-			write.append("		out.writeDoubleArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readDoubleArray();\n");
+			write.set(tb(2) + "out.writeDoubleArray(" + f_name + ");\n");
 		}
 		// String -----------------------------------------------
 		else if (f_type.equals(String.class)) {
-			read.append("		" + f_name + " = in.readUTF();\n");
-			write.append("		out.writeUTF(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readUTF();\n");
+			write.set(tb(2) + "out.writeUTF(" + f_name + ");\n");
 		}	
 		else if (f_type.equals(String[].class)) {
-			read.append("		" + f_name + " = in.readUTFArray();\n");
-			write.append("		out.writeUTFArray(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readUTFArray();\n");
+			write.set(tb(2) + "out.writeUTFArray(" + f_name + ");\n");
 		}	
 		// Enum -----------------------------------------------
 		else if (f_type.isEnum()) {
-			read.append("		" + f_name + " = in.readEnum(" + f_type.getCanonicalName() + ".class);\n");
-			write.append("		out.writeEnum(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readEnum(" + f_type.getCanonicalName() + ".class);\n");
+			write.set(tb(2) + "out.writeEnum(" + f_name + ");\n");
 		}
 		// Date -----------------------------------------------
 		else if (Date.class.isAssignableFrom(f_type)) {
-			read.append("		" + f_name + " = in.readDate(" + f_type.getCanonicalName() + ".class);\n");
-			write.append("		out.writeDate(" + f_name + ");\n");
+			read.set(tb(2) + f_name + " = in.readDate(" + f_type.getCanonicalName() + ".class);\n");
+			write.set(tb(2) + "out.writeDate(" + f_name + ");\n");
 		}	
 		// ExternalizableMessage -----------------------------------------------
 		else if (ExternalizableMessage.class.isAssignableFrom(f_type)) {
-			read.append("		" + f_name + " = in.readExternal(" + 
+			read.set(tb(2) + f_name + " = in.readExternal(" + 
 					f_type.getCanonicalName() + ".class);\n");
-			write.append("		out.writeExternal(" + f_name + ");\n");
+			write.set(tb(2) + "out.writeExternal(" + f_name + ");\n");
 		} 
 		else if (MutualMessage.class.isAssignableFrom(f_type)) {
-			read.append("		" + f_name + " = in.readMutual(" + 
+			read.set(tb(2) + f_name + " = in.readMutual(" + 
 					f_type.getCanonicalName() + ".class);\n");
-			write.append("		out.writeMutual(" + f_name + ");\n");
+			write.set(tb(2) + "out.writeMutual(" + f_name + ");\n");
 		} 
 		else if (f_type.isArray()) 
 		{
@@ -265,10 +305,10 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			{
 				String leaf_type = NetDataTypes.toTypeName(
 						NetDataTypes.getArrayCompomentType(f_type, factory));
-				read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
+				read.set(tb(2) + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
 						f_type.getCanonicalName() + ".class, " +
 						"NetDataTypes." + leaf_type + ");\n");
-				write.append("		out.writeAnyArray(" + f_name + ", " +
+				write.set(tb(2) + "out.writeAnyArray(" + f_name + ", " +
 						"NetDataTypes." + leaf_type + ");\n");
 			} 
 			else
@@ -277,24 +317,24 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 				// 
 				if (ExternalizableMessage.class.isAssignableFrom(comp_type))
 				{
-					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
+					read.set(tb(2) + f_name + " = (" + f_type.getCanonicalName() + ")in.readExternalArray(" + 
 							comp_type.getCanonicalName() + ".class);\n");
-					write.append("		out.writeExternalArray(" + f_name + ");\n");
+					write.set(tb(2) + "out.writeExternalArray(" + f_name + ");\n");
 				} 
 				else if (MutualMessage.class.isAssignableFrom(comp_type))
 				{
-					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readMutualArray(" + 
+					read.set(tb(2) + f_name + " = (" + f_type.getCanonicalName() + ")in.readMutualArray(" + 
 							comp_type.getCanonicalName() + ".class);\n");
-					write.append("		out.writeMutualArray(" + f_name + ");\n");
+					write.set(tb(2) + "out.writeMutualArray(" + f_name + ");\n");
 				} 
 				else
 				{
 					String leaf_type = NetDataTypes.toTypeName(
 							NetDataTypes.getNetType(comp_type, factory));
-					read.append("		" + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
+					read.set(tb(2) + f_name + " = (" + f_type.getCanonicalName() + ")in.readAnyArray(" + 
 							f_type.getCanonicalName() + ".class, " +
 							"NetDataTypes." + leaf_type + ");\n");
-					write.append("		out.writeAnyArray(" + f_name + ", " +
+					write.set(tb(2) + "out.writeAnyArray(" + f_name + ", " +
 							"NetDataTypes." + leaf_type + ");\n");
 				}
 			}
@@ -305,10 +345,10 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			Class argType = ReflectUtil.getFieldGenericType(f, 0);
 			byte compType = NetDataTypes.getNetType(argType, factory);
 			
-			read.append("		" + f_name + " = ("+f_type.getCanonicalName()+")in.readCollection(" +
+			read.set(tb(2) + f_name + " = ("+f_type.getCanonicalName()+")in.readCollection(" +
 					f_type.getCanonicalName()+".class, " +
 					"NetDataTypes." + NetDataTypes.toTypeName(compType) + ");\n");
-			write.append("		out.writeCollection(" + f_name + ", " +
+			write.set(tb(2) + "out.writeCollection(" + f_name + ", " +
 					"NetDataTypes." + NetDataTypes.toTypeName(compType) + ");\n");
 		}
 		else if (Map.class.isAssignableFrom(f_type)) 
@@ -318,19 +358,19 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 			Class valueType 	= ReflectUtil.getFieldGenericType(f, 1);
 			byte  valueNetType 	= NetDataTypes.getNetType(valueType, factory);
 			
-			read.append("		" + f_name + " = ("+f_type.getCanonicalName()+")in.readMap("+
+			read.set(tb(2) + f_name + " = ("+f_type.getCanonicalName()+")in.readMap("+
 			f_type.getCanonicalName()+".class, " +
 			"NetDataTypes." + NetDataTypes.toTypeName(keyNetType) + ", " +
 			"NetDataTypes." + NetDataTypes.toTypeName(valueNetType) + ");\n");
 			
-			write.append("		out.writeMap(" + f_name + ", " +
+			write.set(tb(2) + "out.writeMap(" + f_name + ", " +
 			"NetDataTypes." + NetDataTypes.toTypeName(keyNetType) + ", " +
 			"NetDataTypes." + NetDataTypes.toTypeName(valueNetType) + ");\n");
 		}
 		// Error -----------------------------------------------
 		else {
-			read.append("		Unsupported type : " + f_name + " " + f_type.getName() + "\n");
-			write.append("		Unsupported type : " + f_name + " " + f_type.getName() + "\n");
+			read.set(tb(2) + "Unsupported type : " + f_name + " " + f_type.getName() + "\n");
+			write.set(tb(2) + "Unsupported type : " + f_name + " " + f_type.getName() + "\n");
 		}
 	}
 	
