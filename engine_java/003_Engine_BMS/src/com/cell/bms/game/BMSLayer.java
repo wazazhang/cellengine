@@ -9,6 +9,7 @@ import com.cell.bms.PlayerManager;
 import com.cell.bms.BMSFile.Note;
 import com.cell.gameedit.object.WorldSet;
 import com.cell.gameedit.object.WorldSet.SpriteObject;
+import com.cell.gameedit.output.OutputXmlDir;
 import com.cell.gfx.game.CCD;
 import com.cell.gfx.game.CSprite;
 import com.g2d.Color;
@@ -42,7 +43,8 @@ public class BMSLayer extends Sprite implements BMSPlayerListener
 		
 		try 
 		{
-			skin	= new CellSetResource("/skin/skin.properties");
+			skin	= new CellSetResource(
+					new OutputXmlDir("/skin/output/skin.xml"));
 			effect	= skin.getSprite("hit");
 			keys	= skin.getSprite("keys");
 			nodes	= skin.getSprite("nodes");
