@@ -23,6 +23,18 @@ import com.cell.gameedit.object.WorldSet.WaypointObject;
  */
 public interface OutputLoader
 {
+	
+	/**
+	 * (optional)
+	 * 得到资源根路径，如果存在*/
+	public String getResRoot();
+
+	/**
+	 * (optional)
+	 * 得到资源路径，如果存在*/
+	public String getPath();
+	
+	
 	/***
 	 * 是否单独输出每张图
 	 * @return

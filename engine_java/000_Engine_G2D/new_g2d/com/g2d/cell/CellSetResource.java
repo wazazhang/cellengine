@@ -19,23 +19,20 @@ import com.cell.util.concurrent.ThreadPoolService;
  */
 public class CellSetResource extends SetResource
 {
-	final private String Path;
-
 //	-------------------------------------------------------------------------------------
 	
-	public CellSetResource(OutputLoader output, String path) throws Exception
+	public CellSetResource(OutputLoader output) throws Exception
 	{
 		super(output);
-		this.Path = path;
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " : " + Path;
+		return getClass().getSimpleName() + " : " + output_adapter.getPath();
 	}
 	
 	public String getPath() {
-		return Path;
+		return output_adapter.getPath();
 	}
 	
 	@Override

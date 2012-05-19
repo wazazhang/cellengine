@@ -62,6 +62,15 @@ public class OutputXmlDir extends OutputXml
 		init(CIO.getInputStream(file));
 	}
 	
+	@Override
+	public String getResRoot() {
+		return root;
+	}
+	
+	@Override
+	public String getPath() {
+		return path;
+	}
 	
 	public byte[] loadRes(String path, AtomicReference<Float> percent)
 	{
@@ -84,6 +93,14 @@ public class OutputXmlDir extends OutputXml
 			new OutputXml() {
 				@Override
 				public byte[] loadRes(String name, AtomicReference<Float> percent) {
+					return null;
+				}
+				@Override
+				public String getResRoot() {
+					return null;
+				}
+				@Override
+				public String getPath() {
 					return null;
 				}
 			}.init(doc);
