@@ -24,7 +24,7 @@ public class ResourceValidater extends ResourceManager
 	@Override
 	protected CellSetResource createSet(String path) throws Exception {
 		if (path.endsWith(".xml")) {
-			return new CellSetResource(new OutputXmlDir(path), path);
+			return new CellSetResource(new OutputXmlDir(path));
 		} else {
 			return null;
 		}

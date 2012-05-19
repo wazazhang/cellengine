@@ -90,7 +90,7 @@ public class SampleBuilder extends Builder
 		try {
 			OutputLoader out = getOutputFile(cpj_file);
 			if (out != null) {
-				SampleResource ret = new SampleResource(out, cpj_file.getPath());
+				SampleResource ret = new SampleResource(out);
 //				System.out.println("create " + ret);
 				return ret;
 			}
@@ -119,8 +119,8 @@ public class SampleBuilder extends Builder
 	
 	static class SampleResource extends StudioResource
 	{
-		public SampleResource(OutputLoader output, String path) throws Exception {
-			super(output, path);
+		public SampleResource(OutputLoader output) throws Exception {
+			super(output);
 		}
 		
 		@Override
