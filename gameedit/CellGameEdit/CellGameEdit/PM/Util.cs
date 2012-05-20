@@ -1297,7 +1297,18 @@ namespace CellGameEdit.PM
 		double angle = degree * 180 / Math.PI;
 		return angle;
 	}
-
+		// -360 ~ 360
+	static public double defaultAngle(double degree)
+	{
+		while (degree < -360) {
+			degree += 360;
+		}
+		while (degree > 360)
+		{
+			degree -= 360;
+		}
+		return degree;
+	}
     }
 
 

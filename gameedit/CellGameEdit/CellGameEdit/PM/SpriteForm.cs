@@ -1949,10 +1949,14 @@ namespace CellGameEdit.PM
         float edtMouseDownPY;
 		float edtMouseDownX;
 		float edtMouseDownY;
+		float edtMouseDownRX;
+		float edtMouseDownRY;
+
 		float edtMouseDownRotate;
 		float edtMouseDownScaleX;
 		float edtMouseDownScaleY;
-
+		System.Drawing.RectangleF edtMouseDownTileRect;
+		
         bool isEdtDown =false;
         bool isSub = false;
 
@@ -1980,7 +1984,7 @@ namespace CellGameEdit.PM
 					{
 						Image tile = srcGetImage((int)frame.SubIndex[i]);
 
-						System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
+						edtMouseDownTileRect = new System.Drawing.RectangleF(
 							   ((int)frame.SubX[i]),
 							   ((int)frame.SubY[i]),
 							   tile.getWidth(),
@@ -1993,15 +1997,17 @@ namespace CellGameEdit.PM
 							flipText == Graphics.FlipTextTable[5] ||
 							flipText == Graphics.FlipTextTable[7])
 						{
-							float temp = rect.Width;
-							rect.Width = rect.Height;
-							rect.Height = temp;
+							float temp = edtMouseDownTileRect.Width;
+							edtMouseDownTileRect.Width = edtMouseDownTileRect.Height;
+							edtMouseDownTileRect.Height = temp;
 						}
 
-						if (rect.Contains(x, y))
+						if (edtMouseDownTileRect.Contains(x, y))
 						{
-							edtMouseDownPX = x - rect.X;
-							edtMouseDownPY = y - rect.Y;
+							edtMouseDownPX = x - edtMouseDownTileRect.X;
+							edtMouseDownPY = y - edtMouseDownTileRect.Y;
+							edtMouseDownRX = x - (edtMouseDownTileRect.X + edtMouseDownTileRect.Width / 2);
+							edtMouseDownRY = y - (edtMouseDownTileRect.Y + edtMouseDownTileRect.Height / 2);
 							edtMouseDownRotate = (float)frame.SubTRotate[i];
 							edtMouseDownScaleX = (float)frame.SubTScaleX[i];
 							edtMouseDownScaleY = (float)frame.SubTScaleY[i];
@@ -2080,10 +2086,13 @@ namespace CellGameEdit.PM
 
 						if (keyCtrl)
 						{
-							double edtSrcDegree = Math.Atan2(edtMouseDownY, edtMouseDownX);
-							double edtCurRotate = Math.Atan2(y, x);
-							curFrame.rotate = edtMouseDownRotate +
-								(float)Util.toAngle(edtCurRotate - edtSrcDegree);
+							float rx = x - (edtMouseDownTileRect.X + edtMouseDownTileRect.Width / 2);
+							float ry = y - (edtMouseDownTileRect.Y + edtMouseDownTileRect.Height / 2);
+							double edtSrcDegree = Math.Atan2(edtMouseDownRY, edtMouseDownRX);
+							double edtCurRotate = Math.Atan2(ry, rx);
+							curFrame.SubTRotate[dstI] = (float)Util.defaultAngle(
+								edtMouseDownRotate + Util.toAngle(edtCurRotate - edtSrcDegree)
+								);
 						}
 						else
 						{
