@@ -2242,6 +2242,7 @@
 			this.textBox1.Size = new System.Drawing.Size(273, 21);
 			this.textBox1.TabIndex = 1;
 			this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+			this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
 			// 
 			// timer1
 			// 

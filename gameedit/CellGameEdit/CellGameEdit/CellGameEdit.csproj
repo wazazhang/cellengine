@@ -635,6 +635,7 @@
     <Content Include="Resources\MainHelp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\touch_marker.png" />
     <None Include="Resources\Question.png" />
     <None Include="Resources\refresh.png" />
     <None Include="Resources\Image73.bmp" />

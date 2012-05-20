@@ -40,8 +40,10 @@ namespace CellGameEdit.PM
         System.Drawing.Rectangle srcRect;
 
         int dstPanelSize = 2048;
-        int masterScale = 1;
-        int srcScale = 1;
+        float curMasterScale = 1;
+		int srcScale = 1;
+		public static javax.microedition.lcdui.Image imgScaleP =
+			new javax.microedition.lcdui.Image(Resource1.touch_marker);
         /*
         static public int[] flipTableJ2me = new int[]{
             Cell.Game.CImages.TRANS_NONE,
@@ -1516,16 +1518,16 @@ namespace CellGameEdit.PM
         //scale
         private void toolStripButton27_Click(object sender, EventArgs e)
         {
-            masterScale += 1;
-            if (masterScale > 8) masterScale = 8;
+			curMasterScale += 1;
+			if (curMasterScale > 8) curMasterScale = 8;
             dstGridChange();
             dstRefersh();
 
         }
         private void toolStripButton28_Click(object sender, EventArgs e)
         {
-            masterScale -= 1;
-            if (masterScale < 1) masterScale = 1;
+			curMasterScale -= 1;
+			if (curMasterScale < 1) curMasterScale = 1;
             dstGridChange();
             dstRefersh();
         }
@@ -1868,15 +1870,25 @@ namespace CellGameEdit.PM
 					if (frame != null)
 					{
 						g.translate(tx, ty);
-						g.scale(masterScale, masterScale);
+						g.scale(curMasterScale, curMasterScale);
 						frame.render(
 						  g,
 						  srcTiles,
-						 0,
+						  0,
 						  0,
 							chkShowImageBorder.Checked,
 							chkShowCD.Checked,
 							checkComplexMode.Checked);
+
+						if (keyCtrl)
+						{
+							g.drawImage(imgScaleP, 
+								edtMouseCurX - imgScaleP.getWidth() / 2,
+								edtMouseCurY - imgScaleP.getHeight() / 2);
+							g.drawImage(imgScaleP,
+								-edtMouseCurX - imgScaleP.getWidth() / 2,
+								-edtMouseCurY - imgScaleP.getHeight() / 2);
+						}
 					}
 					g.popState();
 				}
@@ -1925,18 +1937,33 @@ namespace CellGameEdit.PM
 			return tabControl1.SelectedIndex == 3;
 		}
 
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+
         int rx;
         int ry;
-        float px;
-        float py;
-        bool isDown =false;
+
+		float edtMouseCurX;
+		float edtMouseCurY;
+
+        float edtMouseDownPX;
+        float edtMouseDownPY;
+		float edtMouseDownX;
+		float edtMouseDownY;
+		float edtMouseDownRotate;
+		float edtMouseDownScaleX;
+		float edtMouseDownScaleY;
+
+        bool isEdtDown =false;
         bool isSub = false;
+
         private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
         {
             isSub = false;
-            isDown = true;
-            int x = e.X - pictureBox2.Width / 2;
-            int y = e.Y - pictureBox2.Height / 2;
+            isEdtDown = true;
+			float x = (e.X - pictureBox2.Width / 2) / curMasterScale;
+			float y = (e.Y - pictureBox2.Height / 2) / curMasterScale;
+			edtMouseDownX = x;
+			edtMouseDownY = y;
 
 			if (isFrameEditPart())
 			{
@@ -1954,10 +1981,10 @@ namespace CellGameEdit.PM
 						Image tile = srcGetImage((int)frame.SubIndex[i]);
 
 						System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
-							   ((int)frame.SubX[i]) * masterScale,
-							   ((int)frame.SubY[i]) * masterScale,
-							   tile.getWidth() * masterScale,
-							   tile.getHeight() * masterScale
+							   ((int)frame.SubX[i]),
+							   ((int)frame.SubY[i]),
+							   tile.getWidth(),
+							   tile.getHeight()
 							   );
 						string flipText = Graphics.FlipTextTable[(int)frame.SubFlip[i]];
 
@@ -1973,8 +2000,11 @@ namespace CellGameEdit.PM
 
 						if (rect.Contains(x, y))
 						{
-							px = x - rect.X;
-							py = y - rect.Y;
+							edtMouseDownPX = x - rect.X;
+							edtMouseDownPY = y - rect.Y;
+							edtMouseDownRotate = (float)frame.SubTRotate[i];
+							edtMouseDownScaleX = (float)frame.SubTScaleX[i];
+							edtMouseDownScaleY = (float)frame.SubTScaleY[i];
 							item.Selected = true;
 							break;
 						}
@@ -1996,15 +2026,15 @@ namespace CellGameEdit.PM
 					if (i >= 0)
 					{
 						System.Drawing.RectangleF rect = new System.Drawing.RectangleF(
-							((int)frame.CDX[i]) * masterScale,
-							((int)frame.CDY[i]) * masterScale,
-							((int)frame.CDW[i]) * masterScale,
-							((int)frame.CDH[i]) * masterScale
+							((int)frame.CDX[i]),
+							((int)frame.CDY[i]),
+							((int)frame.CDW[i]),
+							((int)frame.CDH[i])
 							);
 						if (rect.Contains(x, y))
 						{
-							px = x - rect.X;
-							py = y - rect.Y;
+							edtMouseDownPX = x - rect.X;
+							edtMouseDownPY = y - rect.Y;
 							item.Selected = true;
 
 							System.Drawing.RectangleF sub = new System.Drawing.RectangleF(
@@ -2028,62 +2058,82 @@ namespace CellGameEdit.PM
 
         private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
         {
-            isDown = false;
+            isEdtDown = false;
             isSub = false;
         }
 
         private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isDown)
-            {
+		{
+			float x = (e.X - pictureBox2.Width / 2) / curMasterScale;
+			float y = (e.Y - pictureBox2.Height / 2) / curMasterScale;
+            edtMouseCurX = x;
+			edtMouseCurY = y;
+
+			if (isEdtDown)
+			{
                 try
-                {
+				{
+					Frame curFrame = framesGetCurFrame();
 					if (isFrameEditPart())
                     {
-                        framesGetCurFrame().SubX[dstGetCurSubIndexes()[0]] = (int)((e.X - pictureBox2.Width / 2 - px) / masterScale);
-                        framesGetCurFrame().SubY[dstGetCurSubIndexes()[0]] = (int)((e.Y - pictureBox2.Height / 2 - py) / masterScale);
+						int dstI = dstGetCurSubIndexes()[0];
+
+						if (keyCtrl)
+						{
+							double edtSrcDegree = Math.Atan2(edtMouseDownY, edtMouseDownX);
+							double edtCurRotate = Math.Atan2(y, x);
+							curFrame.rotate = edtMouseDownRotate +
+								(float)Util.toAngle(edtCurRotate - edtSrcDegree);
+						}
+						else
+						{
+							curFrame.SubX[dstI] = (int)((x - edtMouseDownPX));
+							curFrame.SubY[dstI] = (int)((y - edtMouseDownPY));
+						}
                     }
 					if (isFrameEditCD())
-                    {
+					{
+						int dstI = dstGetCurCDIndexes()[0];
                         if (!isSub)
                         {
-                            framesGetCurFrame().CDX[dstGetCurCDIndexes()[0]] = (int)((e.X - pictureBox2.Width / 2 - px) / masterScale);
-                            framesGetCurFrame().CDY[dstGetCurCDIndexes()[0]] = (int)((e.Y - pictureBox2.Height / 2 - py) / masterScale);
+							curFrame.CDX[dstI] = (int)((x - edtMouseDownPX));
+							curFrame.CDY[dstI] = (int)((y - edtMouseDownPY));
                         }
                         else
                         {
-                            framesGetCurFrame().CDW[dstGetCurCDIndexes()[0]] = (int)((e.X - pictureBox2.Width / 2 ) / masterScale) - (int)framesGetCurFrame().CDX[dstGetCurCDIndexes()[0]];
-                            framesGetCurFrame().CDH[dstGetCurCDIndexes()[0]] = (int)((e.Y - pictureBox2.Height / 2 ) / masterScale) - (int)framesGetCurFrame().CDY[dstGetCurCDIndexes()[0]];
+							curFrame.CDW[dstI] = (int)((x)) - (int)curFrame.CDX[dstI];
+							curFrame.CDH[dstI] = (int)((y)) - (int)curFrame.CDY[dstI];
 
-                            if ((int)framesGetCurFrame().CDW[dstGetCurCDIndexes()[0]] <= 0) framesGetCurFrame().CDW[dstGetCurCDIndexes()[0]] = 1;
-                            if ((int)framesGetCurFrame().CDH[dstGetCurCDIndexes()[0]] <= 0) framesGetCurFrame().CDH[dstGetCurCDIndexes()[0]] = 1;
+							if ((int)curFrame.CDW[dstI] <= 0) curFrame.CDW[dstI] = 1;
+							if ((int)curFrame.CDH[dstI] <= 0) curFrame.CDH[dstI] = 1;
                         }
                      }
                 }
                 catch (Exception err) { }
-                if (this.显示尺子ToolStripMenuItem.Checked)
-                {
-                    rx = e.X - e.X % masterScale;
-                    ry = e.Y - e.Y % masterScale;
-                    this.RulerLabel2.Text = "X=" + (rx - pictureBox2.Width / 2) / masterScale + " Y=" + (ry - pictureBox2.Height / 2) / masterScale;
-                }
-                dstRefersh();
-            }else
-            {
-                if (this.显示尺子ToolStripMenuItem.Checked)
-                {
-                    rx = e.X - e.X % masterScale;
-                    ry = e.Y - e.Y % masterScale;
-                    this.RulerLabel2.Text = "X=" + (rx - pictureBox2.Width / 2) / masterScale + " Y=" + (ry - pictureBox2.Height / 2) / masterScale;
-                    pictureBox2.Refresh();
-                }
+                
             }
 
+			if (this.显示尺子ToolStripMenuItem.Checked)
+			{
+				int mScale = (int)curMasterScale;
+				rx = e.X - e.X % mScale;
+				ry = e.Y - e.Y % mScale;
+				this.RulerLabel2.Text =
+					" X=" + (rx - pictureBox2.Width / 2) / mScale + 
+					" Y=" + (ry - pictureBox2.Height / 2) / mScale;
+				
+			}
+			
+			dstRefersh();
+			
         }
+
+		private bool keyCtrl = false;
 
         //adjust frame
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
+			keyCtrl = e.Control;
 
             if (e.Shift)
             {
@@ -2109,29 +2159,9 @@ namespace CellGameEdit.PM
                     case Keys.Right: eX = 1; textBox1.Text += "RIGHT"; break;
 
                     case Keys.PageUp:
-                        /*
-                        if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
-                        else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);
-                        else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
-                        else if (toolStripMenuItem13.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
-                        else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
-                        else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
-                        else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
-                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);*/
-                        imageFlipToolStripButton1.prewFlipIndex();
-                       
+                       imageFlipToolStripButton1.prewFlipIndex();
                         break;
-
                     case Keys.PageDown:
-                        /*
-                        if (toolStripMenuItem10.Checked) toolStripMenuItem10_Click(toolStripMenuItem11, null);
-                        else if (toolStripMenuItem11.Checked) toolStripMenuItem10_Click(toolStripMenuItem12, null);
-                        else if (toolStripMenuItem12.Checked) toolStripMenuItem10_Click(toolStripMenuItem13, null);
-                        else if (toolStripMenuItem13.Checked) toolStripMenuItem10_Click(toolStripMenuItem14, null);
-                        else if (toolStripMenuItem14.Checked) toolStripMenuItem10_Click(toolStripMenuItem15, null);
-                        else if (toolStripMenuItem15.Checked) toolStripMenuItem10_Click(toolStripMenuItem16, null);
-                        else if (toolStripMenuItem16.Checked) toolStripMenuItem10_Click(toolStripMenuItem17, null);
-                        else if (toolStripMenuItem17.Checked) toolStripMenuItem10_Click(toolStripMenuItem10, null);*/
                         imageFlipToolStripButton1.nextFlipIndex();
                         break;
                 }
@@ -2145,7 +2175,6 @@ namespace CellGameEdit.PM
                             int flip = imageFlipToolStripButton1.getFlipIndex();
                             framesGetCurFrame().flipSub(dstGetCurSubIndexes()[0], flip);
                         }
-
                         break;
                 }
               
@@ -2165,9 +2194,18 @@ namespace CellGameEdit.PM
                     }
                 }
                 catch (Exception err) { }
-                dstRefersh();
-            }
+			}
+			dstRefersh();
         }
+
+		private void textBox1_KeyUp(object sender, KeyEventArgs e)
+		{
+			keyCtrl = false;
+			dstRefersh();
+		}
+
+
+
         private void pictureBox2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
 
@@ -2206,6 +2244,7 @@ namespace CellGameEdit.PM
 
         private void dstGridChange()
         {
+			int masterScale = (int)curMasterScale;
 
             pictureBox2.Width = pictureBox2.Height = Math.Min(dstPanelSize * masterScale, 1024 * 4);
 
@@ -2219,7 +2258,8 @@ namespace CellGameEdit.PM
                 if (this.显示网格ToolStripMenuItem.Checked && masterScale > 1)
                 {
                     System.Drawing.Image bg = new System.Drawing.Bitmap(masterScale, masterScale);
-                    System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xff, 0x80, 0x80, 0x80));
+                    System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(
+						0xff, 0x80, 0x80, 0x80));
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bg);
                     g.DrawLine(pen, 0, 0, masterScale, 0);
                     g.DrawLine(pen, 0, 0, 0, masterScale);
@@ -2952,7 +2992,6 @@ namespace CellGameEdit.PM
 			{
 			}
 		}
-
 
 
 

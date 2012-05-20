@@ -1290,6 +1290,14 @@ namespace CellGameEdit.PM
 		value += d;
 		return (value>=0)?(value % max):((max + value % max) % max) ;
 	}
+
+	static public double toAngle(double degree)
+	{
+		//度＝弧度×180°/π ;
+		double angle = degree * 180 / Math.PI;
+		return angle;
+	}
+
     }
 
 
