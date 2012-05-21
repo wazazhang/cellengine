@@ -1,6 +1,8 @@
 package com.net.minaimpl.server;
 
 import java.net.SocketAddress;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.mina.core.future.WriteFuture;
@@ -13,11 +15,14 @@ import com.net.Protocol;
 import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;
 import com.net.server.Server;
+import com.net.server.ServerMessageHandler;
 
 public class ClientSessionImpl implements ClientSession 
 {
 	private static final Logger log = LoggerFactory.getLogger(ClientSessionImpl.class.getName());
-	
+
+	final protected HashMap<Class<?>, HashSet<ServerMessageHandler>> handlers = 
+		new HashMap<Class<?>, HashSet<ServerMessageHandler>>();
 	final protected IoSession 		Session;
 	final protected AbstractServer	Server;
 	protected ClientSessionListener	Listener;
@@ -159,6 +164,32 @@ public class ClientSessionImpl implements ClientSession
 		return Session.getRemoteAddress().toString();
 	}
 	
+	public void addMessageHandler(Class<?> cls, ServerMessageHandler handler) {
+		HashSet<ServerMessageHandler> handleset = handlers.get(cls);
+		if (handleset == null) {
+			handleset = new HashSet<ServerMessageHandler>();
+			handlers.put(cls, handleset);
+		}
+		handleset.add(handler);
+	}
+	public void removeMessageHandler(Class<?> cls, ServerMessageHandler handler) {
+		HashSet<ServerMessageHandler> handleset = handlers.get(cls);
+		if (handleset != null) {
+			handleset.remove(handler);
+		}
+	}
+	
+	void handleMessage(Protocol protocol) {
+		MessageHeader msg = protocol.getMessage();
+		if (msg != null) {
+			HashSet<ServerMessageHandler> handleset = handlers.get(msg.getClass());
+			if (handleset!=null && !handleset.isEmpty()) {
+				for (ServerMessageHandler sh : handleset) {
+					sh.onReceived(this, protocol, msg);
+				}
+			}
+		}
+	}
 	
 //	synchronized public void startHeartBeat(ThreadPool pool, final long heartbeat_timeout)
 //	{

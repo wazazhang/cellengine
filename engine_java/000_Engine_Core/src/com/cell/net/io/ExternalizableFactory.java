@@ -135,6 +135,9 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 			else if (MutualMessage.class.isAssignableFrom(cls)) {
 				all_types.add(cls);
 			}
+			else if (MessageHeader.class.isAssignableFrom(cls)) {
+				all_types.add(cls);
+			}
 			else if (cls.isEnum()) {
 				all_types.add(cls);
 			}

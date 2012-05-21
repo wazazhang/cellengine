@@ -84,7 +84,8 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 
 			classesArray.append("\t\t\t"+c_name+".class, //"+ factory.getMessageType(cls) +"\n");
 		
-			if (!Modifier.isAbstract(cls.getModifiers()) && !cls.isEnum()) 
+			if (!Modifier.isAbstract(cls.getModifiers()) && !cls.isEnum() && 
+					MutualMessage.class.isAssignableFrom(cls)) 
 			{
 				read_external.append(
 						tb(2) + "if (msg.getClass().equals(" + c_name + ".class)) {\n" +
@@ -400,7 +401,9 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	{
 		LinkedHashSet<Class<?>> ret = new LinkedHashSet<Class<?>>();
 		for (File f : srcroot.listFiles()) {
-			findClasses(srcroot, f, ret);
+			if (f.isDirectory()) {
+				findClasses(srcroot, f, ret);
+			}
 		}
 		return ret.toArray(new Class<?>[ret.size()]);
 	}

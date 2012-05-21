@@ -83,7 +83,11 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 			try {
 				SFSProtocol protocol = decode(params);
 				if (protocol != null) {
-					session.getListener().receivedMessage(session, protocol, protocol.getMessage());
+					session.getListener().receivedMessage(
+							session,
+							protocol, 
+							protocol.getMessage());
+					session.handleMessage(protocol);
 				} else {
 					trace("ERROR" +
 							" : handleClientRequest" +

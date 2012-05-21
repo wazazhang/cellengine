@@ -6,10 +6,9 @@
 	<classpathentry excluding="com/net/flash/message/FlashMessage.java|com/net/flash/message/FlashMessageFactory.java" kind="src" path="flash"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Core"/>
-	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-api-1.5.2.jar"/>
-	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-simple-1.5.0.jar"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/SmartFoxServer/2X/sfs2x-core.jar"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/SmartFoxServer/2X/sfs2x.jar"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/mina/2.0.4/apache-mina-2.0.4/dist/mina-core-2.0.4.jar"/>
+	<classpathentry kind="lib" path="/000_Engine_Core/lib/slf4j-api-1.5.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

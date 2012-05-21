@@ -325,15 +325,14 @@ public class ServerImpl extends AbstractServer
 				case Protocol.PROTOCOL_SESSION_MESSAGE:
 					client.Listener.receivedMessage(client, header, header.getMessage());
 					break;
-					
 //				case Protocol.PROTOCOL_CHANNEL_JOIN_S2C:
 //					break;
 //				case Protocol.PROTOCOL_CHANNEL_LEAVE_S2C:
 //					break;
-					
 				default:
 					log.error("unknow message : " + session + " : " + message);
 				}
+				client.handleMessage(header);
 			}
 		}
 		else
