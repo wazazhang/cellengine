@@ -2,7 +2,9 @@ package com.net.sfsimpl.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.buffer.IoBuffer;
@@ -21,6 +23,7 @@ import com.net.server.ClientSession;
 import com.net.server.ClientSessionListener;
 import com.net.server.Server;
 import com.net.server.ServerListener;
+import com.net.server.ServerMessageHandler;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.ISFSEventListener;
 import com.smartfoxserver.v2.core.SFSEventParam;
@@ -87,7 +90,7 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 							session,
 							protocol, 
 							protocol.getMessage());
-					session.handleMessage(protocol);
+					handleMessage(session, protocol);
 				} else {
 					trace("ERROR" +
 							" : handleClientRequest" +
@@ -309,9 +312,15 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 	}
 	
 	@Override
-	public Iterator<ClientSession> getSessions() {
+	public Iterator<ClientSession> getSessionsIt() {
 		ArrayList<ClientSession> users = new ArrayList<ClientSession>(sessions.values());
-		return users.iterator();
+		return getSessions().iterator();
+	}
+	
+	@Override
+	public List<ClientSession> getSessions() {
+		ArrayList<ClientSession> users = new ArrayList<ClientSession>(sessions.values());
+		return users;
 	}
 	
 	@Override
@@ -367,7 +376,41 @@ public abstract class SFSServerAdapter extends SFSExtension implements Server, I
 	}
 
 //	----------------------------------------------------------------------------------------------------------
+
+
+	final protected ConcurrentHashMap<Class<?>, HashSet<ServerMessageHandler<?>>> handlers = 
+		new ConcurrentHashMap<Class<?>, HashSet<ServerMessageHandler<?>>>();
 	
+	public<T extends MessageHeader>
+	void addMessageHandler(Class<T> cls, ServerMessageHandler<T> handler) {
+		HashSet<ServerMessageHandler<?>> handleset = handlers.get(cls);
+		if (handleset == null) {
+			handleset = new HashSet<ServerMessageHandler<?>>();
+			handlers.put(cls, handleset);
+		}
+		handleset.add(handler);
+	}
+	public<T extends MessageHeader>
+	void removeMessageHandler(Class<T> cls, ServerMessageHandler<T> handler) {
+		HashSet<ServerMessageHandler<?>> handleset = handlers.get(cls);
+		if (handleset != null) {
+			handleset.remove(handler);
+		}
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" }) 
+	protected void handleMessage(ClientSession session, Protocol protocol) {
+		MessageHeader msg = protocol.getMessage();
+		if (msg != null) {
+			Class<?> cls = msg.getClass();
+			HashSet<ServerMessageHandler<?>> handleset = handlers.get(cls);
+			if (handleset!=null && !handleset.isEmpty()) {
+				for (ServerMessageHandler sh : handleset) {
+					sh.onReceived(session, protocol, msg);
+				}
+			}
+		}
+	}
 //	----------------------------------------------------------------------------------------------------------
 
 	@Override

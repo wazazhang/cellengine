@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.cell.CIO;
@@ -121,13 +122,14 @@ public class CFile
 	 * 删除目录下指定后缀的所有文件
 	 * @param png
 	 * @param suffix
+	 * @throws IOException 
 	 */
-	static public void deleteFiles(File png, String suffix) {
+	static public void deleteFiles(File png, String suffix) throws IOException {
 		File[] list = png.listFiles();
 		if (list != null) {
 			for (File _jpg : list) {
 				if (_jpg.getName().toLowerCase().endsWith(suffix)) {
-					_jpg.delete();
+					_jpg.getCanonicalFile().delete();
 				}
 			}
 		}

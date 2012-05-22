@@ -471,6 +471,8 @@ public abstract class BasicNetService
 	
 	protected void onConnected(ServerSession session) {}
 	
+	protected void onError(ServerSession session, Throwable err) {}
+	
 	protected void onDisconnected(ServerSession session, boolean graceful, String reason) {}
 
 	protected void onJoinedChannel(ClientChannel channel) {}
@@ -507,7 +509,11 @@ public abstract class BasicNetService
 				scheduleCleanTask(thread_pool, DropRequestTimeOut);
 			}
 	    }
-	    
+	    @Override
+	    public void onError(ServerSession session, Throwable err) {
+	    	log.info("session error : " + err.getMessage());
+	    	BasicNetService.this.onError(session, err);
+	    }
 	    public void joinedChannel(ClientChannel channel) 
 	    {
 	    	log.info("joined channel : \"" + channel.getID() + "\"");

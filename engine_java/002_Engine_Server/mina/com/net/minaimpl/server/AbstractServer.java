@@ -75,7 +75,6 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 	
 	ServerListener					SrvListener;
 	long							StartTime;
-	boolean							CloseOnError = true;
 	KeepAlive						keep_alive;
 	
 //	----------------------------------------------------------------------------------------------------------------------
@@ -98,8 +97,7 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 			int						io_processor_count,
 			int 					sessionWriteIdleTimeSeconds,
 			int 					sessionReadIdleTimeSeconds, 
-			int 					keepalive_interval_sec,
-			boolean					close_on_error) 
+			int 					keepalive_interval_sec) 
 	{
 		if (acceptor_pool == null) {
 			this.AcceptorPool = Executors.newCachedThreadPool(MinaThreadFactory.getInstance());
@@ -134,7 +132,6 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 		}
 		this.Acceptor.getFilterChain().addLast("codec", 
 				new ProtocolCodecFilter(Codec));
-		this.CloseOnError = close_on_error;
 	}	
 	
 //	----------------------------------------------------------------------------------------------------------------------
@@ -226,27 +223,23 @@ public abstract class AbstractServer extends IoHandlerAdapter implements Server
 
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		log.error(cause.getMessage() + " : " + session, cause);
-		if (CloseOnError) {
-			try {
-				if (session.isConnected() && !session.isClosing()) {
-					session.close(false);
-				}
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
+		try {
+			if (session.isConnected() && !session.isClosing()) {
+				session.close(false);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 	}
 	
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
 		log.debug("sessionIdle : " + session + " : " + status);
-		if (CloseOnError) {
-			try {
-				if (session.isConnected() && !session.isClosing()) {
-					session.close(false);
-				}
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
+		try {
+			if (session.isConnected() && !session.isClosing()) {
+				session.close(false);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 	}
 

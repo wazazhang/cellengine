@@ -27,4 +27,11 @@ public interface ClientSessionListener
 	 */
 	public void sentMessage(ClientSession session, Protocol protocol, MessageHeader message);
 
+
+	/**
+	 * 引发错误
+	 * @param session
+	 * @param cause
+	 */
+	public void onError(ClientSession session, Throwable cause);
 }

@@ -1,12 +1,14 @@
 package com.net.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.MessageHeader;
 
-public interface Server 
+public interface Server
 {
 	 
 	public void 					open(int port, ServerListener listener) throws IOException ;
@@ -40,10 +42,17 @@ public interface Server
 	
 	public ClientSession 			getSession(long sessionID);
 	
-	public Iterator<ClientSession> 	getSessions();
+	public Iterator<ClientSession> 	getSessionsIt();
+	
+	public List<ClientSession> 		getSessions();
 	
 	public ChannelManager 			getChannelManager();
 
 	
-	
+	public<T extends MessageHeader> 
+	void addMessageHandler(Class<T> cls, ServerMessageHandler<T> handler);
+
+	public<T extends MessageHeader> 
+	void removeMessageHandler(Class<T> cls, ServerMessageHandler<T> handler);
+
 }

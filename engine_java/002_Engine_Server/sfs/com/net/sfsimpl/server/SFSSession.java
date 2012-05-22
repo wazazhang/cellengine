@@ -21,8 +21,7 @@ public class SFSSession implements ClientSession
 	private static final Logger log = LoggerFactory.getLogger(SFSSession.class.getName());
 	
 	final private HashMap<Object, Object>	attributes = new HashMap<Object, Object>();
-	final protected HashMap<Class<?>, HashSet<ServerMessageHandler>> handlers = 
-		new HashMap<Class<?>, HashSet<ServerMessageHandler>>();
+
 	final protected User	 				user;
 	final protected SFSServerAdapter		server;
 	private ClientSessionListener			listener;
@@ -193,31 +192,5 @@ public class SFSSession implements ClientSession
 //			heartbeat_timeout);
 //		}
 //	}
-	public void addMessageHandler(Class<?> cls, ServerMessageHandler handler) {
-		HashSet<ServerMessageHandler> handleset = handlers.get(cls);
-		if (handleset == null) {
-			handleset = new HashSet<ServerMessageHandler>();
-			handlers.put(cls, handleset);
-		}
-		handleset.add(handler);
-	}
-	public void removeMessageHandler(Class<?> cls, ServerMessageHandler handler) {
-		HashSet<ServerMessageHandler> handleset = handlers.get(cls);
-		if (handleset != null) {
-			handleset.remove(handler);
-		}
-	}
-	
-	void handleMessage(Protocol protocol) {
-		MessageHeader msg = protocol.getMessage();
-		if (msg != null) {
-			HashSet<ServerMessageHandler> handleset = handlers.get(msg.getClass());
-			if (handleset!=null && !handleset.isEmpty()) {
-				for (ServerMessageHandler sh : handleset) {
-					sh.onReceived(this, protocol, msg);
-				}
-			}
-		}
-	}
 	
 }

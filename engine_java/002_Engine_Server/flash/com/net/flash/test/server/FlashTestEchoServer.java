@@ -79,6 +79,9 @@ public class FlashTestEchoServer implements ServerListener
 				session.sendResponse(protocol, new Echo2Response(message.toString() + " ok"));
 			}
 		}
+		public void onError(ClientSession session, Throwable cause){
+			
+		}
 		public void run() {
 //			log.info("send notify");
 			this.session.send(new EchoNotify("roll " + CUtil.getRandom(1, 100)));

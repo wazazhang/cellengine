@@ -271,7 +271,8 @@ public class ServerSessionImpl extends IoHandlerAdapter implements ServerSession
 //	public void messageSent(IoSession session, Object message) throws Exception {}
 	
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-		cause.printStackTrace();
+		//cause.printStackTrace();
+		Listener.onError(this, cause);
 	}
 	
 	public void sessionOpened(IoSession session) throws Exception {

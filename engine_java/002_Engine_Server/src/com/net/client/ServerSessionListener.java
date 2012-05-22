@@ -11,7 +11,7 @@ public interface ServerSessionListener
 	
 	public void disconnected(ServerSession session, boolean graceful, String reason);
 
-	
+	public void onError(ServerSession session, Throwable err);
 	
     public void joinedChannel(ClientChannel channel) ;
 	
