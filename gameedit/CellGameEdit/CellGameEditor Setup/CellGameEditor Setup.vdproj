@@ -69,6 +69,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8116615EE6D0E0C1DFE6850781FC3E9C"
+        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8116615EE6D0E0C1DFE6850781FC3E9C"
+        "OwnerKey" = "8:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_91A6E02826AD22FD90200507CBEB70B9"
+        "OwnerKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_988677D6693B4A54BF0EA060C986AFDE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -99,6 +117,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+        "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D23D3CE4475340588017C37206E84B76"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -124,7 +148,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_91A6E02826AD22FD90200507CBEB70B9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_483B5D3B48954255AB1A16180A4BD6E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8116615EE6D0E0C1DFE6850781FC3E9C"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -147,21 +189,16 @@
         "InstallerBootstrapper" = "3:2"
             "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
             {
-            "Enabled" = "11:TRUE"
+            "Enabled" = "11:FALSE"
             "PromptEnabled" = "11:TRUE"
-            "PrerequisitesLocation" = "2:1"
+            "PrerequisitesLocation" = "2:2"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.JSharp.2.0"
-                    {
-                    "Name" = "8:Microsoft Visual J# .NET Redistributable Package 2.0"
-                    "ProductCode" = "8:Microsoft.JSharp.2.0"
-                    }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.2.0"
                     {
-                    "Name" = "8:.NET Framework 2.0"
+                    "Name" = "8:.NET Framework 2.0 (x86)"
                     "ProductCode" = "8:Microsoft.Net.Framework.2.0"
                     }
                 }
@@ -404,6 +441,68 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8116615EE6D0E0C1DFE6850781FC3E9C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8116615EE6D0E0C1DFE6850781FC3E9C"
+                    {
+                    "Name" = "8:CellCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_91A6E02826AD22FD90200507CBEB70B9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_91A6E02826AD22FD90200507CBEB70B9"
+                    {
+                    "Name" = "8:CellCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_988677D6693B4A54BF0EA060C986AFDE"
             {
             "SourcePath" = "8:..\\EventExample\\EventTemplate.txt"
@@ -502,6 +601,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CellGameEdit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BDB2834CC9E4D7346A0DB38E1D8B3A85"
+                    {
+                    "Name" = "8:CellGameEdit.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CellGameEdit.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D23D3CE4475340588017C37206E84B76"
@@ -732,7 +862,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CellGameEditor"
         "ProductCode" = "8:{156EC386-9110-4F01-9ADB-4ACF900BF51A}"
-        "PackageCode" = "8:{36BAC9BD-D6D1-4F64-9C4D-4390E3742503}"
+        "PackageCode" = "8:{41C4E4C1-3F35-42B7-B589-3D04B040B4E0}"
         "UpgradeCode" = "8:{EE5A5160-9D62-4264-A9C2-994FD8B014B4}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1294,7 +1424,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_483B5D3B48954255AB1A16180A4BD6E2"
             {
-            "SourcePath" = "8:..\\CellGameOutput\\obj\\x64\\DebugTest\\CellGameOutput.exe"
+            "SourcePath" = "8:..\\CellGameOutput\\obj\\Debug\\CellGameOutput.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"
@@ -1322,7 +1452,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_70BA54391A194B2385F85D2824EEFD9F"
             {
-            "SourcePath" = "8:..\\CellGameEdit\\obj\\x64\\DebugTest\\CellGameEdit.exe"
+            "SourcePath" = "8:..\\CellGameEdit\\obj\\Debug\\CellGameEdit.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_20B99A68A7054F33BECD412A813C4CB0"

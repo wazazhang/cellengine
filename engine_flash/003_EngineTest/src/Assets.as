@@ -13,7 +13,21 @@ package
     public class Assets
     {
         // Bitmaps
-        
+		
+		[Embed(source = "../media/textures/actor.png")]
+		private static const Actor:Class;
+		
+		[Embed(source = "../media/textures/actor2.png")]
+		private static const Actor2:Class;
+		
+		[Embed(source = "../media/textures/actor3.png")]
+		private static const Actor3:Class;
+		
+		
+		
+		
+		
+		
         [Embed(source = "../media/textures/background.png")]
         private static const Background:Class;
         

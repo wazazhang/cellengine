@@ -31,6 +31,7 @@
       <libraryPathEntry kind="3" linkType="1" path="/001_EngineGFX/bin/001_EngineGFX.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/002_EngineNet/bin/002_EngineNet.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="1" linkType="1" path="lib"/>
+      <libraryPathEntry kind="3" linkType="1" path="/001_EngineGFX3D/bin/001_EngineGFX3D.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="F:/projects/morefuntek/Mario/Mario/code/client/003_EngineTest/lib/starling.swc" sourcepath="G:/tools/Adobe_Flash_Builder_4.6/PrimaryFeather-Starling-Framework-v1.0-0-g86fb79d/Starling/starling/src/starling" useDefaultLinkType="false"/>

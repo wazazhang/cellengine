@@ -20,12 +20,17 @@ package scenes
             
             // to find out how to react to touch events have a look at the TouchSheet class! 
             // It's part of the demo.
-            
-            var sheet:TouchSheet = new TouchSheet(new Image(Assets.getTexture("StarlingSheet")));
+			
+//			var sheet:TouchSheet = new TouchSheet(new Image(Assets.getTexture("Actor")));
+			var sheet:TouchSheet = new TouchSheet(new Image(Assets.getTexture("Actor3")));
+//			var sheet:TouchSheet = new TouchSheet(new Image(Assets.getTexture("Actor2")));
+//          var sheet:TouchSheet = new TouchSheet(new Image(Assets.getTexture("StarlingSheet")));
             sheet.x = Constants.CenterX;
             sheet.y = Constants.CenterY;
             sheet.rotation = deg2rad(10);
             addChild(sheet);
+			
+			
         }
     }
 }
