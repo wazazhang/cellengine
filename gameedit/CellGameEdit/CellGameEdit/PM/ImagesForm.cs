@@ -1912,8 +1912,9 @@ namespace CellGameEdit.PM
                                        " Y=" + dstSelected.y +
                                        " W=" + dstSelected.getWidth() +
                                        " H=" + dstSelected.getHeight() +
-                                       " Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\""
-
+                                       " Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\"" +
+                                       " CW=" + pictureBox2.Width + 
+                                       " CH=" + pictureBox2.Height
                                        ;
                     }
                 }
