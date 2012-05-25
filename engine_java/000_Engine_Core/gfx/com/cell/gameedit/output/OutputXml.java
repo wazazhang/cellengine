@@ -250,6 +250,7 @@ abstract public class OutputXml extends BaseOutput
 
 		set.PartX 			= new short[scenePartCount];
 		set.PartY 			= new short[scenePartCount];
+		set.PartZ 			= new short[scenePartCount];
 		set.PartTileID 		= new short[scenePartCount];
 		set.PartTileTrans 	= new byte[scenePartCount];
 		set.Parts 			= new short[sceneFrameCount][];
@@ -266,6 +267,7 @@ abstract public class OutputXml extends BaseOutput
 		set.FrameCDAtk 		= new short[animateCount][];
 		set.FrameCDDef 		= new short[animateCount][];
 		set.FrameCDExt 		= new short[animateCount][];
+		set.FrameDatas		= new String[animateCount][];
 		
 		NodeList list = sprite.getChildNodes();
 		
@@ -280,6 +282,7 @@ abstract public class OutputXml extends BaseOutput
 					set.PartTileID[index] 		= Short.parseShort(e.getAttribute("tile"));
 					set.PartX[index] 			= Short.parseShort(e.getAttribute("x"));
 					set.PartY[index] 			= Short.parseShort(e.getAttribute("y"));
+					set.PartZ[index] 			= Short.parseShort(e.getAttribute("z"));
 					set.PartTileTrans[index]	= Byte.parseByte(e.getAttribute("trans"));
 				}
 				else if (e.getNodeName().equals("scene_frame")) 
@@ -324,8 +327,10 @@ abstract public class OutputXml extends BaseOutput
 					String frame_cd_atk[] 	= getArray2D(e.getAttribute("cd_atk"));
 					String frame_cd_def[] 	= getArray2D(e.getAttribute("cd_def"));
 					String frame_cd_ext[] 	= getArray2D(e.getAttribute("cd_ext"));
+					String frame_datas[]	= getArray2D(e.getAttribute("fdata"));
 					
-					for (int i = 0; i < animateCount; i++) {
+					for (int i = 0; i < animateCount; i++) 
+					{
 						set.AnimateNames[i] = TextDeserialize.getString(AnimateNamesReader);
 						int frameCount = Integer.parseInt(frame_counts[i]);
 						String[] animate = CUtil.splitString(frame_animate[i], ",");
@@ -338,12 +343,20 @@ abstract public class OutputXml extends BaseOutput
 						set.FrameCDAtk[i] = new short[frameCount];
 						set.FrameCDDef[i] = new short[frameCount];
 						set.FrameCDExt[i] = new short[frameCount];
-						for (int f = 0; f < frameCount; f++) {
+						
+						StringReader frameDataReader = new StringReader(frame_datas[i]);
+						set.FrameDatas[i] = new String[frameCount];
+						
+						for (int f = 0; f < frameCount; f++) 
+						{
 							set.FrameAnimate[i][f] = Short.parseShort(animate[f]);
 							set.FrameCDMap[i][f] = Short.parseShort(cd_map[f]);
 							set.FrameCDAtk[i][f] = Short.parseShort(cd_atk[f]);
 							set.FrameCDDef[i][f] = Short.parseShort(cd_def[f]);
 							set.FrameCDExt[i][f] = Short.parseShort(cd_ext[f]);
+							
+							set.FrameDatas[i][f] = TextDeserialize.getString(frameDataReader);
+							
 						}
 					}
 				}

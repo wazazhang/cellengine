@@ -26,6 +26,7 @@ import com.cell.rpg.scene.ability.ActorSellItem;
 import com.cell.rpg.scene.ability.ActorSkillTrainer;
 import com.cell.rpg.scene.ability.ActorTalk;
 import com.cell.rpg.scene.ability.ActorTransport;
+import com.cell.rpg.template.ability.UnitAvatar;
 //import com.cell.rpg.scene.script.trigger.Event;
 import com.g2d.annotation.Property;
 import com.g2d.awt.util.Tools;
@@ -42,6 +43,8 @@ import com.g2d.geom.Shape;
 import com.g2d.studio.Studio;
 import com.g2d.studio.Version;
 import com.g2d.studio.gameedit.ObjectAdapters;
+import com.g2d.studio.gameedit.display.DAvatarSprite;
+import com.g2d.studio.gameedit.dynamic.DAvatar;
 import com.g2d.studio.gameedit.template.XLSUnit;
 import com.g2d.studio.quest.QuestCellEditAdapter;
 import com.g2d.studio.res.Res;
@@ -107,6 +110,7 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 			}		
 	);
 
+	private DAvatarSprite avatar;
 //	--------------------------------------------------------------------------------------------------------
 	
 	/**
@@ -127,6 +131,8 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 			throw new IllegalStateException();
 		}
 		this.actor = new Actor(getID()+"", xls_unit.getID());
+
+		initAvatar();
 	}
 	
 	/**
@@ -157,6 +163,7 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 		if (!editor.getGameScene().getWorld().addChild(this)){
 			throw new IllegalStateException();
 		}
+		initAvatar();
 	}
 
 	public Actor onWrite()
@@ -197,6 +204,19 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 	public void onWriteReady(Vector<SceneUnitTag<?>> all) {}
 //	--------------------------------------------------------------------------------------------------------
 
+	private void initAvatar()
+	{
+		UnitAvatar uavatar = xls_unit.getData().getAbility(UnitAvatar.class);
+		if (uavatar != null) {
+			DAvatar davatar = Studio.getInstance().
+			getObjectManager().getObject(DAvatar.class, uavatar.avatar_id);
+			if (davatar != null) {
+				avatar = new DAvatarSprite(davatar);
+				addChild(avatar);
+			}
+		}
+	}
+	
 	@Override
 	public Actor getUnit() {
 		return actor;
@@ -225,6 +245,18 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 //	--------------------------------------------------------------------------------------------------------
 	
 //	--------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void render(Graphics2D g) {
+		if (avatar == null) {
+			super.render(g);
+		} else {
+			avatar.setAnimate(
+					csprite.getCurrentAnimate(), 
+					csprite.getCurrentFrame());
+		}
+	}
+	
 	
 	public void update() 
 	{
@@ -236,11 +268,23 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 		{
 			csprite.nextCycFrame();
 			CCD bounds = csprite.getFrameBounds(csprite.getCurrentAnimate());
-			this.local_bounds.setBounds(
-					bounds.X1, 
-					bounds.Y1,
-					bounds.getWidth(),
-					bounds.getHeight());
+			if (bounds.X1 < bounds.X2) {
+				this.local_bounds.setBounds(
+						bounds.X1, 
+						bounds.Y1,
+						bounds.getWidth(),
+						bounds.getHeight());
+			} else {
+//				this.local_bounds.setBounds(
+//						bounds.X1, 
+//						bounds.Y1,
+//						bounds.getWidth(),
+//						bounds.getHeight());
+			}
+		}
+		else if (avatar != null)
+		{
+
 		}
 		
 //		current selected unit
@@ -316,7 +360,6 @@ public class SceneActor extends SceneSprite implements SceneUnitTag<Actor>
 			Util.drawScript(g, editor, this);
 		}
 	}
-	
 	
 	
 	protected void drawTouchRange(Graphics2D g)

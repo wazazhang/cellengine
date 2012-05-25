@@ -31,7 +31,6 @@
         <javaElement handleIdentifier="=001_Engine_RPG/rpg"/>
         <javaElement handleIdentifier="=002_Engine_Server/mina"/>
         <javaElement handleIdentifier="=000_Engine_G2D/new_g2d_awt"/>
-        <javaElement handleIdentifier="=001_Engine_G2D_Studio/rpg"/>
         <javaElement handleIdentifier="=000_Engine_G2D/new_g2d"/>
         <javaElement handleIdentifier="=001_Engine_G2D_Studio/gameedit"/>
         <javaElement handleIdentifier="=002_Engine_SQLProxy/xstream"/>

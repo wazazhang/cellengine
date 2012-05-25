@@ -13,6 +13,7 @@ public class SpriteSet implements SetObject
 
 	public short[] PartX;
 	public short[] PartY;
+	public short[] PartZ;
 	public short[] PartTileID;
 	public byte[] PartTileTrans;
 	public short[][] Parts;
@@ -31,6 +32,8 @@ public class SpriteSet implements SetObject
 	public short[][] FrameCDAtk;
 	public short[][] FrameCDDef;
 	public short[][] FrameCDExt;
+	
+	public String[][] FrameDatas;
 
 	public SpriteSet(int index, String name) {
 		this.Index = index;

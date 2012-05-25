@@ -31,7 +31,7 @@ public class Actor extends SceneSprite
 	public	String		npc_talk;
 	
 	@Property("警戒范围")
-	public int			look_range		= 300;
+	public int			look_range		= 30;
 	
 	public Actor(String id, String template_unit_id) 
 	{	

@@ -1023,6 +1023,15 @@ public class CSprite extends CUnit implements Serializable
 	public int getVisibleRight(){
 		return animates.w_right;
 	}
+	public CCD getVisibleBounds() {
+		CCD bounds = new CCD();
+		bounds.Type = CCD.CD_TYPE_RECT;
+		bounds.X1 = animates.w_left;
+		bounds.Y1 = animates.w_top; 
+		bounds.X2 = animates.w_right;
+		bounds.Y2 = animates.w_bottom;
+		return bounds;
+	}
 
 //	------------------------------------------------------------------------------------------
 
@@ -1033,7 +1042,7 @@ public class CSprite extends CUnit implements Serializable
 	public CCD getFrameBounds(int anim, int frame) {
 		CCD bounds = CCD.createCDRect(CCD.CD_TYPE_RECT, 0,0,0,0);
 		bounds.X1 = Short.MAX_VALUE;
-		bounds.Y1 = Short.MAX_VALUE; 
+		bounds.Y1 = Short.MAX_VALUE;
 		bounds.X2 = Short.MIN_VALUE;
 		bounds.Y2 = Short.MIN_VALUE;
 		return getFrameBounds(anim, frame, bounds);
@@ -1171,6 +1180,8 @@ public class CSprite extends CUnit implements Serializable
 	public void setCurrentFrame(int id, int index) {
 		CurAnimate = (short) id;
 		CurFrame = (short) index;
+		CurAnimate	= CMath.cycNum(CurAnimate, 0, getAnimateCount());
+		CurFrame	= CMath.cycNum(CurFrame, 0, getFrameCount(CurAnimate));
 	}
 	
 	public boolean isEndFrame() {
