@@ -4,7 +4,6 @@ package
     import com.cell.gameedit.ResourceLoader;
     import com.cell.gfx.CellScreen;
     import com.cell.gfx.CellScreenManager;
-    import com.cell.gfx.IScreenAdapter;
     import com.cell.gfx.game.worldcraft.CellCSpriteBuffer;
     import com.cell.gfx.game.worldcraft.CellCSpriteGraphics;
     

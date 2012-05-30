@@ -32,6 +32,12 @@ package com.cell.ui.component
 			this.y = parent.height/2 - this.height/2;
 		}
 		
+		public function setCenterRect(x:Number, y:Number, w:Number, h:Number) : void
+		{
+			this.x = x + w/2 - this.width/2;
+			this.y = y + h/2 - this.height/2;
+		}
+		
 		public function setSize(w:int, h:int) : void
 		{
 			this.resize(w, h, false);

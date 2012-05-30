@@ -12,30 +12,43 @@ package com.cell.gfx
 	 */
 	public class CellScreenManager extends CellSprite
 	{
-		private var adapter 			: IScreenAdapter;
-		
 		private var current_screen		: CellScreen;
 		
-		private var update_time			: int = 0;
+		private var update_time		: int = 0;
 		
 		private var frame_interval		: int = 1;
 		
-		private var next_screen_name	: String;
+		private var next_screen_name	: Class;
 		private var next_screen_args	: Array;
 		
 		private var transition			: IScreenTransition ;
 		private var transition_running	: Boolean = true;
 		
-		public function CellScreenManager(width:int, height:int, adapter:IScreenAdapter)
+		private var m_width			: Number;
+		private var m_height			: Number;
+		
+		
+		public function CellScreenManager(width:int, height:int)
 		{
-			this.adapter = adapter;
+			this.m_width = width;
+			this.m_height = height;
 //			this.addEventListener(Event.EXIT_FRAME, onLastUpdate);
 			this.transition = new AlphaTransition(width, height, 0xffffff, 10);
 			//this.mouseEnabled = false;
-			this.scrollRect = new Rectangle(0, 0, width, height);
-			this.graphics.beginFill(0x808080, 1);
-			this.graphics.drawRect(0, 0, width, height);
-			this.graphics.endFill();
+//			this.scrollRect = new Rectangle(0, 0, width, height);
+//			this.graphics.beginFill(0x808080, 1);
+//			this.graphics.drawRect(0, 0, width, height);
+//			this.graphics.endFill();
+		}
+		
+		override public function get width() : Number
+		{
+			return m_width;
+		}
+		
+		override public function get height() : Number
+		{
+			return m_height;
 		}
 		
 		override protected function update(e:Event) : void
@@ -141,11 +154,11 @@ package com.cell.gfx
 			else
 			{
 				var args : Array = next_screen_args;
-				var name : String = next_screen_name;
+				var name : Class = next_screen_name;
 				this.next_screen_args	= null;
 				this.next_screen_name	= null;
 
-				this.current_screen = adapter.createScreen(this, name);
+				this.current_screen = new name() as CellScreen;
 				trace("ChangeStage -> "+ current_screen.toString());	
 				this.addChild(current_screen);
 				this.current_screen.added(this, args);
@@ -159,9 +172,9 @@ package com.cell.gfx
 		 * @param screen_name 下一屏的名字，一般由IScreenAdapter提供。
 		 * @param args 参数组
 		 */
-		public function changeScreen(screen_name:String, args:Array=null) : void
+		public function changeScreen(screen_class:Class, args:Array=null) : void
 		{
-			this.next_screen_name = screen_name;
+			this.next_screen_name = screen_class;
 			this.next_screen_args = args;
 			if (this.transition != null) {
 				this.transition.startTransitionOut();
