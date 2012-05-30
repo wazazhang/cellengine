@@ -184,19 +184,22 @@ public abstract class PageSelect<P extends com.g2d.display.ui.PageSelect.Page> e
 		}
 		
 		public void render(Graphics2D g) {
-			UILayout up = custom_layout_up;
-			UILayout down = custom_layout_down;
+//			UILayout up = layout;
+//			UILayout down = custom_layout_down;
+//			
+//			if (page_select.selected_page == this) {
+//				custom_layout_up = custom_layout_down = (custom_layout_down!=null?custom_layout_down:layout_down);
+//				super.render(g);
+//			}else{
+//				custom_layout_down = custom_layout_up = (custom_layout_up!=null?custom_layout_up:layout_up);
+//				super.render(g);
+//			}
+//			
+//			
+//			
+//			custom_layout_down = down;
 			
-			if (page_select.selected_page == this) {
-				custom_layout_up = custom_layout_down = (custom_layout_down!=null?custom_layout_down:layout_down);
-				super.render(g);
-			}else{
-				custom_layout_down = custom_layout_up = (custom_layout_up!=null?custom_layout_up:layout_up);
-				super.render(g);
-			}
-			
-			custom_layout_up = up;
-			custom_layout_down = down;
+			super.render(g);
 		}
 		
 		abstract protected UIComponent getPageView() ;

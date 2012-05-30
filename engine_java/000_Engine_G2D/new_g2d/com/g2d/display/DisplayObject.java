@@ -9,6 +9,7 @@ import com.g2d.Color;
 import com.g2d.Composite;
 import com.g2d.Engine;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.geom.AffineTransform;
 import com.g2d.geom.Dimension;
 import com.g2d.geom.Rectangle;
@@ -38,15 +39,21 @@ public abstract class DisplayObject implements Vector
 	public boolean 				visible = true;
 	
 	/** 基于父节点的位置 */
-	public double				x, y, z;
+	@Property("x")
+	public double				x;
+	@Property("y")
+	public double				y;
+	@Property("z")
+	public double				z;
 	
 	/** 优先级别 */
 	public int 					priority;
 	
 	/** 当前坐标系的 rectangle */
 	final public Rectangle 		local_bounds 		= new Rectangle(0,0,100,100);
-	
-	protected boolean			clip_local_bounds	= false;
+
+	@Property("ClipBounds")
+	public boolean				clip_local_bounds	= false;
 	
 //	-------------------------------------------------------------
 	

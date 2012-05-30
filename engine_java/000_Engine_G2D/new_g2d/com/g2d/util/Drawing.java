@@ -103,6 +103,28 @@ public class Drawing
 	final static public int TEXT_ANCHOR_BOTTON 	= 0x10;
 	final static public int TEXT_ANCHOR_VCENTER = 0x20;
 	
+	public static enum TextAnchor
+	{
+		L_T, C_T, R_T,
+		L_C, C_C, R_C,
+		L_B, C_B, R_B,;
+		
+		public static int toAnchorValue(TextAnchor ta) {
+			switch(ta) {
+			case L_T: return TEXT_ANCHOR_LEFT    | TEXT_ANCHOR_TOP;
+			case C_T: return TEXT_ANCHOR_HCENTER | TEXT_ANCHOR_TOP;
+			case R_T: return TEXT_ANCHOR_RIGHT   | TEXT_ANCHOR_TOP;
+			case L_C: return TEXT_ANCHOR_LEFT    | TEXT_ANCHOR_VCENTER;
+			case C_C: return TEXT_ANCHOR_HCENTER | TEXT_ANCHOR_VCENTER;
+			case R_C: return TEXT_ANCHOR_RIGHT   | TEXT_ANCHOR_VCENTER;
+			case L_B: return TEXT_ANCHOR_LEFT    | TEXT_ANCHOR_BOTTON;
+			case C_B: return TEXT_ANCHOR_HCENTER | TEXT_ANCHOR_BOTTON;
+			case R_B: return TEXT_ANCHOR_RIGHT   | TEXT_ANCHOR_BOTTON;
+			}
+			return 0;
+		}
+	};
+	
 	final static public Rectangle drawString(Graphics2D g, String src, int x, int y)
 	{
 		Rectangle rect = g.getFont().getStringBounds(src, g);
@@ -158,6 +180,41 @@ public class Drawing
 //	-----------------------------------------------------------------------------------------------------------------------------
 //	draw string border
 //	-----------------------------------------------------------------------------------------------------------------------------
+	
+	final static public Rectangle drawStringBorder(Graphics2D g, String src, 
+			int x, int y, int w, int h, TextAnchor anchor)
+	{
+		return drawStringBorder(g, src, 
+				x, y, w, h, 
+				TextAnchor.toAnchorValue(anchor),
+				Color.BLACK);
+	}
+	
+	final static public Rectangle drawStringBorder(Graphics2D g, String src,
+			int x, int y, TextAnchor anchor)
+	{
+		return drawStringBorder(g, src, x, y, 
+				TextAnchor.toAnchorValue(anchor), Color.BLACK);
+	}
+	
+	final static public Rectangle drawStringBorder(Graphics2D g, String src, 
+			int x, int y, TextAnchor anchor, 
+			Color back_color)
+	{
+		return drawStringBorder(g, src, x, y, 
+				TextAnchor.toAnchorValue(anchor), back_color);
+	}
+	
+	final static public Rectangle drawStringBorder(Graphics2D g, String src,
+			int x, int y, int w, int h, TextAnchor anchor, Color back_color)
+	{
+		return drawStringBorder(g, src, x, y, w, h, 
+				TextAnchor.toAnchorValue(anchor), back_color);
+	}
+	
+	
+	
+	
 	
 	final static public Rectangle drawStringBorder(Graphics2D g, String src, int x, int y, int w, int h, int anchor)
 	{

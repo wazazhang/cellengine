@@ -5,11 +5,15 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -18,11 +22,15 @@ import javax.swing.UIManager;
 
 import com.cell.CIO;
 import com.cell.CObject;
+import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
+import com.g2d.Color;
 import com.g2d.Engine;
+import com.g2d.awt.util.AbstractDialog;
 import com.g2d.awt.util.AbstractFrame;
 import com.g2d.display.ui.Container;
+import com.g2d.display.ui.UIComponent;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.display.ui.layout.UILayout.ImageStyle;
 import com.g2d.editor.DisplayObjectPanel;
@@ -31,35 +39,42 @@ import com.g2d.studio.Studio;
 import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DTree;
 import com.g2d.studio.swing.G2DWindowToolBar;
-import com.g2d.studio.ui.edit.gui.EditedCanvas;
-import com.g2d.studio.ui.edit.gui.IComponent;
+import com.g2d.studio.ui.edit.gui.UECanvas;
+import com.g2d.studio.ui.edit.gui.UERoot;
 
 public class UIEdit extends AbstractFrame implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private G2DWindowToolBar tools;
+	private UILayoutManager manager;
 	
-	public static UILayout default_ui = new UILayout();
+	private G2DWindowToolBar tools;
 	
 	private UIPropertyPanel ui_property_panel;
 	
+	private UITreeNode tree_root;
+	
 	private UITree tree;
+	
+	private UITemplateList templates;
+	
 	
 	private DisplayObjectPanel stage_view = new DisplayObjectPanel(
 			new DisplayObjectPanel.ObjectStage(
 					com.g2d.Color.BLACK));
 	
 	private File workdir;
-	
+		
 	public UIEdit(File workdir) throws IOException 
 	{
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.workdir = workdir;
-				
+		this.manager = new UILayoutManager();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 		this.setSize(
-				AbstractFrame.getScreenWidth(), 
-				AbstractFrame.getScreenHeight());
+				AbstractFrame.getScreenWidth() - 100, 
+				AbstractFrame.getScreenHeight() - 100);
+		this.setCenter();
 		
 		this.stage_view.start();
 		this.addWindowListener(new WindowAdapter() {
@@ -69,15 +84,10 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			}
 		});
 
-		
-
-		IComponent root = createNode(null, EditedCanvas.class, "root");
-		root.asComponent().setSize(800, 480);
-		
+		tree_root = createNode(null, UERoot.class, "root");
 		{
-			tools = new G2DWindowToolBar(this, false, true, true, false);
+			
 		}
-		
 		
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		{
@@ -86,11 +96,11 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			{
 				JPanel right = new JPanel(new BorderLayout());
 				right.add(stage_view);
-				stage_view.getStage().addChild(root.asComponent());
+				stage_view.getStage().addChild(tree_root.display);
 				stage_view.getCanvas().setFPS(30);
 				hplit.setLeftComponent(right);
 				
-				G2DList<UITemplate> templates = new G2DList<UITemplate>();
+				templates = new UITemplateList(this);
 				templates.setMinimumSize(new Dimension(200, 200));
 				templates.setPreferredSize(new Dimension(200, 200));
 				hplit.setRightComponent(new JScrollPane(templates));
@@ -101,7 +111,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			
 			JSplitPane vsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			{
-				tree = new UITree(this, root.getTreeNode());
+				tree = new UITree(this, tree_root);
 				tree.setMinimumSize(new Dimension(300, 200));
 				JScrollPane treescroll = new JScrollPane(tree);
 				treescroll.setPreferredSize(new Dimension(300, 300));
@@ -115,37 +125,44 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 
 
+		tools = new G2DWindowToolBar(this, false, true, true, false);
 		this.add(tools, BorderLayout.NORTH);
 		this.add(split, BorderLayout.CENTER);
 		
 	}
 	
-	// tool 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+	public UILayoutManager getLayoutManager() {
+		return manager;
+	}
+	
+	public UITemplateList getTemplates() {
+		return templates;
+	}
+	
+	public Class<?> getSelectedTemplate() {
+		UITemplate ut = templates.getSelectedItem();
+		if (ut != null) {
+			return ut.uiType;
+		}
+		return UECanvas.class;
 	}
 	
 	public G2DTree getTree() {
 		return tree;
 	}
 	
-	public <T extends IComponent> T createNode(IComponent parent, Class<T> type, String name) 
+	public UITreeNode createNode(UITreeNode parent, Class<?> type, String name) 
 	{
 		try {
-			T ic = type.newInstance();
-			ic.init(this);
-			ic.setName(name);
-			ic.asComponent().setCustomLayout(default_ui);
+			UITreeNode node = new UITreeNode(this, type, name);
 			if (parent != null) {
-				Container pc = (Container)parent.asComponent();
-				if (pc.addComponent(ic.asComponent())) {
-					parent.getTreeNode().add(ic.getTreeNode());
+				Container pc = (Container)parent.display;
+				if (pc.addComponent(node.display)) {
+					parent.add(node);
 				}
-				tree.reload(parent.getTreeNode());
+				tree.reload(parent);
 			}
-			return ic;
+			return node;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -157,6 +174,42 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		ui_property_panel.setCompoment(node);
 	}
 
+
+	// tool 
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == tools.save) {
+			saveFile();
+		}
+	}
+	
+	private void saveFile()
+	{
+		try {
+			String name = JOptionPane.showInputDialog(this, "输入名字！", "");
+			if (name != null && name.length() > 0) {
+				File file = new File(workdir, name + ".gui.xml");
+				if (file.exists()) {
+					int result = JOptionPane.showConfirmDialog(this,
+							file.getName() + " 文件已存在，是否覆盖？", "确认？",
+							JOptionPane.OK_CANCEL_OPTION);
+					if (result != JOptionPane.OK_OPTION) {
+						return;
+					}
+				} else {
+					file.createNewFile();
+				}
+				ByteArrayOutputStream fos = new ByteArrayOutputStream();
+				((UERoot)tree_root.display).toXMLStream(fos);
+				fos.flush();
+				CFile.writeData(file, fos.toByteArray());
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	static public void main(final String[] args)
 	{
 		EventQueue.invokeLater(new Runnable() {
@@ -174,9 +227,9 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				}
 				File workdir = new File(".");
 				if (args.length > 0) {
-					File file = new File(args[0]);
-					if (file.isFile()) {
-						workdir = file.getParentFile();
+					File sfile = new File(args[0]);
+					if (sfile.exists() && sfile.isDirectory()) {
+						workdir = sfile;
 					}
 				}
 				new AwtEngine();

@@ -2,16 +2,21 @@ package com.g2d.display.ui;
 
 import com.g2d.Color;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.util.Drawing;
+import com.g2d.util.Drawing.TextAnchor;
 
 public class Label extends UIComponent
 {	
+	@Property("文字颜色")
 	public Color	textColor	= Color.WHITE;
 	
+	@Property("text")
 	public String	text		= getClass().getSimpleName();
 	
-	public int		text_anchor	= Drawing.TEXT_ANCHOR_HCENTER | Drawing.TEXT_ANCHOR_VCENTER ;
-
+	@Property("文字对齐")
+	public TextAnchor text_anchor = TextAnchor.C_C;
+	
 	/**文字是否抗锯齿*/
 	public boolean	enable_antialiasing	 = false;
 	

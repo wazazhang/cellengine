@@ -109,8 +109,12 @@ public class Color implements Serializable
 		return value_argb_f[3];
 	}
     
-	
-
+	public String toHexString() {
+		return Long.toHexString(0xff00000000L & getARGB());
+	}
+	public String toString() {
+		return Long.toHexString(0xff00000000L & getARGB());
+	}
 	public int getARGB() {
 		return value_argb;
 	}

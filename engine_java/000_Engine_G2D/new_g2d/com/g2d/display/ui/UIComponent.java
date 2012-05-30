@@ -63,6 +63,7 @@ public abstract class UIComponent extends UIObject
 	Object					user_data;
 	public int				tag_data;
 	
+	public EditModeDraw		editDraw = null;
 //	-----------------------------------------------------------------------------------------------------
 
 	
@@ -171,6 +172,9 @@ public abstract class UIComponent extends UIObject
 	public void update(){}
 	public void render(Graphics2D g) {
 		renderLayout(g);
+		if (editDraw != null) {
+			editDraw.render(g, this);
+		}
 	}
 	
 	protected void renderLayout(Graphics2D g) 
@@ -334,7 +338,10 @@ public abstract class UIComponent extends UIObject
 //	-----------------------------------------------------------------------------------------------------
 
 
-
+	static public interface EditModeDraw
+	{
+		public void render(Graphics2D g, UIComponent ui);
+	}
 
 	
 

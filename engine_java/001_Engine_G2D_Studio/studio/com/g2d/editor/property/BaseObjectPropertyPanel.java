@@ -1,6 +1,5 @@
 package com.g2d.editor.property;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -19,6 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 
 import com.cell.reflect.Parser;
+import com.g2d.Color;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.editor.Util;
 

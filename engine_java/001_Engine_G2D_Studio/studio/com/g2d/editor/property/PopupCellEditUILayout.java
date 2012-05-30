@@ -93,7 +93,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 		G2DWindowToolBar tools;
 
 		BufferedImage image;
-		String image_name;
+		File image_file;
 		UILayout.ImageStyle image_style = ImageStyle.NULL;
 
 		// left pan
@@ -150,7 +150,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			if (rect instanceof ImageUILayout) {
 				ImageUILayout srect = (ImageUILayout)rect;
 				image = AwtEngine.unwrap(srect.srcImage());	
-				image_name = srect.srcImageName();
+				image_file = srect.srcImageName();
 			} 
 			
 			if (rect != null) {
@@ -364,12 +364,9 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			fd.setMode(FileDialog.LOAD);
 			fd.show();
 			String file = fd.getDirectory() + fd.getFile();
-			
-			image_name = fd.getFile();
-			
 			System.out.println("You chose to open this file: " + file);
-		
 			try {
+				image_file = new File(file).getCanonicalFile();
 				FileInputStream fis = new FileInputStream(new File(file));
 				image = AwtEngine.unwrap(Engine.getEngine().createImage(fis));
 				canvas.setSize(
@@ -401,7 +398,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 					int bordersize = Integer.parseInt(spin_broadsize.getValue().toString());
 					ImageUILayout image_layout = new ImageUILayout(
 							AwtEngine.wrap_awt(image), 
-							image_name,
+							image_file,
 							image_style, 
 							bordersize);
 					return image_layout;

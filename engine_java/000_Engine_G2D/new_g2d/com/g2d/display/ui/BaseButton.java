@@ -3,6 +3,7 @@ package com.g2d.display.ui;
 import com.g2d.Color;
 import com.g2d.Graphics2D;
 import com.g2d.Image;
+import com.g2d.annotation.Property;
 import com.g2d.display.ui.layout.UILayout;
 
 
@@ -15,10 +16,8 @@ public abstract class BaseButton extends UIComponent
 	transient public Image		mouse_catched_mask;
 	
 	/**自定义按下造型*/
+	@Property("text")
 	public UILayout				custom_layout_down;
-	
-	/**"自定义正常造型*/
-	public UILayout				custom_layout_up;
 	
 	public BaseButton(int width, int height) {
 		setSize(width, height);
@@ -45,34 +44,32 @@ public abstract class BaseButton extends UIComponent
 	public void setCustomLayout(UILayout layout) {
 		super.setCustomLayout(layout);
 		custom_layout_down = layout;
-		custom_layout_up = layout;
 	}
 	public void setCustomLayout(UILayout up, UILayout down) {
 		super.setCustomLayout(up);
 		custom_layout_down = down;
-		custom_layout_up = up;
 	}
 	
 	public void render(Graphics2D g) 
 	{
-		if (isOnDragged()) {
-			if (custom_layout_down!=null){
-				custom_layout = custom_layout_down;
-			}else{
-				layout = layout_down;
-			}
-		}else{
-			if (custom_layout_up!=null){
-				custom_layout = custom_layout_up;
-			}else{
-				layout = layout_up;
-			}
-		}
+		
 		
 		super.render(g);
 	}
 	
-
+	protected void renderLayout(Graphics2D g) 
+	{
+		UILayout rect = layout;
+		if (custom_layout != null) {
+			rect = custom_layout;
+		}
+		if (isOnDragged()) {
+			if (custom_layout_down != null) {
+				rect = custom_layout_down;
+			}
+		}
+		rect.render(g, 0, 0, getWidth(), getHeight());
+	}
 	
 	
 	protected void onDrawMouseHover(Graphics2D g) {

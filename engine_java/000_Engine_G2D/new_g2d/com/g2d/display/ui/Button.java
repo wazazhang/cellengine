@@ -1,7 +1,9 @@
 package com.g2d.display.ui;
 import com.g2d.Color;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.util.Drawing;
+import com.g2d.util.Drawing.TextAnchor;
 
 /**
  * 用于显示基本文字的按钮
@@ -10,17 +12,24 @@ import com.g2d.util.Drawing;
 public class Button extends BaseButton 
 {
 	/**文字颜色*/
+	@Property("文字颜色")
 	public Color 				unfocusTextColor	= new Color(0xffffFF00);
 	
 	/**文字颜色(获得鼠标后)*/
+	@Property("文字颜色(获得鼠标后)")
 	public Color 				focusTextColor		= new Color(0xffffffff);
 	
 	/**text*/
+	@Property("text")
 	public String 				text 				= getClass().getSimpleName();
 	
 	/**text_anchor*/
-	public int 					text_anchor			= Drawing.TEXT_ANCHOR_HCENTER | Drawing.TEXT_ANCHOR_VCENTER ;
+	@Property("文字对齐")
+	public TextAnchor text_anchor = TextAnchor.C_C;
+
+	@Property("text_offset_x")
 	public int 					text_offset_x;
+	@Property("text_offset_y")
 	public int 					text_offset_y;
 
 	/**文字是否抗锯齿*/
@@ -67,9 +76,19 @@ public class Button extends BaseButton
 			g.setColor(unfocusTextColor);
 		}
 		if (isOnDragged()) {
-			Drawing.drawStringBorder(g, text, text_offset_x, text_offset_y+1, getWidth(), getHeight(), text_anchor);
+			Drawing.drawStringBorder(g, text,
+					text_offset_x, 
+					text_offset_y+1,
+					getWidth(),
+					getHeight(), 
+					text_anchor);
 		}else{
-			Drawing.drawStringBorder(g, text, text_offset_x, text_offset_y+0, getWidth(), getHeight(), text_anchor);
+			Drawing.drawStringBorder(g, text,
+					text_offset_x, 
+					text_offset_y+0, 
+					getWidth(),
+					getHeight(),
+					text_anchor);
 		}
 	}
 }

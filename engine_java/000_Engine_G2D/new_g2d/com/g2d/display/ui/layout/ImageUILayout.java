@@ -1,38 +1,39 @@
 package com.g2d.display.ui.layout;
 
+import java.io.File;
+
 import com.g2d.BufferedImage;
 
 
 public class ImageUILayout extends UILayout 
 {
-	transient BufferedImage image;
-	String			image_name;
-	ImageStyle 		clip_style;
-	int				clip_border;
+	final BufferedImage image;
+	
+	final public File image_file;
+	final public ImageStyle clip_style;
+	final public int clip_border;
 	
 	public ImageUILayout(
 			BufferedImage image, 
-			String image_name, 
+			File image_file, 
 			ImageStyle style, 
 			int clip_border) 
 	{
 		this.image			= image;
-		this.image_name		= image_name;
+		this.image_file		= image_file;
 		this.clip_style		= style;
 		this.clip_border	= clip_border;
 
 		setImages(image, clip_style, clip_border);
 	}
 	
-	public ImageUILayout(UILayout src) 
+	public ImageUILayout(ImageUILayout src) 
 	{
-		if (src instanceof ImageUILayout) {
-			ImageUILayout ssrc = (ImageUILayout)src;
-			this.image			= ssrc.image;
-			this.image_name		= ssrc.image_name;
-			this.clip_style		= ssrc.clip_style;
-			this.clip_border	= ssrc.clip_border;
-		}
+		this.image			= src.image;
+		this.image_file		= src.image_file;
+		this.clip_style		= src.clip_style;
+		this.clip_border	= src.clip_border;
+
 		set(src);
 	}
 	
@@ -40,8 +41,8 @@ public class ImageUILayout extends UILayout
 		return image;
 	}
 	
-	public String srcImageName() {
-		return image_name;
+	public File srcImageName() {
+		return image_file;
 	}
 	
 //	@Override

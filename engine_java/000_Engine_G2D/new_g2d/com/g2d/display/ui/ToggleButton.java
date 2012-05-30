@@ -28,21 +28,24 @@ public abstract class ToggleButton extends BaseButton
 	
 	public void render(Graphics2D g) 
 	{
-		if (is_checked) {
-			if (custom_layout_down != null) {
-				custom_layout = custom_layout_down;
-			} else {
-				layout = layout_down;
-			}
-		} else {
-			if (custom_layout_up != null) {
-				custom_layout = custom_layout_up;
-			} else {
-				layout = layout_up;
-			}
-		}
+		super.render(g);
+		
 		
 		renderLayout(g);
+	}
+	
+	protected void renderLayout(Graphics2D g) 
+	{
+		UILayout rect = layout;
+		if (custom_layout != null) {
+			rect = custom_layout;
+		}
+		if (is_checked) {
+			if (custom_layout_down != null) {
+				rect = custom_layout_down;
+			}
+		} 
+		rect.render(g, 0, 0, getWidth(), getHeight());
 	}
 	
 	
@@ -57,8 +60,8 @@ public abstract class ToggleButton extends BaseButton
 			custom_layout_down = new UILayout();
 			custom_layout_down.setImages(checked, UILayout.ImageStyle.IMAGE_STYLE_BACK_4_CENTER, 0);
 			
-			custom_layout_up = new UILayout();
-			custom_layout_up.setImages(unchecked, UILayout.ImageStyle.IMAGE_STYLE_BACK_4_CENTER, 0);
+			custom_layout = new UILayout();
+			custom_layout.setImages(unchecked, UILayout.ImageStyle.IMAGE_STYLE_BACK_4_CENTER, 0);
 		}
 		
 		public ImageToggleButton(Image checked, Image unchecked, Image focuse_checked, Image focuse_unchecked)
@@ -74,21 +77,30 @@ public abstract class ToggleButton extends BaseButton
 		
 		public void render(Graphics2D g) 
 		{
-			if (isCatchedMouse() && focuse_layout_down != null && focuse_layout_up != null) {
-				if (is_checked) {
-					custom_layout = focuse_layout_down;
-				} else {
-					custom_layout = focuse_layout_up;
+			super.render(g);
+		}
+		
+		protected void renderLayout(Graphics2D g) 
+		{
+			UILayout rect = layout;
+			if (custom_layout != null) {
+				rect = custom_layout;
+			}
+			if (is_checked) {
+				if (custom_layout_down != null) {
+					rect = custom_layout_down;
 				}
-			} else {
+			} 
+			if (isCatchedMouse() && 
+					focuse_layout_down != null && 
+					focuse_layout_up != null) {
 				if (is_checked) {
-					custom_layout = custom_layout_down;
+					rect = focuse_layout_down;
 				} else {
-					custom_layout = custom_layout_up;
+					rect = focuse_layout_up;
 				}
 			}
-			
-			renderLayout(g);
+			rect.render(g, 0, 0, getWidth(), getHeight());
 		}
 	}
 }

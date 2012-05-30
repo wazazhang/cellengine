@@ -1,11 +1,13 @@
 package com.g2d.editor.property;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
+
+import com.g2d.Color;
+import com.g2d.java2d.impl.AwtEngine;
 
 /**
  * @author WAZA
@@ -13,7 +15,7 @@ import javax.swing.JDialog;
  */
 public class PopupCellEditColor extends PopupCellEdit<Color>
 {
-	JColorChooser 		colorChooser;
+	JColorChooser colorChooser;
 	
 	public PopupCellEditColor() 
 	{
@@ -26,8 +28,9 @@ public class PopupCellEditColor extends PopupCellEdit<Color>
 	{
 		// The user has clicked the cell, so
 		// bring up the dialog.
-		setBackground(current_value);
-		colorChooser.setColor(current_value);
+		java.awt.Color color = AwtEngine.unwrap(value);
+		setBackground(color);
+		colorChooser.setColor(color);
 		
 		JDialog dialog = JColorChooser.createDialog(
 				sender.getComponent(), 
@@ -37,8 +40,9 @@ public class PopupCellEditColor extends PopupCellEdit<Color>
 				new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						current_value = colorChooser.getColor();
-						setBackground(current_value);
+						java.awt.Color dcolor = colorChooser.getColor();
+						setBackground(dcolor);
+						current_value = AwtEngine.wrap(dcolor);
 					}
 				}, // OK button handler
 				null); // no CANCEL button handler

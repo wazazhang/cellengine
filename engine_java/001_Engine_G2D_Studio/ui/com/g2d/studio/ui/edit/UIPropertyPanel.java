@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.g2d.editor.property.ObjectPropertyPanel;
-import com.g2d.studio.ui.edit.gui.IComponent;
 
 public class UIPropertyPanel extends JPanel
 {
