@@ -135,7 +135,11 @@ public abstract class UIObject extends InteractiveObject
 		{
 			byte direct = 4;
 			if (drag_resize == null) {
-				direct = DragResizeObject.getDragDirect(local_bounds, 4, getMouseX(), getMouseY());
+				direct = DragResizeObject.getDragDirect(
+						local_bounds, 
+						drag_border_size, 
+						getMouseX(),
+						getMouseY());
 			} else {
 				direct = drag_resize.start_drag_direct;
 			}

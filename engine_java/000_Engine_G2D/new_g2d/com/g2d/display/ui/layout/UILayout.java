@@ -17,6 +17,7 @@ public class UILayout extends DObject
 	public static enum ImageStyle
 	{
 		NULL,
+		COLOR,
 		IMAGE_STYLE_ALL_9,
 		IMAGE_STYLE_ALL_8,
 		IMAGE_STYLE_H_012, 
@@ -49,13 +50,11 @@ public class UILayout extends DObject
 	public static UILayout createBlankRect()
 	{
 		UILayout rect = createRect();
-		rect.blank = true;
+		rect.Style = ImageStyle.NULL;
 		return rect;
 	}
 
 //	------------------------------------------------------------------------------------------------------------------------------
-	
-	private boolean			blank 		= false;
 	
 	//border
 	public int 				BorderSize	= 1;
@@ -65,7 +64,7 @@ public class UILayout extends DObject
 	private Color 			BorderColor	= new Color(0xff000000);//0xff000000;
 	
 	// image layout
-	private ImageStyle 		Style		= ImageStyle.NULL;
+	private ImageStyle 		Style		= ImageStyle.COLOR;
 	
 	private TexturePaint	BorderT;
 	private TexturePaint	BorderB;
@@ -77,9 +76,15 @@ public class UILayout extends DObject
 	private TexturePaint	BorderBL;
 	private TexturePaint	BorderBR;
 
+	private BufferedImage srcImage;
+	
 //	------------------------------------------------------------------------------------------------------------------------------
 
 	public UILayout(){}
+	
+	public UILayout(ImageStyle style){
+		this.Style = style;
+	}
 	
 	/**
 	 * @see {@link #setImages(BufferedImage[], ImageStyle)}
@@ -106,6 +111,22 @@ public class UILayout extends DObject
 		this.set(set);
 	}
 
+	public BufferedImage getSrcImage() {
+		return srcImage;
+	}
+	
+	public Color getBackColor() {
+		return BackColor;
+	}
+
+	public Color getBorderColor() {
+		return BorderColor;
+	}
+
+	public ImageStyle getStyle() {
+		return Style;
+	}
+	
 //	------------------------------------------------------------------------------------------------------------------------------
 
 	public TexturePaint getBorderT() {
@@ -160,6 +181,7 @@ public class UILayout extends DObject
 		BorderBR		= set.BorderBR;
 		
 		Style			= set.Style;
+		srcImage 		= set.srcImage;
 	}
 	
 	public void setBackColor(Color color){
@@ -179,6 +201,7 @@ public class UILayout extends DObject
 	{
 		BorderSize = bordersize;
 		if (src instanceof BufferedImage) {
+			srcImage = (BufferedImage)src;
 			clipImages((BufferedImage)src, 
 					style, clipsize, clipsize, clipsize, clipsize);
 		} else if (src != null) {
@@ -338,14 +361,14 @@ public class UILayout extends DObject
 	
 	public void render(Graphics2D g, int x, int y, int W, int H)
 	{
-		if (blank) return;
+		if (Style == ImageStyle.NULL) return;
 		
 		g.pushPaint();
 		g.translate(x, y);
 		try {
 			switch(Style)
 			{
-			case NULL:
+			case COLOR:
 				render0(g, W, H);
 				break;
 			case IMAGE_STYLE_ALL_8:

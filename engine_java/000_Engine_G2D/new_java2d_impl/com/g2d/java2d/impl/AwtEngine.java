@@ -29,6 +29,7 @@ import com.cell.gfx.IImage;
 import com.cell.gfx.IPalette;
 import com.g2d.AnimateCursor;
 import com.g2d.BufferedImage;
+import com.g2d.Color;
 import com.g2d.Engine;
 import com.g2d.Font;
 import com.g2d.Graphics2D;
@@ -307,6 +308,11 @@ public class AwtEngine extends Engine
 //		throw new NotImplementedException("can not unwrap image!");
 	}
 	
+	static public java.awt.Color unwrap(Color color) 
+	{
+		return new java.awt.Color(color.getARGB(), true);
+//		throw new NotImplementedException("can not unwrap image!");
+	}
 
 	/**
 	 * 包装为渲染系统用的图片
@@ -325,5 +331,11 @@ public class AwtEngine extends Engine
 	static public com.g2d.Font wrap(java.awt.Font font) 
 	{
 		return new AwtFont(font);
+	}
+	
+	static public Color wrap(java.awt.Color color) 
+	{
+		return new Color(color.getRGB());
+//		throw new NotImplementedException("can not unwrap image!");
 	}
 }

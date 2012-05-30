@@ -22,7 +22,7 @@ public class PopupCellEditColor extends PopupCellEdit<Color>
 	}
 
 	@Override
-	public void onOpenEditor() 
+	public void onOpenEditor(Color value) 
 	{
 		// The user has clicked the cell, so
 		// bring up the dialog.

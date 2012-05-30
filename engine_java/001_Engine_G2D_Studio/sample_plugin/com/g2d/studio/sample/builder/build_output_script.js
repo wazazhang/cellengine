@@ -84,7 +84,7 @@ function convertImage(p, dir, cpj_file_name)
 {
 	convert = java.io.File(
 			dir.getParentFile().getParentFile().getParentFile(),
-			"\\sign\\ImageMagick\\convertimg.exe").getCanonicalPath();
+			"\\lib\\ImageMagick\\convertimg.exe").getCanonicalPath();
 	
 //	println(convert);
 	

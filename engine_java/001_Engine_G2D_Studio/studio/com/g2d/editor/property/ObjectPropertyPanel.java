@@ -49,11 +49,22 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 	final JTextPane			anno_text;
 	final ValueEditor 		value_editor	= new ValueEditor();
 	
-	public ObjectPropertyPanel(Object obj, CellEditAdapter<?> ... adapters){
+	public ObjectPropertyPanel(Object obj,
+			CellEditAdapter<?> ... adapters){
 		this(obj, 100, 200, adapters);
 	}
 	
-	public ObjectPropertyPanel(Object obj, int min_w, int min_h, CellEditAdapter<?> ... adapters)
+	public ObjectPropertyPanel(Object obj, 
+			int min_w, int min_h, 
+			CellEditAdapter<?> ... adapters)
+	{
+		this(obj, 100, 200, true, adapters);
+	}
+	
+	public ObjectPropertyPanel(Object obj, 
+			int min_w, int min_h, 
+			boolean showType,
+			CellEditAdapter<?> ... adapters)
 	{
 		super(adapters);
 		
@@ -77,9 +88,10 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 			
 			{
 				// create fields key value
-				Class<?>	cls 			= object.getClass();
-				Field[]		fields 			= cls.getFields();
-				String[] 	colum_header 	= new String[]{"filed", "value", "type", };
+				Class<?> cls = object.getClass();
+				Field[] fields = cls.getFields();
+				String[] colum_header = new String[] { 
+						"filed", "value", "type", };
 				
 				for (int r = 0; r < fields.length; r++) {
 					try {
@@ -99,7 +111,7 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 				
 				Object[][] rowsdata = rows.toArray(new Object[rows.size()][]);
 				
-				rows_table = new FieldTable(rowsdata, colum_header);
+				rows_table = new FieldTable(rowsdata, colum_header, showType);
 				
 				JScrollPane scroll = new JScrollPane(rows_table);
 				scroll.setMinimumSize(new Dimension(min_w, min_h));
@@ -118,6 +130,9 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 		
 	}
 
+	public Object getObject(){
+		return object;
+	}
 	/**
 	 * 通知单元格编辑器，已经完成了编辑
 	 */
@@ -139,7 +154,10 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 	{
 		private static final long serialVersionUID = 1L;
 
-		public FieldTable(final Object[][] rowData, final Object[] columnNames) 
+		public FieldTable(
+				final Object[][] rowData, 
+				final Object[] columnNames,
+				boolean showType) 
 		{
 			super(rowData, columnNames);
 			super.setMinimumSize(new Dimension(100, 100));
@@ -150,6 +168,10 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 			super.getColumn("filed").setCellEditor(new NullEditor());
 			super.getColumn("value").setCellEditor(value_editor);
 			super.getColumn("type").setCellEditor(new NullEditor());
+			
+			if (!showType) {
+				super.getColumn("type").setPreferredWidth(1);
+			}
 			
 			super.addKeyListener(this);
 			super.getSelectionModel().addListSelectionListener(this);
@@ -313,8 +335,12 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 		{
 			try {
 				Field field = (Field) rows.elementAt(editrow)[3];
-				Object obj = getPropertyCellEditValue(object, field, current_cell_edit, src_value);
-//				System.out.println("getCellEditorValue");
+				Object obj = getPropertyCellEditValue(
+						object, 
+						field, 
+						current_cell_edit, 
+						src_value);
+//				System.out.println("getCellEditorValue " + obj);
 				if (obj != null) {
 					field.set(object, obj);
 					rows.elementAt(editrow)[1] = obj;

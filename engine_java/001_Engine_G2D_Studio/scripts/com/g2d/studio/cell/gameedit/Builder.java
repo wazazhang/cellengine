@@ -262,7 +262,7 @@ public abstract class Builder
 			} catch (Throwable e) {
 				e.printStackTrace();
 			} finally {
-				this.saveBuildBat();
+//				this.saveBuildBat();
 			}
 		}
 			
@@ -306,17 +306,17 @@ public abstract class Builder
 		}
 
 		
-		private void saveBuildBat() {
-			if (bp != null) {
-				if (script != null) {
-					try {
-						script.saveBuildBat(bp, dir, cpjFile);
-					} catch (Throwable ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
-		}
+//		private void saveBuildBat() {
+//			if (bp != null) {
+//				if (script != null) {
+//					try {
+//						script.saveBuildBat(bp, dir, cpjFile);
+//					} catch (Throwable ex) {
+//						ex.printStackTrace();
+//					}
+//				}
+//			}
+//		}
 			
 			
 		

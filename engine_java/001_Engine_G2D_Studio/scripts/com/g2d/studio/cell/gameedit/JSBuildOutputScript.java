@@ -38,12 +38,12 @@ public interface JSBuildOutputScript
 	 */
 	public void output(BuildProcess p, File dir, File cpj_file_name);
 	
-	/**
-	 * 产生一个批处理命令用于直接编译cpj工程。
-	 * java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"scene\" \"project.g2d\"
-	 * @param p
-	 * @param dir
-	 * @param cpj_file_name
-	 */
-	public void saveBuildBat(BuildProcess p, File dir, File cpj_file_name);
+//	/**
+//	 * 产生一个批处理命令用于直接编译cpj工程。
+//	 * java -classpath \"g2dstudio.jar\" com.g2d.studio.cell.gameedit.EatBuilder \".\\{file}\" \"scene\" \"project.g2d\"
+//	 * @param p
+//	 * @param dir
+//	 * @param cpj_file_name
+//	 */
+//	public void saveBuildBat(BuildProcess p, File dir, File cpj_file_name);
 }

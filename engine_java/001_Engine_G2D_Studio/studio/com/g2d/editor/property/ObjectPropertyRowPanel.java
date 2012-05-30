@@ -153,6 +153,10 @@ public class ObjectPropertyRowPanel<T> extends BaseObjectPropertyPanel
 		return table;
 	}
 	
+	public Object getObject(){
+		return datas;
+	}
+	
 //	------------------------------------------------------------------------------------------------------------------
 	
 	private Vector<String> toTableHeadData() {

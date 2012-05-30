@@ -290,6 +290,18 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		}
 	}
 	
+	
+	public TreePath setSelectionNode(TreeNode node)
+	{
+		if (node != null) {
+			TreePath path = createTreePath(node);
+			this.setSelectionPath(path);
+			return path;
+		} else {
+			this.clearSelection();
+			return null;
+		}
+	}
 //	----------------------------------------------------------------------------------------------------------------------------
 	
 	/**
@@ -504,7 +516,9 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 				G2DTreeNode<?> node = ((G2DTreeNode<?>)value);
 				node.onSelected(tree);
 				onSelectChanged(node);
-			}			
+			} else {
+				onSelectChanged(null);
+			}
 		}
 	}
 	

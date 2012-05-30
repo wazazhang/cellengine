@@ -10,7 +10,11 @@ public class ImageUILayout extends UILayout
 	ImageStyle 		clip_style;
 	int				clip_border;
 	
-	public ImageUILayout(BufferedImage image, String image_name, ImageStyle style, int clip_border) 
+	public ImageUILayout(
+			BufferedImage image, 
+			String image_name, 
+			ImageStyle style, 
+			int clip_border) 
 	{
 		this.image			= image;
 		this.image_name		= image_name;
@@ -18,6 +22,26 @@ public class ImageUILayout extends UILayout
 		this.clip_border	= clip_border;
 
 		setImages(image, clip_style, clip_border);
+	}
+	
+	public ImageUILayout(UILayout src) 
+	{
+		if (src instanceof ImageUILayout) {
+			ImageUILayout ssrc = (ImageUILayout)src;
+			this.image			= ssrc.image;
+			this.image_name		= ssrc.image_name;
+			this.clip_style		= ssrc.clip_style;
+			this.clip_border	= ssrc.clip_border;
+		}
+		set(src);
+	}
+	
+	public BufferedImage srcImage() {
+		return image;
+	}
+	
+	public String srcImageName() {
+		return image_name;
 	}
 	
 //	@Override

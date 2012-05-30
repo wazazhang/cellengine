@@ -131,10 +131,10 @@ public class Studio extends AbstractFrame
 		project_path 		= io.createFile(project_file.getParent());
 		project_save_path	= io.createFile(project_file.getParentFile(), StudioConfig.G2D_SAVE_NAME);
 		
-		RPGConfig.IS_EDIT_MODE = true;try {
-		studio_plugin = (StudioPlugin)Class.forName(
-				StudioConfig.DYNAMIC_STUDIO_PLUGIN_CLASS
-				).newInstance();
+		RPGConfig.IS_EDIT_MODE = true;
+		try {
+			studio_plugin = (StudioPlugin) Class.forName(
+					StudioConfig.DYNAMIC_STUDIO_PLUGIN_CLASS).newInstance();
 		} catch (Exception err) {
 			String msg = "can not found plugin class : " +
 			StudioConfig.DYNAMIC_STUDIO_PLUGIN_CLASS;

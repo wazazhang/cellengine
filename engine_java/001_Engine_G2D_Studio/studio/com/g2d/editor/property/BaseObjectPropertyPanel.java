@@ -6,7 +6,11 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.EventObject;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JPanel;
@@ -15,6 +19,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 
 import com.cell.reflect.Parser;
+import com.g2d.display.ui.layout.UILayout;
 import com.g2d.editor.Util;
 
 
@@ -26,7 +31,8 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 	final protected Map<Class<?>, CellEditAdapter<?>>	
 							edit_adapters 	= new Hashtable<Class<?>, CellEditAdapter<?>>();
 	
-
+	private Set<ObjectPropertyListener> edit_listeners = new LinkedHashSet<ObjectPropertyListener>();
+	
 	public BaseObjectPropertyPanel(CellEditAdapter<?> ... adapters)
 	{
 		for (CellEditAdapter<?> ad : adapters) 
@@ -40,6 +46,14 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 		return edit_adapters.values();
 	}
 	
+	public void addObjectPropertyListener(ObjectPropertyListener lis) {
+		edit_listeners.add(lis);
+	}
+
+	public void removeObjectPropertyListener(ObjectPropertyListener lis) {
+		edit_listeners.remove(lis);
+	}
+
 	@Override
 	final public Component getComponent() 
 	{
@@ -134,12 +148,12 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 			edit_color.setValue(field_value!=null ? (Color)field_value : null, this);
 			return edit_color;
 		}
-//		else if (field.getType().equals(UILayout.class))
-//		{
-//			PopupCellEditUILayout edit_ui_layout	= new PopupCellEditUILayout();
-//			edit_ui_layout.setValue(field_value!=null ? (UILayout)field_value : null, this);
-//			return edit_ui_layout;
-//		}
+		else if (field.getType().equals(UILayout.class))
+		{
+			PopupCellEditUILayout edit_ui_layout	= new PopupCellEditUILayout();
+			edit_ui_layout.setValue(field_value!=null ? (UILayout)field_value : null, this);
+			return edit_ui_layout;
+		}
 		else if (Parser.isNumber(field.getType())) 
 		{
 			NumberCellEdit numedit = new NumberCellEdit(field.getType(), field_value);
@@ -204,6 +218,9 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 						return;
 					}
 				}
+			}
+			for (ObjectPropertyListener lis : edit_listeners) {
+				lis.onFieldChanged(object, field);
 			}
 		}catch(Exception err){
 			err.printStackTrace();

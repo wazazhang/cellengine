@@ -15,7 +15,7 @@ public abstract class PopupCellEdit<T> extends JButton implements ActionListener
 
 	protected T	current_value;
 	
-	protected ObjectPropertyEdit	sender;
+	protected ObjectPropertyEdit sender;
 
 	public PopupCellEdit() 
 	{
@@ -26,11 +26,11 @@ public abstract class PopupCellEdit<T> extends JButton implements ActionListener
 
 	public void actionPerformed(ActionEvent e) {
 		if (EDIT.equals(e.getActionCommand())) {
-			onOpenEditor();
+			onOpenEditor(current_value);
 		} 
 	}
 
-	abstract public void onOpenEditor();
+	abstract public void onOpenEditor(T	value);
 
 	public Component getComponent(ObjectPropertyEdit panel) {
 		sender = panel;

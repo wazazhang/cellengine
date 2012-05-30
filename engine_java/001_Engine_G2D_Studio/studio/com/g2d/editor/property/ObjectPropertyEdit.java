@@ -17,4 +17,6 @@ public interface ObjectPropertyEdit {
 	 */
 	public Component getComponent();
 	
+	public Object getObject();
+	
 }

@@ -8,6 +8,7 @@ import com.cell.util.MarkedHashtable;
 import com.g2d.AnimateCursor;
 import com.g2d.Color;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.InteractiveObject;
 import com.g2d.display.TextTip;
@@ -36,6 +37,7 @@ public abstract class UIComponent extends UIObject
 	public				String			tip;
 	
 	/**自定控件图片或颜色*/
+	@Property("自定控件样式")
 	public				UILayout		custom_layout;	
 	
 	/**被鼠标点击后播放的声音*/

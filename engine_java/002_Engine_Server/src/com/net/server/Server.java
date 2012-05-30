@@ -8,6 +8,10 @@ import java.util.List;
 import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.MessageHeader;
 
+/**
+ * @author zhangyifei
+ *
+ */
 public interface Server
 {
 	 
@@ -49,9 +53,21 @@ public interface Server
 	public ChannelManager 			getChannelManager();
 
 	
+	/**
+	 * 添加对指定类型消息监听的Handler
+	 * @param <T>
+	 * @param cls
+	 * @param handler
+	 */
 	public<T extends MessageHeader> 
 	void addMessageHandler(Class<T> cls, ServerMessageHandler<T> handler);
 
+	/**
+	 * 移除消息监听器
+	 * @param <T>
+	 * @param cls
+	 * @param handler
+	 */
 	public<T extends MessageHeader> 
 	void removeMessageHandler(Class<T> cls, ServerMessageHandler<T> handler);
 
