@@ -3,6 +3,7 @@ package com.g2d.editor.property;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.Field;
@@ -24,7 +25,9 @@ import javax.swing.table.TableCellEditor;
 import com.cell.CIO;
 import com.cell.CUtil;
 import com.cell.reflect.Parser;
+import com.g2d.Color;
 import com.g2d.annotation.Property;
+import com.g2d.java2d.impl.AwtEngine;
 
 
 /**
@@ -120,10 +123,10 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 			
 			{
 				anno_text = new JTextPane();
-				
+				anno_text.setPreferredSize(new Dimension(200, 100));
 				split.setBottomComponent(anno_text);
 			}
-			
+			split.setResizeWeight(1);
 			
 			this.add(split, BorderLayout.CENTER);
 		}
@@ -139,9 +142,20 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 	final public void fireEditingStopped(){
 		value_editor.stopCellEditing();
 		value_editor.getCellEditorValue();
+		rows_table.refresh();
 		rows_table.repaint();
 	}
 	
+	final public void refresh(){
+		rows_table.refresh();
+		rows_table.repaint();
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		rows_table.refresh();
+	}
 //	-------------------------------------------------------------------------------------------------------------------------------------
 	
 
@@ -297,7 +311,15 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 			
 			try{
 				Field field = (Field) rows.elementAt(row)[3];
-				Component comp = getPropertyCellRender(this, object, field, field.get(object));
+				Object field_value = field.get(object);
+				if (src instanceof DefaultTableCellRenderer) {
+					DefaultTableCellRenderer dc = (DefaultTableCellRenderer)src;
+					dc.setText(getPropertyCellText(object, field, field_value));
+//					if (field_value instanceof Color) {
+//						dc.setBackground(AwtEngine.unwrap((Color)field_value));
+//					}
+				}
+				Component comp = getPropertyCellRender(this, object, field, field_value);
 				return comp;
 			}catch(Exception err){
 				err.printStackTrace();

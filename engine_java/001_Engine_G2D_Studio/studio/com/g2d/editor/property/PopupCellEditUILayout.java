@@ -52,6 +52,8 @@ import com.g2d.studio.swing.G2DWindowToolBar;
  */
 public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 {
+	public static File uilayout_root;
+	
 	UIComponent object;
 	
 	public PopupCellEditUILayout()
@@ -360,20 +362,25 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 		{
 			java.awt.FileDialog fd = new FileDialog(this);
 			fd.setLocation(getLocation());
+			if (uilayout_root != null) {
+				fd.setDirectory(uilayout_root.getPath());
+			}
 			fd.setTitle("选择原图片");
 			fd.setMode(FileDialog.LOAD);
-			fd.show();
-			String file = fd.getDirectory() + fd.getFile();
-			System.out.println("You chose to open this file: " + file);
+			fd.setVisible(true);
 			try {
-				image_file = new File(file).getCanonicalFile();
-				FileInputStream fis = new FileInputStream(new File(file));
-				image = AwtEngine.unwrap(Engine.getEngine().createImage(fis));
-				canvas.setSize(
-						image.getWidth(null), 
-						image.getHeight(null));
-				canvas.repaint();
-				dstview.repaint();
+				if (fd.getFile() != null) {
+					String file = fd.getDirectory() + fd.getFile();
+					System.out.println("You chose to open this file: " + file);
+					image_file = new File(file).getCanonicalFile();
+					FileInputStream fis = new FileInputStream(new File(file));
+					image = AwtEngine.unwrap(Engine.getEngine().createImage(fis));
+					canvas.setSize(
+							image.getWidth(null), 
+							image.getHeight(null));
+					canvas.repaint();
+					dstview.repaint();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -489,7 +496,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 					com.g2d.Graphics2D g2d = AwtEngine.wrap((Graphics2D)dg);
 					getUILayout().render(g2d, 0, 0, getWidth(), getHeight());
 				}catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 			

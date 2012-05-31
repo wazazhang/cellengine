@@ -10,7 +10,6 @@ import com.g2d.display.ui.layout.UILayout;
 public abstract class BaseButton extends UIComponent 
 {
 	transient public UILayout	layout_down	= UILayout.createBlankRect();
-	transient public UILayout	layout_up	= UILayout.createBlankRect();
 	
 	/** 当鼠标放置在该控件上的效果 */
 	transient public Image		mouse_catched_mask;
@@ -31,13 +30,11 @@ public abstract class BaseButton extends UIComponent
 	public void setLayout(UILayout layout) {
 		super.setLayout(layout);
 		layout_down = layout;
-		layout_up = layout;
 	}
 	
 	public void setLayout(UILayout up, UILayout down) {
 		super.setLayout(up);
 		layout_down = down;
-		layout_up = up;
 	}
 	
 	@Override
@@ -60,12 +57,16 @@ public abstract class BaseButton extends UIComponent
 	protected void renderLayout(Graphics2D g) 
 	{
 		UILayout rect = layout;
-		if (custom_layout != null) {
-			rect = custom_layout;
-		}
 		if (isOnDragged()) {
 			if (custom_layout_down != null) {
 				rect = custom_layout_down;
+			}
+			else if (layout_down != null) {
+				rect = layout_down;
+			}
+		} else {
+			if (custom_layout != null) {
+				rect = custom_layout;
 			}
 		}
 		rect.render(g, 0, 0, getWidth(), getHeight());

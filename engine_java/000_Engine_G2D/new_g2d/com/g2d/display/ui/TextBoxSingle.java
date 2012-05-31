@@ -5,6 +5,7 @@ import com.g2d.AnimateCursor;
 import com.g2d.Color;
 import com.g2d.Engine;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.display.event.KeyEvent;
 import com.g2d.display.event.MouseEvent;
 import com.g2d.display.event.MouseMoveEvent;
@@ -23,8 +24,10 @@ public class TextBoxSingle extends UIComponent
 	transient protected MultiTextLayout	text				= Engine.getEngine().createMultiTextLayout();
 	
 	/**文字颜色*/
+	@Property("文字颜色")
 	public Color 						textColor			= new Color(0xffffffff);
 	
+	@Property("是否不可编辑")
 	public boolean 						is_readonly			= false;
 	
 	/** 光标超出范围的偏移量 */
@@ -33,7 +36,11 @@ public class TextBoxSingle extends UIComponent
 	/**是否显示为密码*/
 	private boolean 					is_password 		= false;
 	
+	@Property("是否显示为密码")
+	public boolean isPassword = false;
+	
 	/**文字是否抗锯齿*/
+	@Property("文字是否抗锯齿")
 	public boolean	enable_antialiasing	 = false;
 	
 	public TextBoxSingle() {
@@ -88,6 +95,7 @@ public class TextBoxSingle extends UIComponent
 
 	public void setTextPassword(boolean b) {
 		this.is_password = b;
+		this.isPassword = b;
 		this.setText(text.getText());
 		encode();
 	}
@@ -127,6 +135,10 @@ public class TextBoxSingle extends UIComponent
 	public void update() 
 	{
 		super.update();
+		
+		if (isPassword != is_password) {
+			setTextPassword(isPassword);
+		}
 		
 		if (is_readonly) {
 			text.setShowCaret(false);

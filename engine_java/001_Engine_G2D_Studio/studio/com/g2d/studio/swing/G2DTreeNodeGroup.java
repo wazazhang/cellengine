@@ -34,6 +34,7 @@ public abstract class G2DTreeNodeGroup<C extends G2DTreeNode<?>> extends Default
 	@SuppressWarnings("unchecked")
 	public G2DTreeNodeGroup(String name) {
 		super(name);
+		setAllowsChildren(true);
 		this.name = name;
 		this.children = new Vector();
 	}

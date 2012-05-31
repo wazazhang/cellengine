@@ -55,7 +55,18 @@ public class Parser
 
 	public static String objectToString(Object obj) 
 	{
-		return obj.toString();
+		if (obj != null) {
+			IObjectStringParser parser = s_parser_map_.get(obj.getClass());
+			if (parser != null) {
+				return parser.toString(obj);
+			}
+			String str = s_simple_parser.toString(obj);
+			if (str != null) {
+				return str;
+			}			
+			return obj.toString();
+		}
+		return null;
 	}
 	
 	public static <T> T cast(Object obj, Class<T> return_type)
@@ -378,6 +389,14 @@ public class Parser
 			return null;
 		}
 	
+		
+		@Override
+		public String toString(Object obj) {
+			if (obj.getClass().isArray()) {
+				return CUtil.arrayObjectToString(obj, ",", "");
+			}
+			return obj.toString();
+		}
 	}
 
 

@@ -29,11 +29,8 @@ public abstract class UILayoutManager
 
 	Hashtable<Class<? extends UIComponent>, UILayout> tables = new Hashtable<Class<? extends UIComponent>, UILayout>();
 	
-	public String save_path;
-	
-	public UILayoutManager(String save_path) 
+	public UILayoutManager() 
 	{
-		this.save_path = save_path;
 	}
 	
 	abstract public void setLayout(UIComponent component);
@@ -106,7 +103,7 @@ public abstract class UILayoutManager
 		protected Image ImageButtonCatchedMouseMask;
 		
 		public SimpleLayoutManager(){
-			super(".");
+	
 		}
 		
 		

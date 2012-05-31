@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 
 import com.g2d.display.ui.Button;
 import com.g2d.display.ui.UIComponent;
+import com.g2d.studio.ui.edit.UIEdit;
 
 public class UEButton extends Button implements SavedComponent
 {
@@ -14,13 +15,13 @@ public class UEButton extends Button implements SavedComponent
 	}
 	
 	@Override
-	public void onRead(Element e) throws Exception {
+	public void onRead(UIEdit edit, Element e) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onWrite(Element e) throws Exception
+	public void onWrite(UIEdit edit, Element e) throws Exception
 	{
 		
 	}

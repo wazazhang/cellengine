@@ -196,6 +196,9 @@ public abstract class UIObject extends InteractiveObject
 	{
 		if (drag_resize != null) {
 			drag_resize.update(this);
+			for (MouseDragResizeListener l : mouse_drag_resize_listeners) {
+				l.onDragResizeRunning(this, drag_resize);
+			}
 			return drag_resize.start_drag_direct == DragResizeObject.DRAG_DIRECT_CENTER;
 		} else {
 			return true;

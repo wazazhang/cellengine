@@ -11,6 +11,7 @@ import com.g2d.display.event.KeyListener;
 import com.g2d.display.event.MouseEvent;
 import com.g2d.display.event.MouseListener;
 import com.g2d.display.event.MouseMoveEvent;
+import com.g2d.display.event.MouseMoveListener;
 import com.g2d.display.event.MouseWheelEvent;
 import com.g2d.display.event.MouseWheelListener;
 
@@ -54,6 +55,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 
 	transient private Vector<KeyListener> 			keylisteners;
 	transient private Vector<MouseListener> 		mouselisteners;
+	transient private Vector<MouseMoveListener> 	mousemovelisteners;
 	transient private Vector<MouseWheelListener> 	mousewheellisteners;
 
 //	-----------------------------------------------------------------------------------------------------------------
@@ -70,6 +72,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 		is_focused 				= false;
 		keylisteners 			= new Vector<KeyListener>();
 		mouselisteners 			= new Vector<MouseListener>();
+		mousemovelisteners		= new Vector<MouseMoveListener>();
 		mousewheellisteners		= new Vector<MouseWheelListener>();
 	}
 
@@ -141,7 +144,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 				} else if (mouse_draged_event!=null && !enable_drag_drop()) {
 //					System.out.println(this);
 					if (enable_drag) {
-						onDrag();
+						onDrag(mouse_draged_event);
 					}
 					onMouseDraged(mouse_draged_event);
 				}
@@ -300,6 +303,9 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 		if (listener instanceof MouseListener) {
 			mouselisteners.add((MouseListener)listener);
 		}
+		if (listener instanceof MouseMoveListener) {
+			mousemovelisteners.add((MouseMoveListener)listener);
+		}
 		if (listener instanceof MouseWheelListener) {
 			mousewheellisteners.add((MouseWheelListener)listener);
 		}
@@ -311,6 +317,9 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 		}
 		if (listener instanceof MouseListener) {
 			mouselisteners.remove((MouseListener)listener);
+		}
+		if (listener instanceof MouseMoveListener) {
+			mousemovelisteners.remove((MouseMoveListener)listener);
 		}
 		if (listener instanceof MouseWheelListener) {
 			mousewheellisteners.remove((MouseWheelListener)listener);
@@ -374,12 +383,15 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 		mouse_draged_event = null;
 	}
 	
-	final private void onDrag() 
+	final private void onDrag(MouseMoveEvent me) 
 	{
 		if (onUpdateDragging()) {
 			this.setLocation(
-					parent.getMouseX() - mouse_draged_event.mouseDownStartX, 
-					parent.getMouseY() - mouse_draged_event.mouseDownStartY);
+					parent.getMouseX() - me.mouseDownStartX, 
+					parent.getMouseY() - me.mouseDownStartY);
+		}
+		for (MouseMoveListener ml : mousemovelisteners) {
+			ml.mouseDragged(me);
 		}
 	}
 

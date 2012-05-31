@@ -1,5 +1,6 @@
 package com.g2d.display.event;
 
+import com.g2d.display.DragResizeObject;
 import com.g2d.display.InteractiveObject;
 
 /**
@@ -21,5 +22,11 @@ public interface MouseDragResizeListener extends EventListener
 	 * @param object 被拖动的单位
 	 */
 	public void onDragResizeEnd(InteractiveObject object);
+	
+	/**
+	 * 当该控件被鼠标拖动完成改变大小时发生
+	 * @param object 被拖动的单位
+	 */
+	public void onDragResizeRunning(InteractiveObject object, DragResizeObject resize);
 	
 }

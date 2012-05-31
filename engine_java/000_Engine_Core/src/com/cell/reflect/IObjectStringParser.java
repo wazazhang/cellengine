@@ -8,7 +8,7 @@ public interface IObjectStringParser
 {
 	public Object parseFrom(String str, Class<?> return_type);
 
-//	public String toStringFrom(Object obj);
+	public String toString(Object obj);
 	
 };
 

@@ -2,13 +2,13 @@ package com.g2d.studio.ui.edit.gui;
 
 import org.w3c.dom.Element;
 
-import com.g2d.display.ui.Container;
+import com.g2d.display.ui.TextBoxSingle;
 import com.g2d.studio.ui.edit.UIEdit;
 
-public class UECanvas extends Container implements SavedComponent
+public class UETextInput extends TextBoxSingle implements SavedComponent
 {
-	public UECanvas() {
-		setSize(200, 200);
+	public UETextInput() {
+		setSize(100, 30);
 	}
 	
 	@Override
@@ -22,5 +22,4 @@ public class UECanvas extends Container implements SavedComponent
 	{
 		
 	}
-	
 }

@@ -154,7 +154,7 @@ public class Rectangle extends Rectangle2D
     public Rectangle() {
     	this(0, 0, 0, 0);
     }
-
+    
     /**
      * Constructs a new <code>Rectangle</code>, initialized to match 
      * the values of the specified <code>Rectangle</code>.
@@ -1179,6 +1179,6 @@ public class Rectangle extends Rectangle2D
      *               <code>Rectangle</code> object's coordinate and size values.
      */
     public String toString() {
-	return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
+    	return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }
 }

@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -55,6 +56,8 @@ import com.g2d.awt.util.*;
 
 public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 {
+	public static TreeNode dragged_tree_node = null;
+	
 	private static final long serialVersionUID = 1L;
 
 	final protected DefaultTreeModel 	tree_model;
@@ -65,7 +68,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 										drag_drop_listeners = new ArrayList<G2DDragDropListener<G2DTree>>(1);
 	private Object 						drag_location_object;
 	private int							drag_drop_position	= 0;
-	
+		
 	public G2DTree(DefaultMutableTreeNode tree_root) 
 	{
 		tree_model = new DefaultTreeModel(tree_root);
@@ -82,6 +85,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 
 			DropTargetAdapter drag_adapter = new DropTargetAdapter();
 			drop_target = new DropTarget(this, drag_adapter);
+			//super.setTransferHandler(new TransferHandler(getClass().getCanonicalName()));
 			super.setDropTarget(drop_target);
 		}
 		this.addDragDropListener(this);
@@ -139,6 +143,15 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		
 	}
 	
+	protected void onDragDropChanged(
+			MutableTreeNode src_node,
+			MutableTreeNode dst_node, 
+			MutableTreeNode src_parent,
+			MutableTreeNode dst_parent) 
+	{
+
+	}
+	
 	@Override
 	public void onDragDrop(G2DTree comp, Transferable t, Object src, Object dst) {
 		if (checkDrag(drop_target, null, src, dst, drag_drop_position)) {
@@ -152,6 +165,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 				// 添加到根节点
 				if (dst_node == tree_model.getRoot()) {
 					dst_node.insert(src_node, 0);
+					onDragDropChanged(src_node, dst_node, src_parent, dst_parent);
 					reload(dst_node);
 //					System.out.println("添加到根节点");
 				}
@@ -160,6 +174,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 					src_node.removeFromParent();
 					int insert_offset = drag_drop_position > 0 ? 1 : 0;
 					dst_parent.insert(src_node, dst_parent.getIndex(dst_node) + insert_offset);
+					onDragDropChanged(src_node, dst_node, src_parent, dst_parent);
 					reload(src_parent);
 					reload(dst_parent);
 				}
@@ -167,6 +182,16 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 				else if (dst_node instanceof G2DTreeNodeGroup<?>) {
 					G2DTreeNodeGroup<?> dst_group = (G2DTreeNodeGroup<?>)dst_node;
 					dst_group.add(src_node);
+					onDragDropChanged(src_node, dst_node, src_parent, dst_parent);
+					reload(src_parent);
+					reload(dst_node);
+//					System.out.println("添加到组节点");
+				}
+				else if (dst_node instanceof G2DTreeNode<?> && 
+						dst_node.getAllowsChildren()) 
+				{
+					((G2DTreeNode<?>)dst_node).add(src_node);
+					onDragDropChanged(src_node, dst_node, src_parent, dst_parent);
 					reload(src_parent);
 					reload(dst_node);
 //					System.out.println("添加到组节点");
@@ -175,6 +200,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 				else if (src_node.getParent() == dst_node.getParent()) {				
 					src_node.removeFromParent();
 					dst_parent.insert(src_node, dst_parent.getIndex(dst_node));
+					onDragDropChanged(src_node, dst_node, src_parent, dst_parent);
 					reload(dst_parent);
 //					System.out.println("同一层次的移动");
 				}
@@ -182,6 +208,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 				else {
 					src_node.removeFromParent();
 					dst_parent.insert(src_node, dst_parent.getIndex(dst_node));
+					onDragDropChanged(src_node, dst_node, src_parent, dst_parent);
 					reload(src_parent);
 					reload(dst_parent);
 //					System.out.println("不同层次的移动");
@@ -474,14 +501,19 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 			return comp;
 		}
 		@Override
-		public void paint(Graphics g) {
+		public void paint(Graphics g)
+		{
 			super.paint(g);
-			if (drag_location_object == current_value) {
-				if (current_value == tree_model.getRoot()) {
+			
+			if (drag_location_object == current_value) 
+			{
+				if (current_value == tree_model.getRoot())
+				{
 					g.setColor(drag_location_color); 
 					g.fillRect(0, 0, getWidth(), getHeight());
 				}
-				else if (current_value instanceof G2DTreeNodeGroup<?>) {
+				else if (((TreeNode)current_value).getAllowsChildren()) 
+				{
 					if (drag_drop_position == 0) {
 						g.setColor(drag_location_color); 
 						g.fillRect(0, 0, getWidth(), getHeight());
@@ -541,6 +573,10 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 	protected class TreeMouseListener extends MouseAdapter
 	{
 		@Override
+		public void mouseDragged(MouseEvent e) {
+		}
+		
+		@Override
 		public void mouseReleased(MouseEvent e) {
 //			drag_location_object = null;
 		}
@@ -555,6 +591,7 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 			G2DTree tree = G2DTree.this;
 			TreePath selPath = getPathForLocation(e.getX(), e.getY());
 			tree.setSelectionPath(selPath);
+			dragged_tree_node = getSelectedNode();
 		}
 		
 		@Override
@@ -611,7 +648,9 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		final public void dragOver(DropTargetDragEvent dtde) {
 			drag_location_object = null;
 //			if (!dragOverDirect(dtde)) {
-				TreePath path = G2DTree.this.getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+				TreePath path = G2DTree.this.getPathForLocation(
+						dtde.getLocation().x, 
+						dtde.getLocation().y);
 				if (path!=null) {
 					{
 						Rectangle comp = getPathBounds(path);
@@ -638,7 +677,9 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 		@Override
 		final public void drop(DropTargetDropEvent dtde) {
 			drag_location_object = null;
-			TreePath path = G2DTree.this.getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+			TreePath path = G2DTree.this.getPathForLocation(
+					dtde.getLocation().x, 
+					dtde.getLocation().y);
 			if (path!=null) {
 				{
 					Rectangle comp = getPathBounds(path);

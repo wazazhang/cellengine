@@ -1,6 +1,10 @@
 package com.g2d.studio.swing;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
@@ -8,11 +12,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 
 @SuppressWarnings("serial")
-public abstract class G2DTreeNode<C extends G2DTreeNode<?>> extends DefaultMutableTreeNode
+public abstract class G2DTreeNode<C extends G2DTreeNode<?>> extends DefaultMutableTreeNode implements Transferable
 {
 	private ImageIcon 		icon_snapshot;
 	
-	public G2DTreeNode() {}
+	public G2DTreeNode() {
+		setAllowsChildren(false);
+	}
 	
 //	----------------------------------------------------------------------------------------------------------------------------------
 
@@ -81,6 +87,29 @@ public abstract class G2DTreeNode<C extends G2DTreeNode<?>> extends DefaultMutab
 //			throw new IllegalStateException("duplicate element \"" + child.getName() + "\" !");
 //		}
 		return true;
+	}
+
+//	----------------------------------------------------------------------
+	
+	@Override
+	public DataFlavor[] getTransferDataFlavors() {
+		try {
+			return new DataFlavor[]{new DataFlavor(getClass().getCanonicalName())};
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isDataFlavorSupported(DataFlavor flavor) {
+		return true;
+	}
+
+	@Override
+	public Object getTransferData(DataFlavor flavor)
+			throws UnsupportedFlavorException, IOException {
+		return this;
 	}
 	
 

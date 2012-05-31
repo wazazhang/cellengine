@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 
-public abstract class PopupCellEdit<T> extends JButton implements ActionListener, PropertyCellEdit<T>
+public abstract class PopupCellEdit<T> extends JButton 
+implements ActionListener, 
+PropertyCellEdit<T>
 {
 	private static final long serialVersionUID = 1;
 

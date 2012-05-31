@@ -50,7 +50,8 @@ public abstract class DisplayObject implements Vector
 	public int 					priority;
 	
 	/** 当前坐标系的 rectangle */
-	final public Rectangle 		local_bounds 		= new Rectangle(0,0,100,100);
+	@Property("Bounds")
+	public Rectangle 			local_bounds 		= new Rectangle(0,0,100,100);
 
 	@Property("ClipBounds")
 	public boolean				clip_local_bounds	= false;

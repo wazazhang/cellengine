@@ -62,6 +62,11 @@ public class Color implements Serializable
     {
     	this.set(r, g, b, a);
     }
+
+    public Color(String hex) {
+    	long argb = Long.parseLong(hex, 16);
+    	set((int)argb); 
+    }
     
     private void set(int argb) 
     {
@@ -108,12 +113,12 @@ public class Color implements Serializable
 	public float getBlue() {
 		return value_argb_f[3];
 	}
-    
+	
 	public String toHexString() {
-		return Long.toHexString(0xff00000000L & getARGB());
+		return Long.toHexString(0x00ffffffffL & getARGB());
 	}
 	public String toString() {
-		return Long.toHexString(0xff00000000L & getARGB());
+		return toHexString();
 	}
 	public int getARGB() {
 		return value_argb;

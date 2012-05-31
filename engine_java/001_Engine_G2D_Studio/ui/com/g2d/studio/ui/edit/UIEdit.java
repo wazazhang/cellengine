@@ -3,6 +3,9 @@ package com.g2d.studio.ui.edit;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FileDialog;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,32 +13,44 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.UIManager;
+import javax.swing.tree.MutableTreeNode;
 
 import com.cell.CIO;
 import com.cell.CObject;
 import com.cell.io.CFile;
 import com.cell.j2se.CAppBridge;
 import com.cell.j2se.CStorage;
+import com.g2d.BufferedImage;
 import com.g2d.Color;
 import com.g2d.Engine;
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.awt.util.AbstractFrame;
+import com.g2d.awt.util.Tools;
+import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.ui.Container;
 import com.g2d.display.ui.UIComponent;
+import com.g2d.display.ui.layout.ImageUILayout;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.display.ui.layout.UILayout.ImageStyle;
 import com.g2d.editor.DisplayObjectPanel;
 import com.g2d.java2d.impl.AwtEngine;
 import com.g2d.studio.Studio;
+import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DTree;
 import com.g2d.studio.swing.G2DWindowToolBar;
@@ -46,29 +61,29 @@ public class UIEdit extends AbstractFrame implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
+	final public File workdir;
+	
 	private UILayoutManager manager;
-	
+
+	public static int grid_w = 16;
+	public static int grid_h = 16;
+	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
 	private G2DWindowToolBar tools;
-	
+
+	private UIStage g2d_stage;
 	private UIPropertyPanel ui_property_panel;
-	
 	private UITreeNode tree_root;
-	
 	private UITree tree;
-	
 	private UITemplateList templates;
-	
-	
-	private DisplayObjectPanel stage_view = new DisplayObjectPanel(
-			new DisplayObjectPanel.ObjectStage(
-					com.g2d.Color.BLACK));
-	
-	private File workdir;
+	private DisplayObjectPanel stage_view;
+	private File last_saved_file;
 		
-	public UIEdit(File workdir) throws IOException 
+	public UIEdit(File wdr) throws IOException 
 	{
-		this.workdir = workdir;
-		this.manager = new UILayoutManager();
+		this.workdir = wdr.getCanonicalFile();
+		this.manager = new UILayoutManager(this);
+		
+		this.setTitle(workdir.getPath());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		this.setSize(
@@ -76,6 +91,8 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				AbstractFrame.getScreenHeight() - 100);
 		this.setCenter();
 		
+		this.g2d_stage = new UIStage(this);
+		this.stage_view = new DisplayObjectPanel(g2d_stage);
 		this.stage_view.start();
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -84,10 +101,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			}
 		});
 
-		tree_root = createNode(null, UERoot.class, "root");
-		{
-			
-		}
+		tree_root = new UITreeNode(this, UERoot.class, "root");
 		
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		{
@@ -98,12 +112,15 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				right.add(stage_view);
 				stage_view.getStage().addChild(tree_root.display);
 				stage_view.getCanvas().setFPS(30);
+				DropTarget dt = new DropTarget(
+						stage_view.getSimpleCanvas(), 
+						DnDConstants.ACTION_REFERENCE,
+						g2d_stage, true);
+				stage_view.getSimpleCanvas().setDropTarget(dt);
 				hplit.setLeftComponent(right);
-				
-				templates = new UITemplateList(this);
-				templates.setMinimumSize(new Dimension(200, 200));
-				templates.setPreferredSize(new Dimension(200, 200));
-				hplit.setRightComponent(new JScrollPane(templates));
+
+				ui_property_panel = new UIPropertyPanel(300, 300);
+				hplit.setRightComponent(ui_property_panel);
 			}
 			split.setRightComponent(hplit);
 		}{
@@ -117,8 +134,12 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				treescroll.setPreferredSize(new Dimension(300, 300));
 				vsplit.setTopComponent(treescroll);
 				
-				ui_property_panel = new UIPropertyPanel(300, 300);
-				vsplit.setBottomComponent(ui_property_panel);
+				JToolBar temptoolbar = new JToolBar();
+				temptoolbar.add(new JLabel("标准控件"));
+				templates = new UITemplateList(this);
+				templates.setMinimumSize(new Dimension(200, 200));
+				templates.setPreferredSize(new Dimension(200, 200));
+				vsplit.setBottomComponent(new JScrollPane(templates));
 			}
 			left.add(vsplit, BorderLayout.CENTER);
 			split.setLeftComponent(left);
@@ -126,6 +147,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 
 
 		tools = new G2DWindowToolBar(this, false, true, true, false);
+		tools.add(tool_grid);
 		this.add(tools, BorderLayout.NORTH);
 		this.add(split, BorderLayout.CENTER);
 		
@@ -139,34 +161,36 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		return templates;
 	}
 	
-	public Class<?> getSelectedTemplate() {
-		UITemplate ut = templates.getSelectedItem();
-		if (ut != null) {
-			return ut.uiType;
+	public UITemplate getSelectedTemplate() {
+		if (templates.getSelectedNode() instanceof UITemplate) {
+			UITemplate ut = (UITemplate)templates.getSelectedNode();
+			if (ut != null) {
+				return ut;
+			}
 		}
-		return UECanvas.class;
+		return null;
 	}
 	
-	public G2DTree getTree() {
+	public UITreeNode getSelectedUINode() {
+		Object value = tree.getSelectedNode();
+		if (value instanceof UITreeNode){
+			return (UITreeNode)value;
+		}
+		return null;
+	}
+	
+	public UITree getTree() {
 		return tree;
 	}
 	
-	public UITreeNode createNode(UITreeNode parent, Class<?> type, String name) 
-	{
-		try {
-			UITreeNode node = new UITreeNode(this, type, name);
-			if (parent != null) {
-				Container pc = (Container)parent.display;
-				if (pc.addComponent(node.display)) {
-					parent.add(node);
-				}
-				tree.reload(parent);
-			}
-			return node;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+
+	
+	public InputStream getStream(String sub_file) {
+		return CIO.getInputStream(workdir.getPath() + "/" + sub_file);
+	}
+	
+	public File getSubFile(String sub_file) {
+		return new File(workdir, sub_file);
 	}
 	
 	public void onSelectTreeNode(UITreeNode node) {
@@ -174,6 +198,9 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		ui_property_panel.setCompoment(node);
 	}
 
+	public boolean isGridEnable() {
+		return tool_grid.isSelected();
+	}
 
 	// tool 
 	@Override
@@ -182,33 +209,85 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		if (e.getSource() == tools.save) {
 			saveFile();
 		}
+		else if (e.getSource() == tools.load) {
+			loadFile();
+		}
 	}
 	
 	private void saveFile()
 	{
 		try {
-			String name = JOptionPane.showInputDialog(this, "输入名字！", "");
-			if (name != null && name.length() > 0) {
-				File file = new File(workdir, name + ".gui.xml");
-				if (file.exists()) {
-					int result = JOptionPane.showConfirmDialog(this,
-							file.getName() + " 文件已存在，是否覆盖？", "确认？",
-							JOptionPane.OK_CANCEL_OPTION);
-					if (result != JOptionPane.OK_OPTION) {
-						return;
+			if (last_saved_file == null) {
+				String name = JOptionPane.showInputDialog(this, "输入名字！", "");
+				if (name != null && name.length() > 0) {
+					File file = new File(workdir, name + ".gui.xml");
+					if (file.exists()) {
+						int result = JOptionPane.showConfirmDialog(this,
+								file.getName() + " 文件已存在，是否覆盖？", "确认？",
+								JOptionPane.OK_CANCEL_OPTION);
+						if (result != JOptionPane.OK_OPTION) {
+							return;
+						}
+					} else {
+						file.createNewFile();
 					}
-				} else {
-					file.createNewFile();
+					last_saved_file = file.getCanonicalFile();
 				}
+			}
+			if (last_saved_file != null) {
 				ByteArrayOutputStream fos = new ByteArrayOutputStream();
-				((UERoot)tree_root.display).toXMLStream(fos);
+				tree_root.toXMLStream(this, fos);
 				fos.flush();
-				CFile.writeData(file, fos.toByteArray());
+				CFile.writeData(last_saved_file, fos.toByteArray());
+				this.setTitle(last_saved_file.getPath());
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
+	
+	private void loadFile()
+	{
+		try {
+			java.awt.FileDialog fd = new FileDialog(this, 
+					"打开文件",
+					FileDialog.LOAD);
+			fd.setLocation(getLocation());
+			fd.setDirectory(workdir.getPath());
+			fd.setFilenameFilter(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					if (name.toLowerCase().endsWith(".gui.xml")) {
+						return true;
+					}
+					return false;
+				}
+			});
+			fd.setVisible(true);
+			if (fd.getFile() != null) {
+				try {
+					String file = fd.getDirectory() + fd.getFile();
+					File xmlfile = new File(file).getCanonicalFile();
+					FileInputStream fis = new FileInputStream(xmlfile);
+					tree_root.fromXMLStream(this, fis);
+					fis.close();
+					last_saved_file = xmlfile;
+					this.setTitle(last_saved_file.getPath());
+					tree.reload();
+				} catch (Exception e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, 
+							"非法的格式!\n" + 
+							e.getMessage());
+				}
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+
+	
 	
 	static public void main(final String[] args)
 	{

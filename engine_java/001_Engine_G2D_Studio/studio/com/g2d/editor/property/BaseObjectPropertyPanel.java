@@ -27,12 +27,16 @@ import com.g2d.editor.Util;
 
 @SuppressWarnings("serial")
 public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPropertyEdit
-{
+{	
+	static {
+		com.g2d.editor.Util.initParser();
+	}
+	
 	final protected Map<Class<?>, CellEditAdapter<?>>	
 							edit_adapters 	= new Hashtable<Class<?>, CellEditAdapter<?>>();
 	
 	private Set<ObjectPropertyListener> edit_listeners = new LinkedHashSet<ObjectPropertyListener>();
-	
+
 	public BaseObjectPropertyPanel(CellEditAdapter<?> ... adapters)
 	{
 		for (CellEditAdapter<?> ad : adapters) 
@@ -105,7 +109,10 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return field_value + "";
+		
+		
+		String txt = Parser.objectToString(field_value);
+		return txt;
 	}
 	
 	/**
@@ -161,7 +168,9 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 		}
 		else {
 			TextCellEdit text_edit = new TextCellEdit();
-			text_edit.setText(Util.fromObject(field_value));
+			//text_edit.setText(Util.fromObject(field_value));
+			String txt = Parser.objectToString(field_value);
+			text_edit.setText(txt);
 			return text_edit;
 		}
 	}
@@ -195,7 +204,10 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 			obj = ((NumberCellEdit)edit).getValue();
 		}
 		else if (edit instanceof TextCellEdit) {
-			obj = Util.parseObject(((TextCellEdit) edit).getValue(), src_value == null ? field.getType() : src_value.getClass());
+			//obj = Util.parseObject(((TextCellEdit) edit).getValue(), src_value == null ? field.getType() : src_value.getClass());
+			obj = Parser.stringToObject(
+					((TextCellEdit) edit).getValue(), 
+					src_value == null ? field.getType() : src_value.getClass());
 		}
 		else {
 			obj = edit.getValue();

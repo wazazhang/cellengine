@@ -30,7 +30,8 @@ public abstract class UIComponent extends UIObject
 {	
 //	-----------------------------------------------------------------------------------------------------
 //	visual
-	
+
+	@Property("name")
 	public String 						name;
 	
 	/**提示文字*/
@@ -63,18 +64,27 @@ public abstract class UIComponent extends UIObject
 	Object					user_data;
 	public int				tag_data;
 	
-	public EditModeDraw		editDraw = null;
+	public DebugModeDraw	debugDraw = null;
 //	-----------------------------------------------------------------------------------------------------
 
-	
+
+	@Property("附加标记")
+	public int userTag = 0;
+
+	@Property("附加数据")
+	public String userData;
+
+//	-----------------------------------------------------------------------------------------------------
+
 	
 	public UIComponent() 
 	{
 		clip_local_bounds = true;
 		ignore_render_without_parent_bounds = true;
 	
-		action_listeners	= new Vector<ActionListener>();
-		layout 				= UILayout.createBlankRect();
+		action_listeners = new Vector<ActionListener>();
+		layout = UILayout.createBlankRect();
+		UILayoutManager.getInstance().setLayout(this);
 	}
 	
 	public void setBounds(int x, int y, int w, int h) {
@@ -166,14 +176,14 @@ public abstract class UIComponent extends UIObject
 	
 	public void added(DisplayObjectContainer parent) {
 		setRootForm(parent);
-		UILayoutManager.getInstance().setLayout(this);
+//		UILayoutManager.getInstance().setLayout(this);
 	}
 	public void removed(DisplayObjectContainer parent) {}
 	public void update(){}
 	public void render(Graphics2D g) {
 		renderLayout(g);
-		if (editDraw != null) {
-			editDraw.render(g, this);
+		if (debugDraw != null) {
+			debugDraw.render(g, this);
 		}
 	}
 	
@@ -338,7 +348,7 @@ public abstract class UIComponent extends UIObject
 //	-----------------------------------------------------------------------------------------------------
 
 
-	static public interface EditModeDraw
+	static public interface DebugModeDraw
 	{
 		public void render(Graphics2D g, UIComponent ui);
 	}

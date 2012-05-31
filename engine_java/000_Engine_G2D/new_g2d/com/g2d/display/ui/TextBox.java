@@ -51,7 +51,7 @@ public class TextBox extends UIComponent
 	private int 						text_draw_y;
 	private Rectangle 					view_port_rect		= new Rectangle();
 	
-	protected MultiTextLayout			text				= Engine.getEngine().createMultiTextLayout();
+	protected MultiTextLayout text = Engine.getEngine().createMultiTextLayout();
 
 	transient Hashtable<Attribute, TextClickSegmentListener> click_segment_listeners;
 	
