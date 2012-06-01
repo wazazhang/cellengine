@@ -8,7 +8,6 @@ import com.g2d.studio.ui.edit.UIEdit;
 public class UETextBox extends TextPan implements SavedComponent
 {
 	public UETextBox() {
-		setSize(100, 100);
 	}
 	
 	@Override

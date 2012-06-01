@@ -8,7 +8,6 @@ import com.g2d.studio.ui.edit.UIEdit;
 public class UELabel extends Label implements SavedComponent
 {
 	public UELabel() {
-		setSize(100, 30);
 	}
 	
 	@Override

@@ -67,6 +67,9 @@ public class TextBoxSingle extends UIComponent
 	
 	@Override
 	public AnimateCursor getCursor() {
+		if (enable_drag_resize) {
+			return super.getCursor();
+		}
 		return AnimateCursor.TEXT_CURSOR;
 	}
 

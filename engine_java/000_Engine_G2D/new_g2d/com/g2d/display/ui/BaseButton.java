@@ -22,8 +22,12 @@ public abstract class BaseButton extends UIComponent
 		setSize(width, height);
 	}
 	
-	public BaseButton() {
-		this(20, 20);
+	public BaseButton() {}
+	
+	@Override
+	protected void defaultLayout() {
+		super.defaultLayout();
+		super.setSize(20, 20);
 	}
 	
 	@Override

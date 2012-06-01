@@ -18,17 +18,26 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import com.cell.CIO;
 import com.cell.CObject;
@@ -65,11 +74,12 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	
 	private UILayoutManager manager;
 
-	public static int grid_w = 16;
-	public static int grid_h = 16;
 	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
+	private JSpinner tool_grid_size = new JSpinner(new SpinnerNumberModel(8, 2, 100, 1));
 	private G2DWindowToolBar tools;
-
+	private JToolBar bar_status;
+	private JProgressBar bar_save_progress = new JProgressBar();
+	
 	private UIStage g2d_stage;
 	private UIPropertyPanel ui_property_panel;
 	private UITreeNode tree_root;
@@ -145,11 +155,32 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			split.setLeftComponent(left);
 		}
 
-
-		tools = new G2DWindowToolBar(this, false, true, true, false);
-		tools.add(tool_grid);
-		this.add(tools, BorderLayout.NORTH);
-		this.add(split, BorderLayout.CENTER);
+		{
+			tools = new G2DWindowToolBar(this, false, true, true, true);
+			tools.add(tool_grid);
+			tools.add(tool_grid_size);
+			tools.save_s.setToolTipText("另存为");
+			tool_grid_size.setValue(8);
+			tool_grid_size.setPreferredSize(new Dimension(50, 25));
+			
+			this.tools.save.setToolTipText("保存 Ctrl + S");
+			this.tools.save.registerKeyboardAction(
+					this, 
+					KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK), 
+					JComponent.WHEN_IN_FOCUSED_WINDOW);  
+		}
+		{
+			bar_status = new JToolBar();
+			bar_status.setFloatable(false);
+			bar_status.add(bar_save_progress);
+			
+		}
+		
+		
+		
+		this.add(tools, 		BorderLayout.NORTH);
+		this.add(split, 		BorderLayout.CENTER);
+		this.add(bar_status, 	BorderLayout.SOUTH);
 		
 	}
 	
@@ -202,22 +233,31 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		return tool_grid.isSelected();
 	}
 
+	public int getGridSize() {
+		return ((Number)tool_grid_size.getValue()).intValue();
+	}
+	
 	// tool 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == tools.save) {
-			saveFile();
+			saveFile(false);
+		}
+		else if (e.getSource() == tools.save_s) {
+			saveFile(true);
 		}
 		else if (e.getSource() == tools.load) {
 			loadFile();
 		}
 	}
 	
-	private void saveFile()
+	private void saveFile(boolean saveAs)
 	{
 		try {
-			if (last_saved_file == null) {
+			bar_save_progress.setValue(0);
+			bar_save_progress.setMaximum(tree.getAllNodes().size());
+			if (last_saved_file == null || saveAs) {
 				String name = JOptionPane.showInputDialog(this, "输入名字！", "");
 				if (name != null && name.length() > 0) {
 					File file = new File(workdir, name + ".gui.xml");
@@ -241,6 +281,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				CFile.writeData(last_saved_file, fos.toByteArray());
 				this.setTitle(last_saved_file.getPath());
 			}
+			bar_save_progress.setValue(bar_save_progress.getMaximum());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

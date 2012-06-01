@@ -155,10 +155,11 @@ implements ObjectPropertyListener
 		}
 		
 		@Override
-		public void mouseDragged(MouseMoveEvent e) {
-			if (edit.isGridEnable()) {
-				display.x = ((int)display.x)/edit.grid_w*edit.grid_w;
-				display.y = ((int)display.y)/edit.grid_h*edit.grid_h;
+		public void mouseDragged(MouseMoveEvent e)
+		{
+			if (edit.isGridEnable()) 
+			{
+				edit.getLayoutManager().gridPos(display);
 			}
 		}
 		
@@ -166,11 +167,12 @@ implements ObjectPropertyListener
 		public void onDragResizeEnd(InteractiveObject object) {}
 
 		@Override
-		public void onDragResizeRunning(InteractiveObject object, DragResizeObject dr) {
-			int w = dr.start_drag_bounds.width/edit.grid_w*edit.grid_w;
-			int h = dr.start_drag_bounds.height/edit.grid_h*edit.grid_h;
-			dr.start_drag_bounds.width = w;
-			dr.start_drag_bounds.height = h;
+		public void onDragResizeRunning(InteractiveObject object, DragResizeObject dr) 
+		{
+			if (edit.isGridEnable()) 
+			{
+				edit.getLayoutManager().gridSize(dr.start_drag_bounds);
+			}
 		}
 
 		@Override
@@ -195,7 +197,7 @@ implements ObjectPropertyListener
 		{
 			if (edit.getTree().getSelectedNode() == UITreeNode.this) 
 			{
-				float alpha = 0.75f + (float)Math.sin(ui.timer / 5.0f)/4;
+				float alpha = 0.5f + (float)Math.sin(ui.timer / 5.0f)/2;
 				int s1 = 3;
 				int s2 = 6;
 				int s4 = 12;
@@ -205,7 +207,7 @@ implements ObjectPropertyListener
 				g.pushClip();
 				g.setClip(-s2, -s2, w+s4, h+s4);
 				
-				g.setColor(new Color(1, 1, 1, alpha));
+				g.setColor(new Color(alpha, alpha, alpha, 1));
 				g.drawRect(0, 0, w-1, h-1);
 				
 				g.fillRect( -s1,  -s1, s2, s2);

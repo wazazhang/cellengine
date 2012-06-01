@@ -10,6 +10,7 @@ import com.g2d.display.ui.layout.ImageUILayout;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.display.ui.layout.UILayout.ImageStyle;
 import com.g2d.editor.property.PopupCellEditUILayout;
+import com.g2d.geom.Rectangle;
 import com.g2d.java2d.impl.AwtEngine;
 import com.g2d.studio.ui.edit.gui.UEButton;
 import com.g2d.studio.ui.edit.gui.UECanvas;
@@ -65,33 +66,83 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 	{
 		if (ui instanceof UEButton) {
 			((UEButton)ui).setLayout(ui_btn_u, ui_btn_d);
+			ui.setSize(100, 30);
 		}
 		else if (ui instanceof UECanvas) {
-			ui.setLayout(ui_canvas);
+			ui.setLayout(ui_canvas);	
+			ui.setSize(200, 200);
 		}
 		else if (ui instanceof UELabel) {
 			ui.setLayout(ui_null);
+			ui.setSize(100, 30);
 		}
 		else if (ui instanceof UETextInput) {
 			ui.setLayout(ui_label);
+			ui.setSize(100, 100);
 		}
 		else if (ui instanceof UETextBox) {
 			ui.setLayout(ui_label);
+			ui.setSize(100, 30);
+		}
+		else if (ui instanceof UEImageBox) {
+			ui.setLayout(ui_null);
+			ui.setSize(100, 100);
 		}
 		else {
 			ui.setLayout(ui_default);
 		}
 		
+		if (edit.isGridEnable()) 
+		{
+			gridSize(ui.local_bounds);
+		}
+	}
+	
+	public void gridPos(UIComponent ui) 
+	{
+		int gw = edit.getGridSize();
+		int gw2 = gw/2;
+		
+		int pw = ui.getX() % gw;
+		int ph = ui.getY() % gw;
+		if (pw < gw2) {
+			ui.x = ui.x - pw;
+		} else {
+			ui.x = ui.x - pw + gw;
+		}
+		if (ph < gw2) {
+			ui.y = ui.y - ph;
+		} else {
+			ui.y = ui.y - ph + gw;
+		}
+	}
+	
+	public void gridSize(Rectangle rect) 
+	{
+		int gw = edit.getGridSize();
+		rect.x = ((int)rect.x)/gw*gw;
+		rect.y = ((int)rect.y)/gw*gw;
+
+		if (rect.width <= gw) {
+			rect.width  = gw;
+		} else {
+			rect.width  = rect.width/gw*gw;
+		}
+		if (rect.height <= gw) {
+			rect.height = gw;
+		} else {
+			rect.height = rect.height/gw*gw;
+		}
 	}
 	
 	public UITemplate[] getTemplates() {
 		UITemplate[] templates = new UITemplate[]{
-				new UITemplate(ui_btn_u, UEButton.class, "Button"),
-				new UITemplate(ui_null, UEImageBox.class, "ImageBox"),
-				new UITemplate(ui_null, UELabel.class, "Label"),
-				new UITemplate(ui_canvas, UECanvas.class, "Canvas"),
-				new UITemplate(ui_label, UETextInput.class, "TextInput"),
-				new UITemplate(ui_label, UETextBox.class, "TextBox"),
+				new UITemplate(ui_btn_u, 	UEButton.class, 	"Button"),
+				new UITemplate(ui_null, 	UEImageBox.class, 	"ImageBox"),
+				new UITemplate(ui_null, 	UELabel.class, 		"Label"),
+				new UITemplate(ui_canvas, 	UECanvas.class, 	"Canvas"),
+				new UITemplate(ui_label, 	UETextInput.class, 	"TextInput"),
+				new UITemplate(ui_label, 	UETextBox.class, 	"TextBox"),
 		};
 		return templates;
 	}

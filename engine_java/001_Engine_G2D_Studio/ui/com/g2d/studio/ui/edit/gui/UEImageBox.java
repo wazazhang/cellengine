@@ -12,7 +12,6 @@ public class UEImageBox extends UIComponent implements SavedComponent
 	public String imagePath = "";
 	
 	public UEImageBox() {
-		setSize(100, 100);
 	}
 	
 	@Override

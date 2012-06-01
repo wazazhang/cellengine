@@ -11,7 +11,6 @@ public class UEButton extends Button implements SavedComponent
 {
 	
 	public UEButton() {
-		setSize(100, 30);
 	}
 	
 	@Override

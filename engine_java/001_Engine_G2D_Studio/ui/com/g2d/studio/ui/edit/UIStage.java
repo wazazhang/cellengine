@@ -14,6 +14,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import com.g2d.Color;
+import com.g2d.Graphics2D;
 import com.g2d.display.DisplayObject;
 import com.g2d.display.ui.Container;
 import com.g2d.editor.DisplayObjectPanel;
@@ -57,6 +58,31 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 	}
 
 	@Override
+	public void render(Graphics2D g) 
+	{
+		super.render(g);
+		
+	}
+	
+	@Override
+	protected void renderAfter(Graphics2D g) 
+	{
+		super.renderAfter(g);
+
+		if (edit.isGridEnable()) 
+		{
+			float alpha = 0.5f + (float)Math.sin(this.timer / 5.0f)/2;
+			g.setColor(new Color(alpha, alpha, alpha, 1));
+			int gw = edit.getGridSize();
+			for (int x=0; x<getWidth(); x+=gw) {
+				for (int y=0; y<getHeight(); y+=gw) {
+					g.fillRect(x, y, 1, 1);
+				}
+			}
+		}
+	}
+	
+	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
 		
 	}
@@ -87,6 +113,9 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 				int tx = ct.display.screenToLocalX(dtde.getLocation().x);
 				int ty = ct.display.screenToLocalY(dtde.getLocation().y);
 				uc.display.setLocation(tx, ty);
+				if (edit.isGridEnable()) {
+					edit.getLayoutManager().gridPos(ct.display);
+				}
 			}
 		}
 	}

@@ -8,7 +8,6 @@ import com.g2d.studio.ui.edit.UIEdit;
 public class UETextInput extends TextBoxSingle implements SavedComponent
 {
 	public UETextInput() {
-		setSize(100, 30);
 	}
 	
 	@Override

@@ -329,6 +329,12 @@ public class G2DTree extends JTree implements G2DDragDropListener<G2DTree>
 			return null;
 		}
 	}
+	
+	public Vector<TreeNode> getAllNodes() {
+		return getAllNodes(getRoot());
+	}
+	
+	
 //	----------------------------------------------------------------------------------------------------------------------------
 	
 	/**

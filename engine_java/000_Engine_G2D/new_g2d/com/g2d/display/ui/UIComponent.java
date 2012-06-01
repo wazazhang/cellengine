@@ -81,12 +81,12 @@ public abstract class UIComponent extends UIObject
 	{
 		clip_local_bounds = true;
 		ignore_render_without_parent_bounds = true;
-	
 		action_listeners = new Vector<ActionListener>();
 		layout = UILayout.createBlankRect();
+		defaultLayout();
 		UILayoutManager.getInstance().setLayout(this);
 	}
-	
+	protected void defaultLayout() {}
 	public void setBounds(int x, int y, int w, int h) {
 		super.setLocation(x, y);
 		super.setLocalBounds(0, 0, w, h);

@@ -8,7 +8,6 @@ import com.g2d.studio.ui.edit.UIEdit;
 public class UECanvas extends Container implements SavedComponent
 {
 	public UECanvas() {
-		setSize(200, 200);
 	}
 	
 	@Override
