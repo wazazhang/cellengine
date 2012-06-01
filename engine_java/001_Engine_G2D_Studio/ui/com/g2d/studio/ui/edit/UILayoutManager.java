@@ -70,7 +70,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 		if (style == ImageStyle.COLOR || style == ImageStyle.NULL) {
 			layout.setStyle(style);
 		} else {
-			layout.setImages(putImage(split[0]), style,
+			layout.setImages(getImage(split[0]), style,
 					Integer.parseInt(split[2]));
 		}
 	}
@@ -117,18 +117,29 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 	
 	public BufferedImage getImage(String subpath)
 	{
-		return image_map.get(subpath);
+		BufferedImage ret = image_map.get(subpath);
+		if (ret == null) {
+			if (subpath.startsWith("/")) {
+				ret = Tools.readImage(subpath);
+			} else {
+				ret = Tools.readImage(edit.workdir.getPath()+"/"+subpath);
+			}
+			image_map.put(subpath, ret);
+		}
+		return ret;
 	}
 	
-	public BufferedImage putImage(String subpath)
+	public BufferedImage putImage(String subpath, BufferedImage buff)
 	{
-		BufferedImage ret = null;
-		if (subpath.startsWith("/")) {
-			ret = Tools.readImage(subpath);
-		} else {
-			ret = Tools.readImage(edit.workdir.getPath()+"/"+subpath);
+		image_map.put(subpath, buff);
+		try {
+			File file = edit.getSubFile(subpath);
+			if (!file.exists()) {
+				Tools.writeImage(file.getPath(), "png", buff);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		image_map.put(subpath, ret);
 		return image_map.get(subpath);
 	}
 	
@@ -187,7 +198,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			int clip_border)
 	{
 		try {
-			BufferedImage buf = putImage(image_file);
+			BufferedImage buf = getImage(image_file);
 			if (buf != null) {
 				return new ImageUILayout(buf, 
 						edit.getSubFile(image_file), 

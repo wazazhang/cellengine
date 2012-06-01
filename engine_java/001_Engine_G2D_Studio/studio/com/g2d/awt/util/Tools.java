@@ -2,9 +2,12 @@ package com.g2d.awt.util;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -24,8 +27,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -39,6 +44,7 @@ import com.cell.io.BigIODeserialize;
 import com.cell.io.BigIOSerialize;
 import com.cell.io.CFile;
 
+import com.g2d.Engine;
 import com.g2d.java2d.impl.AwtEngine;
 
 
@@ -809,5 +815,33 @@ public class Tools
 		return AwtEngine.wrap_g2d(img);
 	}
 	
+	static public com.g2d.BufferedImage dialogLoadImage(
+			Frame parent, 
+			String path, 
+			AtomicReference<File> outpath)
+	{
+		FileDialog fd = new FileDialog(parent);
+		if (parent != null) {
+			fd.setLocation(parent.getLocation());
+		}
+		fd.setDirectory(path);
+		fd.setTitle("选择图片");
+		fd.setMode(FileDialog.LOAD);
+		fd.setVisible(true);
+		try {
+			if (fd.getFile() != null) {
+				String file = fd.getDirectory() + fd.getFile();
+				File ofile = new File(file).getCanonicalFile();
+				System.out.println("You chose to open this file: " + file);
+				FileInputStream fis = new FileInputStream(ofile);
+				com.g2d.BufferedImage  ret = Engine.getEngine().createImage(fis);
+				outpath.set(ofile);
+				return ret;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 }

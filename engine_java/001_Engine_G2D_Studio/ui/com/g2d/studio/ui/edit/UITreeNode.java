@@ -77,7 +77,8 @@ implements ObjectPropertyListener
 		this.display.enable_key_input = true;
 		this.display.enable_focus = true;
 		this.display.addEventListener(adapter);
-		this.opp = new ObjectPropertyPanel(display, 100, 200, false); 
+		this.opp = new ObjectPropertyPanel(display, 100, 200, false, 
+				new UIPropertyPanel.UEImageBoxAdapter(edit)); 
 		this.opp.addObjectPropertyListener(this);
 		
 		this.setAllowsChildren(display instanceof com.g2d.display.ui.Container);

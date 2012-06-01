@@ -130,6 +130,8 @@ public class Drawing
 		}
 	};
 	
+
+	
 	final static public Rectangle drawString(Graphics2D g, String src, int x, int y)
 	{
 		Rectangle rect = g.getFont().getStringBounds(src, g);
@@ -489,6 +491,13 @@ public class Drawing
 				g.popComposite();
 			}
 		}
+	}
+
+	public static enum ImageAnchor
+	{
+		L_T, C_T, R_T,
+		L_C, C_C, R_C,
+		L_B, C_B, R_B,
 	}
 
 	
