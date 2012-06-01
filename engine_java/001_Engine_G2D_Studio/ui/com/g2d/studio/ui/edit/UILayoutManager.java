@@ -1,7 +1,9 @@
 package com.g2d.studio.ui.edit;
 
 import java.io.File;
+import java.util.HashMap;
 
+import com.cell.CUtil;
 import com.g2d.BufferedImage;
 import com.g2d.Engine;
 import com.g2d.Tools;
@@ -16,21 +18,28 @@ import com.g2d.studio.ui.edit.gui.UEButton;
 import com.g2d.studio.ui.edit.gui.UECanvas;
 import com.g2d.studio.ui.edit.gui.UEImageBox;
 import com.g2d.studio.ui.edit.gui.UELabel;
+import com.g2d.studio.ui.edit.gui.UERoot;
 import com.g2d.studio.ui.edit.gui.UETextBox;
 import com.g2d.studio.ui.edit.gui.UETextInput;
 
 public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
-{
+ {
+	private UILayout ui_default = new UILayout(ImageStyle.COLOR);
+	private UILayout ui_null = new UILayout(ImageStyle.NULL);
 	
-	
-	private UILayout ui_null 	= new UILayout(ImageStyle.NULL);
-	private UILayout ui_default = new UILayout();
-
-	private UILayout ui_btn_d 	= new UILayout();
-	private UILayout ui_btn_u 	= new UILayout();
-	
+	private UILayout ui_root = new UILayout();
+	private UILayout ui_btn_d = new UILayout();
+	private UILayout ui_btn_u = new UILayout();
 	private UILayout ui_label = new UILayout();
 	private UILayout ui_canvas = new UILayout();
+	private UILayout ui_imagebox = new UILayout();
+	private UILayout ui_textinput = new UILayout();
+	private UILayout ui_textbox = new UILayout();
+	
+	
+	private HashMap<String, BufferedImage>	image_map	= new HashMap<String, BufferedImage>();
+	
+	
 	
 	private UIEdit edit;
 	
@@ -40,31 +49,39 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 		
 		PopupCellEditUILayout.uilayout_root = edit.workdir;
 		
-		ui_btn_d.setImages(
-				Tools.readImage("/com/g2d/studio/ui/edit/res/btn1-d.png"), 
-				UILayout.ImageStyle.IMAGE_STYLE_ALL_9, 
-				10);
-		ui_btn_u.setImages(
-				Tools.readImage("/com/g2d/studio/ui/edit/res/btn1-u.png"), 
-				UILayout.ImageStyle.IMAGE_STYLE_ALL_9, 
-				10);
+		initLayout(ui_root, UIEditConfig.UI_DEFAULT_ROOT);
+		initLayout(ui_btn_d, UIEditConfig.UI_DEFAULT_BUTTON_D);
+		initLayout(ui_btn_u, UIEditConfig.UI_DEFAULT_BUTTON_U);
+		initLayout(ui_label, UIEditConfig.UI_DEFAULT_LABEL);
+		initLayout(ui_canvas, UIEditConfig.UI_DEFAULT_CANVAS);
+		initLayout(ui_imagebox, UIEditConfig.UI_DEFAULT_IMAGEBOX);
+		initLayout(ui_textinput, UIEditConfig.UI_DEFAULT_TEXTINPUT);
+		initLayout(ui_textbox, UIEditConfig.UI_DEFAULT_TEXTBOX);		
 		
-		ui_label.setImages(
-				Tools.readImage("/com/g2d/studio/ui/edit/res/lable.png"), 
-				UILayout.ImageStyle.IMAGE_STYLE_ALL_9, 
-				10);
-		
-		ui_canvas.setImages(
-				Tools.readImage("/com/g2d/studio/ui/edit/res/panel.png"), 
-				UILayout.ImageStyle.IMAGE_STYLE_ALL_9, 
-				10);
+		   
 		
 		setInstance(this);
 	}
 	
+	private void initLayout(UILayout layout, String cfg) 
+	{
+		String[] split = CUtil.splitString(cfg, ",", true);
+		ImageStyle style = ImageStyle.valueOf(split[1]);
+		if (style == ImageStyle.COLOR || style == ImageStyle.NULL) {
+			layout.setStyle(style);
+		} else {
+			layout.setImages(putImage(split[0]), style,
+					Integer.parseInt(split[2]));
+		}
+	}
+	
 	public void setLayout(UIComponent ui)
 	{
-		if (ui instanceof UEButton) {
+		if (ui instanceof UERoot) {
+			ui.setLayout(ui_root);
+			ui.setSize(100, 30);
+		}
+		else if (ui instanceof UEButton) {
 			((UEButton)ui).setLayout(ui_btn_u, ui_btn_d);
 			ui.setSize(100, 30);
 		}
@@ -73,19 +90,19 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			ui.setSize(200, 200);
 		}
 		else if (ui instanceof UELabel) {
-			ui.setLayout(ui_null);
+			ui.setLayout(ui_label);
 			ui.setSize(100, 30);
 		}
 		else if (ui instanceof UETextInput) {
-			ui.setLayout(ui_label);
+			ui.setLayout(ui_textinput);
 			ui.setSize(100, 100);
 		}
 		else if (ui instanceof UETextBox) {
-			ui.setLayout(ui_label);
+			ui.setLayout(ui_textbox);
 			ui.setSize(100, 30);
 		}
 		else if (ui instanceof UEImageBox) {
-			ui.setLayout(ui_null);
+			ui.setLayout(ui_imagebox);
 			ui.setSize(100, 100);
 		}
 		else {
@@ -96,6 +113,23 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 		{
 			gridSize(ui.local_bounds);
 		}
+	}
+	
+	public BufferedImage getImage(String subpath)
+	{
+		return image_map.get(subpath);
+	}
+	
+	public BufferedImage putImage(String subpath)
+	{
+		BufferedImage ret = null;
+		if (subpath.startsWith("/")) {
+			ret = Tools.readImage(subpath);
+		} else {
+			ret = Tools.readImage(edit.workdir.getPath()+"/"+subpath);
+		}
+		image_map.put(subpath, ret);
+		return image_map.get(subpath);
 	}
 	
 	public void gridPos(UIComponent ui) 
@@ -137,12 +171,12 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 	
 	public UITemplate[] getTemplates() {
 		UITemplate[] templates = new UITemplate[]{
-				new UITemplate(ui_btn_u, 	UEButton.class, 	"Button"),
-				new UITemplate(ui_null, 	UEImageBox.class, 	"ImageBox"),
-				new UITemplate(ui_null, 	UELabel.class, 		"Label"),
-				new UITemplate(ui_canvas, 	UECanvas.class, 	"Canvas"),
-				new UITemplate(ui_label, 	UETextInput.class, 	"TextInput"),
-				new UITemplate(ui_label, 	UETextBox.class, 	"TextBox"),
+				new UITemplate(ui_btn_u, UEButton.class, "Button"),
+				new UITemplate(ui_imagebox, UEImageBox.class, "ImageBox"),
+				new UITemplate(ui_label, UELabel.class, "Label"),
+				new UITemplate(ui_canvas, UECanvas.class, "Canvas"),
+				new UITemplate(ui_textinput, UETextInput.class, "TextInput"),
+				new UITemplate(ui_textbox, UETextBox.class, "TextBox"),
 		};
 		return templates;
 	}
@@ -153,8 +187,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			int clip_border)
 	{
 		try {
-			BufferedImage buf = Engine.getEngine().createImage(
-					edit.getStream(image_file));
+			BufferedImage buf = putImage(image_file);
 			if (buf != null) {
 				return new ImageUILayout(buf, 
 						edit.getSubFile(image_file), 

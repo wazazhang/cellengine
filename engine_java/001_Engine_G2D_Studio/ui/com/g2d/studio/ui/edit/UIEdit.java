@@ -272,6 +272,8 @@ public class UIEdit extends AbstractFrame implements ActionListener
 						file.createNewFile();
 					}
 					last_saved_file = file.getCanonicalFile();
+				} else {
+					return;
 				}
 			}
 			if (last_saved_file != null) {

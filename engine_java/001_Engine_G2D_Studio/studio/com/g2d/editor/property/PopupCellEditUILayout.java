@@ -100,7 +100,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 
 		// left pan
 		JPanel pan1 = new JPanel();
-		Canvas canvas;
+		SrcCanvas src_canvas;
 
 		// left bot
 		JPanel pan3 = new JPanel();
@@ -141,7 +141,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			tools				= new G2DWindowToolBar(this, false, false, false, false);
 			
 //			object 				= src;
-			canvas 				= new SrcCanvas() ;
+			src_canvas 				= new SrcCanvas() ;
 			dstview				= new DstView();
 			
 			setSize(800,600);
@@ -179,13 +179,13 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 					pan1.setLayout(null);	
 					
 					if (image != null) {
-						canvas.setSize(
+						src_canvas.setSize(
 								image.getWidth(null), 
 								image.getHeight(null));
 					}
-					canvas.setCursor(
+					src_canvas.setCursor(
 							Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-					pan1.add(canvas);
+					pan1.add(src_canvas);
 					pan1.setMinimumSize(new Dimension(220, 220));
 				}
 				
@@ -257,16 +257,17 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 				sy+=20;
 				
 				ok.setBounds	(sx    , sy, 100, 20);
-				cancel.setBounds(sx+110, sy, 100, 20);
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						MakeLayoutForm.this.setVisible(false);
 						MakeLayoutForm.this.close();
 					}
 				});
+				cancel.setBounds(sx+110, sy, 100, 20);
 				cancel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						MakeLayoutForm.this.setVisible(false);
+						MakeLayoutForm.this.close();
 					}
 				});
 				pan2.add(ok);
@@ -286,7 +287,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
 				image_style = UILayout.ImageStyle.getStyle(e.getActionCommand());
-				canvas.repaint();
+				src_canvas.repaint();
 				dstview.repaint();
 			}
 		}
@@ -319,7 +320,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 							}
 						}
 					}
-					canvas.repaint();
+					src_canvas.repaint();
 					dstview.repaint();
 					
 					
@@ -375,10 +376,10 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 					image_file = new File(file).getCanonicalFile();
 					FileInputStream fis = new FileInputStream(new File(file));
 					image = AwtEngine.unwrap(Engine.getEngine().createImage(fis));
-					canvas.setSize(
+					src_canvas.setSize(
 							image.getWidth(null), 
 							image.getHeight(null));
-					canvas.repaint();
+					src_canvas.repaint();
 					dstview.repaint();
 				}
 			} catch (Exception e) {
@@ -429,32 +430,44 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			
 			public void paint(Graphics g) 
 			{
+				g.clearRect(0, 0, getWidth(), getHeight());
+				
 				if (image != null)
 				{
 					try
 					{
-						int bordersize = Integer.parseInt(spin_broadsize.getValue().toString());
-						g.drawImage(image, 0, 0, canvas.getWidth(), getHeight(), this);
+						int bs = Integer.parseInt(spin_broadsize.getValue().toString());
+						g.drawImage(image, 0, 0, src_canvas.getWidth(), getHeight(), this);
 						g.setColor(new Color(0xffffffff, true));
 						
 						switch(image_style)
 						{
 						case IMAGE_STYLE_ALL_8:
 						case IMAGE_STYLE_ALL_9:
-							g.drawLine(0, bordersize, getWidth(), bordersize);
-							g.drawLine(0, getHeight()-bordersize, getWidth(), getHeight()-bordersize);
-							g.drawLine(bordersize, 0, bordersize, getHeight());
-							g.drawLine(getWidth()-bordersize, 0, getWidth()-bordersize, getHeight());
+							g.drawLine(0, bs, getWidth(), bs);
+							g.drawLine(0, getHeight()-bs, getWidth(), getHeight()-bs);
+							g.drawLine(bs, 0, bs, getHeight());
+							g.drawLine(getWidth()-bs, 0, getWidth()-bs, getHeight());
 							break;
 						case IMAGE_STYLE_H_012:
-							g.drawLine(bordersize, 0, bordersize, getHeight());
-							g.drawLine(getWidth()-bordersize, 0, getWidth()-bordersize, getHeight());
+							g.drawLine(bs, 0, bs, getHeight());
+							g.drawLine(getWidth()-bs, 0, getWidth()-bs, getHeight());
 							break;
 						case IMAGE_STYLE_V_036:
-							g.drawLine(0, bordersize, getWidth(), bordersize);
-							g.drawLine(0, getHeight()-bordersize, getWidth(), getHeight()-bordersize);
+							g.drawLine(0, bs, getWidth(), bs);
+							g.drawLine(0, getHeight()-bs, getWidth(), getHeight()-bs);
 							break;
 						case IMAGE_STYLE_BACK_4:
+							break;
+						case IMAGE_STYLE_HLM:
+							g.drawLine(0, bs, getWidth(), bs);
+							g.drawLine(0, getHeight()-bs, getWidth(), getHeight()-bs);
+							g.drawLine(bs, 0, bs, getHeight());
+							break;
+						case IMAGE_STYLE_VTM:
+							g.drawLine(0, bs, getWidth(), bs);
+							g.drawLine(bs, 0, bs, getHeight());
+							g.drawLine(getWidth()-bs, 0, getWidth()-bs, getHeight());
 							break;
 						}
 					}

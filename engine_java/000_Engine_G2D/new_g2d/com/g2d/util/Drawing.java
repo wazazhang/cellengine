@@ -39,7 +39,7 @@ public class Drawing
 		}
 	}
 	
-	final static public void drawRoundImage(Graphics2D g, Image src, int x, int y, int width, int height)
+	final static public void drawRoundImage(Graphics2D g, Image src, int x, int y, int width, int height, int trans)
 	{
 		g.pushClip();
 		
@@ -50,13 +50,18 @@ public class Drawing
 		
 		for (int dx = 0; dx < width;) {
 			for (int dy = 0; dy < height;) {
-				g.drawImage(src, x + dx, y + dy);
+				g.drawImage(src, x + dx, y + dy, trans);
 				dy += h;
 			}
 			dx += w;
 		}
 		
 		g.popClip();
+	}
+	
+	final static public void drawRoundImage(Graphics2D g, Image src, int x, int y, int width, int height)
+	{
+		drawRoundImage(g, src, x, y, width, height, Graphics2D.TRANS_NONE);
 	}
 	
 	final static public void drawRoundImageH(Graphics2D g, Image src, int x, int y, int width, int height)

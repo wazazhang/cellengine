@@ -103,7 +103,7 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 							Object[] row = new Object[] { 
 									field.getName(),
 									field.get(object),
-									field.getType().getName(),
+									field.getType().getSimpleName(),
 									field };
 							rows.add(row);
 						}
@@ -178,7 +178,8 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 			super.setRowHeight(DEFAULT_ROW_HEIGHT);
 			
 			super.getColumn(columnNames[1]).setCellRenderer(new TableRender());
-
+//			super.getColumn(columnNames[2]).setCellRenderer(new ClassRender());
+			
 			super.getColumn("filed").setCellEditor(new NullEditor());
 			super.getColumn("value").setCellEditor(value_editor);
 			super.getColumn("type").setCellEditor(new NullEditor());
@@ -286,7 +287,19 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 	}
 	
 //	--------------------------------------------------------------------------------------------------------------------------------------
-	
+//	class ClassRender extends DefaultTableCellRenderer
+//	{
+//		@Override
+//		public Component getTableCellRendererComponent(JTable table,
+//				Object value, boolean isSelected, boolean hasFocus, int row,
+//				int column)
+//		{
+//			
+//			Component src = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//			this.setText(((Class<?>)value).getSimpleName());
+//			return src;
+//		}
+//	}
 
 	class TableRender extends DefaultTableCellRenderer
 	{
