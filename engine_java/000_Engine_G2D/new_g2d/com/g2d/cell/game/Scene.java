@@ -6,6 +6,7 @@ import java.util.List;
 import com.cell.gameedit.SetResource;
 import com.cell.gameedit.object.SpriteSet;
 import com.cell.gameedit.object.WorldSet;
+import com.cell.gfx.IGraphics.ImageTrans;
 import com.cell.gfx.game.CSprite;
 import com.g2d.BufferedImage;
 import com.g2d.Graphics2D;
@@ -50,7 +51,15 @@ public class Scene extends com.g2d.game.rpg.Scene
 			
 			for (WorldSet.SpriteObject wspr : sortWorldObject(new ArrayList<WorldSet.SpriteObject>(set_world.Sprs.values()))){
 				Unit cs = createWorldObject(resource, wspr);
-				addChild(cs);
+				if (cs != null) {
+					addChild(cs);
+				}
+			}
+			for (WorldSet.ImageObject wspr : sortWorldObject(new ArrayList<WorldSet.ImageObject>(set_world.Imgs.values()))){
+				Unit cs = createWorldObject(resource, wspr);
+				if (cs != null) {
+					addChild(cs);
+				}
 			}
 		}
 		
@@ -59,7 +68,7 @@ public class Scene extends com.g2d.game.rpg.Scene
 		 * @param objects
 		 * @return
 		 */
-		protected List<WorldSet.SpriteObject> sortWorldObject(List<WorldSet.SpriteObject> objects) {
+		protected<T> List<T> sortWorldObject(List<T> objects) {
 			return objects;
 		}
 		
@@ -70,7 +79,11 @@ public class Scene extends com.g2d.game.rpg.Scene
 		 * @return
 		 */
 		protected Unit createWorldObject(SetResource set, WorldSet.SpriteObject world_set) {
-			return new WorldObject(set, world_set);
+			return new WorldObjectSprite(set, world_set);
+		}
+		
+		protected Unit createWorldObject(SetResource set, WorldSet.ImageObject world_set) {
+			return new WorldObjectImage(set, world_set);
 		}
 		
 		final public SetResource getSetResource(){
@@ -128,11 +141,11 @@ public class Scene extends com.g2d.game.rpg.Scene
 	}
 	
 
-	public static class WorldObject extends SceneSprite
+	public static class WorldObjectSprite extends SceneSprite
 	{
 		final protected WorldSet.SpriteObject 		set_world_sprite;
 		
-		public WorldObject(SetResource set, WorldSet.SpriteObject world_set) 
+		public WorldObjectSprite(SetResource set, WorldSet.SpriteObject world_set) 
 		{
 			synchronized(this) {
 				super.init(set, world_set.SprID);
@@ -149,6 +162,23 @@ public class Scene extends com.g2d.game.rpg.Scene
 				csprite.setCurrentFrame(set_world_sprite.Anim, set_world_sprite.Frame);
 			}
 		}
+	}
+	
+	public static class WorldObjectImage extends SceneImage
+	{
+		final protected WorldSet.ImageObject 		set_world_img;
+		
+		public WorldObjectImage(SetResource set, WorldSet.ImageObject world_set) 
+		{
+			super(set, world_set.ImagesID);
+			set_world_img = world_set;
+			setLocation(world_set.X, world_set.Y);
+			
+			super.index	 = world_set.TileID;
+			super.anchor = world_set.Anchor;
+			super.trans  = ImageTrans.stringToTrans(world_set.Trans);
+		}
+		
 	}
 	
 }
