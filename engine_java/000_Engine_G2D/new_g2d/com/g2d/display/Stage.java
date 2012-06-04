@@ -241,7 +241,7 @@ public abstract class Stage extends DisplayObjectContainer
 	}
 
 	@Override
-	final void onRender(Graphics2D g) {
+	final public void onRender(Graphics2D g) {
 		super.onRender(g);
 	}
 	

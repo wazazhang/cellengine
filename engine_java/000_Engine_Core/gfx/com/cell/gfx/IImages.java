@@ -34,6 +34,7 @@ public interface IImages
 
 	public void render(IGraphics g, int Index, int PosX, int PosY, int Style);
 	
+	
 	/**
 	 * 克隆整个对象，但对象对其管理的IImage对象仍旧保持引用而不克隆
 	 * @return

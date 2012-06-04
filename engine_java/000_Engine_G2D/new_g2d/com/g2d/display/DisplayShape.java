@@ -23,7 +23,7 @@ public class DisplayShape extends DisplayObject
 		super.onUpdate(parent);
 	}
 	
-	final protected void onRender(Graphics2D g) {
+	final public void onRender(Graphics2D g) {
 		super.onRender(g);
 	}
 	

@@ -37,6 +37,7 @@ import javax.swing.event.AncestorListener;
 import com.cell.CObject;
 import com.cell.CUtil;
 import com.cell.gameedit.SetResource;
+import com.cell.gameedit.object.WorldSet.ImageObject;
 import com.cell.gameedit.object.WorldSet.SpriteObject;
 import com.cell.gfx.game.CCD;
 import com.cell.gfx.game.CSprite;
@@ -60,6 +61,9 @@ import com.g2d.cell.CellSetResource;
 import com.g2d.cell.CellSprite;
 
 import com.g2d.cell.game.Scene;
+import com.g2d.cell.game.Scene.WorldMap;
+import com.g2d.cell.game.Scene.WorldObjectImage;
+import com.g2d.cell.game.Scene.WorldObjectSprite;
 import com.g2d.cell.game.ui.ScenePanel;
 import com.g2d.display.DisplayObject;
 import com.g2d.display.DisplayObjectContainer;
@@ -86,6 +90,7 @@ import com.g2d.studio.rpg.AbilityPanel;
 import com.g2d.studio.rpg.RPGObjectPanel;
 import com.g2d.studio.scene.entity.SceneNode;
 //import com.g2d.studio.scene.script.TriggerGeneratorPanel;
+import com.g2d.studio.scene.scene_map.SceneMap;
 import com.g2d.studio.scene.units.SceneActor;
 import com.g2d.studio.scene.units.SceneEffect;
 import com.g2d.studio.scene.units.SceneImmutable;
@@ -101,8 +106,6 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 {
 	private static final long serialVersionUID = 1L;
 
-	private static float	default_mask_alpha 	= 0.5f;
-	private static int		default_mask_color	= 0x808080;
 //	--------------------------------------------------------------------------------------------------------------
 //	game
 
@@ -471,12 +474,12 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		else if (e.getSource() == tool_mask_alpha) {
 			String ret = JOptionPane.showInputDialog(this, 
 					"输入0～1的小数", 
-					default_mask_alpha + "");
+					SceneMap.default_mask_alpha + "");
 			try {
 				if (ret != null) {
 					float v = Float.parseFloat(ret.trim());
 					if (v >= 0 && v <= 1f) {
-						default_mask_alpha = v;
+						SceneMap.default_mask_alpha = v;
 					} else {
 						JOptionPane.showMessageDialog(this, "输入错误!");
 					}
@@ -488,11 +491,11 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		else if (e.getSource() == tool_mask_color) {
 			String ret = JOptionPane.showInputDialog(this, 
 					"输入16进制颜色值，比如 (红色)\"ff0000\"", 
-					Integer.toString(default_mask_color, 16));
+					Integer.toString(SceneMap.default_mask_color, 16));
 			try {
 				if (ret != null) {
 					int v = Integer.parseInt(ret.trim(), 16);
-					default_mask_color = v;
+					SceneMap.default_mask_color = v;
 				}
 			} catch (Throwable ex) {
 				JOptionPane.showMessageDialog(this, "输入错误!");
@@ -647,7 +650,7 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		
 		public SceneContainer() 
 		{
-			this.setWorld(new EatWorldMap(scene_resource, scene_world.name));
+			this.setWorld(new SceneMap(this, scene_resource, scene_world.name));
 			this.enable_input				= true;
 			this.getWorld().runtime_sort 	= false;
 		}
@@ -800,73 +803,10 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 			}
 		}
 		
-//		-----------------------------------------------------------------------------------------------------------------------------
-//		场景单位
-		
-		class EatWorldMap extends WorldMap
-		{
-			public EatWorldMap(SetResource resource, String worldname) {
-				super(SceneContainer.this, resource, resource.WorldTable.get(worldname));
-			}
-			
-			@Override
-			protected Unit createWorldObject(SetResource set, SpriteObject worldSet) {
-				return new EatWorldObject(set, worldSet);
-			}
-			
-		}
-		
-		class EatWorldObject extends WorldObject 
-		{
-			boolean is_png = false;
-			int old_color = 0;
-			float old_alpha = 0;
-			BufferedImage mask;
-			
-			public EatWorldObject(SetResource set, SpriteObject worldSet) {
-				super(set, worldSet);
-			}
-			@Override
-			public synchronized void loaded(SetResource set, CSprite cspr,
-					com.cell.gameedit.object.SpriteSet spr) {
-				super.loaded(set, cspr, spr);
-				this.is_png = !spr.ImagesName.startsWith("jpg");
-				if (spr.ImagesName.startsWith("jpg")) {
-					this.priority = Integer.MIN_VALUE;
-				}
-			}
-			
-			@Override
-			public void render(Graphics2D g) 
-			{
-				if (csprite != null)
-				{
-					if (old_color != default_mask_color || 
-						old_alpha != default_mask_alpha) {
-						old_color = default_mask_color;
-						old_alpha = default_mask_alpha;
-						mask = null;
-					}
-					CCD cd = csprite.getFrameBounds();
-					if (mask == null) {
-						mask = com.g2d.Tools.createImage(cd.getWidth(), cd.getHeight());
-						Graphics2D g2d = mask.createGraphics();
-						csprite.render(g2d, -cd.X1, -cd.Y1);
-						g2d.dispose();
-						if (is_png) {
-							mask = com.g2d.Tools.createAlpha(mask,
-									default_mask_alpha, 
-									default_mask_color);
-						}
-					}
-					if (mask != null) {
-						g.drawImage(mask, cd.X1, cd.Y1);
-					}
-				}
-			}
-		}
-		
 	}
+
+//	-----------------------------------------------------------------------------------------------------------------------------
+//	场景单位
 	
 //	-----------------------------------------------------------------------------------------------------------------------------
 	

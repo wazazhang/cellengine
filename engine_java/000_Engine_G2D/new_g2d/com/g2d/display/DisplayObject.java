@@ -430,7 +430,7 @@ public abstract class DisplayObject implements Vector
 	 * 递归方法
 	 * @param g
 	 */
-	void onRender(Graphics2D g) 
+	public void onRender(Graphics2D g) 
 	{
 		if (visible) 
 		{

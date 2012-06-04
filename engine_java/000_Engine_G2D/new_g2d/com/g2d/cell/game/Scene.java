@@ -1,16 +1,20 @@
 package com.g2d.cell.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 import com.cell.gameedit.SetResource;
 import com.cell.gameedit.object.SpriteSet;
 import com.cell.gameedit.object.WorldSet;
 import com.cell.gfx.IGraphics.ImageTrans;
+import com.cell.gfx.IImages;
 import com.cell.gfx.game.CSprite;
 import com.g2d.BufferedImage;
 import com.g2d.Graphics2D;
 import com.g2d.Tools;
+import com.g2d.display.DisplayObject;
 import com.g2d.game.rpg.Unit;
 
 public class Scene extends com.g2d.game.rpg.Scene 
@@ -114,9 +118,16 @@ public class Scene extends com.g2d.game.rpg.Scene
 				double scalew = width / getWidth();
 				double scaleh = height / getHeight();
 				g2d.scale(scalew, scaleh);
-				for (WorldSet.SpriteObject wspr : set_world.Sprs.values()) {
-					CSprite csprite = set_resource.getSprite(wspr.SprID);
-					csprite.render(g2d, wspr.X, wspr.Y, wspr.Anim, wspr.Frame);
+				Vector<DisplayObject> childs = getSortedChilds();
+				for (DisplayObject d : childs) {
+					if (d instanceof WorldObjectSprite) {
+						d.onRender(g2d);
+//						CSprite csprite = ((WorldObjectSprite)d).getSprite();
+//						csprite.render(g2d, wspr.X, wspr.Y, wspr.Anim, wspr.Frame);
+					}
+					else if (d instanceof WorldObjectImage) {
+						d.onRender(g2d);
+					}
 				}
 				g2d.dispose();
 				return buffer;
@@ -170,13 +181,13 @@ public class Scene extends com.g2d.game.rpg.Scene
 		
 		public WorldObjectImage(SetResource set, WorldSet.ImageObject world_set) 
 		{
-			super(set, world_set.ImagesID);
+			super(set, 
+					world_set.ImagesID,
+					world_set.TileID, 
+					world_set.Anchor,
+					world_set.Trans);
 			set_world_img = world_set;
 			setLocation(world_set.X, world_set.Y);
-			
-			super.index	 = world_set.TileID;
-			super.anchor = world_set.Anchor;
-			super.trans  = ImageTrans.stringToTrans(world_set.Trans);
 		}
 		
 	}

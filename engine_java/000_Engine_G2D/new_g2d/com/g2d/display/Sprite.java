@@ -66,7 +66,7 @@ public class Sprite extends InteractiveObject implements Vector
 //		super.onUpdate(parent);
 //	}
 	
-	final protected void onRender(Graphics2D g) {
+	final public void onRender(Graphics2D g) {
 		super.onRender(g);
 	}
 

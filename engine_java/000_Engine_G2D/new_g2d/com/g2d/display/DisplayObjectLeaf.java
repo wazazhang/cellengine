@@ -19,7 +19,7 @@ public abstract class DisplayObjectLeaf extends DisplayObject
 	final void updateBefore(DisplayObjectContainer parent) {}
 	final void updateAfter(DisplayObjectContainer parent) {}
 	
-	void onRender(Graphics2D g) 
+	public void onRender(Graphics2D g) 
 	{
 		if (visible) 
 		{

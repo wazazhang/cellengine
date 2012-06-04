@@ -174,7 +174,7 @@ public abstract class DisplayObjectContainer extends DisplayObject
 //	-----------------------------------------------------------------------------------------------------------------------
 	
 	
-	void onRender(Graphics2D g) 
+	public void onRender(Graphics2D g) 
 	{
 		if (ignore_render_without_parent_bounds && !g.hitClip(
 				(int)x + local_bounds.x, 
@@ -463,6 +463,12 @@ public abstract class DisplayObjectContainer extends DisplayObject
 
 	final public Vector<DisplayObject> getChilds() {
 		return new Vector<DisplayObject>(elements_set.values());
+	}
+	
+	final public Vector<DisplayObject> getSortedChilds() {
+		Vector<DisplayObject> ret = new Vector<DisplayObject>(elements_set.values());
+		Collections.sort(ret, sorter);
+		return ret;
 	}
 	
 	/**
