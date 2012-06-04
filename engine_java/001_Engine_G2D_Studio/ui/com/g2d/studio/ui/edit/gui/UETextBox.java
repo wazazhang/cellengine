@@ -20,5 +20,10 @@ public class UETextBox extends TextPan implements SavedComponent
 	public void onWrite(UIEdit edit, Element e) throws Exception
 	{
 		
-	}
+	}	
+	
+	@Override
+	public void readComplete(UIEdit edit) {}
+	@Override
+	public void writeBefore(UIEdit edit) {}
 }

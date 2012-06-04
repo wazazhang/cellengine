@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
@@ -42,6 +43,7 @@ import com.g2d.display.ui.layout.ImageUILayout;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.display.ui.layout.UILayout.ImageStyle;
 import com.g2d.editor.Util;
+import com.g2d.geom.Rectangle;
 import com.g2d.java2d.impl.AwtEngine;
 import com.g2d.studio.res.Res;
 import com.g2d.studio.swing.G2DWindowToolBar;
@@ -68,19 +70,19 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			current_value.render(g2d, 0, 0, getWidth(), getHeight());
 		}
 	}
+
+	@Override
+	public void setValue(Field field, UILayout value, ObjectPropertyEdit comp) {
+		super.setValue(field, value, comp);
+		
+	}
 	
 	@Override
 	public void onOpenEditor(UILayout value) 
 	{
 		try {
 			object = (UIComponent)sender.getObject();
-			MakeLayoutForm dialog = new MakeLayoutForm(value){
-				@Override
-				public void close() {
-					current_value = getUILayout();
-					super.close();
-				}
-			};
+			MakeLayoutForm dialog = new MakeLayoutForm(value);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,6 +128,8 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 		JButton btn_back_color 		= new JButton("更换背景色");
 		
 		
+		JRadioButton preferredSize = new JRadioButton("调整为首选尺寸");
+		
 		JButton ok = new JButton("确定");
 		JButton cancel = new JButton("取消");
 
@@ -153,6 +157,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 				ImageUILayout srect = (ImageUILayout)rect;
 				image = AwtEngine.unwrap(srect.srcImage());	
 				image_file = srect.srcImageName();
+				spin_broadsize.setValue(srect.clip_border);
 			} 
 			
 			if (rect != null) {
@@ -161,6 +166,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 				lbl_border_color.setForeground(
 						AwtEngine.unwrap(rect.getBorderColor()));
 				image_style = rect.getStyle();
+				
 			}
 			else {
 				changeSrcImage();
@@ -253,6 +259,12 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 					});
 				}
 				
+				sy +=20;
+				sy+=20;
+				
+				preferredSize.setBounds(sx, sy, 200, 20);
+				pan2.add(preferredSize);
+				
 				sy+=20;
 				sy+=20;
 				
@@ -260,14 +272,13 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						MakeLayoutForm.this.setVisible(false);
-						MakeLayoutForm.this.close();
+						MakeLayoutForm.this.onOkClose();
 					}
 				});
 				cancel.setBounds(sx+110, sy, 100, 20);
 				cancel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						MakeLayoutForm.this.setVisible(false);
-						MakeLayoutForm.this.close();
 					}
 				});
 				pan2.add(ok);
@@ -388,7 +399,18 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			return image;
 		}
 		
-		public void close(){
+		public void onOkClose()
+		{
+			current_value = getUILayout();
+			try {
+				current_field.set(object, current_value);
+				if (preferredSize.isSelected()) {
+					Rectangle psize = current_value.getPreferredSize();
+					object.setSize(new com.g2d.geom.Dimension(psize.width, psize.height));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		

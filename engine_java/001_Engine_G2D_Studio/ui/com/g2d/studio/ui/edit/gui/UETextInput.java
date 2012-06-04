@@ -21,4 +21,8 @@ public class UETextInput extends TextBoxSingle implements SavedComponent
 	{
 		
 	}
+	@Override
+	public void readComplete(UIEdit edit) {}
+	@Override
+	public void writeBefore(UIEdit edit) {}
 }

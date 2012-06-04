@@ -77,6 +77,6 @@ public class UITree extends G2DTree
 			Container comp = (Container)((UITreeNode)src_tnode.getParent()).display;
 			comp.addComponent(src_tnode.display);
 		}
-		
+		((UITreeNode)src_tnode.getParent()).display.sort();
 	}
 }

@@ -152,13 +152,13 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 		else if (field.getType().equals(Color.class))
 		{
 			PopupCellEditColor edit_color 		= new PopupCellEditColor();
-			edit_color.setValue(field_value!=null ? (Color)field_value : null, this);
+			edit_color.setValue(field, (Color)field_value, this);
 			return edit_color;
 		}
 		else if (field.getType().equals(UILayout.class))
 		{
 			PopupCellEditUILayout edit_ui_layout	= new PopupCellEditUILayout();
-			edit_ui_layout.setValue(field_value!=null ? (UILayout)field_value : null, this);
+			edit_ui_layout.setValue(field, (UILayout)field_value, this);
 			return edit_ui_layout;
 		}
 		else if (Parser.isNumber(field.getType())) 

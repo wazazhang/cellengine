@@ -36,6 +36,7 @@ public abstract class DisplayObject implements Vector
 //	 public
 	
 	/** 是否可视,如果父节点不可视,那么子节点将也不可视 */ 
+	@Property("是否可视")
 	public boolean 				visible = true;
 	
 	/** 基于父节点的位置 */

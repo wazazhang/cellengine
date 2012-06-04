@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Comparator;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -28,13 +29,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import com.cell.CIO;
 import com.cell.reflect.Parser;
 import com.g2d.BufferedImage;
 import com.g2d.Color;
 import com.g2d.Engine;
 import com.g2d.Graphics2D;
+import com.g2d.Tools;
 import com.g2d.annotation.Property;
 import com.g2d.awt.util.AbstractDialog;
+import com.g2d.display.DisplayObject;
 import com.g2d.display.DragResizeObject;
 import com.g2d.display.InteractiveObject;
 import com.g2d.display.event.MouseMoveEvent;
@@ -57,6 +61,8 @@ import com.g2d.studio.ui.edit.gui.UERoot;
 public class UITreeNode extends G2DTreeNode<UITreeNode> 
 implements ObjectPropertyListener
 {
+	private static UITreeNode copyed_node;
+	
 	final public UIComponent display;
 	final public ObjectPropertyPanel opp;
 	
@@ -77,6 +83,9 @@ implements ObjectPropertyListener
 		this.display.enable_key_input = true;
 		this.display.enable_focus = true;
 		this.display.addEventListener(adapter);
+		this.display.setSorter(adapter);
+		this.display.setAttribute(UITreeNode.class.getSimpleName(), this);
+		
 		this.opp = new ObjectPropertyPanel(display, 100, 200, false, 
 				new UIPropertyPanel.UEImageBoxAdapter(edit)); 
 		this.opp.addObjectPropertyListener(this);
@@ -106,11 +115,11 @@ implements ObjectPropertyListener
 			uc = display.getLayout();
 		}
 		if (uc != null) {
-			icon = Engine.getEngine().createImage(40, 30);
+			icon = Engine.getEngine().createImage(display.getWidth(), display.getHeight());
 			Graphics2D g = icon.createGraphics();
-			g.setClip(0, 0, 40, 30);
-			uc.render(g, 0, 0, 40, 30);
+			uc.render(g, 0, 0, display.getWidth(), display.getHeight());
 			g.dispose();
+			icon = Tools.combianImage(40, 30, icon);
 			return new ImageIcon(AwtEngine.unwrap(icon));
 		}
 		return null;
@@ -134,14 +143,30 @@ implements ObjectPropertyListener
 	public boolean isSelected() {
 		return edit.getTree().getSelectedNode() == this;
 	}
+
 	
 	class DisplayAdapter implements 
 	com.g2d.display.event.MouseListener, 
 	com.g2d.display.event.MouseMoveListener,
 	com.g2d.display.event.KeyListener,
 	com.g2d.display.event.MouseDragResizeListener,
-	com.g2d.display.ui.UIComponent.DebugModeDraw
+	com.g2d.display.ui.UIComponent.DebugModeDraw,
+	Comparator<DisplayObject>
 	{		
+		@Override
+		public int compare(DisplayObject o1, DisplayObject o2) {
+			if (o1 != null && o2!=null) {
+				UITreeNode t1 = ((UIComponent)o1).getAttribute(UITreeNode.class.getSimpleName());
+				UITreeNode t2 = ((UIComponent)o2).getAttribute(UITreeNode.class.getSimpleName());
+				TreeNode p1 = t1.getParent();
+				TreeNode p2 = t2.getParent();
+				if (p1 == p2 && p1!=null) {
+					return p1.getIndex(t1) - p2.getIndex(t2);
+				}
+			}
+			return 0;
+		}
+		
 		@Override
 		public void mouseClick(com.g2d.display.event.MouseEvent e) {
 			
@@ -241,10 +266,28 @@ implements ObjectPropertyListener
 			super(node);
 			super.remove(open);
 			super.remove(rename);
+
+			if (display instanceof com.g2d.display.ui.Container) {
+				super.insert(paste, 1);
+				paste.addActionListener(this);
+				
+				paste.setEnabled(copyed_node != null);
+			}
+
+			if (UITreeNode.this.getParent() != null) 
+			{
+				super.insert(cut, 1);
+				cut.addActionListener(this);
+				
+				super.insert(copy, 1);
+				copy.addActionListener(this);
+			}
+			
 			if (display instanceof com.g2d.display.ui.Container) {
 				super.insert(add, 1);
 				add.addActionListener(this);
 			}
+			
 		}
 		
 		@Override
@@ -252,8 +295,8 @@ implements ObjectPropertyListener
 		{
 			if (e.getSource() == add) 
 			{
-				Class<?> type = edit.getSelectedTemplate().uiType;
-				if (type != null) {
+				if (edit.getSelectedTemplate() != null) {
+					Class<?> type = edit.getSelectedTemplate().uiType;
 					String name = JOptionPane.showInputDialog(
 							AbstractDialog.getTopWindow(getInvoker()), "输入名字！",
 							"");
@@ -266,6 +309,21 @@ implements ObjectPropertyListener
 					}
 				}
 			}
+			else if (e.getSource() == copy)
+			{
+				copyed_node = UITreeNode.this.clone();
+			}
+			else if (e.getSource() == cut)
+			{
+				copyed_node = UITreeNode.this.clone();
+				removeFromParent2();
+			}
+			else if (e.getSource() == paste)
+			{
+				if (copyed_node != null) {
+					addChild(copyed_node.clone());
+				}
+			}
 			else if (e.getSource() == delete) 
 			{
 				TreeNode parent = node.getParent();
@@ -276,6 +334,10 @@ implements ObjectPropertyListener
 				}
 			}
 		}
+	}
+	
+	public void removeFromParent2() {
+		((UITreeNode)getParent()).removeChild(this);
 	}
 	
 	public UITreeNode removeChild(UITreeNode tr) {
@@ -292,6 +354,17 @@ implements ObjectPropertyListener
 			removeChild((UITreeNode)getFirstChild());
 		}
 	}
+	public UITreeNode addChild(UITreeNode node) {
+		if (display instanceof com.g2d.display.ui.Container) {
+			com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) display;
+			if (pc.addComponent(node.display)) {
+				this.add(node);
+				edit.getTree().reload(this);
+				return node;
+			}
+		}
+		return null;
+	}
 	
 	public UITreeNode createChild(Class<?> type, String name) 
 	{
@@ -301,9 +374,9 @@ implements ObjectPropertyListener
 				com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) display;
 				if (pc.addComponent(node.display)) {
 					this.add(node);
+					edit.getTree().reload(this);
+					return node;
 				}
-				edit.getTree().reload(this);
-				return node;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -311,7 +384,32 @@ implements ObjectPropertyListener
 		return null;
 	}
 	
-
+	
+	public UITreeNode clone()
+	{
+		UITreeNode ret = new UITreeNode(edit, display.getClass(), "");
+		UIComponent ui = ret.display;
+		Field[] fields = ui.getClass().getFields();
+		for (Field f : fields) {
+			try {
+				if (f.getAnnotation(Property.class) != null) {
+					Object attr = f.get(this.display);
+					f.set(ui, CIO.cloneObject(attr));
+				}
+			} catch (Exception err) {
+				err.printStackTrace();
+			}
+		}
+		((SavedComponent)ui).readComplete(edit);
+		
+		for (int i = 0; i < getChildCount(); i++) {
+			UITreeNode cn = (UITreeNode) getChildAt(i);
+			cn = cn.clone();
+			ret.addChild(cn);
+		}
+		return ret;
+	}
+	
 	public void fromXMLStream(UIEdit edit, InputStream is) throws Exception
 	{
 		try {
@@ -362,6 +460,7 @@ implements ObjectPropertyListener
 		readFields(edit, e, ui.display);
 		if (ui.display instanceof SavedComponent) {
 			((SavedComponent)ui.display).onRead(edit, e);
+			((SavedComponent)ui.display).readComplete(edit);
 		}
 		
 		NodeList list = e.getChildNodes();
@@ -391,12 +490,14 @@ implements ObjectPropertyListener
 			}
 		}
 		
+		ui.getIcon(true);
 	}
 
 	private static void writeInternal(UIEdit edit, Document doc, Element e, UITreeNode ui) throws Exception
 	{
 		writeFields(edit, e, ui.display);
 		if (ui instanceof SavedComponent) {
+			((SavedComponent)ui.display).writeBefore(edit);
 			((SavedComponent)ui.display).onWrite(edit, e);
 		}
 		
@@ -439,11 +540,14 @@ implements ObjectPropertyListener
 					continue;
 				}
 				if (f.getAnnotation(Property.class) != null) {
-					Object attr = Parser.stringToObject(
-							e.getAttribute(f.getName()),
-							f.getType());
-					if (attr != null) {
-						f.set(ui, attr);
+					if (e.hasAttribute(f.getName())) {
+						String attrvalue = e.getAttribute(f.getName());
+						Object attr = Parser.stringToObject(
+								attrvalue,
+								f.getType());
+						if (attr != null) {
+							f.set(ui, attr);
+						}
 					}
 				}
 			} catch (Exception err) {

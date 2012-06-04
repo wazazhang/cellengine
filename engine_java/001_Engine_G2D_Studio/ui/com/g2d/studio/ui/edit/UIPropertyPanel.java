@@ -92,10 +92,12 @@ public class UIPropertyPanel extends JPanel
 				}
 				AtomicReference<File> outpath = new AtomicReference<File>();
 				BufferedImage bf = Tools.dialogLoadImage((Frame)null, path, outpath);
-				((UEImageBox)editObject).image = bf;
-				((UEImageBox)editObject).imagePath = outpath.get().getName();
-				edit.getLayoutManager().putImage(outpath.get().getName(), bf);
-				return null;
+				if (bf != null) {
+					((UEImageBox)editObject).image = bf;
+					((UEImageBox)editObject).imagePath = outpath.get().getName();
+					edit.getLayoutManager().putImage(outpath.get().getName(), bf);
+				}
+				return new TextCellEdit(((UEImageBox)editObject).imagePath);
 			}
 			return null;
 		}

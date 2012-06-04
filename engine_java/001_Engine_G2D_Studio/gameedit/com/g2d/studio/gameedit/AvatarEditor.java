@@ -277,7 +277,7 @@ public class AvatarEditor extends AbstractFrame
 				}
 				catch (Exception err) {
 					error = true;
-					err.printStackTrace();
+					//err.printStackTrace();
 				}
 				
 				if (error) {

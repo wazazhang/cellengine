@@ -21,5 +21,8 @@ public class UECanvas extends Container implements SavedComponent
 	{
 		
 	}
-	
+	@Override
+	public void readComplete(UIEdit edit) {}
+	@Override
+	public void writeBefore(UIEdit edit) {}
 }

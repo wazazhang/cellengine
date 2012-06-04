@@ -76,6 +76,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	private UILayoutManager manager;
 
 	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
+	private JToggleButton tool_preferred = new JToggleButton(Tools.createIcon(Res.icon_refresh));
 	private JSpinner tool_grid_size = new JSpinner(new SpinnerNumberModel(8, 2, 100, 1));
 	private G2DWindowToolBar tools;
 	private JToolBar bar_status;
@@ -162,9 +163,14 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			tools = new G2DWindowToolBar(this, true, true, true, true);
 			tools.add(tool_grid);
 			tools.add(tool_grid_size);
+			tools.add(tool_preferred);
 			tools.save_s.setToolTipText("另存为");
+			
 			tool_grid_size.setValue(8);
 			tool_grid_size.setPreferredSize(new Dimension(50, 25));
+			tool_grid_size.setToolTipText("对其到网格");
+			
+			tool_preferred.setToolTipText("首选尺寸");
 			
 			this.tools.save.setToolTipText("保存 Ctrl + S");
 			this.tools.save.registerKeyboardAction(

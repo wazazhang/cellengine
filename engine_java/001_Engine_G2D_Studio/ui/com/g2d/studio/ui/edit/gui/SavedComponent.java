@@ -9,5 +9,6 @@ public interface SavedComponent {
 	void onWrite(UIEdit edit, Element e) throws Exception;
 	void onRead(UIEdit edit, Element e) throws Exception;
 	
-	
+	void readComplete(UIEdit edit);
+	void writeBefore(UIEdit edit);
 }

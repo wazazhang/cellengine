@@ -260,7 +260,7 @@ public abstract class DisplayObjectContainer extends DisplayObject
 				events.offer(new DisplayObjectEvent(DisplayObjectEvent.EVENT_MOVE_TOP, e));
 			}
 		} else {
-			events.offer(new DisplayObjectEvent(DisplayObjectEvent.EVENT_MOVE_TOP, child));
+		//	events.offer(new DisplayObjectEvent(DisplayObjectEvent.EVENT_MOVE_TOP, child));
 		}
 		if (always_bottom_elements != null && !always_bottom_elements.isEmpty()) {
 			for (DisplayObject e : always_bottom_elements) {

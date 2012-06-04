@@ -2,6 +2,7 @@ package com.g2d.display.ui.layout;
 
 
 import com.cell.DObject;
+import com.cell.io.IOCloneable;
 import com.g2d.BufferedImage;
 import com.g2d.Color;
 import com.g2d.Graphics2D;
@@ -10,7 +11,7 @@ import com.g2d.Tools;
 import com.g2d.geom.Rectangle;
 import com.g2d.util.Drawing;
 
-public class UILayout extends DObject
+public class UILayout extends DObject implements IOCloneable
 {	
 	public static enum ImageStyle
 	{
@@ -111,6 +112,11 @@ public class UILayout extends DObject
 		this.set(set);
 	}
 
+	public UILayout clone() {
+		UILayout ret = new UILayout(this);
+		return ret;
+	}
+	
 	public BufferedImage getSrcImage() {
 		return srcImage;
 	}
@@ -129,6 +135,46 @@ public class UILayout extends DObject
 	
 	public ImageStyle getStyle() {
 		return Style;
+	}
+	
+	public Rectangle getPreferredSize()
+	{
+		Rectangle ret = new Rectangle();
+		switch(Style)
+		{
+		case IMAGE_STYLE_ALL_9:
+		case IMAGE_STYLE_ALL_8:
+			ret.width  = BorderTL.getWidth()  + BorderT.getWidth()  + BorderTR.getWidth();
+			ret.height = BorderTL.getHeight() + BorderL.getHeight() + BorderBL.getHeight();
+			return ret;
+
+		case IMAGE_STYLE_H_012:
+			ret.width = BorderTL.getWidth() + BorderT.getWidth()
+					+ BorderTR.getWidth();
+			ret.height = BorderTL.getHeight();
+			return ret;
+			
+		case IMAGE_STYLE_V_036:
+			ret.width  = BorderTL.getWidth();
+			ret.height = BorderTL.getHeight() + BorderL.getHeight() + BorderBL.getHeight();
+			return ret;
+			
+		case IMAGE_STYLE_HLM:
+			ret.width  = BorderTL.getWidth()  + BorderT.getWidth();
+			ret.height = BorderTL.getHeight() + BorderL.getHeight() + BorderBL.getHeight();
+			return ret;
+		case IMAGE_STYLE_VTM:
+			ret.width  = BorderTL.getWidth()  + BorderT.getWidth()  + BorderTR.getWidth();
+			ret.height = BorderTL.getHeight() + BorderL.getHeight();
+			return ret;
+
+		case IMAGE_STYLE_BACK_4:
+		case IMAGE_STYLE_BACK_4_CENTER:
+			ret.width  = BackImage.getWidth();
+			ret.height = BackImage.getHeight();
+			return ret;
+		}
+		return null;
 	}
 	
 //	------------------------------------------------------------------------------------------------------------------------------
@@ -439,16 +485,6 @@ public class UILayout extends DObject
 	
 	protected void render0123_5678(Graphics2D g, int W, int H)
 	{
-			g.drawImage(BorderTL, 
-					0, 0);
-			g.drawImage(BorderBL, 0, 
-					H - BorderBL.getHeight());
-			g.drawImage(BorderTR, 
-					W - BorderTR.getWidth(), 0);
-			g.drawImage(BorderBR, 
-					W - BorderBR.getWidth(),
-					H - BorderBR.getHeight());
-			
 
 			drawPaintRect(g, BorderL,
 					0, 
@@ -475,6 +511,17 @@ public class UILayout extends DObject
 					BorderB.getHeight());
 			
 
+
+			g.drawImage(BorderTL, 
+					0, 0);
+			g.drawImage(BorderBL, 0, 
+					H - BorderBL.getHeight());
+			g.drawImage(BorderTR, 
+					W - BorderTR.getWidth(), 0);
+			g.drawImage(BorderBR, 
+					W - BorderBR.getWidth(),
+					H - BorderBR.getHeight());
+			
 	}
 	
 	
@@ -495,20 +542,6 @@ public class UILayout extends DObject
 	
 	protected void render012356(Graphics2D g, int W, int H)
 	{
-
-		g.drawImage(BorderTL, 
-				0, 0);
-		g.drawImage(BorderBL, 0, 
-				H - BorderBL.getHeight());
-		g.drawImage(BorderTL, 
-				W - BorderTL.getWidth(), 0, 
-				Graphics2D.TRANS_MIRROR);
-		g.drawImage(BorderBL, 
-				W - BorderBL.getWidth(),
-				H - BorderBL.getHeight(), 
-				Graphics2D.TRANS_MIRROR);
-		
-
 		drawPaintRect(g, BorderL,
 				0, 
 				BorderTL.getHeight(),
@@ -534,7 +567,21 @@ public class UILayout extends DObject
 				H - BorderB.getHeight(), 
 				W - BorderBL.getWidth() - BorderBL.getWidth(), 
 				BorderB.getHeight());
+
+
+		g.drawImage(BorderTL, 
+				0, 0);
+		g.drawImage(BorderBL, 0, 
+				H - BorderBL.getHeight());
+		g.drawImage(BorderTL, 
+				W - BorderTL.getWidth(), 0, 
+				Graphics2D.TRANS_MIRROR);
+		g.drawImage(BorderBL, 
+				W - BorderBL.getWidth(),
+				H - BorderBL.getHeight(), 
+				Graphics2D.TRANS_MIRROR);
 		
+
 	}
 	
 	protected void renderVTM(Graphics2D g, int W, int H)
@@ -555,19 +602,6 @@ public class UILayout extends DObject
 	
 	protected void render012345(Graphics2D g, int W, int H) 
 	{
-		g.drawImage(BorderTL, 
-				0, 0);
-		g.drawImage(BorderTL, 0, 
-				H - BorderTL.getHeight(),
-				Graphics2D.TRANS_MIRROR_ROT180);
-		g.drawImage(BorderTR, 
-				W - BorderTR.getWidth(), 0);
-		g.drawImage(BorderTR, 
-				W - BorderTR.getWidth(),
-				H - BorderTR.getHeight(),
-				Graphics2D.TRANS_MIRROR_ROT180);
-		
-
 		drawPaintRect(g, BorderL,
 				0, 
 				BorderTL.getHeight(),
@@ -592,6 +626,19 @@ public class UILayout extends DObject
 				W - BorderTL.getWidth() - BorderTR.getWidth(), 
 				BorderT.getHeight(), 
 				Graphics2D.TRANS_MIRROR_ROT180);
+
+		g.drawImage(BorderTL, 
+				0, 0);
+		g.drawImage(BorderTL, 0, 
+				H - BorderTL.getHeight(),
+				Graphics2D.TRANS_MIRROR_ROT180);
+		g.drawImage(BorderTR, 
+				W - BorderTR.getWidth(), 0);
+		g.drawImage(BorderTR, 
+				W - BorderTR.getWidth(),
+				H - BorderTR.getHeight(),
+				Graphics2D.TRANS_MIRROR_ROT180);
+		
 	}
 	
 	protected void renderAll8(Graphics2D g, int W, int H)

@@ -13,6 +13,10 @@ public class TextCellEdit extends JTextField implements PropertyCellEdit<String>
 		super.setBorder(new EmptyBorder(1, 1, 1, 1));
 	}
 	
+	public TextCellEdit(Object text) {
+		super.setBorder(new EmptyBorder(1, 1, 1, 1));
+		super.setText(text+"");
+	}
 	public String getValue() {
 		return super.getText();
 	}

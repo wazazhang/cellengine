@@ -21,7 +21,9 @@ public class UEImageBox extends UIComponent implements SavedComponent
 	public float x_scaleX = 100f;
 	@Property("缩放Y %")
 	public float x_scaleY = 100f;
-	
+
+	@Property("图片尺寸")
+	public boolean preferredSize = false;
 	
 	public UEImageBox() {
 	}
@@ -39,15 +41,17 @@ public class UEImageBox extends UIComponent implements SavedComponent
 			g.scale(x_scaleX/100f, x_scaleY/100f);
 			g.drawImage(image, -iw/2, -ih/2);
 			g.popTransform();
+			if (preferredSize) {
+				this.local_bounds.width  = iw;
+				this.local_bounds.height = ih;
+			}
 		}
 	}
 	
 	
 	@Override
 	public void onRead(UIEdit edit, Element e) throws Exception {
-		if (imagePath != null && !imagePath.isEmpty()) {
-			image = edit.getLayoutManager().getImage(imagePath);
-		}
+		
 	}
 
 	@Override
@@ -55,5 +59,20 @@ public class UEImageBox extends UIComponent implements SavedComponent
 	{
 		//imagePath = edit.getLayoutManager();
 	}
+
+	@Override
+	public void readComplete(UIEdit edit) {
+		if (imagePath != null && !imagePath.isEmpty()) {
+			image = edit.getLayoutManager().getImage(imagePath);
+		}
+	}
+	
+	@Override
+	public void writeBefore(UIEdit edit) {
+		if (imagePath != null && !imagePath.isEmpty()) {
+			edit.getLayoutManager().getImage(imagePath);
+		}
+	}
+	
 	
 }

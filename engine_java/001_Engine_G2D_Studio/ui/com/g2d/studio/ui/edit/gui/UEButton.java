@@ -24,5 +24,9 @@ public class UEButton extends Button implements SavedComponent
 	{
 		
 	}
-	
+
+	@Override
+	public void readComplete(UIEdit edit) {}
+	@Override
+	public void writeBefore(UIEdit edit) {}
 }

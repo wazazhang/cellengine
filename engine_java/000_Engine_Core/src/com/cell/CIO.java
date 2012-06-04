@@ -19,6 +19,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.cell.io.IOCloneable;
 import com.cell.io.LengthInputStream;
 
 //import javax.microedition.lcdui.Image;
@@ -288,6 +289,9 @@ public class CIO extends CObject
 	{
 		if (src == null) {
 			return src;
+		}
+		if (src instanceof IOCloneable) {
+			return (T)((IOCloneable)src).clone();
 		}
 		try
 		{

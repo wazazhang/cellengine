@@ -21,5 +21,8 @@ public class UELabel extends Label implements SavedComponent
 	{
 		
 	}
-	
+	@Override
+	public void readComplete(UIEdit edit) {}
+	@Override
+	public void writeBefore(UIEdit edit) {}
 }

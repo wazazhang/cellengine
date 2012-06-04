@@ -25,6 +25,7 @@ import com.g2d.studio.swing.G2DTree;
 public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTargetListener
 {
 	private UIEdit edit;
+	private int holdTimer = 10;
 	
 	public UIStage(UIEdit edit) 
 	{
@@ -40,16 +41,16 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 		{
 			DisplayObject display = un.display;
 			
-			if (getRoot().isKeyDown(KeyEvent.VK_UP)) {
+			if (getRoot().isKeyHold(KeyEvent.VK_UP)) {
 				display.y--;
 				un.opp.refresh();
-			} else if (getRoot().isKeyDown(KeyEvent.VK_DOWN)) {
+			} else if (getRoot().isKeyHold(KeyEvent.VK_DOWN)) {
 				display.y++;
 				un.opp.refresh();
-			} else if (getRoot().isKeyDown(KeyEvent.VK_LEFT)) {
+			} else if (getRoot().isKeyHold(KeyEvent.VK_LEFT)) {
 				display.x--;
 				un.opp.refresh();
-			} else if (getRoot().isKeyDown(KeyEvent.VK_RIGHT)) {
+			} else if (getRoot().isKeyHold(KeyEvent.VK_RIGHT)) {
 				display.x++;
 				un.opp.refresh();
 			}
@@ -105,7 +106,7 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 			if (ct == null) {
 				ct = (UITreeNode)edit.getTree().getRoot();
 			}
-			UITreeNode uc = ct.createChild(ut.uiType, ut.name);
+			UITreeNode uc = ct.createChild(ut.uiType, "");
 			if (uc == null) {
 				JOptionPane.showMessageDialog(edit,
 						ct.display.getClass().getSimpleName()+"不能添加子节点！");

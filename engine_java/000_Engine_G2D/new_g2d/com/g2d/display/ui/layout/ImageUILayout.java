@@ -37,6 +37,12 @@ public class ImageUILayout extends UILayout
 		set(src);
 	}
 	
+	@Override
+	public ImageUILayout clone() {
+		ImageUILayout ret = new ImageUILayout(this);
+		return ret;
+	}
+	
 	public BufferedImage srcImage() {
 		return image;
 	}
