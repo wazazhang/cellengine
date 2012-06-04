@@ -32,5 +32,7 @@ public class UIEditConfig extends Config
 		"/com/g2d/studio/ui/edit/res/textbox.png, " +
 		"IMAGE_STYLE_ALL_9, 10";
 	
-	
+	public static void load(String arg) {
+		Config.load(UIEditConfig.class, arg);
+	}
 }

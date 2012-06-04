@@ -71,6 +71,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	private static final long serialVersionUID = 1L;
 
 	final public File workdir;
+	final public File resdir;
 	
 	private UILayoutManager manager;
 
@@ -88,9 +89,11 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	private DisplayObjectPanel stage_view;
 	private File last_saved_file;
 		
-	public UIEdit(File wdr) throws IOException 
+	public UIEdit(File cfg) throws IOException 
 	{
-		this.workdir = wdr.getCanonicalFile();
+		UIEditConfig.load(cfg.getPath());
+		this.workdir = cfg.getParentFile();
+		this.resdir	 = new File(workdir, "res");
 		this.manager = new UILayoutManager(this);
 		
 		this.setTitle(workdir.getPath());
@@ -346,28 +349,28 @@ public class UIEdit extends AbstractFrame implements ActionListener
 							"com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				} catch (Exception err) {
 					err.printStackTrace();
-				}
-				File workdir = new File(".");
-				if (args.length > 0) {
-					File sfile = new File(args[0]);
-					if (sfile.exists() && sfile.isDirectory()) {
-						workdir = sfile;
-					}
-				}
-				new AwtEngine();
+				}	
 				try {
-					UIEdit frm = new UIEdit(workdir);
-					frm.addWindowListener(new WindowAdapter() {
-						@Override
-						public void windowClosed(WindowEvent e) {
-							System.exit(1);
+					if (args.length > 0) {
+						File cfg = new File(args[0]).getCanonicalFile();
+						if (cfg.exists()) {
+							new AwtEngine();
+							UIEdit frm = new UIEdit(cfg);
+							frm.addWindowListener(new WindowAdapter() {
+								@Override
+								public void windowClosed(WindowEvent e) {
+									System.exit(1);
+								}
+							});
+							frm.setVisible(true);
+							return;
 						}
-					});
-					frm.setVisible(true);
-				} catch (IOException e) {
+					}
+				} catch (Exception e) {
 					e.printStackTrace();
-					System.exit(1);
 				}
+				JOptionPane.showMessageDialog(null, "工作空间配置不正确!");
+				System.exit(1);
             }
         });
 	}

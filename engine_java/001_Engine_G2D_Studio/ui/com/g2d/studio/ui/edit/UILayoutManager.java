@@ -122,7 +122,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			if (subpath.startsWith("/")) {
 				ret = Tools.readImage(subpath);
 			} else {
-				ret = Tools.readImage(edit.workdir.getPath()+"/"+subpath);
+				ret = Tools.readImage(edit.resdir.getPath()+"/"+subpath);
 			}
 			image_map.put(subpath, ret);
 		}
@@ -133,7 +133,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 	{
 		image_map.put(subpath, buff);
 		try {
-			File file = edit.getSubFile(subpath);
+			File file = new File(edit.resdir, subpath);
 			if (!file.exists()) {
 				Tools.writeImage(file.getPath(), "png", buff);
 			}
@@ -201,7 +201,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			BufferedImage buf = getImage(image_file);
 			if (buf != null) {
 				return new ImageUILayout(buf, 
-						edit.getSubFile(image_file), 
+						new File(edit.resdir, image_file), 
 						style,
 						clip_border);
 			}
@@ -214,7 +214,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 	public void putLayout(ImageUILayout layout)
 	{
 		try {
-			File file = edit.getSubFile(layout.image_file.getName());
+			File file = new File(edit.resdir, layout.image_file.getName());
 			if (!file.exists()) {
 				Tools.writeImage(file.getPath(), "png", layout.getSrcImage());
 			}
