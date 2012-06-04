@@ -232,7 +232,10 @@ implements ObjectPropertyListener
 
 	class UIMenu extends NodeMenu<UITreeNode>
 	{
-		protected JMenuItem add = new JMenuItem("添加");
+		protected JMenuItem add 	= new JMenuItem("添加");
+		protected JMenuItem copy 	= new JMenuItem("复制");
+		protected JMenuItem cut 	= new JMenuItem("剪贴");
+		protected JMenuItem paste 	= new JMenuItem("粘贴");
 		
 		public UIMenu(JTree tree, UITreeNode node) {
 			super(node);
