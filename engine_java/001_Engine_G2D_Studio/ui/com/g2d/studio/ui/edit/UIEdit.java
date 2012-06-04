@@ -159,7 +159,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 
 		{
-			tools = new G2DWindowToolBar(this, false, true, true, true);
+			tools = new G2DWindowToolBar(this, true, true, true, true);
 			tools.add(tool_grid);
 			tools.add(tool_grid_size);
 			tools.save_s.setToolTipText("另存为");
@@ -244,7 +244,10 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == tools.save) {
+		if (e.getSource() == tools.new_) {
+			newFile();
+		}
+		else if (e.getSource() == tools.save) {
 			saveFile(false);
 		}
 		else if (e.getSource() == tools.save_s) {
@@ -253,6 +256,21 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		else if (e.getSource() == tools.load) {
 			loadFile();
 		}
+	}
+	
+	private void newFile()
+	{
+		int result = JOptionPane.showConfirmDialog(this,
+				"是否创建新UI，此操作将放弃当前的UI。", "确认？",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (result != JOptionPane.OK_OPTION) {
+			return;
+		}
+		
+		this.setTitle(workdir.getPath());
+		last_saved_file = null;
+		tree_root.clearChilds();
+		tree.reload();
 	}
 	
 	private void saveFile(boolean saveAs)

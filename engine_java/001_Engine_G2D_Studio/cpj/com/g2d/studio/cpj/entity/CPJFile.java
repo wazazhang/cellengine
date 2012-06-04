@@ -48,6 +48,7 @@ public class CPJFile extends G2DTreeNode<CPJObject<?>>
 	
 	public CPJFile(File cpj_file, CPJResourceType res_type) throws Throwable 
 	{
+		this.setAllowsChildren(true);
 		this.cpj_file		= cpj_file;
 		this.name			= cpj_file.getParentFile().getName();		
 		this.res_root		= cpj_file.getParentFile().getParentFile().getName();

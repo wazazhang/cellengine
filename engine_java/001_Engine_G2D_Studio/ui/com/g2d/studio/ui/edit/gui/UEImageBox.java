@@ -45,7 +45,9 @@ public class UEImageBox extends UIComponent implements SavedComponent
 	
 	@Override
 	public void onRead(UIEdit edit, Element e) throws Exception {
-		image = edit.getLayoutManager().getImage(imagePath);
+		if (imagePath != null && !imagePath.isEmpty()) {
+			image = edit.getLayoutManager().getImage(imagePath);
+		}
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.g2d.AnimateCursor;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.display.event.Event;
 import com.g2d.display.event.EventListener;
 import com.g2d.display.event.KeyEvent;
@@ -28,21 +29,26 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 //	private static InteractiveObject s_focused_object = null;
 
 	/**是否接收事件,如果为false,该对象就只相当于DisplayObjectContainer,也不向孩子传送事件*/
+	//@Property("enable")
 	public boolean				enable;
 	
-	/**是否处理输入事件,如果为false,则只向孩子传送事件*/
+	/**是否处理输入事件,如果为false,则只向孩子传送事件*/	
 	public boolean 				enable_input;
 	
 	/**是否可被聚焦*/
+	@Property("是否可被聚焦")
 	public boolean 				enable_focus;
 	
 	/**是否支持鼠标滚轮事件*/
+	@Property("是否支持鼠标滚轮事件")
 	public boolean 				enable_mouse_wheel;
 	
 	/**是否支持键盘事件*/
+	@Property("是否支持键盘事件")
 	public boolean 				enable_key_input;
 
 	/**是否可被拖动*/
+	@Property("是否可被拖动")
 	public boolean 				enable_drag;
 	
 //	----------------------------------------------------------------------------------------------

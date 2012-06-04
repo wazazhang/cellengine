@@ -307,6 +307,7 @@ public class CPJResourceManager extends ManagerForm implements MouseListener
 		public CPJRootNode(String name, String res_root, File saveActorList, CPJResourceType resType, IProgress progress) 
 		{
 			super(name);
+			this.setAllowsChildren(true);
 			this.save_list = saveActorList;
 			this.res_root = res_root;
 			this.res_type = resType;

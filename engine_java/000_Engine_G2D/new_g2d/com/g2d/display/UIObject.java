@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.g2d.AnimateCursor;
 import com.g2d.Composite;
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.display.event.EventListener;
 import com.g2d.display.event.MouseDragDropAccepter;
 import com.g2d.display.event.MouseDragDropListener;
@@ -23,6 +24,7 @@ public abstract class UIObject extends InteractiveObject
 {
 
 	/**是否可以拖拽调整大小*/
+	@Property("是否可以拖拽调整大小")
 	public boolean				enable_drag_resize;
 
 	/**允许拖拽到其他控件上，被拖拽时，将一直显示在鼠标上*/
