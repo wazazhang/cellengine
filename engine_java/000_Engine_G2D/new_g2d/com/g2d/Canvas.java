@@ -145,6 +145,8 @@ public interface Canvas
 	 */
 	public int getUpKeyCount();
 	
+	public int getHoldKeyCount();
+	
 	/**
 	 *  检测当前帧鼠标有没有被按住
 	 * @param button

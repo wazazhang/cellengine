@@ -486,8 +486,17 @@ FocusListener
 	 */
 	synchronized public int getDownKeyCount()
 	{
+		int count = keystate_query_down.size();
+		return count;
+	}
+	
+	/**
+	 * 检测当前帧被按下的键的个数
+	 * @return
+	 */
+	synchronized public int getHoldKeyCount()
+	{
 		int count = keystate.size();
-		
 		return count;
 	}
 	

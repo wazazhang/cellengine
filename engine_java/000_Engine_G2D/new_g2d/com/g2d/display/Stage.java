@@ -56,6 +56,20 @@ public abstract class Stage extends DisplayObjectContainer
 	transient private UIObject			last_mouse_down_object;
 	
 //	-----------------------------------------------------------------------------------------------------------
+
+	private int keyHoldTimer 			= 0;
+	private int keyHoldTimerMax 		= 10;
+	
+	public boolean isKeyRepeat(int ... keycode)
+	{
+		if (root.isKeyDown(keycode)) {
+			return true;
+		}
+		if (keyHoldTimer >= keyHoldTimerMax) {
+			return root.isKeyDown(keycode);
+		}
+		return false;
+	}
 	
 	protected Stage() 
 	{
@@ -238,6 +252,10 @@ public abstract class Stage extends DisplayObjectContainer
 	@Override
 	final void onUpdate(DisplayObjectContainer parent) {
 		super.onUpdate(parent);
+		keyHoldTimer ++;
+		if (root.getDownKeyCount()>0) {
+			keyHoldTimer = 0;
+		}
 	}
 
 	@Override
