@@ -225,7 +225,7 @@ implements ObjectPropertyListener
 		@Override
 		public void render(com.g2d.Graphics2D g, UIComponent ui) 
 		{
-			if (check || edit.getTree().getSelectedNode() == UITreeNode.this) 
+			if (edit.getTree().getSelectedNode() == UITreeNode.this) 
 			{
 				float alpha = 0.5f + (float)Math.sin(ui.timer / 5.0f)/2;
 				int s1 = 3;
