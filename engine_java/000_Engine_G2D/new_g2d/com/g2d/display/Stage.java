@@ -66,7 +66,7 @@ public abstract class Stage extends DisplayObjectContainer
 			return true;
 		}
 		if (keyHoldTimer >= keyHoldTimerMax) {
-			return root.isKeyDown(keycode);
+			return root.isKeyHold(keycode);
 		}
 		return false;
 	}
@@ -185,6 +185,11 @@ public abstract class Stage extends DisplayObjectContainer
 		
 		super.onUpdate(this);
 		
+		keyHoldTimer ++;
+		if (root.getDownKeyCount()>0) {
+			keyHoldTimer = 0;
+		}
+//		System.out.println(root.getDownKeyCount());
 //		DisplayObject.main_timer ++;
 	}
 	
@@ -252,10 +257,6 @@ public abstract class Stage extends DisplayObjectContainer
 	@Override
 	final void onUpdate(DisplayObjectContainer parent) {
 		super.onUpdate(parent);
-		keyHoldTimer ++;
-		if (root.getDownKeyCount()>0) {
-			keyHoldTimer = 0;
-		}
 	}
 
 	@Override
