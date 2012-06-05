@@ -13,7 +13,92 @@ import com.cell.math.Vector;
 import com.cell.sound.SoundManager;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.Sprite;
+/*
+[00:00.00]Artist: Nirvana
 
+[00:00.01]Title: Smells Like Teen Spirit
+
+[00:00.02]Album: Best of
+
+[00:00.03]
+[00:33.92]Load up on guns and bring your friends
+[00:37.99]It's fun to lose and to pretend
+[00:42.00]She's over bored and self assured
+[00:46.16]Oh no, I know a dirty word
+[00:49.70]
+[00:50.20]Hello, hello, hello, how low?
+[00:54.26]Hello, hello, hello, how low?
+[00:58.39]Hello, hello, hello, how low?
+[01:02.64]Hello, hello, hello!
+[01:05.72]
+[01:06.03]With the lights out, it's less dangerous
+[01:09.28]Here we are now, entertain us
+[01:13.45]I feel stupid and contagious
+[01:17.37]Here we are now, entertain us
+[01:21.52]A mulatto
+[01:23.45]An albino
+[01:25.50]A mosquito
+[01:27.54]My libido
+[01:29.76]Yay!
+[01:30.40]
+[01:32.02]Yay!
+[01:32.64]
+[01:36.14]Yay!
+[01:36.88]
+[01:47.66]I'm worse at what I do best
+[01:51.78]And for this gift I feel blessed
+[01:55.51]Our little group has always been
+[01:59.93]And always will until the end
+[02:03.60]
+[02:03.91]Hello, hello, hello, how low?
+[02:07.92]Hello, hello, hello, how low?
+[02:11.64]Hello, hello, hello, how low?
+[02:16.09]Hello, hello, hello!
+[02:18.70]
+[02:19.14]With the lights out, it's less dangerous
+[02:22.70]Here we are now, entertain us
+[02:26.91]I feel stupid and contagious
+[02:31.08]Here we are now, entertain us
+[02:34.89]A mulatto
+[02:37.19]An albino
+[02:39.31]A mosquito
+[02:41.14]My libido
+[02:43.04]Yay!
+[02:44.34]
+[02:45.65]Yay!
+[02:46.02]
+[02:49.12]Yay!
+[02:49.94]
+[03:33.08]And I forget just why I taste
+[03:36.38]Oh yeah, I guess it makes me smile
+[03:41.29]I found it hard, it's hard to find
+[03:45.20]Oh well, whatever, nevermind
+[03:48.82]
+[03:49.44]Hello, hello, hello, how low?
+[03:53.36]Hello, hello, hello, how low?
+[03:57.59]Hello, hello, hello, how low?
+[04:01.51]Hello, hello, hello!
+[04:04.12]
+[04:04.43]With the lights out, it's less dangerous
+[04:08.23]Here we are now, entertain us
+[04:12.27]I feel stupid and contagious
+[04:16.31]Here we are now, entertain us
+[04:20.42]A mulatto
+[04:22.35]An albino
+[04:24.40]A mosquito
+[04:26.33]My libido
+[04:28.01]
+[04:28.44]A denial!
+[04:30.31]A denial!
+[04:32.30]A denial!
+[04:34.29]A denial!
+[04:36.28]A denial!
+[04:38.40]A denial!
+[04:40.32]A denial!
+[04:42.41]A denial!
+[04:44.46]A denial!
+[04:49.90]
+*/
 public class BMSPlayer
 {
 //	-------------------------------------------------------------------------------------------------
