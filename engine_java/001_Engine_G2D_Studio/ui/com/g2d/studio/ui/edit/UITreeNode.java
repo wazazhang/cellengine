@@ -481,7 +481,7 @@ implements ObjectPropertyListener
 				if (ev.getNodeName().equals("layout")) 
 				{
 					UILayout layout = readLayout(edit, ev);
-					ui.display.setCustomLayout(layout);
+					ui.display.custom_layout = layout;
 				}
 				else if (ev.getNodeName().equals("childs"))
 				{

@@ -300,7 +300,9 @@ public class UILayout extends DObject implements IOCloneable
 //				int rgb[] = new int[1];
 //				m.getRGB(rgb, 0, 1, R, T, 1, 1);
 //				BackColor = new Color(rgb[0]);
-				BackColor	= new Color(src.getRGB(R, T));
+				BackColor	= new Color(src.getRGB(
+						src.getWidth()/2,
+						src.getHeight()/2));
 				break;
 				
 			case IMAGE_STYLE_H_012:
