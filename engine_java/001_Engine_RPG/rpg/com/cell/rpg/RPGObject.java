@@ -18,7 +18,7 @@ import com.cell.util.zip.ZipNode;
 
 
 public abstract class RPGObject extends DObject 
-implements Abilities, ZipNode, RPGSerializationListener, MutualMessage
+implements Abilities, ZipNode, RPGSerializationListener
 {
 //	------------------------------------------------------------------------------------------------------------------
 	
