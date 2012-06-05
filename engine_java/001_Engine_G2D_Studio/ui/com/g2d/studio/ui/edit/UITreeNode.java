@@ -154,6 +154,8 @@ implements ObjectPropertyListener
 	com.g2d.display.ui.UIComponent.DebugModeDraw,
 	Comparator<DisplayObject>
 	{		
+		boolean check = false;
+		
 		@Override
 		public int compare(DisplayObject o1, DisplayObject o2) {
 			if (o1 != null && o2!=null) {
@@ -175,6 +177,7 @@ implements ObjectPropertyListener
 		@Override
 		public void mouseDown(com.g2d.display.event.MouseEvent e) {
 			edit.onSelectTreeNode(UITreeNode.this);
+			check = true;
 		}
 		@Override
 		public void mouseUp(com.g2d.display.event.MouseEvent e) {
@@ -222,7 +225,7 @@ implements ObjectPropertyListener
 		@Override
 		public void render(com.g2d.Graphics2D g, UIComponent ui) 
 		{
-			if (edit.getTree().getSelectedNode() == UITreeNode.this) 
+			if (check || edit.getTree().getSelectedNode() == UITreeNode.this) 
 			{
 				float alpha = 0.5f + (float)Math.sin(ui.timer / 5.0f)/2;
 				int s1 = 3;
@@ -233,8 +236,12 @@ implements ObjectPropertyListener
 				
 				g.pushClip();
 				g.setClip(-s2, -s2, w+s4, h+s4);
+//				if (edit.getTree().getSelectedNode() == UITreeNode.this) {
+					g.setColor(new Color(alpha, alpha, alpha, 1));
+//				} else {
+//					g.setColor(Color.WHITE);
+//				}
 				
-				g.setColor(new Color(alpha, alpha, alpha, 1));
 				g.drawRect(0, 0, w-1, h-1);
 				
 				g.fillRect( -s1,  -s1, s2, s2);
