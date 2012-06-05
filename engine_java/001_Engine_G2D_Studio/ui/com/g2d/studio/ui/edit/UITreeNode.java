@@ -445,7 +445,7 @@ implements ObjectPropertyListener
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
-			Element e = doc.createElement(this.getClass().getCanonicalName());
+			Element e = doc.createElement(display.getClass().getCanonicalName());
 			doc.appendChild(e);
 			writeInternal(edit, doc, e, this);
 			doc.normalizeDocument();
@@ -467,7 +467,7 @@ implements ObjectPropertyListener
 	{
 		readFields(edit, e, ui.display);
 		if (ui.display instanceof SavedComponent) {
-			((SavedComponent)ui.display).onRead(edit, e);
+			((SavedComponent)ui.display).onRead(edit, e, doc);
 			((SavedComponent)ui.display).readComplete(edit);
 		}
 		
@@ -504,9 +504,9 @@ implements ObjectPropertyListener
 	private static void writeInternal(UIEdit edit, Document doc, Element e, UITreeNode ui) throws Exception
 	{
 		writeFields(edit, e, ui.display);
-		if (ui instanceof SavedComponent) {
+		if (ui.display instanceof SavedComponent) {
 			((SavedComponent)ui.display).writeBefore(edit);
-			((SavedComponent)ui.display).onWrite(edit, e);
+			((SavedComponent)ui.display).onWrite(edit, e, doc);
 		}
 		
 		UILayout layout = ui.display.getCustomLayout();
@@ -541,10 +541,10 @@ implements ObjectPropertyListener
 		Field[] fields = ui.getClass().getFields();
 		for (Field f : fields) {
 			try {
-				if (f.getName().equals("clip_local_bounds")) {
+				if (f.getName().equals("custom_layout")) {
 					continue;
 				}
-				if (f.getName().equals("custom_layout")) {
+				if (f.getName().equals("custom_layout_down")) {
 					continue;
 				}
 				if (f.getAnnotation(Property.class) != null) {
@@ -574,10 +574,10 @@ implements ObjectPropertyListener
 		Field[] fields = ui.getClass().getFields();
 		for (Field f : fields) {
 			try {
-				if (f.getName().equals("clip_local_bounds")) {
+				if (f.getName().equals("custom_layout")) {
 					continue;
 				}
-				if (f.getName().equals("custom_layout")) {
+				if (f.getName().equals("custom_layout_down")) {
 					continue;
 				}
 				if (f.getAnnotation(Property.class) != null) {

@@ -1,5 +1,6 @@
 package com.g2d.studio.ui.edit.gui;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.g2d.BufferedImage;
@@ -50,12 +51,12 @@ public class UEImageBox extends UIComponent implements SavedComponent
 	
 	
 	@Override
-	public void onRead(UIEdit edit, Element e) throws Exception {
+	public void onRead(UIEdit edit, Element e, Document doc) throws Exception {
 		
 	}
 
 	@Override
-	public void onWrite(UIEdit edit, Element e) throws Exception
+	public void onWrite(UIEdit edit, Element e, Document doc) throws Exception
 	{
 		//imagePath = edit.getLayoutManager();
 	}

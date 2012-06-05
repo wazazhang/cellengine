@@ -47,13 +47,13 @@ public class UERoot extends Container implements SavedComponent
 
 	
 	@Override
-	public void onRead(UIEdit edit, Element e) throws Exception {
+	public void onRead(UIEdit edit, Element e, Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onWrite(UIEdit edit, Element e) throws Exception
+	public void onWrite(UIEdit edit, Element e, Document doc) throws Exception
 	{
 		
 	}

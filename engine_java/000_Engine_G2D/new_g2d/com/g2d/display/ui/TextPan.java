@@ -27,7 +27,7 @@ public class TextPan extends UIComponent
 	@Property("阴影透明度")
 	public float text_shadow_alpha = 1f;
 	@Property("阴影颜色")
-	public int text_shadow_color = 0;
+	public Color text_shadow_dcolor = new Color(0);
 	
 	/**文字是否抗锯齿*/
 	@Property("文字是否抗锯齿")
@@ -112,7 +112,7 @@ public class TextPan extends UIComponent
 					text_shadow_x, 
 					text_shadow_y,
 					text_shadow_alpha,
-					text_shadow_color);
+					text_shadow_dcolor.getARGB());
 		} finally {
 			g.setFontAntialiasing(flag);
 		}

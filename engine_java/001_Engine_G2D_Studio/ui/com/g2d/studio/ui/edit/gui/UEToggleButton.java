@@ -2,6 +2,7 @@ package com.g2d.studio.ui.edit.gui;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.g2d.Graphics2D;
 import com.g2d.annotation.Property;
@@ -10,8 +11,9 @@ import com.g2d.display.ui.Button;
 import com.g2d.display.ui.UIComponent;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.studio.ui.edit.UIEdit;
+import com.g2d.studio.ui.edit.UITreeNode;
 
-public class UEToggleButton extends Button implements SavedComponent
+public class UEToggleButton extends UEButton implements SavedComponent
 {
 	@Property("是否按下")
 	public boolean isChecked = false;
@@ -24,10 +26,6 @@ public class UEToggleButton extends Button implements SavedComponent
 		this.isChecked = (!isChecked);
 	}
 	
-	@Override
-	public void onRead(UIEdit edit, Element e) throws Exception {}
-	@Override
-	public void onWrite(UIEdit edit, Element e) throws Exception {}
 	@Override
 	public void readComplete(UIEdit edit) {}
 	@Override
