@@ -9,14 +9,14 @@ import com.g2d.display.ui.layout.UILayout;
 
 public abstract class BaseButton extends UIComponent 
 {
-	transient public UILayout	layout_down	= UILayout.createBlankRect();
+	protected UILayout	layout_down;
 	
 	/** 当鼠标放置在该控件上的效果 */
-	transient public Image		mouse_catched_mask;
+	public Image		mouse_catched_mask;
 	
 	/**自定义按下造型*/
 	@Property("text")
-	public UILayout				custom_layout_down;
+	public UILayout		custom_layout_down;
 	
 	public BaseButton(int width, int height) {
 		setSize(width, height);

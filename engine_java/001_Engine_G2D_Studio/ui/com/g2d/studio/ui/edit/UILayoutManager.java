@@ -7,6 +7,7 @@ import com.cell.CUtil;
 import com.g2d.BufferedImage;
 import com.g2d.Engine;
 import com.g2d.Tools;
+import com.g2d.display.ui.Button;
 import com.g2d.display.ui.UIComponent;
 import com.g2d.display.ui.layout.ImageUILayout;
 import com.g2d.display.ui.layout.UILayout;
@@ -21,6 +22,7 @@ import com.g2d.studio.ui.edit.gui.UELabel;
 import com.g2d.studio.ui.edit.gui.UERoot;
 import com.g2d.studio.ui.edit.gui.UETextBox;
 import com.g2d.studio.ui.edit.gui.UETextInput;
+import com.g2d.studio.ui.edit.gui.UEToggleButton;
 
 public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
  {
@@ -81,8 +83,8 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			ui.setLayout(ui_root);
 			ui.setSize(100, 30);
 		}
-		else if (ui instanceof UEButton) {
-			((UEButton)ui).setLayout(ui_btn_u, ui_btn_d);
+		else if (ui instanceof UEButton || ui instanceof UEToggleButton) {
+			((Button)ui).setLayout(ui_btn_u, ui_btn_d);
 			ui.setSize(100, 30);
 		}
 		else if (ui instanceof UECanvas) {
@@ -182,12 +184,13 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 	
 	public UITemplate[] getTemplates() {
 		UITemplate[] templates = new UITemplate[]{
-				new UITemplate(ui_btn_u, UEButton.class, "Button"),
+				new UITemplate(ui_btn_u, 	UEButton.class, "Button"),
+				new UITemplate(ui_btn_u, 	UEToggleButton.class, "ToggleButton"),
 				new UITemplate(ui_imagebox, UEImageBox.class, "ImageBox"),
-				new UITemplate(ui_label, UELabel.class, "Label"),
-				new UITemplate(ui_canvas, UECanvas.class, "Canvas"),
+				new UITemplate(ui_label, 	UELabel.class, "Label"),
+				new UITemplate(ui_canvas, 	UECanvas.class, "Canvas"),
 				new UITemplate(ui_textinput, UETextInput.class, "TextInput"),
-				new UITemplate(ui_textbox, UETextBox.class, "TextBox"),
+				new UITemplate(ui_textbox, 	UETextBox.class, "TextBox"),
 		};
 		return templates;
 	}

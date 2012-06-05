@@ -98,6 +98,7 @@ implements ObjectPropertyListener
 			UIComponent uie = (UIComponent) type.newInstance();
 			return uie;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new UECanvas();
 		}
 	}

@@ -21,8 +21,6 @@ public class UITemplate extends G2DTreeNode<UITemplate>
 		this.name = name;
 		this.rect = rect;
 		this.uiType = uiType;
-		
-		
 	}
 	@Override
 	protected ImageIcon createIcon() {
