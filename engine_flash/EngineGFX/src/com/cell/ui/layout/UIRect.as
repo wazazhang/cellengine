@@ -7,34 +7,40 @@ package com.cell.ui.layout
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Graphics;
 	import flash.geom.Rectangle;
 
 	public class UIRect extends Bitmap
 	{
 		
-		public static const IMAGE_STYLE_COLOR 			= 0;
-		public static const IMAGE_STYLE_ALL_9 			= 1;
-		public static const IMAGE_STYLE_H_012 			= 3; 
-		public static const IMAGE_STYLE_V_036 			= 4;
-		public static const IMAGE_STYLE_BACK_4 			= 5;
+		public static const IMAGE_STYLE_NULL	 		: int		= 0;
+		public static const IMAGE_STYLE_COLOR 		: int		= 1;
+		public static const IMAGE_STYLE_ALL_9 		: int		= 2;
+		public static const IMAGE_STYLE_ALL_8 		: int		= 3;
+		public static const IMAGE_STYLE_H_012 		: int		= 4; 
+		public static const IMAGE_STYLE_V_036 		: int		= 5;
+		public static const IMAGE_STYLE_HLM			: int		= 6;
+		public static const IMAGE_STYLE_VTM			: int		= 7;
+		public static const IMAGE_STYLE_BACK_4 		: int		= 8;
+		public static const IMAGE_STYLE_BACK_4_CENTER	: int		= 9;
 		
-		
-		
+
 //		------------------------------------------------------------------------------------------------------------------------------
 
 		// image layout
 		private var style 		: int		= 0;
 		private var color		: uint		= 0;
+		private var clipBorder	: uint		= 0;
 		
 		private var BorderT 	: BitmapData;
 		private var BorderB 	: BitmapData;
 		private var BorderL 	: BitmapData;
-		private var	BorderR 	: BitmapData;
-		private var	BackImage 	: BitmapData;
-		private var	BorderTL 	: BitmapData;
-		private var	BorderTR 	: BitmapData;
-		private var	BorderBL 	: BitmapData;
-		private var	BorderBR 	: BitmapData;
+		private var BorderR 	: BitmapData;
+		private var BackImage 	: BitmapData;
+		private var BorderTL 	: BitmapData;
+		private var BorderTR 	: BitmapData;
+		private var BorderBL 	: BitmapData;
+		private var BorderBR 	: BitmapData;
 		
 //		------------------------------------------------------------------------------------------------------------------------------
 		
@@ -48,7 +54,11 @@ package com.cell.ui.layout
 		public function copy() : UIRect
 		{
 			var ret : UIRect = new UIRect();
-			ret.style 		= this.style;
+			ret.style 		= this.style;	
+			ret.color		= this.color;
+			ret.clipBorder	= this.clipBorder;
+			ret.bitmapData	= this.bitmapData;
+			
 			ret.BorderT 	= this.BorderT;
 			ret.BorderB 	= this.BorderB;
 			ret.BorderL 	= this.BorderL;
@@ -58,7 +68,6 @@ package com.cell.ui.layout
 			ret.BorderTR 	= this.BorderTR;
 			ret.BorderBL 	= this.BorderBL;
 			ret.BorderBR 	= this.BorderBR;
-			ret.bitmapData	= this.bitmapData;
 			return ret;
 		}
 		
@@ -172,6 +181,15 @@ package com.cell.ui.layout
 			}
 			return this;
 		}
+		
+		
+		public function setImagesClip(src:BitmapData, style:int, clipsize:int) : UIRect
+		{
+			setImagesClipBorder(src, style, clipsize, clipsize, clipsize, clipsize);
+			return this;
+		}
+		
+		
 		
 		/**将一张图片按相等的上下左右切成9格*/
 		public function setImagesClip9(src:BitmapData, clipsize:int) : UIRect
@@ -447,6 +465,10 @@ package com.cell.ui.layout
 		}
 		
 		
+		public function render(g:Graphics, x:int, y:int, w:int, h:int) : void
+		{
+			
+		}
 		
 	}
 }
