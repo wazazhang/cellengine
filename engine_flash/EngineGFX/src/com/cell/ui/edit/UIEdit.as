@@ -21,6 +21,8 @@ package com.cell.ui.edit
 		
 		public function createFromFile(fileName:String) : UIComponent
 		{
+			
+			
 			return null;
 		}
 		
