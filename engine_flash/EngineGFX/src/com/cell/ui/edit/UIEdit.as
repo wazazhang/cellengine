@@ -19,6 +19,11 @@ package com.cell.ui.edit
 		
 		}
 		
+		public function getRoot() : String
+		{
+			return res_root;
+		}
+		
 		public function createFromFile(fileName:String) : UIComponent
 		{
 			
