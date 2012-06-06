@@ -15,6 +15,7 @@ import com.g2d.display.event.MouseMoveEvent;
 import com.g2d.display.event.MouseMoveListener;
 import com.g2d.display.event.MouseWheelEvent;
 import com.g2d.display.event.MouseWheelListener;
+import com.g2d.display.ui.UIComponent;
 
 /**
  * InteractiveObject 二要素<br>
@@ -52,7 +53,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 	public boolean 				enable_drag;
 	
 //	----------------------------------------------------------------------------------------------
-	
+	public EditModeSelect		edit_mode = null;
 //	----------------------------------------------------------------------------------------------
 
 	transient private boolean 						is_focused;
@@ -109,7 +110,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------
-	
+//	(!clip_local_bounds || )
 	@Override
 	protected boolean testCatchMouse(Graphics2D g) {
 		if (!enable || !enable_focus) {
@@ -162,7 +163,6 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 	{
 		if (enable)
 		{
-	
 				if (getParent()!=null) {
 					if (getParent().getFocus() == this) {
 						is_focused = true;
@@ -185,8 +185,8 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 						return true;
 					}
 				}
-				
-				if (enable_input && visible) {
+
+				if (enable_input && visible && (edit_mode == null || edit_mode.isSelected(this))) {
 					if (event instanceof MouseWheelEvent) {
 						return processMouseWheelEvent((MouseWheelEvent) event);
 					} else if (event instanceof MouseEvent) {
@@ -417,4 +417,10 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 	
 //	-----------------------------------------------------------------------------------------------------------------
 	
+
+
+	static public interface EditModeSelect
+	{
+		public boolean isSelected(InteractiveObject obj);
+	}
 }

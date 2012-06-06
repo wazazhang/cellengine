@@ -16,6 +16,7 @@ import javax.swing.tree.TreePath;
 import com.g2d.Color;
 import com.g2d.Graphics2D;
 import com.g2d.display.DisplayObject;
+import com.g2d.display.InteractiveObject;
 import com.g2d.display.ui.Container;
 import com.g2d.editor.DisplayObjectPanel;
 import com.g2d.java2d.impl.SimpleCanvas;

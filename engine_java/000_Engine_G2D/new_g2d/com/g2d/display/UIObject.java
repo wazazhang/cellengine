@@ -71,6 +71,13 @@ public abstract class UIObject extends InteractiveObject
 		return true;
 	}
 	
+	protected boolean enable_drag_resize(){
+		if(edit_mode == null || edit_mode.isSelected(this)) {
+			return enable_drag_resize;
+		} else {
+			return false;
+		}
+	}
 //	-------------------------------------------------------------------------------------------------------------
 	
 	void renderInteractive(Graphics2D g)
@@ -80,8 +87,8 @@ public abstract class UIObject extends InteractiveObject
 				renderCatchedMouse(g);
 			}
 			super.renderInteractive(g);
-			
-			if (enable_drag_resize && enable_drag && !enable_drag_drop) {
+
+			if (enable_drag_resize() && enable_drag && !enable_drag_drop) {
 				renderDragResize(g);
 			}
 			else if (enable_accept_drag_drop) {
@@ -133,7 +140,7 @@ public abstract class UIObject extends InteractiveObject
 	@Override
 	public AnimateCursor getCursor() 
 	{
-		if (enable_drag_resize && enable_drag && !enable_drag_drop) 
+		if (enable_drag_resize() && enable_drag && !enable_drag_drop) 
 		{
 			byte direct = 4;
 			if (drag_resize == null) {
@@ -152,7 +159,7 @@ public abstract class UIObject extends InteractiveObject
 	
 	protected void onStartDrag(MouseMoveEvent event) 
 	{
-		if (enable_drag_resize)
+		if (enable_drag_resize())
 		{
 			this.drag_resize = new DragResizeObject(
 				event,
@@ -173,7 +180,7 @@ public abstract class UIObject extends InteractiveObject
 	
 	protected void onStopDrag()
 	{
-		if (enable_drag_resize && 
+		if (enable_drag_resize() && 
 			drag_resize != null &&
 			drag_resize.start_drag_direct != DragResizeObject.DRAG_DIRECT_CENTER)
 		{

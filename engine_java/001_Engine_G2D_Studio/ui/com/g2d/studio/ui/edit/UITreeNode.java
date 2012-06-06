@@ -82,6 +82,7 @@ implements ObjectPropertyListener
 		this.display.enable_drag_resize = true;
 		this.display.enable_key_input = true;
 		this.display.enable_focus = true;
+		this.display.edit_mode = adapter;
 		this.display.addEventListener(adapter);
 		this.display.setSorter(adapter);
 		this.display.setAttribute(UITreeNode.class.getSimpleName(), this);
@@ -152,9 +153,19 @@ implements ObjectPropertyListener
 	com.g2d.display.event.KeyListener,
 	com.g2d.display.event.MouseDragResizeListener,
 	com.g2d.display.ui.UIComponent.DebugModeDraw,
+	com.g2d.display.InteractiveObject.EditModeSelect,
 	Comparator<DisplayObject>
 	{		
 		boolean check = false;
+		
+		@Override
+		public boolean isSelected(InteractiveObject obj) {
+			if (!edit.isAutoSelect()) {
+				return edit.getSelectedUINode() == UITreeNode.this;
+			} else {
+				return true;
+			}
+		}
 		
 		@Override
 		public int compare(DisplayObject o1, DisplayObject o2) {

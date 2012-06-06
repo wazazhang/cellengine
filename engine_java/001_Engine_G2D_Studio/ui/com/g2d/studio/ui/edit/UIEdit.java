@@ -77,6 +77,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 
 	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
 	private JToggleButton tool_preferred = new JToggleButton(Tools.createIcon(Res.icon_refresh));
+	private JToggleButton tool_auto_select = new JToggleButton("自动选取");
 	private JSpinner tool_grid_size = new JSpinner(new SpinnerNumberModel(8, 2, 100, 1));
 	private G2DWindowToolBar tools;
 	private JToolBar bar_status;
@@ -92,6 +93,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		
 	public UIEdit(File cfg) throws IOException 
 	{
+		DisplayObjectContainer.FOCUS_TO_TOP = false;
 		UIEditConfig.load(cfg.getPath());
 		this.workdir = cfg.getParentFile();
 		this.resdir	 = new File(workdir, "res");
@@ -161,10 +163,13 @@ public class UIEdit extends AbstractFrame implements ActionListener
 
 		{
 			tools = new G2DWindowToolBar(this, true, true, true, true);
+			tools.add(tool_auto_select);
 			tools.add(tool_grid);
 			tools.add(tool_grid_size);
 			tools.add(tool_preferred);
 			tools.save_s.setToolTipText("另存为");
+
+			tool_auto_select.setSelected(true);
 			
 			tool_grid_size.setValue(8);
 			tool_grid_size.setPreferredSize(new Dimension(50, 25));
@@ -240,6 +245,10 @@ public class UIEdit extends AbstractFrame implements ActionListener
 
 	public boolean isGridEnable() {
 		return tool_grid.isSelected();
+	}
+	
+	public boolean isAutoSelect() {
+		return tool_auto_select.isSelected();
 	}
 
 	public int getGridSize() {

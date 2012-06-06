@@ -18,6 +18,7 @@ import com.g2d.display.event.Event;
 
 public abstract class DisplayObjectContainer extends DisplayObject
 {	
+	public static boolean FOCUS_TO_TOP = true;
 //	-------------------------------------------------------------
 
 	/** true 如果不在父节点的local_bounds内,则忽略事件处理 (包括孩子的) */
@@ -259,8 +260,8 @@ public abstract class DisplayObjectContainer extends DisplayObject
 			for (DisplayObject e : always_top_elements) {
 				events.offer(new DisplayObjectEvent(DisplayObjectEvent.EVENT_MOVE_TOP, e));
 			}
-		} else {
-		//	events.offer(new DisplayObjectEvent(DisplayObjectEvent.EVENT_MOVE_TOP, child));
+		} else if (FOCUS_TO_TOP) {
+			events.offer(new DisplayObjectEvent(DisplayObjectEvent.EVENT_MOVE_TOP, child));
 		}
 		if (always_bottom_elements != null && !always_bottom_elements.isEmpty()) {
 			for (DisplayObject e : always_bottom_elements) {

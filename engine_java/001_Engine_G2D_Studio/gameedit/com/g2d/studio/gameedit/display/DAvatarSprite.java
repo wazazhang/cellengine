@@ -67,7 +67,9 @@ public class DAvatarSprite extends Sprite
 		{
 			body_spr.cspr.setCurrentFrame(anim, frame);
 			for (CellSprite cs : parts) {
-				cs.cspr.setCurrentFrame(anim, frame);
+				try {
+					cs.cspr.setCurrentFrame(anim, frame);
+				} catch (Exception e) {}
 			}
 		}
 	}
