@@ -1,6 +1,7 @@
 package com.cell.ui.edit.comp
 {
 	import com.cell.ui.component.UIComponent;
+	import com.cell.ui.edit.UIEdit;
 	import com.cell.ui.layout.UIRect;
 	
 	import flash.xml.XMLNode;
@@ -13,7 +14,7 @@ package com.cell.ui.edit.comp
 			super(new UIRect());
 		}
 	
-		public function onRead(e : XML) : void
+		public function onRead(edit:UIEdit, e:XMLNode) : void
 		{
 			
 		}

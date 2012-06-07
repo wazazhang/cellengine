@@ -10,6 +10,11 @@ package com.cell.ui.component
 	{
 		internal var bg : UIRect = null;
 		
+		public var editName  : String;
+		
+		public var user_data : Object;
+		public var user_tag  : int;
+		
 		public function UIComponent(rect:UIRect)
 		{
 			this.mouseChildren = false;

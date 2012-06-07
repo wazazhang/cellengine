@@ -14,15 +14,15 @@ package com.cell.io
 	[Event(name=Event.COMPLETE, 			type="flash.events.Event")]  
 	[Event(name=IOErrorEvent.IO_ERROR,  	type="flash.events.IOErrorEvent")]  
 	[Event(name=IOErrorEvent.NETWORK_ERROR, type="flash.events.IOErrorEvent")]  
-	public class LoaderQueue extends EventDispatcher
+	public class URLLoaderQueue extends EventDispatcher
 	{
 		private var total 		: Number;
-		private var curload 	: Loader;
+		private var curload 	: URLLoader;
 		private var curloadurl	: URLRequest;
 		private var loaded 	: Map;
 		private var waited 	: Vector.<URLRequest>;
 		
-		public function LoaderQueue(list:Vector.<URLRequest> = null)
+		public function URLLoaderQueue(list:Vector.<URLRequest> = null)
 		{
 			this.loaded = new Map();
 			if (list != null) {
@@ -60,7 +60,7 @@ package com.cell.io
 			if (waited.length > 0) {
 				curloadurl 	= waited[0];
 				waited.splice(0, 1);
-				curload 	= UrlManager.createLoader(onComplete, onError);
+				curload 	= UrlManager.createURLLoader(onComplete, onError);
 				curload.load(curloadurl);
 			}
 		}
@@ -90,8 +90,7 @@ package com.cell.io
 		{
 			if (total > 0) {
 				if (curload != null) {
-					var curpct : Number = (curload.contentLoaderInfo.bytesLoaded / 
-						(Number)(curload.contentLoaderInfo.bytesTotal));
+					var curpct : Number = (curload.bytesLoaded / (Number)(curload.bytesTotal));
 					return (loaded.length + curpct) / total;
 				} else {
 					return loaded.length / total;

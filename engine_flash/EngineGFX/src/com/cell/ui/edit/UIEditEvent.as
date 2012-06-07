@@ -11,22 +11,21 @@ package com.cell.ui.edit
 		public static const LOADED 	: String = "LOADED"; 
 		public static const ERROR		: String = "ERROR";
 		
+		public var cause 	: Event;
+		public var edit 	: UIEdit;
+		public var loader 	: UIEditLoader;
 		
-		public var edit : UIEdit;
-		
-		public var cause : Event;
-
-		
-		public function UIEditEvent(evt:String) 
+		public function UIEditEvent(evt:String, loader:UIEditLoader, edit:UIEdit, cause:Event) 
 		{
 			super(evt);
+			this.loader = loader;
+			this.edit = edit;
+			this.cause = cause;
 		}
 		
 		override public function clone() : Event
 		{
-			var ret : UIEditEvent = new UIEditEvent(type);
-			ret.edit = edit;
-			ret.cause = cause;
+			var ret : UIEditEvent = new UIEditEvent(type, loader, edit, cause);
 			return ret;
 		}
 	}

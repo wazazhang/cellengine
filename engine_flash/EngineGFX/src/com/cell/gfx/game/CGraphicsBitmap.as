@@ -53,6 +53,29 @@ package com.cell.gfx.game
 			}
 		}
 		
+		public function drawImageBitmap(img:BitmapData, x:int, y:int, w:int, h:int, transform:int) : void
+		{
+			if (transform == Transform.TRANS_NONE) 
+			{				
+				this.dst_point.x = x;
+				this.dst_point.y = y;
+				
+				this.src_rect.width = w;
+				this.src_rect.height = h;
+				this.src_rect.x = 0;
+				this.src_rect.y = 0;
+				buff.copyPixels(img, src_rect, dst_point, null, null, img.transparent);
+			}
+			else 
+			{
+				this.dst_rect.x = x;
+				this.dst_rect.y = y;			
+				this.dst_rect.width = w;
+				this.dst_rect.height = h;
+				
+				buff.draw(img, Transform.getMatrix(x, y, w, h, transform), null, null, dst_rect, false);
+			}
+		}
 		
 		/**
 		 * 绘制指定图像中的一部分。 
@@ -90,6 +113,11 @@ package com.cell.gfx.game
 			drawBitmapDataRegion(img, x, y, img.width, img.height, megre);
 		}
 		
+//		public function drawBitmapDataT(img:BitmapData, x:int, y:int, trans:int, megre:Boolean) : void
+//		{
+//			drawBitmapDataRegionT(img, x, y, img.width, img.height, trans, megre);
+//		}
+		
 		public function drawBitmapDataRegion(img:BitmapData, x:int, y:int, w:int, h:int, megre:Boolean) : void
 		{
 			this.dst_point.x = x;
@@ -100,6 +128,35 @@ package com.cell.gfx.game
 			this.src_rect.y = 0;
 			buff.copyPixels(img, src_rect, dst_point, null, null, megre);
 		}
+//		
+//		public function drawBitmapDataRegionT(img:BitmapData, 
+//											  x:int, y:int, w:int, h:int,
+//											  trans:int, megre:Boolean) : void
+//		{
+//			this.dst_point.x = x;
+//			this.dst_point.y = y;
+//			this.src_rect.width = w;
+//			this.src_rect.height = h;
+//			this.src_rect.x = 0;
+//			this.src_rect.y = 0;
+//			
+//			
+//			if (trans == Transform.TRANS_NONE) 
+//			{				
+//				buff.copyPixels(img, src_rect, dst_point, null, null, megre);
+//			}
+//			else 
+//			{
+//				this.dst_rect.x = x;
+//				this.dst_rect.y = y;			
+//				this.dst_rect.width = w;
+//				this.dst_rect.height = h;
+//				buff.draw(img,
+//					Transform.getMatrix(x, y, w, h, trans), null, null, dst_rect, false);
+//			}
+//			
+//			
+//		}
 		
 		public function drawBitmapDataRound(img:BitmapData, x:int, y:int, rw:int, rh:int, megre:Boolean) : void
 		{
@@ -115,6 +172,21 @@ package com.cell.gfx.game
 				}
 			}
 		}
+		
+//		public function drawBitmapDataRoundT(img:BitmapData, x:int, y:int, rw:int, rh:int, trans:int, megre:Boolean) : void
+//		{
+//			var sw : int = img.width;
+//			var sh : int = img.height;
+//			var sx : int = x;
+//			var sy : int = y;
+//			for (var ix:int = 0; ix<rw; ix+=sw) {
+//				for (var iy:int = 0; iy<rh; iy+=sh) {
+//					sx = ix + x;
+//					sy = iy + y;
+//					drawBitmapDataRegionT(img, sx, sy, sw, sh, trans, megre);
+//				}
+//			}
+//		}
 		
 		public function drawBitmapDataRoundH(img:BitmapData, x:int, y:int, rw:int, rh:int) : void
 		{

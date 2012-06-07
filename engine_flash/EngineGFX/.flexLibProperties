@@ -68,6 +68,7 @@
     <classEntry path="com.cell.io.IOUtil"/>
     <classEntry path="com.cell.gfx.rpg.intention.TouchCameraMotion"/>
     <classEntry path="com.cell.ui.edit.UIEdit"/>
+    <classEntry path="com.cell.util.XMLUtil"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

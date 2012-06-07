@@ -2,6 +2,7 @@ package com.cell.ui.layout
 {
 	import com.cell.gfx.game.CGraphicsBitmap;
 	import com.cell.gfx.game.CGraphicsBitmapBuffer;
+	import com.cell.gfx.game.Transform;
 	import com.cell.util.ImageUtil;
 	import com.cell.util.Util;
 	
@@ -28,7 +29,7 @@ package com.cell.ui.layout
 //		------------------------------------------------------------------------------------------------------------------------------
 
 		// image layout
-		private var style 		: int		= 0;
+		protected var style 		: int		= 0;
 		private var color		: uint		= 0;
 		private var clipBorder	: uint		= 0;
 		
@@ -46,9 +47,15 @@ package com.cell.ui.layout
 		
 //		------------------------------------------------------------------------------------------------------------------------------
 		
-		public function UIRect(color:uint=0xff808080)
+		public function UIRect(style:int=IMAGE_STYLE_COLOR, color:uint=0xff808080)
 		{
 			this.color = color;
+			this.style = style;
+		}
+		
+		public function setColor(color:uint) : void
+		{
+			this.color = color;		
 		}
 		
 		public function copy() : UIRect
@@ -69,6 +76,11 @@ package com.cell.ui.layout
 			ret.BorderBL 	= this.BorderBL;
 			ret.BorderBR 	= this.BorderBR;
 			return ret;
+		}
+		
+		public function getStyle() : int
+		{
+			return this.style;
 		}
 		
 //		------------------------------------------------------------------------------------------------------------------------------
@@ -151,6 +163,20 @@ package com.cell.ui.layout
 			
 			switch(style)
 			{
+				case IMAGE_STYLE_COLOR:
+					createBuffer(1, 1);
+					break;
+				case IMAGE_STYLE_NULL:
+					createBuffer(1, 1);
+					break;
+				
+				case IMAGE_STYLE_ALL_8:
+					createBuffer(
+						BorderL.width+borderR.width,
+						BorderT.height+borderB.height
+					);
+					break;
+				
 				case IMAGE_STYLE_ALL_9:
 					createBuffer(
 						BorderL.width+BackImage.width+borderR.width,
@@ -172,7 +198,27 @@ package com.cell.ui.layout
 					);
 					break;
 				
+				case IMAGE_STYLE_HLM:
+					createBuffer(
+						BorderL.width+BackImage.width+borderL.width,
+						BorderT.height+BackImage.height+borderB.height
+					);
+					break;
+				case IMAGE_STYLE_VTM:
+					createBuffer(
+						BorderL.width+BackImage.width+borderR.width,
+						BorderT.height+BackImage.height+borderT.height
+					);
+					break;
+				
 				case IMAGE_STYLE_BACK_4:
+					createBuffer(
+						BackImage.width,
+						BackImage.height
+					);
+					break;
+				
+				case IMAGE_STYLE_BACK_4_CENTER:
 					createBuffer(
 						BackImage.width,
 						BackImage.height
@@ -216,7 +262,8 @@ package com.cell.ui.layout
 		}
 		
 		/**将一张图片上下左右切成9格*/
-		public function setImagesClipBorder(src:BitmapData, style:int, L:int, R:int, T:int, B:int) : UIRect
+		public function setImagesClipBorder(src:BitmapData, style:int, 
+											L:int, R:int, T:int, B:int) : UIRect
 		{
 			var BorderTL	: BitmapData = null;
 			var BorderT		: BitmapData = null;
@@ -235,8 +282,10 @@ package com.cell.ui.layout
 				
 				switch(style)
 				{
+					
 					case IMAGE_STYLE_ALL_9:
 						BackImage 	= ImageUtil.subImage(src, L, T, W - L - R, H - T - B);
+					case IMAGE_STYLE_ALL_8:
 						BorderTL 	= ImageUtil.subImage(src, 0, 0, L, T);
 						BorderT 	= ImageUtil.subImage(src, L, 0, W - L - R, T);
 						BorderTR 	= ImageUtil.subImage(src, W - R, 0, R, T);
@@ -259,7 +308,36 @@ package com.cell.ui.layout
 						BorderBL 	= ImageUtil.subImage(src, 0, H - B, W, B);
 						break;
 					
+					case IMAGE_STYLE_HLM:
+						BorderTL 	= ImageUtil.subImage(src, 0, 0, L, T);
+						BorderT 	= ImageUtil.subImage(src, L, 0, W - L, T);
+						BorderL 	= ImageUtil.subImage(src, 0, T, L, H - T - B);
+						BackImage 	= ImageUtil.subImage(src, L, T, W - L, H - T - B);
+						BorderBL 	= ImageUtil.subImage(src, 0, H - B, L, B);
+						BorderB 	= ImageUtil.subImage(src, L, H - B, W - L, B);
+						
+						BorderTR	= ImageUtil.transformImage(BorderTL, Transform.TRANS_H);
+						BorderR		= ImageUtil.transformImage(BorderL, Transform.TRANS_H);
+						BorderBR	= ImageUtil.transformImage(BorderBL, Transform.TRANS_H);
+						
+						
+						break;
+					case IMAGE_STYLE_VTM:
+						BorderTL 	= ImageUtil.subImage(src, 0, 0, L, T);
+						BorderT 	= ImageUtil.subImage(src, L, 0, W - L - R, T);
+						BorderTR 	= ImageUtil.subImage(src, W - R, 0, R, T);
+						BorderL 	= ImageUtil.subImage(src, 0, T, L, H - T);
+						BackImage 	= ImageUtil.subImage(src, L, T, W - L - R, H - T);
+						BorderR 	= ImageUtil.subImage(src, W - R, T, R, H - T);
+
+						BorderBL	= ImageUtil.transformImage(BorderTL, Transform.TRANS_H);
+						BorderB		= ImageUtil.transformImage(BorderT, Transform.TRANS_H);
+						BorderBR	= ImageUtil.transformImage(BorderTR, Transform.TRANS_H);
+						break;
+					
+					
 					case IMAGE_STYLE_BACK_4:
+					case IMAGE_STYLE_BACK_4_CENTER:
 						BackImage 	= src;
 						break;
 				}
@@ -309,35 +387,65 @@ package com.cell.ui.layout
 		
 //		---------------------------------------------------------------------------------------------------------------
 		
+		protected function resetBuffer(W:int, H:int) : void
+		{
+			var ret : BitmapData;
+			
+			if (style == IMAGE_STYLE_COLOR || style == IMAGE_STYLE_ALL_8) 
+			{
+				ret  = new BitmapData(W, H, true, color);
+			} 
+			else
+			{
+				ret  = new BitmapData(W, H, true, 0);
+			}
+			
+			var g : CGraphicsBitmap = new CGraphicsBitmap(ret);
+//			trace(style);
+			switch(style)
+			{
+				case IMAGE_STYLE_ALL_9:
+					renderAll9(g, W, H);
+					break;
+				
+				case IMAGE_STYLE_ALL_8:
+					renderAll8(g, W, H);
+					break;
+				
+				case IMAGE_STYLE_H_012:
+					renderH012(g, W, H);
+					break;
+				
+				case IMAGE_STYLE_V_036:
+					renderV036(g, W, H);
+					break;
+				
+				
+				case IMAGE_STYLE_HLM:
+					renderHLM(g, W, H);
+					break;
+				case IMAGE_STYLE_VTM:
+					renderVTM(g, W, H);
+					break;
+				
+				
+				case IMAGE_STYLE_BACK_4:
+					renderBack4(g, W, H);
+					break;
+				
+				case IMAGE_STYLE_BACK_4_CENTER:
+					renderBack4Center(g, W, H);
+					break;
+			}
+			this.bitmapData = ret;
+		}
+		
 		public function createBuffer(W:int, H:int) : BitmapData
 		{
 			if (width != W || height!=H) 
 			{
-				var ret : BitmapData = new BitmapData(W, H, true, color);
-				var g : CGraphicsBitmap = new CGraphicsBitmap(ret);
-				switch(this.style)
-				{
-					case IMAGE_STYLE_COLOR:
-						
-						break;
-					case IMAGE_STYLE_ALL_9:
-						renderAll9(g, W, H);
-						break;
-					
-					case IMAGE_STYLE_H_012:
-						renderH012(g, W, H);
-						break;
-					
-					case IMAGE_STYLE_V_036:
-						renderV036(g, W, H);
-						break;
-					
-					case IMAGE_STYLE_BACK_4:
-						renderBack4(g, W, H);
-						break;
-				}
-				this.bitmapData = ret;
-				return ret;
+				resetBuffer(W, H);
+				return bitmapData;
 			}
 			return this.bitmapData;
 		}
@@ -419,6 +527,22 @@ package com.cell.ui.layout
 			render0123_5678(g, W, H);
 		}
 		
+		
+		protected function renderAll8(g : CGraphicsBitmap, W:int, H:int) : void
+		{
+			var mx : int = BorderL.width;
+			var my : int = BorderT.height;
+			var mw : int = W - BorderL.width - BorderR.width;
+			var mh : int = H - BorderT.height - BorderB.height;
+			
+			if ( (mw > 0) && (mh > 0))
+			{
+				
+			}
+			
+			render0123_5678(g, W, H);
+		}
+		
 		protected function renderH012(g : CGraphicsBitmap, W:int, H:int) : void
 		{
 			var bl : int = BorderTL.width;
@@ -459,9 +583,161 @@ package com.cell.ui.layout
 			}
 		}
 		
+		protected function renderHLM(g : CGraphicsBitmap, W:int, H:int) : void
+		{
+			var mx : int = BorderL.width;
+			var my : int = BorderT.height;
+			var mw : int = W - BorderL.width  - BorderL.width;
+			var mh : int = H - BorderT.height - BorderB.height;
+			
+			if ( (mw > 0) && (mh > 0))
+			{
+				g.drawBitmapDataRound(BackImage, mx, my, mw, mh, false);
+			}
+			
+			render0123_5678(g, W, H);
+		}
+		
+		protected function renderVTM(g : CGraphicsBitmap, W:int, H:int) : void
+		{
+			var mx : int = BorderL.width;
+			var my : int = BorderT.height;
+			var mw : int = W - BorderL.width - BorderR.width;
+			var mh : int = H - BorderT.height - BorderT.height;
+			
+			if ( (mw > 0) && (mh > 0))
+			{
+				g.drawBitmapDataRound(BackImage, mx, my, mw, mh, false);
+			}
+			
+			render0123_5678(g, W, H);
+		}
+		/*
+		protected function render012356(g : CGraphicsBitmap, W:int, H:int) : void
+		{
+			g.drawBitmapDataRound(BorderL,
+				0, 
+				BorderTL.height,
+				BorderL.width, 
+				H - BorderTL.height - BorderBL.height,
+				false);
+			
+			g.drawBitmapDataRoundT(BorderL,
+				W - BorderL.width, 
+				BorderL.height, 
+				BorderL.width, 
+				H - BorderTL.height - BorderBL.height, 
+				Transform.TRANS_H,
+				false);
+			
+			g.drawBitmapDataRound(BorderT,
+				BorderTL.width, 
+				0, 
+				W-BorderTL.width-BorderTL.width,
+				BorderT.height,
+				false);
+			
+			g.drawBitmapDataRound(BorderB,
+				BorderBL.width, 
+				H - BorderB.height, 
+				W - BorderBL.width - BorderBL.width, 
+				BorderB.height,
+				false);
+			
+			
+			g.drawBitmapData(BorderTL, 
+				0, 
+				0,
+				false);
+			
+			g.drawBitmapData(BorderBL, 
+				0, 
+				H - BorderBL.height,
+				false);
+			
+			g.drawBitmapDataT(BorderTL, 
+				W - BorderTL.width, 
+				0,
+				Transform.TRANS_H,
+				false);
+			
+			g.drawBitmapDataT(BorderBL, 
+				W - BorderBL.width,
+				H - BorderBL.height,
+				Transform.TRANS_H,
+				false);
+			
+			
+			
+		}
+		
+		protected function render012345(g : CGraphicsBitmap, W:int, H:int) : void
+		{
+			
+			g.drawBitmapDataRound(BorderL,
+				0, 
+				BorderTL.height,
+				BorderL.width, 
+				H - BorderTL.height - BorderTL.height,
+				false);
+			
+			g.drawBitmapDataRound(BorderR,
+				W - BorderR.width, 
+				BorderTR.height, 
+				BorderR.width, 
+				H - BorderTR.height - BorderTR.height, 
+				false);
+			
+			g.drawBitmapDataRound(BorderT,
+				BorderTL.width, 
+				0, 
+				W-BorderTL.width-BorderTR.width,
+				BorderT.height,
+				false);
+			
+			g.drawBitmapDataRoundT(BorderT,
+				BorderTL.width, 
+				H - BorderT.height, 
+				W - BorderTL.width - BorderTR.width, 
+				BorderT.height,
+				Transform.TRANS_H180,
+				false);
+			
+			g.drawBitmapData(BorderTL, 
+				0, 
+				0,
+				false);
+			
+			g.drawBitmapDataT(BorderTL, 
+				0, 
+				H - BorderTL.height,
+				Transform.TRANS_H180,
+				false);
+			
+			g.drawBitmapData(BorderTR, 
+				W - BorderTR.width, 
+				0,
+				false);
+			
+			g.drawBitmapDataT(BorderTR, 
+				W - BorderTR.width,
+				H - BorderTR.height,
+				Transform.TRANS_H180,
+				false);
+			
+		}
+		*/
 		protected function renderBack4(g : CGraphicsBitmap, W:int, H:int) : void
 		{
 			g.drawBitmapDataScale(BackImage, 0, 0, W, H);
+		}
+		
+		protected function renderBack4Center(g : CGraphicsBitmap, W:int, H:int) : void
+		{
+			g.drawBitmapData(BackImage, 
+				(W-BackImage.width)>>1,
+				(H-BackImage.height)>>1,
+				false);
 		}
 		
 		
