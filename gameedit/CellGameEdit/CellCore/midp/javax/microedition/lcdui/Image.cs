@@ -5,7 +5,11 @@ namespace javax.microedition.lcdui
 public class Image
 {
 	
-	public System.Drawing.Image dimg;
+	public System.Drawing.Image _dimg;
+	public System.Drawing.Image dimg
+	{
+		get { return _dimg; }
+	}
 	private bool mutable = true;
 
 	public bool selected = false;
@@ -24,7 +28,7 @@ public class Image
 
 	public Image(System.Drawing.Image DImage)
 	{
-		dimg = DImage;
+		_dimg = DImage;
 		mutable = false;
 		asBitmap();
 	}
@@ -93,6 +97,23 @@ public class Image
 
 
     //-----------------------------------------------------------------------------------------------------------------------------------
+	public void changeDimg(System.Drawing.Image image)
+	{
+		_dimg = image;
+		asBitmap();
+	}
+
+	public Image subImage(int x, int y, int w, int h)
+	{
+		if (x >= 0 && (x + w) <= getWidth() && y >= 0 && (y + h) <= getHeight())
+		{
+			Image buff = createImage(w, h);
+			Graphics bg = buff.getGraphics();
+			bg.drawImage(this, -x, -y);
+			return buff;
+		}
+		return null;
+	}
 
     public void swapColor(int src_argb, int dstcolor)
     {
@@ -112,7 +133,7 @@ public class Image
             }
         }
 
-        dimg = image;
+		_dimg = image;
     }
 
     public void flipSelf(int transform)
@@ -134,7 +155,7 @@ public class Image
 		Image dst = createImage(width, height);
         Graphics g = dst.getGraphics();
         g.drawImageTrans(this, 0, 0, transform);
-        dimg = dst.dimg;
+		_dimg = dst.dimg;
     }
 
     public System.Drawing.Rectangle cutTransparentImageSize(int broadPixel)
@@ -245,7 +266,7 @@ public class Image
 		Image dst = createImage(ret.Width, ret.Height);
 		Graphics dstg = dst.getGraphics();
 		dstg.drawImage(this, -left, -top);
-		dimg = dst.dimg;
+		_dimg = dst.dimg;
 		dst = null;
 
 		return ret;
@@ -275,7 +296,7 @@ public class Image
                 new System.Drawing.Rectangle(0, 0, dimg.Width, dimg.Height),
                 System.Drawing.GraphicsUnit.Pixel);
 
-            dimg = image;
+			_dimg = image;
         }
         else
         {

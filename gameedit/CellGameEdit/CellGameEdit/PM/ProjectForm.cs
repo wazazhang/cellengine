@@ -1151,7 +1151,11 @@ namespace CellGameEdit.PM
             }
 
         }
-      
+
+		private void 从剪贴板粘贴ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//pasteFromClipBoard();
+		}
      
 #endregion
 
@@ -1360,6 +1364,10 @@ namespace CellGameEdit.PM
 
         }
 
+		private void btnCopyToClipBoardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			copyToClipBoard(treeView1.SelectedNode);
+		}
         
 
 #endregion
@@ -1417,7 +1425,169 @@ namespace CellGameEdit.PM
             return null;
         }
 
-        private void copySub(TreeNode super,TreeNode superCopy)
+		private void copySub(TreeNode super, TreeNode superCopy)
+		{
+			if (formTable[super] != null)
+			{
+				RefreshNodeName();
+				//
+				if (formTable[super].GetType().Equals(typeof(ImagesForm)) ||
+					formTable[super].GetType().Equals(typeof(MapForm)) ||
+					formTable[super].GetType().Equals(typeof(SpriteForm)) ||
+					formTable[super].GetType().Equals(typeof(WorldForm)) ||
+					formTable[super].GetType().Equals(typeof(CommandForm))
+					)
+				{
+					try
+					{
+						// clone form
+
+						SoapFormatter formatter = new SoapFormatter();
+
+						MemoryStream stream = new MemoryStream();
+						stream.Seek(0, SeekOrigin.Begin);
+						formatter.Serialize(stream, formTable[super]);
+
+						stream.Seek(0, SeekOrigin.Begin);
+						Form form = (Form)formatter.Deserialize(stream);
+						stream.Close();
+
+						pasteForm(super, form, formTable[super].GetType(), superCopy);
+					}
+					catch (Exception err)
+					{
+						Console.WriteLine(err.HelpLink);
+						Console.WriteLine(err.Source);
+						Console.WriteLine(err.Message);
+						Console.WriteLine(err.StackTrace + "  at  " + err.Message);
+					}
+				}
+				RefreshNodeName();
+			}
+
+
+
+		}
+
+		private void pasteForm(TreeNode super, Form form, Type type, TreeNode superCopy)
+		{
+
+			if (type.Equals(typeof(ImagesForm)))
+			{
+				((ImagesForm)form).changeImage();
+				Console.WriteLine("change image : " + ((ImagesForm)form).id);
+			}
+			if (type.Equals(typeof(MapForm)))
+			{
+				//((MapForm)form).id = ((MapForm)form).id ;
+
+				if (superCopy != null && formTable[superCopy] != null && formTable[superCopy].GetType().Equals(typeof(ImagesForm)))
+				{
+					((MapForm)form).ChangeSuper((ImagesForm)formTable[superCopy]);
+					Console.WriteLine("change super : " + ((ImagesForm)formTable[superCopy]).id);
+				}
+				else if (super.Parent != null && formTable[super.Parent] != null && formTable[super.Parent].GetType().Equals(typeof(ImagesForm)))
+				{
+					((MapForm)form).ChangeSuper((ImagesForm)formTable[super.Parent]);
+					Console.WriteLine("change super : " + ((ImagesForm)formTable[super.Parent]).id);
+				}
+			}
+			if (formTable[super].GetType().Equals(typeof(SpriteForm)))
+			{
+				//initForms();
+				//((SpriteForm)form).ChangeSuper(FormsImages);
+				//((SpriteForm)form).id = ((SpriteForm)form).id ;
+
+				if (superCopy != null && formTable[superCopy] != null && formTable[superCopy].GetType().Equals(typeof(ImagesForm)))
+				{
+					((SpriteForm)form).ChangeSuper((ImagesForm)formTable[superCopy]);
+					Console.WriteLine("change super : " + ((ImagesForm)formTable[superCopy]).id);
+				}
+				else if (super.Parent != null && formTable[super.Parent] != null && formTable[super.Parent].GetType().Equals(typeof(ImagesForm)))
+				{
+					((SpriteForm)form).ChangeSuper((ImagesForm)formTable[super.Parent]);
+					Console.WriteLine("change super : " + ((ImagesForm)formTable[super.Parent]).id);
+				}
+			}
+			if (formTable[super].GetType().Equals(typeof(WorldForm)))
+			{
+				initOutputForms();
+				((WorldForm)form).ChangeAllUnits(FormsMap, FormsSprite, FormsImages);
+			}
+			if (formTable[super].GetType().Equals(typeof(CommandForm)))
+			{
+			}
+
+			form.MdiParent = this.MdiParent;
+
+
+
+			// clone node
+			TreeNode copy = new TreeNode(super.Name + "_Copy");
+			copy.Name = super.Name + "_Copy";
+			copy.ContextMenuStrip = super.ContextMenuStrip;
+
+			// add 
+			formTable.Add(copy, form);
+			if (superCopy != null)
+			{
+				// adjust
+				while (true)
+				{
+					if (superCopy.Nodes.ContainsKey(copy.Name))
+					{
+						copy.Name = copy.Name + "_Copy";
+						copy.Text = copy.Name;
+						continue;
+					}
+					else
+					{
+						superCopy.Nodes.Add(copy);
+						break;
+					}
+				}
+			}
+			else
+			{
+				// adjust
+				while (true)
+				{
+					if (super.Parent.Nodes.ContainsKey(copy.Name))
+					{
+						copy.Name = copy.Name + "_Copy";
+						copy.Text = copy.Name;
+						continue;
+					}
+					else
+					{
+						super.Parent.Nodes.Add(copy);
+						break;
+					}
+				}
+			}
+
+
+
+			// sub nodes
+			if (super.Nodes.Count >= 0)
+			{
+				foreach (TreeNode sub in super.Nodes)
+				{
+					if (form.GetType().Equals(typeof(ImagesForm)))
+					{
+						copySub(sub, copy);
+					}
+					else
+					{
+						copySub(sub, null);
+					}
+
+				}
+			}
+
+		}
+
+        private void copyToClipBoard(TreeNode super)
         {
             if (formTable[super] != null)
             {
@@ -1432,146 +1602,28 @@ namespace CellGameEdit.PM
                 {
                     try
                     {
-                        // clone form
-                       
-                        SoapFormatter formatter = new SoapFormatter();
-                        
-                        MemoryStream stream = new MemoryStream();
-                        stream.Seek(0, SeekOrigin.Begin);
-                        formatter.Serialize(stream, formTable[super]);
-                        
-                        stream.Seek(0, SeekOrigin.Begin);
-                        Form form = (Form)formatter.Deserialize(stream);
-                        stream.Close();
-
-                        if (formTable[super].GetType().Equals(typeof(ImagesForm)))
-                        {
-                            ((ImagesForm)form).changeImage();
-                            Console.WriteLine("change image : " + ((ImagesForm)form).id);
-                        }
-                        if (formTable[super].GetType().Equals(typeof(MapForm)))
-                        {
-                            //((MapForm)form).id = ((MapForm)form).id ;
-
-                            if (superCopy != null && formTable[superCopy] != null && formTable[superCopy].GetType().Equals(typeof(ImagesForm)))
-                            {
-                                ((MapForm)form).ChangeSuper((ImagesForm)formTable[superCopy]);
-                                Console.WriteLine("change super : " + ((ImagesForm)formTable[superCopy]).id);
-                            }
-                            else if (super.Parent != null && formTable[super.Parent] != null && formTable[super.Parent].GetType().Equals(typeof(ImagesForm)))
-                            {
-                                ((MapForm)form).ChangeSuper((ImagesForm)formTable[super.Parent]);
-                                Console.WriteLine("change super : " + ((ImagesForm)formTable[super.Parent]).id);
-                            }
-                        }
-                        if (formTable[super].GetType().Equals(typeof(SpriteForm)))
-                        {
-                            //initForms();
-                            //((SpriteForm)form).ChangeSuper(FormsImages);
-                            //((SpriteForm)form).id = ((SpriteForm)form).id ;
-
-                            if (superCopy != null && formTable[superCopy] != null && formTable[superCopy].GetType().Equals(typeof(ImagesForm)))
-                            {
-                                ((SpriteForm)form).ChangeSuper((ImagesForm)formTable[superCopy]);
-                                Console.WriteLine("change super : " + ((ImagesForm)formTable[superCopy]).id);
-                            }
-                            else if (super.Parent != null && formTable[super.Parent] != null && formTable[super.Parent].GetType().Equals(typeof(ImagesForm)))
-                            {
-                                ((SpriteForm)form).ChangeSuper((ImagesForm)formTable[super.Parent]);
-                                Console.WriteLine("change super : " + ((ImagesForm)formTable[super.Parent]).id);
-                            }
-                        }
-                        if (formTable[super].GetType().Equals(typeof(WorldForm)))
-                        {
-							initOutputForms();
-                            ((WorldForm)form).ChangeAllUnits(FormsMap,FormsSprite,FormsImages);
-                        }
-                        if (formTable[super].GetType().Equals(typeof(CommandForm)))
-                        {
-                        }
-
-                        form.MdiParent = this.MdiParent;
-                        
-                        
-
-                        // clone node
-                        TreeNode copy = new TreeNode(super.Name + "_Copy");
-                        copy.Name = super.Name + "_Copy";
-                        copy.ContextMenuStrip = super.ContextMenuStrip;
-
-                        // add 
-                        formTable.Add(copy, form);
-                        if (superCopy != null)
-                        {
-                            // adjust
-                            while (true)
-                            {
-                                if (superCopy.Nodes.ContainsKey(copy.Name))
-                                {
-                                    copy.Name = copy.Name + "_Copy";
-                                    copy.Text = copy.Name;
-                                    continue;
-                                }
-                                else
-                                {
-                                    superCopy.Nodes.Add(copy);
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // adjust
-                            while (true)
-                            {
-                                if (super.Parent.Nodes.ContainsKey(copy.Name))
-                                {
-                                    copy.Name = copy.Name + "_Copy";
-                                    copy.Text = copy.Name;
-                                    continue;
-                                }
-                                else
-                                {
-                                    super.Parent.Nodes.Add(copy);
-                                    break;
-                                }
-                            }
-                        }
-
-                        
-
-                        // sub nodes
-                        if (super.Nodes.Count >= 0)
-                        {
-                            foreach (TreeNode sub in super.Nodes)
-                            {
-                                if (form.GetType().Equals(typeof(ImagesForm)))
-                                {
-                                    copySub(sub, copy);
-                                }
-                                else
-                                {
-                                    copySub(sub, null);
-                                }
-                                
-                            }
-                        }
+						Clipboard.SetData(DataFormats.Serializable, formTable[super]);
                     }
                     catch (Exception err) {
-                        Console.WriteLine(err.HelpLink); 
-                        Console.WriteLine(err.Source); 
-                        Console.WriteLine(err.Message); 
-                        Console.WriteLine(err.StackTrace + "  at  " +err.Message); 
+						MessageBox.Show(err.Message);
                     }
                 }
-                RefreshNodeName();
             }
-
-        
-
         }
 
+		public void pasteFromClipBoard(TreeNode parent)
+		{
+			try
+			{
+				IEditForm iform = (IEditForm)Clipboard.GetData(DataFormats.Serializable);
 
+			}
+			catch (Exception err)
+			{
+				MessageBox.Show(err.Message);
+			}
+		
+		}
 	
 
 		public ArrayList getImangesFormChilds(ImagesForm src)
@@ -1595,7 +1647,6 @@ namespace CellGameEdit.PM
 
 			return null;
 		}
-
 
      
 

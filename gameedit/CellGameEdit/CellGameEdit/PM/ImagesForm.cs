@@ -477,56 +477,71 @@ namespace CellGameEdit.PM
                 
                 if (format == null)return;
                         
-                try
-                {
-                    if (group)
-                    {
-                        int outW = 0;
-                        int outH = 0;
-                        for (int i = 0; i < getDstImageCount(); i++)
-                        {
-                            if (getDstImage(i) != null && !getDstImage(i).killed)
-                            {
-                                outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
-                                outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
-                            }
-                        }
-
-                        Image outputImage = Image.createImage(outW, outH);
-                        Graphics g = outputImage.getGraphics();
-                        for (int i = 0; i < getDstImageCount(); i++)
-                        {
-                            if (getDstImage(i) == null || getDstImage(i).killed) continue;
-                            g.drawImage(getDstImage(i), getDstImage(i).x, getDstImage(i).y);
-                            
-                        }
-                        //
-                        outputImage.getDImage().Save(dir + "\\" + this.id + "." + type, format);
-                    }
-                }
-                catch (Exception err) { Console.WriteLine(this.id + " : save group : " + err.StackTrace + "  at  " +err.Message); }
+				if (group)
+				{
+					saveAllAsGrop(dir + "\\" + this.id + "." + type, format);
+				}
                 if (tile)
                 {
-                    String tileDir = dir + "\\" + this.id + "\\" ;
-                    if (!System.IO.Directory.Exists(tileDir))
-                    {
-                        System.IO.Directory.CreateDirectory(tileDir);
-                    }
-                    for (int i = 0; i < getDstImageCount(); i++)
-                    {
-                        if (getDstImage(i) == null || getDstImage(i).killed) continue;
-                        try
-                        {
-                            getDstImage(i).getDImage().Save(tileDir + i + "." + type, format);
-
-                        }
-                        catch (Exception err) { Console.WriteLine(this.id + " : save tile : " + err.StackTrace + "  at  " +err.Message); }
-                    }
+                   saveAllTiles(dir + "\\" + this.id + "\\",  format);
                 }
             }
             catch (Exception err){Console.WriteLine(this.id + " : " + err.StackTrace + "  at  " +err.Message);}
             
         }
+
+		public void saveAllTiles(string tileDir, System.Drawing.Imaging.ImageFormat format)
+		{
+			if (!System.IO.Directory.Exists(tileDir))
+			{
+				System.IO.Directory.CreateDirectory(tileDir);
+			}
+			for (int i = 0; i < getDstImageCount(); i++)
+			{
+				if (getDstImage(i) == null || getDstImage(i).killed) continue;
+				try
+				{
+					getDstImage(i).getDImage().Save(tileDir + i + "." + format.ToString().ToLower(), format);
+
+				}
+				catch (Exception err) { Console.WriteLine(this.id + " : save tile : " + err.StackTrace + "  at  " + err.Message); }
+			}
+		}
+
+		public void saveAllAsGrop(string filepath, System.Drawing.Imaging.ImageFormat format)
+		{
+			try
+			{
+				
+				
+					int outW = 0;
+					int outH = 0;
+					for (int i = 0; i < getDstImageCount(); i++)
+					{
+						if (getDstImage(i) != null && !getDstImage(i).killed)
+						{
+							outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
+							outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
+						}
+					}
+
+					Image outputImage = Image.createImage(outW, outH);
+					Graphics g = outputImage.getGraphics();
+					for (int i = 0; i < getDstImageCount(); i++)
+					{
+						if (getDstImage(i) == null || getDstImage(i).killed) continue;
+						g.drawImage(getDstImage(i), getDstImage(i).x, getDstImage(i).y);
+
+					}
+					//
+					outputImage.getDImage().Save(filepath, format);
+				
+			}
+			catch (Exception err)
+			{
+				Console.WriteLine(this.id + " : save group : " + err.StackTrace + "  at  " + err.Message);
+			}
+		}
 
         public System.Drawing.Color getCurrentClickColor()
         {
@@ -1317,6 +1332,22 @@ namespace CellGameEdit.PM
             return BtnSelectTileIDColor.BackColor;
         }
 
+		public System.Drawing.Rectangle getMinSize()
+		{
+			int outW = 0;
+			int outH = 0;
+			for (int i = 0; i < getDstImageCount(); i++)
+			{
+				if (getDstImage(i) != null && !getDstImage(i).killed)
+				{
+					outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
+					outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
+				}
+			}
+			return new System.Drawing.Rectangle(0, 0, outW, outH);
+		}
+
+
         // src edit
         private void toolStripTextBox1_Leave(object sender, EventArgs e)
         {
@@ -1623,6 +1654,7 @@ namespace CellGameEdit.PM
             }
 
         }
+
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
 
@@ -1631,19 +1663,10 @@ namespace CellGameEdit.PM
 
             try
             {
-                int outW = 0;
-                int outH = 0;
-                for (int i = 0; i < getDstImageCount(); i++)
-                {
-                    if (getDstImage(i) != null && !getDstImage(i).killed)
-                    {
-                        outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
-                        outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
-                    }
-                }
+                System.Drawing.Rectangle ms = getMinSize();
 
-                pictureBox2.Width = outW * dstScale;
-                pictureBox2.Height = outH * dstScale;
+				pictureBox2.Width = ms.Width * dstScale;
+				pictureBox2.Height = ms.Height * dstScale;
                 pictureBox2.Refresh();
             }
             catch (Exception err)
@@ -1808,7 +1831,9 @@ namespace CellGameEdit.PM
                                 " Y=" + dstSelected.y +
                                 " W=" + dstSelected.getWidth() +
                                 " H=" + dstSelected.getHeight() +
-                                " Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\""
+								" Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\"" +
+									   " CW=" + pictureBox2.Width +
+									   " CH=" + pictureBox2.Height
                                 ;
                             toolStripColor.BackColor = color;
                             toolStripColor.Text ="当前像素颜色=\"" + color + "\"";
@@ -2309,6 +2334,66 @@ namespace CellGameEdit.PM
 			dataedit.ShowDialog(this);
 
 			this.append_data = sb.ToString();
+		}
+
+		private void btnChangeDstToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+			try
+			{
+				OpenFileDialog openFileDialog1 = new OpenFileDialog();
+				openFileDialog1.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
+				openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(Config.Default.LastImageOpenDir);
+				
+				if (openFileDialog1.ShowDialog() == DialogResult.OK)
+				{
+					is_change_image = true;
+					
+					Image changed = Image.createImage(openFileDialog1.FileName);
+					System.Drawing.Rectangle ms = getMinSize();
+					if (changed.getWidth() < ms.Width || changed.getHeight() < ms.Height)
+					{
+						MessageBox.Show("图片太小，不能覆盖所有! ");
+						return;
+					}
+
+					for (int i = 0; i < dstImages.Count; i++)
+					{
+						Image img = (Image)dstImages[i];
+						if (!img.killed)
+						{
+							Image clip = changed.subImage(img.x, img.y, img.getWidth(), img.getHeight());
+							if (clip != null)
+							{
+								img.changeDimg(clip.dimg);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception err)
+			{
+				Console.WriteLine(this.id + " : " + err.StackTrace + "  at  " + err.Message);
+				MessageBox.Show(err.Message);
+			}
+
+
+		}
+
+		private void btnOutputDstToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				SaveFileDialog sfd = new SaveFileDialog();
+				sfd.DefaultExt = ".png";
+				sfd.AddExtension = true;
+				sfd.Filter = "PNG file (*.png)|*.png";
+				if (sfd.ShowDialog() == DialogResult.OK)
+				{
+					saveAllAsGrop(sfd.FileName, System.Drawing.Imaging.ImageFormat.Png);
+				}
+			}
+			catch (Exception err) { }
 		}
 
 

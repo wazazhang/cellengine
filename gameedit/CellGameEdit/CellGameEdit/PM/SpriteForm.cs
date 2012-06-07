@@ -827,6 +827,18 @@ namespace CellGameEdit.PM
             }
 
         }
+
+		public Frame getFrame(int anim, int frame)
+		{
+			try
+			{
+				return (Frame)((ArrayList)AnimTable[listView2.Items[anim]])[frame];
+			}
+			catch (Exception err)
+			{
+			} return null;
+		}
+
         public int GetFrameCount(int animID)
         {
             try
@@ -3063,6 +3075,19 @@ namespace CellGameEdit.PM
            
         }
 
+
+		//////////////////////////////////////////////////////////////////////////////////////////
+		private void showClipToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void setClipShowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ClipShow.createFromSprite(this);
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////
+
  
 
 
@@ -3080,6 +3105,81 @@ namespace CellGameEdit.PM
 
 
     }
+
+	public partial class ClipShow
+	{
+		ArrayList animates;
+
+		public static ClipShow createFromSprite(SpriteForm sf)
+		{
+			ClipShow ret = new ClipShow();
+			try {
+				String dir = Application.StartupPath + "\\clipshow\\" + sf.id;
+				if (System.IO.Directory.Exists(dir))
+				{
+					System.IO.Directory.Delete(dir, true);
+				}
+				System.IO.Directory.CreateDirectory(dir);
+				
+				for (int anim = 0; anim < sf.GetAnimateCount(); anim++ )
+				{
+					for (int frame = 0; frame < sf.GetFrameCount(anim); frame++ )
+					{
+						Frame curFrame = sf.getFrame(anim, frame);
+
+						if (curFrame != null)
+						{
+							System.Drawing.Rectangle vb = curFrame.getVisibleBounds();
+							int x1 = vb.X;
+							int x2 = vb.X + vb.Width; 
+							int y1 = vb.Y;
+							int y2 = vb.Y + vb.Height;
+							int maxw = Math.Max(Math.Abs(x1), Math.Abs(x2));
+							int maxh = Math.Max(Math.Abs(y1), Math.Abs(y2));
+							int maxs = Math.Max(maxw * 2, maxh * 2);
+							javax.microedition.lcdui.Image img = javax.microedition.lcdui.Image.createImage(maxs, maxs);
+							javax.microedition.lcdui.Graphics g = img.getGraphics();
+							sf.Render(g, maxs / 2, maxs / 2, false, anim, frame);
+
+							img.getDImage().Save(
+								dir+"\\"+anim+"_"+frame+".png", 
+								System.Drawing.Imaging.ImageFormat.Png);
+						}
+					}
+				}
+			}
+			catch (Exception err) {
+				MessageBox.Show(err.Message);
+			}
+			return ret;
+		}
+
+		public static ClipShow createFromFile(string path)
+		{
+			ClipShow ret = new ClipShow();
+
+			return ret;
+		}
+
+		public void render(System.Drawing.Graphics dg, int x, int y, int anim, int frame)
+		{
+			if (anim < animates.Count)
+			{
+				ArrayList frames = (ArrayList)animates[anim];
+
+				if (frame < frames.Count) 
+				{
+					System.Drawing.Image img = (System.Drawing.Image)frames[frame];
+
+					if (img != null) {
+						dg.DrawImage(img, x-img.Width/2, y-img.Height/2);
+					}
+				}
+			}
+
+		}
+
+	}
 
     [Serializable]
     public partial class Frame : ISerializable
