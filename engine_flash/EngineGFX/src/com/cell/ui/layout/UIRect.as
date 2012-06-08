@@ -30,8 +30,8 @@ package com.cell.ui.layout
 
 		// image layout
 		protected var style 		: int		= 0;
-		private var color		: uint		= 0;
-		private var clipBorder	: uint		= 0;
+		protected var color		: uint		= 0;
+		protected var clipBorder	: uint		= 0;
 		
 		private var BorderT 	: BitmapData;
 		private var BorderB 	: BitmapData;
@@ -83,6 +83,10 @@ package com.cell.ui.layout
 			return this.style;
 		}
 		
+		public function getClipBorder() : int
+		{
+			return this.clipBorder;
+		}
 //		------------------------------------------------------------------------------------------------------------------------------
 		
 		public function getBorderT() : BitmapData {
@@ -231,6 +235,7 @@ package com.cell.ui.layout
 		
 		public function setImagesClip(src:BitmapData, style:int, clipsize:int) : UIRect
 		{
+			this.clipBorder = clipsize;
 			setImagesClipBorder(src, style, clipsize, clipsize, clipsize, clipsize);
 			return this;
 		}

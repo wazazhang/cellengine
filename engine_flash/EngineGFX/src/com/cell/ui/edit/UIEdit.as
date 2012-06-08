@@ -23,6 +23,15 @@ package com.cell.ui.edit
 
 	public class UIEdit
 	{
+		
+		public const  UERoot_ClassName			:String	= "com.g2d.studio.ui.edit.gui.UERoot";
+		public const  UEButton_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UEButton";
+		public const  UEToggleButton_ClassName	:String	= "com.g2d.studio.ui.edit.gui.UEToggleButton";
+		public const  UEImageBox_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UEImageBox";
+		public const  UELabel_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UELabel";
+		public const  UECanvas_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UECanvas";
+		public const  UETextInput_ClassName	:String	= "com.g2d.studio.ui.edit.gui.UETextInput";
+		public const  UETextBox_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UETextBox";
 
 		private var res_root 	: String;
 		private var img_map 	: Map = new Map();
@@ -115,15 +124,6 @@ package com.cell.ui.edit
 		
 		///////////////////////////////////////////////////////////////////////
 		
-		public const  UERoot_ClassName			:String	= "com.g2d.studio.ui.edit.gui.UERoot";
-		public const  UEButton_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UEButton";
-		public const  UEToggleButton_ClassName	:String	= "com.g2d.studio.ui.edit.gui.UEToggleButton";
-		public const  UEImageBox_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UEImageBox";
-		public const  UELabel_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UELabel";
-		public const  UECanvas_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UECanvas";
-		public const  UETextInput_ClassName	:String	= "com.g2d.studio.ui.edit.gui.UETextInput";
-		public const  UETextBox_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UETextBox";
-
 		
 		public function createComponent(e:XMLNode) : Sprite
 		{

@@ -6,6 +6,7 @@ package com.cell.ui.component
 	
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFieldType;
 
 	public class Lable extends UIComponent
 	{
@@ -20,9 +21,12 @@ package com.cell.ui.component
 			textField.defaultTextFormat = UILayoutManager.getInstance().createTextFormat("com.cell.ui.component.Lable.text", this)
 			textField.htmlText = html;
 			textField.autoSize = TextFieldAutoSize.LEFT;
+			textField.type = TextFieldType.DYNAMIC;
 			addChild(textField);
 			super.setSize(100, 20);
 			Anchor.setAnchorRect(textField, _anchor, width, height);
+			this.mouseChildren = false;
+			this.mouseEnabled = false;
 		}
 		
 		public function setHTMLText(html:String):void

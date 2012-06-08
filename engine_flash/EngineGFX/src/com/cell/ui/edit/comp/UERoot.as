@@ -4,6 +4,7 @@ package com.cell.ui.edit.comp
 	import com.cell.ui.edit.UIEdit;
 	import com.cell.ui.layout.UIRect;
 	
+	import flash.display.DisplayObject;
 	import flash.xml.XMLNode;
 	
 	

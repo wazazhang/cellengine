@@ -4,11 +4,12 @@ package com.cell.ui.component
 	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
 	
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 
 	public class UIComponent extends CellSprite
 	{
-		internal var bg : UIRect = null;
+		protected var bg : UIRect = null;
 		
 		public var editName  : String;
 		
@@ -92,6 +93,37 @@ package com.cell.ui.component
 		public function getBG() : UIRect
 		{
 			return bg;
+		}
+		
+		public function findChild(edit_name:String) : UIComponent
+		{
+			var child : DisplayObject;
+			var i:int;
+			var childui : UIComponent;
+			var uicc : UIComponent;
+			
+			// 广度遍历
+			for ( i=numChildren-1; i>=0; --i){
+				 child  = getChildAt(i);
+				if (child is UIComponent) {
+					childui = child as UIComponent;
+					if (childui.editName == edit_name) {
+						return childui;
+					}
+				}
+			}
+			for ( i=numChildren-1; i>=0; --i){
+				child = getChildAt(i);
+				if (child is UIComponent) {
+					childui = child as UIComponent;
+					uicc = childui.findChild(edit_name);
+					if (uicc != null) {
+						return uicc;
+					}
+				}
+			}
+			
+			return null;
 		}
 	}
 }

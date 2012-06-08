@@ -43,6 +43,13 @@ package com.cell.ui
 			}
 		}
 
+		public function setState(unsel:DisplayObject, sel:DisplayObject) : void
+		{
+			super.downState = sel;
+			super.upState = unsel;
+			super.hitTestState = unsel;
+			super.overState = unsel;
+		}
 		
 		public static function createImageButtonClass(up_c:Class, down_c:Class) : ImageButton
 		{

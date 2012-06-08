@@ -18,16 +18,15 @@ package com.cell.ui.component
 		
 		protected var baseButton 	: ImageButton;
 		
-		protected var btn_unsel		: UIRect;
 		protected var btn_sel		: UIRect;
 		
 		public function TextButton(html:String, w:int=200, h:int=30)
 		{
 			super(null);
 			
-			btn_unsel 	= UILayoutManager.getInstance().createUI("com.cell.ui.component.TextButton.up", this);
+			bg		 	= UILayoutManager.getInstance().createUI("com.cell.ui.component.TextButton.up", this);
 			btn_sel   	= UILayoutManager.getInstance().createUI("com.cell.ui.component.TextButton.down", this);
-			baseButton 	= new ImageButton(btn_unsel, btn_sel);
+			baseButton 	= new ImageButton(bg, btn_sel);
 			baseButton.mouseEnabled = true;
 			addChild(baseButton);
 			
@@ -43,6 +42,12 @@ package com.cell.ui.component
 			this.mouseChildren = true;
 		}
 		
+		public function setButtonLayout(up:UIRect, down:UIRect) : void {
+			bg		 	= up;
+			btn_sel   	= down;
+			baseButton.setState(bg, btn_sel);
+		}
+		
 		public function setHTMLText(html:String):void
 		{
 			textField.htmlText = html;
@@ -55,13 +60,18 @@ package com.cell.ui.component
 			return textField;
 		}
 		
+		override public function setBG(rect:UIRect) : void
+		{
+			bg = rect;
+			baseButton.setState(bg, btn_sel);
+		}
 		override protected function resize(w:int, h:int, flush:Boolean):Boolean
 		{
 			if (super.resize(w, h, flush)) {
 				this.scrollRect = new Rectangle(0, 0, w, h);
 				var bmpData:BitmapData = new BitmapData(1, 1);
 				bmpData.draw(this);
-				btn_unsel.createBuffer(w, h);
+				bg.createBuffer(w, h);
 				btn_sel.createBuffer(w, h);
 				textField.x = w/2 - textField.width/2;
 				textField.y = h/2 - textField.height/2;

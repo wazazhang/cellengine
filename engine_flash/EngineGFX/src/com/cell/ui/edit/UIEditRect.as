@@ -10,7 +10,6 @@ package com.cell.ui.edit
 	public class UIEditRect extends UIRect
 	{
 		protected var src:Loader;
-		protected var clipBorder:int;
 		
 		protected var swidth:int;
 		protected var sheight:int;

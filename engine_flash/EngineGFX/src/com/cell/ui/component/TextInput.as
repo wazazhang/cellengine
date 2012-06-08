@@ -47,13 +47,20 @@ package com.cell.ui.component
 		
 		override protected function resize(w:int, h:int, flush:Boolean):Boolean
 		{
+			var bd1 : int = bg.getClipBorder();
+			var bd2 : int = bd1*2;
+			
 			if (super.resize(w, h, flush)) {
-				textField.width	 = w;
-				textField.height = h;
+				textField.x = bd1;
+				textField.y = bd1;
+				textField.width	 = w - bd2;
+				textField.height = h - bd2;
 				return true;
 			} else {
-				textField.width	 = w;
-				textField.height = h;
+				textField.x = bd1;
+				textField.y = bd1;
+				textField.width	 = w - bd2;
+				textField.height = h - bd2;
 				return false;
 			}
 		}
