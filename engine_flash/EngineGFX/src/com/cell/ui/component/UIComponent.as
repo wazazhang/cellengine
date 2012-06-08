@@ -95,7 +95,7 @@ package com.cell.ui.component
 			return bg;
 		}
 		
-		public function findChild(edit_name:String) : UIComponent
+		public function findChild(edit_name:String) : *
 		{
 			var child : DisplayObject;
 			var i:int;

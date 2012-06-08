@@ -81,7 +81,7 @@ package com.cell.ui.edit
 			return comp;
 		}
 		
-		public function getContent() : Sprite
+		public function getContent() : *
 		{
 			return content;
 		}

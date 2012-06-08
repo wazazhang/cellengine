@@ -100,6 +100,7 @@ package com.net.client.sfsimpl
 		public function connect(
 			host 		: String, 
 			port 		: int, 
+			timeout		: int,
 			listener 	: ServerSessionListener) : Boolean
 		{
 			trace("connecting : " + host+":"+port);

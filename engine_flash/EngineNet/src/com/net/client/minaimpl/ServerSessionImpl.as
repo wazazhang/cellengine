@@ -68,6 +68,24 @@ package com.net.client.minaimpl
 			this.connector.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	securityErrorHandler);
 			this.connector.addEventListener(ProgressEvent.SOCKET_DATA, 			socketDataHandler);
 			
+//			close
+//			在服务器关闭套接字连接时调度。	Socket
+//			
+//			connect
+//			在建立网络连接后调度。	Socket
+//			
+//			ioError
+//			在出现输入/输出错误并导致发送或加载操作失败时调度。	Socket
+//			
+//			outputProgress
+//			当套接字将其写缓冲区的数据移到网络传输层时调度	Socket
+//			
+//			securityError
+//			若对 Socket.connect() 的调用尝试连接到调用方的安全沙箱禁止的服务器或低于 1024 的端口，且不存在允许进行此类连接的套接字策略文件，则进行调度。	Socket
+//			
+//			socketData
+//			在套接字接收到数据后调度。
+			
 			this.protocol_start = header;
 			this.heart_beat_req = hb_req;
 			this.heart_beat_rep = hb_rep;
@@ -82,12 +100,18 @@ package com.net.client.minaimpl
 		public function connect(
 			host 		: String, 
 			port 		: int, 
+			timeout		: int,
 			listener 	: ServerSessionListener) : Boolean
 		{
 			this.serveraddr = host + ":" + port;	
 			trace("connecting : " + serveraddr);	
 			this.listener = listener;
-			this.connector.connect(host, port);
+			if (!connector.connected) {
+				this.connector.timeout = timeout;
+				this.connector.connect(host, port);
+			} else {
+				this.listener.connected(this);
+			}
 			return this.connector.connected;
 		}
 		

@@ -5,7 +5,9 @@ package com.net.client
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.TimerEvent;
 	import flash.utils.Dictionary;
+	import flash.utils.Timer;
 	
 	//告诉系统，需要注册哪里事件  
 	[Event(name=ClientEvent.CONNECTED, 			type="com.net.client.ClientEvent")]  
@@ -31,11 +33,15 @@ package com.net.client
 		/**key is message type, value is ClientNotifyListener*/
 		private var notify_listeners		: Dictionary = new Dictionary();
 
-		private var session					: ServerSession;
+		private var session				: ServerSession;
+		
+		private var check_timeout			: Timer;
 		
 		public function Client(session : ServerSession)
 		{
 			this.session = session;
+			this.check_timeout = new Timer(1000);
+			this.check_timeout.addEventListener(TimerEvent.TIMER, checkRequest);
 		}
 		
 		public function getSession() : ServerSession 
@@ -51,9 +57,10 @@ package com.net.client
 		public function connect(
 			host 		: String, 
 			port 		: int,
-			timeout		: int = 60000) : Boolean
+			timeout		: int = 20000) : Boolean
 		{
-			return getSession().connect(host, port, new ClientServerListener(this));
+			check_timeout.start();
+			return session.connect(host, port, timeout, new ClientServerListener(this));
 		}
 		
 		/**
@@ -61,7 +68,9 @@ package com.net.client
 		 */
 		public function disconnect() : void
 		{
-			getSession().disconnect();
+			check_timeout.stop();
+			clearRequests();
+			session.disconnect();
 		}
 		
 		/**
@@ -71,7 +80,7 @@ package com.net.client
 		public function send(msg : MutualMessage) : Boolean
 		{
 			if (isConnected()) {
-				return getSession().send(msg);
+				return session.send(msg);
 			} else {
 				dispatchEvent(new ClientEvent(ClientEvent.SEND_ERROR, this));
 				return false;
@@ -137,6 +146,7 @@ package com.net.client
 		public function clearRequests() : void
 		{
 			for (var pnum : Object in request_listeners) { 
+				((ClientRequest)(request_listeners[pnum])).onTimeout(this);
 				delete request_listeners[pnum];
 			}
 		}
@@ -174,6 +184,17 @@ package com.net.client
 		}
 		
 		
+		private function checkRequest(e:Event) : void
+		{
+			for (var pnum : Object in request_listeners) { 
+				var cq : ClientRequest = ((ClientRequest)(request_listeners[pnum]));
+				if (cq.isTimeout()) {
+					cq.onTimeout(this);
+					delete request_listeners[pnum];
+				}
+			}
+		}
+		
 //	----------------------------------------------------------------------------------------------------------------------------
 //		
 //		protected function onConnected(session : ServerSession) : void {}
@@ -202,6 +223,8 @@ package com.net.client
 			trace("disconnected : " + session);
 			dispatchEvent(new ClientEvent(ClientEvent.DISCONNECTED, this, 
 				null, null, reason));
+			check_timeout.stop();
+			clearRequests();
 		}
 		
 		final function sentMessage(session : ServerSession, protocol : Protocol) : void

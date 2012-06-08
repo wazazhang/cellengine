@@ -3,6 +3,8 @@ package com.net.client
 	import com.cell.net.io.MutualMessage;
 	import com.cell.util.Reference;
 	
+	import flash.utils.getTimer;
+	
 	internal class ClientRequest extends Reference
 	{
 		private var request 		: MutualMessage;
@@ -12,7 +14,7 @@ package com.net.client
 		private var fresponse 		: Array;
 		private var ftimeout 		: Array;
 		
-		private var sent_time		: Number;
+		private var sent_time		: int;
 		private var ping			: int;
 		
 		function ClientRequest(
@@ -37,7 +39,7 @@ package com.net.client
 		
 		internal function send(client : Client) : void
 		{
-			this.sent_time = new Date().valueOf();
+			this.sent_time = getTimer();
 			client.getSession().sendRequest(package_num, this.request);
 		}
 		
@@ -46,13 +48,13 @@ package com.net.client
 			return request;
 		}
 		
-		internal function isDrop() : Boolean {
-			return (new Date().valueOf() - this.sent_time) > drop_timeout;
+		internal function isTimeout() : Boolean {
+			return (getTimer() - this.sent_time) > drop_timeout;
 		}
 		
 		internal function onResponse(client:Client, protocol : Protocol) : void
 		{
-			this.ping = new Date().valueOf() - sent_time;
+			this.ping = getTimer() - sent_time;
 			this.set(protocol.getMessage());
 			if (fresponse != null) {
 				var event : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_RESPONSE, client, 

@@ -23,6 +23,7 @@ package com.net.client
 		function 		connect(
 							host 		: String, 
 							port 		: int, 
+							timeout		: int,
 							listener 	: ServerSessionListener) : Boolean;
 		
 		function		getMessageFactory() : MessageFactory;
