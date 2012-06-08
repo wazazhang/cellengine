@@ -158,20 +158,16 @@ public class Scene extends com.g2d.game.rpg.Scene
 		
 		public WorldObjectSprite(SetResource set, WorldSet.SpriteObject world_set) 
 		{
-			synchronized(this) {
-				super.init(set, world_set.SprID);
-				set_world_sprite = world_set;
-				setLocation(world_set.X, world_set.Y);
-			}
+			set_world_sprite = world_set;
+			super.init(set, world_set.SprID);
+			setLocation(set_world_sprite.X, set_world_sprite.Y);
 		}
 		
 		@Override
 		public void loaded(SetResource set, CSprite cspr, SpriteSet spr) {
-			synchronized(this) {
-				super.loaded(set, cspr, spr);
-				while (set_world_sprite==null) {}
-				csprite.setCurrentFrame(set_world_sprite.Anim, set_world_sprite.Frame);
-			}
+			super.loaded(set, cspr, spr);
+//			while (set_world_sprite==null) {}
+			csprite.setCurrentFrame(set_world_sprite.Anim, set_world_sprite.Frame);
 		}
 	}
 	

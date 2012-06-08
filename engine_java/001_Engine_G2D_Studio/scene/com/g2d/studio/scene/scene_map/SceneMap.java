@@ -53,7 +53,7 @@ public class SceneMap extends WorldMap
 		}
 		
 		@Override
-		public synchronized void loaded(SetResource set, CSprite cspr,
+		public void loaded(SetResource set, CSprite cspr,
 				com.cell.gameedit.object.SpriteSet spr) {
 			super.loaded(set, cspr, spr);
 		}

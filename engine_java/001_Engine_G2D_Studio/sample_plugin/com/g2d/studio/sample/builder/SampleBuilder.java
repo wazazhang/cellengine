@@ -81,9 +81,9 @@ public class SampleBuilder extends Builder
 	@Override
 	public BuilderTask preBuild(File cpj_file_name) throws Exception
 	{	
-		File scfile = new File(g2d_project_root, "buildscript/build_output_script.js");
-		JSBuildOutputScript js = createOutputScript(scfile);
-		return new BuilderTask(js, cpj_file_name, 60000);
+		//File scfile = new File(g2d_project_root, "buildscript/build_output_script.js");
+		//JSBuildOutputScript js = createOutputScript(scfile);
+		return new BuilderTask(null, cpj_file_name, 60000);
 	}
 	
 	@Override
