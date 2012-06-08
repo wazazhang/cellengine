@@ -10,6 +10,8 @@ public class Label extends UIComponent
 {	
 	@Property("文字颜色")
 	public Color	textColor	= Color.WHITE;
+	@Property("文字边颜色")
+	public Color	textBorderColor	= Color.BLACK;
 	
 	@Property("text")
 	public String	text		= getClass().getSimpleName();
@@ -57,10 +59,12 @@ public class Label extends UIComponent
 		g.setColor(textColor);
 		if (enable_antialiasing) {
 			boolean flag = g.setFontAntialiasing(enable_antialiasing);
-			Drawing.drawStringBorder(g, text, 0, 0, getWidth(), getHeight(), text_anchor);
+			Drawing.drawStringBorder(g, text, 0, 0, getWidth(), getHeight(), 
+					text_anchor, textBorderColor);
 			g.setFontAntialiasing(flag);
 		} else {
-			Drawing.drawStringBorder(g, text, 0, 0, getWidth(), getHeight(), text_anchor);
+			Drawing.drawStringBorder(g, text, 0, 0, getWidth(), getHeight(), 
+					text_anchor, textBorderColor);
 		}
 		
 		

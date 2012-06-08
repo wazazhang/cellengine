@@ -14,6 +14,9 @@ public class Button extends BaseButton
 	/**文字颜色*/
 	@Property("文字颜色")
 	public Color 				unfocusTextColor	= new Color(0xffffFF00);
+
+	@Property("文字边颜色")
+	public Color				textBorderColor		= Color.BLACK;
 	
 	/**文字颜色(获得鼠标后)*/
 	@Property("文字颜色(获得鼠标后)")
@@ -81,14 +84,16 @@ public class Button extends BaseButton
 					text_offset_y+1,
 					getWidth(),
 					getHeight(), 
-					text_anchor);
+					text_anchor,
+					textBorderColor);
 		}else{
 			Drawing.drawStringBorder(g, text,
 					text_offset_x, 
 					text_offset_y+0, 
 					getWidth(),
 					getHeight(),
-					text_anchor);
+					text_anchor,
+					textBorderColor);
 		}
 	}
 }
