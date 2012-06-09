@@ -106,7 +106,7 @@ TouchEvent UICompoment::toTouchEvent(CCTouch *pTouch)
 {
 	TouchEvent ret;
 	CCPoint cp;
-#if COCOS2D_VERSION == 0x00010001
+#if COCOS2D_VERSION_13
 	cp = screenToLocal( pTouch->locationInView() );
 	ret.point = Point2D(cp.x, cp.y);
 	cp = screenToLocal( pTouch->previousLocationInView() );
@@ -130,7 +130,7 @@ bool UICompoment::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 	}
 	UICompoment* pUI = dynamic_cast<UICompoment*>(m_pParent);
 	if (pUI != NULL && pUI->mIsClipBounds) {
-#if COCOS2D_VERSION == 0x00010001
+#if COCOS2D_VERSION_13
 		CCPoint pcp = pUI->screenToLocal(pTouch->locationInView());
 #else
 		CCPoint pcp = pUI->screenToLocal(pTouch->locationInView(0));
@@ -206,6 +206,7 @@ void UICompoment::removeTouchListener(ITouchListener* listener)
 /////////////////////////////////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////////////////////////////////
+
 u16 UICompoment::getBorderSize()
 {
 	return mLayerRect.border_size;
@@ -328,6 +329,11 @@ UILayerRect* UILayerRect::createWithImage(IImage *src, UILayerStyle style, u16 c
 		ret->style = style;
 	}
 	return ret;
+}
+
+string UILayerRect::getImgName()
+{
+	return imageName;
 }
 
 

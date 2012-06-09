@@ -241,7 +241,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Engine\MFUIEdit.cpp"
+				RelativePath=".\Engine\uiedit\MFUIEdit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Engine\uiedit\MFUIEdit.cpp"
 				>
 			</File>
 			<File
@@ -330,7 +334,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Engine\MFUIEdit.h"
+				RelativePath=".\Engine\uiedit\MFUIEdit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Engine\uiedit\MFUIEdit.h"
 				>
 			</File>
 			<File

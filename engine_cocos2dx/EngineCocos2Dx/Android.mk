@@ -22,18 +22,25 @@ MF_LIB_FILES	:=$(MF_LIB_FILES:$(LOCAL_PATH)/%=%)
 # EngineCocos2Dx/Engine
 MF_ENGINE_FILES	:=$(wildcard $(LOCAL_PATH)/Engine/*.cpp)
 MF_ENGINE_FILES	:=$(MF_ENGINE_FILES:$(LOCAL_PATH)/%=%)
+
+# EngineCocos2Dx/Engine/uiedit
+MF_UIEDIT_FILES	:=$(wildcard $(LOCAL_PATH)/Engine/uiedit/*.cpp)
+MF_UIEDIT_FILES	:=$(MF_UIEDIT_FILES:$(LOCAL_PATH)/%=%)
 #############################################################################
  
 LOCAL_SRC_FILES := 	$(MF_ENGINE_FILES) \
+					$(MF_UIEDIT_FILES) \
 					$(MF_LIB_FILES)
 
 		   
 LOCAL_EXPORT_C_INCLUDES := 	$(LOCAL_PATH)/ \
 							$(LOCAL_PATH)/Engine/ \
+							$(LOCAL_PATH)/Engine/uiedit/ \
                    			$(LOCAL_PATH)/Lib/
                    	
 LOCAL_C_INCLUDES :=			$(LOCAL_PATH)/ \
 							$(LOCAL_PATH)/Engine/ \
+							$(LOCAL_PATH)/Engine/uiedit/ \
                    			$(LOCAL_PATH)/Lib/
                    			
                    			

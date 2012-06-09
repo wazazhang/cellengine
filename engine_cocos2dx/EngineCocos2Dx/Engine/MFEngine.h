@@ -30,7 +30,7 @@
 
 #include "MFUIBase.h"			// 基础UI支持
 #include "MFUIText.h"			// 文本UI支持
-#include "MFUIEdit.h"			// UI编辑器支持
+//#include "MFUIEdit.h"			// UI编辑器支持
 
 //////////////////////////////////////////////////////////////////////////
 

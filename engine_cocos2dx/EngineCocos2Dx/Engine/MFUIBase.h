@@ -64,6 +64,7 @@ namespace mf
 	} 
 	ImageStyle;
 
+/* move to UILayreRect
 // 	class CC_DLL UILayerValue
 // 	{
 // 		string imgName;
@@ -72,7 +73,7 @@ namespace mf
 // 		void setImgName(string name);
 // 		string getImgName();
 // 	};
-
+*/
 	class CC_DLL UILayerRect
 	{
 	public:
@@ -81,18 +82,16 @@ namespace mf
 		Color			back_color;
 		Color			border_color;
 		int				border_size;
-
 		IImage*			image;
+		string			imageName;
 		u16				clipSize;
 
 	public:
 		UILayerRect(UILayerStyle style = UILAYER_STYLE_COLOR);
 		virtual ~UILayerRect();
-
-		static UILayerRect* createWithColor(Color const &color, Color const &bcolor);
-		static UILayerRect* createWithImage(IImage *src, UILayerStyle style, u16 clipsize);
-
 		virtual void render(Graphics2D *g, float x, float y, float w, float h);
+
+		string getImgName();
 
 	protected:
 		void renderColor(Graphics2D *g, float w, float h);
@@ -111,7 +110,10 @@ namespace mf
 		void renderVTM(Graphics2D *g, float w, float h);
 		void renderBack4(Graphics2D *g, float w, float h);
 		void renderBack4Center(Graphics2D *g, float w, float h);
+	public:
 
+		static UILayerRect* createWithColor(Color const &color, Color const &bcolor);
+		static UILayerRect* createWithImage(IImage *src, UILayerStyle style, u16 clipsize);
 	};
 
 	class CC_DLL UILayerRectManager
