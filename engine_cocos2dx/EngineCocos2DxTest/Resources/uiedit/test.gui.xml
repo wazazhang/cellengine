@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<com.g2d.studio.ui.edit.gui.UERoot clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" height="442" local_bounds="0,0,527,442" name="root" userData="" userTag="0" visible="true" width="527" x="10.0" y="9.0" z="0.0">
+<layout bdc="ff000000" bgc="ffdac296" clip="45" img="form.png" style="IMAGE_STYLE_ALL_9"/>
+<childs>
+<com.g2d.studio.ui.edit.gui.UEButton clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" focusTextColor="ffffffff" height="30" local_bounds="0,0,100,30" name="" text="UEButton" text_anchor="C_C" text_offset_x="0" text_offset_y="0" unfocusTextColor="ffffff00" userData="" userTag="0" visible="true" width="100" x="24.0" y="40.0" z="0.0">
+<layout_down bdc="ff000000" bgc="ff615843" clip="8" img="button2-d.png" style="IMAGE_STYLE_ALL_9"/>
+<layout bdc="ff000000" bgc="ff87dacb" clip="8" img="button1-u.png" style="IMAGE_STYLE_ALL_9"/>
+</com.g2d.studio.ui.edit.gui.UEButton>
+<com.g2d.studio.ui.edit.gui.UEToggleButton clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" focusTextColor="ffffffff" height="30" isChecked="true" local_bounds="0,0,100,30" name="" text="UEToggleButton" text_anchor="C_C" text_offset_x="0" text_offset_y="0" unfocusTextColor="ffffff00" userData="" userTag="0" visible="true" width="100" x="23.0" y="79.0" z="0.0">
+<layout_down bdc="ff000000" bgc="ff455e67" clip="8" img="button1-d.png" style="IMAGE_STYLE_ALL_9"/>
+<layout bdc="ff000000" bgc="ffe6cd4a" clip="8" img="button2-u.png" style="IMAGE_STYLE_ALL_9"/>
+</com.g2d.studio.ui.edit.gui.UEToggleButton>
+<com.g2d.studio.ui.edit.gui.UEImageBox clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" height="256" imagePath="chick_acc.png" local_bounds="0,0,138,256" name="" preferredSize="true" userData="" userTag="0" visible="true" width="138" x="135.0" x_rotate="0.0" x_scaleX="100.0" x_scaleY="100.0" y="42.0" z="0.0"/>
+<com.g2d.studio.ui.edit.gui.UELabel clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" height="24" local_bounds="0,0,96,24" name="" text="UELabel" textColor="ffffffff" text_anchor="C_C" userData="" userTag="0" visible="true" width="96" x="288.0" y="40.0" z="0.0">
+<layout bdc="ff000000" bgc="ff8c825d" clip="8" img="lable.png" style="IMAGE_STYLE_ALL_8"/>
+</com.g2d.studio.ui.edit.gui.UELabel>
+<com.g2d.studio.ui.edit.gui.UECanvas clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" height="200" local_bounds="0,0,200,200" name="" userData="" userTag="0" visible="true" width="200" x="280.0" y="72.0" z="0.0">
+<layout bdc="ff000000" bgc="ffc0c0c0" clip="22" img="10.png" style="IMAGE_STYLE_HLM"/>
+</com.g2d.studio.ui.edit.gui.UECanvas>
+<com.g2d.studio.ui.edit.gui.UETextInput clip_local_bounds="true" clipbounds="true" enable_antialiasing="false" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="true" height="24" isPassword="false" is_readonly="false" local_bounds="0,0,200,24" name="" textColor="ffffffff" userData="" userTag="0" visible="true" width="200" x="280.0" y="280.0" z="0.0">
+<layout bdc="ff000000" bgc="ff312e22" clip="8" img="textboxsingle.png" style="IMAGE_STYLE_ALL_8"/>
+</com.g2d.studio.ui.edit.gui.UETextInput>
+<com.g2d.studio.ui.edit.gui.UETextBox Text="af asdf asfd sf ASD S ASFDA SFDasdf asdf asfd" clip_local_bounds="true" clipbounds="true" enable_antialiasing="false" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" height="96" local_bounds="0,0,200,96" name="" textColor="ffffffff" text_shadow_alpha="1.0" text_shadow_dcolor="ff000000" text_shadow_x="1" text_shadow_y="1" userData="" userTag="0" visible="true" width="200" x="280.0" y="312.0" z="0.0">
+<layout bdc="ff000000" bgc="ffc0c0c0" clip="1" img="textbox.png" style="COLOR"/>
+</com.g2d.studio.ui.edit.gui.UETextBox>
+<com.g2d.studio.ui.edit.gui.UECanvas clip_local_bounds="true" clipbounds="true" enable_drag="true" enable_drag_resize="true" enable_focus="true" enable_key_input="true" enable_mouse_wheel="false" height="100" local_bounds="0,0,200,100" name="TextBox" userData="" userTag="0" visible="true" width="200" x="42.0" y="309.0" z="0.0">
+<layout bdc="ff000000" bgc="ff666666" style="COLOR"/>
+</com.g2d.studio.ui.edit.gui.UECanvas>
+</childs>
+</com.g2d.studio.ui.edit.gui.UERoot>

@@ -1,0 +1,145 @@
+###############################################################
+### 根节点
+###############################################################
+com.g2d.studio.ui.edit.gui.UERoot	
+    name="root"					# 名字
+    clip_local_bounds="true"	# 是否clip
+    height="629"				# 高度
+    userData=""					# 用户数据 字符串类型
+    userTag="0"					# 用户数据 整型
+    visible="true"				# 是否可见
+    width="796"					# 宽度
+    x="8.0"						# x
+    y="8.0"						# y
+    z="0.0" 					# z
+    
+    layout						# UICompoment 样式
+
+
+###############################################################
+### 普通按钮
+###############################################################
+com.g2d.studio.ui.edit.gui.UEButton
+    name=""						# （同）
+    clip_local_bounds="true"	# （同）
+    focusTextColor="ffffffff"	# 文本颜色
+    height="30"					# （同）
+    text="UEButton"				# 文本
+    text_anchor="C_C"			# 文本 对齐方式
+    text_offset_x="0"			# 文本 绘制偏移坐标
+    text_offset_y="0"			# 文本 绘制偏移坐标
+    unfocusTextColor="ffffff00"	# 文本颜色
+    userData=""					# （同）
+    userTag="0"					# （同）
+    visible="true"				# （同）
+    width="100"					# （同）
+    x="24.0"					# （同）
+    y="40.0"					# （同）
+    z="0.0" 					# （同）
+
+    layout_down					# 按下时的 样式
+       
+    layout						# （同）
+
+
+###############################################################
+### 状态切换按钮
+###############################################################
+com.g2d.studio.ui.edit.gui.UEToggleButton	
+	# （同普通按钮）
+    isChecked="true"			# 是否为按下状态
+
+
+###############################################################
+### 图片框
+###############################################################
+com.g2d.studio.ui.edit.gui.UEImageBox
+    name=""						# （同）
+    clip_local_bounds="true"	# （同）
+    height="256"				# （同）
+    imagePath="chick_acc.png"	# 图片地址
+    userData=""					# （同）
+    userTag="0"					# （同）
+    visible="true"				# （同）
+    width="138"					# （同）
+    x="136.0"					# （同）
+    x_rotate="0.0"				# 图片旋转角度0～360
+    x_scaleX="100.0"			# 图片拉伸X 0～100%
+    x_scaleY="100.0"			# 图片拉伸Y 0～100%
+    y="40.0"					# （同）
+    z="0.0"						# （同）
+
+###############################################################
+### 文本标签
+###############################################################
+com.g2d.studio.ui.edit.gui.UELabel
+    name=""						# （同）
+    clip_local_bounds="true"	# （同）
+    height="24"					# （同）
+    text="UELabel"				# 文本
+    textColor="ffffffff"		# 文本颜色
+    text_anchor="C_C"			# 文本对齐方式
+    userData=""					# （同）
+    userTag="0"					# （同）
+    visible="true"				# （同）
+    width="96"					# （同）
+    x="288.0"					# （同）
+    y="40.0"					# （同）
+    z="0.0" 					# （同）
+
+    layout						# （同）
+
+
+
+###############################################################
+### 普通容器
+###############################################################
+com.g2d.studio.ui.edit.gui.UECanvas
+   # （同根节点）
+    
+
+
+###############################################################
+### 单行文本输入框
+###############################################################
+<com.g2d.studio.ui.edit.gui.UETextInput
+    name=""						# （同）
+    clipbounds="true"			# （同）
+    height="24"					# （同）
+    isPassword="false"			# 是否显示为密码
+    is_readonly="false"			# 是否只读，不能被编辑
+    textColor="ffffffff"		# 文本颜色
+    userData=""					# （同）
+    userTag="0"					# （同）
+    visible="true"				# （同）
+    width="200"					# （同）
+    x="280.0"					# （同）
+    y="280.0"					# （同）
+    z="0.0" >					# （同）
+
+    layout						# （同）
+    
+
+###############################################################
+### 多行文本框，不能编辑
+###############################################################
+com.g2d.studio.ui.edit.gui.UETextBox
+    name=""						# （同）
+    Text="Text"					# （同）
+    clip_local_bounds="true"	# （同）
+    height="96"					# （同）
+    textColor="ffffffff"		# 文本颜色
+    text_shadow_alpha="1.0"		# 文本阴影alpha
+    text_shadow_color="0"		# 文本阴影颜色
+    text_shadow_x="0"			# 文本阴影偏移坐标X
+    text_shadow_y="0"			# 文本阴影偏移坐标Y
+    userData=""					# （同）
+    userTag="0"					# （同）
+    visible="true"				# （同）
+    width="200"					# （同）
+    x="280.0"					# （同）
+    y="312.0"					# （同）
+    z="0.0" 					# （同）
+    
+    layout						# （同）
+       

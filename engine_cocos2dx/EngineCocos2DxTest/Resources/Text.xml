@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<font face="Arial" size="16" color="ff00ff00">
+  <!-- ############################################################################## -->
+  <br size="32">感谢您选择了 JIRA.</br>
+  <br size="32">欢迎使用JIRA—帮助您的团队轻松地跟踪与管理项目</br>
+  <font color="ffffff00">
+    <p/><p/>
+    <br>Get up to speed with an in-depth, interactive Atlassian training course.
+    The class template basic_string stores and manipulates sequences of char-like objects 
+    (that is, objects for which a specialization of std::char_traits or compatible traits class is provided).
+    </br>
+  </font>
+  <font color="ff0000ff">从哪里开始?</font>
+  <br/>
+  <p/><p/>
+  <br>访问 JIRA 101 guide了解如何配置JIRA</br>
+  <font color="ffffffff">
+    Get up to speed with an in-depth, interactive Atlassian training course.
+    <br/>
+  </font>
+  <br>你可以在系统管理页面 编辑此段文字。</br>
+  <br>Agile project management for JIRA</br>
+  <br>The GreenHopper plugin for JIRA provides agile project management and assists with the 
+  introduction of agile to your team. Get started with the GreenHopper 101 guide.</br>
+ 
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  
+  <!-- ############################################################################## -->
+  <br>感谢您选择了 JIRA.</br>
+  <br>欢迎使用JIRA—帮助您的团队轻松地跟踪与管理项目</br>
+  <font color="ffffff00">
+    <p/>
+    <p/>
+    <br>
+      Get up to speed with an in-depth, interactive Atlassian training course.
+      The class template basic_string stores and manipulates sequences of char-like objects
+      (that is, objects for which a specialization of std::char_traits or compatible traits class is provided).
+    </br>
+  </font>
+  <font color="ff0000ff">从哪里开始?</font>
+  <br/>
+  <p/>
+  <p/>
+  <br>访问 JIRA 101 guide了解如何配置JIRA</br>
+  <font color="ffffffff">
+    Get up to speed with an in-depth, interactive Atlassian training course.
+    <br/>
+  </font>
+  <br>你可以在系统管理页面 编辑此段文字。</br>
+  <br>Agile project management for JIRA</br>
+  <br>
+    The GreenHopper plugin for JIRA provides agile project management and assists with the
+    introduction of agile to your team. Get started with the GreenHopper 101 guide.
+  </br>
+  <item id="" icon="res/icon.png"  >
+    <desc color="ffffffff">
+      你可以在<l color="ff0000ff" link="onItemClick id=234 type=567">系统</l><a>管理页面</a>
+    </desc>
+  </item>
+  <br/>
+</font>
+
+
