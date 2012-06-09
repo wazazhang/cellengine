@@ -21,7 +21,7 @@ namespace mf
 		string name;		//#名字
 		string euser_data;
 		int    euser_tag;
-		UILayerValue layerValue;
+	//	UILayerValue layerValue;
 	protected:
 		virtual void onRead(UIEdit* edit, XMLNode* e);
 	public:
@@ -29,8 +29,8 @@ namespace mf
 		string	getName();
 		string	getEditUserData();
 		int		getEditUserTag();
-		XMLNode* getChild(XMLNode* e,string const &childName);
-		UILayerValue getLayerValue();
+		//XMLNode* getChild(XMLNode* e,string const &childName);
+		//UILayerValue getLayerValue();
 	};
 
 //	###############################################################
@@ -55,7 +55,7 @@ namespace mf
 		int			text_offset_x;	//# 文本 绘制偏移坐标
 		int			text_offset_y;	//# 文本 绘制偏移坐标
 		UILayerRect	layout_down;	//# 按下时的 样式
-		UILayerValue layerValue_down;	//# 按下时的 样式
+		//UILayerValue layerValue_down;	//# 按下时的 样式
 		bool		touchPressed;
 		CCLabelTTF* cclable;
 	protected:
@@ -67,7 +67,7 @@ namespace mf
 	public:
 		UEButton();
 		string getText();
-		UILayerValue getlayerValueDown();
+		//UILayerValue getlayerValueDown();
 	};
 	
 
@@ -207,19 +207,19 @@ namespace mf
 
 		virtual bool			getLayout(XMLNode* rect, UILayerRect& layout);
 
-		virtual bool			getLayout(XMLNode* rect, UILayerValue& layout);		
+		//virtual bool			getLayout(XMLNode* rect, UILayerValue& layout);		
 
 	protected:
-		virtual CCNode*			createBaseComponent(XMLNode* e);
+//		virtual CCNode*			createBaseComponent(XMLNode* e);
 		virtual CCNode*			createComponent(XMLNode* e);
 		virtual CCNode*			readInternal(XMLNode* e);
 
-		virtual CCNode*			createCanvas(UEComponent* ui,XMLNode* child);
-		virtual CCNode*			createButton(UEComponent* ui);
-		virtual CCNode*			createImageBox(UEComponent* ui);
-		virtual CCNode*			createLabel(UEComponent* ui);
-		
-		virtual UEComponent*	getUEComponent(XMLNode* e);
+// 		virtual CCNode*			createCanvas(UEComponent* ui,XMLNode* child);
+// 		virtual CCNode*			createButton(UEComponent* ui);
+// 		virtual CCNode*			createImageBox(UEComponent* ui);
+// 		virtual CCNode*			createLabel(UEComponent* ui);
+// 		
+// 		virtual UEComponent*	getUEComponent(XMLNode* e);
 	};
 
 

@@ -28,13 +28,13 @@ namespace mf
 	int UEComponent::getEditUserTag(){
 		return euser_tag;
 	}
-	XMLNode* UEComponent::getChild(XMLNode* e,string const &childName){
-		XMLNode* child = e->findChild(childName);
-		return child;
-	}
-	UILayerValue UEComponent::getLayerValue(){
-		return layerValue;
-	}
+// 	XMLNode* UEComponent::getChild(XMLNode* e,string const &childName){
+// 		XMLNode* child = e->findChild(childName);
+// 		return child;
+// 	}
+// 	UILayerValue UEComponent::getLayerValue(){
+// 		return layerValue;
+// 	}
 	void UEComponent::onRead(UIEdit* edit, XMLNode* e)
 	{
 		this->name = 
@@ -65,7 +65,7 @@ namespace mf
 
 		XMLNode* e_layout = e->findChild("layout");
 		if (e_layout != NULL) {
-			edit->getLayout(e_layout, this->layerValue);
+			edit->getLayout(e_layout, this->mLayerRect);
 		}
 
 	}
@@ -83,14 +83,14 @@ namespace mf
 	string UEButton::getText(){
 		return text;
 	}
-	UILayerValue UEButton::getlayerValueDown(){
-		return layerValue_down;
-	}
+// 	UILayerValue UEButton::getlayerValueDown(){
+// 		return layerValue_down;
+// 	}
 	void UEButton::onRead(UIEdit* edit, XMLNode* e){
 		UEComponent::onRead(edit, e);
 		XMLNode* e_layout_down = e->findChild("layout_down");			//# 按下时的 样式
 		if (e_layout_down) {
-			edit->getLayout(e_layout_down, this->layerValue_down);
+			edit->getLayout(e_layout_down, this->layout_down);
 		}
 
 		this->textColor.setARGB(e->getAttributeAsHexU32("textColor"));	//# 文本颜色
@@ -255,15 +255,15 @@ namespace mf
 
 	//////////////////////////////////////////////////////////////////////////
 	
-	UEComponent* UIEdit::getUEComponent(XMLNode* e)
-	{
-		UEComponent* comp = (UEComponent*)createBaseComponent(e);
-		if (comp != NULL) 
-		{
-			comp->onRead(this, e);
-		}
-		return comp;
-	}
+// 	UEComponent* UIEdit::getUEComponent(XMLNode* e)
+// 	{
+// 		UEComponent* comp = (UEComponent*)createBaseComponent(e);
+// 		if (comp != NULL) 
+// 		{
+// 			comp->onRead(this, e);
+// 		}
+// 		return comp;
+// 	}
 
 	CCNode* UIEdit::readInternal(XMLNode* e)
 	{
@@ -280,9 +280,10 @@ namespace mf
 				for (XMLIterator it=childs->childBegin(); it!=childs->childEnd(); it++) 
 				{
 					XMLNode* child = *it;
-					CCNode* cui = readInternal(child);
+					CCNode* ccomp = readInternal(child);
+					UEComponent* cui = dynamic_cast<UEComponent*>(ccomp);
 					if (cui != NULL) {
-						//ui->addChild(cui);
+						ui->addChild(cui);
 					}
 				}
 			}
@@ -344,15 +345,15 @@ namespace mf
 		return true;
 	}
 
-	bool UIEdit::getLayout(XMLNode* rect, UILayerValue& out_layout)
-	{
-		UILayerValue layout;
-		if (rect->isAttribute("img")) {
-			layout.setImgName(rect->getAttribute("img"));
-		}
-		out_layout = layout;
-		return true;
-	}
+// 	bool UIEdit::getLayout(XMLNode* rect, UILayerValue& out_layout)
+// 	{
+// 		UILayerValue layout;
+// 		if (rect->isAttribute("img")) {
+// 			layout.setImgName(rect->getAttribute("img"));
+// 		}
+// 		out_layout = layout;
+// 		return true;
+// 	}
 
 	IImage* UIEdit::getUIResImage(string const &name)
 	{
@@ -398,7 +399,7 @@ namespace mf
 	}
 
 
-	CCNode* UIEdit::createBaseComponent(XMLNode* e)
+	CCNode* UIEdit::createComponent(XMLNode* e)
 	{
 		string name = e->getName();
 
@@ -430,68 +431,68 @@ namespace mf
 		return ret;
 
 	}
-	CCNode* UIEdit::createComponent(XMLNode* e)
-	{
-		string name = e->getName();
-
-		UEComponent* ret = NULL;
-		if (stringEquals(name, UERoot_ClassName)) {
-			ret = new UERoot();
-		}
-		else if (stringEquals(name, UEButton_ClassName)) {
-			UEComponent* ui = new UEButton();
-			ui->onRead(this, e);
-			ret = (UEComponent*)createButton(ui);
-		}
-		else if (stringEquals(name, UEToggleButton_ClassName)) {
-			ret = new UEToggleButton();
-		}
-		else if (stringEquals(name, UEImageBox_ClassName)) {
-			UEComponent* ui = new UEImageBox();
-			ui->onRead(this, e);
-			ret = (UEComponent*)createImageBox(ui);
-		}
-		else if (stringEquals(name, UELabel_ClassName)) {
-			UEComponent* ui = new UELabel();
-			ui->onRead(this, e);
-			ret = (UEComponent*)createLabel(ui);
-		}
-		else if (stringEquals(name, UECanvas_ClassName)) {
-			UEComponent* ui = new UECanvas();
-			ui->onRead(this, e);
-			ret = (UEComponent*)createCanvas(ui,e->findChild("childs"));
-		}
-		else if (stringEquals(name, UETextInput_ClassName)) {
-			ret = new UETextInput();
-		}
-		else if (stringEquals(name, UETextBox_ClassName)) {
-			ret = new UETextBox();
-		}
-		//if (ret != NULL) {
-		//	ret->autorelease();
-		//}
-		return ret;
-	}
-
-	CCNode* UIEdit::createCanvas(UEComponent* ui,XMLNode* child)
-	{
-		return new UECanvas();
-	}
-
-	CCNode* UIEdit::createButton(UEComponent* ui)
-	{
-		return new UEButton();
-	}
-
-	CCNode* UIEdit::createImageBox(UEComponent* ui)
-	{
-		return new UEImageBox();
-	}
-
-	CCNode* UIEdit::createLabel(UEComponent* ui)
-	{
-		return new UELabel();
-	}
+// 	CCNode* UIEdit::createComponent(XMLNode* e)
+// 	{
+// 		string name = e->getName();
+// 
+// 		UEComponent* ret = NULL;
+// 		if (stringEquals(name, UERoot_ClassName)) {
+// 			ret = new UERoot();
+// 		}
+// 		else if (stringEquals(name, UEButton_ClassName)) {
+// 			UEComponent* ui = new UEButton();
+// 			ui->onRead(this, e);
+// 			ret = (UEComponent*)createButton(ui);
+// 		}
+// 		else if (stringEquals(name, UEToggleButton_ClassName)) {
+// 			ret = new UEToggleButton();
+// 		}
+// 		else if (stringEquals(name, UEImageBox_ClassName)) {
+// 			UEComponent* ui = new UEImageBox();
+// 			ui->onRead(this, e);
+// 			ret = (UEComponent*)createImageBox(ui);
+// 		}
+// 		else if (stringEquals(name, UELabel_ClassName)) {
+// 			UEComponent* ui = new UELabel();
+// 			ui->onRead(this, e);
+// 			ret = (UEComponent*)createLabel(ui);
+// 		}
+// 		else if (stringEquals(name, UECanvas_ClassName)) {
+// 			UEComponent* ui = new UECanvas();
+// 			ui->onRead(this, e);
+// 			ret = (UEComponent*)createCanvas(ui,e->findChild("childs"));
+// 		}
+// 		else if (stringEquals(name, UETextInput_ClassName)) {
+// 			ret = new UETextInput();
+// 		}
+// 		else if (stringEquals(name, UETextBox_ClassName)) {
+// 			ret = new UETextBox();
+// 		}
+// 		//if (ret != NULL) {
+// 		//	ret->autorelease();
+// 		//}
+// 		return ret;
+// 	}
+// 
+// 	CCNode* UIEdit::createCanvas(UEComponent* ui,XMLNode* child)
+// 	{
+// 		return new UECanvas();
+// 	}
+// 
+// 	CCNode* UIEdit::createButton(UEComponent* ui)
+// 	{
+// 		return new UEButton();
+// 	}
+// 
+// 	CCNode* UIEdit::createImageBox(UEComponent* ui)
+// 	{
+// 		return new UEImageBox();
+// 	}
+// 
+// 	CCNode* UIEdit::createLabel(UEComponent* ui)
+// 	{
+// 		return new UELabel();
+// 	}
 
 
 

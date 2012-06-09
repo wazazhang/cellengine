@@ -64,14 +64,14 @@ namespace mf
 	} 
 	ImageStyle;
 
-	class CC_DLL UILayerValue
-	{
-		string imgName;
-	public:
-		UILayerValue():imgName(""){};
-		void setImgName(string name);
-		string getImgName();
-	};
+// 	class CC_DLL UILayerValue
+// 	{
+// 		string imgName;
+// 	public:
+// 		UILayerValue():imgName(""){};
+// 		void setImgName(string name);
+// 		string getImgName();
+// 	};
 
 	class CC_DLL UILayerRect
 	{

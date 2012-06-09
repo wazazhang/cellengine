@@ -106,12 +106,17 @@ TouchEvent UICompoment::toTouchEvent(CCTouch *pTouch)
 {
 	TouchEvent ret;
 	CCPoint cp;
-
+#if COCOS2D_VERSION == 0x00010001
+	cp = screenToLocal( pTouch->locationInView() );
+	ret.point = Point2D(cp.x, cp.y);
+	cp = screenToLocal( pTouch->previousLocationInView() );
+	ret.prewPoint = Point2D(cp.x, cp.y);
+#else
 	cp = screenToLocal( pTouch->locationInView(0) );
 	ret.point = Point2D(cp.x, cp.y);
-
 	cp = screenToLocal( pTouch->previousLocationInView(0) );
 	ret.prewPoint = Point2D(cp.x, cp.y);
+#endif
 
 	ret.sender = this;
 
@@ -125,7 +130,11 @@ bool UICompoment::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 	}
 	UICompoment* pUI = dynamic_cast<UICompoment*>(m_pParent);
 	if (pUI != NULL && pUI->mIsClipBounds) {
+#if COCOS2D_VERSION == 0x00010001
+		CCPoint pcp = pUI->screenToLocal(pTouch->locationInView());
+#else
 		CCPoint pcp = pUI->screenToLocal(pTouch->locationInView(0));
+#endif
 		if (!pUI->includeBounds(pcp.x, pcp.y)) {
 			return false;
 		}
@@ -645,14 +654,14 @@ UILayerRectManager* UILayerRectManager::getInstance()
 	return pInstance;
 }
 
-string UILayerValue::getImgName()
-{
-	return imgName;
-}
-void UILayerValue::setImgName(string name)
-{
-	imgName = name;
-}
+// string UILayerValue::getImgName()
+// {
+// 	return imgName;
+// }
+// void UILayerValue::setImgName(string name)
+// {
+// 	imgName = name;
+// }
 
 
 }; // namespace mf
