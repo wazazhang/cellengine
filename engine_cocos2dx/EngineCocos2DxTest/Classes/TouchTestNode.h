@@ -4,7 +4,6 @@
 
 #include "cocos2d.h"
 #include "MFEngine.h"
-#include "MFUIEdit.h"
 
 using namespace mf;
 using namespace cocos2d;
@@ -60,6 +59,10 @@ public:
 // 	virtual void 	ccTouchesMoved		(CCSet *pTouches, CCEvent *pEvent);
 // 	virtual void 	ccTouchesEnded		(CCSet *pTouches, CCEvent *pEvent);
 // 	virtual void 	ccTouchesCancelled	(CCSet *pTouches, CCEvent *pEvent);
+
+
+	virtual void touchDelegateRetain(){retain();};
+	virtual void touchDelegateRelease(){release();};
 
 	virtual void update(ccTime dt);
 

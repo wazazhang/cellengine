@@ -105,9 +105,9 @@ bool HelloWorld::init()
 
 			//MyNode* md = new MyNode();
 			//CCNode* md = new SceneTestNode();
-			//CCNode* md = new UITestNode();
+			CCNode* md = new UITestNode();
 			//CCNode* md = new TouchTestNode();
-			//this->addChild(md, 0);
+			this->addChild(md, 0);
 	
 
 

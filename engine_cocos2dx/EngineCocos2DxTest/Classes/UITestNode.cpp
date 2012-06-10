@@ -101,52 +101,7 @@ UITestNode::UITestNode()
 		textBox->appendXMLText(fstr2);
 	}
 
-	if (false)
-	{
-		UICompoment* pNode = new UICompoment(200, 200);
-		pNode->setPosition(500, 20);
-		pNode->setClipBounds(true);
-		pNode->addTouchListener(this);
-		pNode->setTag(-10);
-		pNode->getLayerRect().back_color = Color(0.5f, 0, 0, 1);
-		addChild(pNode);
 
-		int i = 0;
-		for (int y=0; y<5; y++) {
-			for (int x=0; x<5; x++) {
-				string userdata = stringFormat("snode {0%d} {1%d}", x, y);
-				UICompoment* snode = new UICompoment(40, 40);
-				snode->setPosition(x*50+5, y*50+5);
-				snode->addTouchListener(this);
-				snode->setTag(i);
-				pNode->addChild(snode);
-				i++;
-			}
-		}
-	}
-	if (false)
-	{
-		UICompoment* pNode = new UICompoment(200, 200);
-		pNode->setPosition(500 + 116, 20 + 53);
-		pNode->setClipBounds(true);
-		pNode->addTouchListener(this);
-		pNode->setTag(-10);
-		pNode->getLayerRect().back_color = Color(0.5f, 0.5f, 0, 1);
-		addChild(pNode);
-
-		int i = 100;
-		for (int y=0; y<5; y++) {
-			for (int x=0; x<5; x++) {
-				string userdata = stringFormat("snode {0%d} {1%d}", x, y);
-				UICompoment* snode = new UICompoment(40, 40);
-				snode->setPosition(x*50+5, y*50+5);
-				snode->addTouchListener(this);
-				snode->setTag(i);
-				pNode->addChild(snode);
-				i++;
-			}
-		}
-	}
 
 
 	{
@@ -195,7 +150,6 @@ CCNode*	MyUIEdit::createComponent(XMLNode* e)
 
 UITestNode::~UITestNode()
 {
-	delete text_layer;
 	delete m_uiEdit;
 }
 
@@ -276,7 +230,7 @@ void UITestNode::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 	CCTouch* touch = (CCTouch*)(*it); 
 
 
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 
 	m_mouseDown = true;
@@ -287,7 +241,7 @@ void UITestNode::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
 
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 }
 
@@ -295,7 +249,7 @@ void UITestNode::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 	m_mouseDown = false;
 }

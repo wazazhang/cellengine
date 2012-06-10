@@ -70,7 +70,7 @@ void TouchTestNode::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 	CCTouch* touch = (CCTouch*)(*it); 
 
 
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 
 	actor_node->setPosition(m_curPoint);
@@ -85,8 +85,8 @@ void TouchTestNode::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 
 
 	printf("screen(%f,%f) local(%f,%f)\n", 
-		touch->locationInView().x,
-		touch->locationInView().y, 
+		touch->locationInView(0).x,
+		touch->locationInView(0).y, 
 		m_curPoint.x,
 		m_curPoint.y
 		);
@@ -97,7 +97,7 @@ void TouchTestNode::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
 
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 
 	actor_node->setPosition(m_curPoint);
@@ -107,14 +107,14 @@ void TouchTestNode::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 		actor_node->getCurrentAnimate(), 
 		m_curPoint.x, m_curPoint.y));
 
- 	printf("size for childs %d\n", getParent()->getChildrenCount());
+ //.//	printf("size for childs %d\n", getParent()->getChildrenCount());
 }
 
 void TouchTestNode::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
 	CCSetIterator it = pTouches->begin();
 	CCTouch* touch = (CCTouch*)(*it);
-	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 	actor_node->setPosition(m_curPoint);
 	m_mouseDown = false;
@@ -175,7 +175,7 @@ bool 	TouchNode::ccTouchBegan		(CCTouch *pTouch, CCEvent *pEvent)
 {
 	CCTouch* touch = pTouch; 
 
-	CCPoint m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView() );
+	CCPoint m_curPoint = CCDirector::sharedDirector()->convertToGL( touch->locationInView(0) );
 	m_curPoint = convertToNodeSpace(m_curPoint);
 
 	CCD ccd;

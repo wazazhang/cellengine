@@ -4,8 +4,10 @@
 
 #include "cocos2d.h"
 #include "MFEngine.h"
+#include "uiedit/MFUIEdit.h"
 
 using namespace mf;
+using namespace mf_uiedit;
 using namespace cocos2d;
 
 
