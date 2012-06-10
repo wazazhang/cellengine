@@ -11,6 +11,7 @@
 
 #include "MFGameObject.h"
 #include "MFUtil.h"
+#include "MFNode.h"
 
 #include "cocos2d.h"
 
@@ -106,7 +107,7 @@ namespace mf
 	// CSprite
 	///////////////////////////////////////////////////////////////////////////////////////////
 	
-	class CC_DLL  CCellSprite : public cocos2d::CCNode
+	class CC_DLL  CCellSprite : public MFNode
 	{
 	public:
 		static const char CD_TYPE_MAP 	= 0;

@@ -150,8 +150,7 @@ namespace mf_uiedit
 			"Arial", 12);
 		this->cclable->getTexture()->setAliasTexParameters();
 		this->cclable->setScaleY(-1);
-		this->cclable->setPositionX(getWidth()/2);
-		this->cclable->setPositionY(getHeigh()/2);
+		this->cclable->setPosition(ccp(getWidth()/2, getHeigh()/2));
 		this->addChild(cclable);
 	}
 	void UEButton::onTouchBegan(TouchEvent const *cp){
@@ -242,8 +241,7 @@ namespace mf_uiedit
 			"song", 12);
 		this->cclable->getTexture()->setAliasTexParameters();
 		this->cclable->setScaleY(-1);
-		this->cclable->setPositionX(getWidth()/2);
-		this->cclable->setPositionY(getHeigh()/2);
+		this->cclable->setPosition(ccp(getWidth()/2, getHeigh()/2));
 		this->addChild(cclable);
 	}
 
@@ -265,8 +263,7 @@ namespace mf_uiedit
 			"song", 12);
 		this->cclable->getTexture()->setAliasTexParameters();
 		this->cclable->setScaleY(-1);
-		this->cclable->setPositionX(0);
-		this->cclable->setPositionY(getHeigh()/2);
+		this->cclable->setPosition(ccp(0, getHeigh()/2));
 		this->addChild(cclable);
 	}
 
@@ -292,8 +289,7 @@ namespace mf_uiedit
 		this->cclable->setColor(ccc3(0xff, 0x00, 0x00));
 		this->cclable->getTexture()->setAliasTexParameters();
 		this->cclable->setScaleY(-1);
-		this->cclable->setPositionX(getWidth()/2);
-		this->cclable->setPositionY(getHeigh()/2);
+		this->cclable->setPosition(ccp(getWidth()/2, getHeigh()/2));
 		this->addChild(cclable);
 	}
 

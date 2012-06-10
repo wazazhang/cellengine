@@ -5,6 +5,7 @@
 #include "MFType.h"
 #include "MFGraphics2D.h"
 #include "MFGameObject.h"
+#include "MFNode.h"
 #include <vector>
 
 #include "cocos2d.h"
@@ -88,7 +89,7 @@ namespace mf
 
 	};
 
-	class  CC_DLL CCellMap : public cocos2d::CCNode
+	class  CC_DLL CCellMap : public MFNode
 	{
 	public:
 		virtual void locateCamera(float x, float y) = 0;

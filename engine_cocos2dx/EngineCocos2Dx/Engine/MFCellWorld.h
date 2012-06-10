@@ -20,7 +20,7 @@ namespace mf
 	/////////////////////////////////////////////////////////////////////////////////
 
 
-	class CC_DLL  CCellWorld : public CCNode
+	class CC_DLL  CCellWorld : public MFNode
 	{
 		friend class CCellWorldLayer;
 
@@ -57,7 +57,7 @@ namespace mf
 
 	/////////////////////////////////////////////////////////////////////////////////
 
-	class CC_DLL  CCellWorldLayer : public CCNode
+	class CC_DLL  CCellWorldLayer : public MFNode
 	{
 		friend class CCellWorld;
 	protected:
@@ -93,7 +93,7 @@ namespace mf
 
 	/////////////////////////////////////////////////////////////////////////////////
 
-	class CC_DLL  CCellWorldImage : public CCNode
+	class CC_DLL  CCellWorldImage : public MFNode
 	{
 	protected:
 		WorldObjectImage m_data;

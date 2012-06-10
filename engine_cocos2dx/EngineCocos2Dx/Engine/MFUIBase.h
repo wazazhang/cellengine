@@ -4,6 +4,7 @@
 
 #include "MFGraphics2D.h"
 #include "MFUtil.h"
+#include "MFNode.h"
 
 #include "cocos2d.h"
 #include <string>
@@ -147,7 +148,7 @@ namespace mf
 	//////////////////////////////////////////////////////////////////////////
 
 
-	class CC_DLL UICompoment : public CCNode, public CCTargetedTouchDelegate 
+	class CC_DLL UICompoment : public MFNode, public CCTargetedTouchDelegate 
 	{
 		// interactive
 	private:
@@ -165,6 +166,9 @@ namespace mf
 		virtual void onTouchMoved(TouchEvent const *cp){}
 		virtual void onTouchEnded(TouchEvent const *cp){}
 		virtual void onTouchCancelled(TouchEvent const *cp){}
+
+		virtual void touchDelegateRetain(){retain();};
+		virtual void touchDelegateRelease(){release();};
 
 		// basic
 	protected:
