@@ -10,7 +10,7 @@ using System.IO;
 using System.Collections;
 
 
-namespace CellGameEdit.PM
+namespace CellGameEdit.PM.plugin.basic
 {
     public partial class FormEventTemplate : Form
     {
@@ -158,17 +158,17 @@ namespace CellGameEdit.PM
             listView1.Refresh();
         }
 
-        public EventTemplate getEventTemplate(String file, String name)
+        public EventNode getEventTemplate(String file, String name)
         {
             Hashtable events = (Hashtable)MapEventFile[file];
             if (events != null)
             {
-                return (EventTemplate)events[name];
+				return (EventNode)events[name];
             }
             return null;
         }
 
-        public EventTemplate getCurrentEventTemplate()
+		public EventNode getCurrentEventTemplate()
         {
             if (listView1.SelectedItems.Count > 0) {
                 return (EventTemplate)listView1.SelectedItems[0].Tag;
@@ -194,7 +194,7 @@ namespace CellGameEdit.PM
             return ret;
         }
     }
-
+	/*
     public class EventTemplate
     {
         public String filename;
@@ -222,4 +222,5 @@ namespace CellGameEdit.PM
 
 
     }
+	 */
 }

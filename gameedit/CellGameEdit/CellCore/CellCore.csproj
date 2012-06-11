@@ -73,12 +73,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -92,6 +87,7 @@
     <Compile Include="midp\javax\microedition\rms\RecordStore.cs" />
     <Compile Include="midp\Type.cs" />
     <Compile Include="midp\Util.cs" />
+    <Compile Include="plugin\EventTemplatePlugin.cs" />
     <Compile Include="src\Cell\Game\CImages.cs">
       <SubType>Code</SubType>
     </Compile>

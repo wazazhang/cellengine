@@ -1,4 +1,4 @@
-﻿namespace CellGameEdit.PM
+﻿namespace CellGameEdit.PM.plugin.basic
 {
     partial class FormEventTemplate
     {
@@ -30,33 +30,21 @@
         {
 			this.components = new System.ComponentModel.Container();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolComboEventFiles = new System.Windows.Forms.ToolStripComboBox();
 			this.btnRefreshFiles = new System.Windows.Forms.ToolStripButton();
-			this.listView1 = new System.Windows.Forms.ListView();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.treeView1 = new System.Windows.Forms.TreeView();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolComboEventFiles,
             this.btnRefreshFiles});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(193, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
-			// 
-			// toolComboEventFiles
-			// 
-			this.toolComboEventFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.toolComboEventFiles.Name = "toolComboEventFiles";
-			this.toolComboEventFiles.Size = new System.Drawing.Size(121, 25);
-			this.toolComboEventFiles.SelectedIndexChanged += new System.EventHandler(this.toolComboEventFiles_SelectedIndexChanged);
-			this.toolComboEventFiles.DropDown += new System.EventHandler(this.toolComboEventFiles_DropDown);
 			// 
 			// btnRefreshFiles
 			// 
@@ -69,46 +57,26 @@
 			this.btnRefreshFiles.Text = "刷新";
 			this.btnRefreshFiles.Click += new System.EventHandler(this.btnRefreshFiles_Click);
 			// 
-			// listView1
-			// 
-			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader2,
-            this.columnHeader4});
-			this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listView1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.listView1.FullRowSelect = true;
-			this.listView1.GridLines = true;
-			this.listView1.HideSelection = false;
-			this.listView1.LargeImageList = this.imageList1;
-			this.listView1.Location = new System.Drawing.Point(0, 25);
-			this.listView1.MultiSelect = false;
-			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(193, 402);
-			this.listView1.SmallImageList = this.imageList1;
-			this.listView1.TabIndex = 1;
-			this.listView1.UseCompatibleStateImageBehavior = false;
-			this.listView1.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader2
-			// 
-			this.columnHeader2.Text = "Name";
-			// 
-			// columnHeader4
-			// 
-			this.columnHeader4.Text = "Other";
-			// 
 			// imageList1
 			// 
 			this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
 			this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
 			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
 			// 
+			// treeView1
+			// 
+			this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeView1.Location = new System.Drawing.Point(0, 25);
+			this.treeView1.Name = "treeView1";
+			this.treeView1.Size = new System.Drawing.Size(193, 402);
+			this.treeView1.TabIndex = 1;
+			// 
 			// FormEventTemplate
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(193, 427);
-			this.Controls.Add(this.listView1);
+			this.Controls.Add(this.treeView1);
 			this.Controls.Add(this.toolStrip1);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -128,12 +96,9 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripComboBox toolComboEventFiles;
-        private System.Windows.Forms.ListView listView1;
+		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton btnRefreshFiles;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.TreeView treeView1;
     }
 }

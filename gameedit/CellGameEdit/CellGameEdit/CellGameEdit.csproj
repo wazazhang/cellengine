@@ -217,7 +217,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Config.settings</DependentUpon>
     </Compile>
-    <Compile Include="PM\plugin\EventTemplatePlugin.cs" />
     <Compile Include="PM\SpriteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -664,6 +663,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="PM\plugin\" />
     <Folder Include="script\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
