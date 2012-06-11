@@ -180,12 +180,6 @@
     <Compile Include="PM\DataGridConfig.Designer.cs">
       <DependentUpon>DataGridConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="PM\FormEventTemplate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PM\FormEventTemplate.Designer.cs">
-      <DependentUpon>FormEventTemplate.cs</DependentUpon>
-    </Compile>
     <Compile Include="PM\GameObject.cs" />
     <Compile Include="PM\IEditForm.cs" />
     <Compile Include="PM\com\ImageFlipToolStripButton.cs">
@@ -223,6 +217,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Config.settings</DependentUpon>
     </Compile>
+    <Compile Include="PM\plugin\EventTemplatePlugin.cs" />
     <Compile Include="PM\SpriteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -317,10 +312,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PM\com\ImageFlipToolStripButton.resx">
       <DependentUpon>ImageFlipToolStripButton.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PM\FormEventTemplate.resx">
-      <DependentUpon>FormEventTemplate.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PM\ImageProcessDialog.resx">

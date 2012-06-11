@@ -15,6 +15,7 @@ using javax.microedition.lcdui;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using Cell;
+using CellGameEdit.PM.plugin;
 
 namespace CellGameEdit.PM
 {
@@ -425,11 +426,11 @@ namespace CellGameEdit.PM
             {
                 ev.loadOver();
             }
-            ImageList il = ProjectForm.getInstance().getEventTemplateForm().getShareImageList();
+            //ImageList il = ProjectForm.getInstance().getEventTemplateForm().getShareImageList();
 //             this.listView1.SmallImageList = il;
 //             this.listView2.SmallImageList = il;
 //             this.listView3.SmallImageList = il;
-            this.listView4.SmallImageList = il;
+            //this.listView4.SmallImageList = il;
         }
 
         public void OutputCustom(int index, String script, System.IO.StringWriter output)
@@ -1517,6 +1518,7 @@ namespace CellGameEdit.PM
 			}
 		}
 
+
 		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
 		{
 			last_mouse_down_x = e.X;
@@ -1549,7 +1551,7 @@ namespace CellGameEdit.PM
 					if (e.Button == MouseButtons.Left && checkDirectUnit.Checked == true)
 					{
 						// map
-						if (checkShowMap.Checked)
+						if (checkShowMap.Checked && tabControl1.SelectedTab == tabPageUnit)
 						{
 							if (listView1.SelectedItems.Count > 0)
 							{
@@ -1566,7 +1568,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select unit
-						if (checkShowSprite.Checked)
+						if (checkShowSprite.Checked && tabControl1.SelectedTab == tabPageUnit)
 						{
 							if (listView1.SelectedItems.Count > 0)
 							{
@@ -1583,7 +1585,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select image
-						if (checkShowTile.Checked)
+						if (checkShowTile.Checked && tabControl1.SelectedTab == tabPageUnit)
 						{
 							if (listView1.SelectedItems.Count > 0)
 							{
@@ -1600,7 +1602,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						// show event
-						if (checkShowEvent.Checked)
+						if (checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
 						{
 							if (listView4.SelectedItems.Count > 0)
 							{
@@ -1611,7 +1613,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select way point
-						if (checkShowPoint.Checked)
+						if (checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
 						{
 							if (listView2.SelectedItems.Count > 0)
 							{
@@ -1620,7 +1622,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select region
-						if (checkShowRegion.Checked)
+						if (checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
 						{
 							if (listView3.SelectedItems.Count > 0)
 							{
@@ -1640,7 +1642,7 @@ namespace CellGameEdit.PM
 						bool isChecked = false;
 
 						//select way point
-						if (!isChecked && checkShowPoint.Checked)
+						if (!isChecked && checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
 						{
 							foreach (ListViewItem item in listView2.Items)
 							{
@@ -1658,7 +1660,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						// select regions
-						if (!isChecked && checkShowRegion.Checked)
+						if (!isChecked && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
 						{
 							foreach (ListViewItem item in listView3.Items)
 							{
@@ -1686,7 +1688,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						// select event
-						if (!isChecked && checkShowEvent.Checked)
+						if (!isChecked && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
 						{
 							foreach (ListViewItem item in listView4.Items)
 							{
@@ -1704,7 +1706,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select unit
-						if (!isChecked &&
+						if (!isChecked && tabControl1.SelectedTab == tabPageUnit &&
 							(checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
 						{
 							for (int i = listView1.Items.Count - 1; i >= 0; i--)
@@ -1742,7 +1744,6 @@ namespace CellGameEdit.PM
 						listView1.SelectedItems.Clear();
 
 						popedWayPoint = null;
-
 						foreach (ListViewItem item in listView3.Items)
 						{
 							item.Selected = false;
@@ -1759,7 +1760,7 @@ namespace CellGameEdit.PM
 
 						bool isChecked = false;
 						//select way point
-						if (isChecked == false && checkShowPoint.Checked)
+						if (isChecked == false && checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
 						{
 							foreach (ListViewItem item in listView2.Items)
 							{
@@ -1776,7 +1777,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						// select regions
-						if (isChecked == false && checkShowRegion.Checked)
+						if (isChecked == false && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
 						{
 							foreach (ListViewItem item in listView3.Items)
 							{
@@ -1793,7 +1794,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select events
-						if (isChecked == false && checkShowEvent.Checked)
+						if (isChecked == false && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
 						{
 							foreach (ListViewItem item in listView4.Items)
 							{
@@ -1810,7 +1811,7 @@ namespace CellGameEdit.PM
 							}
 						}
 						//select unit
-						if (isChecked == false &&
+						if (isChecked == false && tabControl1.SelectedTab == tabPageUnit &&
 							(checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
 						{
 							for (int i = listView1.Items.Count - 1; i >= 0; i--)
@@ -1832,7 +1833,7 @@ namespace CellGameEdit.PM
 
 
 						//弹出菜单
-						if (listView1.SelectedItems.Count > 0 && checkShowSprite.Checked)
+						if (listView1.SelectedItems.Count > 0 && checkShowSprite.Checked && tabControl1.SelectedTab == tabPageUnit)
 						{
 							menuUnit.Opacity = 0.8;
 							menuUnit.Show(pictureBox1, e.Location);
@@ -1840,7 +1841,7 @@ namespace CellGameEdit.PM
 						else if (listView2.SelectedItems.Count > 0 &&
 							popedWayPoint != null &&
 							popedWayPoint != listView2.SelectedItems[0] &&
-							checkShowPoint.Checked)
+							checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
 						{
 							menuPath.Opacity = 0.8;
 							menuPath.Items[0].Visible = true;
@@ -1850,7 +1851,7 @@ namespace CellGameEdit.PM
 							menuPath.Items[4].Visible = false;
 							menuPath.Show(pictureBox1, e.Location);
 						}
-						else if (listView4.SelectedItems.Count > 0 && checkShowEvent.Checked)
+						else if (listView4.SelectedItems.Count > 0 && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
 						{
 							menuEvent.Opacity = 0.8;
 							menuEvent.Show(pictureBox1, e.Location);
@@ -1869,7 +1870,7 @@ namespace CellGameEdit.PM
 							menuPath.Items[4].Visible = true;
 							menuPath.Show(pictureBox1, e.Location);
 						}
-						else if (listView3.SelectedItems.Count > 0 && checkShowRegion.Checked)
+						else if (listView3.SelectedItems.Count > 0 && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
 						{
 							menuRegion.Opacity = 0.8;
 							menuRegion.Show(pictureBox1, e.Location);
@@ -2487,13 +2488,18 @@ namespace CellGameEdit.PM
         }
         private void addEvent_Click(object sender, EventArgs e)
         {
-            EventTemplate et = ProjectForm.getInstance().getEventTemplateForm().getCurrentEventTemplate();
-            if (et != null) {
-                Event evt = new Event(et, last_mouse_down_x, last_mouse_down_y, createEventID());
-                listView4.Items.Add(evt.listItem);
-                EventList.Add(evt.listItem, evt); 
-                pictureBox1.Refresh();
-            }
+			EventTemplatePlugin ef = ProjectForm.getInstance().getEventTemplateForm();
+			if (ef != null) 
+			{
+				EventNode et = ef.getSelectedEvent();
+				if (et != null)
+				{
+					Event evt = new Event(ef, et, last_mouse_down_x, last_mouse_down_y, createEventID());
+					listView4.Items.Add(evt.listItem);
+					EventList.Add(evt.listItem, evt);
+					pictureBox1.Refresh();
+				}
+			}
         }
 
 
@@ -2838,15 +2844,19 @@ namespace CellGameEdit.PM
 	
 		private void toolAddEvent_Click_1(object sender, EventArgs e)
 		{
-			FormEventTemplate fet = ProjectForm.getInstance().getEventTemplateForm();
-			if (fet.Visible)
+			EventTemplatePlugin ef = ProjectForm.getInstance().getEventTemplateForm();
+			if (ef != null) 
 			{
-				fet.Hide();
+				if (ef.asForm().Visible)
+				{
+					ef.asForm().Hide();
+				}
+				else
+				{
+					ef.asForm().Show();
+				}
 			}
-			else
-			{
-				fet.Show();
-			}
+			
 		}
 
 		private void toolAddUnit_Click_2(object sender, EventArgs e)
@@ -4527,8 +4537,9 @@ namespace CellGameEdit.PM
         public static javax.microedition.lcdui.Image quest =
            new javax.microedition.lcdui.Image(Resource1.Question);
 
-        private EventTemplate et;
-
+		private EventTemplatePlugin et;
+		private EventNode node;
+		private javax.microedition.lcdui.Image icon;
         private String et_file;
         private String et_name;
 
@@ -4562,12 +4573,13 @@ namespace CellGameEdit.PM
             quest.getWidth(),
             quest.getHeight());
 
-        public Event(EventTemplate et, int x, int y, long id)
+		public Event(EventTemplatePlugin et, EventNode nd, int x, int y, long id)
         {
             this.et = et;
+			this.node = nd;
 
-            et_file = et.filename;
-            et_name = et.name;
+            et_file = et.getClassName();
+            et_name = nd.name;
 
             ID = id;
             point = new Point(x, y);
@@ -4578,7 +4590,7 @@ namespace CellGameEdit.PM
                getY().ToString(),
                Data.ToString(),
               });
-            listItem.ImageKey = et.imageKey;
+			listItem.ImageKey = node.name;
 
             loadOver();
         }
@@ -4629,17 +4641,21 @@ namespace CellGameEdit.PM
 
         override public void loadOver()
         {
-            et = ProjectForm.getInstance().getEventTemplateForm().getEventTemplate(et_file, et_name);
+            et = ProjectForm.getInstance().getEventTemplateForm(et_file);
+			
             if (et != null)
-            {
-                listItem.ImageKey = et.imageKey;
-                if (et.icon != null)
+			{
+				node = et.getEvent(et_name);
+				//.getEventTemplate(et_file, et_name)
+                //listItem.ImageKey = et.name;
+				if (node != null && node.icon != null)
                 {
+					this.icon = new javax.microedition.lcdui.Image(node.icon);
                     rect = new Rectangle(
-                        -et.icon.getWidth() / 2,
-                        -et.icon.getHeight() / 2,
-                        et.icon.getWidth(),
-                        et.icon.getHeight());
+						-node.icon.Width / 2,
+						-node.icon.Height / 2,
+						node.icon.Width,
+						node.icon.Height);
                 }
             }
         }
@@ -4716,9 +4732,9 @@ namespace CellGameEdit.PM
             System.Drawing.Rectangle scope,
             Boolean selected)
         {
-            if (et != null && et.icon!= null) 
+            if (icon!= null) 
             {
-                g.drawImage(et.icon, point.X + rect.X, point.Y + rect.Y);
+				g.drawImage(icon, point.X + rect.X, point.Y + rect.Y);
             }
             else
             {

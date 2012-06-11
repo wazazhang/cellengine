@@ -14,6 +14,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
+using CellGameEdit.PM.plugin;
 
 
 namespace CellGameEdit.PM
@@ -49,7 +50,6 @@ namespace CellGameEdit.PM
         //ArrayList formGroup;
         Hashtable formTable;
 
-        private FormEventTemplate form_event_templates;
 		private WorldAddUnitForm form_world_add_unit;
         //-----------------------------------------------------------------------------------------------------------------------------------
         // new 
@@ -1088,13 +1088,14 @@ namespace CellGameEdit.PM
             treeView1.Sort();
             treeView1.SelectedNode = null;
         }
-
-        public FormEventTemplate getEventTemplateForm()
+		public EventTemplatePlugin getEventTemplateForm()
+		{
+			return null;
+		}
+		public EventTemplatePlugin getEventTemplateForm(string clsname)
         {
-            if (form_event_templates == null) { 
-                form_event_templates = new FormEventTemplate(); 
-            }
-            return form_event_templates;
+           
+            return null;
         }
 
 		public WorldAddUnitForm getWorldAddUnitForm() {

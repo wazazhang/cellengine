@@ -32,7 +32,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorldForm));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPageUnit = new System.Windows.Forms.TabPage();
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
@@ -48,14 +48,14 @@
 			this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.dropChangeAnimID = new System.Windows.Forms.ToolStripDropDownButton();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.tabPageWP = new System.Windows.Forms.TabPage();
 			this.listView2 = new System.Windows.Forms.ListView();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.btnWaypointsDeleteAll = new System.Windows.Forms.ToolStripButton();
-			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.tabPageRegion = new System.Windows.Forms.TabPage();
 			this.listView3 = new System.Windows.Forms.ListView();
 			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
@@ -64,7 +64,7 @@
 			this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
 			this.toolStrip4 = new System.Windows.Forms.ToolStrip();
 			this.btnRegionsDeleteAll = new System.Windows.Forms.ToolStripButton();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.tabPageEvent = new System.Windows.Forms.TabPage();
 			this.listView4 = new System.Windows.Forms.ListView();
 			this.columnHeader15 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
@@ -74,7 +74,7 @@
 			this.toolAddEvent = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip5 = new System.Windows.Forms.ToolStrip();
 			this.btnDeleteEventAll = new System.Windows.Forms.ToolStripButton();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabPageProp = new System.Windows.Forms.TabPage();
 			this.chkLockSize = new System.Windows.Forms.CheckBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
@@ -154,16 +154,16 @@
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
+			this.tabPageUnit.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
-			this.tabPage3.SuspendLayout();
+			this.tabPageWP.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
-			this.tabPage4.SuspendLayout();
+			this.tabPageRegion.SuspendLayout();
 			this.toolStrip4.SuspendLayout();
-			this.tabPage5.SuspendLayout();
+			this.tabPageEvent.SuspendLayout();
 			this.toolStrip6.SuspendLayout();
 			this.toolStrip5.SuspendLayout();
-			this.tabPage2.SuspendLayout();
+			this.tabPageProp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -202,11 +202,11 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage3);
-			this.tabControl1.Controls.Add(this.tabPage4);
-			this.tabControl1.Controls.Add(this.tabPage5);
-			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPageUnit);
+			this.tabControl1.Controls.Add(this.tabPageWP);
+			this.tabControl1.Controls.Add(this.tabPageRegion);
+			this.tabControl1.Controls.Add(this.tabPageEvent);
+			this.tabControl1.Controls.Add(this.tabPageProp);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
@@ -216,17 +216,17 @@
 			this.tabControl1.TabIndex = 3;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
-			// tabPage1
+			// tabPageUnit
 			// 
-			this.tabPage1.Controls.Add(this.listView1);
-			this.tabPage1.Controls.Add(this.toolStrip2);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(233, 515);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "单位";
-			this.tabPage1.UseVisualStyleBackColor = true;
+			this.tabPageUnit.Controls.Add(this.listView1);
+			this.tabPageUnit.Controls.Add(this.toolStrip2);
+			this.tabPageUnit.Location = new System.Drawing.Point(4, 22);
+			this.tabPageUnit.Name = "tabPageUnit";
+			this.tabPageUnit.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageUnit.Size = new System.Drawing.Size(233, 515);
+			this.tabPageUnit.TabIndex = 0;
+			this.tabPageUnit.Text = "单位";
+			this.tabPageUnit.UseVisualStyleBackColor = true;
 			// 
 			// listView1
 			// 
@@ -368,17 +368,17 @@
 			this.dropChangeAnimID.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripDropDownButton1_DropDownItemClicked);
 			this.dropChangeAnimID.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton1_DropDownOpening);
 			// 
-			// tabPage3
+			// tabPageWP
 			// 
-			this.tabPage3.Controls.Add(this.listView2);
-			this.tabPage3.Controls.Add(this.toolStrip3);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(233, 515);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "路点";
-			this.tabPage3.UseVisualStyleBackColor = true;
+			this.tabPageWP.Controls.Add(this.listView2);
+			this.tabPageWP.Controls.Add(this.toolStrip3);
+			this.tabPageWP.Location = new System.Drawing.Point(4, 22);
+			this.tabPageWP.Name = "tabPageWP";
+			this.tabPageWP.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageWP.Size = new System.Drawing.Size(233, 515);
+			this.tabPageWP.TabIndex = 2;
+			this.tabPageWP.Text = "路点";
+			this.tabPageWP.UseVisualStyleBackColor = true;
 			// 
 			// listView2
 			// 
@@ -437,16 +437,16 @@
 			this.btnWaypointsDeleteAll.Text = "删除所有路点";
 			this.btnWaypointsDeleteAll.Click += new System.EventHandler(this.btnWaypointsDeleteAll_Click);
 			// 
-			// tabPage4
+			// tabPageRegion
 			// 
-			this.tabPage4.Controls.Add(this.listView3);
-			this.tabPage4.Controls.Add(this.toolStrip4);
-			this.tabPage4.Location = new System.Drawing.Point(4, 22);
-			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(233, 515);
-			this.tabPage4.TabIndex = 3;
-			this.tabPage4.Text = "区域";
-			this.tabPage4.UseVisualStyleBackColor = true;
+			this.tabPageRegion.Controls.Add(this.listView3);
+			this.tabPageRegion.Controls.Add(this.toolStrip4);
+			this.tabPageRegion.Location = new System.Drawing.Point(4, 22);
+			this.tabPageRegion.Name = "tabPageRegion";
+			this.tabPageRegion.Size = new System.Drawing.Size(233, 515);
+			this.tabPageRegion.TabIndex = 3;
+			this.tabPageRegion.Text = "区域";
+			this.tabPageRegion.UseVisualStyleBackColor = true;
 			// 
 			// listView3
 			// 
@@ -516,17 +516,17 @@
 			this.btnRegionsDeleteAll.Text = "toolStripButton18";
 			this.btnRegionsDeleteAll.Click += new System.EventHandler(this.btnRegionsDeleteAll_Click);
 			// 
-			// tabPage5
+			// tabPageEvent
 			// 
-			this.tabPage5.Controls.Add(this.listView4);
-			this.tabPage5.Controls.Add(this.toolStrip6);
-			this.tabPage5.Controls.Add(this.toolStrip5);
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Size = new System.Drawing.Size(233, 515);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "事件";
-			this.tabPage5.UseVisualStyleBackColor = true;
+			this.tabPageEvent.Controls.Add(this.listView4);
+			this.tabPageEvent.Controls.Add(this.toolStrip6);
+			this.tabPageEvent.Controls.Add(this.toolStrip5);
+			this.tabPageEvent.Location = new System.Drawing.Point(4, 22);
+			this.tabPageEvent.Name = "tabPageEvent";
+			this.tabPageEvent.Size = new System.Drawing.Size(233, 515);
+			this.tabPageEvent.TabIndex = 4;
+			this.tabPageEvent.Text = "事件";
+			this.tabPageEvent.UseVisualStyleBackColor = true;
 			// 
 			// listView4
 			// 
@@ -610,24 +610,24 @@
 			this.btnDeleteEventAll.Size = new System.Drawing.Size(23, 22);
 			this.btnDeleteEventAll.Text = "toolStripButton1";
 			// 
-			// tabPage2
+			// tabPageProp
 			// 
-			this.tabPage2.Controls.Add(this.chkLockSize);
-			this.tabPage2.Controls.Add(this.label4);
-			this.tabPage2.Controls.Add(this.label3);
-			this.tabPage2.Controls.Add(this.label2);
-			this.tabPage2.Controls.Add(this.label1);
-			this.tabPage2.Controls.Add(this.numericUpDown4);
-			this.tabPage2.Controls.Add(this.numericUpDown3);
-			this.tabPage2.Controls.Add(this.numericUpDown2);
-			this.tabPage2.Controls.Add(this.numericUpDown1);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(233, 515);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "属性";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.tabPageProp.Controls.Add(this.chkLockSize);
+			this.tabPageProp.Controls.Add(this.label4);
+			this.tabPageProp.Controls.Add(this.label3);
+			this.tabPageProp.Controls.Add(this.label2);
+			this.tabPageProp.Controls.Add(this.label1);
+			this.tabPageProp.Controls.Add(this.numericUpDown4);
+			this.tabPageProp.Controls.Add(this.numericUpDown3);
+			this.tabPageProp.Controls.Add(this.numericUpDown2);
+			this.tabPageProp.Controls.Add(this.numericUpDown1);
+			this.tabPageProp.Location = new System.Drawing.Point(4, 22);
+			this.tabPageProp.Name = "tabPageProp";
+			this.tabPageProp.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageProp.Size = new System.Drawing.Size(233, 515);
+			this.tabPageProp.TabIndex = 1;
+			this.tabPageProp.Text = "属性";
+			this.tabPageProp.UseVisualStyleBackColor = true;
 			// 
 			// chkLockSize
 			// 
@@ -1107,6 +1107,7 @@
 			this.toolShowLock.Name = "toolShowLock";
 			this.toolShowLock.Size = new System.Drawing.Size(23, 22);
 			this.toolShowLock.Text = "显示锁标志";
+			this.toolShowLock.ToolTipText = "显示锁标志，不显示锁标志时，不能选中目标。";
 			this.toolShowLock.Click += new System.EventHandler(this.toolStripButton1_Click_1);
 			// 
 			// toolStripButton12
@@ -1439,26 +1440,26 @@
 			this.splitContainer1.Panel2.PerformLayout();
 			this.splitContainer1.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
+			this.tabPageUnit.ResumeLayout(false);
+			this.tabPageUnit.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
-			this.tabPage3.ResumeLayout(false);
-			this.tabPage3.PerformLayout();
+			this.tabPageWP.ResumeLayout(false);
+			this.tabPageWP.PerformLayout();
 			this.toolStrip3.ResumeLayout(false);
 			this.toolStrip3.PerformLayout();
-			this.tabPage4.ResumeLayout(false);
-			this.tabPage4.PerformLayout();
+			this.tabPageRegion.ResumeLayout(false);
+			this.tabPageRegion.PerformLayout();
 			this.toolStrip4.ResumeLayout(false);
 			this.toolStrip4.PerformLayout();
-			this.tabPage5.ResumeLayout(false);
-			this.tabPage5.PerformLayout();
+			this.tabPageEvent.ResumeLayout(false);
+			this.tabPageEvent.PerformLayout();
 			this.toolStrip6.ResumeLayout(false);
 			this.toolStrip6.PerformLayout();
 			this.toolStrip5.ResumeLayout(false);
 			this.toolStrip5.PerformLayout();
-			this.tabPage2.ResumeLayout(false);
-			this.tabPage2.PerformLayout();
+			this.tabPageProp.ResumeLayout(false);
+			this.tabPageProp.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -1530,8 +1531,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageUnit;
+        private System.Windows.Forms.TabPage tabPageProp;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -1541,8 +1542,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.ToolStripButton checkAutoSelect;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPageWP;
+        private System.Windows.Forms.TabPage tabPageRegion;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ListView listView3;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -1579,7 +1580,7 @@
         private System.Windows.Forms.ToolStripButton btnShowTerrain;
         private System.Windows.Forms.ColumnHeader columnHeader14;
 		private System.Windows.Forms.CheckBox chkLockSize;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage tabPageEvent;
         private System.Windows.Forms.ListView listView4;
         private System.Windows.Forms.ColumnHeader columnHeader15;
         private System.Windows.Forms.ColumnHeader columnHeader16;
