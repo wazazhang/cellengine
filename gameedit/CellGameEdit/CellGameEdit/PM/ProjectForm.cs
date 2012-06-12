@@ -50,7 +50,10 @@ namespace CellGameEdit.PM
         //ArrayList formGroup;
         Hashtable formTable;
 
+
+        private EventTemplatePlugin current_event_plugin;
 		private WorldAddUnitForm form_world_add_unit;
+
         //-----------------------------------------------------------------------------------------------------------------------------------
         // new 
         public ProjectForm()
@@ -58,7 +61,7 @@ namespace CellGameEdit.PM
             curInstance = this;
 
             InitializeComponent();
-
+            loadDLL();
            // formGroup = new ArrayList();
             formTable       = new Hashtable();
 
@@ -98,7 +101,7 @@ namespace CellGameEdit.PM
             curInstance = this;
 
             InitializeComponent();
-
+            loadDLL();
             try
             {
                 nodeReses = (TreeNode)info.GetValue("nodeReses", typeof(TreeNode));
@@ -154,6 +157,20 @@ namespace CellGameEdit.PM
             }catch(Exception err){
                 MessageBox.Show("构造工程出错 !\n" + err.Message +"\n"+err.StackTrace + "  at  " +err.Message);
             }
+        }
+
+
+        private void loadDLL()
+        {
+            try
+            {
+                current_event_plugin = new FormEventTemplate();
+                // string sDllName = ServiceId.Substring(0, ServiceId.IndexOf("."));
+                // Assembly DllAssembly = Assembly.Load(sDllName);
+
+
+            }
+            catch (Exception err) { }
         }
 
 		private void loadOver()
@@ -220,6 +237,7 @@ namespace CellGameEdit.PM
 
         }
         
+
         private void ProjectForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             foreach (Form f in Application.OpenForms)
@@ -1088,13 +1106,18 @@ namespace CellGameEdit.PM
             treeView1.Sort();
             treeView1.SelectedNode = null;
         }
+
 		public EventTemplatePlugin getEventTemplateForm()
 		{
-			return null;
+            return current_event_plugin;
 		}
+
 		public EventTemplatePlugin getEventTemplateForm(string clsname)
         {
-           
+            if (clsname == current_event_plugin.getClassName())
+            {
+                return current_event_plugin;
+            }
             return null;
         }
 

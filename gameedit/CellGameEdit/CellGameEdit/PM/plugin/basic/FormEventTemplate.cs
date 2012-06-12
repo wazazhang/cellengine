@@ -8,11 +8,12 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using System.Collections;
+using CellGameEdit.PM.plugin;
 
 
-namespace CellGameEdit.PM.plugin.basic
+namespace CellGameEdit.PM
 {
-    public partial class FormEventTemplate : Form
+    public partial class FormEventTemplate : Form, EventTemplatePlugin
     {
         private Hashtable MapEventFile = new Hashtable();
         private Hashtable Images = new Hashtable();
@@ -30,13 +31,11 @@ namespace CellGameEdit.PM.plugin.basic
 
         private void FormEventTemplate_FormClosing(object sender, FormClosingEventArgs e)
         {
-         
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 this.Hide();
             }
-        
         }
 
         private void toolComboEventFiles_DropDown(object sender, EventArgs e)
@@ -158,17 +157,17 @@ namespace CellGameEdit.PM.plugin.basic
             listView1.Refresh();
         }
 
-        public EventNode getEventTemplate(String file, String name)
+        public EventTemplate getEventTemplate(String file, String name)
         {
             Hashtable events = (Hashtable)MapEventFile[file];
             if (events != null)
             {
-				return (EventNode)events[name];
+                return (EventTemplate)events[name];
             }
             return null;
         }
 
-		public EventNode getCurrentEventTemplate()
+        public EventTemplate getCurrentEventTemplate()
         {
             if (listView1.SelectedItems.Count > 0) {
                 return (EventTemplate)listView1.SelectedItems[0].Tag;
@@ -193,8 +192,56 @@ namespace CellGameEdit.PM.plugin.basic
             }
             return ret;
         }
+
+        public EventNode toEventNode(EventTemplate et)
+        {
+            if (et != null) {
+                EventNode en = new EventNode();
+                en.name = et.filename + "-" + et.name;
+                en.value = Util.toStringArray1D(ref et.columns);
+                en.iconKey = et.imageKey;
+                return en;
+            }
+            return null;
+        }
+
+//       ------------------------------------------------------------------------------
+ 
+        public string getClassName()
+        {
+            return GetType().ToString();
+        }
+
+        public Form asForm()
+        {
+            return this;
+        }
+
+        public EventNode getEvent(string name)
+        {
+            string[] sp = name.Split(new char[]{'-'});
+            if (sp.Length >= 2) {
+                return toEventNode(getEventTemplate(sp[0], sp[1]));
+            }
+            return null;
+        }
+
+        public EventNode getSelectedEvent()
+        {
+            return toEventNode(getCurrentEventTemplate());
+        }
+
+        public void saveWorldEvents(List<WorldEvent> events)
+        {
+
+        }
+
+        public ImageList getImageList()
+        {
+            return getShareImageList();
+        }
     }
-	/*
+
     public class EventTemplate
     {
         public String filename;
@@ -219,8 +266,6 @@ namespace CellGameEdit.PM.plugin.basic
                 this.imageKey = "";
             }
         }
-
-
     }
-	 */
+
 }

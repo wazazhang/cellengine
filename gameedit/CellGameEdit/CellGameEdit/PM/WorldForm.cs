@@ -4646,16 +4646,20 @@ namespace CellGameEdit.PM
             if (et != null)
 			{
 				node = et.getEvent(et_name);
-				//.getEventTemplate(et_file, et_name)
-                //listItem.ImageKey = et.name;
-				if (node != null && node.icon != null)
+				
+				if (node != null)
                 {
-					this.icon = new javax.microedition.lcdui.Image(node.icon);
-                    rect = new Rectangle(
-						-node.icon.Width / 2,
-						-node.icon.Height / 2,
-						node.icon.Width,
-						node.icon.Height);
+                    listItem.ImageKey = node.iconKey;
+                    System.Drawing.Image picon = et.getImageList().Images[node.iconKey];
+                    if (picon != null)
+                    {
+                        this.icon = new javax.microedition.lcdui.Image(picon);
+                        rect = new Rectangle(
+                            -icon.getWidth() / 2,
+                            -icon.getHeight() / 2,
+                            icon.getWidth(),
+                            icon.getHeight());
+                    }
                 }
             }
         }
