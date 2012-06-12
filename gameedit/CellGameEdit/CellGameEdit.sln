@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellGameOutput", "CellGameO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellCore", "CellCore\CellCore.csproj", "{65D87AE5-CF0A-4EF5-8FF4-CF5676BA7E92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginKingIIEventTemplate", "PluginKingIIEventTemplate\PluginKingIIEventTemplate.csproj", "{DF974C50-28D9-4A2F-A62C-0116F4D853E6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,27 +176,6 @@ Global
 		{65D87AE5-CF0A-4EF5-8FF4-CF5676BA7E92}.Release|x64.ActiveCfg = Release|x64
 		{65D87AE5-CF0A-4EF5-8FF4-CF5676BA7E92}.Release|x64.Build.0 = Release|x64
 		{65D87AE5-CF0A-4EF5-8FF4-CF5676BA7E92}.Release|x86.ActiveCfg = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|Any CPU.Build.0 = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|Win32.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|x64.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.DebugTest|x86.ActiveCfg = Debug|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|Win32.ActiveCfg = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|x64.ActiveCfg = Release|Any CPU
-		{DF974C50-28D9-4A2F-A62C-0116F4D853E6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
