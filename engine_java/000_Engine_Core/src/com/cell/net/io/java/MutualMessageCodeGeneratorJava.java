@@ -370,8 +370,9 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		}
 		// Error -----------------------------------------------
 		else {
-			read.set(tb(2) + "Unsupported type : " + f_name + " " + f_type.getName() + "\n");
-			write.set(tb(2) + "Unsupported type : " + f_name + " " + f_type.getName() + "\n");
+			read.set(tb(2) + f_name + " = in.readObject(" + 
+				f_type.getCanonicalName() + ".class);\n");
+			write.set(tb(2) + "out.writeObject(" + f_name + ");\n");
 		}
 	}
 	
