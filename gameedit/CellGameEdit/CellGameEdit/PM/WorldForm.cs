@@ -982,6 +982,8 @@ namespace CellGameEdit.PM
             item.EnsureVisible();
         }
 
+
+
         // list view1 map list
         private void listView1_DragDrop(object sender, DragEventArgs e)
         {
@@ -2460,6 +2462,21 @@ namespace CellGameEdit.PM
             return EventIDIndex++;
         }
 
+        public List<WorldEvent> getUpdateEvents()
+        {
+            List<WorldEvent> Events = new List<WorldEvent>();
+            for (int i = 0; i < listView4.Items.Count; i++)
+            {
+                Event evt = (Event)EventList[listView4.Items[i]];
+                WorldEvent we = new WorldEvent();
+                we.mapId = id;
+                Events.Add(we);
+            }
+            return Events;
+        }
+
+//      -----------------------------------------------------------------------------------------
+ 
 #region menuWorld
         // add way point command
         private void addWayPoint_Click(object sender, EventArgs e)
@@ -2494,10 +2511,18 @@ namespace CellGameEdit.PM
 				EventNode et = ef.getSelectedEvent();
 				if (et != null)
 				{
-					Event evt = new Event(ef, et, last_mouse_down_x, last_mouse_down_y, createEventID());
-					listView4.Items.Add(evt.listItem);
-					EventList.Add(evt.listItem, evt);
-					pictureBox1.Refresh();
+                    try
+                    {
+                        Event evt = new Event(ef, et, 
+                            last_mouse_down_x, 
+                            last_mouse_down_y, createEventID());
+                        listView4.Items.Add(evt.listItem);
+                        EventList.Add(evt.listItem, evt);
+                    }
+                    catch (Exception err) {
+                        MessageBox.Show(err.Message);
+                    }
+                    pictureBox1.Refresh();
 				}
 			}
         }
@@ -2853,23 +2878,40 @@ namespace CellGameEdit.PM
 				}
 				else
 				{
+                    ef.asForm().TopMost = true;
 					ef.asForm().Show();
 				}
 			}
 			
 		}
 
+        private void btnUpdateEvents_Click(object sender, EventArgs e)
+        {
+            EventTemplatePlugin ef = ProjectForm.getInstance().getEventTemplateForm();
+            if (ef != null)
+            {
+                try
+                {
+                    ef.saveWorldEvents(getUpdateEvents());
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message);
+                }
+            }
+        }
+
 		private void toolAddUnit_Click_2(object sender, EventArgs e)
 		{
-			WorldAddUnitForm addunit = ProjectForm.getInstance().getWorldAddUnitForm();
-			if (addunit.Visible)
-			{
-				addunit.Hide();
-			}
-			else
-			{
-				addunit.Show();
-			}
+// 			WorldAddUnitForm addunit = ProjectForm.getInstance().getWorldAddUnitForm();
+// 			if (addunit.Visible)
+// 			{
+// 				addunit.Hide();
+// 			}
+// 			else
+// 			{
+// 				addunit.Show();
+// 			}
 		}
 
 		/*
@@ -4637,6 +4679,16 @@ namespace CellGameEdit.PM
             {
                 Console.WriteLine("Event:" + err.StackTrace);
             }
+        }
+
+        public WorldEvent asWorldEvent()
+        {
+            WorldEvent we = new WorldEvent();
+            we.source = node;
+            we.x = getX();
+            we.y = getY();
+            we.appendData = Data.ToString();
+            return we;
         }
 
         override public void loadOver()

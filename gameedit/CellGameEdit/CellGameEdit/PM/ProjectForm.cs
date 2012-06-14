@@ -15,6 +15,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
 using CellGameEdit.PM.plugin;
+using System.Reflection;
 
 
 namespace CellGameEdit.PM
@@ -162,15 +163,56 @@ namespace CellGameEdit.PM
 
         private void loadDLL()
         {
+            current_event_plugin = new FormEventTemplate();
+
             try
             {
-                current_event_plugin = new FormEventTemplate();
-                // string sDllName = ServiceId.Substring(0, ServiceId.IndexOf("."));
-                // Assembly DllAssembly = Assembly.Load(sDllName);
+                ArrayList loaddll = new ArrayList();
+                foreach (String file in System.IO.Directory.GetFiles(Application.StartupPath + "\\plugins"))
+                {
+                    if (file.ToLower().EndsWith(".dll"))
+                    {
+                        try
+                        {
+                            //Make an array for the list of assemblies.
+                            Assembly assembly = Assembly.LoadFile(file);
+                            loaddll.Add(assembly);
+                        }
+                        catch (Exception err)
+                        {
+                            MessageBox.Show(err.Message);
+                        }
+                    }
+                }
 
-
+                foreach (Assembly assembly in loaddll)
+                {
+                    try
+                    {
+                        foreach (Type type in assembly.GetTypes())
+                        {
+                            if (typeof(EventTemplatePlugin).IsAssignableFrom(type))
+                            {
+                                Object et = assembly.CreateInstance(type.FullName);
+                                addEventPlugin((EventTemplatePlugin)et);
+                            }
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        MessageBox.Show(err.Message);
+                    }
+                }
             }
-            catch (Exception err) { }
+            catch (Exception err) {
+                MessageBox.Show("插件加载: " + err.Message);
+            }
+        }
+
+        private void addEventPlugin(EventTemplatePlugin ep) {
+            if (ep  != null) {
+                current_event_plugin = ep;
+            }
         }
 
 		private void loadOver()

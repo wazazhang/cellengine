@@ -18,6 +18,7 @@ namespace CellGameEdit.PM.plugin
 	public class WorldEvent
 	{
         public EventNode source; // 事件节点数据
+        public string mapId;
 		public int x;   // 该事件在场景中的坐标
         public int y;   // 该事件在场景中的坐标
 		public string appendData; // 附加数据
