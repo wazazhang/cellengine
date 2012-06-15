@@ -410,6 +410,11 @@ namespace CellGameEdit.PM
 
         public void loadOver()
         {
+            EventTemplatePlugin etp = ProjectForm.getInstance().getEventTemplateForm();
+            if (etp != null && etp.getImageList()!=null)
+            {
+                this.listView4.SmallImageList = etp.getImageList();
+            }
             foreach (Unit unit in UnitList.Values)
             {
                 unit.loadOver();
@@ -2468,7 +2473,7 @@ namespace CellGameEdit.PM
             for (int i = 0; i < listView4.Items.Count; i++)
             {
                 Event evt = (Event)EventList[listView4.Items[i]];
-                WorldEvent we = new WorldEvent();
+                WorldEvent we = evt.asWorldEvent();
                 we.mapId = id;
                 Events.Add(we);
             }
@@ -4702,16 +4707,18 @@ namespace CellGameEdit.PM
 				if (node != null)
                 {
                     listItem.ImageKey = node.iconKey;
-                    System.Drawing.Image picon = et.getImageList().Images[node.iconKey];
-                    if (picon != null)
-                    {
-                        this.icon = new javax.microedition.lcdui.Image(picon);
-                        rect = new Rectangle(
-                            -icon.getWidth() / 2,
-                            -icon.getHeight() / 2,
-                            icon.getWidth(),
-                            icon.getHeight());
-                    }
+                    try {
+                        System.Drawing.Image picon = et.getImageList().Images[node.iconKey];
+                        if (picon != null)
+                        {
+                            this.icon = new javax.microedition.lcdui.Image(picon);
+                            rect = new Rectangle(
+                                -icon.getWidth() / 2,
+                                -icon.getHeight() / 2,
+                                icon.getWidth(),
+                                icon.getHeight());
+                        }
+                    } catch (Exception err) {}
                 }
             }
         }
