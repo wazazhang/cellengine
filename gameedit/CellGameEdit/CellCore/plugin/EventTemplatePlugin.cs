@@ -27,6 +27,8 @@ namespace CellGameEdit.PM.plugin
     // 事件插件，一般以窗体形式实现
 	public interface EventTemplatePlugin
 	{
+        void initPlugin(string workdir);
+
         // 获取类名
 		string getClassName();
 

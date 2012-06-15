@@ -21,6 +21,9 @@ namespace CellGameEdit.PM
         public FormEventTemplate()
         {
             InitializeComponent();
+        }
+        
+        public void initPlugin(string workdir) {
             refreshFiles();
         }
 

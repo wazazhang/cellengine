@@ -167,42 +167,44 @@ namespace CellGameEdit.PM
 
             try
             {
-                ArrayList loaddll = new ArrayList();
-                foreach (String file in System.IO.Directory.GetFiles(Application.StartupPath + "\\plugins"))
-                {
-                    if (file.ToLower().EndsWith(".dll"))
-                    {
-                        try
-                        {
-                            //Make an array for the list of assemblies.
-                            Assembly assembly = Assembly.LoadFile(file);
-                            loaddll.Add(assembly);
-                        }
-                        catch (Exception err)
-                        {
-                            MessageBox.Show(err.Message);
-                        }
-                    }
-                }
+                //current_event_plugin = new KingII.KingIIEventTemplate();
+                
+                   ArrayList loaddll = new ArrayList();
+                   foreach (String file in System.IO.Directory.GetFiles(Application.StartupPath+"\\plugins"))
+                   {
+                       if (file.ToLower().EndsWith(".dll"))
+                       {
+                           try
+                           {
+                               //Make an array for the list of assemblies.
+                               Assembly assembly = Assembly.LoadFile(file);
+                               loaddll.Add(assembly);
+                           }
+                           catch (Exception err)
+                           {
+                               MessageBox.Show(err.Message);
+                           }
+                       }
+                   }
 
-                foreach (Assembly assembly in loaddll)
-                {
-                    try
-                    {
-                        foreach (Type type in assembly.GetTypes())
-                        {
-                            if (typeof(EventTemplatePlugin).IsAssignableFrom(type))
-                            {
-                                Object et = assembly.CreateInstance(type.FullName);
-                                addEventPlugin((EventTemplatePlugin)et);
-                            }
-                        }
-                    }
-                    catch (Exception err)
-                    {
-                        MessageBox.Show(err.Message);
-                    }
-                }
+                   foreach (Assembly assembly in loaddll)
+                   {
+                       try
+                       {
+                           foreach (Type type in assembly.GetTypes())
+                           {
+                               if (typeof(EventTemplatePlugin).IsAssignableFrom(type))
+                               {
+                                   Object et = assembly.CreateInstance(type.FullName);
+                                   addEventPlugin((EventTemplatePlugin)et);
+                               }
+                           }
+                       }
+                       catch (Exception err)
+                       {
+                           MessageBox.Show(err.Message);
+                       }
+                   } 
             }
             catch (Exception err) {
                 MessageBox.Show("插件加载: " + err.Message);
@@ -211,6 +213,7 @@ namespace CellGameEdit.PM
 
         private void addEventPlugin(EventTemplatePlugin ep) {
             if (ep  != null) {
+                ep.initPlugin(Application.StartupPath + "\\plugins");
                 current_event_plugin = ep;
             }
         }
