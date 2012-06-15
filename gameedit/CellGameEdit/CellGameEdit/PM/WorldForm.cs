@@ -2467,17 +2467,26 @@ namespace CellGameEdit.PM
             return EventIDIndex++;
         }
 
-        public List<WorldEvent> getUpdateEvents()
+        public World getUpdateEvents()
         {
             List<WorldEvent> Events = new List<WorldEvent>();
             for (int i = 0; i < listView4.Items.Count; i++)
             {
                 Event evt = (Event)EventList[listView4.Items[i]];
                 WorldEvent we = evt.asWorldEvent();
+                we.CellX = we.x / CellW;
+                we.CellY = we.y / CellH;
                 we.mapId = id;
                 Events.Add(we);
             }
-            return Events;
+
+            World svwd = new World();
+            svwd.TerrainMatrix = (int[][])TerrainMatrix.Clone();
+            svwd.events = Events;
+            svwd.CellW = CellW;
+            svwd.CellH = CellH;
+            svwd.mapID = id;
+            return svwd;
         }
 
 //      -----------------------------------------------------------------------------------------

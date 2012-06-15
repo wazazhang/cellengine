@@ -234,7 +234,7 @@ namespace CellGameEdit.PM
             return toEventNode(getCurrentEventTemplate());
         }
 
-        public void saveWorldEvents(List<WorldEvent> events)
+        public void saveWorldEvents(World events)
         {
 
         }
