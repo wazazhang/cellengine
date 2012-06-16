@@ -65,6 +65,7 @@ import com.g2d.studio.swing.G2DList;
 import com.g2d.studio.swing.G2DTree;
 import com.g2d.studio.swing.G2DWindowToolBar;
 import com.g2d.studio.ui.edit.gui.UECanvas;
+import com.g2d.studio.ui.edit.gui.UEFileNode;
 import com.g2d.studio.ui.edit.gui.UERoot;
 
 public class UIEdit extends AbstractFrame implements ActionListener
@@ -376,7 +377,28 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 	}
 	
-
+	public UITreeNode getFileNode(File gui_file)
+	{
+		try {
+			File xmlfile = gui_file.getCanonicalFile();
+			FileInputStream fis = new FileInputStream(xmlfile);
+			UITreeNode tree_root = new UITreeNode(this,
+					UEFileNode.class, 
+					gui_file.getName());
+			tree_root.fromXMLStream(this, fis);
+			fis.close();
+			last_saved_file = xmlfile;
+			this.setTitle(last_saved_file.getPath());
+			tree.reload();
+			onSelectTreeNode(tree_root);
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, 
+					"非法的格式!\n" + 
+					e.getMessage());
+		}
+		return null;
+	}
 	
 	
 	static public void main(final String[] args)
