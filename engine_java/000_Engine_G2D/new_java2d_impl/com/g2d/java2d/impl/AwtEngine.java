@@ -333,6 +333,11 @@ public class AwtEngine extends Engine
 		return new AwtFont(font);
 	}
 	
+	static public java.awt.Font unwrap(com.g2d.Font font) 
+	{
+		return ((AwtFont)font).getFont();
+	}
+	
 	static public Color wrap(java.awt.Color color) 
 	{
 		return new Color(color.getRGB());

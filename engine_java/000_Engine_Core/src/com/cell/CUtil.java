@@ -1110,20 +1110,25 @@ public class CUtil extends CObject
 	static public class StringCompare implements ICompare<String, String>, Comparator<String>
 	{
 		public int compare(String a, String b) {
-			int len = Math.min(a.length(), b.length());
-			for (int i=0; i<len; i++) {
-				char ca = a.charAt(i);
-				char cb = b.charAt(i);
-				if (ca != cb) {
-					return cb - ca;
-				}
-			}
-			return b.length() - a.length();
+			return stringCompare(a, b);
 		}
 	}
 	
 	static public StringCompare getStringCompare() {
 		return default_string_compare;
+	}
+	
+	static public int stringCompare(String a, String b)
+	{
+		int len = Math.min(a.length(), b.length());
+		for (int i=0; i<len; i++) {
+			char ca = a.charAt(i);
+			char cb = b.charAt(i);
+			if (ca != cb) {
+				return cb - ca;
+			}
+		}
+		return b.length() - a.length();
 	}
 	
 //	public static void main(String[] args)

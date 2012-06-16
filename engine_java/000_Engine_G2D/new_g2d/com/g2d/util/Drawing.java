@@ -277,8 +277,9 @@ public class Drawing
 		} else {
 			y += 1;
 		}
-		Color c = g.getColor();
+		if (back_color.getAlpha() > 0)
 		{
+			Color c = g.getColor();
 			g.setColor(back_color);
 			drawString(g, src, x-1, y-1, w, h, anchor);
 			drawString(g, src, x-1, y-0, w, h, anchor);
@@ -288,8 +289,8 @@ public class Drawing
 			drawString(g, src, x+1, y-1, w, h, anchor);
 			drawString(g, src, x+1, y-0, w, h, anchor);
 			drawString(g, src, x+1, y+1, w, h, anchor);
+			g.setColor(c);
 		}
-		g.setColor(c);
 		return drawString(g, src, x, y, w, h, anchor);
 	}
 	

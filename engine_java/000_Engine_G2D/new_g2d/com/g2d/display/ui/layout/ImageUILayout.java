@@ -53,10 +53,13 @@ public class ImageUILayout extends UILayout
 	
 	@Override
 	public String toString() {
-		return "[" + getClass().getSimpleName() + "]\n" + 
-				" - " + image_file.getName() + "\n" +
-				" - " + clip_style + "\n" +
-				" - " + clip_border;
+		StringBuilder sb = new StringBuilder();
+		if (image_file != null && image != null) {
+			sb.append(image_file.getName() + " (" + image.getWidth() + "," + + image.getHeight() + ")\n");
+		}
+		sb.append(clip_style + "\n");
+		sb.append(clip_border);
+		return sb.toString();
 	}
 	
 //	@Override

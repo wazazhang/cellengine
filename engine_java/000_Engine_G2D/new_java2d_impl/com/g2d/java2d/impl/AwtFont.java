@@ -34,6 +34,27 @@ public class AwtFont implements com.g2d.Font
 	public String getName() {
 		return font.getName();
 	}
+	@Override
+	public int getStyle() {
+		return font.getStyle();
+	}
+	
+	@Override
+	public String toString() {
+		return font.getName()+", " + font.getSize() + ", " + getStyleText(font.getStyle());
+	}
+	
+	public static String getStyleText(int style) {
+		switch (style) {
+		case STYLE_PLAIN:
+			return "PLAIN";
+		case STYLE_BOLD:
+			return "BOLD";
+		case STYLE_ITALIC:
+			return "ITALIC";
+		}
+		return "UNKNOW";
+	}
 	
 	@Override
 	public Rectangle getStringBounds(String src, Graphics2D g) {

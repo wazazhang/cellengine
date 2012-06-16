@@ -599,7 +599,7 @@ implements ObjectPropertyListener
 				}
 				if (f.getAnnotation(Property.class) != null) {
 					Object attr = f.get(ui);
-					String satr = Parser.objectToString(attr);
+					String satr = Parser.objectToString(attr, f.getType());
 					e.setAttribute(f.getName(), satr);
 				}
 			} catch (Exception err) {

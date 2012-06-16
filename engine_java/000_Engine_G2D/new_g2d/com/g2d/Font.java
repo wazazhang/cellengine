@@ -27,6 +27,8 @@ public interface Font
 	
 	public int getSize();
 	
+	public int getStyle();
+	
 	public Rectangle getStringBounds(String src, Graphics2D g2d);
 	
 	public Font newSize(int size);

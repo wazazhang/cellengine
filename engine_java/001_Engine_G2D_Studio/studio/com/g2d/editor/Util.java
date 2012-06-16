@@ -5,10 +5,12 @@ import java.util.EnumSet;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 
+import com.cell.CUtil;
 import com.cell.reflect.IObjectStringParser;
 import com.cell.reflect.Parser;
 import com.g2d.Color;
 import com.g2d.geom.Rectangle;
+import com.g2d.java2d.impl.AwtEngine;
 
 public class Util 
 {
@@ -32,6 +34,9 @@ public class Util
 		Parser.registerObjectStringParser(
 				com.g2d.Color.class, 
 				new ColorParser());
+		Parser.registerObjectStringParser(
+				com.g2d.Font.class, 
+				new FontParser());
 		Parser.registerObjectStringParser(
 				com.g2d.geom.Rectangle.class, 
 				new RectangleParser());
@@ -60,6 +65,33 @@ public class Util
 			return color.toHexString();
 		}
 	}
+	
+	
+	public static class FontParser implements IObjectStringParser
+	{
+		@Override
+		public Object parseFrom(String str, Class<?> return_type) {
+			if (return_type.equals(com.g2d.Font.class)) {
+				try {
+					String[] split = CUtil.splitString(str, ",", true);
+					return AwtEngine.getEngine().createFont(
+							split[0], 
+							Integer.parseInt(split[2]), 
+							Integer.parseInt(split[1]));
+				} catch (Exception e) {
+					return null;
+				}
+			}
+			return null;
+		}
+		
+		@Override
+		public String toString(Object obj) {
+			com.g2d.Font f = (com.g2d.Font) obj;
+			return f.getName() + "," + f.getSize() + "," + f.getStyle(); 
+		}
+	}
+	
 	
 	public static class RectangleParser implements IObjectStringParser
 	{

@@ -99,6 +99,22 @@ public class Color implements Serializable
     	}
     }
     
+    public void setAlpha(float a) {
+    	set(value_argb_f[1], value_argb_f[2], value_argb_f[3], a);
+    }
+
+	public void setRed(float r) {
+    	set(r, value_argb_f[2], value_argb_f[3], value_argb_f[0]);
+	}
+
+	public void setGreen(float g) {
+    	set(value_argb_f[1], g, value_argb_f[3], value_argb_f[0]);
+	}
+
+	public void setBlue(float b) {
+    	set(value_argb_f[1], value_argb_f[2], b, value_argb_f[0]);
+	}
+  
 	public float getAlpha() {
 		return value_argb_f[0];
 	}

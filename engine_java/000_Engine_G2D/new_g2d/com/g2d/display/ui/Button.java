@@ -1,5 +1,6 @@
 package com.g2d.display.ui;
 import com.g2d.Color;
+import com.g2d.Font;
 import com.g2d.Graphics2D;
 import com.g2d.annotation.Property;
 import com.g2d.util.Drawing;
@@ -17,6 +18,8 @@ public class Button extends BaseButton
 
 	@Property("文字边颜色")
 	public Color				textBorderColor		= Color.BLACK;
+	@Property("文字边透明度%")
+	public float				textBorderAlpha		= 100.0f;
 	
 	/**文字颜色(获得鼠标后)*/
 	@Property("文字颜色(获得鼠标后)")
@@ -25,6 +28,9 @@ public class Button extends BaseButton
 	/**text*/
 	@Property("text")
 	public String 				text 				= getClass().getSimpleName();
+	
+	@Property("文字类型")
+	public Font textFont = null;
 	
 	/**text_anchor*/
 	@Property("文字对齐")
@@ -36,6 +42,7 @@ public class Button extends BaseButton
 	public int 					text_offset_y;
 
 	/**文字是否抗锯齿*/
+	@Property("文字是否抗锯齿")
 	public boolean	enable_antialiasing	 = false;
 	
 	
@@ -73,27 +80,41 @@ public class Button extends BaseButton
 	
 	protected void render_text(Graphics2D g)
 	{
-		if (getRoot()!=null && isCatchedMouse()) {
-			g.setColor(focusTextColor);
-		}else{
-			g.setColor(unfocusTextColor);
+		Font oldf = g.getFont();
+		try {
+			if (textFont != null) {
+				g.setFont(textFont);
+			}
+			if (getRoot()!=null && isCatchedMouse()) {
+				g.setColor(focusTextColor);
+			}else{
+				g.setColor(unfocusTextColor);
+			}
+			if (enable_antialiasing) {
+				g.setFontAntialiasing(true);
+			}
+			textBorderColor.setAlpha(Math.min(Math.abs(textBorderAlpha)/100f, 1f));
+			if (isOnDragged()) {
+				Drawing.drawStringBorder(g, text,
+						text_offset_x, 
+						text_offset_y+1,
+						getWidth(),
+						getHeight(), 
+						text_anchor,
+						textBorderColor);
+			} else {
+				Drawing.drawStringBorder(g, text,
+						text_offset_x, 
+						text_offset_y+0, 
+						getWidth(),
+						getHeight(),
+						text_anchor,
+						textBorderColor);
+			}
+			g.setFontAntialiasing(false);
+		} finally {
+			g.setFont(oldf);
 		}
-		if (isOnDragged()) {
-			Drawing.drawStringBorder(g, text,
-					text_offset_x, 
-					text_offset_y+1,
-					getWidth(),
-					getHeight(), 
-					text_anchor,
-					textBorderColor);
-		}else{
-			Drawing.drawStringBorder(g, text,
-					text_offset_x, 
-					text_offset_y+0, 
-					getWidth(),
-					getHeight(),
-					text_anchor,
-					textBorderColor);
-		}
+		
 	}
 }

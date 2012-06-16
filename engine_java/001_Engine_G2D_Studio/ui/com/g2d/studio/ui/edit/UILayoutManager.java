@@ -126,7 +126,9 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			} else {
 				ret = Tools.readImage(edit.resdir.getPath()+"/"+subpath);
 			}
-			image_map.put(subpath, ret);
+			if (ret != null) {
+				image_map.put(subpath, ret);
+			}
 		}
 		return ret;
 	}

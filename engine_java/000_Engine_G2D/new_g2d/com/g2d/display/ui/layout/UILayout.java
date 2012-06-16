@@ -117,6 +117,11 @@ public class UILayout extends DObject implements IOCloneable
 		return ret;
 	}
 	
+	@Override
+	public String toString() {
+		return "[UI]\n" + Style + "\n" + BackColor;
+	}
+	
 	public BufferedImage getSrcImage() {
 		return srcImage;
 	}

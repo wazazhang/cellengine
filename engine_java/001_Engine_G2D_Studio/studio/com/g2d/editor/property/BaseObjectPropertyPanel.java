@@ -19,6 +19,7 @@ import javax.swing.table.TableCellEditor;
 
 import com.cell.reflect.Parser;
 import com.g2d.Color;
+import com.g2d.Font;
 import com.g2d.display.ui.layout.UILayout;
 import com.g2d.editor.Util;
 
@@ -151,9 +152,15 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 		}
 		else if (field.getType().equals(Color.class))
 		{
-			PopupCellEditColor edit_color 		= new PopupCellEditColor();
-			edit_color.setValue(field, (Color)field_value, this);
+			PopupCellEditColor edit_color = new PopupCellEditColor();
+			edit_color.setValue(field, (Color) field_value, this);
 			return edit_color;
+		}
+		else if (field.getType().equals(Font.class))
+		{
+			PopupCellEditFont edit_font = new PopupCellEditFont();
+			edit_font.setValue(field, (Font) field_value, this);
+			return edit_font;
 		}
 		else if (field.getType().equals(UILayout.class))
 		{

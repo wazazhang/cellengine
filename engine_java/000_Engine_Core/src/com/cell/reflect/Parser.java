@@ -53,10 +53,16 @@ public class Parser
 		return null;
 	}
 
-	public static String objectToString(Object obj) 
+	public static String objectToString(Object obj) {
+		if (obj != null) {
+			return objectToString(obj, obj.getClass());
+		}
+		return null;
+	}
+	public static String objectToString(Object obj, Class<?> type) 
 	{
 		if (obj != null) {
-			IObjectStringParser parser = s_parser_map_.get(obj.getClass());
+			IObjectStringParser parser = s_parser_map_.get(type);
 			if (parser != null) {
 				return parser.toString(obj);
 			}

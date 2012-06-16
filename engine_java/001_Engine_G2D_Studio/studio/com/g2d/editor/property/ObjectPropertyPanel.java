@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
@@ -36,7 +38,7 @@ import com.g2d.java2d.impl.AwtEngine;
  * @author WAZA
  *
  */
-public class ObjectPropertyPanel extends BaseObjectPropertyPanel
+public class ObjectPropertyPanel extends BaseObjectPropertyPanel implements Comparator<Field>
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -93,6 +95,7 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 				// create fields key value
 				Class<?> cls = object.getClass();
 				Field[] fields = cls.getFields();
+				Arrays.sort(fields, this);
 				String[] colum_header = new String[] { 
 						"filed", "value", "type", };
 				
@@ -132,7 +135,12 @@ public class ObjectPropertyPanel extends BaseObjectPropertyPanel
 		}
 		
 	}
-
+	
+	@Override
+	public int compare(Field o1, Field o2) {
+		return -CUtil.stringCompare(o1.getName(), o2.getName());
+	}
+	
 	public Object getObject(){
 		return object;
 	}

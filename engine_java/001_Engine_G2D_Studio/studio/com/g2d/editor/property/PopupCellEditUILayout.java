@@ -94,6 +94,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 		private static final long serialVersionUID = 1L;
 
 		JButton tool_changesrc = new JButton("更换图片");
+		JButton tool_cleansrc = new JButton("清除图片");
 		G2DWindowToolBar tools;
 
 		BufferedImage image;
@@ -286,6 +287,10 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 
 			tools.add(tool_changesrc);
 			tool_changesrc.addActionListener(this);
+			
+			tools.add(tool_cleansrc);
+			tool_cleansrc.addActionListener(this);
+			
 			this.add(tools, BorderLayout.NORTH);
 			this.add(split, BorderLayout.CENTER);
 			
@@ -347,6 +352,9 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			if (e.getSource() == tool_changesrc) {
 				changeSrcImage();
 			}
+			else if (e.getSource() == tool_cleansrc) {
+				cleanSrcImage();
+			}
 		}
 
 		public void changeColor(final JLabel lbl)
@@ -367,6 +375,13 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 					null); // no CANCEL button handler
 			dialog.setVisible(true);
 		}
+		public void cleanSrcImage() 
+		{
+			image = null;
+			image_file = null;
+			src_canvas.repaint();
+			dstview.repaint();
+		}
 		
 		public BufferedImage changeSrcImage()
 		{
@@ -379,7 +394,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 			fd.setMode(FileDialog.LOAD);
 			fd.setVisible(true);
 			try {
-				if (fd.getFile() != null) {
+				if (fd.getFile() != null && !fd.getFile().isEmpty()) {
 					String file = fd.getDirectory() + fd.getFile();
 					System.out.println("You chose to open this file: " + file);
 					image_file = new File(file).getCanonicalFile();
