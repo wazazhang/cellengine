@@ -166,9 +166,7 @@ public class PopupCellEditUILayout extends PopupCellEdit<UILayout>
 				lbl_border_color.setForeground(
 						AwtEngine.unwrap(rect.getBorderColor()));
 				image_style = rect.getStyle();
-				
-			}
-			else {
+			} else {
 				changeSrcImage();
 				UILayout srect = new UILayout();
 				lbl_back_color.setForeground(

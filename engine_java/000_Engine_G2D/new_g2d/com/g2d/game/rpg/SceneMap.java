@@ -88,7 +88,8 @@ public abstract class SceneMap extends DisplayObjectContainer implements AstarMa
 			Unit unit = (Unit)child;
 			if (unit.getID() == null) {
 				for (int i = Integer.MAX_VALUE; i > Integer.MIN_VALUE; --i) {
-					String id = unit.getClass().getSimpleName() + "_" + units_index.getAndIncrement();
+					String id = unit.getClass().getSimpleName() + "_" +
+							units_index.getAndIncrement();
 //					System.out.println("crate default id = " + id);
 					if (unit.setID(this, id)) {
 						break;

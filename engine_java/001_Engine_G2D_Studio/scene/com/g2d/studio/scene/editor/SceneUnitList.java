@@ -87,7 +87,9 @@ public class SceneUnitList<T extends SceneUnitTag<?>> extends JPanel implements 
 	}
 
 	public int compare(T a, T b) {
-		return CUtil.getStringCompare().compare(a.getGameUnit().getID()+"", b.getGameUnit().getID()+"");
+		return CUtil.getStringCompare().compare(
+				a.getGameUnit().getID()+"", 
+				b.getGameUnit().getID()+"");
 	}
 	
 	

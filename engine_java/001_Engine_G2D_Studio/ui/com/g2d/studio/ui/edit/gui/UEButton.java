@@ -4,16 +4,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.g2d.BufferedImage;
+import com.g2d.awt.util.Tools;
 import com.g2d.display.ui.Button;
 import com.g2d.display.ui.UIComponent;
 import com.g2d.display.ui.layout.UILayout;
+import com.g2d.studio.res.Res;
 import com.g2d.studio.ui.edit.UIEdit;
 import com.g2d.studio.ui.edit.UITreeNode;
 
 public class UEButton extends Button implements SavedComponent
 {
-	
+	public static BufferedImage mouse_catched_image = Tools.wrap_awt(Res.img_light64);
 	public UEButton() {
+		this.mouse_catched_mask = mouse_catched_image;
 	}
 	
 	@Override

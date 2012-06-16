@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -77,7 +78,8 @@ public class UIEdit extends AbstractFrame implements ActionListener
 
 	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
 	private JToggleButton tool_preferred = new JToggleButton(Tools.createIcon(Res.icon_refresh));
-	private JToggleButton tool_auto_select = new JToggleButton("自动选取");
+	private JCheckBox tool_auto_select 	= new JCheckBox("自动选取");
+	private JCheckBox tool_not_drag_move 	= new JCheckBox("不可拖动");
 	private JSpinner tool_grid_size = new JSpinner(new SpinnerNumberModel(8, 2, 100, 1));
 	private G2DWindowToolBar tools;
 	private JToolBar bar_status;
@@ -163,10 +165,14 @@ public class UIEdit extends AbstractFrame implements ActionListener
 
 		{
 			tools = new G2DWindowToolBar(this, true, true, true, true);
+			tools.addSeparator();
 			tools.add(tool_auto_select);
+			tools.add(tool_not_drag_move);
+			tools.addSeparator();
 			tools.add(tool_grid);
 			tools.add(tool_grid_size);
 			tools.add(tool_preferred);
+			tools.addSeparator();
 			tools.save_s.setToolTipText("另存为");
 
 			tool_auto_select.setSelected(true);
@@ -243,12 +249,16 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		ui_property_panel.setCompoment(node);
 	}
 
-	public boolean isGridEnable() {
+	public boolean isToolGridEnable() {
 		return tool_grid.isSelected();
 	}
 	
-	public boolean isAutoSelect() {
+	public boolean isToolAutoSelect() {
 		return tool_auto_select.isSelected();
+	}
+	
+	public boolean isToolDragMove() {
+		return !tool_not_drag_move.isSelected();
 	}
 
 	public int getGridSize() {

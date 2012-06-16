@@ -470,7 +470,8 @@ abstract public class OutputXml extends BaseOutput
 		for (int s = list.getLength() - 1; s >= 0; --s) 
 		{
 			Node node = list.item(s);
-			if (node instanceof Element) {
+			if (node instanceof Element)
+			{
 				Element e = (Element)node;
 				if (e.getNodeName().equals("unit_map")) 
 				{
@@ -480,6 +481,9 @@ abstract public class OutputXml extends BaseOutput
 					map.MapID 		= e.getAttribute("id");
 					map.X 			= Integer.parseInt(e.getAttribute("x"));
 					map.Y 			= Integer.parseInt(e.getAttribute("y"));
+					try {
+					map.Priority	= Integer.parseInt(e.getAttribute("priority"));
+					} catch (Exception e2) {}
 					map.ImagesID 	= e.getAttribute("images");
 					map.Data		= getArray1DLines(e.getAttribute("map_data"));
 					set.Maps.put(map.Index, map);
@@ -494,6 +498,9 @@ abstract public class OutputXml extends BaseOutput
 					spr.Frame		= Integer.parseInt(e.getAttribute("frame_id"));
 					spr.X 			= Integer.parseInt(e.getAttribute("x"));
 					spr.Y 			= Integer.parseInt(e.getAttribute("y"));
+					try {
+					spr.Priority	= Integer.parseInt(e.getAttribute("priority"));
+					} catch (Exception e2) {}
 					spr.ImagesID 	= e.getAttribute("images");
 					spr.Data		= getArray1DLines(e.getAttribute("spr_data"));
 					set.Sprs.put(spr.Index, spr);
@@ -509,6 +516,9 @@ abstract public class OutputXml extends BaseOutput
 					img.Trans		= ImageTrans.valueOf(e.getAttribute("trans"));
 					img.X 			= Integer.parseInt(e.getAttribute("x"));
 					img.Y 			= Integer.parseInt(e.getAttribute("y"));
+					try {
+					img.Priority	= Integer.parseInt(e.getAttribute("priority"));
+					} catch (Exception e2) {}
 					img.Data		= getArray1DLines(e.getAttribute("img_data"));
 					set.Imgs.put(img.Index, img);
 				}

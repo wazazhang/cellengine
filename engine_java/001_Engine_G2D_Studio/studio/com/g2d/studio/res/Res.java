@@ -69,7 +69,8 @@ public class Res
 	static public BufferedImage	img_job_trainer		= Tools.readImage("/com/g2d/studio/res/img_job_trainer.png");
 	static public BufferedImage	img_talk			= Tools.readImage("/com/g2d/studio/res/img_talk.png");
 	static public BufferedImage	img_script			= Tools.readImage("/com/g2d/studio/res/img_script.png");
-	
+	static public BufferedImage img_light64			= Tools.readImage("/com/g2d/studio/res/light64.png");
+
 //	---------------------------------------------------------------------------------------------------------------
 	
 	

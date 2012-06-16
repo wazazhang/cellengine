@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.g2d.Graphics2D;
+import com.g2d.annotation.Property;
 import com.g2d.display.event.Event;
 
 
@@ -33,6 +34,7 @@ public abstract class DisplayObjectContainer extends DisplayObject
 
 	Vector<DisplayObject>				always_top_elements;
 	Vector<DisplayObject>				always_bottom_elements;
+
 	
 //	-------------------------------------------------------------
 	Comparator<DisplayObject>			sorter 			= new DefaultObjectSorter();

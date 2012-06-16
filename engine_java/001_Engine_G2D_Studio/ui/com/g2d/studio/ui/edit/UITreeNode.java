@@ -160,11 +160,16 @@ implements ObjectPropertyListener
 		
 		@Override
 		public boolean isSelected(InteractiveObject obj) {
-			if (!edit.isAutoSelect()) {
+			if (!edit.isToolAutoSelect()) {
 				return edit.getSelectedUINode() == UITreeNode.this;
 			} else {
 				return true;
 			}
+		}
+		
+		@Override
+		public boolean isDragEnable(InteractiveObject obj) {
+			return edit.isToolDragMove();
 		}
 		
 		@Override
@@ -198,7 +203,7 @@ implements ObjectPropertyListener
 		@Override
 		public void mouseDragged(MouseMoveEvent e)
 		{
-			if (edit.isGridEnable()) 
+			if (edit.isToolGridEnable()) 
 			{
 				edit.getLayoutManager().gridPos(display);
 			}
@@ -210,7 +215,7 @@ implements ObjectPropertyListener
 		@Override
 		public void onDragResizeRunning(InteractiveObject object, DragResizeObject dr) 
 		{
-			if (edit.isGridEnable()) 
+			if (edit.isToolGridEnable()) 
 			{
 				edit.getLayoutManager().gridSize(dr.start_drag_bounds);
 			}
@@ -238,34 +243,35 @@ implements ObjectPropertyListener
 		{
 			if (edit.getTree().getSelectedNode() == UITreeNode.this) 
 			{
-				float alpha = 0.5f + (float)Math.sin(ui.timer / 5.0f)/2;
 				int s1 = 3;
 				int s2 = 6;
 				int s4 = 12;
 				int w = ui.getWidth();
 				int h = ui.getHeight();
-				
 				g.pushClip();
 				g.setClip(-s2, -s2, w+s4, h+s4);
-//				if (edit.getTree().getSelectedNode() == UITreeNode.this) {
+				
+				if (edit.isToolDragMove())
+				{
+					float alpha = 0.5f + (float)Math.sin(ui.timer / 5.0f)/2;
 					g.setColor(new Color(alpha, alpha, alpha, 1));
-//				} else {
-//					g.setColor(Color.WHITE);
-//				}
-				
-				g.drawRect(0, 0, w-1, h-1);
-				
-				g.fillRect( -s1,  -s1, s2, s2);
-				g.fillRect(w-s1,  -s1, s2, s2);
-				g.fillRect( -s1, h-s1, s2, s2);
-				g.fillRect(w-s1, h-s1, s2, s2);
-				
-				g.fillRect(w/2-s1,  -s1, s2, s2);
-				g.fillRect(w/2-s1, h-s1, s2, s2);
-				g.fillRect( -s1, h/2-s1, s2, s2);
-				g.fillRect(w-s1, h/2-s1, s2, s2);
-				
-				
+					g.drawRect(0, 0, w-1, h-1);
+					
+					g.fillRect( -s1,  -s1, s2, s2);
+					g.fillRect(w-s1,  -s1, s2, s2);
+					g.fillRect( -s1, h-s1, s2, s2);
+					g.fillRect(w-s1, h-s1, s2, s2);
+					
+					g.fillRect(w/2-s1,  -s1, s2, s2);
+					g.fillRect(w/2-s1, h-s1, s2, s2);
+					g.fillRect( -s1, h/2-s1, s2, s2);
+					g.fillRect(w-s1, h/2-s1, s2, s2);
+				}
+				else 
+				{
+					g.setColor(new Color(0.5f, 1f, 1f, 0.5f));
+					g.drawRect(0, 0, w-1, h-1);
+				}
 				g.popClip();
 			}
 		}

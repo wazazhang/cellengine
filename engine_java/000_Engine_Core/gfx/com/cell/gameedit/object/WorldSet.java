@@ -63,6 +63,7 @@ public class WorldSet implements SetObject
 		public String ImagesID;
 		public int X;
 		public int Y;
+		public int Priority;
 		public String Data;
 
 	}
@@ -79,6 +80,7 @@ public class WorldSet implements SetObject
 		public int Frame;
 		public int X;
 		public int Y;
+		public int Priority;
 		public String Data;
 
 	}
@@ -106,6 +108,7 @@ public class WorldSet implements SetObject
 		public IGraphics.ImageTrans Trans;
 		public int X;
 		public int Y;
+		public int Priority;
 		public String Data;
 		
 	}

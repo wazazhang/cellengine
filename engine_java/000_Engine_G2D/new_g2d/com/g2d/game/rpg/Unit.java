@@ -1,6 +1,7 @@
 package com.g2d.game.rpg;
 
 import com.cell.CMath;
+import com.g2d.BufferedImage;
 import com.g2d.display.Sprite;
 
 public abstract class Unit extends Sprite

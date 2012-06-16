@@ -72,7 +72,10 @@ public abstract class UIObject extends InteractiveObject
 	}
 	
 	protected boolean enable_drag_resize(){
-		if(edit_mode == null || edit_mode.isSelected(this)) {
+		if (edit_mode == null || edit_mode.isSelected(this)) {
+			if (!edit_mode.isDragEnable(this)) {
+				return false;
+			}
 			return enable_drag_resize;
 		} else {
 			return false;

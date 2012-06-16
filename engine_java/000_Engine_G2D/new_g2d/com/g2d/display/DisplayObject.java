@@ -38,6 +38,9 @@ public abstract class DisplayObject implements Vector
 	/** 是否可视,如果父节点不可视,那么子节点将也不可视 */ 
 	@Property("是否可视")
 	public boolean 				visible = true;
+
+	@Property("显示自身")
+	public boolean 				visible_content = true;
 	
 	/** 基于父节点的位置 */
 	@Property("x")
@@ -452,7 +455,9 @@ public abstract class DisplayObject implements Vector
 					catched_mouse = false;
 				}
 				this.renderBefore(g);
-				this.render(g);
+				if (visible_content) {
+					this.render(g);
+				}
 				this.renderDebug(g);
 				this.renderInteractive(g);
 				this.renderAfter(g);

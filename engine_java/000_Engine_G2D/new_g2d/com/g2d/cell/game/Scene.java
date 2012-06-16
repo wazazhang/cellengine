@@ -120,14 +120,17 @@ public class Scene extends com.g2d.game.rpg.Scene
 				g2d.scale(scalew, scaleh);
 				Vector<DisplayObject> childs = getSortedChilds();
 				for (DisplayObject d : childs) {
+					g2d.pushTransform();
+					g2d.translate(d.x, d.y);
 					if (d instanceof WorldObjectSprite) {
-						d.onRender(g2d);
+						d.render(g2d);
 //						CSprite csprite = ((WorldObjectSprite)d).getSprite();
 //						csprite.render(g2d, wspr.X, wspr.Y, wspr.Anim, wspr.Frame);
 					}
 					else if (d instanceof WorldObjectImage) {
 						d.onRender(g2d);
 					}
+					g2d.popTransform();
 				}
 				g2d.dispose();
 				return buffer;

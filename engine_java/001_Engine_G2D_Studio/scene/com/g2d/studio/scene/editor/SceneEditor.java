@@ -559,9 +559,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 	}
 
 	public void addTagUnit(SceneUnitTag<?> unit) {
-		try{
+		try {
 			scene_container.getWorld().addChild(unit.getGameUnit());
-		}catch(Exception err){
+		} catch (Exception err) {
 			err.printStackTrace();
 		}
 		refreshAll();
@@ -638,7 +638,8 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 	
 //	-----------------------------------------------------------------------------------------------------------------------------
 
-	class SceneContainer extends Scene implements CUtil.ICompare<SceneUnitTag<?>, SceneUnitTag<?>>
+	class SceneContainer extends Scene implements 
+	CUtil.ICompare<SceneUnitTag<?>, SceneUnitTag<?>>
 	{
 		Point			add_region_sp	= null;
 		Point			add_region_dp	= new Point();
@@ -652,7 +653,7 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		{
 			this.setWorld(new SceneMap(this, scene_resource, scene_world.name));
 			this.enable_input				= true;
-			this.getWorld().runtime_sort 	= false;
+			this.getWorld().runtime_sort 	= true;
 		}
 
 		@Override
@@ -668,7 +669,9 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		}
 		
 		public int compare(SceneUnitTag<?> a, SceneUnitTag<?> b) {
-			return CUtil.getStringCompare().compare(a.getGameUnit().getID()+"", b.getGameUnit().getID()+"");
+			return CUtil.getStringCompare().compare(
+					a.getGameUnit().getID()+"", 
+					b.getGameUnit().getID()+"");
 		}
 		
 		@Override
@@ -700,7 +703,7 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 			
 			updateLocateCamera(catch_mouse, worldx, worldy);
 			
-			getWorld().sort();
+//			getWorld().sort();
 
 		}
 
@@ -745,7 +748,8 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 				}catch (Throwable e) {}
 			}
 			// 鼠标右键松开
-			else if (catch_mouse && getRoot().isMouseUp(com.g2d.display.event.MouseEvent.BUTTON_RIGHT))
+			else if (catch_mouse && getRoot().isMouseUp(
+					com.g2d.display.event.MouseEvent.BUTTON_RIGHT))
 			{
 				if (getSelectedUnit()!=null && pre_right_pos!=null) {
 					if ((pre_right_pos.x == getMouseX() && pre_right_pos.y == getMouseY())) {
@@ -767,14 +771,17 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 				}
 			}
 			// ctrl + c 复制名字
-			else if (getRoot().isKeyHold(KeyEvent.VK_CONTROL) && getRoot().isKeyDown(KeyEvent.VK_C)) {
+			else if (getRoot().isKeyHold(KeyEvent.VK_CONTROL) && 
+					getRoot().isKeyDown(KeyEvent.VK_C)) {
 				if (getSelectedUnit() != null) {
-					CObject.getAppBridge().setClipboardText(getSelectedUnit().getGameUnit().getID()+"");
+					CObject.getAppBridge().setClipboardText(
+							getSelectedUnit().getGameUnit().getID()+"");
 				}
 			}
 			
 			for (int p=0; p<unit_page.getTabCount(); p++) {
-				SceneUnitTagAdapter<?,?> ad = (SceneUnitTagAdapter<?,?>)unit_page.getComponentAt(p);
+				SceneUnitTagAdapter<?,?> ad = (SceneUnitTagAdapter<?,?>)
+						unit_page.getComponentAt(p);
 				ad.clearAddUnitObject(this);
 			}
 			
@@ -785,7 +792,8 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		void updateAddUnit(boolean catch_mouse, int worldx, int worldy) 
 		{
 			for (int p=0; p<unit_page.getTabCount(); p++) {
-				SceneUnitTagAdapter<?,?> ad = (SceneUnitTagAdapter<?,?>)unit_page.getComponentAt(p);
+				SceneUnitTagAdapter<?,?> ad = (SceneUnitTagAdapter<?,?>)
+						unit_page.getComponentAt(p);
 				if (ad!=getSelectedPage()) {
 					ad.clearAddUnitObject(this);
 				} else {
@@ -1245,7 +1253,8 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 				@Override
 				public Component getListCellRendererComponent(JList list, Object value,
 						int index, boolean isSelected, boolean cellHasFocus) {
-					Component ret = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+					Component ret = super.getListCellRendererComponent(
+							list, value, index, isSelected, cellHasFocus);
 					SceneRegion actor = (SceneRegion)value;
 					StringBuffer sb = new StringBuffer();
 					sb.append("<html><body>");
@@ -1265,7 +1274,8 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 		}
 		
 		@Override
-		public void updateAddUnit(SceneContainer scene, boolean catchMouse, int worldx, int worldy) 
+		public void updateAddUnit(SceneContainer scene, 
+				boolean catchMouse, int worldx, int worldy) 
 		{
 			add_region_dp.x = worldx; 
 			add_region_dp.y = worldy;
@@ -1287,7 +1297,8 @@ public class SceneEditor extends AbstractFrame implements ActionListener, Window
 					
 					if (sw>0 && sh>0)
 					{
-						SceneRegion region = new SceneRegion(SceneEditor.this, new Rectangle(0, 0, sw, sh));
+						SceneRegion region = new SceneRegion(
+								SceneEditor.this, new Rectangle(0, 0, sw, sh));
 						region.setLocation(sx, sy);
 						addTagUnit(region);
 					}

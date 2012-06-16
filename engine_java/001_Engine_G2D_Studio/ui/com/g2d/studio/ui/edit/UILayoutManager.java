@@ -111,7 +111,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			ui.setLayout(ui_default);
 		}
 		
-		if (edit.isGridEnable()) 
+		if (edit.isToolGridEnable()) 
 		{
 			gridSize(ui.local_bounds);
 		}

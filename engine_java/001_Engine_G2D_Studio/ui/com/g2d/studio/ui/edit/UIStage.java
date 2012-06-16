@@ -70,7 +70,7 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 	{
 		super.renderAfter(g);
 
-		if (edit.isGridEnable()) 
+		if (edit.isToolGridEnable()) 
 		{
 			float alpha = 0.5f + (float)Math.sin(this.timer / 5.0f)/2;
 			g.setColor(new Color(alpha, alpha, alpha, 1));
@@ -114,7 +114,7 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 				int tx = ct.display.screenToLocalX(dtde.getLocation().x);
 				int ty = ct.display.screenToLocalY(dtde.getLocation().y);
 				uc.display.setLocation(tx, ty);
-				if (edit.isGridEnable()) {
+				if (edit.isToolGridEnable()) {
 					edit.getLayoutManager().gridPos(ct.display);
 				}
 			}

@@ -51,6 +51,14 @@ public class ImageUILayout extends UILayout
 		return image_file;
 	}
 	
+	@Override
+	public String toString() {
+		return "[" + getClass().getSimpleName() + "]\n" + 
+				" - " + image_file.getName() + "\n" +
+				" - " + clip_style + "\n" +
+				" - " + clip_border;
+	}
+	
 //	@Override
 //	protected void onRead(MarkedHashtable data) {
 //		super.onRead(data);

@@ -114,6 +114,7 @@ public class SampleBuilder extends Builder
 				return new OutputXmlDir(o.getPath());
 			}
 		} catch (Exception err) {
+			err.printStackTrace();
 		}
 		return null;
 	}

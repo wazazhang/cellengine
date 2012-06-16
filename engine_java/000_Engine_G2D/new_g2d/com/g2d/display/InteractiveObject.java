@@ -150,10 +150,12 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 					stopDrag();
 				} else if (mouse_draged_event!=null && !enable_drag_drop()) {
 //					System.out.println(this);
-					if (enable_drag) {
-						onDrag(mouse_draged_event);
+					if (edit_mode == null || edit_mode.isDragEnable(this)) {
+						if (enable_drag) {
+							onDrag(mouse_draged_event);
+						}
+						onMouseDraged(mouse_draged_event);
 					}
-					onMouseDraged(mouse_draged_event);
 				}
 			}
 		}
@@ -422,5 +424,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 	static public interface EditModeSelect
 	{
 		public boolean isSelected(InteractiveObject obj);
+		
+		public boolean isDragEnable(InteractiveObject obj);
 	}
 }
