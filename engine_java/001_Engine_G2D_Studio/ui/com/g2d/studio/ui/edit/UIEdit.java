@@ -359,8 +359,11 @@ public class UIEdit extends AbstractFrame implements ActionListener
 					String file = fd.getDirectory() + fd.getFile();
 					File xmlfile = new File(file).getCanonicalFile();
 					FileInputStream fis = new FileInputStream(xmlfile);
-					tree_root.fromXMLStream(this, fis);
-					fis.close();
+					try {
+						tree_root.fromXMLStream(this, fis);
+					} finally {
+						fis.close();
+					}
 					last_saved_file = xmlfile;
 					this.setTitle(last_saved_file.getPath());
 					tree.reload();
