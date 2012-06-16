@@ -363,6 +363,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 					last_saved_file = xmlfile;
 					this.setTitle(last_saved_file.getPath());
 					tree.reload();
+					onSelectTreeNode(tree_root);
 				} catch (Exception e) {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(this, 

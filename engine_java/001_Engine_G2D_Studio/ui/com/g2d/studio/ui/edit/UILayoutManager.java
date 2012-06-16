@@ -21,6 +21,7 @@ import com.g2d.studio.ui.edit.gui.UEImageBox;
 import com.g2d.studio.ui.edit.gui.UELabel;
 import com.g2d.studio.ui.edit.gui.UERoot;
 import com.g2d.studio.ui.edit.gui.UETextBox;
+import com.g2d.studio.ui.edit.gui.UETextBoxHtml;
 import com.g2d.studio.ui.edit.gui.UETextInput;
 import com.g2d.studio.ui.edit.gui.UEToggleButton;
 
@@ -99,7 +100,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 			ui.setLayout(ui_textinput);
 			ui.setSize(100, 100);
 		}
-		else if (ui instanceof UETextBox) {
+		else if (ui instanceof UETextBox || ui instanceof UETextBoxHtml) {
 			ui.setLayout(ui_textbox);
 			ui.setSize(100, 30);
 		}
@@ -193,6 +194,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 				new UITemplate(ui_canvas, 	UECanvas.class, "Canvas"),
 				new UITemplate(ui_textinput, UETextInput.class, "TextInput"),
 				new UITemplate(ui_textbox, 	UETextBox.class, "TextBox"),
+				new UITemplate(ui_textbox, 	UETextBoxHtml.class, "UETextBoxHtml"),
 		};
 		return templates;
 	}

@@ -124,6 +124,7 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 	 * @param field_value	被编辑的对象类的字段当前值
 	 * @return
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	final protected PropertyCellEdit<?> getPropertyCellEdit(Object object, Field field, Object field_value)
 	{
 		// 从适配器里选取
@@ -132,6 +133,13 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 				if (ad.getType().isInstance(object)) {
 					PropertyCellEdit<?> edit = ad.getCellEdit(this, object, field_value, field);
 					if (edit != null) {
+						if (edit instanceof PopupCellEdit<?>) {
+							try {
+								((PopupCellEdit) edit).setValue(field, field_value, this);
+							}catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
 						return edit;
 					}
 				}
@@ -142,7 +150,6 @@ public abstract class BaseObjectPropertyPanel extends JPanel implements ObjectPr
 		
 		if (field.getType().isEnum()) 
 		{
-			@SuppressWarnings("unchecked")
 			ListEnumEdit edit = new ListEnumEdit(field.getType());
 			return edit;
 		}

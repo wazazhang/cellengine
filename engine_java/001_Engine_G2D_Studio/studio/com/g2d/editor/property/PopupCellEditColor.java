@@ -2,6 +2,7 @@ package com.g2d.editor.property;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
 
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
@@ -22,7 +23,16 @@ public class PopupCellEditColor extends PopupCellEdit<Color>
 		// Set up the dialog that the button brings up.
 		colorChooser = new JColorChooser();
 	}
-
+	@Override
+	public void setValue(Field field, Color value, ObjectPropertyEdit comp) {
+		super.setValue(field, value, comp);
+		if (value != null) {
+			java.awt.Color color = AwtEngine.unwrap(value);
+			setBackground(color);
+			setText(value+"");
+		}
+	}
+	
 	@Override
 	public void onOpenEditor(Color value) 
 	{

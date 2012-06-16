@@ -185,13 +185,11 @@ public class Studio extends AbstractFrame
 //			}
 //		} catch (Exception e) {}
 		
-		
+
+		UILayoutManager.setInstance(new UILayoutManager());
 		try {
-			UILayoutManager.setInstance(new UILayoutManager());
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Exception err) {
-			err.printStackTrace();
-		}
+		} catch (Exception err) {}
 		try {
 			Font font = new Font(StudioConfig.DEFAULT_FONT, Font.PLAIN, StudioConfig.DEFAULT_FONT_SIZE);
 			this.setFont(font);

@@ -9,6 +9,7 @@ import com.g2d.studio.ui.edit.UIEdit;
 public class UETextInput extends TextBoxSingle implements SavedComponent
 {
 	public UETextInput() {
+		super("");
 	}
 	
 	@Override

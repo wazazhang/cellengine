@@ -87,8 +87,8 @@ implements ObjectPropertyListener
 		this.display.setSorter(adapter);
 		this.display.setAttribute(UITreeNode.class.getSimpleName(), this);
 		
-		this.opp = new ObjectPropertyPanel(display, 100, 200, false, 
-				new UIPropertyPanel.UEImageBoxAdapter(edit)); 
+		this.opp = new ObjectPropertyPanel(display, 100, 200, false,
+				UIPropertyPanel.getAdapters(edit)); 
 		this.opp.addObjectPropertyListener(this);
 		
 		this.setAllowsChildren(display instanceof com.g2d.display.ui.Container);

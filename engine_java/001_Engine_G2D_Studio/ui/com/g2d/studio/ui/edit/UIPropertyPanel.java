@@ -18,10 +18,12 @@ import com.cell.rpg.quest.ability.QuestTrigger;
 import com.g2d.BufferedImage;
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.awt.util.AbstractFrame;
+import com.g2d.awt.util.TextEditorDialog;
 import com.g2d.awt.util.Tools;
 import com.g2d.editor.property.CellEditAdapter;
 import com.g2d.editor.property.ObjectPropertyEdit;
 import com.g2d.editor.property.ObjectPropertyPanel;
+import com.g2d.editor.property.PopupCellEditText;
 import com.g2d.editor.property.PopupCellEditUILayout;
 import com.g2d.editor.property.PropertyCellEdit;
 import com.g2d.editor.property.TextCellEdit;
@@ -30,6 +32,8 @@ import com.g2d.studio.quest.QuestNode;
 import com.g2d.studio.quest.QuestSelectCellEdit;
 import com.g2d.studio.rpg.AbilityPanel.AbilityCellEditAdapter;
 import com.g2d.studio.ui.edit.gui.UEImageBox;
+import com.g2d.studio.ui.edit.gui.UETextBox;
+import com.g2d.studio.ui.edit.gui.UETextBoxHtml;
 
 public class UIPropertyPanel extends JPanel
 {
@@ -48,6 +52,15 @@ public class UIPropertyPanel extends JPanel
 		}
 	}
 
+	public static CellEditAdapter<?>[] getAdapters(UIEdit edit) {
+		return new CellEditAdapter<?>[]{
+				new UIPropertyPanel.UEImageBoxAdapter(edit),
+				new UIPropertyPanel.UETextBoxAdapter(edit),
+				new UIPropertyPanel.UETextBoxHtmlAdapter(edit),
+		};
+	};
+	
+	
 	public static class UEImageBoxAdapter implements CellEditAdapter<UEImageBox>
 	{
 		UIEdit edit;
@@ -105,19 +118,109 @@ public class UIPropertyPanel extends JPanel
 		@Override
 		public Component getCellRender(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field, DefaultTableCellRenderer src) 
 		{
-			if (field.getName().equals("quest_id") && fieldValue!=null) 
-			{
-				Integer quest_id = (Integer)fieldValue;
-				QuestNode node = Studio.getInstance().getQuestManager().getQuest(quest_id);
-				
-				if (node != null) 
-				{
-					src.setText(node.toString());
-					src.setIcon(node.getIcon(false));
-					return src;
-				}
-			}
+			return null;
+		}
+	}
+	
 
+	public static class UETextBoxAdapter implements CellEditAdapter<UETextBox>
+	{
+		UIEdit edit;
+		
+		public UETextBoxAdapter(UIEdit edit) {
+			this.edit = edit;
+		}
+		
+		@Override
+		public Class<UETextBox> getType() 
+		{
+			return UETextBox.class;
+		}
+
+		@Override
+		public boolean fieldChanged(Object edit_object, Object field_value,
+				Field field) {
+			return false;
+		}
+
+		@Override
+		public String getCellText(Object edit_object, Field field,
+				Object field_src_value) {
+			return null;
+		}
+
+		@Override
+		public Object getCellValue(Object edit_object,
+				PropertyCellEdit<?> field_edit, Field field,
+				Object field_src_value) {
+			return null;
+		}
+		
+		@Override
+		public PropertyCellEdit<?> getCellEdit(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field) 
+		{
+			if (field.getName().equals("Text")) 
+			{
+				PopupCellEditText tedDialog = new PopupCellEditText(fieldValue+"");
+				return tedDialog;
+			}
+			return null;
+		}
+	
+		@Override
+		public Component getCellRender(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field, DefaultTableCellRenderer src) 
+		{
+			return null;
+		}
+	}
+
+	public static class UETextBoxHtmlAdapter implements CellEditAdapter<UETextBoxHtml>
+	{
+		UIEdit edit;
+		
+		public UETextBoxHtmlAdapter(UIEdit edit) {
+			this.edit = edit;
+		}
+
+		@Override
+		public Class<UETextBoxHtml> getType() 
+		{
+			return UETextBoxHtml.class;
+		}
+
+		@Override
+		public boolean fieldChanged(Object edit_object, Object field_value,
+				Field field) {
+			return false;
+		}
+
+		@Override
+		public String getCellText(Object edit_object, Field field,
+				Object field_src_value) {
+			return null;
+		}
+
+		@Override
+		public Object getCellValue(Object edit_object,
+				PropertyCellEdit<?> field_edit, Field field,
+				Object field_src_value) {
+			return null;
+		}
+		
+		@Override
+		public PropertyCellEdit<?> getCellEdit(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field) 
+		{
+			if (field.getName().equals("HtmlText")) 
+			{
+				PopupCellEditText tedDialog = new PopupCellEditText(fieldValue+"");
+				return tedDialog;
+			}
+			return null;
+		}
+	
+		@Override
+		public Component getCellRender(ObjectPropertyEdit owner, Object editObject, Object fieldValue, Field field, DefaultTableCellRenderer src) 
+		{
 			return null;
 		}
 	}

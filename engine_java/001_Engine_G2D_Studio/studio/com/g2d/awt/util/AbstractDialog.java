@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 
@@ -39,7 +41,6 @@ public class AbstractDialog extends JDialog
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setCenter();
 	}
-	
 	
 	public void setCenter()
 	{

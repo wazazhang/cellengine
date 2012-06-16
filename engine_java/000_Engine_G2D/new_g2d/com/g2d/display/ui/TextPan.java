@@ -12,9 +12,9 @@ import com.g2d.text.MultiTextLayout;
 
 public class TextPan extends UIComponent
 {	
-	transient int 						text_draw_x;
-	transient int 						text_draw_y;
-	transient MultiTextLayout			text				= Engine.getEngine().createMultiTextLayout();
+	transient int text_draw_x;
+	transient int text_draw_y;
+	transient MultiTextLayout atext = Engine.getEngine().createMultiTextLayout();
 	
 	/**文字颜色*/
 	@Property("文字颜色")
@@ -33,9 +33,6 @@ public class TextPan extends UIComponent
 	@Property("文字是否抗锯齿")
 	public boolean	enable_antialiasing	 = false;
 
-	@Property("文本")
-	public String Text = "";
-	
 	public TextPan() 
 	{
 		this("");
@@ -56,47 +53,35 @@ public class TextPan extends UIComponent
 	}
 
 	public MultiTextLayout getTextLayout() {
-		return text;
+		return atext;
 	}
 	
 	public void setText(String text)
 	{
-//		AttributedString astring = new AttributedString(text);
-//		astring.addAttribute(TextAttribute.FONT, new Font("song", Font.PLAIN, 12), 0, text.length());
-	
-		this.text.setText(text);
-		this.Text = this.text.getText();
+		this.atext.setText(text);
 	}
 	
 	public void setText(AttributedString atext) {
-		this.text.setText(atext);
-		this.Text = this.text.getText();
+		this.atext.setText(atext);
 	}
 	
 	public void appendLine(String text) {
-		this.text.appendText(text);
-		this.Text = this.text.getText();
+		this.atext.appendText(text);
 	}
 	
 	public String getText() {
-		return this.text.getText();
+		return this.atext.getText();
 	}
 	
 	public void appendText(String text) {
-		this.text.appendText(text);
-		this.Text = this.text.getText();
+		this.atext.appendText(text);
 	}
-	
 	
 	public void update() 
 	{
 		super.update();
-		if (!Text.equals(text.getText())) {
-			setText(Text);
-		}
-		text.setShowCaret(false);
-		
-		text.setWidth((getWidth()-layout.BorderSize*2));
+		atext.setShowCaret(false);
+		atext.setWidth((getWidth()-layout.BorderSize*2));
 		text_draw_x = layout.BorderSize;
 		text_draw_y = layout.BorderSize;
 	}
@@ -108,7 +93,9 @@ public class TextPan extends UIComponent
 		g.setColor(textColor);
 		boolean flag = g.setFontAntialiasing(enable_antialiasing);
 		try {
-			text.drawText(g, text_draw_x, text_draw_y, 0, 0, getWidth(), getHeight(), 
+			atext.drawText(g, 
+					text_draw_x, text_draw_y, 
+					0, 0, getWidth(), getHeight(), 
 					text_shadow_x, 
 					text_shadow_y,
 					text_shadow_alpha,

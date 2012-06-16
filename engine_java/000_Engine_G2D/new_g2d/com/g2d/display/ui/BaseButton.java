@@ -15,7 +15,7 @@ public abstract class BaseButton extends UIComponent
 	public Image		mouse_catched_mask;
 	
 	/**自定义按下造型*/
-	@Property("text")
+	@Property("自定义按下造型")
 	public UILayout		custom_layout_down;
 	
 	public BaseButton(int width, int height) {
