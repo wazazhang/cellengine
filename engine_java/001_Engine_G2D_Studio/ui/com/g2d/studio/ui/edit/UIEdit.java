@@ -120,16 +120,37 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			}
 		});
 
-		tree_root = new UITreeNode(this, UERoot.class, "root");
 		
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		{
+			JPanel left = new JPanel(new BorderLayout());
+			
+			JSplitPane vsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			{
+				JToolBar temptoolbar = new JToolBar();
+				temptoolbar.add(new JLabel("标准控件"));
+				templates = new UITemplateList(this);
+				JScrollPane tempscroll = new JScrollPane(templates);
+				tempscroll.setPreferredSize(new Dimension(300, 300));
+				vsplit.setBottomComponent(tempscroll);
+
+				tree_root = new UITreeNode(this, templates.getTemplate(UERoot.class), "root");
+				tree = new UITree(this, tree_root);
+				JScrollPane treescroll = new JScrollPane(tree);
+				treescroll.setPreferredSize(new Dimension(300, 300));
+				vsplit.setTopComponent(treescroll);
+				
+			}
+			left.add(vsplit, BorderLayout.CENTER);
+			split.setLeftComponent(left);
+		}
 		{
 			JSplitPane hplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);		
 			hplit.setResizeWeight(1);
 			{
 				JPanel right = new JPanel(new BorderLayout());
 				right.add(stage_view);
-				stage_view.getStage().addChild(tree_root.display);
+				stage_view.getStage().addChild(tree_root.getDisplay());
 				stage_view.getCanvas().setFPS(30);
 				DropTarget dt = new DropTarget(
 						stage_view.getSimpleCanvas(), 
@@ -142,28 +163,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				hplit.setRightComponent(ui_property_panel);
 			}
 			split.setRightComponent(hplit);
-		}{
-			JPanel left = new JPanel(new BorderLayout());
-			
-			JSplitPane vsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			{
-				tree = new UITree(this, tree_root);
-				tree.setMinimumSize(new Dimension(300, 200));
-				JScrollPane treescroll = new JScrollPane(tree);
-				treescroll.setPreferredSize(new Dimension(300, 300));
-				vsplit.setTopComponent(treescroll);
-				
-				JToolBar temptoolbar = new JToolBar();
-				temptoolbar.add(new JLabel("标准控件"));
-				templates = new UITemplateList(this);
-				templates.setMinimumSize(new Dimension(200, 200));
-				templates.setPreferredSize(new Dimension(200, 200));
-				vsplit.setBottomComponent(new JScrollPane(templates));
-			}
-			left.add(vsplit, BorderLayout.CENTER);
-			split.setLeftComponent(left);
 		}
-
 		{
 			tools = new G2DWindowToolBar(this, true, true, true, true);
 			tools.addSeparator();
@@ -211,6 +211,14 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	
 	public UITemplateList getTemplates() {
 		return templates;
+	}
+
+	public UITemplate getTemplate(Class<?> type) {
+		return templates.getTemplate(type);
+	}
+	
+	public UITemplate getUserTemplate(String fileName) {
+		return templates.getTemplateFileName(fileName);
 	}
 	
 	public UITemplate getSelectedTemplate() {
@@ -343,7 +351,10 @@ public class UIEdit extends AbstractFrame implements ActionListener
 					"打开文件",
 					FileDialog.LOAD);
 			fd.setLocation(getLocation());
-			fd.setDirectory(workdir.getPath());
+			fd.setDirectory(workdir.getCanonicalPath());
+			if (last_saved_file != null) {
+				fd.setFile(last_saved_file.getCanonicalPath());
+			}
 			fd.setFilenameFilter(new FilenameFilter() {
 				@Override
 				public boolean accept(File dir, String name) {
@@ -380,20 +391,20 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 	}
 	
-	public UITreeNode getFileNode(File gui_file)
+	public UITreeNode getFileNode(UITemplate ut)
 	{
 		try {
-			File xmlfile = gui_file.getCanonicalFile();
-			FileInputStream fis = new FileInputStream(xmlfile);
-			UITreeNode tree_root = new UITreeNode(this,
-					UEFileNode.class, 
-					gui_file.getName());
-			tree_root.fromXMLStream(this, fis);
-			fis.close();
-			last_saved_file = xmlfile;
-			this.setTitle(last_saved_file.getPath());
-			tree.reload();
-			onSelectTreeNode(tree_root);
+			File xmlfile = ut.getUserTemplate().getCanonicalFile();
+			if (xmlfile != null) {
+				FileInputStream fis = new FileInputStream(xmlfile);
+				UITreeNode tree_root = new UITreeNode(this,
+						ut, 
+						xmlfile.getName());
+				tree_root.fromXMLStream(this, fis);
+				tree_root.removeAllChildren();
+				fis.close();
+				return tree_root;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, 

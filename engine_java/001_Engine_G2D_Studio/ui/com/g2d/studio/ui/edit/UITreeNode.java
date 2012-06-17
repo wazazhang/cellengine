@@ -63,35 +63,36 @@ implements ObjectPropertyListener
 {
 	private static UITreeNode copyed_node;
 	
-	final public UIComponent display;
 	final public ObjectPropertyPanel opp;
-	
+
+	private UITemplate template;
+	private UIComponent display;
 	private BufferedImage icon;
 	private UIEdit edit;
 	
-	public UITreeNode(UIEdit edit, Class<?> type, String name) 
+	public UITreeNode(UIEdit edit, UITemplate template, String name) 
 	{
-		this.edit = edit;
-		
 		DisplayAdapter adapter = new DisplayAdapter();
-		this.display = createDisplay(type);
-		this.display.name = name;
-		this.display.debugDraw = adapter;
-		this.display.enable = true;
-		this.display.enable_drag = true;
-		this.display.enable_drag_resize = true;
-		this.display.enable_key_input = true;
-		this.display.enable_focus = true;
-		this.display.edit_mode = adapter;
-		this.display.addEventListener(adapter);
-		this.display.setSorter(adapter);
-		this.display.setAttribute(UITreeNode.class.getSimpleName(), this);
+		this.edit = edit;
+		this.template = template;
+		this.display = template.createDisplay();
+		this.getDisplay().name = name;
+		this.getDisplay().debugDraw = adapter;
+		this.getDisplay().enable = true;
+		this.getDisplay().enable_drag = true;
+		this.getDisplay().enable_drag_resize = true;
+		this.getDisplay().enable_key_input = true;
+		this.getDisplay().enable_focus = true;
+		this.getDisplay().edit_mode = adapter;
+		this.getDisplay().addEventListener(adapter);
+		this.getDisplay().setSorter(adapter);
+		this.getDisplay().setAttribute(UITreeNode.class.getSimpleName(), this);
 		
-		this.opp = new ObjectPropertyPanel(display, 100, 200, false,
+		this.opp = new ObjectPropertyPanel(getDisplay(), 100, 200, false,
 				UIPropertyPanel.getAdapters(edit)); 
 		this.opp.addObjectPropertyListener(this);
 		
-		this.setAllowsChildren(display instanceof com.g2d.display.ui.Container);
+		this.setAllowsChildren(getDisplay() instanceof com.g2d.display.ui.Container);
 	}
 	
 	protected UIComponent createDisplay(Class<?> type) {
@@ -112,14 +113,14 @@ implements ObjectPropertyListener
 	
 	@Override
 	protected ImageIcon createIcon() {
-		UILayout uc = display.getCustomLayout();
+		UILayout uc = getDisplay().getCustomLayout();
 		if (uc == null) {
-			uc = display.getLayout();
+			uc = getDisplay().getLayout();
 		}
 		if (uc != null) {
-			icon = Engine.getEngine().createImage(display.getWidth(), display.getHeight());
+			icon = Engine.getEngine().createImage(getDisplay().getWidth(), getDisplay().getHeight());
 			Graphics2D g = icon.createGraphics();
-			uc.render(g, 0, 0, display.getWidth(), display.getHeight());
+			uc.render(g, 0, 0, getDisplay().getWidth(), getDisplay().getHeight());
 			g.dispose();
 			icon = Tools.combianImage(40, 30, icon);
 			return new ImageIcon(AwtEngine.unwrap(icon));
@@ -129,10 +130,10 @@ implements ObjectPropertyListener
 	
 	@Override
 	public String getName() {
-		return this.display.name + "";
+		return this.getDisplay().name + "";
 	}
 	public void setName(String name) {
-		this.display.name = name;
+		this.getDisplay().name = name;
 	}
 	@Override
 	public void onClicked(JTree tree, MouseEvent e) {
@@ -205,7 +206,7 @@ implements ObjectPropertyListener
 		{
 			if (edit.isToolGridEnable()) 
 			{
-				edit.getLayoutManager().gridPos(display);
+				edit.getLayoutManager().gridPos(getDisplay());
 			}
 		}
 		
@@ -292,7 +293,7 @@ implements ObjectPropertyListener
 			super.remove(open);
 			super.remove(rename);
 
-			if (display instanceof com.g2d.display.ui.Container) {
+			if (getDisplay() instanceof com.g2d.display.ui.Container) {
 				super.insert(paste, 1);
 				paste.addActionListener(this);
 				
@@ -308,7 +309,7 @@ implements ObjectPropertyListener
 				copy.addActionListener(this);
 			}
 			
-			if (display instanceof com.g2d.display.ui.Container) {
+			if (getDisplay() instanceof com.g2d.display.ui.Container) {
 				super.insert(add, 1);
 				add.addActionListener(this);
 			}
@@ -321,7 +322,7 @@ implements ObjectPropertyListener
 			if (e.getSource() == add) 
 			{
 				if (edit.getSelectedTemplate() != null) {
-					Class<?> type = edit.getSelectedTemplate().uiType;
+					UITemplate type = edit.getSelectedTemplate();
 					String name = JOptionPane.showInputDialog(
 							AbstractDialog.getTopWindow(getInvoker()), "输入名字！",
 							"");
@@ -329,7 +330,7 @@ implements ObjectPropertyListener
 						UITreeNode tn = createChild(type, name);
 						if (tn == null) {
 							JOptionPane.showMessageDialog(this,
-									display.getClass().getSimpleName()+"不能添加子节点！");
+									getDisplay().getClass().getSimpleName()+"不能添加子节点！");
 						}
 					}
 				}
@@ -353,7 +354,7 @@ implements ObjectPropertyListener
 			{
 				TreeNode parent = node.getParent();
 				this.node.removeFromParent();
-				this.node.display.removeFromParent();
+				this.node.getDisplay().removeFromParent();
 				if (tree!=null) {
 					tree.reload(parent);
 				}
@@ -368,7 +369,7 @@ implements ObjectPropertyListener
 	public UITreeNode removeChild(UITreeNode tr) {
 		try {
 			super.remove(tr);
-			this.display.removeChild(tr.display);
+			this.getDisplay().removeChild(tr.getDisplay());
 			return tr;
 		} catch (Exception e) {}
 		return null;
@@ -380,9 +381,9 @@ implements ObjectPropertyListener
 		}
 	}
 	public UITreeNode addChild(UITreeNode node) {
-		if (display instanceof com.g2d.display.ui.Container) {
-			com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) display;
-			if (pc.addComponent(node.display)) {
+		if (getDisplay() instanceof com.g2d.display.ui.Container) {
+			com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) getDisplay();
+			if (pc.addComponent(node.getDisplay())) {
 				this.add(node);
 				edit.getTree().reload(this);
 				return node;
@@ -391,13 +392,13 @@ implements ObjectPropertyListener
 		return null;
 	}
 	
-	public UITreeNode createChild(Class<?> type, String name) 
+	public UITreeNode createChild(UITemplate template, String name) 
 	{
 		try {
-			if (display instanceof com.g2d.display.ui.Container) {
-				UITreeNode node = new UITreeNode(edit, type, name);
-				com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) display;
-				if (pc.addComponent(node.display)) {
+			if (getDisplay() instanceof com.g2d.display.ui.Container) {
+				UITreeNode node = new UITreeNode(edit, template, name);
+				com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) getDisplay();
+				if (pc.addComponent(node.getDisplay())) {
 					this.add(node);
 					edit.getTree().reload(this);
 					return node;
@@ -412,13 +413,13 @@ implements ObjectPropertyListener
 	
 	public UITreeNode clone()
 	{
-		UITreeNode ret = new UITreeNode(edit, display.getClass(), "");
-		UIComponent ui = ret.display;
+		UITreeNode ret = new UITreeNode(edit, template, "");
+		UIComponent ui = ret.getDisplay();
 		Field[] fields = ui.getClass().getFields();
 		for (Field f : fields) {
 			try {
 				if (f.getAnnotation(Property.class) != null) {
-					Object attr = f.get(this.display);
+					Object attr = f.get(this.getDisplay());
 					f.set(ui, CIO.cloneObject(attr));
 				}
 			} catch (Exception err) {
@@ -462,7 +463,7 @@ implements ObjectPropertyListener
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
-			Element e = doc.createElement(display.getClass().getCanonicalName());
+			Element e = doc.createElement(getDisplay().getClass().getCanonicalName());
 			doc.appendChild(e);
 			writeInternal(edit, doc, e, this);
 			doc.normalizeDocument();
@@ -482,10 +483,10 @@ implements ObjectPropertyListener
 
 	private static void readInternal(UIEdit edit, Document doc, Element e, UITreeNode ui) throws Exception
 	{
-		readFields(edit, e, ui.display);
-		if (ui.display instanceof SavedComponent) {
-			((SavedComponent)ui.display).onRead(edit, e, doc);
-			((SavedComponent)ui.display).readComplete(edit);
+		readFields(edit, e, ui.getDisplay());
+		if (ui.getDisplay() instanceof SavedComponent) {
+			((SavedComponent)ui.getDisplay()).onRead(edit, e, doc);
+			((SavedComponent)ui.getDisplay()).readComplete(edit);
 		}
 		
 		NodeList list = e.getChildNodes();
@@ -498,7 +499,7 @@ implements ObjectPropertyListener
 				if (ev.getNodeName().equals("layout")) 
 				{
 					UILayout layout = readLayout(edit, ev);
-					ui.display.custom_layout = layout;
+					ui.getDisplay().custom_layout = layout;
 				}
 				else if (ev.getNodeName().equals("childs"))
 				{
@@ -507,7 +508,8 @@ implements ObjectPropertyListener
 						if (childs.item(c) instanceof Element) {
 							Element child = (Element)childs.item(c);
 							Class<?> type = Class.forName(child.getNodeName());
-							UITreeNode tn = ui.createChild(type, "");
+							UITemplate template = edit.getTemplate(type);
+							UITreeNode tn = ui.createChild(template, "");
 							readInternal(edit, doc, child, tn);
 						}
 					}
@@ -520,13 +522,13 @@ implements ObjectPropertyListener
 
 	private static void writeInternal(UIEdit edit, Document doc, Element e, UITreeNode ui) throws Exception
 	{
-		writeFields(edit, e, ui.display);
-		if (ui.display instanceof SavedComponent) {
-			((SavedComponent)ui.display).writeBefore(edit);
-			((SavedComponent)ui.display).onWrite(edit, e, doc);
+		writeFields(edit, e, ui.getDisplay());
+		if (ui.getDisplay() instanceof SavedComponent) {
+			((SavedComponent)ui.getDisplay()).writeBefore(edit);
+			((SavedComponent)ui.getDisplay()).onWrite(edit, e, doc);
 		}
 		
-		UILayout layout = ui.display.getCustomLayout();
+		UILayout layout = ui.getDisplay().getCustomLayout();
 		if (layout != null) {
 			Element rect = doc.createElement("layout");
 			writeLayout(edit, layout, rect);
@@ -538,7 +540,7 @@ implements ObjectPropertyListener
 			for (int i=0; i<ui.getChildCount(); i++) {
 				UITreeNode cn = (UITreeNode)ui.getChildAt(i);
 				Element child = doc.createElement(
-						cn.display.getClass().getCanonicalName());
+						cn.getDisplay().getClass().getCanonicalName());
 				writeInternal(edit, doc, child, cn);
 				childs.appendChild(child);
 			}
@@ -637,5 +639,9 @@ implements ObjectPropertyListener
 			rect.setAttribute("clip", imgrect.clip_border + "");
 			edit.getLayoutManager().putLayout(imgrect);
 		}
+	}
+
+	public UIComponent getDisplay() {
+		return display;
 	}
 }

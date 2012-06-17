@@ -17,6 +17,7 @@ import com.g2d.geom.Rectangle;
 import com.g2d.java2d.impl.AwtEngine;
 import com.g2d.studio.ui.edit.gui.UEButton;
 import com.g2d.studio.ui.edit.gui.UECanvas;
+import com.g2d.studio.ui.edit.gui.UEFileNode;
 import com.g2d.studio.ui.edit.gui.UEImageBox;
 import com.g2d.studio.ui.edit.gui.UELabel;
 import com.g2d.studio.ui.edit.gui.UERoot;
@@ -194,7 +195,7 @@ public class UILayoutManager extends com.g2d.display.ui.layout.UILayoutManager
 				new UITemplate(ui_canvas, 	UECanvas.class, "Canvas"),
 				new UITemplate(ui_textinput, UETextInput.class, "TextInput"),
 				new UITemplate(ui_textbox, 	UETextBox.class, "TextBox"),
-				new UITemplate(ui_textbox, 	UETextBoxHtml.class, "UETextBoxHtml"),
+				new UITemplate(ui_textbox, 	UETextBoxHtml.class, "TextBoxHtml"),
 		};
 		return templates;
 	}

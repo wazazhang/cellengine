@@ -1,5 +1,6 @@
 package com.g2d.studio.ui.edit;
 
+import java.awt.Dimension;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DropTarget;
 
@@ -17,6 +18,7 @@ public class UITree extends G2DTree
 	public UITree(UIEdit edit, UITreeNode node) {
 		super(node);
 		this.edit = edit;
+		this.setMinimumSize(new Dimension(100, 200));
 		this.setDragEnabled(true);
 	}
 	
@@ -38,7 +40,7 @@ public class UITree extends G2DTree
 			sb.append("<html><body>");
 			sb.append("<p>");
 			sb.append(node.getName());
-			sb.append("<font color=0000ff> - " + node.display.getClass().getSimpleName() + "</font>");
+			sb.append("<font color=0000ff> - " + node.getDisplay().getClass().getSimpleName() + "</font>");
 			sb.append("</p>");
 			sb.append("</body></html>");
 			return sb.toString();
@@ -71,12 +73,12 @@ public class UITree extends G2DTree
 		UITreeNode dst_tparent = (UITreeNode)dst_parent;
 		
 		if (src_tnode.getParent() != src_tparent) {
-			src_tnode.display.removeFromParent();
-			src_tnode.display.x = 0;
-			src_tnode.display.y = 0;
-			Container comp = (Container)((UITreeNode)src_tnode.getParent()).display;
-			comp.addComponent(src_tnode.display);
+			src_tnode.getDisplay().removeFromParent();
+			src_tnode.getDisplay().x = 0;
+			src_tnode.getDisplay().y = 0;
+			Container comp = (Container)((UITreeNode)src_tnode.getParent()).getDisplay();
+			comp.addComponent(src_tnode.getDisplay());
 		}
-		((UITreeNode)src_tnode.getParent()).display.sort();
+		((UITreeNode)src_tnode.getParent()).getDisplay().sort();
 	}
 }

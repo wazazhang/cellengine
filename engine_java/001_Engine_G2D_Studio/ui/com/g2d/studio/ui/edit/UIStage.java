@@ -39,7 +39,7 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 		UITreeNode un = (UITreeNode) edit.getTree().getSelectedNode();
 		if (un != null) 
 		{
-			DisplayObject display = un.display;
+			DisplayObject display = un.getDisplay();
 			
 			if (isKeyRepeat(KeyEvent.VK_UP)) {
 				display.y--;
@@ -106,16 +106,16 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 			if (ct == null) {
 				ct = (UITreeNode)edit.getTree().getRoot();
 			}
-			UITreeNode uc = ct.createChild(ut.uiType, "");
+			UITreeNode uc = ct.createChild(ut, "");
 			if (uc == null) {
 				JOptionPane.showMessageDialog(edit,
-						ct.display.getClass().getSimpleName()+"不能添加子节点！");
+						ct.getDisplay().getClass().getSimpleName()+"不能添加子节点！");
 			} else {
-				int tx = ct.display.screenToLocalX(dtde.getLocation().x);
-				int ty = ct.display.screenToLocalY(dtde.getLocation().y);
-				uc.display.setLocation(tx, ty);
+				int tx = ct.getDisplay().screenToLocalX(dtde.getLocation().x);
+				int ty = ct.getDisplay().screenToLocalY(dtde.getLocation().y);
+				uc.getDisplay().setLocation(tx, ty);
 				if (edit.isToolGridEnable()) {
-					edit.getLayoutManager().gridPos(ct.display);
+					edit.getLayoutManager().gridPos(ct.getDisplay());
 				}
 			}
 		}
