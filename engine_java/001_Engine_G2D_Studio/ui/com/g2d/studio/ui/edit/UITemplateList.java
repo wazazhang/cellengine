@@ -19,8 +19,6 @@ public class UITemplateList extends G2DTree
 {
 	private UIEdit edit;
 	
-	private UITemplate ui_root;
-	
 	private DefaultMutableTreeNode template = new DefaultMutableTreeNode("基础控件", true);
 	private HashMap<Class<?>, UITemplate> tempate_map = new HashMap<Class<?>, UITemplate>();
 	
@@ -55,9 +53,10 @@ public class UITemplateList extends G2DTree
 	
 	private void initTemplate() 
 	{
-		ui_root = new UITemplate(new UILayout(ImageStyle.NULL), UERoot.class, "root");
-		tempate_map.put(ui_root.getUIType(), ui_root);
-		
+		tempate_map.put(UERoot.class,
+				new UITemplate(new UILayout(ImageStyle.NULL), UERoot.class, "root"));
+		tempate_map.put(UEFileNode.class, 
+				new UITemplate(new UILayout(ImageStyle.NULL), UEFileNode.class, "file"));
 		for (UITemplate ut : edit.getLayoutManager().getTemplates()) {
 			template.add(ut);
 			tempate_map.put(ut.getUIType(), ut);

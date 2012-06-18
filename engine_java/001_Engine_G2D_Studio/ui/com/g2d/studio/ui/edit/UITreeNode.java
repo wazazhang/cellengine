@@ -75,7 +75,7 @@ implements ObjectPropertyListener
 		DisplayAdapter adapter = new DisplayAdapter();
 		this.edit = edit;
 		this.template = template;
-		this.display = template.createDisplay();
+		this.display = template.createDisplay(edit);
 		this.getDisplay().name = name;
 		this.getDisplay().debugDraw = adapter;
 		this.getDisplay().enable = true;

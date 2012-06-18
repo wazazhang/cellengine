@@ -1,8 +1,10 @@
 package com.g2d.studio.ui.edit;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import com.g2d.BufferedImage;
 import com.g2d.Engine;
@@ -15,6 +17,7 @@ import com.g2d.studio.swing.G2DListItemData;
 import com.g2d.studio.swing.G2DTreeNode;
 import com.g2d.studio.ui.edit.gui.UECanvas;
 import com.g2d.studio.ui.edit.gui.UEFileNode;
+import com.g2d.studio.ui.edit.gui.UETextBox;
 
 public class UITemplate extends G2DTreeNode<UITemplate>
 {
@@ -55,16 +58,19 @@ public class UITemplate extends G2DTreeNode<UITemplate>
 		return uiType;
 	}
 	
-	public UIComponent createDisplay() {
+	public UIComponent createDisplay(UIEdit edit) {
 		try {
 			if (userFile != null) {
-				return new UEFileNode(userFile.getName());
+				UEFileNode fn = new UEFileNode(userFile.getName());
+				return fn;
 			} else {
 				return (UIComponent) getUIType().newInstance();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new UECanvas();
+			UETextBox etb = new UETextBox();
+			etb.Text = e.getClass().getName() + " : " + e.getMessage();
+			return etb;
 		}
 	}
 	
