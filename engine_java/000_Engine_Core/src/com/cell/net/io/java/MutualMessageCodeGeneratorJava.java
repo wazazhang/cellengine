@@ -22,6 +22,7 @@ import com.cell.CUtil;
 import com.cell.io.CFile;
 import com.cell.net.io.ExternalizableFactory;
 import com.cell.net.io.ExternalizableMessage;
+import com.cell.net.io.MessageHeader;
 import com.cell.net.io.MutualMessage;
 import com.cell.net.io.MutualMessageCodeGenerator;
 import com.cell.net.io.NetDataTypes;
@@ -443,7 +444,9 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 				} else if (f.getName().endsWith(".java")) {
 					String className = f.getName().substring(0, f.getName().length()-5);
 					Class<?> cls = Class.forName(package_prefix + "." + className);
-					ret.put(f, cls);
+					if (MessageHeader.class.isAssignableFrom(cls)) {
+						ret.put(f, cls);
+					}
 				}
 			}
 		}
