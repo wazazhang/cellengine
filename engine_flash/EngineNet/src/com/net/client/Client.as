@@ -1,7 +1,12 @@
 package com.net.client
 {
+	import avmplus.getQualifiedClassName;
+	
 	import com.cell.net.io.MutualMessage;
+	import com.cell.util.Arrays;
+	import com.cell.util.Map;
 	import com.cell.util.Reference;
+	import com.cell.util.Util;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -28,14 +33,19 @@ package com.net.client
 		private var package_index 			: int = 1;
 		
 		/**key is package num, value is ClientResponseListener*/
-		private var request_listeners		: Dictionary = new Dictionary();
+		private var request_listeners		: Map = new Map();
 		
 		/**key is message type, value is ClientNotifyListener*/
-		private var notify_listeners		: Dictionary = new Dictionary();
-
+		private var notify_listeners		: Map = new Map();
+		
+		// 将场景中所有单位的进入缓冲到此，为了在切换屏幕不丢失数据
+		private var unhandled_notifies		: Vector.<Protocol> = new Vector.<Protocol>();
+		
 		private var session				: ServerSession;
 		
 		private var check_timeout			: Timer;
+		
+
 		
 		public function Client(session : ServerSession)
 		{
@@ -99,7 +109,7 @@ package com.net.client
 			message 			: MutualMessage, 
 			response_listener 	: Function = null, 
 			timeout_listener	: Function = null,
-			timeout 			: int = 10000) : Reference
+			timeout 			: int = 30000) : Reference
 		{
 			var fresponse : Array;
 			var ftimeout : Array;
@@ -155,20 +165,58 @@ package com.net.client
 		 * 添加一个用于主动监听服务器端的消息的监听器
 		 * @param listener
 		 */
-		public function addNotifyListener(listener : Function) : void
+		public function addNotifyListener(cls:Class, listener:Function) : void
 		{
-			this.notify_listeners[listener] = listener;
-			this.addEventListener(ClientEvent.MESSAGE_NOTIFY, listener);
+			var list : Map = this.notify_listeners[cls];
+			var call : Boolean = false;
+			if (list == null) 
+			{
+				list = new Map();
+				this.notify_listeners.put(cls, list);
+				list.put(listener, listener);
+				call = true;
+			}
+			else
+			{
+				if (list.size()==0) {
+					call = true;
+				}
+				list.put(listener, listener);
+			}
+			if (call) {
+				// 有新的监听器加入时，并且之前没有任何监听器
+				for each (var p:Protocol in unhandled_notifies) {
+					if (p.getMessage() is cls) {
+						var e : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_NOTIFY, 
+							this, p, null, null);
+						listener.call(null, e);
+					}
+				}
+			}
 		}
 		
 		/**
 		 * 删除一个用于主动监听服务器端的消息的监听器
 		 * @param listener
 		 */
-		public function removeNotifyListener(listener : Function) : void
+		public function removeNotifyListener(cls:Class, listener:Function) : void
 		{
-			this.removeEventListener(ClientEvent.MESSAGE_NOTIFY, listener);
-			delete notify_listeners[listener];
+			var list : Map = this.notify_listeners[cls];
+			if (list != null) {
+				list.remove(listener);
+			}
+		}
+		
+		private function notifyMessage(p:Protocol) : void
+		{
+			var e : ClientEvent = new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, p, null, null);
+			var cls : Class = Util.getClass(p.getMessage());
+			var list : Map = this.notify_listeners[cls];
+			if (list != null) {
+				for each (var l : Function in list) {
+					l.call(null, e);
+				}
+			}
 		}
 		
 		/**
@@ -177,12 +225,15 @@ package com.net.client
 		 */
 		public function clearNotifyListeners() : void
 		{
-			for each (var listener : Function in notify_listeners) { 
-				this.removeEventListener(ClientEvent.MESSAGE_NOTIFY, listener);
+			for each (var listener : Map in notify_listeners) { 
 				delete notify_listeners[listener];
 			}
 		}
 		
+		public function cleanUnhandledMessage() : void
+		{
+			unhandled_notifies = new Vector.<Protocol>();
+		}
 		
 		private function checkRequest(e:Event) : void
 		{
@@ -246,9 +297,11 @@ package com.net.client
 						protocol, request.getRequest(), null));
 				}
 			}
-			else {
+			else {				
 				dispatchEvent(new ClientEvent(ClientEvent.MESSAGE_NOTIFY, this, 
 					protocol, null, null));
+				
+				notifyMessage(protocol);
 			}
 		}
 

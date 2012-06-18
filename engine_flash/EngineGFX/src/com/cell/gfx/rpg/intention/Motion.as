@@ -7,21 +7,21 @@ package com.cell.gfx.rpg.intention
 	
 	import flash.utils.getTimer;
 
-	public class Motion implements IIntention
+	public class Motion implements Action
 	{
 		/** 移动速度 距离/秒 */
 		public var move_speed	: Number = 200;
 		
 		public var target_pos	: IVector2D;
 		
-		private var update_time	: int = 0;
+		protected var update_time	: int = 0;
 		
 		
 		
-		public function beginMove(targetX:Number, targetY:Number) : Motion
+		public function Motion(targetX:Number, targetY:Number, speed:Number = 200) 
 		{
 			this.target_pos = new TVector2D(targetX, targetY);
-			return this;
+			this.move_speed = speed;
 		}
 		
 		
@@ -40,7 +40,6 @@ package com.cell.gfx.rpg.intention
 					target_pos.getVectorY(), 
 					distance))
 				{
-					unit.stopIntention(this);
 					target_pos = null;
 				}
 			}
@@ -54,6 +53,13 @@ package com.cell.gfx.rpg.intention
 			this.target_pos = null;
 		}
 
+		public function isEnd() : Boolean {
+			return this.target_pos == null;
+		}
+		
+		public function stop() : void{
+			this.target_pos = null;
+		}
 		
 		
 //		public WayPoint beginMoveDirect(double targetX, double targetY)

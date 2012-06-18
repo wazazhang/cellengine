@@ -28,7 +28,7 @@
     <classEntry path="com.cell.gfx.game.worldcraft.CellWorldCamera"/>
     <classEntry path="com.cell.gfx.rpg.G2DCSprite"/>
     <classEntry path="com.cell.gfx.rpg.G2DUnit"/>
-    <classEntry path="com.cell.gfx.rpg.intention.IIntention"/>
+    <classEntry path="com.cell.gfx.rpg.intention.Action"/>
     <classEntry path="com.cell.gfx.rpg.intention.Motion"/>
     <classEntry path="com.cell.io.TextReader"/>
     <classEntry path="com.cell.io.UrlManager"/>

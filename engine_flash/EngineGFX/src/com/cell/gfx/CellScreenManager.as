@@ -4,7 +4,10 @@ package com.cell.gfx
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.filters.BitmapFilter;
+	import flash.filters.GlowFilter;
 	import flash.geom.Rectangle;
+	import flash.text.TextField;
 	import flash.utils.getTimer;
 	
 	/**
@@ -27,6 +30,8 @@ package com.cell.gfx
 		private var m_width			: Number;
 		private var m_height			: Number;
 		
+		private var fps_txt 			: TextField = new TextField();
+		
 		
 		public function CellScreenManager(width:int, height:int)
 		{
@@ -39,6 +44,16 @@ package com.cell.gfx
 //			this.graphics.beginFill(0x808080, 1);
 //			this.graphics.drawRect(0, 0, width, height);
 //			this.graphics.endFill();
+			this.fps_txt.visible = false;
+			this.fps_txt.mouseEnabled = false;
+			this.fps_txt.width = 100;
+			this.fps_txt.height = 20;
+			this.addChild(fps_txt);
+			
+			var tfilter:BitmapFilter = new GlowFilter(0xff8080ff);
+			var tfilters:Array = new Array();
+			tfilters.push(tfilter);
+			this.fps_txt.filters = tfilters;
 		}
 		
 		override public function get width() : Number
@@ -56,7 +71,7 @@ package com.cell.gfx
 			var cur_time : int 	= getTimer();
 			this.frame_interval	= cur_time - update_time;
 			this.update_time 	= cur_time;
-		
+			
 			if (current_screen != null) {
 				current_screen._interval = frame_interval;
 				current_screen.update();
@@ -89,6 +104,9 @@ package com.cell.gfx
 					this.transition_running = false;
 					this.current_screen.transitionCompleted();
 				}
+			}
+			if (fps_txt.visible) {
+				fps_txt.text = "fps=" + getFPS();
 			}
 		}
 		
@@ -139,6 +157,11 @@ package com.cell.gfx
 			return false;
 		}
 		
+		protected function onScreenChanged(screen:CellScreen) : void
+		{
+			
+		}
+		
 		protected function tryChangeStage() : void
 		{
 			// clear current stage
@@ -160,11 +183,14 @@ package com.cell.gfx
 
 				this.current_screen = new name() as CellScreen;
 				trace("ChangeStage -> "+ current_screen.toString());	
+				this.removeChild(fps_txt);
 				this.addChild(current_screen);
+				this.addChildAt(fps_txt, numChildren-1);
 				this.current_screen.added(this, args);
 				if (this.transition != null) {
 					this.transition.startTransitionIn();
 				}
+				onScreenChanged(current_screen);
 			}
 		}
 		
@@ -202,5 +228,11 @@ package com.cell.gfx
 		{
 			return 1000 / frame_interval;
 		}
+		
+		public function showFPS(v:Boolean, color:uint=0xffffffff) : void {
+			this.fps_txt.visible = v;
+			this.fps_txt.textColor = color;
+		}
+		
 	}
 }

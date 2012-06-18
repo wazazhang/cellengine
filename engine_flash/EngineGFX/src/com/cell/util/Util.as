@@ -1,5 +1,7 @@
 package com.cell.util
 {
+	import avmplus.getQualifiedClassName;
+	
 	import com.cell.ui.Anchor;
 	
 	import flash.display.Bitmap;
@@ -10,6 +12,7 @@ package com.cell.util
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
+	import flash.utils.getDefinitionByName;
 
 	public class Util
 	{
@@ -37,6 +40,9 @@ package com.cell.util
 		}
 		
 		
+		public static function getClass(obj:Object):Class {
+			return Class(getDefinitionByName(getQualifiedClassName(obj)));
+		}
 		
 //		-------------------------------------------------------------------------------------------------------------------------------
 		

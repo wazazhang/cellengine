@@ -123,13 +123,6 @@ package com.cell.gfx.rpg
 			}
 		}
 		
-		
-		public function CellScene(
-			viewWidth:int, 
-			viewHeight:int)
-		{
-		}
-		
 		public function getCameraX() : int
 		{
 			return this.scrollRect.x;

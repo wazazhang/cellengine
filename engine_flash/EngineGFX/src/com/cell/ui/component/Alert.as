@@ -160,7 +160,7 @@ package com.cell.ui.component
 			
 			DialogGround.showAsDialog(
 				alert, 
-				UILayoutManager.getInstance().getRoot().getCurrentScreen());
+				UILayoutManager.getInstance().getRoot());
 			return alert;
 		}
 		
@@ -176,7 +176,7 @@ package com.cell.ui.component
 			
 			DialogGround.showAsDialog(
 				alert, 
-				UILayoutManager.getInstance().getRoot().getCurrentScreen());
+				UILayoutManager.getInstance().getRoot());
 			return alert;
 		}
 		
