@@ -169,7 +169,7 @@ public class Messages
 		CAppBridge.init();
 		ExternalizableFactory factory = new ExternalizableFactory(Messages.class);
 		{
-			MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(
+			MutualMessageCodeGeneratorJava gen_java = new MutualMessageCodeGeneratorJava(factory, 
 					"com.net.flash.test",
 					"",
 					"MessageCodecJava"
@@ -179,10 +179,10 @@ public class Messages
 					return date+"";
 				}
 			};
-			gen_java.genCodeFile(factory, 
+			gen_java.genCodeFile(
 					new File("./flash"));
 		}{
-			FlashMessageCodeGenerator gen_as = new FlashMessageCodeGenerator(
+			FlashMessageCodeGenerator gen_as = new FlashMessageCodeGenerator(factory, 
 					"com.net.flash.test",
 					"MessageCodec",
 					"\timport com.net.flash.test.Messages.*;",
@@ -193,7 +193,7 @@ public class Messages
 					return date+"";
 				}
 			};
-			gen_as.genCodeFile(factory, 
+			gen_as.genCodeFile(
 					new File("./flash"));
 		}
 		

@@ -38,19 +38,24 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	private String code_import		= "";
 	private String code_class_name	= "MutualMessageCodecJava";
 	
-	public MutualMessageCodeGeneratorJava(String template) 
+	public MutualMessageCodeGeneratorJava(
+			ExternalizableFactory factory, 
+			String template) 
 	{
+		super(factory);
 		if (template != null) {
 			this.template = template;
 		}
 	}
 	
 	public MutualMessageCodeGeneratorJava(
+			ExternalizableFactory factory, 
 			String template,
 			String code_package, 
 			String code_import, 
 			String code_class_name) 
 	{
+		super(factory);
 		if (template != null) {
 			this.template = template;
 		}
@@ -60,16 +65,18 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	}
 	
 	public MutualMessageCodeGeneratorJava(
+			ExternalizableFactory factory, 
 			String code_package, 
 			String code_import, 
 			String code_class_name) 
 	{
+		super(factory);
 		this.code_package		= code_package;
 		this.code_import		= code_import;
 		this.code_class_name	= code_class_name;
 	}
 	
-	public String genMutualMessageCodec(ExternalizableFactory factory)
+	public String genMutualMessageCodec()
 	{
 		StringBuilder read_external		= new StringBuilder();
 		StringBuilder write_external	= new StringBuilder();
@@ -376,11 +383,11 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 		}
 	}
 	
-	public void genCodeFile(ExternalizableFactory factory, File as_src_root) throws IOException
+	public void genCodeFile(File as_src_root) throws IOException
 	{
 		File output = new File(as_src_root, 
 				CUtil.replaceString(code_package+"." + code_class_name, ".", File.separator)+".java");
-		CFile.writeText(output, genMutualMessageCodec(factory));
+		CFile.writeText(output, genMutualMessageCodec());
 		System.out.println("genCodeFileJava : " + output.getCanonicalPath());
 	}
 	

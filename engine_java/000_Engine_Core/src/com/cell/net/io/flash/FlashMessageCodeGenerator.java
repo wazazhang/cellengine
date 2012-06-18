@@ -41,19 +41,21 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	
 	////////////////////////////////////////////////////////////////////
 	
-	public FlashMessageCodeGenerator() {
-		this(null, null, null, null);
+	public FlashMessageCodeGenerator(ExternalizableFactory factory) {
+		this(factory, null, null, null, null);
 	}
 	
 	public FlashMessageCodeGenerator(
+			ExternalizableFactory factory,
 			String codec_package,
 			String codec_class_name,
 			String codec_import,
 			String message_import) {
-		this(null, codec_package, codec_class_name, codec_import, null, message_import);
+		this(factory, null, codec_package, codec_class_name, codec_import, null, message_import);
 	}
 
 	public FlashMessageCodeGenerator(
+			ExternalizableFactory factory,
 			String codec_template,
 			String codec_package,
 			String codec_class_name,
@@ -61,6 +63,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			String message_template,
 			String message_import) 
 	{
+		super(factory);
 		if (codec_template != null) {
 			this.codec_template = codec_template;
 		}
@@ -80,7 +83,35 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			this.message_import = message_import;
 		}
 	}
+	
+	private String genCodecImport()
+	{
+		StringBuilder sb = new StringBuilder();
+		for (Class<?> type : factory.getRegistTypes().values()) {
+			sb.append(tb(1) + "import " + type.getCanonicalName() + ";\n");
+		}
+		return sb.toString();
+	}
+	
+	private String genMessageImport(Class<?> msg)
+	{
+		ArrayList<Class<?>> dtypes = new ArrayList<Class<?>>();
+		if (factory.containsMessage(msg.getSuperclass())) {
+			dtypes.add(msg.getSuperclass());
+		}
+		for (Field f : msg.getDeclaredFields()) {
+			if (factory.containsMessage(f.getType())) {
+				dtypes.add(f.getType());
+			}
+		}
 
+		StringBuilder sb = new StringBuilder();
+		for (Class<?> type : dtypes) {
+			sb.append(tb(1) + "import " + type.getCanonicalName() + ";\n");
+		}
+		return sb.toString();
+	}
+	
 	protected String toASType(Class<?> 	f_type)
 	{
 		// boolean -----------------------------------------------
@@ -181,7 +212,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	public String DAC_FIELD_WRITEEXTERNAL	= "//writeExternal";
 	public String DAC_FIELD_CLASSES			= "//classes";
 	
-	public String genMutualMessageCodec(ExternalizableFactory factory)
+	public String genMutualMessageCodec()
 	{
 		StringBuilder read_external		= new StringBuilder();
 		StringBuilder write_external	= new StringBuilder();
@@ -218,7 +249,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 				write_external.append(
 						tb(3) + "case " + s_type + " : " +
 						"w_"+s_type+"(" + c_name + "(msg), output); return;\n");
-				genCodecMethod(factory, e.getValue(), s_type, classes);
+				genCodecMethod(e.getValue(), s_type, classes);
 				new_msg.append(
 						tb(3) + "case " + s_type + " : return new " + c_name + ";\n");
 			}
@@ -226,7 +257,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 
 		String ret = this.codec_template;
 		ret = CUtil.replaceString(ret, DAC_FIELD_PACKAGE, 		codec_package);
-		ret = CUtil.replaceString(ret, DAC_FIELD_IMPORT, 		codec_import);
+		ret = CUtil.replaceString(ret, DAC_FIELD_IMPORT, 		codec_import + "\n" + genCodecImport());
 		ret = CUtil.replaceString(ret, DAC_FIELD_CLASSNAME, 	codec_class_name);	
 		ret = CUtil.replaceString(ret, DAC_FIELD_VERSION,		getVersion());
 		ret = CUtil.replaceString(ret, DAC_FIELD_GETTYPE, 		get_type.toString());
@@ -242,7 +273,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	 * @param msg
 	 * @param sb
 	 */
-	protected void genCodecMethod(ExternalizableFactory factory, Class<?> msg, int msg_type, StringBuilder sb)
+	protected void genCodecMethod(Class<?> msg, int msg_type, StringBuilder sb)
 	{
 		String c_name = msg.getCanonicalName();
 		String s_name = msg.getSimpleName();
@@ -253,7 +284,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		for (Field f : msg.getFields()) {
 			int modifiers = f.getModifiers();
 			if (!Modifier.isStatic(modifiers)) {
-				genCodecField(factory, msg, f, read, write);
+				genCodecField(msg, f, read, write);
 			}
 		}
 		
@@ -276,7 +307,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	 * @param read
 	 * @param write
 	 */
-	protected void genCodecField(ExternalizableFactory factory, Class<?> msg, Field f, StringBuilder read, StringBuilder write)
+	protected void genCodecField(Class<?> msg, Field f, StringBuilder read, StringBuilder write)
 	{
 		Class<?> 	f_type 		= f.getType();
 		String 		f_name 		= "msg." + f.getName();
@@ -458,12 +489,12 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	{
 		TreeMap<Class<?>, String> ret = new TreeMap<Class<?>, String>(factory);
 		for (Entry<Integer, Class<?>> e : factory.getRegistTypes().entrySet()) {
-			ret.put(e.getValue(), genMsgClass(factory, e.getValue(), e.getKey()));
+			ret.put(e.getValue(), genMsgClass(e.getValue(), e.getKey()));
 		}
 		return ret;
 	}
 	
-	protected String genMsgClass(ExternalizableFactory factory, Class<?> msg, int msg_type) 
+	protected String genMsgClass(Class<?> msg, int msg_type) 
 	{
 		String	c_name 		= msg.getCanonicalName();
 		Comment	c_comment 	= msg.getAnnotation(Comment.class);
@@ -530,12 +561,13 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			// 非枚举变量
 			else if (!msg.isEnum())
 			{
-				if (f_comment == null) {
-					d_fields.append(
-						"		/** " + f_cline + "*/\n");
-				}
-				d_fields.append(
-						"		public var " + f.getName() + " : " +  toASType(f.getType()) + ";");
+			if (f_comment == null) {
+			d_fields.append(
+			"		/** " + f_cline + "*/\n");
+			}
+			d_fields.append(
+			"		public var " + f.getName() + " : " +  toASType(f.getType()) + 
+			" = " + genMsgFieldValue(f) + ";");
 			}
 			d_fields.append("\n\n");
 		}
@@ -587,7 +619,7 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 		
 		String ret = this.message_template;
 		ret = CUtil.replaceString(ret, MSG_FIELD_PACKAGE, 		o_package);
-		ret = CUtil.replaceString(ret, MSG_FIELD_IMPORT, 		message_import);
+		ret = CUtil.replaceString(ret, MSG_FIELD_IMPORT, 		message_import + "\n" + genMessageImport(msg));
 		ret = CUtil.replaceString(ret, MSG_FIELD_CLASSCOMMENT, 	s_comment);
 		ret = CUtil.replaceString(ret, MSG_FIELD_CLASSTYPE, 	msg_type+"");
 		ret = CUtil.replaceString(ret, MSG_FIELD_DYNAMIC, 		c_dynamic);
@@ -643,11 +675,11 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 	
 //	------------------------------------------------------------------------------------------------------------------
 	
-	public void genCodeFile(ExternalizableFactory factory, File as_src_root) throws IOException
+	public void genCodeFile(File as_src_root) throws IOException
 	{
 		File codec_output = new File(as_src_root, 
 				CUtil.replaceString(codec_package+"." + codec_class_name, ".", File.separator)+".as");
-		CFile.writeText(codec_output, genMutualMessageCodec(factory));
+		CFile.writeText(codec_output, genMutualMessageCodec());
 		System.out.println("genCodeFileAS :   Codec : " + codec_output.getCanonicalPath());
 		for (Entry<Class<?>, String> e : genMutualMessages(factory).entrySet()) {
 			File msg_output = new File(as_src_root, 

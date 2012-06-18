@@ -7,12 +7,17 @@ import java.util.Date;
 
 public abstract class MutualMessageCodeGenerator
 {
+	final protected ExternalizableFactory factory;
+	public MutualMessageCodeGenerator(ExternalizableFactory factory) {
+		this.factory = factory;
+	}
+	
 	/**
 	 * 自动生成代码文件，或编解码规则文件。
 	 * @param regist_types
 	 * @return
 	 */
-	abstract public String genMutualMessageCodec(ExternalizableFactory factory);
+	abstract public String genMutualMessageCodec();
 	
 	
 	public String getVersion() {

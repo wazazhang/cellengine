@@ -47,6 +47,10 @@ public class ExternalizableFactory implements Comparator<Class<?>>
 	public int compare(Class<?> o1, Class<?> o2) {
 		return o1.getCanonicalName().compareTo(o2.getCanonicalName());
 	}
+
+	public boolean containsMessage(Class<?> msg_type) {
+		return map_type_id.containsKey(msg_type);
+	}
 	
 	public int getMessageType(MessageHeader message) {
 		return map_type_id.get(message.getClass());
