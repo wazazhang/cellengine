@@ -136,6 +136,26 @@ public class CFile
 	}
 	
 	/**
+	 * 删除目录下指定后缀的所有文件
+	 * @param png
+	 * @param suffix
+	 * @throws IOException 
+	 */
+	static public void deleteFilesRecursion(File png, String suffix) throws IOException {
+		File[] list = png.listFiles();
+		if (list != null) {
+			for (File _jpg : list) {
+				if (_jpg.isDirectory()) {
+					deleteFilesRecursion(_jpg, suffix);
+				}
+				else if (_jpg.getName().toLowerCase().endsWith(suffix)) {
+					_jpg.getCanonicalFile().delete();
+				}
+			}
+		}
+	}
+	
+	/**
 	 * 递归删除file，如果file是个目录，则递归其子目录全部删除
 	 * @param file
 	 */
