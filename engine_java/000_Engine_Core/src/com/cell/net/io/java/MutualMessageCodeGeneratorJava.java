@@ -444,9 +444,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 				} else if (f.getName().endsWith(".java")) {
 					String className = f.getName().substring(0, f.getName().length()-5);
 					Class<?> cls = Class.forName(package_prefix + "." + className);
-					if (MessageHeader.class.isAssignableFrom(cls)) {
-						ret.put(f, cls);
-					}
+					ret.put(f, cls);
 				}
 			}
 		}
