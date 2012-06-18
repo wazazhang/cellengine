@@ -9,6 +9,8 @@ import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -407,16 +409,23 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 	
 	public static Class<?>[] findClasses(File srcroot) throws Exception
 	{
-		LinkedHashSet<Class<?>> ret = new LinkedHashSet<Class<?>>();
+		Map<File, Class<?>> classmap = findClassesMap(srcroot);
+		Class<?>[] classes = classmap.values().toArray(new Class<?>[classmap.size()]);
+		return classes;
+	}
+	
+	public static Map<File, Class<?>> findClassesMap(File srcroot) throws Exception
+	{
+		LinkedHashMap<File, Class<?>> ret = new LinkedHashMap<File, Class<?>>();
 		for (File f : srcroot.listFiles()) {
 			if (f.isDirectory()) {
 				findClasses(srcroot, f, ret);
 			}
 		}
-		return ret.toArray(new Class<?>[ret.size()]);
+		return ret;
 	}
 	
-	private static void findClasses(File srcroot, File child, Set<Class<?>> ret) throws Exception
+	private static void findClasses(File srcroot, File child, Map<File, Class<?>> ret) throws Exception
 	{
 		String package_prefix = child.getCanonicalPath().substring(srcroot.getCanonicalPath().length());
 		package_prefix = package_prefix.replace('\\', '.');
@@ -434,7 +443,7 @@ public class MutualMessageCodeGeneratorJava extends MutualMessageCodeGenerator
 				} else if (f.getName().endsWith(".java")) {
 					String className = f.getName().substring(0, f.getName().length()-5);
 					Class<?> cls = Class.forName(package_prefix + "." + className);
-					ret.add(cls);
+					ret.put(f, cls);
 				}
 			}
 		}
