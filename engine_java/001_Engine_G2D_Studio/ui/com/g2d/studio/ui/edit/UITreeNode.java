@@ -416,7 +416,7 @@ implements ObjectPropertyListener
 		}
 		throw new Exception(
 				"["+getDisplay().getClass().getSimpleName()+ "]" +
-				"不能添加子节点[" + template.getUIType() + "]");
+				" 不能添加子节点 [" + template.getUIType().getSimpleName() + "]");
 	}
 	
 	
