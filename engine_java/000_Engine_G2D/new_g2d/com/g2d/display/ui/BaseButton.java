@@ -18,6 +18,9 @@ public abstract class BaseButton extends UIComponent
 	@Property("自定义按下造型")
 	public UILayout		custom_layout_down;
 	
+	public Image		imageDown;
+	public Image		imageUp;
+	
 	public BaseButton(int width, int height) {
 		setSize(width, height);
 	}
@@ -60,6 +63,7 @@ public abstract class BaseButton extends UIComponent
 	
 	protected void renderLayout(Graphics2D g) 
 	{
+		Image cimg = imageUp;
 		UILayout rect = layout;
 		if (isOnDragged()) {
 			if (custom_layout_down != null) {
@@ -68,12 +72,18 @@ public abstract class BaseButton extends UIComponent
 			else if (layout_down != null) {
 				rect = layout_down;
 			}
+			cimg = imageDown;
 		} else {
 			if (custom_layout != null) {
 				rect = custom_layout;
 			}
 		}
 		rect.render(g, 0, 0, getWidth(), getHeight());
+		if (cimg != null) {
+			g.drawImage(cimg, 
+					(getWidth()-cimg.getWidth())>>1,
+					(getHeight()-cimg.getHeight())>>1);
+		}
 	}
 	
 	
