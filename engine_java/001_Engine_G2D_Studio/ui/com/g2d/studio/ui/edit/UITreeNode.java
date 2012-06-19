@@ -55,6 +55,7 @@ import com.g2d.studio.swing.G2DTreeNode;
 import com.g2d.studio.swing.G2DTreeNodeGroup.NodeMenu;
 import com.g2d.studio.ui.edit.gui.SavedComponent;
 import com.g2d.studio.ui.edit.gui.UECanvas;
+import com.g2d.studio.ui.edit.gui.UEFileNode;
 import com.g2d.studio.ui.edit.gui.UERoot;
 
 
@@ -508,9 +509,16 @@ implements ObjectPropertyListener
 						if (childs.item(c) instanceof Element) {
 							Element child = (Element)childs.item(c);
 							Class<?> type = Class.forName(child.getNodeName());
-							UITemplate template = edit.getTemplate(type);
-							UITreeNode tn = ui.createChild(template, "");
-							readInternal(edit, doc, child, tn);
+							if (UEFileNode.class.isAssignableFrom(type)) {
+								String fileName = child.getAttribute("fileName");
+								UITemplate template = edit.getUserTemplate(fileName);
+								UITreeNode tn = ui.createChild(template, fileName);
+								readInternal(edit, doc, child, tn);
+							} else {
+								UITemplate template = edit.getTemplate(type);
+								UITreeNode tn = ui.createChild(template, "");
+								readInternal(edit, doc, child, tn);
+							}
 						}
 					}
 				}

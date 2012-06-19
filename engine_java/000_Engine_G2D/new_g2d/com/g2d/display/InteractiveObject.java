@@ -55,7 +55,9 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 //	----------------------------------------------------------------------------------------------
 	public EditModeSelect		edit_mode = null;
 //	----------------------------------------------------------------------------------------------
-
+	public boolean				enable_childs = true;
+	boolean parent_childs = false;
+	
 	transient private boolean 						is_focused;
 	transient private int 							catched_mouse_down_tick ;
 	transient private MouseMoveEvent 				mouse_draged_event ;
@@ -141,6 +143,14 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 	{
 		is_focused = parent.getFocus() == this;
 		
+		parent_childs = true;
+		if (parent instanceof InteractiveObject) {
+			InteractiveObject ip = (InteractiveObject)parent;
+			if (!ip.enable_childs || !ip.parent_childs) {
+				parent_childs = false;
+			}
+		}
+		
 		super.onUpdate(parent);
 		
 		if (enable)
@@ -160,7 +170,9 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 			}
 		}
 	}
-
+	
+	
+	
 	final boolean onPoolEvent(Event<?> event) 
 	{
 		if (enable)
@@ -182,7 +194,7 @@ public abstract class InteractiveObject extends DisplayObjectContainer
 				}
 				
 				// 先向孩子传递
-				if (is_focused) {
+				if (is_focused && enable_childs) {
 					if (super.onPoolEvent(event)) {
 						return true;
 					}

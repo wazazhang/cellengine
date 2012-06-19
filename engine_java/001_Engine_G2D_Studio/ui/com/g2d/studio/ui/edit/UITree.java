@@ -10,6 +10,7 @@ import javax.swing.tree.TreeNode;
 import com.g2d.display.ui.Container;
 import com.g2d.display.ui.UIComponent;
 import com.g2d.studio.swing.G2DTree;
+import com.g2d.studio.ui.edit.gui.UEFileNode;
 
 public class UITree extends G2DTree
 {
@@ -33,7 +34,8 @@ public class UITree extends G2DTree
 	
 	@Override
 	public String convertValueToText(Object value, boolean selected,
-			boolean expanded, boolean leaf, int row, boolean hasFocus) {
+			boolean expanded, boolean leaf, int row, boolean hasFocus) 
+	{
 		if (value instanceof UITreeNode) {
 			UITreeNode node = (UITreeNode)value;
 			StringBuffer sb = new StringBuffer();
@@ -41,6 +43,12 @@ public class UITree extends G2DTree
 			sb.append("<p>");
 			sb.append(node.getName());
 			sb.append("<font color=0000ff> - " + node.getDisplay().getClass().getSimpleName() + "</font>");
+			if (((UITreeNode) value).getDisplay() instanceof UEFileNode) {
+				UEFileNode fn = ((UEFileNode)((UITreeNode) value).getDisplay());
+				sb.append("<p><font color=ff0000> - " + 
+						fn.getFileName() + 
+				"</font></p>");
+			}
 			sb.append("</p>");
 			sb.append("</body></html>");
 			return sb.toString();

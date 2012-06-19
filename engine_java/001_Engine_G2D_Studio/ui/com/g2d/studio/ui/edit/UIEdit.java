@@ -391,25 +391,22 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 	}
 	
-	public UITreeNode getFileNode(UITemplate ut)
+	public UERoot getFileNode(String fileName)
 	{
 		try {
-			File xmlfile = ut.getUserTemplate().getCanonicalFile();
+			File xmlfile = getSubFile(fileName).getCanonicalFile();
 			if (xmlfile != null) {
 				FileInputStream fis = new FileInputStream(xmlfile);
 				UITreeNode tree_root = new UITreeNode(this,
-						ut, 
+						getTemplate(UERoot.class), 
 						xmlfile.getName());
 				tree_root.fromXMLStream(this, fis);
 				tree_root.removeAllChildren();
 				fis.close();
-				return tree_root;
+				return (UERoot)tree_root.getDisplay();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, 
-					"非法的格式!\n" + 
-					e.getMessage());
 		}
 		return null;
 	}

@@ -48,7 +48,7 @@ public class UITemplateList extends G2DTree
 	}
 
 	public UITemplate getTemplateFileName(String fileName) {
-		return null;
+		return userdefile_map.get(fileName);
 	}
 	
 	private void initTemplate() 

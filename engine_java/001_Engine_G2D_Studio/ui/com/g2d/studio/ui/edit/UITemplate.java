@@ -62,6 +62,7 @@ public class UITemplate extends G2DTreeNode<UITemplate>
 		try {
 			if (userFile != null) {
 				UEFileNode fn = new UEFileNode(userFile.getName());
+				fn.load(edit);
 				return fn;
 			} else {
 				return (UIComponent) getUIType().newInstance();

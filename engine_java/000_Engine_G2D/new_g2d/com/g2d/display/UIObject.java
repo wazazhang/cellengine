@@ -71,15 +71,17 @@ public abstract class UIObject extends InteractiveObject
 		return true;
 	}
 	
-	protected boolean enable_drag_resize(){
-		if (edit_mode == null || edit_mode.isSelected(this)) {
-			if (!edit_mode.isDragEnable(this)) {
-				return false;
+	protected boolean enable_drag_resize()
+	{
+		if (parent_childs) {
+			if (edit_mode == null || edit_mode.isSelected(this)) {
+				if (!edit_mode.isDragEnable(this)) {
+					return false;
+				}
+				return enable_drag_resize;
 			}
-			return enable_drag_resize;
-		} else {
-			return false;
 		}
+		return false;
 	}
 //	-------------------------------------------------------------------------------------------------------------
 	
@@ -90,14 +92,12 @@ public abstract class UIObject extends InteractiveObject
 				renderCatchedMouse(g);
 			}
 			super.renderInteractive(g);
-
 			if (enable_drag_resize() && enable_drag && !enable_drag_drop) {
 				renderDragResize(g);
-			}
-			else if (enable_accept_drag_drop) {
-				if (getStage()!=null) {
+			} else if (enable_accept_drag_drop) {
+				if (getStage() != null) {
 					InteractiveObject dragged = getStage().getDraggedObject();
-					if (dragged!=null && dragged!=this){
+					if (dragged != null && dragged != this) {
 						if (isPickedMouse()) {
 							renderAcceptDrapDrop(g);
 						}
