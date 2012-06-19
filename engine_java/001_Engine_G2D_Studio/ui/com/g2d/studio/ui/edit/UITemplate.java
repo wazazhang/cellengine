@@ -43,12 +43,15 @@ public class UITemplate extends G2DTreeNode<UITemplate>
 	}
 	@Override
 	protected ImageIcon createIcon() {
-		BufferedImage sic = Engine.getEngine().createImage(40, 30);
-		Graphics2D g = sic.createGraphics();
-		g.setClip(0, 0, 40, 30);
-		rect.render(g, 0, 0, 40, 30);
-		g.dispose();
-		return new ImageIcon(AwtEngine.unwrap(sic));
+		if (userFile == null) {
+			BufferedImage sic = Engine.getEngine().createImage(40, 30);
+			Graphics2D g = sic.createGraphics();
+			g.setClip(0, 0, 40, 30);
+			rect.render(g, 0, 0, 40, 30);
+			g.dispose();
+			return new ImageIcon(AwtEngine.unwrap(sic));
+		}
+		return null;
 	}
 	
 	public File getUserTemplate() {

@@ -80,13 +80,15 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	private UILayoutManager manager;
 
 	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
-	private JToggleButton tool_preferred = new JToggleButton(Tools.createIcon(Res.icon_refresh));
 	private JCheckBox tool_auto_select 	= new JCheckBox("自动选取");
 	private JCheckBox tool_not_drag_move 	= new JCheckBox("不可拖动");
 	private JSpinner tool_grid_size = new JSpinner(new SpinnerNumberModel(8, 2, 100, 1));
 	private G2DWindowToolBar tools;
 	private JToolBar bar_status;
 	private JProgressBar bar_save_progress = new JProgressBar();
+	
+	private JButton tool_refresh_template = new JButton(Tools.createIcon(Res.icon_refresh));
+
 	
 	private UIStage g2d_stage;
 	private UIPropertyPanel ui_property_panel;
@@ -129,12 +131,20 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			
 			JSplitPane vsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			{
+				tool_refresh_template.setToolTipText("刷新模板");
+				tool_refresh_template.addActionListener(this);
 				JToolBar temptoolbar = new JToolBar();
 				temptoolbar.add(new JLabel("标准控件"));
+				temptoolbar.add(tool_refresh_template);
+				temptoolbar.setFloatable(false);
+				
 				templates = new UITemplateList(this);
 				JScrollPane tempscroll = new JScrollPane(templates);
+				JPanel tppan = new JPanel(new BorderLayout());
+				tppan.add(temptoolbar, BorderLayout.NORTH);
+				tppan.add(tempscroll, BorderLayout.CENTER);
 				tempscroll.setPreferredSize(new Dimension(300, 300));
-				vsplit.setBottomComponent(tempscroll);
+				vsplit.setBottomComponent(tppan);
 				
 				tree_root = new UITreeNode(this, templates.getTemplate(UERoot.class), "root");
 				tree = new UITree(this, tree_root);
@@ -168,13 +178,13 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 		{
 			tools = new G2DWindowToolBar(this, true, true, true, true);
+			tools.setFloatable(false);
 			tools.addSeparator();
 			tools.add(tool_auto_select);
 			tools.add(tool_not_drag_move);
 			tools.addSeparator();
 			tools.add(tool_grid);
 			tools.add(tool_grid_size);
-			tools.add(tool_preferred);
 			tools.addSeparator();
 			tools.save_s.setToolTipText("另存为");
 
@@ -184,7 +194,6 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			tool_grid_size.setPreferredSize(new Dimension(50, 25));
 			tool_grid_size.setToolTipText("对其到网格");
 			
-			tool_preferred.setToolTipText("首选尺寸");
 			
 			this.tools.save.setToolTipText("保存 Ctrl + S");
 			this.tools.save.registerKeyboardAction(
@@ -326,6 +335,9 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 		else if (e.getSource() == tools.load) {
 			loadFile();
+		}
+		else if (e.getSource() == tool_refresh_template) {
+			templates.reloadUserDefine();
 		}
 	}
 	
