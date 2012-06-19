@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOError;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
@@ -71,7 +73,7 @@ implements ObjectPropertyListener
 	private BufferedImage icon;
 	private UIEdit edit;
 	
-	public UITreeNode(UIEdit edit, UITemplate template, String name) 
+	public UITreeNode(UIEdit edit, UITemplate template, String name) throws Exception
 	{
 		DisplayAdapter adapter = new DisplayAdapter();
 		this.edit = edit;
@@ -320,46 +322,51 @@ implements ObjectPropertyListener
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			if (e.getSource() == add) 
-			{
-				if (edit.getSelectedTemplate() != null) {
-					UITemplate type = edit.getSelectedTemplate();
-					String name = JOptionPane.showInputDialog(
-							AbstractDialog.getTopWindow(getInvoker()), "输入名字！",
-							"");
-					if (name != null && name.length() > 0) {
-						UITreeNode tn = createChild(type, name);
-						if (tn == null) {
-							JOptionPane.showMessageDialog(this,
-									getDisplay().getClass().getSimpleName()+"不能添加子节点！");
+			try {
+				if (e.getSource() == add) 
+				{
+					if (edit.getSelectedTemplate() != null) {
+						UITemplate type = edit.getSelectedTemplate();
+						String name = JOptionPane.showInputDialog(
+								AbstractDialog.getTopWindow(getInvoker()), "输入名字！",
+								"");
+						if (name != null && name.length() > 0) {
+							try {
+								createChild(type, name);
+							} catch (Exception err) {
+								JOptionPane.showMessageDialog(this, err.getMessage());
+							}
 						}
 					}
 				}
-			}
-			else if (e.getSource() == copy)
-			{
-				copyed_node = UITreeNode.this.clone();
-			}
-			else if (e.getSource() == cut)
-			{
-				copyed_node = UITreeNode.this.clone();
-				removeFromParent2();
-			}
-			else if (e.getSource() == paste)
-			{
-				if (copyed_node != null) {
-					addChild(copyed_node.clone());
+				else if (e.getSource() == copy)
+				{
+					copyed_node = UITreeNode.this.copy();
 				}
-			}
-			else if (e.getSource() == delete) 
-			{
-				TreeNode parent = node.getParent();
-				this.node.removeFromParent();
-				this.node.getDisplay().removeFromParent();
-				if (tree!=null) {
-					tree.reload(parent);
+				else if (e.getSource() == cut)
+				{
+					copyed_node = UITreeNode.this.copy();
+					removeFromParent2();
 				}
+				else if (e.getSource() == paste)
+				{
+					if (copyed_node != null) {
+						addChild(copyed_node.copy());
+					}
+				}
+				else if (e.getSource() == delete) 
+				{
+					TreeNode parent = node.getParent();
+					this.node.removeFromParent();
+					this.node.getDisplay().removeFromParent();
+					if (tree!=null) {
+						tree.reload(parent);
+					}
+				}
+			} catch (Exception err) {
+				JOptionPane.showMessageDialog(this, err.getMessage());
 			}
+			
 		}
 	}
 	
@@ -393,26 +400,27 @@ implements ObjectPropertyListener
 		return null;
 	}
 	
-	public UITreeNode createChild(UITemplate template, String name) 
+	public UITreeNode createChild(UITemplate template, String name) throws Exception
 	{
-		try {
-			if (getDisplay() instanceof com.g2d.display.ui.Container) {
-				UITreeNode node = new UITreeNode(edit, template, name);
-				com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) getDisplay();
-				if (pc.addComponent(node.getDisplay())) {
-					this.add(node);
-					edit.getTree().reload(this);
-					return node;
-				}
+		if (getDisplay() instanceof com.g2d.display.ui.Container) {
+			UITreeNode node = new UITreeNode(edit, template, name);
+			if (!edit.checkChilds(node.getDisplay())) {
+				throw new Exception("文件递归错误！");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			com.g2d.display.ui.Container pc = (com.g2d.display.ui.Container) getDisplay();
+			if (pc.addComponent(node.getDisplay())) {
+				this.add(node);
+				edit.getTree().reload(this);
+				return node;
+			}
 		}
-		return null;
+		throw new Exception(
+				"["+getDisplay().getClass().getSimpleName()+ "]" +
+				"不能添加子节点[" + template.getUIType() + "]");
 	}
 	
 	
-	public UITreeNode clone()
+	public UITreeNode copy() throws Exception
 	{
 		UITreeNode ret = new UITreeNode(edit, template, "");
 		UIComponent ui = ret.getDisplay();
@@ -431,7 +439,7 @@ implements ObjectPropertyListener
 		
 		for (int i = 0; i < getChildCount(); i++) {
 			UITreeNode cn = (UITreeNode) getChildAt(i);
-			cn = cn.clone();
+			cn = cn.copy();
 			ret.addChild(cn);
 		}
 		return ret;

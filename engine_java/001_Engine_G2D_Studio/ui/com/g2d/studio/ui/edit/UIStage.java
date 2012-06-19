@@ -106,18 +106,23 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 			if (ct == null) {
 				ct = (UITreeNode)edit.getTree().getRoot();
 			}
-			UITreeNode uc = ct.createChild(ut, "");
-			if (uc == null) {
-				JOptionPane.showMessageDialog(edit,
-						ct.getDisplay().getClass().getSimpleName()+"不能添加子节点！");
-			} else {
-				int tx = ct.getDisplay().screenToLocalX(dtde.getLocation().x);
-				int ty = ct.getDisplay().screenToLocalY(dtde.getLocation().y);
-				uc.getDisplay().setLocation(tx, ty);
-				if (edit.isToolGridEnable()) {
-					edit.getLayoutManager().gridPos(ct.getDisplay());
+			try {
+				UITreeNode uc = ct.createChild(ut, "");
+				if (uc == null) {
+					JOptionPane.showMessageDialog(edit,
+							ct.getDisplay().getClass().getSimpleName()+"不能添加子节点！");
+				} else {
+					int tx = ct.getDisplay().screenToLocalX(dtde.getLocation().x);
+					int ty = ct.getDisplay().screenToLocalY(dtde.getLocation().y);
+					uc.getDisplay().setLocation(tx, ty);
+					if (edit.isToolGridEnable()) {
+						edit.getLayoutManager().gridPos(ct.getDisplay());
+					}
 				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(edit, e.getMessage());
 			}
+		
 		}
 	}
 	

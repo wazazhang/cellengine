@@ -11,7 +11,7 @@ import com.g2d.studio.ui.edit.UIEdit;
 public class UEFileNode extends UIComponent implements SavedComponent
 {
 	private String fileName;
-	private UERoot root;
+	private UERoot croot = null;
 	
 	public UEFileNode(String fileName) {
 		this.fileName = fileName;
@@ -25,12 +25,12 @@ public class UEFileNode extends UIComponent implements SavedComponent
 	@Override
 	public void update() {
 		super.update();
-		if (root != null) {
-			root.x = 0;
-			root.y = 0;
+		if (croot != null) {
+			croot.x = 0;
+			croot.y = 0;
 			this.setSize(
-					root.getWidth(),
-					root.getHeight());
+					croot.getWidth(),
+					croot.getHeight());
 		}
 	}
 	@Override
@@ -52,15 +52,21 @@ public class UEFileNode extends UIComponent implements SavedComponent
 	
 	@Override
 	public void readComplete(UIEdit edit) {
-		load(edit);
+		try {
+			load(edit);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void writeBefore(UIEdit edit) {}
 	
-	public void load(UIEdit edit) {
-		if (fileName != null) {
-			root = edit.getFileNode(fileName);
-			this.addChild(root);
+	public void load(UIEdit edit) throws Exception {
+		if (croot == null) {
+			if (fileName != null) {
+				croot = edit.getFileNode(fileName);
+				this.addChild(croot);
+			}
 		}
 	}
 }

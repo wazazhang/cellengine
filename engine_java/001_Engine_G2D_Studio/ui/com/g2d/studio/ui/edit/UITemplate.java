@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import com.cell.CUtil;
 import com.g2d.BufferedImage;
 import com.g2d.Engine;
 import com.g2d.Graphics2D;
@@ -58,20 +59,13 @@ public class UITemplate extends G2DTreeNode<UITemplate>
 		return uiType;
 	}
 	
-	public UIComponent createDisplay(UIEdit edit) {
-		try {
-			if (userFile != null) {
-				UEFileNode fn = new UEFileNode(userFile.getName());
-				fn.load(edit);
-				return fn;
-			} else {
-				return (UIComponent) getUIType().newInstance();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			UETextBox etb = new UETextBox();
-			etb.Text = e.getClass().getName() + " : " + e.getMessage();
-			return etb;
+	public UIComponent createDisplay(UIEdit edit) throws Exception {
+		if (userFile != null) {
+			UEFileNode fn = new UEFileNode(userFile.getName());
+			fn.load(edit);
+			return fn;
+		} else {
+			return (UIComponent) getUIType().newInstance();
 		}
 	}
 	

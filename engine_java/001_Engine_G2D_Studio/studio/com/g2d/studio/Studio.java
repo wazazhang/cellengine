@@ -769,10 +769,8 @@ public class Studio extends AbstractFrame
 		catch (Throwable e)
 		{
 			e.printStackTrace();
-			String message = "Open workspace error ! \n" + e.getClass().getName() + " : " + e.getMessage() + "\n";
-			for (StackTraceElement stack : e.getStackTrace()) {
-				message += "\t"+stack.toString()+"\n";
-			}
+			String message = "Open workspace error ! \n" + e.getClass().getName() + " : " + e.getMessage() + "\n" + 
+			CUtil.getStackTrace(e);
 			JOptionPane.showMessageDialog(null, message);
 			System.exit(1);
 		}

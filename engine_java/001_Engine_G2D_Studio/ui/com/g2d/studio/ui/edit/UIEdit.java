@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -51,6 +52,7 @@ import com.g2d.Engine;
 import com.g2d.awt.util.AbstractDialog;
 import com.g2d.awt.util.AbstractFrame;
 import com.g2d.awt.util.Tools;
+import com.g2d.display.DisplayObject;
 import com.g2d.display.DisplayObjectContainer;
 import com.g2d.display.ui.Container;
 import com.g2d.display.ui.UIComponent;
@@ -94,7 +96,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	private DisplayObjectPanel stage_view;
 	private File last_saved_file;
 		
-	public UIEdit(File cfg) throws IOException 
+	public UIEdit(File cfg) throws Exception 
 	{
 		DisplayObjectContainer.FOCUS_TO_TOP = false;
 		UIEditConfig.load(cfg.getPath());
@@ -133,7 +135,7 @@ public class UIEdit extends AbstractFrame implements ActionListener
 				JScrollPane tempscroll = new JScrollPane(templates);
 				tempscroll.setPreferredSize(new Dimension(300, 300));
 				vsplit.setBottomComponent(tempscroll);
-
+				
 				tree_root = new UITreeNode(this, templates.getTemplate(UERoot.class), "root");
 				tree = new UITree(this, tree_root);
 				JScrollPane treescroll = new JScrollPane(tree);
@@ -273,6 +275,41 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	public int getGridSize() {
 		return ((Number)tool_grid_size.getValue()).intValue();
 	}
+
+
+	public boolean checkChilds()
+	{
+		if (last_saved_file == null) {
+			return true;
+		}
+		return checkContainsFile(last_saved_file, tree_root.getDisplay());
+	}
+	
+	public boolean checkChilds(DisplayObjectContainer obj)
+	{
+		if (last_saved_file == null) {
+			return true;
+		}
+		return checkContainsFile(last_saved_file, obj);
+	}
+	
+	public boolean checkContainsFile(File file, DisplayObjectContainer obj)
+	{
+		if (obj instanceof UEFileNode) {
+			UEFileNode utfile = (UEFileNode)obj;
+			if (utfile.getFileName().equals(file.getName())) {
+				return false;
+			}
+		}
+		for (DisplayObject dc : obj.getChilds()) {
+			if (dc instanceof DisplayObjectContainer) {
+				if (!checkContainsFile(file, (DisplayObjectContainer)dc)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	
 	// tool 
 	@Override
@@ -366,20 +403,25 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			});
 			fd.setVisible(true);
 			if (fd.getFile() != null) {
+				File sf = last_saved_file;
 				try {
 					String file = fd.getDirectory() + fd.getFile();
 					File xmlfile = new File(file).getCanonicalFile();
 					FileInputStream fis = new FileInputStream(xmlfile);
+					last_saved_file = xmlfile;
 					try {
 						tree_root.fromXMLStream(this, fis);
+					} catch (Throwable err) {
+						tree_root.clearChilds();
+						throw err;
 					} finally {
 						fis.close();
 					}
-					last_saved_file = xmlfile;
 					this.setTitle(last_saved_file.getPath());
 					tree.reload();
 					onSelectTreeNode(tree_root);
-				} catch (Exception e) {
+				} catch (Throwable e) {
+					last_saved_file = sf;
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(this, 
 							"非法的格式!\n" + 
@@ -391,22 +433,21 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		}
 	}
 	
-	public UERoot getFileNode(String fileName)
+	public UERoot getFileNode(String fileName) throws Exception
 	{
-		try {
-			File xmlfile = getSubFile(fileName).getCanonicalFile();
-			if (xmlfile != null) {
-				FileInputStream fis = new FileInputStream(xmlfile);
+		File xmlfile = getSubFile(fileName).getCanonicalFile();
+		if (xmlfile != null) {
+			FileInputStream fis = new FileInputStream(xmlfile);
+			try {
 				UITreeNode tree_root = new UITreeNode(this,
 						getTemplate(UERoot.class), 
 						xmlfile.getName());
 				tree_root.fromXMLStream(this, fis);
 				tree_root.removeAllChildren();
-				fis.close();
 				return (UERoot)tree_root.getDisplay();
+			} finally {
+				fis.close();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

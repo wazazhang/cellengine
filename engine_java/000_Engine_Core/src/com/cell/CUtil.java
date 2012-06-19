@@ -3015,6 +3015,13 @@ public class CUtil extends CObject
 //	
 //	--------------------------------------------------------------------------------------------------------------------------
 
+	public static String getStackTrace(Throwable e) {
+		StringBuilder message = new StringBuilder();
+		for (StackTraceElement stack : e.getStackTrace()) {
+			message.append("\t"+stack.toString()+"\n");
+		}
+		return message.toString();
+	}
 	/**
 	 * 字符串数组，其中每个元素的环境变量的设置格式为 name=value；如果子进程应该继承当前进程的环境，或该参数为 null。
 	 * @return
