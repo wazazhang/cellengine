@@ -353,6 +353,9 @@ public abstract class BaseNetDataInput implements NetDataInput
 		try 
 		{
 			String enumName = readUTF();
+			if (enumName == null || enumName.isEmpty()) {
+				return null;
+			}
 			T result = EnumManager.valueOf(cls, enumName);
 			return result;
 		} catch (IOException e1) {

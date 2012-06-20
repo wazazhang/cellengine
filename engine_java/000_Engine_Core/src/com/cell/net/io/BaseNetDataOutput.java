@@ -337,7 +337,11 @@ public abstract class BaseNetDataOutput implements NetDataOutput
 	@Override
 	public void writeEnum(Object eo) throws IOException 
 	{
-		writeUTF(eo.toString());
+		if (eo != null) {
+			writeUTF(eo.toString());
+		} else {
+			writeUTF("");
+		}
 	}
 	
 	

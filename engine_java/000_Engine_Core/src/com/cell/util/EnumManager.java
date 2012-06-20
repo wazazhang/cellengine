@@ -82,7 +82,20 @@ public class EnumManager
 	{
 		T[] cts = cls.getEnumConstants();
 		for (T t : cts) {
-			if (cts.toString().equals(name)) {
+			String tn = t.toString();
+			if (tn.equals(name)) {
+				return t;
+			}
+		}
+		return null;
+	}
+	
+	public static Object valueOf(Class<?> cls, Object name)
+	{
+		Object[] cts = cls.getEnumConstants();
+		for (Object t : cts) {
+			String tn = t.toString();
+			if (tn.equals(name)) {
 				return t;
 			}
 		}
