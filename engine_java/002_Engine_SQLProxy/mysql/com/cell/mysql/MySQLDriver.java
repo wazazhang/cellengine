@@ -31,6 +31,7 @@ import com.cell.sql.anno.SQLField;
 import com.cell.sql.anno.SQLGroupField;
 import com.cell.sql.anno.SQLTable;
 import com.cell.sql.util.SQLUtil;
+import com.cell.util.EnumManager;
 import com.cell.xstream.XStreamAdapter;
 
 /**
@@ -290,6 +291,8 @@ public class MySQLDriver implements SQLDriver
 			return ((Number)sqlObject).byteValue();
 		case SHORT:
 			return ((Number)sqlObject).shortValue();
+		case ENUM:
+			return convertValue2Enum(type_clazz, (String)sqlObject);
 		default:
 			return sqlObject;
 		}
@@ -310,8 +313,26 @@ public class MySQLDriver implements SQLDriver
 			}
 		case XML_STRUCT:
 			return SQLUtil.xmlToString((Serializable)javaObject);
+		case ENUM:
+			return convertEnum2Value(javaObject);
 		default:
 			return javaObject;
+		}
+	}
+	
+	private String convertEnum2Value(Object obj) {
+		if (obj != null) {
+			return obj.toString();
+		}else{
+			return SQLUtil.ZERO_TEXT;
+		}
+	}
+	
+	private Object convertValue2Enum(Class<?> type_clazz, String obj) {
+		if (obj == null || obj.isEmpty()) {
+			return null;
+		}else{
+			return EnumManager.valueOf(type_clazz, obj);
 		}
 	}
 	
@@ -344,6 +365,7 @@ public class MySQLDriver implements SQLDriver
 		case XML_STRUCT		:return "longtext";
 		case TIME			:return "time";
 		case TIMESTAMP		:return "timestamp";
+		case ENUM			:return "varchar(128)";
 		}
 		return null;
 	}
@@ -592,6 +614,8 @@ public class MySQLDriver implements SQLDriver
 
 			case TIME:			row_limit_size += 3; break;
 			case TIMESTAMP:		row_limit_size += 4; break;
+			
+			case ENUM:			row_limit_size += 128; break;
 			
 			case STRING:		
 			case STRUCT:		

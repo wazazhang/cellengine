@@ -22,8 +22,8 @@ import com.cell.sql.SQLDriverManager;
 
 public class SQLUtil
 {
-	final static private byte[] ZERO_DATA = new byte[0];
-	final static private String ZERO_TEXT = "";
+	final static public byte[] ZERO_DATA = new byte[0];
+	final static public String ZERO_TEXT = "";
 	
 	/**
 	 * 将一个struct编码成Blob

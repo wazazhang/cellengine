@@ -25,6 +25,7 @@ public enum SQLType
 	XML_STRUCT		(Types.LONGVARCHAR),
 	TIME			(Types.TIME),
 	TIMESTAMP		(Types.TIMESTAMP),
+	ENUM			(Types.VARCHAR),
 //	用BLOB或CLOB存储数组，MySQL就不支持数组，
 //	INTEGER_ARRAY	(Types.ARRAY),
 //	FLOAT_ARRAY		(Types.ARRAY),
