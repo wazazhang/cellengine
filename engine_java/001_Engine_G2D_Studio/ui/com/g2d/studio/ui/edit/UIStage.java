@@ -70,13 +70,19 @@ public class UIStage extends DisplayObjectPanel.ObjectStage implements DropTarge
 	{
 		super.renderAfter(g);
 
-		if (edit.isToolGridEnable()) 
+		if (edit.isToolGridEnable() && edit.isToolShowBounds()) 
 		{
-			float alpha = 0.5f + (float)Math.sin(this.timer / 5.0f)/2;
-			g.setColor(new Color(alpha, alpha, alpha, 1));
+//			float alpha = 0.5f + (float) Math.sin(this.timer / 5.0f) / 2;
+			Color c1 = new Color(1, 1, 1, 1f);
+			Color c2 = new Color(0, 0, 0, 1f);
 			int gw = edit.getGridSize();
-			for (int x=0; x<getWidth(); x+=gw) {
-				for (int y=0; y<getHeight(); y+=gw) {
+			for (int x = 0; x < getWidth(); x += gw) {
+				for (int y = 0; y < getHeight(); y += gw) {
+					if ((x/gw) % 2 == 0 || (y/gw) % 2 == 0) {
+						g.setColor(c1);
+					} else {
+						g.setColor(c2);
+					}
 					g.fillRect(x, y, 1, 1);
 				}
 			}

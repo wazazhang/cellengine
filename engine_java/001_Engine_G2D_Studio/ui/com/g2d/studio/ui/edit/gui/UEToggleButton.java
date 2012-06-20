@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.g2d.Graphics2D;
+import com.g2d.Image;
 import com.g2d.annotation.Property;
 import com.g2d.display.event.MouseEvent;
 import com.g2d.display.ui.Button;
@@ -33,19 +34,6 @@ public class UEToggleButton extends UEButton implements SavedComponent
 	
 	protected void renderLayout(Graphics2D g) 
 	{
-		UILayout rect = layout;
-		if (isChecked) {
-			if (custom_layout_down != null) {
-				rect = custom_layout_down;
-			}
-			else if (layout_down != null) {
-				rect = layout_down;
-			}
-		} else {
-			if (custom_layout != null) {
-				rect = custom_layout;
-			}
-		}
-		rect.render(g, 0, 0, getWidth(), getHeight());
+		renderLayout(g, isChecked);
 	}
 }

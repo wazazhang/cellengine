@@ -496,10 +496,46 @@ public class Drawing
 
 	public static enum ImageAnchor
 	{
-		L_T, C_T, R_T,
-		L_C, C_C, R_C,
-		L_B, C_B, R_B,
+		L_T, C_T, R_T, L_C, C_C, R_C, L_B, C_B, R_B,
 	}
 
 	
+	final static public void drawImageAnchor(Graphics2D g, Image src, int x, int y, int width, int height, ImageAnchor anchor)
+	{
+		int dx = x;
+		int dy = y;
+		switch (anchor) {
+		case L_T: 
+			break;
+		case C_T:
+			dx = (width - src.getWidth())>>1;
+			break;
+		case R_T:
+			dx = (width - src.getWidth());
+			break;
+		case L_C:
+			dy = (height - src.getHeight())>>1;
+			break;
+		case C_C:
+			dx = (width - src.getWidth())>>1;
+			dy = (height - src.getHeight())>>1;
+			break;
+		case R_C:
+			dx = (width - src.getWidth());
+			dy = (height - src.getHeight())>>1;
+			break;
+		case L_B:
+			dy = (height - src.getHeight());
+			break;
+		case C_B:
+			dx = (width - src.getWidth())>>1;
+			dy = (height - src.getHeight());
+			break;
+		case R_B:
+			dx = (width - src.getWidth());
+			dy = (height - src.getHeight());
+			break;
+		}
+		g.drawImage(src, dx, dy);
+	}
 }

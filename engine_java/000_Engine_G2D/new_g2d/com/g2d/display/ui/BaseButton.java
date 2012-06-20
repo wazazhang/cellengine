@@ -5,6 +5,8 @@ import com.g2d.Graphics2D;
 import com.g2d.Image;
 import com.g2d.annotation.Property;
 import com.g2d.display.ui.layout.UILayout;
+import com.g2d.util.Drawing;
+import com.g2d.util.Drawing.ImageAnchor;
 
 
 public abstract class BaseButton extends UIComponent 
@@ -18,8 +20,16 @@ public abstract class BaseButton extends UIComponent
 	@Property("自定义按下造型")
 	public UILayout		custom_layout_down;
 	
-	public Image		imageDown;
-	public Image		imageUp;
+
+	@Property("上层图片对其方式")
+	public ImageAnchor imageAnchor = ImageAnchor.C_C;
+	@Property("上层图片偏移X")
+	public int imageOffsetX = 0;
+	@Property("上层图片偏移Y")
+	public int imageOffsetY = 0;
+	
+	public Image imageDown;
+	public Image imageUp;
 	
 	public BaseButton(int width, int height) {
 		setSize(width, height);
@@ -56,16 +66,18 @@ public abstract class BaseButton extends UIComponent
 	
 	public void render(Graphics2D g) 
 	{
-		
-		
 		super.render(g);
 	}
 	
 	protected void renderLayout(Graphics2D g) 
 	{
+		renderLayout(g, isOnDragged());
+	}
+	
+	protected void renderLayout(Graphics2D g, boolean isDown) {
 		Image cimg = imageUp;
 		UILayout rect = layout;
-		if (isOnDragged()) {
+		if (isDown) {
 			if (custom_layout_down != null) {
 				rect = custom_layout_down;
 			}
@@ -80,12 +92,14 @@ public abstract class BaseButton extends UIComponent
 		}
 		rect.render(g, 0, 0, getWidth(), getHeight());
 		if (cimg != null) {
-			g.drawImage(cimg, 
-					(getWidth()-cimg.getWidth())>>1,
-					(getHeight()-cimg.getHeight())>>1);
+			Drawing.drawImageAnchor(g, cimg, 
+					imageOffsetX, 
+					imageOffsetY, 
+					getWidth(),
+					getHeight(),
+					imageAnchor);
 		}
 	}
-	
 	
 	protected void onDrawMouseHover(Graphics2D g) {
 		if(mouse_catched_mask==null){

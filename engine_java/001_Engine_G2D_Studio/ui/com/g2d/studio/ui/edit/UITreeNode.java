@@ -245,7 +245,7 @@ implements ObjectPropertyListener
 		@Override
 		public void render(com.g2d.Graphics2D g, UIComponent ui) 
 		{
-			if (edit.getTree().getSelectedNode() == UITreeNode.this) 
+			if (edit.isToolShowBounds() && edit.getTree().getSelectedNode() == UITreeNode.this)
 			{
 				int s1 = 3;
 				int s2 = 6;
@@ -271,10 +271,10 @@ implements ObjectPropertyListener
 					g.fillRect( -s1, h/2-s1, s2, s2);
 					g.fillRect(w-s1, h/2-s1, s2, s2);
 				}
-				else 
+				else
 				{
-					g.setColor(new Color(0.5f, 1f, 1f, 0.5f));
-					g.drawRect(0, 0, w-1, h-1);
+					g.setColor(new Color(0.5f, 0.5f, 1f, 1f));
+					g.drawRect(-1, -1, w+1, h+1);
 				}
 				g.popClip();
 			}

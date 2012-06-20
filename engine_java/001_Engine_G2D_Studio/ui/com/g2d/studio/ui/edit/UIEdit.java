@@ -79,9 +79,10 @@ public class UIEdit extends AbstractFrame implements ActionListener
 	
 	private UILayoutManager manager;
 
-	private JToggleButton tool_grid = new JToggleButton(Tools.createIcon(Res.icon_grid));
-	private JCheckBox tool_auto_select 	= new JCheckBox("自动选取");
-	private JCheckBox tool_not_drag_move 	= new JCheckBox("不可拖动");
+	private JCheckBox tool_grid 			= new JCheckBox("按格对齐", false); // Tools.createIcon(Res.icon_grid),
+	private JCheckBox tool_auto_select 		= new JCheckBox("自动选取", true);
+	private JCheckBox tool_not_drag_move 	= new JCheckBox("不可拖动", false);
+	private JCheckBox tool_show_bounds	 	= new JCheckBox("显示额外信息", true);
 	private JSpinner tool_grid_size = new JSpinner(new SpinnerNumberModel(8, 2, 100, 1));
 	private G2DWindowToolBar tools;
 	private JToolBar bar_status;
@@ -182,14 +183,13 @@ public class UIEdit extends AbstractFrame implements ActionListener
 			tools.addSeparator();
 			tools.add(tool_auto_select);
 			tools.add(tool_not_drag_move);
+			tools.add(tool_show_bounds);
 			tools.addSeparator();
 			tools.add(tool_grid);
 			tools.add(tool_grid_size);
 			tools.addSeparator();
 			tools.save_s.setToolTipText("另存为");
 
-			tool_auto_select.setSelected(true);
-			
 			tool_grid_size.setValue(8);
 			tool_grid_size.setPreferredSize(new Dimension(50, 25));
 			tool_grid_size.setToolTipText("对其到网格");
@@ -281,6 +281,10 @@ public class UIEdit extends AbstractFrame implements ActionListener
 		return !tool_not_drag_move.isSelected();
 	}
 
+	public boolean isToolShowBounds() {
+		return tool_show_bounds.isSelected();
+	}
+	
 	public int getGridSize() {
 		return ((Number)tool_grid_size.getValue()).intValue();
 	}
