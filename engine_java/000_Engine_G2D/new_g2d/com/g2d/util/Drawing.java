@@ -502,8 +502,8 @@ public class Drawing
 	
 	final static public void drawImageAnchor(Graphics2D g, Image src, int x, int y, int width, int height, ImageAnchor anchor)
 	{
-		int dx = x;
-		int dy = y;
+		int dx = 0;
+		int dy = 0;
 		switch (anchor) {
 		case L_T: 
 			break;
@@ -536,6 +536,6 @@ public class Drawing
 			dy = (height - src.getHeight());
 			break;
 		}
-		g.drawImage(src, dx, dy);
+		g.drawImage(src, x+dx, y+dy);
 	}
 }
