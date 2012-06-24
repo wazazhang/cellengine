@@ -43,7 +43,7 @@
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
 			this.panel2 = new System.Windows.Forms.Panel();
-			this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			this.pictureBoxMain = new System.Windows.Forms.PictureBox();
 			this.statusStrip2 = new System.Windows.Forms.StatusStrip();
 			this.RulerLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -225,7 +225,7 @@
 			this.splitContainer4.Panel2.SuspendLayout();
 			this.splitContainer4.SuspendLayout();
 			this.panel2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxMain)).BeginInit();
 			this.statusStrip2.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.panel3.SuspendLayout();
@@ -424,7 +424,7 @@
 			// 
 			this.panel2.AutoScroll = true;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel2.Controls.Add(this.pictureBox2);
+			this.panel2.Controls.Add(this.pictureBoxMain);
 			this.panel2.Cursor = System.Windows.Forms.Cursors.Default;
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel2.Location = new System.Drawing.Point(0, 25);
@@ -432,19 +432,19 @@
 			this.panel2.Size = new System.Drawing.Size(530, 362);
 			this.panel2.TabIndex = 0;
 			// 
-			// pictureBox2
+			// pictureBoxMain
 			// 
-			this.pictureBox2.BackColor = System.Drawing.Color.Fuchsia;
-			this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(218, 194);
-			this.pictureBox2.TabIndex = 0;
-			this.pictureBox2.TabStop = false;
-			this.pictureBox2.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pictureBox2_PreviewKeyDown);
-			this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
-			this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDown);
-			this.pictureBox2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
-			this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseUp);
+			this.pictureBoxMain.BackColor = System.Drawing.Color.Fuchsia;
+			this.pictureBoxMain.Location = new System.Drawing.Point(3, 3);
+			this.pictureBoxMain.Name = "pictureBoxMain";
+			this.pictureBoxMain.Size = new System.Drawing.Size(218, 194);
+			this.pictureBoxMain.TabIndex = 0;
+			this.pictureBoxMain.TabStop = false;
+			this.pictureBoxMain.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pictureBox2_PreviewKeyDown);
+			this.pictureBoxMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
+			this.pictureBoxMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDown);
+			this.pictureBoxMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxMain_Paint);
+			this.pictureBoxMain.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseUp);
 			// 
 			// statusStrip2
 			// 
@@ -2366,7 +2366,7 @@
 			this.splitContainer4.Panel2.PerformLayout();
 			this.splitContainer4.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxMain)).EndInit();
 			this.statusStrip2.ResumeLayout(false);
 			this.statusStrip2.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
@@ -2457,7 +2457,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBoxMain;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ListView listView3;

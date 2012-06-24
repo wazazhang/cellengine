@@ -763,9 +763,9 @@ namespace CellGameEdit.PM
             splitContainer6.Panel1.Enabled = false; 
             pictureBox1.Width = 1;
             pictureBox1.Height = 1;
-            pictureBox2.Width = dstPanelSize;
-            pictureBox2.Height = dstPanelSize;
-            pictureBox2.Image = new System.Drawing.Bitmap(dstPanelSize, dstPanelSize);
+            pictureBoxMain.Width = dstPanelSize;
+            pictureBoxMain.Height = dstPanelSize;
+            pictureBoxMain.Image = new System.Drawing.Bitmap(dstPanelSize, dstPanelSize);
             try
             {
                 panel2.HorizontalScroll.Value = panel2.HorizontalScroll.Maximum / 2 - panel2.Width / 2;
@@ -1009,7 +1009,7 @@ namespace CellGameEdit.PM
                 framesGetCurFrame().updatePartListView(listView3);
                 framesGetCurFrame().updateCDListView(listView4);
 
-                pictureBox2.Refresh();
+                pictureBoxMain.Refresh();
                 pictureBox3.Refresh();
             }
             catch (Exception err)
@@ -1773,7 +1773,7 @@ namespace CellGameEdit.PM
 
          
 
-            pictureBox2.Refresh();
+            pictureBoxMain.Refresh();
             dstRefreshEnable = true;
             
         }
@@ -1866,7 +1866,7 @@ namespace CellGameEdit.PM
 
             CDState.Text = "" + e.ItemIndex;
 
-            pictureBox2.Refresh();
+            pictureBoxMain.Refresh();
             dstRefreshEnable = true;
 
         }
@@ -1876,21 +1876,28 @@ namespace CellGameEdit.PM
 
 
         // dst box
-        private void pictureBox2_Paint(object sender, PaintEventArgs e)
+        private void pictureBoxMain_Paint(object sender, PaintEventArgs e)
 		{
 			try
 			{
 				// pictureBox2.SizeMode = PictureBoxSizeMode.
 				
 
-				int tx = pictureBox2.Width / 2;
-				int ty = pictureBox2.Height / 2;
+				int tx = pictureBoxMain.Width / 2;
+				int ty = pictureBoxMain.Height / 2;
 
 				if (this.显示十字ToolStripMenuItem.Checked)
 				{
 					// System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
-					e.Graphics.DrawLine(cross_pen, tx, 0, tx, pictureBox2.Height);
-					e.Graphics.DrawLine(cross_pen, 0, ty, pictureBox2.Width, ty);
+					e.Graphics.DrawLine(cross_pen, tx, 0, tx, pictureBoxMain.Height);
+					e.Graphics.DrawLine(cross_pen, 0, ty, pictureBoxMain.Width, ty);
+				}
+
+				if (showClipToolStripMenuItem.Checked)
+				{
+					try {
+						ClipShow.render(e.Graphics, tx, ty, getCurrentAnimate(), getCurrentFrame());
+					} catch (Exception err) {}
 				}
 
 				{
@@ -1924,8 +1931,8 @@ namespace CellGameEdit.PM
 				}
 				if (this.显示尺子ToolStripMenuItem.Checked)
 				{
-					e.Graphics.DrawLine(rule_pen, rx, 0, rx, pictureBox2.Height);
-					e.Graphics.DrawLine(rule_pen, 0, ry, pictureBox2.Width, ry);
+					e.Graphics.DrawLine(rule_pen, rx, 0, rx, pictureBoxMain.Height);
+					e.Graphics.DrawLine(rule_pen, 0, ry, pictureBoxMain.Width, ry);
 				}
 				//e.Graphics.DrawImage(pictureBox2.Image,0,0);
 			}
@@ -1937,19 +1944,19 @@ namespace CellGameEdit.PM
         private void 显示网格ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dstGridChange();
-            pictureBox2.Refresh();
+            pictureBoxMain.Refresh();
         }
         private void 显示十字ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox2.Refresh();
+            pictureBoxMain.Refresh();
         }
         private void 显示尺子ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox2.Refresh();
+            pictureBoxMain.Refresh();
         }
         private void 显示图片框ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox2.Refresh();
+            pictureBoxMain.Refresh();
             pictureBox1.Refresh();
         }
 
@@ -1994,8 +2001,8 @@ namespace CellGameEdit.PM
         {
             isSub = false;
             isEdtDown = true;
-			float x = (e.X - pictureBox2.Width / 2) / curMasterScale;
-			float y = (e.Y - pictureBox2.Height / 2) / curMasterScale;
+			float x = (e.X - pictureBoxMain.Width / 2) / curMasterScale;
+			float y = (e.Y - pictureBoxMain.Height / 2) / curMasterScale;
 			edtMouseDownX = x;
 			edtMouseDownY = y;
 
@@ -2101,8 +2108,8 @@ namespace CellGameEdit.PM
 
         private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
 		{
-			float x = (e.X - pictureBox2.Width / 2) / curMasterScale;
-			float y = (e.Y - pictureBox2.Height / 2) / curMasterScale;
+			float x = (e.X - pictureBoxMain.Width / 2) / curMasterScale;
+			float y = (e.Y - pictureBoxMain.Height / 2) / curMasterScale;
             edtMouseCurX = x;
 			edtMouseCurY = y;
 
@@ -2159,8 +2166,8 @@ namespace CellGameEdit.PM
 				rx = e.X - e.X % mScale;
 				ry = e.Y - e.Y % mScale;
 				this.RulerLabel2.Text =
-					" X=" + (rx - pictureBox2.Width / 2) / mScale + 
-					" Y=" + (ry - pictureBox2.Height / 2) / mScale;
+					" X=" + (rx - pictureBoxMain.Width / 2) / mScale + 
+					" Y=" + (ry - pictureBoxMain.Height / 2) / mScale;
 				
 			}
 			
@@ -2258,22 +2265,22 @@ namespace CellGameEdit.PM
             ColorDialog MyDialog = new ColorDialog();
             MyDialog.AllowFullOpen = false;
             MyDialog.ShowHelp = true;
-            MyDialog.Color = pictureBox2.BackColor;
+            MyDialog.Color = pictureBoxMain.BackColor;
             if (MyDialog.ShowDialog() == DialogResult.OK)
             {
-                pictureBox2.BackColor = MyDialog.Color;
+                pictureBoxMain.BackColor = MyDialog.Color;
 
 				cross_pen.Color = System.Drawing.Color.FromArgb(0xFF,
-					pictureBox2.BackColor.R ^ 0xFF,
-					pictureBox2.BackColor.G ^ 0xFF,
-					pictureBox2.BackColor.B ^ 0xFF);
+					pictureBoxMain.BackColor.R ^ 0xFF,
+					pictureBoxMain.BackColor.G ^ 0xFF,
+					pictureBoxMain.BackColor.B ^ 0xFF);
 
 				rule_pen.Color = System.Drawing.Color.FromArgb(0x80, 
 					cross_pen.Color.R,
 					cross_pen.Color.G,
 					cross_pen.Color.B);
 
-				pictureBox2.Refresh();
+				pictureBoxMain.Refresh();
 
             }
         }
@@ -2286,7 +2293,7 @@ namespace CellGameEdit.PM
         {
 			int masterScale = (int)curMasterScale;
 
-            pictureBox2.Width = pictureBox2.Height = Math.Min(dstPanelSize * masterScale, 1024 * 4);
+            pictureBoxMain.Width = pictureBoxMain.Height = Math.Min(dstPanelSize * masterScale, 1024 * 4);
 
                 try
                 {
@@ -2304,13 +2311,13 @@ namespace CellGameEdit.PM
                     g.DrawLine(pen, 0, 0, masterScale, 0);
                     g.DrawLine(pen, 0, 0, 0, masterScale);
 
-                    pictureBox2.BackgroundImage = bg;
-                    pictureBox2.Refresh();
+                    pictureBoxMain.BackgroundImage = bg;
+                    pictureBoxMain.Refresh();
                 }
                 else
                 {
-                    pictureBox2.BackgroundImage = null;
-                    pictureBox2.Refresh();
+                    pictureBoxMain.BackgroundImage = null;
+                    pictureBoxMain.Refresh();
                 }
           
         }
@@ -2444,6 +2451,10 @@ namespace CellGameEdit.PM
                 return null;
             }
         }
+
+		private int getCurrentFrame() {
+			return trackBar1.Value;
+		}
 
         private void renderFrameSnaps(Graphics g, int ww, int wh)
         {
@@ -2805,6 +2816,11 @@ namespace CellGameEdit.PM
             }
         }
 
+		 private int getCurrentAnimate()
+		 {
+			 return listView2.Items.IndexOf(listView2.SelectedItems[0]);
+		 }
+
         private void toolStripButton8_Click(object sender, EventArgs e)
         {
             animAdd();
@@ -2926,7 +2942,7 @@ namespace CellGameEdit.PM
                 {
                     trackBar1.Value = trackBar1.Minimum;
                 }
-                pictureBox2.Refresh();
+                pictureBoxMain.Refresh();
             }
 
             if (toolBtnPlayOnce.Checked)
@@ -2942,7 +2958,7 @@ namespace CellGameEdit.PM
                     toolStripButton7_Click(toolBtnPlayOnce,null);
                     timer1.Stop();
                 }
-                pictureBox2.Refresh();
+                pictureBoxMain.Refresh();
             }
         
         }
@@ -3079,12 +3095,16 @@ namespace CellGameEdit.PM
 		//////////////////////////////////////////////////////////////////////////////////////////
 		private void showClipToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			if (showClipToolStripMenuItem.Checked)
+			{
+				ClipShow.load();
+			}
+			pictureBoxMain.Refresh();
 		}
 
 		private void setClipShowToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ClipShow.createFromSprite(this);
+			ClipShow.save(this);
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////
 
@@ -3108,75 +3128,90 @@ namespace CellGameEdit.PM
 
 	public partial class ClipShow
 	{
-		ArrayList animates;
+		private static Hashtable animates;
 
-		public static ClipShow createFromSprite(SpriteForm sf)
+		public static void save(SpriteForm sf)
 		{
-			ClipShow ret = new ClipShow();
-			try {
-				String dir = Application.StartupPath + "\\clipshow\\" + sf.id;
+			try
+			{
+				animates = new Hashtable();
+				String dir = Application.StartupPath + "\\clipshow";
 				if (System.IO.Directory.Exists(dir))
 				{
 					System.IO.Directory.Delete(dir, true);
 				}
 				System.IO.Directory.CreateDirectory(dir);
-				
-				for (int anim = 0; anim < sf.GetAnimateCount(); anim++ )
+
+				for (int anim = 0; anim < sf.GetAnimateCount(); anim++)
 				{
-					for (int frame = 0; frame < sf.GetFrameCount(anim); frame++ )
+					for (int frame = 0; frame < sf.GetFrameCount(anim); frame++)
 					{
-						Frame curFrame = sf.getFrame(anim, frame);
-
-						if (curFrame != null)
+						try
 						{
-							System.Drawing.Rectangle vb = curFrame.getVisibleBounds();
-							int x1 = vb.X;
-							int x2 = vb.X + vb.Width; 
-							int y1 = vb.Y;
-							int y2 = vb.Y + vb.Height;
-							int maxw = Math.Max(Math.Abs(x1), Math.Abs(x2));
-							int maxh = Math.Max(Math.Abs(y1), Math.Abs(y2));
-							int maxs = Math.Max(maxw * 2, maxh * 2);
-							javax.microedition.lcdui.Image img = javax.microedition.lcdui.Image.createImage(maxs, maxs);
-							javax.microedition.lcdui.Graphics g = img.getGraphics();
-							sf.Render(g, maxs / 2, maxs / 2, false, anim, frame);
+							Frame curFrame = sf.getFrame(anim, frame);
 
-							img.getDImage().Save(
-								dir+"\\"+anim+"_"+frame+".png", 
-								System.Drawing.Imaging.ImageFormat.Png);
+							if (curFrame != null)
+							{
+								System.Drawing.Rectangle vb = curFrame.getVisibleBounds();
+								int x1 = vb.X;
+								int x2 = vb.X + vb.Width;
+								int y1 = vb.Y;
+								int y2 = vb.Y + vb.Height;
+								int maxw = Math.Max(Math.Abs(x1), Math.Abs(x2));
+								int maxh = Math.Max(Math.Abs(y1), Math.Abs(y2));
+								if (maxw > 0 && maxh > 0)
+								{
+									int maxs = Math.Max(maxw * 2, maxh * 2);
+									javax.microedition.lcdui.Image img = javax.microedition.lcdui.Image.createImage(maxs, maxs);
+									javax.microedition.lcdui.Graphics g = img.getGraphics();
+									sf.Render(g, maxs / 2, maxs / 2, false, anim, frame);
+
+									String key = anim + "_" + frame + ".png";
+									img.getDImage().Save(
+										dir + "\\" + key,
+										System.Drawing.Imaging.ImageFormat.Png);
+									animates[key] = img.getDImage();
+								}
+							}
+						}
+						catch (Exception err)
+						{
+							MessageBox.Show(err.Message);
 						}
 					}
 				}
 			}
-			catch (Exception err) {
-				MessageBox.Show(err.Message);
-			}
-			return ret;
-		}
-
-		public static ClipShow createFromFile(string path)
-		{
-			ClipShow ret = new ClipShow();
-
-			return ret;
-		}
-
-		public void render(System.Drawing.Graphics dg, int x, int y, int anim, int frame)
-		{
-			if (anim < animates.Count)
+			catch (Exception err)
 			{
-				ArrayList frames = (ArrayList)animates[anim];
+				MessageBox.Show(err.Message);
+			} 
+		}
 
-				if (frame < frames.Count) 
-				{
-					System.Drawing.Image img = (System.Drawing.Image)frames[frame];
-
-					if (img != null) {
-						dg.DrawImage(img, x-img.Width/2, y-img.Height/2);
-					}
+		public static void load()
+		{
+			try {
+				animates = new Hashtable();
+				String dir = Application.StartupPath + "\\clipshow";
+				string[] files = System.IO.Directory.GetFiles(dir);
+				foreach (string file in files) {
+					String key = System.IO.Path.GetFileName(file);
+					System.Drawing.Image bm = System.Drawing.Bitmap.FromFile(file);
+					animates[key] = bm;
 				}
 			}
+			catch (Exception err)
+			{
+				MessageBox.Show(err.Message);
+			}
+		}
 
+		public static void render(System.Drawing.Graphics dg, int x, int y, int anim, int frame)
+		{
+			System.Drawing.Image img = (System.Drawing.Image)animates[anim+"_"+frame + ".png"];
+			if (img != null)
+			{
+				dg.DrawImage(img, x - img.Width / 2, y - img.Height / 2);
+			}
 		}
 
 	}
