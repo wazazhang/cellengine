@@ -1893,12 +1893,7 @@ namespace CellGameEdit.PM
 					e.Graphics.DrawLine(cross_pen, 0, ty, pictureBoxMain.Width, ty);
 				}
 
-				if (showClipToolStripMenuItem.Checked)
-				{
-					try {
-						ClipShow.render(e.Graphics, tx, ty, getCurrentAnimate(), getCurrentFrame());
-					} catch (Exception err) {}
-				}
+				
 
 				{
 					Graphics g = new Graphics(e.Graphics);
@@ -1908,6 +1903,19 @@ namespace CellGameEdit.PM
 					{
 						g.translate(tx, ty);
 						g.scale(curMasterScale, curMasterScale);
+
+						if (showClipToolStripMenuItem.Checked)
+						{
+							g.pushState();
+							try
+							{
+								ClipShow.render(e.Graphics, 0, 0, getCurrentAnimate(), getCurrentFrame());
+							}
+							catch (Exception err) { }
+							g.popState();
+						}
+
+
 						frame.render(
 						  g,
 						  srcTiles,
