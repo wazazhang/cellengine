@@ -16,8 +16,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_G2D"/>
 	<classpathentry kind="lib" path="/000_Engine_Core/lib/jexcelapi_2_6_9_1.4/jexcelapi/jxl.jar" sourcepath="/000_Engine_Core/lib/jexcelapi_2_6_9_1.4/jexcelapi/src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/000_Engine_Sound"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/002_Engine_SQLProxy"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/002_Engine_Server"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/001_Engine_RPG"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/002_Engine_SQLProxy"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
