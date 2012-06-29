@@ -100,8 +100,10 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 			dtypes.add(msg.getSuperclass());
 		}
 		for (Field f : msg.getDeclaredFields()) {
-			if (factory.containsMessage(f.getType())) {
-				dtypes.add(f.getType());
+			if (Modifier.isPublic(f.getModifiers())) {
+				if (factory.containsMessage(f.getType())) {
+					dtypes.add(f.getType());
+				}
 			}
 		}
 
