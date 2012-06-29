@@ -10,7 +10,7 @@ import com.cell.net.io.*;
 public class MessageCodecJava implements MutualMessageCodec
 {
 	public String getVersion() {
-		return "1337227113546";
+		return "1340962225875";
 	}
 
 	public Class<?>[] getClasses()

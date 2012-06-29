@@ -5,136 +5,82 @@ package com.net.flash.test.Messages
 	import com.cell.net.io.NetDataTypes;
 	import com.cell.util.Map;
 
+	import com.net.flash.test.Messages.TargetState;
+	import com.net.flash.test.Messages.StateInBattle;
+
 
 	/**
 	 * 
 	 * Java Class [1] [com.net.flash.test.Messages.Data]<br>
 	 * 此代码为自动生成。不需要在此修改。若有错误，请修改代码生成器。
 	 */
-	[Bindable] 
 	public  class Data  implements MutualMessage
 	{
+
+
+
+
 		/** Java type is : <font color=#0000ff>java.lang.String</font>*/
-		public var message2 : String;
+		public var message2 : String = null;
 
 		/** Java type is : <font color=#0000ff>boolean</font>*/
-		public var d0 : Boolean;
+		public var d0 : Boolean = false;
 
 		/** Java type is : <font color=#0000ff>byte</font>*/
-		public var d1 : int;
+		public var d1 : int = 0;
 
 		/** Java type is : <font color=#0000ff>short</font>*/
-		public var d2 : int;
+		public var d2 : int = 0;
 
 		/** Java type is : <font color=#0000ff>char</font>*/
-		public var d3 : int;
+		public var d3 : int = 0;
 
 		/** Java type is : <font color=#0000ff>int</font>*/
-		public var d4 : int;
+		public var d4 : int = 0;
 
 		/** Java type is : <font color=#0000ff>float</font>*/
-		public var d5 : Number;
+		public var d5 : Number = 0;
 
 		/** Java type is : <font color=#0000ff>java.lang.String[]</font>*/
-		public var a_message2 : Array;
+		public var a_message2 : Array = null;
 
 		/** Java type is : <font color=#0000ff>boolean[]</font>*/
-		public var a_d0 : Array;
+		public var a_d0 : Array = null;
 
 		/** Java type is : <font color=#0000ff>byte[]</font>*/
-		public var a_d1 : Array;
+		public var a_d1 : Array = null;
 
 		/** Java type is : <font color=#0000ff>short[]</font>*/
-		public var a_d2 : Array;
+		public var a_d2 : Array = null;
 
 		/** Java type is : <font color=#0000ff>char[]</font>*/
-		public var a_d3 : Array;
+		public var a_d3 : Array = null;
 
 		/** Java type is : <font color=#0000ff>int[]</font>*/
-		public var a_d4 : Array;
+		public var a_d4 : Array = null;
 
 		/** Java type is : <font color=#0000ff>float[]</font>*/
-		public var a_d5 : Array;
+		public var a_d5 : Array = null;
 
 		/** Java type is : <font color=#0000ff>float[][]</font>*/
-		public var b_d5 : Array;
+		public var b_d5 : Array = null;
 
 		/** Java type is : <font color=#0000ff>com.net.flash.test.Messages.TargetState</font>*/
-		public var enum_ts : 		Unsupported type : com.net.flash.test.Messages$TargetState;
+		public var enum_ts : String = null;
 
 		/** Java type is : <font color=#0000ff>com.net.flash.test.Messages.StateInBattle</font>*/
-		public var enum_sb : 		Unsupported type : com.net.flash.test.Messages$StateInBattle;
+		public var enum_sb : String = null;
 
 		/** Java type is : <font color=#0000ff>com.net.flash.test.Messages.TargetState[]</font>*/
-		public var enums_ts : Array;
+		public var enums_ts : Array = null;
 
 		/** Java type is : <font color=#0000ff>com.net.flash.test.Messages.StateInBattle[]</font>*/
-		public var enums_sb : Array;
+		public var enums_sb : Array = null;
 
 
 
-		/**
-		 * @param message2 as <font color=#0000ff>java.lang.String</font>
-		 * @param d0 as <font color=#0000ff>boolean</font>
-		 * @param d1 as <font color=#0000ff>byte</font>
-		 * @param d2 as <font color=#0000ff>short</font>
-		 * @param d3 as <font color=#0000ff>char</font>
-		 * @param d4 as <font color=#0000ff>int</font>
-		 * @param d5 as <font color=#0000ff>float</font>
-		 * @param a_message2 as <font color=#0000ff>java.lang.String[]</font>
-		 * @param a_d0 as <font color=#0000ff>boolean[]</font>
-		 * @param a_d1 as <font color=#0000ff>byte[]</font>
-		 * @param a_d2 as <font color=#0000ff>short[]</font>
-		 * @param a_d3 as <font color=#0000ff>char[]</font>
-		 * @param a_d4 as <font color=#0000ff>int[]</font>
-		 * @param a_d5 as <font color=#0000ff>float[]</font>
-		 * @param b_d5 as <font color=#0000ff>float[][]</font>
-		 * @param enum_ts as <font color=#0000ff>com.net.flash.test.Messages.TargetState</font>
-		 * @param enum_sb as <font color=#0000ff>com.net.flash.test.Messages.StateInBattle</font>
-		 * @param enums_ts as <font color=#0000ff>com.net.flash.test.Messages.TargetState[]</font>
-		 * @param enums_sb as <font color=#0000ff>com.net.flash.test.Messages.StateInBattle[]</font>		 */
-		public function Data(
-			message2 : String = null,
-			d0 : Boolean = false,
-			d1 : int = 0,
-			d2 : int = 0,
-			d3 : int = 0,
-			d4 : int = 0,
-			d5 : Number = 0,
-			a_message2 : Array = null,
-			a_d0 : Array = null,
-			a_d1 : Array = null,
-			a_d2 : Array = null,
-			a_d3 : Array = null,
-			a_d4 : Array = null,
-			a_d5 : Array = null,
-			b_d5 : Array = null,
-			enum_ts : 		Unsupported type : com.net.flash.test.Messages$TargetState = null,
-			enum_sb : 		Unsupported type : com.net.flash.test.Messages$StateInBattle = null,
-			enums_ts : Array = null,
-			enums_sb : Array = null) 
-		{
-			this.message2 = message2;
-			this.d0 = d0;
-			this.d1 = d1;
-			this.d2 = d2;
-			this.d3 = d3;
-			this.d4 = d4;
-			this.d5 = d5;
-			this.a_message2 = a_message2;
-			this.a_d0 = a_d0;
-			this.a_d1 = a_d1;
-			this.a_d2 = a_d2;
-			this.a_d3 = a_d3;
-			this.a_d4 = a_d4;
-			this.a_d5 = a_d5;
-			this.b_d5 = b_d5;
-			this.enum_ts = enum_ts;
-			this.enum_sb = enum_sb;
-			this.enums_ts = enums_ts;
-			this.enums_sb = enums_sb;
-		}
-		
+
+
 
 
 	}

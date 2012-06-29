@@ -27,6 +27,11 @@ public class Messages
 		DEAD,
 	}
 	
+	public static class CC
+	{
+		
+	}
+	
 	public static enum StateInBattle implements ValueEnum<Short>
 	{
 		Normal 			((short)0),
@@ -53,6 +58,8 @@ public class Messages
 	
 	public static class Data implements MutualMessage
 	{
+		private CC			cc;
+		private int			sata;
 		public String		message2;
 		public boolean 		d0;
 		public byte 		d1;
