@@ -559,15 +559,14 @@ public class FlashMessageCodeGenerator extends MutualMessageCodeGenerator
 				}
 			}
 			// 非枚举变量
-			else if (!msg.isEnum())
+			else if (!msg.isEnum() && Modifier.isPublic(modifiers))
 			{
-			if (f_comment == null) {
-			d_fields.append(
-			"		/** " + f_cline + "*/\n");
-			}
-			d_fields.append(
-			"		public var " + f.getName() + " : " +  toASType(f.getType()) + 
-			" = " + genMsgFieldValue(f) + ";");
+				if (f_comment == null) {
+				d_fields.append(tb(2) + "/** " + f_cline + "*/\n");
+				}
+				d_fields.append(tb(2) + "public var " + f.getName() + " : " + 
+				toASType(f.getType()) + " = " + 
+				genMsgFieldValue(f) + ";");
 			}
 			d_fields.append("\n\n");
 		}
