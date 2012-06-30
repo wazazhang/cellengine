@@ -1275,9 +1275,10 @@ namespace CellGameEdit.PM
             // 画尺子
             if (btnSceneRule.Checked)
             {
-                toolStripStatusLabel2.Text = 
-                    "Mouse:" + RuleX + "," + RuleY + " ";
-                g.setColor(0x80, 0xff, 0xff, 0xff);
+                toolStripStatusLabel2.Text =
+                        " Rule Mouse:" + RuleX + "," + RuleY +
+                        " [" + RuleX/CellW + "," + RuleY/CellH + "]";
+                g.setColor(0xff, 0xff, 0xff, 0xff);
                 g.drawLine(RuleX, 0, RuleX, pictureBox1.Height);
                 g.drawLine(0, RuleY, pictureBox1.Width, RuleY);
             }
@@ -1531,7 +1532,9 @@ namespace CellGameEdit.PM
         }
 
 		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-		{
+        {
+            RuleX = e.X;
+            RuleY = e.Y;
 			last_mouse_down_x = e.X;
 			last_mouse_down_y = e.Y;
 
