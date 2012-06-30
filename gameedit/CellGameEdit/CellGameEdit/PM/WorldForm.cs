@@ -1525,6 +1525,10 @@ namespace CellGameEdit.PM
 			}
 		}
 
+        bool isCheckEvent()
+        {
+            return (checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent);
+        }
 
 		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
 		{
@@ -1553,6 +1557,16 @@ namespace CellGameEdit.PM
 				}
 				else
 				{
+                    if (Control.ModifierKeys == Keys.Control && e.Button == MouseButtons.Left)
+                    {
+                        unSelectAllUnit();
+                        if (isCheckEvent())
+                        {
+                            addCurrentEvent(last_mouse_down_x, last_mouse_down_y);
+                        }
+                    }
+                    else
+                    {
 					#region pointUnit
 					// 是定位指令
 					if (e.Button == MouseButtons.Left && checkDirectUnit.Checked == true)
@@ -1893,7 +1907,7 @@ namespace CellGameEdit.PM
 
 
 					#endregion
-
+                    }
 				}
 			}
 			catch (Exception err) { }
@@ -2492,6 +2506,7 @@ namespace CellGameEdit.PM
 //      -----------------------------------------------------------------------------------------
  
 #region menuWorld
+
         // add way point command
         private void addWayPoint_Click(object sender, EventArgs e)
         {
@@ -2519,26 +2534,7 @@ namespace CellGameEdit.PM
         }
         private void addEvent_Click(object sender, EventArgs e)
         {
-			EventTemplatePlugin ef = ProjectForm.getInstance().getEventTemplateForm();
-			if (ef != null) 
-			{
-				EventNode et = ef.getSelectedEvent();
-				if (et != null)
-				{
-                    try
-                    {
-                        Event evt = new Event(ef, et, 
-                            last_mouse_down_x, 
-                            last_mouse_down_y, createEventID());
-                        listView4.Items.Add(evt.listItem);
-                        EventList.Add(evt.listItem, evt);
-                    }
-                    catch (Exception err) {
-                        MessageBox.Show(err.Message);
-                    }
-                    pictureBox1.Refresh();
-				}
-			}
+			addCurrentEvent(last_mouse_down_x, last_mouse_down_y);
         }
 
 
@@ -2564,6 +2560,31 @@ namespace CellGameEdit.PM
             //propertyEdit.MdiParent = this.MdiParent;
             propertyEdit.Text = "属性(" +this.id + ")";
             propertyEdit.Show();
+        }
+
+        private void addCurrentEvent(int x, int y)
+        {
+            EventTemplatePlugin ef = ProjectForm.getInstance().getEventTemplateForm();
+            if (ef != null)
+            {
+                EventNode et = ef.getSelectedEvent();
+                if (et != null)
+                {
+                    try
+                    {
+                        Event evt = new Event(ef, et,
+                            x,
+                            y, createEventID());
+                        listView4.Items.Add(evt.listItem);
+                        EventList.Add(evt.listItem, evt);
+                    }
+                    catch (Exception err)
+                    {
+                        MessageBox.Show(err.Message);
+                    }
+                    pictureBox1.Refresh();
+                }
+            }
         }
 #endregion
 

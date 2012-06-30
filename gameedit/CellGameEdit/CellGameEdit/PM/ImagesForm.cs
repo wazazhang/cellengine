@@ -1730,6 +1730,9 @@ namespace CellGameEdit.PM
 
         private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
         {
+            int mouseX = e.X;
+            int mouseY = e.Y;
+
             dstDown = true;
 
             if (multiSelect.Checked)
@@ -1744,44 +1747,52 @@ namespace CellGameEdit.PM
                     dstSelected = null;
                     dstSelectIndex = -1;
 
-
-                    dstSX = e.X / dstScale;
-                    dstSY = e.Y / dstScale;
-                    dstPX = dstSX;
-                    dstPY = dstSY;
-
-                    if (ScopeRect.Contains(dstSX, dstSY))
+                    if (Control.ModifierKeys == Keys.Shift || Control.ModifierKeys == Keys.Control)
                     {
-                        ScopePX = dstSX - ScopeRect.X;
-                        ScopePY = dstSY - ScopeRect.Y;
-
-                        IsScopeSelected = true;
+                        dstPX = mouseX / dstScale;
+                        dstPY = mouseY / dstScale;
                     }
-                    else
+                    else 
                     {
-                        IsScopeSelected = false;
+                        dstSX = mouseX / dstScale;
+                        dstSY = mouseY / dstScale;
+                        dstPX = dstSX;
+                        dstPY = dstSY;
 
-                        ScopeRect.X = dstSX;
-                        ScopeRect.Y = dstSY;
-                        ScopeRect.Width = 1;
-                        ScopeRect.Height = 1;
-
-                        System.Drawing.Rectangle dst = new System.Drawing.Rectangle(0, 0, 1, 1);
-
-                        for (int i = 0; i < getDstImageCount(); i++)
+                        if (ScopeRect.Contains(dstSX, dstSY))
                         {
-                            if (getDstImage(i) != null)
+                            ScopePX = dstSX - ScopeRect.X;
+                            ScopePY = dstSY - ScopeRect.Y;
+
+                            IsScopeSelected = true;
+                        }
+                        else
+                        {
+                            IsScopeSelected = false;
+
+                            ScopeRect.X = dstSX;
+                            ScopeRect.Y = dstSY;
+                            ScopeRect.Width = 1;
+                            ScopeRect.Height = 1;
+
+                            System.Drawing.Rectangle dst = new System.Drawing.Rectangle(0, 0, 1, 1);
+
+                            for (int i = 0; i < getDstImageCount(); i++)
                             {
-                                dst.X = getDstImage(i).x;
-                                dst.Y = getDstImage(i).y;
-                                dst.Width = getDstImage(i).getWidth();
-                                dst.Height = getDstImage(i).getHeight();
+                                if (getDstImage(i) != null)
+                                {
+                                    dst.X = getDstImage(i).x;
+                                    dst.Y = getDstImage(i).y;
+                                    dst.Width = getDstImage(i).getWidth();
+                                    dst.Height = getDstImage(i).getHeight();
 
-                                getDstImage(i).selected = ScopeRect.IntersectsWith(dst);
+                                    getDstImage(i).selected = ScopeRect.IntersectsWith(dst);
 
+                                }
                             }
                         }
                     }
+                   
                 }
             }
             else
@@ -1800,8 +1811,8 @@ namespace CellGameEdit.PM
                 dstRect.Width = 1;
                 dstRect.Height = 1;
 
-                dstPX = e.X / dstScale;
-                dstPY = e.Y / dstScale;
+                dstPX = mouseX / dstScale;
+                dstPY = mouseY / dstScale;
 
                 System.Drawing.Rectangle dst = new System.Drawing.Rectangle();
                 for (int i = 0; i < getDstImageCount(); i++)
@@ -1866,6 +1877,7 @@ namespace CellGameEdit.PM
 
             pictureBox2.Refresh();
         }
+
         private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
         {
             if (dstDown)
@@ -2200,31 +2212,29 @@ namespace CellGameEdit.PM
 
         private Boolean moveImage(Image srcImage, System.Drawing.Rectangle region, int dx, int dy)
         {
-            if (srcImage == null || srcImage.killed) return false;
-
-            if (dx == 0 && dy == 0) return false;
-
-
             System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(
                 srcImage.x+dx, srcImage.y+dy, srcImage.getWidth(), srcImage.getHeight()
                 );
+            System.Drawing.Rectangle dstRect = new System.Drawing.Rectangle();
 
             if (!region.Contains(srcRect)) 
             {
                 return false;
             }
 
-            for (int i = 0; i < dstImages.Count; i++)
+            for (int i = dstImages.Count-1; i >=0; --i)
             {
-                if (dstImages[i] != null)
+                int di = Util.cycNum(i, srcImage.indexOfImages, dstImages.Count);
+                Image dstimg = (Image)dstImages[di];
+                if (dstimg != null)
                 {
-                    Image img = (Image)dstImages[i];
-
-                    if (!img.killed && img != srcImage)
+                    if (!dstimg.killed && dstimg != srcImage)
                     {
-                        System.Drawing.Rectangle dstRect = new System.Drawing.Rectangle(
-                             img.x, img.y, img.getWidth(), img.getHeight()
-                             );
+                        dstRect.X = dstimg.x;
+                        dstRect.Y = dstimg.y; 
+                        dstRect.Width = dstimg.getWidth(); 
+                        dstRect.Height = dstimg.getHeight();
+
                         if (srcRect.IntersectsWith(dstRect))
                         {
                             return false;
@@ -2241,19 +2251,33 @@ namespace CellGameEdit.PM
 
         private void moveAllImages(int dx, int dy)
         {
-            System.Drawing.Rectangle region = new System.Drawing.Rectangle(0, 0, pictureBox2.Width, pictureBox2.Height);
+            if (dx == 0 && dy == 0) return;
+
+            System.Drawing.Rectangle region = new System.Drawing.Rectangle(
+                0, 
+                0, 
+                pictureBox2.Width, 
+                pictureBox2.Height);
+
             while (true)
             {
                 Boolean ismoved = false;
 
                 for (int i = 0; i < dstImages.Count; i++)
                 {
-                    if (moveImage((Image)dstImages[i], region, dx, dy))
+                    Image img = (Image)dstImages[i];
+                    if (img != null && !img.killed)
                     {
-                        ismoved = true;
+                        if (moveImage(img, region, dx * img.getWidth(), dy * img.getHeight()))
+                        {
+                            ismoved = true;
+                        }
+                        else if (moveImage(img, region, dx, dy))
+                        {
+                            ismoved = true;
+                        }
                     }
                 }
-
                 if (!ismoved)
                 {
                     break;
@@ -2394,7 +2418,7 @@ namespace CellGameEdit.PM
 				}
 			}
 			catch (Exception err) { }
-		}
+        }
 
 
 

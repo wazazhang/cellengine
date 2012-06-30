@@ -72,6 +72,7 @@
             this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
             this.toolStrip6 = new System.Windows.Forms.ToolStrip();
             this.toolAddEvent = new System.Windows.Forms.ToolStripButton();
+            this.btnUpdateEvents = new System.Windows.Forms.ToolStripButton();
             this.toolStrip5 = new System.Windows.Forms.ToolStrip();
             this.btnDeleteEventAll = new System.Windows.Forms.ToolStripButton();
             this.tabPageProp = new System.Windows.Forms.TabPage();
@@ -150,7 +151,7 @@
             this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnUpdateEvents = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -573,7 +574,8 @@
             // 
             this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolAddEvent,
-            this.btnUpdateEvents});
+            this.btnUpdateEvents,
+            this.toolStripLabel1});
             this.toolStrip6.Location = new System.Drawing.Point(0, 0);
             this.toolStrip6.Name = "toolStrip6";
             this.toolStrip6.Size = new System.Drawing.Size(233, 25);
@@ -590,6 +592,17 @@
             this.toolAddEvent.Size = new System.Drawing.Size(23, 22);
             this.toolAddEvent.Text = "toolStripButton1";
             this.toolAddEvent.Click += new System.EventHandler(this.toolAddEvent_Click_1);
+            // 
+            // btnUpdateEvents
+            // 
+            this.btnUpdateEvents.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUpdateEvents.Image = global::CellGameEdit.Resource1.Image1;
+            this.btnUpdateEvents.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnUpdateEvents.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUpdateEvents.Name = "btnUpdateEvents";
+            this.btnUpdateEvents.Size = new System.Drawing.Size(23, 22);
+            this.btnUpdateEvents.Text = "提交事件数据";
+            this.btnUpdateEvents.Click += new System.EventHandler(this.btnUpdateEvents_Click);
             // 
             // toolStrip5
             // 
@@ -1419,16 +1432,11 @@
             this.删除ToolStripMenuItem1.Text = "删除";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
             // 
-            // btnUpdateEvents
+            // toolStripLabel1
             // 
-            this.btnUpdateEvents.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnUpdateEvents.Image = global::CellGameEdit.Resource1.Image1;
-            this.btnUpdateEvents.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnUpdateEvents.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUpdateEvents.Name = "btnUpdateEvents";
-            this.btnUpdateEvents.Size = new System.Drawing.Size(23, 22);
-            this.btnUpdateEvents.Text = "提交事件数据";
-            this.btnUpdateEvents.Click += new System.EventHandler(this.btnUpdateEvents_Click);
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(77, 22);
+            this.toolStripLabel1.Text = "按Ctrl键添加";
             // 
             // WorldForm
             // 
@@ -1615,5 +1623,6 @@
 		private System.Windows.Forms.ToolStrip toolStrip6;
 		private System.Windows.Forms.ToolStripButton toolAddEvent;
         private System.Windows.Forms.ToolStripButton btnUpdateEvents;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }
