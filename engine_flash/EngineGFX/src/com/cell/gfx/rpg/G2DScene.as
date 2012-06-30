@@ -11,6 +11,7 @@ package com.cell.gfx.rpg
 	import com.cell.gfx.game.CGraphicsDisplay;
 	import com.cell.gfx.game.CMap;
 	import com.cell.gfx.game.CSprite;
+	import com.cell.gfx.game.CSpriteBuffer;
 	import com.cell.gfx.game.IGraphics;
 	
 	import flash.display.DisplayObject;
@@ -31,12 +32,11 @@ package com.cell.gfx.rpg
 			viewWidth:int, 
 			viewHeight:int)
 		{
-			
 			this.scrollRect = new Rectangle(0, 0, viewWidth, viewHeight);
 			this.resource = res;
 			this.world_data = world;
 			for each (var obj:SpriteObject in world.Sprs) {
-				var unit : G2DUnit = createUnit(obj);
+				var unit : G2DUnit = createMapObject(obj);
 				if (unit != null) {
 					addChild(unit);
 				}
@@ -53,14 +53,10 @@ package com.cell.gfx.rpg
 			return world_data;
 		}
 		
-		protected function createUnit(obj:SpriteObject) : G2DUnit 
+		protected function createMapObject(obj:SpriteObject) : G2DUnit 
 		{
-			var cspr : CSprite = resource.getSprite(obj.SprID);
-			var unit : G2DCSprite = new G2DCSprite(cspr);
-			unit.x = obj.X;
-			unit.y = obj.Y;
-			unit.getCSprite().setCurrentAnimate(obj.Anim);
-			unit.getCSprite().setCurrentFrame(obj.Frame);
+			var cspr : CSpriteBuffer = resource.getSpriteBuffer(obj.SprID);
+			var unit : G2DMapObject = new G2DMapObject(cspr, obj);
 			return unit;
 		}
 		

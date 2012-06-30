@@ -4,6 +4,7 @@ package com.cell.ui.edit
 	import com.cell.ui.component.UIComponent;
 	import com.cell.ui.edit.comp.UEButton;
 	import com.cell.ui.edit.comp.UECanvas;
+	import com.cell.ui.edit.comp.UEFileNode;
 	import com.cell.ui.edit.comp.UEImageBox;
 	import com.cell.ui.edit.comp.UELabel;
 	import com.cell.ui.edit.comp.UERoot;
@@ -13,6 +14,7 @@ package com.cell.ui.edit
 	import com.cell.ui.layout.UILayoutManager;
 	import com.cell.ui.layout.UIRect;
 	import com.cell.util.Map;
+	import com.cell.util.StringUtil;
 	import com.cell.util.XMLUtil;
 	
 	import flash.display.Bitmap;
@@ -32,6 +34,7 @@ package com.cell.ui.edit
 		public const  UECanvas_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UECanvas";
 		public const  UETextInput_ClassName	:String	= "com.g2d.studio.ui.edit.gui.UETextInput";
 		public const  UETextBox_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UETextBox";
+		public const  UEFileNode_ClassName		:String	= "com.g2d.studio.ui.edit.gui.UEFileNode";
 
 		private var res_root 	: String;
 		private var img_map 	: Map = new Map();
@@ -153,6 +156,9 @@ package com.cell.ui.edit
 			if (name == UETextBox_ClassName) {
 				return new UETextBox();
 			}
+			if (name == UEFileNode_ClassName) {
+				return new UEFileNode();
+			}
 			return new UECanvas();
 		}
 		
@@ -165,8 +171,8 @@ package com.cell.ui.edit
 			
 			ui.setSize(width, height);
 			
-			ui.visible = 
-				e.attributes["visible"];
+			ui.visible = StringUtil.parserBoolean(e.attributes["visible"]);
+		
 			ui.editName = e.attributes["name"];
 			
 			//ui.clip_local_bounds 	= Boolean.parseBoolean(e.getAttribute("clipbounds"));
@@ -180,8 +186,8 @@ package com.cell.ui.edit
 			ui.user_tag  = 
 				e.attributes["userTag"];
 			
-			ui.mouseEnabled  = 
-				e.attributes["enable_focus"];
+			ui.mouseEnabled  = StringUtil.parserBoolean(e.attributes["enable_focus"]);
+
 			ui.mouseChildren = ui.mouseEnabled;
 			
 			

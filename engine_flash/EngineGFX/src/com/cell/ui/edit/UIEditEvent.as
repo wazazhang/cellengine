@@ -8,12 +8,12 @@ package com.cell.ui.edit
 	
 	public class UIEditEvent extends Event
 	{
-		public static const LOADED 	: String = "LOADED"; 
-		public static const ERROR		: String = "ERROR";
+		public static const LOADED 			: String = "LOADED"; 
+		public static const ERROR				: String = "ERROR";
 		
-		public var cause 	: Event;
-		public var edit 	: UIEdit;
-		public var loader 	: UIEditLoader;
+		public var cause 			: Event;
+		public var edit 			: UIEdit;
+		public var loader 			: UIEditLoader;
 		
 		public function UIEditEvent(evt:String, loader:UIEditLoader, edit:UIEdit, cause:Event) 
 		{

@@ -3,6 +3,7 @@ package com.cell.ui.edit.comp
 	import com.cell.ui.component.TextButton;
 	import com.cell.ui.component.UIComponent;
 	import com.cell.ui.edit.UIEdit;
+	import com.cell.ui.edit.UIEditLoader;
 	import com.cell.ui.layout.UIRect;
 	import com.cell.util.XMLUtil;
 	
@@ -18,7 +19,7 @@ package com.cell.ui.edit.comp
 			super("");
 		}
 		
-		public function onRead(edit:UIEdit, e:XMLNode) : void
+		public function onRead(edit:UIEdit, e:XMLNode, ld:UIEditLoader) : void
 		{
 			var e_layout : XMLNode = XMLUtil.findChild(e, "layout_down");
 			if (e_layout != null) {

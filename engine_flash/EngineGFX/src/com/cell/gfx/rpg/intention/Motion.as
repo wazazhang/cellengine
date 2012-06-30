@@ -1,5 +1,6 @@
 package com.cell.gfx.rpg.intention
 {
+	import com.cell.gfx.rpg.G2DActionUnit;
 	import com.cell.gfx.rpg.G2DUnit;
 	import com.cell.math.IVector2D;
 	import com.cell.math.MathVector;
@@ -25,7 +26,7 @@ package com.cell.gfx.rpg.intention
 		}
 		
 		
-		public function onUpdate(unit:G2DUnit) : void 
+		public function onUpdate(unit:G2DActionUnit) : void 
 		{
 			var cur_time : int = getTimer();
 			var interval : int = cur_time - update_time;
@@ -45,11 +46,11 @@ package com.cell.gfx.rpg.intention
 			}
 		}
 		
-		public function onStart(unit:G2DUnit) : void  {
+		public function onStart(unit:G2DActionUnit) : void  {
 			this.update_time = getTimer();
 		}
 		
-		public function onStop(unit:G2DUnit) : void {
+		public function onStop(unit:G2DActionUnit) : void {
 			this.target_pos = null;
 		}
 

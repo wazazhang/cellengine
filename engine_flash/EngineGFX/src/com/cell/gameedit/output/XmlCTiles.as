@@ -30,7 +30,8 @@ package com.cell.gameedit.output
 			this.tiles	= new Array(img.Count);
 			for (var i:int=0; i<img.Count; i++){
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
-					tiles[i] = output.createTileImage(i, img.ClipsW[i], img.ClipsH[i], img.ClipsKey[i]);
+					tiles[i] = output.createTileImage(i,
+						img.ClipsW[i], img.ClipsH[i], img.ClipsKey[i]);
 				}
 			}
 		}
@@ -41,7 +42,8 @@ package com.cell.gameedit.output
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
 					(tiles[i] as CImage).getSrc().copyPixels(
 						data, 
-						new Rectangle(img.ClipsX[i], img.ClipsY[i], img.ClipsW[i], img.ClipsH[i]), 
+						new Rectangle(
+							img.ClipsX[i], img.ClipsY[i], img.ClipsW[i], img.ClipsH[i]), 
 						new Point(0, 0), 
 						null, null, false);
 				}

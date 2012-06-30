@@ -107,6 +107,10 @@ package com.cell.gfx
 			}
 			if (fps_txt.visible) {
 				fps_txt.text = "fps=" + getFPS();
+				var index : int = getChildIndex(fps_txt);
+				if (index != numChildren-1) {
+					swapChildrenAt(index, numChildren-1);
+				}
 			}
 		}
 		
@@ -183,9 +187,7 @@ package com.cell.gfx
 
 				this.current_screen = new name() as CellScreen;
 				trace("ChangeStage -> "+ current_screen.toString());	
-				this.removeChild(fps_txt);
 				this.addChild(current_screen);
-				this.addChildAt(fps_txt, numChildren-1);
 				this.current_screen.added(this, args);
 				if (this.transition != null) {
 					this.transition.startTransitionIn();

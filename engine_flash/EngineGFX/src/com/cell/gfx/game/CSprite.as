@@ -398,6 +398,7 @@ package com.cell.gfx.game
 				else {
 					this.CurAnimate = anim;
 				}
+				setCurrentFrame(CurFrame, true);
 				return CurAnimate - old_anim;
 			}
 			return 0;

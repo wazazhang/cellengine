@@ -40,7 +40,8 @@ package com.cell.gfx.game
 				this.src_rect.height = h;
 				this.src_rect.x = 0;
 				this.src_rect.y = 0;
-				buff.copyPixels(img.src, src_rect, dst_point, null, null, img.src.transparent);
+				buff.copyPixels(img.src, src_rect, dst_point, 
+					null, null, img.src.transparent);
 			}
 			else 
 			{
@@ -49,7 +50,9 @@ package com.cell.gfx.game
 				this.dst_rect.width = w;
 				this.dst_rect.height = h;
 				
-				buff.draw(img.src, Transform.getMatrix(x, y, w, h, transform), null, null, dst_rect, false);
+				buff.draw(img.src,
+					Transform.getMatrix(x, y, w, h, transform), 
+					null, null, dst_rect, false);
 			}
 		}
 		

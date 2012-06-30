@@ -54,7 +54,6 @@ package com.cell.gameedit.output
 					img.Name + "." + output.getImageExtentions();
 				
 				this.loader = UrlManager.createLoader();
-				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 				img_complete);
 				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, 		img_error);
 				this.loader.contentLoaderInfo.addEventListener(IOErrorEvent.NETWORK_ERROR, 	img_error);  
 				this.loader.contentLoaderInfo.addEventListener(Event.COMPLETE, 				complete);  
@@ -91,12 +90,11 @@ package com.cell.gameedit.output
 		{
 			var data : BitmapData = (loader.content as Bitmap).bitmapData;
 			initAllImagesGroup(data);
+			img_complete.call(output, e);
 		}
 		
 		protected function initAllImagesTile() : void
 		{
-			
-
 			for (var i:int=0; i<img.Count; i++){
 				if (img.ClipsW[i] > 0 && img.ClipsH[i] > 0) {
 					tile_count ++;
@@ -107,8 +105,6 @@ package com.cell.gameedit.output
 		
 		private function startLoadTile() : void
 		{								
-			
-
 			tile_cur = tile_urls[0];
 			tile_urls.splice(0, 1);			
 			

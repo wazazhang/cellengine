@@ -32,6 +32,8 @@ package com.cell.ui.component
 		public function setHTMLText(html:String):void
 		{
 			textField.htmlText = html;
+			//每次更新文本后，本文重新对齐
+			textAnchor = _anchor;
 		}
 		
 		public function getTextField() : TextField
@@ -42,10 +44,10 @@ package com.cell.ui.component
 		
 		public function set textAnchor(anchor:int):void
 		{
-			if (_anchor != anchor) {
+//			if (_anchor != anchor) {
 				_anchor = anchor;
 				Anchor.setAnchorRect(textField, _anchor, width, height);
-			}
+//			}
 		}
 		
 		public function get textAnchor() : int

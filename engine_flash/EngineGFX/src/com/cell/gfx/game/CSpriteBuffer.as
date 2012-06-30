@@ -33,27 +33,32 @@ package com.cell.gfx.game
 				}
 			}
 			
-			for (var a:int=0; a<fmap.length; a++) 
+			for (a=0; a<fmap.length; a++) 
 			{
-				for (var f:int=0; f<fmap[a].length; f++) 
+				for (f=0; f<fmap[a].length; f++) 
 				{
 					var si : int = findSameFrameBuffer(a, f);
 					
 					if (si < 0) 
 					{
 						var bound : CCD = spr.getFrameImageBounds(a, f);
-						var buff : BitmapData = new BitmapData(bound.getWidth(), bound.getHeight(), true, 0x00000000);
+						var buff : BitmapData = new BitmapData(
+							bound.getWidth(), 
+							bound.getHeight(),
+							true, 0x00000000);
 						var bg : CGraphicsBitmap = new CGraphicsBitmap(buff);
 						spr.render(bg, -bound.X1, -bound.Y1, a, f);
 						buffers.push(buff);
-						bounds.push(new Rectangle(bound.X1, bound.Y1, bound.getWidth(), bound.getHeight()));
+						bounds.push(new Rectangle(
+							bound.X1, bound.Y1, 
+							bound.getWidth(), bound.getHeight()));
 						bg = null;
 						si = buffers.length - 1;
-						trace("gen sprite buffer at ["+a+"]["+f+"] -> " + si);
+						//trace("gen sprite buffer at ["+a+"]["+f+"] -> " + si);
 					}
 					else
 					{
-						trace("find save sprite buffer at ["+a+"]["+f+"] -> " + si);
+						//trace("find save sprite buffer at ["+a+"]["+f+"] -> " + si);
 					}
 					
 					fmap[a][f] = si;

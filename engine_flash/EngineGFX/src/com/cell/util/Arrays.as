@@ -2,6 +2,14 @@ package com.cell.util
 {
 	public class Arrays
 	{
+		public static function clone(src:Array) : Array {
+			var ret : Array = new Array();
+			for each (var o in src) {
+				ret.push(o);
+			}
+			return ret;
+		}
+		
 		
 		public static function arrayRemove(src:Array, obj:*) : int
 		{

@@ -15,6 +15,14 @@ package com.cell.util
 	public class StringUtil
 	{
 		
+		public static function parserBoolean(s:String) : Boolean
+		{
+			if ( s == null) {
+				return false;
+			}
+			return s.toLowerCase() == "true";
+		}
+		
 			//--------------------------------------------------------------------------
 			//
 			//  Class methods

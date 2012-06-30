@@ -1,6 +1,7 @@
 package com.cell.ui.edit.comp
 {
 	import com.cell.ui.edit.UIEdit;
+	import com.cell.ui.edit.UIEditLoader;
 	
 	import flash.xml.XMLNode;
 	
@@ -9,7 +10,7 @@ package com.cell.ui.edit.comp
 	public interface SavedComponent 
 	{
 	
-		function onRead(edit:UIEdit, e:XMLNode) : void;
+		function onRead(edit:UIEdit, e:XMLNode, ld:UIEditLoader) : void;
 		
 		
 	}

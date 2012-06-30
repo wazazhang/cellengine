@@ -1,9 +1,11 @@
 
 package com.cell.ui.edit.comp
 {
+	import com.cell.ui.Anchor;
 	import com.cell.ui.component.Lable;
 	import com.cell.ui.component.UIComponent;
 	import com.cell.ui.edit.UIEdit;
+	import com.cell.ui.edit.UIEditLoader;
 	import com.cell.ui.layout.UIRect;
 	
 	import flash.filters.BitmapFilter;
@@ -18,7 +20,7 @@ package com.cell.ui.edit.comp
 			super("");
 		}
 		
-		public function onRead(edit:UIEdit, e:XMLNode) : void
+		public function onRead(edit:UIEdit, e:XMLNode, ld:UIEditLoader) : void
 		{
 			
 //			text="UELabel"				# 文本

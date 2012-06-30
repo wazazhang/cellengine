@@ -4,6 +4,7 @@ package com.cell.ui.edit.comp
 	import com.cell.ui.component.TextInput;
 	import com.cell.ui.component.UIComponent;
 	import com.cell.ui.edit.UIEdit;
+	import com.cell.ui.edit.UIEditLoader;
 	import com.cell.ui.layout.UIRect;
 	
 	import flash.xml.XMLNode;
@@ -16,7 +17,7 @@ package com.cell.ui.edit.comp
 			super("");
 		}
 		
-		public function onRead(edit:UIEdit, e:XMLNode) : void
+		public function onRead(edit:UIEdit, e:XMLNode, ld:UIEditLoader) : void
 		{
 //			isPassword="false"			# 是否显示为密码
 //			is_readonly="false"			# 是否只读，不能被编辑
