@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using Cell;
 using CellGameEdit.PM.plugin;
+using CellGameEdit.PM.util.command;
 
 namespace CellGameEdit.PM
 {
@@ -24,7 +25,7 @@ namespace CellGameEdit.PM
     {
         static public Boolean IsShowDataString = false;
 
-       
+        private UnDoRedo undoredo = new UnDoRedo();
 
         public String id;
         public StringBuilder Data = new StringBuilder();
@@ -1584,9 +1585,14 @@ namespace CellGameEdit.PM
 								{
 									if (unit.listItem.Checked)
 									{
-// 										unit.x = e.X;
-// 										unit.y = e.Y;
-										unit.setPos(e.X, e.Y);
+                                        //unit.x = e.X;
+                                        //unit.y = e.Y;
+                                        //unit.setPos(e.X, e.Y);
+                                        new CommandMoveObject(unit,
+                                            unit.getX(),
+                                            unit.getY(),
+                                            e.X, 
+                                            e.Y).Execute();
 									}
 								}
 							}
@@ -1603,7 +1609,12 @@ namespace CellGameEdit.PM
 									{
 // 										unit.x = e.X;
 // 										unit.y = e.Y; 
-										unit.setPos(e.X, e.Y);
+//										unit.setPos(e.X, e.Y);
+                                        new CommandMoveObject(unit,
+                                            unit.getX(),
+                                            unit.getY(),
+                                            e.X,
+                                            e.Y).Execute();
 									}
 								}
 							}
@@ -1620,7 +1631,12 @@ namespace CellGameEdit.PM
 									{
 // 										unit.x = e.X;
 // 										unit.y = e.Y;
-										unit.setPos(e.X, e.Y);
+										//unit.setPos(e.X, e.Y);
+                                        new CommandMoveObject(unit,
+                                            unit.getX(),
+                                            unit.getY(),
+                                            e.X,
+                                            e.Y).Execute();
 									}
 								}
 							}
@@ -1633,7 +1649,12 @@ namespace CellGameEdit.PM
 								Event ee = getSelectedEvent();
 // 								ee.point.X = e.X;
 // 								ee.point.Y = e.Y;
-								ee.setPos(e.X, e.Y);
+								//ee.setPos(e.X, e.Y);
+                                new CommandMoveObject(ee,
+                                            ee.getX(),
+                                            ee.getY(),
+                                            e.X,
+                                            e.Y).Execute();
 							}
 						}
 						//select way point
@@ -1642,7 +1663,12 @@ namespace CellGameEdit.PM
 							if (listView2.SelectedItems.Count > 0)
 							{
 								WayPoint wp = getSelectedWayPoint();
-								wp.setPos(e.X, e.Y);
+								//wp.setPos(e.X, e.Y);
+                                new CommandMoveObject(wp,
+                                           wp.getX(),
+                                           wp.getY(),
+                                           e.X,
+                                           e.Y).Execute();
 							}
 						}
 						//select region
@@ -1651,7 +1677,13 @@ namespace CellGameEdit.PM
 							if (listView3.SelectedItems.Count > 0)
 							{
 								Region rg = getSelectedRegion();
-								rg.setPos(e.X, e.Y);
+								//rg.setPos(e.X, e.Y);
+
+                                new CommandMoveObject(rg,
+                                           rg.getX(),
+                                           rg.getY(),
+                                           e.X,
+                                           e.Y).Execute();
 							}
 						}
 					}
@@ -3353,36 +3385,41 @@ namespace CellGameEdit.PM
             }
         }
 
-	
+        /// <summary>
+        /// commands
+        /// </summary>
 
-	
+        private class CommandMoveObject : ICommand
+        {
+            WorldForm world;
+            int sx;
+            int sy;
+            int dx;
+            int dy;
 
-	
+            WorldListViewObject obj;
 
-	
-       
+            public CommandMoveObject(WorldForm wf, WorldListViewObject obj, int sx, int sy, int dx, int dy)
+            {
+                this.world = wf;
+                this.obj = obj;
+                this.sx = sx;
+                this.sy = sy;
+                this.dx = dx;
+                this.dy = dy;
+                wd.undoredo.add(this);
+            }
 
-      
+            public void Execute()
+            {
+                this.obj.setPos(dx, dy);
+            }
 
-      
-
-
-       
-
-   
-
-
-
-     
-
-
-
-
-
-
-
-
-  
+            public void UnExecute()
+            {
+                this.obj.setPos(sx, sy);
+            }
+        }
 
 
 
@@ -3393,7 +3430,7 @@ namespace CellGameEdit.PM
     }
 
 
-   
+    
 
 
     public class WorldPorperty

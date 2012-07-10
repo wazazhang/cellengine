@@ -218,6 +218,7 @@
       <DependentUpon>SpriteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PM\Util.cs" />
+    <Compile Include="PM\util\command\UndoList.cs" />
     <Compile Include="PM\WorldAddUnitForm.cs">
       <SubType>Form</SubType>
     </Compile>
