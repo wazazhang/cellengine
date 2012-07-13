@@ -1588,7 +1588,8 @@ namespace CellGameEdit.PM
                                         //unit.x = e.X;
                                         //unit.y = e.Y;
                                         //unit.setPos(e.X, e.Y);
-                                        new CommandMoveObject(unit,
+                                        new CommandMoveObject(this, 
+                                            unit,
                                             unit.getX(),
                                             unit.getY(),
                                             e.X, 
@@ -1610,7 +1611,8 @@ namespace CellGameEdit.PM
 // 										unit.x = e.X;
 // 										unit.y = e.Y; 
 //										unit.setPos(e.X, e.Y);
-                                        new CommandMoveObject(unit,
+                                        new CommandMoveObject(this,
+                                            unit,
                                             unit.getX(),
                                             unit.getY(),
                                             e.X,
@@ -1632,7 +1634,8 @@ namespace CellGameEdit.PM
 // 										unit.x = e.X;
 // 										unit.y = e.Y;
 										//unit.setPos(e.X, e.Y);
-                                        new CommandMoveObject(unit,
+                                        new CommandMoveObject(this,
+                                            unit,
                                             unit.getX(),
                                             unit.getY(),
                                             e.X,
@@ -1650,7 +1653,8 @@ namespace CellGameEdit.PM
 // 								ee.point.X = e.X;
 // 								ee.point.Y = e.Y;
 								//ee.setPos(e.X, e.Y);
-                                new CommandMoveObject(ee,
+                                new CommandMoveObject(this,
+                                            ee,
                                             ee.getX(),
                                             ee.getY(),
                                             e.X,
@@ -1664,7 +1668,8 @@ namespace CellGameEdit.PM
 							{
 								WayPoint wp = getSelectedWayPoint();
 								//wp.setPos(e.X, e.Y);
-                                new CommandMoveObject(wp,
+                                new CommandMoveObject(this,
+                                           wp,
                                            wp.getX(),
                                            wp.getY(),
                                            e.X,
@@ -1679,7 +1684,8 @@ namespace CellGameEdit.PM
 								Region rg = getSelectedRegion();
 								//rg.setPos(e.X, e.Y);
 
-                                new CommandMoveObject(rg,
+                                new CommandMoveObject(this,
+                                           rg,
                                            rg.getX(),
                                            rg.getY(),
                                            e.X,
@@ -3407,7 +3413,7 @@ namespace CellGameEdit.PM
                 this.sy = sy;
                 this.dx = dx;
                 this.dy = dy;
-                wd.undoredo.add(this);
+                wf.undoredo.add(this);
             }
 
             public void Execute()
