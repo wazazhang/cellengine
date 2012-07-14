@@ -582,6 +582,21 @@
     <None Include="Resources\Image60.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="append\ImageMagick\Microsoft.VC90.ATL.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\Microsoft.VC90.CRT.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\Microsoft.VC90.MFC.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\Microsoft.VC90.OpenMP.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\sRGB.icm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Config.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Config.Designer.cs</LastGenOutput>
@@ -601,6 +616,30 @@
     <None Include="Resources\Image67.bmp" />
     <None Include="Resources\Icon1.ico" />
     <None Include="Resources\CellStudio.jpg" />
+    <Content Include="append\ImageMagick\atl90.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\convertimg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\mfc90.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\msvcp90.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\msvcr90.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\vcomp90.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\X11.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="append\ImageMagick\Xext.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="CellStudio.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -625,7 +664,9 @@
     <Content Include="Resources\MainHelp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\redo.png" />
     <Content Include="Resources\touch_marker.png" />
+    <None Include="Resources\undo.png" />
     <None Include="Resources\Question.png" />
     <None Include="Resources\refresh.png" />
     <None Include="Resources\Image73.bmp" />

@@ -50,7 +50,12 @@ namespace CellGameEdit.PM
 		// picturebox1 dst level
 
 		int last_mouse_down_x = 0;
-		int last_mouse_down_y = 0;
+        int last_mouse_down_y = 0;
+
+        int last_last_move_object_x = 0;
+        int last_last_move_object_y = 0;
+        WorldListViewObject last_move_object;
+
 		ListViewItem popedWayPoint;
 
 		Point selectedOffset = new Point();
@@ -1797,6 +1802,9 @@ namespace CellGameEdit.PM
 						}
 
 
+                        last_move_object = getSelectedObject();
+                        last_last_move_object_x = last_move_object.getX();
+                        last_last_move_object_y = last_move_object.getY();
 					}
 					#endregion
 
@@ -1953,9 +1961,11 @@ namespace CellGameEdit.PM
 			}
 			catch (Exception err) { }
 
+
 			pictureBox1.Refresh();
 
 		}
+
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             
@@ -1999,6 +2009,7 @@ namespace CellGameEdit.PM
 							unit.setPos(e.X - e.X % CellW, e.Y - e.Y % CellH);
 						}
 
+                        last_move_object = unit;
 						unit.updateListViewItem(toolStripStatusLabel1);
 
 						if (!chkLockSize.Checked)
@@ -2025,6 +2036,7 @@ namespace CellGameEdit.PM
                     {
 						ee.setPos(e.X - e.X % CellW, e.Y - e.Y % CellH);
                     }
+                    last_move_object = ee;
 					ee.updateListViewItem(toolStripStatusLabel1);
 					#endregion
                 }
@@ -2044,6 +2056,7 @@ namespace CellGameEdit.PM
                         }
 						p.updateListViewItem(toolStripStatusLabel1);
 
+                        last_move_object = p;
 						if (!chkLockSize.Checked)
 						{
 							pictureBox1.Width = Math.Max(p.getX(), pictureBox1.Width);
@@ -2070,6 +2083,7 @@ namespace CellGameEdit.PM
 								e.X - e.X % CellW,
 								e.Y - e.Y % CellH);
                         }
+                        last_move_object = r;
                     }
                     else
                     {
@@ -2115,6 +2129,7 @@ namespace CellGameEdit.PM
 
 			if (unit != null)
 			{
+
 				unit.updateListViewItem(toolStripStatusLabel1);
 			}
 			else if (ee != null)
@@ -2131,6 +2146,17 @@ namespace CellGameEdit.PM
 				r.updateListViewItem(toolStripStatusLabel1);
 			}	
 			pictureBox1.Refresh();
+
+
+            if (last_move_object != null) {
+                new CommandMoveObject(this, 
+                    last_move_object,
+                    last_last_move_object_x,
+                    last_last_move_object_y,
+                    last_move_object.getX(),
+                    last_move_object.getY());
+            }
+
         }
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -2196,177 +2222,137 @@ namespace CellGameEdit.PM
         // key adjust
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            int eX = 0;
-            int eY = 0;
-            textBox1.Text = "";
-            switch(e.KeyCode)
+            if (e.Control)
             {
+                if (e.KeyCode == Keys.Z)
+                {
+                    undoredo.undo();
+                }
+                else if (e.KeyCode == Keys.Y)
+                {
+                    undoredo.redo();
+                }
+                pictureBox1.Refresh();
+            }
+            else
+            {
+                int eX = 0;
+                int eY = 0;
+                textBox1.Text = "";
+                switch (e.KeyCode)
+                {
                     // 微调单位位置
-                case Keys.Up: eY = -1; textBox1.Text += "UP"; break;
-                case Keys.Down: eY = 1; textBox1.Text += "DOWN"; break;
-                case Keys.Left: eX = -1; textBox1.Text += "LEFT"; break;
-                case Keys.Right: eX = 1; textBox1.Text += "RIGHT"; break;
+                    case Keys.Up: eY = -1; textBox1.Text += "UP"; break;
+                    case Keys.Down: eY = 1; textBox1.Text += "DOWN"; break;
+                    case Keys.Left: eX = -1; textBox1.Text += "LEFT"; break;
+                    case Keys.Right: eX = 1; textBox1.Text += "RIGHT"; break;
 
                     // 调整填充地形大小
-                case Keys.PageUp:
-                    fixTerrainBushSize(1);
-                    break;
-                case Keys.PageDown:
-                    fixTerrainBushSize(-1);
-                    break;
-            }
-
-            try
-            {
-                #region unit
-                if (listView1.SelectedItems.Count>0)
-                {
-                    if (listView1.SelectedItems[0].Checked == true)
-                    {
-                        Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
-
-                        if (!checkStickyToCell.Checked)
-                        {
-//                             unit.x += eX;
-//                             unit.y += eY;
-							unit.movePos(eX, eY);
-                        }
-                        else
-                        {
-//                             unit.x += eX * CellW;
-//                             unit.y += eY * CellH;
-							unit.movePos(eX * CellW, eY * CellH);
-                        }
-						unit.updateListViewItem(toolStripStatusLabel1);
-//                         if (unit.x < 0) unit.x = 0;
-//                         if (unit.y < 0) unit.y = 0;
-//                         listView1.SelectedItems[0].SubItems[2].Text = unit.x.ToString();
-//                         listView1.SelectedItems[0].SubItems[3].Text = unit.y.ToString();
-                    
-                    }
-
-                }else
-                #endregion
-
-					#region events
-					if (listView4.SelectedItems.Count > 0)
-					{
-						Event ee = getSelectedEvent();
-
-						if (!checkStickyToCell.Checked)
-						{
-// 							ee.point.X += eX;
-// 							ee.point.Y += eY; 
-							ee.movePos(eX, eY);
-						}
-						else
-						{
-							ee.movePos(eX * CellW, eY * CellH);
-// 							ee.point.X += ;
-// 							ee.point.Y += ;
-						}
-// 						if (ee.point.X < 0) ee.point.X = 0;
-// 						if (ee.point.Y < 0) ee.point.Y = 0;
-						ee.updateListViewItem(toolStripStatusLabel1);
-					}
-					else
-					#endregion
-
-                #region waypoint
-                if (listView2.SelectedItems.Count>0)
-                {
-                    WayPoint p = (WayPoint)WayPointsList[listView2.SelectedItems[0]];
-
-                    if (p != null )
-                    {
-
-                        if (!checkStickyToCell.Checked)
-                        {
-//                             p.point.X += eX;
-//                             p.point.Y += eY;
-// 
-//                             if (p.point.X < 0) p.point.X = 0;
-//                             if (p.point.Y < 0) p.point.Y = 0;
-							p.movePos(eX, eY);
-						}
-						else
-						{
-							p.movePos(eX * CellW, eY * CellH);
-//                             p.point.X += eX * CellW;
-//                             p.point.Y += eY * CellH;
-// 
-//                             if (p.point.X < 0) p.point.X = 0;
-//                             if (p.point.Y < 0) p.point.Y = 0;
-                        }
-
-//                         listView2.SelectedItems[0].SubItems[0].Text = p.getWX().ToString();
-//                         listView2.SelectedItems[0].SubItems[1].Text = p.getWY().ToString();
-						p.updateListViewItem(toolStripStatusLabel1);
-                    }
-
-                }else
-                #endregion
-
-                #region region
-                if (listView3.SelectedItems.Count>0)
-                {
-                    Region r = (Region)RegionsList[listView3.SelectedItems[0]];
-                    if (r != null && !r.isSub)
-                    {
-                        if (!checkStickyToCell.Checked)
-                        {
-//                             r.rect.X += eX;
-//                             r.rect.Y += eY ;
-// 
-//                             if (r.rect.X < 0) r.rect.X = 0;
-//                             if (r.rect.Y < 0) r.rect.Y = 0;
-							r.movePos(eX, eY);
-						}
-						else
-						{
-							r.movePos(eX * CellW, eY * CellH);
-//                             r.rect.X = eX * CellW;
-//                             r.rect.Y = eY * CellH;
-// 
-//                             if (r.rect.X < 0) r.rect.X = 0;
-//                             if (r.rect.Y < 0) r.rect.Y = 0;
-                        }
-                    }
-
-                    if (r != null && r.isSub )
-                    {
-                        if (!checkStickyToCell.Checked)
-                        {
-//                             if (r.rect.Width + eX > 0) r.rect.Width += eX;
-//                             else r.rect.Width = 1;
-//                             if (r.rect.Height + eY > 0) r.rect.Height += eY;
-//                             else r.rect.Height = 1;
-							r.moveSizeDst(eX, eY);
-							//r.setSizeDst(r.)
-                        }
-                        else
-                        {
-//                             if (r.rect.Width + eX*CellW > 0) r.rect.Width += eX*CellW;
-//                             else r.rect.Width = 1;
-//                             if (r.rect.Height + eY*CellH > 0) r.rect.Height += eY*CellH;
-//                             else r.rect.Height = 1;
-							r.moveSizeDst(eX * CellW, eY * CellH);
-                        }
-                        
-                    }
-
-//                     listView3.SelectedItems[0].SubItems[0].Text = r.rect.X.ToString();
-//                     listView3.SelectedItems[0].SubItems[1].Text = r.rect.Y.ToString();
-//                     listView3.SelectedItems[0].SubItems[2].Text = r.rect.Width.ToString();
-//                     listView3.SelectedItems[0].SubItems[3].Text = r.rect.Height.ToString();
-					r.updateListViewItem(toolStripStatusLabel1);
-
+                    case Keys.PageUp:
+                        fixTerrainBushSize(1);
+                        break;
+                    case Keys.PageDown:
+                        fixTerrainBushSize(-1);
+                        break;
                 }
-                #endregion
 
-                pictureBox1.Refresh();
+                try
+                {
+                    if (listView1.SelectedItems.Count > 0)
+                    {
+                        #region unit
+                        if (listView1.SelectedItems[0].Checked == true)
+                        {
+                            Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
 
-            }catch(Exception err){}
+                            if (!checkStickyToCell.Checked)
+                            {
+                                unit.movePos(eX, eY);
+                            }
+                            else
+                            {
+                                unit.movePos(eX * CellW, eY * CellH);
+                            }
+                            unit.updateListViewItem(toolStripStatusLabel1);
+
+                        }
+
+                        #endregion
+                    }
+                    else if (listView4.SelectedItems.Count > 0)
+                    {
+                        #region events
+                        Event ee = getSelectedEvent();
+
+                        if (!checkStickyToCell.Checked)
+                        {
+                            ee.movePos(eX, eY);
+                        }
+                        else
+                        {
+                            ee.movePos(eX * CellW, eY * CellH);
+                        }
+                        ee.updateListViewItem(toolStripStatusLabel1);
+                        #endregion
+                    }
+                    else if (listView2.SelectedItems.Count > 0)
+                    {
+                        #region waypoint
+                        WayPoint p = (WayPoint)WayPointsList[listView2.SelectedItems[0]];
+
+                        if (p != null)
+                        {
+
+                            if (!checkStickyToCell.Checked)
+                            {
+                                p.movePos(eX, eY);
+                            }
+                            else
+                            {
+                                p.movePos(eX * CellW, eY * CellH);
+                            }
+                            p.updateListViewItem(toolStripStatusLabel1);
+                        }
+                        #endregion
+                    }
+                    else if (listView3.SelectedItems.Count > 0)
+                    {
+                        #region region
+                        Region r = (Region)RegionsList[listView3.SelectedItems[0]];
+                        if (r != null && !r.isSub)
+                        {
+                            if (!checkStickyToCell.Checked)
+                            {
+                                r.movePos(eX, eY);
+                            }
+                            else
+                            {
+                                r.movePos(eX * CellW, eY * CellH);
+                            }
+                        }
+
+                        if (r != null && r.isSub)
+                        {
+                            if (!checkStickyToCell.Checked)
+                            {
+                                r.moveSizeDst(eX, eY);
+                            }
+                            else
+                            {
+                                r.moveSizeDst(eX * CellW, eY * CellH);
+                            }
+
+                        }
+
+                        r.updateListViewItem(toolStripStatusLabel1);
+
+                        #endregion
+                    }
+                    pictureBox1.Refresh();
+                }
+                catch (Exception err) { }
+            }
+           
         }
         //show select
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -2602,7 +2588,22 @@ namespace CellGameEdit.PM
             propertyEdit.Text = "属性(" +this.id + ")";
             propertyEdit.Show();
         }
-
+        private void menuItemOutputImage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.DefaultExt = ".png";
+                sfd.AddExtension = true;
+                sfd.Filter = "PNG file (*.png)|*.png";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    System.Drawing.Image image = createAllSceneImage();
+                    image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                }
+            }
+            catch (Exception err) { }
+        }
         private void addCurrentEvent(int x, int y)
         {
             EventTemplatePlugin ef = ProjectForm.getInstance().getEventTemplateForm();
@@ -2865,6 +2866,33 @@ namespace CellGameEdit.PM
         }
         #endregion
 
+        public WorldListViewObject getSelectedObject()
+        {
+            Unit unit = getSelectedUnit();
+            WayPoint p = getSelectedWayPoint();
+            Region r = getSelectedRegion();
+            Event ee = getSelectedEvent();
+
+            if (unit != null)
+            {
+                return unit;
+            }
+            else if (ee != null)
+            {
+                return ee;
+            }
+            else if (p != null)
+            {
+                return p;
+
+            }
+            else if (r != null)
+            {
+                return r;
+            }
+            return null;
+        }
+
 		public Unit getSelectedUnit()
 		{
 			if (listView1.SelectedItems.Count > 0)
@@ -3115,14 +3143,18 @@ namespace CellGameEdit.PM
             //MapRegion.Refresh();
         }
 
-        //minimap
-        private void toolStripButton13_Click(object sender, EventArgs e)
+        public System.Drawing.Image createAllSceneImage()
         {
             System.Drawing.Image image = new System.Drawing.Bitmap(pictureBox1.Width, pictureBox1.Height);
             System.Drawing.Graphics dg = System.Drawing.Graphics.FromImage(image);
             dg.Clear(pictureBox1.BackColor);
             javax.microedition.lcdui.Graphics g = new javax.microedition.lcdui.Graphics(dg);
-
+            System.Drawing.Rectangle srect = new System.Drawing.Rectangle(
+                                                    0,
+                                                    0,
+                                                    image.Width,
+                                                    image.Height
+                                               );
             // draw units
 
             // draw units
@@ -3142,37 +3174,12 @@ namespace CellGameEdit.PM
                                 {
                                     for (int y = 0; y < pictureBox1.Height; y += unit.map().getHeight())
                                     {
-                                        Rectangle rect = new Rectangle(
-                                            0,
-                                            0,
-                                            image.Width,
-                                            image.Height
+
+                                        unit.render(g, srect, x, y, false,
+                                               false,
+                                               false,
+                                              false
                                             );
-                                        if (rect.IntersectsWith(
-                                             new System.Drawing.Rectangle(
-                                                x, y,
-                                                unit.map().getWidth(),
-                                                unit.map().getHeight())
-                                                )
-                                            )
-                                        {
-                                        }
-                                        {
-                                           
-                                            unit.render(
-                                               g,
-                                               new System.Drawing.Rectangle(
-                                                    0,
-                                                    0,
-                                                    image.Width,
-                                                    image.Height
-											   ), x, y,
-                                               listView1.SelectedItems.Contains(item),
-                                               checkShowUnitBounds.Checked,
-                                               toolStripButton2.Checked,
-                                                toolShowLock.Checked
-                                            );
-                                        }
                                     }
                                 }
                             }
@@ -3180,16 +3187,11 @@ namespace CellGameEdit.PM
                             {
                                 unit.render(
                                    g,
-                                   new System.Drawing.Rectangle(
-                                        0,
-                                            0,
-                                            image.Width,
-                                            image.Height
-                                   ),
-                                   listView1.SelectedItems.Contains(item),
-                                   checkShowUnitBounds.Checked,
-                                   toolStripButton2.Checked,
-                                   toolShowLock.Checked
+                                   srect,
+                                   false,
+                                               false,
+                                               false,
+                                              false
                                 );
                             }
                         }
@@ -3198,16 +3200,11 @@ namespace CellGameEdit.PM
                         {
                             unit.render(
                                    g,
-                                    new System.Drawing.Rectangle(
-                                         0,
-                                            0,
-                                            image.Width,
-                                            image.Height
-                                   ),
-                                   listView1.SelectedItems.Contains(item),
-                                   checkShowUnitBounds.Checked,
-                                   toolStripButton2.Checked,
-                                   toolShowLock.Checked
+                                   srect,
+                                   false,
+                                               false,
+                                               false,
+                                              false
                                 );
                         }
 
@@ -3217,23 +3214,15 @@ namespace CellGameEdit.PM
                     }
                 }
             }
-            // draw way points
-            if (checkShowPoint.Checked)
-            {
-                foreach (ListViewItem item in listView2.Items)
-                {
-                    WayPoint p = (WayPoint)WayPointsList[item];
-                    if (p != null)
-                    {
-                        p.Render(g,item.Selected || item==popedWayPoint);
-                       
+           
+            return image;
+        }
 
-                        //g.drawString(WayPoints.IndexOf(p).ToString(), p.rect.X + p.rect.Width + 1, p.rect.Y - p.rect.Height / 2, 0);
-                    }
-                }
+        //minimap
+        private void toolStripButton13_Click(object sender, EventArgs e)
+        {
 
-            }
-
+            System.Drawing.Image image = createAllSceneImage();
 
             MapMini mini = new MapMini(image);
             mini.Show();
@@ -3351,6 +3340,22 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
+        private void btnUndo_Click(object sender, EventArgs e)
+        {
+            undoredo.undo();
+            pictureBox1.Refresh();
+        }
+
+        private void btnRedo_Click(object sender, EventArgs e)
+        {
+            undoredo.redo();
+            pictureBox1.Refresh();
+        }
+        private void refreshUndoRedo()
+        {
+            btnUndo.Enabled = undoredo.getUndoLevel() > 0;
+            btnRedo.Enabled = undoredo.getRedoLevel() > 0;
+        }
         // sort objects
         private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -3394,6 +3399,7 @@ namespace CellGameEdit.PM
         /// <summary>
         /// commands
         /// </summary>
+     
 
         private class CommandMoveObject : ICommand
         {
@@ -3405,7 +3411,9 @@ namespace CellGameEdit.PM
 
             WorldListViewObject obj;
 
-            public CommandMoveObject(WorldForm wf, WorldListViewObject obj, int sx, int sy, int dx, int dy)
+            public CommandMoveObject(WorldForm wf, WorldListViewObject obj, 
+                int sx, int sy,
+                int dx, int dy)
             {
                 this.world = wf;
                 this.obj = obj;
@@ -3413,19 +3421,28 @@ namespace CellGameEdit.PM
                 this.sy = sy;
                 this.dx = dx;
                 this.dy = dy;
-                wf.undoredo.add(this);
+                world.undoredo.add(this); 
             }
 
             public void Execute()
             {
-                this.obj.setPos(dx, dy);
+                this.obj.setPos(dx, dy); 
             }
 
             public void UnExecute()
             {
-                this.obj.setPos(sx, sy);
+                this.obj.setPos(sx, sy); 
+            }
+
+            public void update()
+            {
+                world.refreshUndoRedo();
             }
         }
+
+      
+
+     
 
 
 

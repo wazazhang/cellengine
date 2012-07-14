@@ -106,6 +106,7 @@
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboImageConvert = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -138,7 +139,7 @@
             this.splitContainer3.Panel2.AutoScroll = true;
             this.splitContainer3.Panel2.Controls.Add(this.panel2);
             this.splitContainer3.Size = new System.Drawing.Size(1008, 562);
-            this.splitContainer3.SplitterDistance = 519;
+            this.splitContainer3.SplitterDistance = 424;
             this.splitContainer3.TabIndex = 0;
             // 
             // panel1
@@ -150,7 +151,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(519, 562);
+            this.panel1.Size = new System.Drawing.Size(424, 562);
             this.panel1.TabIndex = 1;
             // 
             // panel4
@@ -161,7 +162,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 25);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(519, 515);
+            this.panel4.Size = new System.Drawing.Size(424, 515);
             this.panel4.TabIndex = 2;
             // 
             // pictureBox1
@@ -202,7 +203,7 @@
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(519, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(424, 25);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
@@ -392,7 +393,7 @@
             this.toolStripStatusLabel3});
             this.statusStrip1.Location = new System.Drawing.Point(0, 540);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(519, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(424, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -411,7 +412,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(485, 562);
+            this.panel2.Size = new System.Drawing.Size(580, 562);
             this.panel2.TabIndex = 1;
             // 
             // panelDstImage
@@ -423,7 +424,7 @@
             this.panelDstImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDstImage.Location = new System.Drawing.Point(0, 25);
             this.panelDstImage.Name = "panelDstImage";
-            this.panelDstImage.Size = new System.Drawing.Size(485, 515);
+            this.panelDstImage.Size = new System.Drawing.Size(580, 515);
             this.panelDstImage.TabIndex = 2;
             // 
             // pictureBox2
@@ -445,7 +446,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip2.Location = new System.Drawing.Point(0, 540);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(485, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(580, 22);
             this.statusStrip2.TabIndex = 3;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -479,10 +480,11 @@
             this.toolStripSeparator7,
             this.menu_custom_output,
             this.menu_custom_filetype,
-            this.toolStripSeparator8});
+            this.toolStripSeparator8,
+            this.comboImageConvert});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(485, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(580, 25);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -784,7 +786,7 @@
             this.chk_custom_output.CheckOnClick = true;
             this.chk_custom_output.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_custom_output.Name = "chk_custom_output";
-            this.chk_custom_output.Size = new System.Drawing.Size(100, 22);
+            this.chk_custom_output.Size = new System.Drawing.Size(152, 22);
             this.chk_custom_output.Text = "N/A";
             this.chk_custom_output.ToolTipText = "使用默认输出方式";
             this.chk_custom_output.Click += new System.EventHandler(this.nAToolStripMenuItem_Click);
@@ -793,7 +795,7 @@
             // 
             this.chk_output_tile.CheckOnClick = true;
             this.chk_output_tile.Name = "chk_output_tile";
-            this.chk_output_tile.Size = new System.Drawing.Size(100, 22);
+            this.chk_output_tile.Size = new System.Drawing.Size(152, 22);
             this.chk_output_tile.Text = "TILE";
             this.chk_output_tile.ToolTipText = "自定义输出散图";
             this.chk_output_tile.CheckedChanged += new System.EventHandler(this.output_type_changed);
@@ -803,7 +805,7 @@
             // 
             this.chk_output_group.CheckOnClick = true;
             this.chk_output_group.Name = "chk_output_group";
-            this.chk_output_group.Size = new System.Drawing.Size(100, 22);
+            this.chk_output_group.Size = new System.Drawing.Size(152, 22);
             this.chk_output_group.Text = "GROUP";
             this.chk_output_group.ToolTipText = "自定义输出整图";
             this.chk_output_group.CheckedChanged += new System.EventHandler(this.output_type_changed);
@@ -831,28 +833,28 @@
             this.chk_custom_filetype.CheckOnClick = true;
             this.chk_custom_filetype.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_custom_filetype.Name = "chk_custom_filetype";
-            this.chk_custom_filetype.Size = new System.Drawing.Size(94, 22);
+            this.chk_custom_filetype.Size = new System.Drawing.Size(152, 22);
             this.chk_custom_filetype.Text = "N/A";
             this.chk_custom_filetype.Click += new System.EventHandler(this.chk_custom_filetype_Click);
             // 
             // chk_output_file_png
             // 
             this.chk_output_file_png.Name = "chk_output_file_png";
-            this.chk_output_file_png.Size = new System.Drawing.Size(94, 22);
+            this.chk_output_file_png.Size = new System.Drawing.Size(152, 22);
             this.chk_output_file_png.Text = ".png";
             this.chk_output_file_png.Click += new System.EventHandler(this.chk_output_file_png_Click);
             // 
             // chk_output_file_jpg
             // 
             this.chk_output_file_jpg.Name = "chk_output_file_jpg";
-            this.chk_output_file_jpg.Size = new System.Drawing.Size(94, 22);
+            this.chk_output_file_jpg.Size = new System.Drawing.Size(152, 22);
             this.chk_output_file_jpg.Text = ".jpg";
             this.chk_output_file_jpg.Click += new System.EventHandler(this.chk_output_file_png_Click);
             // 
             // chk_output_file_bmp
             // 
             this.chk_output_file_bmp.Name = "chk_output_file_bmp";
-            this.chk_output_file_bmp.Size = new System.Drawing.Size(94, 22);
+            this.chk_output_file_bmp.Size = new System.Drawing.Size(152, 22);
             this.chk_output_file_bmp.Text = ".bmp";
             this.chk_output_file_bmp.Click += new System.EventHandler(this.chk_output_file_png_Click);
             // 
@@ -883,6 +885,14 @@
             this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
+            // 
+            // comboImageConvert
+            // 
+            this.comboImageConvert.Name = "comboImageConvert";
+            this.comboImageConvert.Size = new System.Drawing.Size(100, 25);
+            this.comboImageConvert.Text = "图片处理脚本";
+            this.comboImageConvert.SelectedIndexChanged += new System.EventHandler(this.comboImageConvert_SelectedIndexChanged);
+            this.comboImageConvert.DropDown += new System.EventHandler(this.comboImageConvert_DropDown);
             // 
             // ImagesForm
             // 
@@ -1000,5 +1010,6 @@
 		private System.Windows.Forms.ToolStripMenuItem btnChangeDstToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem btnOutputDstToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripComboBox comboImageConvert;
     }
 }

@@ -73,6 +73,7 @@
             this.toolStrip6 = new System.Windows.Forms.ToolStrip();
             this.toolAddEvent = new System.Windows.Forms.ToolStripButton();
             this.btnUpdateEvents = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip5 = new System.Windows.Forms.ToolStrip();
             this.btnDeleteEventAll = new System.Windows.Forms.ToolStripButton();
             this.tabPageProp = new System.Windows.Forms.TabPage();
@@ -100,7 +101,11 @@
             this.addEventMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.场景数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.属性ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemOutputImage = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnUndo = new System.Windows.Forms.ToolStripButton();
+            this.btnRedo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.checkShowUnitBounds = new System.Windows.Forms.ToolStripButton();
             this.checkAutoSelect = new System.Windows.Forms.ToolStripButton();
             this.checkDirectUnit = new System.Windows.Forms.ToolStripButton();
@@ -151,7 +156,6 @@
             this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -604,6 +608,12 @@
             this.btnUpdateEvents.Text = "提交事件数据";
             this.btnUpdateEvents.Click += new System.EventHandler(this.btnUpdateEvents_Click);
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(77, 22);
+            this.toolStripLabel1.Text = "按Ctrl键添加";
+            // 
             // toolStrip5
             // 
             this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -849,6 +859,9 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton2,
             this.toolStripSeparator5,
+            this.btnUndo,
+            this.btnRedo,
+            this.toolStripSeparator10,
             this.checkShowUnitBounds,
             this.checkAutoSelect,
             this.checkDirectUnit,
@@ -900,10 +913,11 @@
             this.menuWorld.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.添加ToolStripMenuItem,
             this.场景数据ToolStripMenuItem,
-            this.属性ToolStripMenuItem2});
+            this.属性ToolStripMenuItem2,
+            this.menuItemOutputImage});
             this.menuWorld.Name = "menuUnit";
             this.menuWorld.OwnerItem = this.toolStripDropDownButton2;
-            this.menuWorld.Size = new System.Drawing.Size(119, 70);
+            this.menuWorld.Size = new System.Drawing.Size(153, 114);
             // 
             // 添加ToolStripMenuItem
             // 
@@ -912,7 +926,7 @@
             this.区域ToolStripMenuItem,
             this.addEventMenuItem});
             this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.添加ToolStripMenuItem.Text = "添加";
             // 
             // 路点ToolStripMenuItem
@@ -939,21 +953,57 @@
             // 场景数据ToolStripMenuItem
             // 
             this.场景数据ToolStripMenuItem.Name = "场景数据ToolStripMenuItem";
-            this.场景数据ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.场景数据ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.场景数据ToolStripMenuItem.Text = "场景数据";
             this.场景数据ToolStripMenuItem.Click += new System.EventHandler(this.menuItemSceneData_Click);
             // 
             // 属性ToolStripMenuItem2
             // 
             this.属性ToolStripMenuItem2.Name = "属性ToolStripMenuItem2";
-            this.属性ToolStripMenuItem2.Size = new System.Drawing.Size(118, 22);
+            this.属性ToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.属性ToolStripMenuItem2.Text = "场景属性";
             this.属性ToolStripMenuItem2.Click += new System.EventHandler(this.menuItemSceneProperties_Click);
+            // 
+            // menuItemOutputImage
+            // 
+            this.menuItemOutputImage.Name = "menuItemOutputImage";
+            this.menuItemOutputImage.Size = new System.Drawing.Size(152, 22);
+            this.menuItemOutputImage.Text = "导出图片";
+            this.menuItemOutputImage.Click += new System.EventHandler(this.menuItemOutputImage_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnUndo
+            // 
+            this.btnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUndo.Enabled = false;
+            this.btnUndo.Image = global::CellGameEdit.Resource1.undo;
+            this.btnUndo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUndo.Name = "btnUndo";
+            this.btnUndo.Size = new System.Drawing.Size(23, 22);
+            this.btnUndo.Text = "撤销";
+            this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
+            // 
+            // btnRedo
+            // 
+            this.btnRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRedo.Enabled = false;
+            this.btnRedo.Image = global::CellGameEdit.Resource1.redo;
+            this.btnRedo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRedo.Name = "btnRedo";
+            this.btnRedo.Size = new System.Drawing.Size(23, 22);
+            this.btnRedo.Text = "重复";
+            this.btnRedo.Click += new System.EventHandler(this.btnRedo_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 25);
             // 
             // checkShowUnitBounds
             // 
@@ -1432,12 +1482,6 @@
             this.删除ToolStripMenuItem1.Text = "删除";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
             // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(77, 22);
-            this.toolStripLabel1.Text = "按Ctrl键添加";
-            // 
             // WorldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1624,5 +1668,9 @@
 		private System.Windows.Forms.ToolStripButton toolAddEvent;
         private System.Windows.Forms.ToolStripButton btnUpdateEvents;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripButton btnUndo;
+        private System.Windows.Forms.ToolStripButton btnRedo;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem menuItemOutputImage;
     }
 }

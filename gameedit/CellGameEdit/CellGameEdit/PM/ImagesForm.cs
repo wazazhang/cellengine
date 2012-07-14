@@ -10,6 +10,8 @@ using System.Runtime.Serialization.Formatters;
 using System.Security.Permissions;
 
 using javax.microedition.lcdui;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace CellGameEdit.PM
 {
@@ -44,6 +46,8 @@ namespace CellGameEdit.PM
 
 		private string append_data = "";
 
+        private string image_convert_script_file = "";
+        private string[] image_convert_script = null;
 
         public ImagesForm(String name)
         {
@@ -167,6 +171,11 @@ namespace CellGameEdit.PM
                     }
                 }
 
+                image_convert_script_file = (string)Util.GetValue(info, "image_convert_script", typeof(string), "");
+                if (image_convert_script_file != null && image_convert_script_file.Length > 0)
+                {
+                    comboImageConvert.Text = image_convert_script_file;
+                }
 
                 try
                 {
@@ -315,6 +324,7 @@ namespace CellGameEdit.PM
 
 				info.AddValue("AppendData", append_data);
 
+                info.AddValue("image_convert_script", image_convert_script_file);
 
                 ArrayList output = new ArrayList();
                 ArrayList outX = new ArrayList();
@@ -456,8 +466,18 @@ namespace CellGameEdit.PM
 
        
 
-        public void outputAllImages(String dir,String type,Boolean tile,Boolean group)
+        private void outputAllImages(String dir,String type,Boolean tile,Boolean group)
         {
+            image_convert_script = null;
+            if (image_convert_script_file != null && image_convert_script_file.Length > 0)
+            {
+                try {
+                    image_convert_script = System.IO.File.ReadAllLines(
+                        Application.StartupPath + "\\converter\\" + image_convert_script_file);
+                } catch (Exception err) {
+                    image_convert_script = null;
+                }
+            }
             try
             {
                 System.Drawing.Imaging.EncoderParameters param = null;
@@ -490,7 +510,7 @@ namespace CellGameEdit.PM
             
         }
 
-		public void saveAllTiles(string tileDir, System.Drawing.Imaging.ImageFormat format)
+        private void saveAllTiles(string tileDir, System.Drawing.Imaging.ImageFormat format)
 		{
 			if (!System.IO.Directory.Exists(tileDir))
 			{
@@ -501,14 +521,16 @@ namespace CellGameEdit.PM
 				if (getDstImage(i) == null || getDstImage(i).killed) continue;
 				try
 				{
-					getDstImage(i).getDImage().Save(tileDir + i + "." + format.ToString().ToLower(), format);
+                    string filepath = tileDir + i + "." + format.ToString().ToLower();
+                    getDstImage(i).getDImage().Save(filepath, format);
 
+                    runImageConvertScript(image_convert_script, filepath);
 				}
 				catch (Exception err) { Console.WriteLine(this.id + " : save tile : " + err.StackTrace + "  at  " + err.Message); }
 			}
 		}
 
-		public void saveAllAsGrop(string filepath, System.Drawing.Imaging.ImageFormat format)
+        private void saveAllAsGrop(string filepath, System.Drawing.Imaging.ImageFormat format)
 		{
 			try
 			{
@@ -535,6 +557,8 @@ namespace CellGameEdit.PM
 					}
 					//
 					outputImage.getDImage().Save(filepath, format);
+
+                    runImageConvertScript(image_convert_script, filepath);
 				
 			}
 			catch (Exception err)
@@ -542,6 +566,64 @@ namespace CellGameEdit.PM
 				Console.WriteLine(this.id + " : save group : " + err.StackTrace + "  at  " + err.Message);
 			}
 		}
+
+        private void runImageConvertScript(string[] script, string input)
+        {
+            if (script == null) {
+                return;
+            } 
+            //append\ImageMagick\convertimg.exe -resize 50% <INPUT> png8:<OUTPUT>
+            try
+            {
+                string workdir = System.IO.Path.GetDirectoryName(input);
+
+                string inputfile = System.IO.Path.GetFileName(input);
+
+                foreach (string cmd in script) 
+                {
+                    string cmdline = cmd.Trim();
+
+                    if (cmdline.Length > 0)
+                    {
+                        runImageConvertExt(cmdline, workdir, inputfile);
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void runImageConvertExt(string cmd, string workdir, string input)
+        {
+            string[] exeargs = Regex.Split(cmd, "\\s+");
+            string exec = System.IO.Path.GetFullPath(Application.StartupPath + exeargs[0]);
+            string args = Util.stringLink(exeargs, 1, exeargs.Length - 1, " ");
+            args = args.Replace("<INPUT>", input);
+
+            //實例一個Process類，啟動一個獨立進程
+            Process p = new Process();
+            //Process類有一個StartInfo屬性，這個是ProcessStartInfo類，
+            //包括了一些屬性和方法，下面我們用到了他的幾個屬性：
+            p.StartInfo.FileName = exec;  //設定程序名
+            p.StartInfo.Arguments = args;    //設定程式執行參數
+            p.StartInfo.WorkingDirectory = workdir;
+            p.StartInfo.UseShellExecute = false;        //關閉Shell的使用
+            p.StartInfo.RedirectStandardInput = true;   //重定向標準輸入
+            p.StartInfo.RedirectStandardOutput = true;  //重定向標準輸出
+            p.StartInfo.RedirectStandardError = true;   //重定向錯誤輸出
+            p.StartInfo.CreateNoWindow = true;          //設置不顯示窗口
+            //啟動
+            if (p.Start())
+            {
+            }
+            p.WaitForExit();
+            //String result = p.StandardOutput.ReadToEnd();        //從輸出流取得命令執行結果
+            //Console.WriteLine(result);
+            //p.StandardInput.WriteLine(command);       //也可以用這種方式輸入要執行的命令
+            //p.StandardInput.WriteLine("exit");        //不過要記得加上Exit要不然下一行程式執行的時候會當機
+        }
 
         public System.Drawing.Color getCurrentClickColor()
         {
@@ -2418,6 +2500,53 @@ namespace CellGameEdit.PM
 				}
 			}
 			catch (Exception err) { }
+        }
+
+        private void toolImageComvert_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder(this.image_convert_script_file);
+
+            DataEdit dataedit = new DataEdit(sb);
+            dataedit.Text = "图片转换脚本";
+            dataedit.ShowDialog(this);
+
+            this.image_convert_script_file = sb.ToString();
+        }
+
+        private void comboImageConvert_DropDown(object sender, EventArgs e)
+        {
+            comboImageConvert.Items.Clear();
+
+            try
+            {
+                String dir = Application.StartupPath + "\\converter\\";
+
+                if (System.IO.Directory.Exists(dir))
+                {
+                    String[] scriptFiles;
+
+                    scriptFiles = System.IO.Directory.GetFiles(dir);
+                    for (int i = 0; i < scriptFiles.Length; i++)
+                    {
+                        scriptFiles[i] = System.IO.Path.GetFileName(scriptFiles[i]);
+                    }
+                    comboImageConvert.Items.AddRange(scriptFiles);
+                }
+            }
+            catch (Exception err)
+            {
+            }
+        }
+
+        private void comboImageConvert_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                image_convert_script_file = comboImageConvert.Text;
+            }
+            catch (Exception err)
+            {
+            }
         }
 
 

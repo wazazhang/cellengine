@@ -1309,6 +1309,30 @@ namespace CellGameEdit.PM
 		}
 		return degree;
 	}
+
+
+
+
+
+
+
+
+        static public string stringLink(string[] args, int offset, int length, string blank)
+        {
+            string ret = "";
+            for (int i = 0; i < length; i++)
+            {
+                ret += args[i + offset];
+                if (i < length)
+                {
+                    ret += blank;
+                }
+            }
+            return ret;
+        }
+
+
+
     }
 
 

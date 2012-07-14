@@ -1,0 +1,1 @@
+\append\ImageMagick\convertimg.exe <INPUT> png8:<INPUT>
