@@ -601,7 +601,7 @@ namespace CellGameEdit.PM
             string exec = System.IO.Path.GetFullPath(Application.StartupPath + exeargs[0]);
             string args = Util.stringLink(exeargs, 1, exeargs.Length - 1, " ");
             args = args.Replace("<INPUT>", input);
-
+            Console.WriteLine(exec + " " + args);
             //實例一個Process類，啟動一個獨立進程
             Process p = new Process();
             //Process類有一個StartInfo屬性，這個是ProcessStartInfo類，
@@ -610,10 +610,10 @@ namespace CellGameEdit.PM
             p.StartInfo.Arguments = args;    //設定程式執行參數
             p.StartInfo.WorkingDirectory = workdir;
             p.StartInfo.UseShellExecute = false;        //關閉Shell的使用
-            p.StartInfo.RedirectStandardInput = true;   //重定向標準輸入
-            p.StartInfo.RedirectStandardOutput = true;  //重定向標準輸出
-            p.StartInfo.RedirectStandardError = true;   //重定向錯誤輸出
-            p.StartInfo.CreateNoWindow = true;          //設置不顯示窗口
+            p.StartInfo.RedirectStandardInput = false;   //重定向標準輸入
+            p.StartInfo.RedirectStandardOutput = false;  //重定向標準輸出
+            p.StartInfo.RedirectStandardError = false;   //重定向錯誤輸出
+            p.StartInfo.CreateNoWindow = false;          //設置不顯示窗口
             //啟動
             if (p.Start())
             {
@@ -2539,6 +2539,17 @@ namespace CellGameEdit.PM
         }
 
         private void comboImageConvert_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                image_convert_script_file = comboImageConvert.Text;
+            }
+            catch (Exception err)
+            {
+            }
+        }
+
+        private void comboImageConvert_TextUpdate(object sender, EventArgs e)
         {
             try
             {

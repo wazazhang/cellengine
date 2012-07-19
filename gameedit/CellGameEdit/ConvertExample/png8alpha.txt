@@ -1,1 +1,1 @@
-\append\ImageMagick\convertimg.exe <INPUT> png8:<INPUT>
+\append\pngquanti.exe -iebug -force -ext .png -verbose -ordered 256 <INPUT>

@@ -103,10 +103,10 @@
             this.chk_output_file_jpg = new System.Windows.Forms.ToolStripMenuItem();
             this.chk_output_file_bmp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.comboImageConvert = new System.Windows.Forms.ToolStripComboBox();
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboImageConvert = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -786,7 +786,7 @@
             this.chk_custom_output.CheckOnClick = true;
             this.chk_custom_output.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_custom_output.Name = "chk_custom_output";
-            this.chk_custom_output.Size = new System.Drawing.Size(152, 22);
+            this.chk_custom_output.Size = new System.Drawing.Size(100, 22);
             this.chk_custom_output.Text = "N/A";
             this.chk_custom_output.ToolTipText = "使用默认输出方式";
             this.chk_custom_output.Click += new System.EventHandler(this.nAToolStripMenuItem_Click);
@@ -795,7 +795,7 @@
             // 
             this.chk_output_tile.CheckOnClick = true;
             this.chk_output_tile.Name = "chk_output_tile";
-            this.chk_output_tile.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_tile.Size = new System.Drawing.Size(100, 22);
             this.chk_output_tile.Text = "TILE";
             this.chk_output_tile.ToolTipText = "自定义输出散图";
             this.chk_output_tile.CheckedChanged += new System.EventHandler(this.output_type_changed);
@@ -805,7 +805,7 @@
             // 
             this.chk_output_group.CheckOnClick = true;
             this.chk_output_group.Name = "chk_output_group";
-            this.chk_output_group.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_group.Size = new System.Drawing.Size(100, 22);
             this.chk_output_group.Text = "GROUP";
             this.chk_output_group.ToolTipText = "自定义输出整图";
             this.chk_output_group.CheckedChanged += new System.EventHandler(this.output_type_changed);
@@ -833,28 +833,28 @@
             this.chk_custom_filetype.CheckOnClick = true;
             this.chk_custom_filetype.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_custom_filetype.Name = "chk_custom_filetype";
-            this.chk_custom_filetype.Size = new System.Drawing.Size(152, 22);
+            this.chk_custom_filetype.Size = new System.Drawing.Size(94, 22);
             this.chk_custom_filetype.Text = "N/A";
             this.chk_custom_filetype.Click += new System.EventHandler(this.chk_custom_filetype_Click);
             // 
             // chk_output_file_png
             // 
             this.chk_output_file_png.Name = "chk_output_file_png";
-            this.chk_output_file_png.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_file_png.Size = new System.Drawing.Size(94, 22);
             this.chk_output_file_png.Text = ".png";
             this.chk_output_file_png.Click += new System.EventHandler(this.chk_output_file_png_Click);
             // 
             // chk_output_file_jpg
             // 
             this.chk_output_file_jpg.Name = "chk_output_file_jpg";
-            this.chk_output_file_jpg.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_file_jpg.Size = new System.Drawing.Size(94, 22);
             this.chk_output_file_jpg.Text = ".jpg";
             this.chk_output_file_jpg.Click += new System.EventHandler(this.chk_output_file_png_Click);
             // 
             // chk_output_file_bmp
             // 
             this.chk_output_file_bmp.Name = "chk_output_file_bmp";
-            this.chk_output_file_bmp.Size = new System.Drawing.Size(152, 22);
+            this.chk_output_file_bmp.Size = new System.Drawing.Size(94, 22);
             this.chk_output_file_bmp.Text = ".bmp";
             this.chk_output_file_bmp.Click += new System.EventHandler(this.chk_output_file_png_Click);
             // 
@@ -862,6 +862,15 @@
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // comboImageConvert
+            // 
+            this.comboImageConvert.Name = "comboImageConvert";
+            this.comboImageConvert.Size = new System.Drawing.Size(100, 25);
+            this.comboImageConvert.Text = "图片处理脚本";
+            this.comboImageConvert.SelectedIndexChanged += new System.EventHandler(this.comboImageConvert_SelectedIndexChanged);
+            this.comboImageConvert.TextUpdate += new System.EventHandler(this.comboImageConvert_TextUpdate);
+            this.comboImageConvert.DropDown += new System.EventHandler(this.comboImageConvert_DropDown);
             // 
             // clipMenu
             // 
@@ -885,14 +894,6 @@
             this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
-            // 
-            // comboImageConvert
-            // 
-            this.comboImageConvert.Name = "comboImageConvert";
-            this.comboImageConvert.Size = new System.Drawing.Size(100, 25);
-            this.comboImageConvert.Text = "图片处理脚本";
-            this.comboImageConvert.SelectedIndexChanged += new System.EventHandler(this.comboImageConvert_SelectedIndexChanged);
-            this.comboImageConvert.DropDown += new System.EventHandler(this.comboImageConvert_DropDown);
             // 
             // ImagesForm
             // 
