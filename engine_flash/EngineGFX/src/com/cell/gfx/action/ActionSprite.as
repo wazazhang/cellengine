@@ -29,7 +29,5 @@ package com.cell.gfx.action
 		
 		function stopAction(cls:Class) : Action;
 	
-		function addEventListener(e:Event, listener:Function);
-		
 	}
 }
