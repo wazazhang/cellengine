@@ -27,12 +27,14 @@ namespace CellGameEdit
         {
             InitializeComponent();
             instance = this;
+            initGobalImageConvertScript();
         }
 
         public Form1(string file)
         {
             InitializeComponent();
             instance = this;
+            initGobalImageConvertScript();
             init(file, new string[0]);
         }
 
@@ -40,6 +42,7 @@ namespace CellGameEdit
         {
             InitializeComponent();
             instance = this;
+            initGobalImageConvertScript();
             init(file, args);
         }
 
@@ -47,6 +50,7 @@ namespace CellGameEdit
         {
             string name = System.IO.Path.GetFileName(file);
             string dir = System.IO.Path.GetDirectoryName(file);
+
 
             ProjectForm.workSpace = dir;
             ProjectForm.workName = file;
@@ -106,7 +110,6 @@ namespace CellGameEdit
 			catch (Exception err) { 
 			
 			}
-
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -717,11 +720,77 @@ namespace CellGameEdit
             }
         }
 
+        //-----------------------------------------------------------------------------------------
 
+        static String[] image_convert_list = new String[0];
 
+        public void initGobalImageConvertScript()
+        {
+            try
+            {
+                String dir = Application.StartupPath + "\\converter\\";
 
+                if (System.IO.Directory.Exists(dir))
+                {
+                    String[] scriptFiles = System.IO.Directory.GetFiles(dir);
+                    menuItemGobalImgeConvertScript.DropDown.Items.Clear();
 
+                    for (int i = 0; i < scriptFiles.Length; i++)
+                    {
+                        scriptFiles[i] = System.IO.Path.GetFileName(scriptFiles[i]);
 
+                        ToolStripMenuItem scitem = new ToolStripMenuItem(scriptFiles[i]);
+                        scitem.CheckOnClick = true;
+                        menuItemGobalImgeConvertScript.DropDown.Items.Add(scitem);
+                        if (scriptFiles[i].Equals( Config.Default.GobalImageConvertScriptFile ))
+                        {
+                            scitem.Checked = true;
+                        }
+                        scitem.CheckStateChanged += new EventHandler(onImageConvertChanged);
+                    }
+
+                    image_convert_list = scriptFiles;
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+        private void onImageConvertChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem scitem = ( ToolStripMenuItem )sender;
+            if (scitem.Checked) {
+                foreach (ToolStripMenuItem im in menuItemGobalImgeConvertScript.DropDown.Items) {
+                    if (im != scitem) {
+                        im.Checked = false;
+                    }
+                }
+                Config.Default.GobalImageConvertScriptFile = scitem.Text;
+                Config.Default.Save();
+            } else {
+                foreach (ToolStripMenuItem im in menuItemGobalImgeConvertScript.DropDown.Items)
+                {
+                    if (im.Checked == true)
+                    {
+                        return;
+                    }
+                }
+                Config.Default.GobalImageConvertScriptFile = "";
+                Config.Default.Save();
+            }
+        }
+
+        static public String[] getImageConvertScriptList()
+        {
+            return image_convert_list;
+        }
+
+        static public String getGobalImageConvertScriptFile()
+        {
+            return Config.Default.GobalImageConvertScriptFile;
+        }
 
 
     }

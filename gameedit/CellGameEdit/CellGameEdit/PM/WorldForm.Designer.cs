@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorldForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -156,6 +160,7 @@
             this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -248,6 +253,19 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
+            listViewGroup9.Header = "ListViewGroup";
+            listViewGroup9.Name = "listViewGroup1";
+            listViewGroup10.Header = "ListViewGroup";
+            listViewGroup10.Name = "listViewGroup2";
+            listViewGroup11.Header = "ListViewGroup";
+            listViewGroup11.Name = "listViewGroup3";
+            listViewGroup12.Header = "ListViewGroup";
+            listViewGroup12.Name = "listViewGroup4";
+            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup9,
+            listViewGroup10,
+            listViewGroup11,
+            listViewGroup12});
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 28);
             this.listView1.MultiSelect = false;
@@ -301,7 +319,8 @@
             this.toolStripButton4,
             this.toolStripButton6,
             this.toolStripSeparator8,
-            this.dropChangeAnimID});
+            this.dropChangeAnimID,
+            this.toolStripButton1});
             this.toolStrip2.Location = new System.Drawing.Point(3, 3);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(227, 25);
@@ -917,7 +936,7 @@
             this.menuItemOutputImage});
             this.menuWorld.Name = "menuUnit";
             this.menuWorld.OwnerItem = this.toolStripDropDownButton2;
-            this.menuWorld.Size = new System.Drawing.Size(153, 114);
+            this.menuWorld.Size = new System.Drawing.Size(119, 92);
             // 
             // 添加ToolStripMenuItem
             // 
@@ -926,7 +945,7 @@
             this.区域ToolStripMenuItem,
             this.addEventMenuItem});
             this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.添加ToolStripMenuItem.Text = "添加";
             // 
             // 路点ToolStripMenuItem
@@ -953,21 +972,21 @@
             // 场景数据ToolStripMenuItem
             // 
             this.场景数据ToolStripMenuItem.Name = "场景数据ToolStripMenuItem";
-            this.场景数据ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.场景数据ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.场景数据ToolStripMenuItem.Text = "场景数据";
             this.场景数据ToolStripMenuItem.Click += new System.EventHandler(this.menuItemSceneData_Click);
             // 
             // 属性ToolStripMenuItem2
             // 
             this.属性ToolStripMenuItem2.Name = "属性ToolStripMenuItem2";
-            this.属性ToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.属性ToolStripMenuItem2.Size = new System.Drawing.Size(118, 22);
             this.属性ToolStripMenuItem2.Text = "场景属性";
             this.属性ToolStripMenuItem2.Click += new System.EventHandler(this.menuItemSceneProperties_Click);
             // 
             // menuItemOutputImage
             // 
             this.menuItemOutputImage.Name = "menuItemOutputImage";
-            this.menuItemOutputImage.Size = new System.Drawing.Size(152, 22);
+            this.menuItemOutputImage.Size = new System.Drawing.Size(118, 22);
             this.menuItemOutputImage.Text = "导出图片";
             this.menuItemOutputImage.Click += new System.EventHandler(this.menuItemOutputImage_Click);
             // 
@@ -1171,8 +1190,8 @@
             this.toolShowLock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolShowLock.Name = "toolShowLock";
             this.toolShowLock.Size = new System.Drawing.Size(23, 22);
-            this.toolShowLock.Text = "显示锁标志";
-            this.toolShowLock.ToolTipText = "显示锁标志，不显示锁标志时，不能选中目标。";
+            this.toolShowLock.Text = "隐藏所有锁";
+            this.toolShowLock.ToolTipText = "隐藏所有锁";
             this.toolShowLock.Click += new System.EventHandler(this.toolStripButton1_Click_1);
             // 
             // toolStripButton12
@@ -1482,6 +1501,15 @@
             this.删除ToolStripMenuItem1.Text = "删除";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
             // WorldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1672,5 +1700,6 @@
         private System.Windows.Forms.ToolStripButton btnRedo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem menuItemOutputImage;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

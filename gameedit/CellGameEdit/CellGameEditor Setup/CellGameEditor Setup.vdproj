@@ -15,19 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_08F54560B7A54002988181E3464A03E6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0D10BCA84DB74FB1A762D817C8FAF77F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0F84770252A3412F92DBE8A72E6BC904"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,37 +27,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_50E74AE688C649DA9A9561173A346ACD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6451F1E83CB842FBA1B4E97E73585DAF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_669968ECEF3340AD95F93D966D9B9523"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_696A48030FA0478298C1BF85DE6F1382"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_70BA54391A194B2385F85D2824EEFD9F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7FEDE0FFB4BD4559898579B01B220E2F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -93,31 +51,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_988677D6693B4A54BF0EA060C986AFDE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9C05B684F12F4033ADEFCBDD87601489"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A12C6107140342789E5AADB7EAD4D447"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A4AE7B9C5C434D559B2A0C26E548DB14"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A9223056E246464798D9983F93CEE791"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -130,18 +64,6 @@
         "Entry"
         {
         "MsmKey" = "8:_D23D3CE4475340588017C37206E84B76"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EC5F94EB7E7F4129B92838316EE6C335"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FFC151B2E128422894C15EBC4ACAFB5E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -307,152 +229,12 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_08F54560B7A54002988181E3464A03E6"
-            {
-            "SourcePath" = "8:..\\ConvertExample\\png8alpha.txt"
-            "TargetName" = "8:png8alpha.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_40296EAE08F543F9B7812437A2DC9D27"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0D10BCA84DB74FB1A762D817C8FAF77F"
             {
             "SourcePath" = "8:..\\Launch\\md6_dir.bat"
             "TargetName" = "8:md6_dir.bat"
             "Tag" = "8:"
             "Folder" = "8:_86104FEE39CE4FC0B9A4840EACD42A4F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0F84770252A3412F92DBE8A72E6BC904"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\output.xml"
-            "TargetName" = "8:output.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_50E74AE688C649DA9A9561173A346ACD"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\043-Item12.png"
-            "TargetName" = "8:043-Item12.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6451F1E83CB842FBA1B4E97E73585DAF"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\048-Skill05.png"
-            "TargetName" = "8:048-Skill05.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_669968ECEF3340AD95F93D966D9B9523"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\034-Item03.png"
-            "TargetName" = "8:034-Item03.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_696A48030FA0478298C1BF85DE6F1382"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\050-Skill07.png"
-            "TargetName" = "8:050-Skill07.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7FEDE0FFB4BD4559898579B01B220E2F"
-            {
-            "SourcePath" = "8:..\\ScriptExample\\output.properties"
-            "TargetName" = "8:output.properties"
-            "Tag" = "8:"
-            "Folder" = "8:_BB9F867009F04D5596D19DCFAE5CF6B9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -529,92 +311,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_988677D6693B4A54BF0EA060C986AFDE"
-            {
-            "SourcePath" = "8:..\\EventExample\\EventTemplate.txt"
-            "TargetName" = "8:EventTemplate.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_CFF84712808F4E19B33354AD2FBECC21"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9C05B684F12F4033ADEFCBDD87601489"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\047-Skill04.png"
-            "TargetName" = "8:047-Skill04.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A12C6107140342789E5AADB7EAD4D447"
             {
             "SourcePath" = "8:..\\doc\\编辑器使用简介.xls"
             "TargetName" = "8:编辑器使用简介.xls"
             "Tag" = "8:"
             "Folder" = "8:_BD56ED361C3D48A0BBADEF278D4B521A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4AE7B9C5C434D559B2A0C26E548DB14"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\049-Skill06.png"
-            "TargetName" = "8:049-Skill06.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A9223056E246464798D9983F93CEE791"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\025-Herb01.png"
-            "TargetName" = "8:025-Herb01.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -666,46 +368,6 @@
             "TargetName" = "8:md6.jar"
             "Tag" = "8:"
             "Folder" = "8:_86104FEE39CE4FC0B9A4840EACD42A4F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EC5F94EB7E7F4129B92838316EE6C335"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\046-Skill03.png"
-            "TargetName" = "8:046-Skill03.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FFC151B2E128422894C15EBC4ACAFB5E"
-            {
-            "SourcePath" = "8:..\\EventExample\\icons\\032-Item01.png"
-            "TargetName" = "8:032-Item01.png"
-            "Tag" = "8:"
-            "Folder" = "8:_2AC56FA783F641B1BD8ECA74EA9A9E07"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -823,17 +485,6 @@
                     "Property" = "8:_DDB43A43D5CC428EA22E2FE875A0C3E2"
                         "Folders"
                         {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_2AC56FA783F641B1BD8ECA74EA9A9E07"
-                            {
-                            "Name" = "8:icons"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_5EE29E03FCD643E483794D498E9E97A3"
-                                "Folders"
-                                {
-                                }
-                            }
                         }
                     }
                 }
@@ -910,7 +561,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CellGameEditor"
         "ProductCode" = "8:{156EC386-9110-4F01-9ADB-4ACF900BF51A}"
-        "PackageCode" = "8:{7F838DF7-BA77-4290-AA01-315CB125FF32}"
+        "PackageCode" = "8:{A9E8256F-79D5-4437-A70B-D06F5D2B69AE}"
         "UpgradeCode" = "8:{EE5A5160-9D62-4264-A9C2-994FD8B014B4}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"

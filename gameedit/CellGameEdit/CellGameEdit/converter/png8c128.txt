@@ -1,0 +1,1 @@
+\append\pngquanti.exe -iebug -force -ext .png -verbose -ordered 128 <INPUT>

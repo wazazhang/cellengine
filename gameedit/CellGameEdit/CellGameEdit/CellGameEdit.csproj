@@ -678,6 +678,45 @@
     </Content>
     <None Include="Resources\IconLord9.ico" />
     <None Include="Resources\ajax-refresh-icon.gif" />
+    <Content Include="converter\png24.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="converter\png8alpha.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="converter\png8c128.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\EventTemplate.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\025-Herb01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\032-Item01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\034-Item03.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\043-Item12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\046-Skill03.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\047-Skill04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\048-Skill05.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\049-Skill06.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="events\icons\050-Skill07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Bitmap1.bmp" />
     <Content Include="Resources\Icon_1.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -699,6 +738,9 @@
     </Content>
     <None Include="Resources\redo.png" />
     <Content Include="Resources\touch_marker.png" />
+    <Content Include="script\output.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\undo.png" />
     <None Include="Resources\Question.png" />
     <None Include="Resources\refresh.png" />
@@ -711,6 +753,9 @@
     <None Include="Resources\TextEventList.txt" />
     <None Include="Resources\TextCommandList.txt" />
     <None Include="Resources\Image71.bmp" />
+    <Content Include="script\output.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -734,9 +779,6 @@
       <Project>{65D87AE5-CF0A-4EF5-8FF4-CF5676BA7E92}</Project>
       <Name>CellCore</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="script\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

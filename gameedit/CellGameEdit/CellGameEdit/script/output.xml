@@ -29,6 +29,9 @@
 		<CLIP>
 		<clip index="<INDEX>" x="<X>" y="<Y>" width="<W>" height="<H>" data="<DATA>" /></CLIP>
 		<Append data="<APPEND_DATA>" />
+    <ImageInfo>
+      <IMAGE_INFO>
+    </ImageInfo>
 	</images>
 	</IMAGES>
 	

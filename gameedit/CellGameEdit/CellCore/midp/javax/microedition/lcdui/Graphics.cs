@@ -16,8 +16,6 @@ public class Graphics
 	public System.Drawing.Graphics dg;
 
 	public System.Drawing.Pen pen = System.Drawing.Pens.Black;
-    public System.Drawing.Brush brush = System.Drawing.Brushes.Black;
-    public System.Drawing.Color color = System.Drawing.Color.Black;
 
 	const  byte  TRANS_NONE 	 = 0;
 	const  byte TRANS_90 		 = 1;
@@ -54,7 +52,12 @@ public class Graphics
 		dg.InterpolationMode=( System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor);
 		dg.PixelOffsetMode=(System.Drawing.Drawing2D.PixelOffsetMode.Half);
 		dg.PageUnit = GraphicsUnit.Pixel;
+
+        pen = new System.Drawing.Pen(Color.Black);
+
 		setAlpha(1);
+
+
 	}
 	//------------------------------------------------------------------------------------------------------------------
 	
@@ -297,7 +300,7 @@ public class Graphics
 	public void drawString(string str, float x, float y, int anchor)
 	{
 		
-		dg.DrawString(str, font, brush, x , y );
+		dg.DrawString(str, font, pen.Brush, x , y );
 	}
 
 	public void drawLine(float x1, float y1, float x2, float y2)
@@ -316,11 +319,11 @@ public class Graphics
 	}
 	public void fillArc(float x, float y, float width, float height, float startAngle, float arcAngle)
 	{
-		dg.FillPie(brush, x , y , width , height , startAngle, arcAngle);
+        dg.FillPie(pen.Brush, x, y, width, height, startAngle, arcAngle);
 	}
 	public void fillRect(float x, float y, float width, float height)
 	{
-		dg.FillRectangle(brush, x , y , width , height );
+        dg.FillRectangle(pen.Brush, x, y, width, height);
 	}
 	// float
 
@@ -355,43 +358,32 @@ public class Graphics
 	}
 	public void setColor(int RGB)
 	{
-		color = System.Drawing.Color.FromArgb(RGB);
-		pen = new System.Drawing.Pen(color);
-		brush = pen.Brush;
-	}
+        pen.Color = System.Drawing.Color.FromArgb(RGB);
+    }
 
 	public void setColor(int red, int green, int blue)
 	{
-		color = System.Drawing.Color.FromArgb(red, green, blue);
-		pen = new System.Drawing.Pen(color);
-		brush = pen.Brush;
+        pen.Color = System.Drawing.Color.FromArgb(red, green, blue);
 	}
 	public void setColor(int alpha,int red, int green, int blue)
 	{
-		color = System.Drawing.Color.FromArgb(alpha,red, green, blue);
-		pen = new System.Drawing.Pen(color);
-		brush = pen.Brush;
+        pen.Color = System.Drawing.Color.FromArgb(alpha,red, green, blue);
 	}
 	public void setColor(int alpha, int rgb)
 	{
 		int r = (rgb & 0xff0000) >> 16;
 		int g = (rgb & 0x00ff00) >> 8;
 		int b = (rgb & 0x0000ff) >> 0;
-		color = System.Drawing.Color.FromArgb(alpha, r, g, b);
-		pen = new System.Drawing.Pen(color);
-		brush = pen.Brush;
+	
+        pen.Color = System.Drawing.Color.FromArgb(alpha, r, g, b);
 	}
 
 	public void setDColor(System.Drawing.Color c)  {
-		color = c;
-		pen = new System.Drawing.Pen(color);
-		brush = pen.Brush;
+        pen.Color = c;
 	}
 	public void setDColor(int alpha, System.Drawing.Color c)
 	{
-		color = System.Drawing.Color.FromArgb(alpha, c);
-		pen = new System.Drawing.Pen(color);
-		brush = pen.Brush;
+        pen.Color = System.Drawing.Color.FromArgb(alpha, c);
 	}
 
 

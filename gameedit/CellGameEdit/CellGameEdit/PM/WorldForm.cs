@@ -3769,7 +3769,7 @@ namespace CellGameEdit.PM
                 if (WorldForm.IsShowDataString)
                 {
                     g.setColor(0xff, 0xff, 0xff, 0xff);
-                    g.dg.DrawString(Data.ToString(), javax.microedition.lcdui.Graphics.font, g.brush, rect);
+                    g.dg.DrawString(Data.ToString(), javax.microedition.lcdui.Graphics.font, g.pen.Brush, rect);
 
                 }
 				g.setColor(0xff, 0, 0, 0);
@@ -3997,7 +3997,7 @@ namespace CellGameEdit.PM
                         g.setColor(0xff, 0xff, 0xff, 0xff);
                         g.dg.DrawString(Data.ToString(),
 							javax.microedition.lcdui.Graphics.font, 
-							g.brush, 
+							g.pen.Brush, 
 							new System.Drawing.Rectangle(rect.X, rect.Y, 400, 400));
 
                     }
@@ -4036,7 +4036,7 @@ namespace CellGameEdit.PM
                         {
                             g.setColor(0xff, 0xff, 0xff, 0xff);
                             g.drawLine(sx, sy, dx, dy);
-                            g.dg.FillPolygon(g.brush,
+                            g.dg.FillPolygon(g.pen.Brush,
                                 new PointF[] { 
                                 new PointF(px[0],py[0]),
                                 new PointF(px[1],py[1]),
@@ -4048,7 +4048,7 @@ namespace CellGameEdit.PM
                         {
                             g.setColor(0x80, 0x00, 0x00, 0xff);
                             g.drawLine(sx, sy, dx, dy);
-                            g.dg.FillPolygon(g.brush,
+                            g.dg.FillPolygon(g.pen.Brush,
                                 new PointF[] { 
                                 new PointF(px[0],py[0]),
                                 new PointF(px[1],py[1]),
@@ -4617,6 +4617,10 @@ namespace CellGameEdit.PM
 			Boolean showLock)
 		{
 
+            if (!showLock && !listItem.Checked)
+            {
+                return;
+            }
 			if (_spr != null)
 			{
 				//this.Bounds = _spr.getVisibleBounds(animID, 0);
@@ -4651,8 +4655,8 @@ namespace CellGameEdit.PM
 				{
 					g.setColor(0xff, 0xff, 0xff, 0xff);
 					g.dg.DrawString(Data.ToString(),
-						javax.microedition.lcdui.Graphics.font, 
-						g.brush,
+						javax.microedition.lcdui.Graphics.font,
+                        g.pen.Brush,
 						new System.Drawing.Rectangle(x, y, 400, 400));
 				}
 				g.setColor(0xff, 0xffffff);
@@ -4660,10 +4664,6 @@ namespace CellGameEdit.PM
 				g.drawLine(x, y - 10, x, y + 10);
 			}
 
-			if (showLock && !listItem.Checked)
-			{
-				g.drawImage(imgLock, x + Bounds.X, y + Bounds.Y);
-			}
 		}
 
 

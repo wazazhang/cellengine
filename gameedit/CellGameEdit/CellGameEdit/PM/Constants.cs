@@ -49,6 +49,7 @@ namespace CellGameEdit.PM
 
         public static String OUTPUT_IMAGE_TYPE = "<OUTPUT_IMAGE_TYPE>";
         public static String OUTPUT_IMAGE_FILE = "<OUTPUT_IMAGE_FILE>";
+        public static String IMAGE_INFO = "<IMAGE_INFO>";
 
 
         public static String _MAP = "<MAP>";
