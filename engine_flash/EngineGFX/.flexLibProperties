@@ -26,13 +26,9 @@
     <classEntry path="com.cell.gfx.game.worldcraft.CellMapWorld"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellWorld"/>
     <classEntry path="com.cell.gfx.game.worldcraft.CellWorldCamera"/>
-    <classEntry path="com.cell.gfx.rpg.G2DActionUnit"/>
-    <classEntry path="com.cell.gfx.rpg.G2DMapObject"/>
     <classEntry path="com.cell.gfx.rpg.G2DUnit"/>
     <classEntry path="com.cell.gfx.rpg.intention.Action"/>
     <classEntry path="com.cell.gfx.rpg.intention.Motion"/>
-    <classEntry path="com.cell.gfx.rpg.intention.TouchCameraMotion"/>
-    <classEntry path="com.cell.io.IOUtil"/>
     <classEntry path="com.cell.io.TextReader"/>
     <classEntry path="com.cell.io.UrlManager"/>
     <classEntry path="com.cell.math.TVector2D"/>
@@ -62,17 +58,16 @@
     <classEntry path="com.cell.ui.TouchScrollPanel"/>
     <classEntry path="com.cell.ui.TouchToggleButton"/>
     <classEntry path="com.cell.ui.TouchTrack"/>
-    <classEntry path="com.cell.ui.component.ListView"/>
     <classEntry path="com.cell.ui.component.UIComponent"/>
-    <classEntry path="com.cell.ui.edit.UIEdit"/>
-    <classEntry path="com.cell.ui.edit.comp.UEFileNode"/>
     <classEntry path="com.cell.ui.layout.UILayoutManager"/>
     <classEntry path="com.cell.ui.layout.UIRect"/>
     <classEntry path="com.cell.util.Arrays"/>
     <classEntry path="com.cell.util.ImageUtil"/>
+    <classEntry path="com.cell.ui.component.ListView"/>
+    <classEntry path="com.cell.io.IOUtil"/>
+    <classEntry path="com.cell.gfx.rpg.intention.TouchCameraMotion"/>
+    <classEntry path="com.cell.ui.edit.UIEdit"/>
     <classEntry path="com.cell.util.XMLUtil"/>
-    <classEntry path="com.cell.gfx.action.ActionSprite"/>
-    <classEntry path="com.cell.gfx.action.ActionEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
