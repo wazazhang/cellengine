@@ -548,31 +548,35 @@ namespace CellGameEdit.PM
 		{
 			try
 			{
-				
-				
-					int outW = 0;
-					int outH = 0;
-					for (int i = 0; i < getDstImageCount(); i++)
-					{
-						if (getDstImage(i) != null && !getDstImage(i).killed)
-						{
-							outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
-							outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
-						}
-					}
+                int outW = 0;
+                int outH = 0;
 
-					Image outputImage = Image.createImage(outW, outH);
-					Graphics g = outputImage.getGraphics();
-					for (int i = 0; i < getDstImageCount(); i++)
-					{
-						if (getDstImage(i) == null || getDstImage(i).killed) continue;
-						g.drawImage(getDstImage(i), getDstImage(i).x, getDstImage(i).y);
+                for (int i = 0; i < getDstImageCount(); i++)
+                {
+                    if (getDstImage(i) != null && !getDstImage(i).killed)
+                    {
+                        outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
+                        outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
+                    }
+                }
 
-					}
-					//
-					outputImage.getDImage().Save(filepath, format);
+                if (Form1.isOutputImage2M())
+                {
+                    outW = Util.ccNextPOT(outW);
+                    outH = Util.ccNextPOT(outH);
+                }
 
-                    runImageConvertScript(image_convert_script, filepath);
+                Image outputImage = Image.createImage(outW, outH);
+                Graphics g = outputImage.getGraphics();
+                for (int i = 0; i < getDstImageCount(); i++)
+                {
+                    if (getDstImage(i) == null || getDstImage(i).killed) continue;
+                    g.drawImage(getDstImage(i), getDstImage(i).x, getDstImage(i).y);
+                }
+                //
+                outputImage.getDImage().Save(filepath, format);
+
+                runImageConvertScript(image_convert_script, filepath);
 				
 			}
 			catch (Exception err)
@@ -639,6 +643,8 @@ namespace CellGameEdit.PM
             //p.StandardInput.WriteLine(command);       //也可以用這種方式輸入要執行的命令
             //p.StandardInput.WriteLine("exit");        //不過要記得加上Exit要不然下一行程式執行的時候會當機
         }
+
+      
 
         public System.Drawing.Color getCurrentClickColor()
         {

@@ -726,6 +726,10 @@ namespace CellGameEdit
 
         public void initGobalImageConvertScript()
         {
+
+            toolStripMenuItemImageOutput2M.Checked = Config.Default.GobalImageOutput2M;
+
+
             try
             {
                 String dir = Application.StartupPath + "\\converter\\";
@@ -782,6 +786,7 @@ namespace CellGameEdit
             }
         }
 
+
         static public String[] getImageConvertScriptList()
         {
             return image_convert_list;
@@ -792,6 +797,15 @@ namespace CellGameEdit
             return Config.Default.GobalImageConvertScriptFile;
         }
 
+        private void toolStripMenuItemImageOutput2M_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.Default.GobalImageOutput2M = toolStripMenuItemImageOutput2M.Checked;
+            Config.Default.Save();
+        }
 
+        static public bool isOutputImage2M()
+        {
+            return Config.Default.GobalImageOutput2M;
+        }
     }
 }

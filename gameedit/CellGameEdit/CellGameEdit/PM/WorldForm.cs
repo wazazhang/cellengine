@@ -1779,7 +1779,10 @@ namespace CellGameEdit.PM
 							for (int i = listView1.Items.Count - 1; i >= 0; i--)
 							{
 								Unit unit = ((Unit)UnitList[listView1.Items[i]]);
-
+                                if (!toolShowLock.Checked && !unit.listItem.Checked)
+                                {
+                                    continue;
+                                }
 								if (unit.map() != null && checkShowMap.Checked ||
 									unit.spr() != null && checkShowSprite.Checked ||
 									unit.images() != null && checkShowTile.Checked)
@@ -1887,6 +1890,10 @@ namespace CellGameEdit.PM
 							for (int i = listView1.Items.Count - 1; i >= 0; i--)
 							{
 								Unit unit = ((Unit)UnitList[listView1.Items[i]]);
+                                if (!toolShowLock.Checked && !unit.listItem.Checked)
+                                {
+                                    continue;
+                                }
 								if (unit.map() != null && checkShowMap.Checked ||
 									unit.spr() != null && checkShowSprite.Checked ||
 									unit.images() != null && checkShowTile.Checked)
@@ -3156,9 +3163,7 @@ namespace CellGameEdit.PM
                                                     image.Height
                                                );
             // draw units
-
             // draw units
-            if (checkShowMap.Checked || checkShowSprite.Checked)
             {
                 foreach (ListViewItem item in listView1.Items)
                 {
@@ -3166,7 +3171,7 @@ namespace CellGameEdit.PM
                     {
                         Unit unit = ((Unit)UnitList[item]);
 
-                        if (unit.type == "Map" && checkShowMap.Checked)
+                        if (unit.type == "Map")
                         {
                             if (toolStripButton10.Checked)
                             {
@@ -3174,40 +3179,19 @@ namespace CellGameEdit.PM
                                 {
                                     for (int y = 0; y < pictureBox1.Height; y += unit.map().getHeight())
                                     {
-
-                                        unit.render(g, srect, x, y, false,
-                                               false,
-                                               false,
-                                              false
-                                            );
+                                        unit.render(g, srect, x, y, false, false, false, true);
                                     }
                                 }
                             }
                             else
                             {
-                                unit.render(
-                                   g,
-                                   srect,
-                                   false,
-                                               false,
-                                               false,
-                                              false
-                                );
+                                unit.render(g, srect, false, false, false, true);
                             }
                         }
-
-                        if (unit.type == "Sprite" && checkShowSprite.Checked)
+                        else
                         {
-                            unit.render(
-                                   g,
-                                   srect,
-                                   false,
-                                               false,
-                                               false,
-                                              false
-                                );
+                            unit.render(g, srect, false, false, false, true);
                         }
-
                     }
                     catch (Exception err)
                     {
@@ -4617,9 +4601,11 @@ namespace CellGameEdit.PM
 			Boolean showLock)
 		{
 
-            if (!showLock && !listItem.Checked)
+            if (!showLock)
             {
-                return;
+                if (!listItem.Checked) {
+                    return;
+                }
             }
 			if (_spr != null)
 			{

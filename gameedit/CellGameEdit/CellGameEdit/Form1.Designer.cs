@@ -59,11 +59,12 @@
             this.项目ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CfgOutputEncoding = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemGobalImgeConvertScript = new System.Windows.Forms.ToolStripMenuItem();
             this.枚举查看器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.改变渲染字体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.menuItemGobalImgeConvertScript = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageOutput2M = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -214,7 +215,7 @@
             // 自定义脚本ToolStripMenuItem
             // 
             this.自定义脚本ToolStripMenuItem.Name = "自定义脚本ToolStripMenuItem";
-            this.自定义脚本ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.自定义脚本ToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.自定义脚本ToolStripMenuItem.Text = "当前公共脚本";
             this.自定义脚本ToolStripMenuItem.Click += new System.EventHandler(this.自定义脚本ToolStripMenuItem_Click);
             // 
@@ -223,7 +224,7 @@
             this.当前工程脚本ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem6});
             this.当前工程脚本ToolStripMenuItem.Name = "当前工程脚本ToolStripMenuItem";
-            this.当前工程脚本ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.当前工程脚本ToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.当前工程脚本ToolStripMenuItem.Text = "当前工程脚本";
             // 
             // toolStripMenuItem6
@@ -234,13 +235,13 @@
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(139, 6);
             // 
             // javaToolStripMenuItem
             // 
             this.javaToolStripMenuItem.Enabled = false;
             this.javaToolStripMenuItem.Name = "javaToolStripMenuItem";
-            this.javaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.javaToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.javaToolStripMenuItem.Text = "Java代码";
             this.javaToolStripMenuItem.Visible = false;
             this.javaToolStripMenuItem.Click += new System.EventHandler(this.javaToolStripMenuItem_Click);
@@ -290,7 +291,8 @@
             // 选项ToolStripMenuItem
             // 
             this.选项ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CfgOutputEncoding});
+            this.CfgOutputEncoding,
+            this.toolStripMenuItemImageOutput2M});
             this.选项ToolStripMenuItem.Name = "选项ToolStripMenuItem";
             this.选项ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.选项ToolStripMenuItem.Text = "输出";
@@ -302,6 +304,12 @@
             this.CfgOutputEncoding.Size = new System.Drawing.Size(166, 22);
             this.CfgOutputEncoding.Text = "输出编码字符信息";
             this.CfgOutputEncoding.CheckedChanged += new System.EventHandler(this.CfgOutputEncoding_CheckedChanged);
+            // 
+            // menuItemGobalImgeConvertScript
+            // 
+            this.menuItemGobalImgeConvertScript.Name = "menuItemGobalImgeConvertScript";
+            this.menuItemGobalImgeConvertScript.Size = new System.Drawing.Size(166, 22);
+            this.menuItemGobalImgeConvertScript.Text = "默认图片转换脚本";
             // 
             // 枚举查看器ToolStripMenuItem
             // 
@@ -331,11 +339,15 @@
             this.progressBar1.Step = 1;
             this.progressBar1.TabIndex = 3;
             // 
-            // menuItemGobalImgeConvertScript
+            // toolStripMenuItemImageOutput2M
             // 
-            this.menuItemGobalImgeConvertScript.Name = "menuItemGobalImgeConvertScript";
-            this.menuItemGobalImgeConvertScript.Size = new System.Drawing.Size(166, 22);
-            this.menuItemGobalImgeConvertScript.Text = "默认图片转换脚本";
+            this.toolStripMenuItemImageOutput2M.Checked = true;
+            this.toolStripMenuItemImageOutput2M.CheckOnClick = true;
+            this.toolStripMenuItemImageOutput2M.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripMenuItemImageOutput2M.Name = "toolStripMenuItemImageOutput2M";
+            this.toolStripMenuItemImageOutput2M.Size = new System.Drawing.Size(166, 22);
+            this.toolStripMenuItemImageOutput2M.Text = "输出图片2的冥";
+            this.toolStripMenuItemImageOutput2M.CheckedChanged += new System.EventHandler(this.toolStripMenuItemImageOutput2M_CheckedChanged);
             // 
             // Form1
             // 
@@ -397,6 +409,7 @@
         private System.Windows.Forms.ToolStripMenuItem 枚举查看器ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 改变渲染字体ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuItemGobalImgeConvertScript;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageOutput2M;
     }
 }
 

@@ -70,5 +70,17 @@ namespace CellGameEdit {
                 this["GobalImageConvertScriptFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GobalImageOutput2M {
+            get {
+                return ((bool)(this["GobalImageOutput2M"]));
+            }
+            set {
+                this["GobalImageOutput2M"] = value;
+            }
+        }
     }
 }
