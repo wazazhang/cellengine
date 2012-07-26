@@ -3887,19 +3887,28 @@ namespace CellGameEdit.PM
         public System.Drawing.Rectangle getVisibleBounds() 
         {
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle();
-            
-            for (int i = SubIndex.Count - 1; i >= 0; i--)
+            if (SubIndex.Count > 0)
             {
-                rect.X = Math.Min(rect.X, (int)SubX[i]);
-                rect.Width = Math.Max(rect.Width, (int)SubX[i] + (int)SubW[i]);
+                int sx = int.MaxValue;
+                int sy = int.MaxValue;
+                int dx = int.MinValue;
+                int dy = int.MinValue;
 
-                rect.Y = Math.Min(rect.Y, (int)SubY[i]);
-                rect.Height = Math.Max(rect.Height, (int)SubY[i] + (int)SubH[i]);
+                for (int i = SubIndex.Count - 1; i >= 0; i--)
+                {
+                    sx = Math.Min(sx, (int)SubX[i]);
+                    dx = Math.Max(dx, (int)SubX[i] + (int)SubW[i]);
+                    sy = Math.Min(sy, (int)SubY[i]);
+                    dy = Math.Max(dy, (int)SubY[i] + (int)SubH[i]);
+                }
+                rect.X = sx;
+                rect.Y = sy;
+                rect.Width = dx - sx;
+                rect.Height = dy - sy;
             }
-
-            rect.Width = rect.Width - rect.X;
-            rect.Height = rect.Height - rect.Y;
-
+            else
+            {
+            }
             return rect;
         }
 

@@ -52,13 +52,12 @@ namespace CellGameEdit.PM
 		int last_mouse_down_x = 0;
         int last_mouse_down_y = 0;
 
-        int last_last_move_object_x = 0;
-        int last_last_move_object_y = 0;
-        WorldListViewObject last_move_object;
+        //int last_last_move_object_x = 0;
+        //int last_last_move_object_y = 0;
+        HashSet<WorldListViewObject> last_move_objects = new HashSet<WorldListViewObject>();
 
 		ListViewItem popedWayPoint;
 
-		Point selectedOffset = new Point();
 
 
 
@@ -112,6 +111,7 @@ namespace CellGameEdit.PM
                         listView1.Items.Add(item);
                         UnitList.Add(item, unit); 
                         item.Checked = unit.isSaveChecked;
+                        tryAddUnitGroup(unit);
                         //item.Selected = true;
                         //Console.WriteLine("Level: Load " + unit.id);
                     }
@@ -242,7 +242,7 @@ namespace CellGameEdit.PM
 
             resetTerrainSize();
 
-            testDelUnit();
+            testDisposeUnit();
 
             try
             {
@@ -895,8 +895,8 @@ namespace CellGameEdit.PM
             numericUpDown3.Value = pictureBox1.Width;
             numericUpDown4.Value = pictureBox1.Height;
 
-
             listView1.ListViewItemSorter = new ObjectsViewSorter(UnitList);
+   
             listView1.Sort();
 
 			pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
@@ -962,6 +962,8 @@ namespace CellGameEdit.PM
                 numericUpDown3.Value = pictureBox1.Width;
                 numericUpDown4.Value = pictureBox1.Height;
             }
+
+            tryAddUnitGroup(unit);
         }
 
         public void addUnitAsSpr(SpriteForm spr, int x, int y)
@@ -976,6 +978,8 @@ namespace CellGameEdit.PM
             UnitList.Add(item, unit);
             item.Selected = true;
             item.EnsureVisible();
+
+            tryAddUnitGroup(unit);
         }
 
         public void addUnitAsImage(ImagesForm img, int x, int y, int tileID)
@@ -991,9 +995,34 @@ namespace CellGameEdit.PM
             UnitList.Add(item, unit);
             item.Selected = true;
             item.EnsureVisible();
+
+            tryAddUnitGroup(  unit);
         }
 
+        private void tryAddUnitGroup(Unit unit)
+        {
+            String gname = unit.Priority.ToString();
 
+            ListViewGroup vg = getUnitGroup(gname);
+            if (vg == null) {
+                vg = new ListViewGroup(gname);
+                listView1.Groups.Add(vg);
+            }
+            unit.listItem.Group = vg;
+            unit.listItem.SubItems[4].Text = unit.Priority.ToString();
+        }
+
+        private ListViewGroup getUnitGroup(string groupName)
+        {
+            foreach (ListViewGroup g in listView1.Groups)
+            {
+                if (groupName.Equals(g.Header))
+                {
+                   return g;
+                }
+            }
+            return null;
+        }
 
         // list view1 map list
         private void listView1_DragDrop(object sender, DragEventArgs e)
@@ -1028,14 +1057,20 @@ namespace CellGameEdit.PM
         }
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-			Unit unit = getSelectedUnit();
-			if (unit != null) {
-				unit.updateListViewItem(toolStripStatusLabel1);
-			}
-            pictureBox1.Refresh();
+// 			Unit unit = getFocusedUnit();
+// 			if (unit != listView1) {
+// 				unit.updateListViewItem(toolStripStatusLabel1);
+// 			}
+//             pictureBox1.Refresh();
         }
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
+            Unit unit = getFocusedUnit();
+            if (unit != null && e.Item == unit.listItem)
+            {
+                unit.updateListViewItem(toolStripStatusLabel1);
+                pictureBox1.Refresh();
+            }
         }
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -1044,7 +1079,31 @@ namespace CellGameEdit.PM
                 menuUnit.Show(listView1, e.Location);
             }
         }
-        
+
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+       
+
+        }
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            Unit unit = getFocusedUnit();
+            if (unit != null)
+            {
+                try {
+                    int dx = unit.getX() - panel1.Width / 2;
+                    int dy = unit.getY() - panel1.Height / 2;
+                    dx = Math.Max(dx, panel1.HorizontalScroll.Minimum);
+                    dy = Math.Max(dy, panel1.VerticalScroll.Minimum);
+                    dx = Math.Min(dx, panel1.HorizontalScroll.Maximum);
+                    dy = Math.Min(dy, panel1.VerticalScroll.Maximum);
+                    panel1.HorizontalScroll.Value = dx;
+                    panel1.VerticalScroll.Value = dy;
+                    pictureBox1.Refresh();
+                } catch (Exception err) {}
+               
+            }
+        }
         // way point list
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1506,12 +1565,16 @@ namespace CellGameEdit.PM
             }
         }
 
-		private void unSelectAllUnit()
+		private void unSelectAll(bool mutiSelectUnit)
 		{
-			foreach (ListViewItem item in listView1.Items)
-			{
-				item.Selected = false;
-			}
+            if (!mutiSelectUnit)
+            {
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    item.Selected = false;
+                }
+            }
+			
 			popedWayPoint = null;
 			foreach (ListViewItem item in listView2.Items)
 			{
@@ -1535,6 +1598,516 @@ namespace CellGameEdit.PM
         bool isCheckEvent()
         {
             return (checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent);
+        }
+        bool isCheckUnit() {
+            if (tabControl1.SelectedTab == tabPageUnit &&
+                (checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked)) {
+                    return true;
+            }
+            return false;
+        }
+        private void mouseDirect(MouseEventArgs e)
+        {
+            
+                // units
+                if (tabControl1.SelectedTab == tabPageUnit)
+                {
+                    if (listView1.SelectedItems.Count > 0)
+                    {
+                        foreach (ListViewItem item in listView1.SelectedItems)
+                        {
+                            Unit unit = (Unit)UnitList[item];
+
+                            if (unit.listItem.Checked)
+                            {
+                                if (checkShowMap.Checked && unit.map() == null)
+                                {
+                                    break;
+                                }
+                                else if (checkShowSprite.Checked && unit.spr() == null)
+                                {
+                                    break;
+                                }
+                                else if (checkShowSprite.Checked && unit.spr() == null)
+                                {
+                                    break;
+                                }
+
+                                new CommandMoveObject(this,
+                                    unit,
+                                    unit.getX(),
+                                    unit.getY(),
+                                    e.X,
+                                    e.Y).Execute();
+                            }
+                        }
+
+                    }
+                }
+                // show event
+                if (checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
+                {
+                    if (listView4.SelectedItems.Count > 0)
+                    {
+                        Event ee = getSelectedEvent();
+
+                        new CommandMoveObject(this,
+                                    ee,
+                                    ee.getX(),
+                                    ee.getY(),
+                                    e.X,
+                                    e.Y).Execute();
+                    }
+                }
+                //select way point
+                if (checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
+                {
+                    if (listView2.SelectedItems.Count > 0)
+                    {
+                        WayPoint wp = getSelectedWayPoint();
+                        //wp.setPos(e.X, e.Y);
+                        new CommandMoveObject(this,
+                                   wp,
+                                   wp.getX(),
+                                   wp.getY(),
+                                   e.X,
+                                   e.Y).Execute();
+                    }
+                }
+                //select region
+                if (checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
+                {
+                    if (listView3.SelectedItems.Count > 0)
+                    {
+                        Region rg = getSelectedRegion();
+                        //rg.setPos(e.X, e.Y);
+
+                        new CommandMoveObject(this,
+                                   rg,
+                                   rg.getX(),
+                                   rg.getY(),
+                                   e.X,
+                                   e.Y).Execute();
+                    }
+                }
+            
+        }
+
+        private void mouseSelect(MouseEventArgs e)
+        {
+            if (isCheckUnit() && Control.ModifierKeys == Keys.Shift)
+            {
+                unSelectAll(true);
+            } 
+            else 
+            {
+                unSelectAll(false);
+            }
+
+            bool isChecked = false;
+
+            //select way point
+            if (!isChecked && checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
+            {
+                foreach (ListViewItem item in listView2.Items)
+                {
+                    WayPoint p = (WayPoint)WayPointsList[item];
+                    if (p != null)
+                    {
+                        if (p.touchBounds(e.X, e.Y))
+                        {
+                            last_move_objects.Add(p);
+                            p.beginMove();
+                            isChecked = true;
+                            item.Selected = true;
+                            p.updateListViewItem(toolStripStatusLabel1);
+                            break;
+                        }
+                    }
+                }
+            }
+            // select regions
+            if (!isChecked && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
+            {
+                foreach (ListViewItem item in listView3.Items)
+                {
+                    Region r = (Region)RegionsList[item];
+                    if (r != null)
+                    {
+                        if (r.touchBounds(e.X, e.Y))
+                        {
+                            last_move_objects.Add(r);
+                            r.beginMove();
+                            r.isSub = false;
+                            isChecked = true;
+                            item.Selected = true;
+                        }
+                        if (r.selectSub(e.X, e.Y))
+                        {
+                            r.isSub = true;
+                            isChecked = true;
+                            item.Selected = true;
+                        }
+                        if (isChecked)
+                        {
+                            r.updateListViewItem(toolStripStatusLabel1);
+                            break;
+                        }
+                    }
+                }
+            }
+            // select event
+            if (!isChecked && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
+            {
+                foreach (ListViewItem item in listView4.Items)
+                {
+                    Event ee = (Event)EventList[item];
+                    if (ee != null)
+                    {
+                        if (ee.touchBounds(e.X, e.Y))
+                        {
+                            last_move_objects.Add(ee);
+                            ee.beginMove();
+                            isChecked = true;
+                            item.Selected = true;
+                            ee.updateListViewItem(toolStripStatusLabel1);
+                            break;
+                        }
+                    }
+                }
+            }
+            //select unit
+            if (!isChecked && tabControl1.SelectedTab == tabPageUnit &&
+                (checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
+            {
+                for (int i = listView1.Items.Count - 1; i >= 0; --i )
+                {
+                    ListViewItem item = listView1.Items[i];
+                    Unit unit = ((Unit)UnitList[item]);
+                    if (unit.isHide())
+                    {
+                        continue;
+                    }
+                    if (!toolShowLock.Checked && !unit.listItem.Checked)
+                    {
+                        continue;
+                    }
+                    if (unit.map() != null && checkShowMap.Checked ||
+                        unit.spr() != null && checkShowSprite.Checked ||
+                        unit.images() != null && checkShowTile.Checked)
+                    {
+                        //if (unit.getGobalBounds().Contains(e.X, e.Y))
+                        if (unit.touchBounds(e.X, e.Y))
+                        {
+                            //unit.updateListViewItem();
+                            isChecked = true;
+                            item.Selected = true;
+                            if (checkAutoSelect.Checked)
+                            {
+                                item.Checked = true;
+                            }
+                            unit.updateListViewItem(toolStripStatusLabel1);
+                            break;
+                        }
+                    }
+                }
+
+                foreach (ListViewItem item in listView1.SelectedItems)
+                {
+                    Unit unit = ((Unit)UnitList[item]);
+                    last_move_objects.Add(unit);
+                    unit.beginMove();
+                }
+            }
+
+           // last_move_object = getSelectedObject();
+          //  last_last_move_object_x = last_move_object.getX();
+          //  last_last_move_object_y = last_move_object.getY();
+        }
+
+        private void mousePopup(MouseEventArgs e)
+        {
+            listView1.SelectedItems.Clear();
+
+            popedWayPoint = null;
+            foreach (ListViewItem item in listView3.Items)
+            {
+                item.Selected = false;
+                Region r = (Region)RegionsList[item];
+                if (r != null)
+                {
+                    r.isSub = false;
+                }
+            }
+            foreach (ListViewItem item in listView4.Items)
+            {
+                item.Selected = false;
+            }
+
+            bool isChecked = false;
+            //select way point
+            if (isChecked == false && checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
+            {
+                foreach (ListViewItem item in listView2.Items)
+                {
+                    WayPoint p = (WayPoint)WayPointsList[item];
+                    if (p != null)
+                    {
+                        if (p.touchBounds(e.X, e.Y))
+                        {
+                            isChecked = true;
+                            popedWayPoint = item;
+                            break;
+                        }
+                    }
+                }
+            }
+            // select regions
+            if (isChecked == false && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
+            {
+                foreach (ListViewItem item in listView3.Items)
+                {
+                    Region r = (Region)RegionsList[item];
+                    if (r != null)
+                    {
+                        if (r.touchBounds(e.X, e.Y))
+                        {
+                            isChecked = true;
+                            item.Selected = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            //select events
+            if (isChecked == false && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
+            {
+                foreach (ListViewItem item in listView4.Items)
+                {
+                    Event ee = (Event)EventList[item];
+                    if (ee != null)
+                    {
+                        if (ee.touchBounds(e.X, e.Y))
+                        {
+                            isChecked = true;
+                            item.Selected = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            //select unit
+            if (isChecked == false && tabControl1.SelectedTab == tabPageUnit &&
+                (checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
+            {
+                for (int i = listView1.Items.Count - 1; i >= 0; i--)
+                {
+                    Unit unit = ((Unit)UnitList[listView1.Items[i]]);
+                    if (!toolShowLock.Checked && !unit.listItem.Checked)
+                    {
+                        continue;
+                    }
+                    if (unit.map() != null && checkShowMap.Checked ||
+                        unit.spr() != null && checkShowSprite.Checked ||
+                        unit.images() != null && checkShowTile.Checked)
+                    {
+                        if (unit.touchBounds(e.X, e.Y))
+                        {
+                            isChecked = true;
+                            listView1.Items[i].Selected = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            //弹出菜单
+            if (listView1.SelectedItems.Count > 0 && checkShowSprite.Checked && tabControl1.SelectedTab == tabPageUnit)
+            {
+                menuUnit.Opacity = 0.8;
+                menuUnit.Show(pictureBox1, e.Location);
+            }
+            else if (listView2.SelectedItems.Count > 0 &&
+                popedWayPoint != null &&
+                popedWayPoint != listView2.SelectedItems[0] &&
+                checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
+            {
+                menuPath.Opacity = 0.8;
+                menuPath.Items[0].Visible = true;
+                menuPath.Items[1].Visible = true;
+                menuPath.Items[2].Visible = true;
+                menuPath.Items[3].Visible = false;
+                menuPath.Items[4].Visible = false;
+                menuPath.Show(pictureBox1, e.Location);
+            }
+            else if (listView4.SelectedItems.Count > 0 && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
+            {
+                menuEvent.Opacity = 0.8;
+                menuEvent.Show(pictureBox1, e.Location);
+            }
+            else if (popedWayPoint != null &&
+                listView2.SelectedItems.Count <= 0 ||
+                listView2.SelectedItems.Count > 0 &&
+                popedWayPoint == listView2.SelectedItems[0])
+            {
+                popedWayPoint.Selected = true;
+                menuPath.Opacity = 0.8;
+                menuPath.Items[0].Visible = false;
+                menuPath.Items[1].Visible = false;
+                menuPath.Items[2].Visible = false;
+                menuPath.Items[3].Visible = true;
+                menuPath.Items[4].Visible = true;
+                menuPath.Show(pictureBox1, e.Location);
+            }
+            else if (listView3.SelectedItems.Count > 0 && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
+            {
+                menuRegion.Opacity = 0.8;
+                menuRegion.Show(pictureBox1, e.Location);
+            }
+            else
+            {
+                menuWorld.Opacity = 0.8;
+                menuWorld.Show(pictureBox1, e.Location);
+            }
+        }
+
+
+        private void mouseMove(MouseEventArgs e)
+        {
+            int offsetX = e.X - last_mouse_down_x;
+            int offsetY = e.Y - last_mouse_down_y;
+
+
+            if (isCheckUnit())
+            {
+                foreach (ListViewItem item in listView1.SelectedItems)
+                {
+                    Unit unit = (Unit)UnitList[item];
+
+                    if (unit.listItem.Checked == true)
+                    {
+                        if (!checkStickyToCell.Checked)
+                        {
+                            unit.setPos(
+                                unit.lastPos.X + offsetX,
+                                unit.lastPos.Y + offsetY);
+                        }
+                        else
+                        {
+                            unit.setPos(
+                                (unit.lastPos.X + offsetX) % CellW,
+                                (unit.lastPos.Y + offsetY) % CellH);
+                        }
+
+                        if (!chkLockSize.Checked)
+                        {
+                            Rectangle wb = unit.getWorldBounds();
+                            pictureBox1.Width = Math.Max(wb.X + wb.Width, pictureBox1.Width);
+                            pictureBox1.Height = Math.Max(wb.Y + wb.Height, pictureBox1.Height);
+                            numericUpDown1.Value = CellW;
+                            numericUpDown2.Value = CellH;
+                            numericUpDown3.Value = pictureBox1.Width;
+                            numericUpDown4.Value = pictureBox1.Height;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                
+            WayPoint p = getSelectedWayPoint();
+            Region r = getSelectedRegion();
+            Event ee = getSelectedEvent();
+
+            if (ee != null)
+            {
+                if (!checkStickyToCell.Checked)
+                {
+                    ee.setPos(
+                                ee.lastPos.X + offsetX,
+                                ee.lastPos.Y + offsetY);
+                }
+                else
+                {
+                    ee.setPos(
+                                (ee.lastPos.X + offsetX) % CellW,
+                                (ee.lastPos.Y + offsetY) % CellH);
+                }
+
+                ee.updateListViewItem(toolStripStatusLabel1);
+
+            }
+            else if (p != null)
+            {
+                if (!checkStickyToCell.Checked)
+                {
+                    p.setPos(
+                                p.lastPos.X + offsetX,
+                                p.lastPos.Y + offsetY);
+                }
+                else
+                {
+                    p.setPos(
+                                (p.lastPos.X + offsetX) % CellW,
+                                (p.lastPos.Y + offsetY) % CellH);
+                }
+                p.updateListViewItem(toolStripStatusLabel1);
+
+                if (!chkLockSize.Checked)
+                {
+                    pictureBox1.Width = Math.Max(p.getX(), pictureBox1.Width);
+                    pictureBox1.Height = Math.Max(p.getY(), pictureBox1.Height);
+                    numericUpDown1.Value = CellW;
+                    numericUpDown2.Value = CellH;
+                    numericUpDown3.Value = pictureBox1.Width;
+                    numericUpDown4.Value = pictureBox1.Height;
+                }
+            }
+            else if (r != null)
+            {
+                if (!r.isSub)
+                {
+                    if (!checkStickyToCell.Checked)
+                    {
+                        r.setPos(
+                                    r.lastPos.X + offsetX,
+                                    r.lastPos.Y + offsetY);
+                    }
+                    else
+                    {
+                        r.setPos(
+                                    (r.lastPos.X + offsetX) % CellW,
+                                    (r.lastPos.Y + offsetY) % CellH);
+                    }
+                }
+                else
+                {
+                    if (!checkStickyToCell.Checked)
+                    {
+                        r.setSizeDst(e.X, e.Y);
+                    }
+                    else
+                    {
+                        r.setSizeDst(e.X - e.X % CellW, e.Y - e.Y % CellH);
+                    }
+                }
+                r.updateListViewItem(toolStripStatusLabel1);
+                if (!chkLockSize.Checked)
+                {
+                    Rectangle wb = r.getWorldBounds();
+                    pictureBox1.Width = Math.Max(wb.X + wb.Width, pictureBox1.Width);
+                    pictureBox1.Height = Math.Max(wb.Y + wb.Height, pictureBox1.Height);
+                    numericUpDown1.Value = CellW;
+                    numericUpDown2.Value = CellH;
+                    numericUpDown3.Value = pictureBox1.Width;
+                    numericUpDown4.Value = pictureBox1.Height;
+                }
+            }
+            }
+            
+
+
         }
 
 		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -1561,14 +2134,12 @@ namespace CellGameEdit.PM
 					{
 						fillTerrain(e.X, e.Y, 0);
 					}
-
-
 				}
 				else
 				{
                     if (Control.ModifierKeys == Keys.Control && e.Button == MouseButtons.Left)
                     {
-                        unSelectAllUnit();
+                        unSelectAll(false);
                         if (isCheckEvent())
                         {
                             addCurrentEvent(last_mouse_down_x, last_mouse_down_y);
@@ -1576,393 +2147,21 @@ namespace CellGameEdit.PM
                     }
                     else
                     {
-					#region pointUnit
-					// 是定位指令
-					if (e.Button == MouseButtons.Left && checkDirectUnit.Checked == true)
-					{
-						// map
-						if (checkShowMap.Checked && tabControl1.SelectedTab == tabPageUnit)
-						{
-							if (listView1.SelectedItems.Count > 0)
-							{
-								Unit unit = getSelectedUnit();
-								if (unit.map() != null)
-								{
-									if (unit.listItem.Checked)
-									{
-                                        //unit.x = e.X;
-                                        //unit.y = e.Y;
-                                        //unit.setPos(e.X, e.Y);
-                                        new CommandMoveObject(this, 
-                                            unit,
-                                            unit.getX(),
-                                            unit.getY(),
-                                            e.X, 
-                                            e.Y).Execute();
-									}
-								}
-							}
-						}
-						//select unit
-						if (checkShowSprite.Checked && tabControl1.SelectedTab == tabPageUnit)
-						{
-							if (listView1.SelectedItems.Count > 0)
-							{
-								Unit unit = getSelectedUnit();
-								if (unit.spr() != null)
-								{
-									if (unit.listItem.Checked)
-									{
-// 										unit.x = e.X;
-// 										unit.y = e.Y; 
-//										unit.setPos(e.X, e.Y);
-                                        new CommandMoveObject(this,
-                                            unit,
-                                            unit.getX(),
-                                            unit.getY(),
-                                            e.X,
-                                            e.Y).Execute();
-									}
-								}
-							}
-						}
-						//select image
-						if (checkShowTile.Checked && tabControl1.SelectedTab == tabPageUnit)
-						{
-							if (listView1.SelectedItems.Count > 0)
-							{
-								Unit unit = getSelectedUnit();
-								if (unit.images() != null)
-								{
-									if (unit.listItem.Checked)
-									{
-// 										unit.x = e.X;
-// 										unit.y = e.Y;
-										//unit.setPos(e.X, e.Y);
-                                        new CommandMoveObject(this,
-                                            unit,
-                                            unit.getX(),
-                                            unit.getY(),
-                                            e.X,
-                                            e.Y).Execute();
-									}
-								}
-							}
-						}
-						// show event
-						if (checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
-						{
-							if (listView4.SelectedItems.Count > 0)
-							{
-								Event ee = getSelectedEvent();
-// 								ee.point.X = e.X;
-// 								ee.point.Y = e.Y;
-								//ee.setPos(e.X, e.Y);
-                                new CommandMoveObject(this,
-                                            ee,
-                                            ee.getX(),
-                                            ee.getY(),
-                                            e.X,
-                                            e.Y).Execute();
-							}
-						}
-						//select way point
-						if (checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
-						{
-							if (listView2.SelectedItems.Count > 0)
-							{
-								WayPoint wp = getSelectedWayPoint();
-								//wp.setPos(e.X, e.Y);
-                                new CommandMoveObject(this,
-                                           wp,
-                                           wp.getX(),
-                                           wp.getY(),
-                                           e.X,
-                                           e.Y).Execute();
-							}
-						}
-						//select region
-						if (checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
-						{
-							if (listView3.SelectedItems.Count > 0)
-							{
-								Region rg = getSelectedRegion();
-								//rg.setPos(e.X, e.Y);
+                        // 是定位指令
+                        if (e.Button == MouseButtons.Left && checkDirectUnit.Checked == true)
+                        {
+                            mouseDirect(e);
+                        }
+					    //不是定位指令
+					    else if (e.Button == MouseButtons.Left && checkDirectUnit.Checked == false)
+					    {
+                            mouseSelect(e);
+					    }
+					    else if (e.Button == MouseButtons.Right)
+					    {
+                            mousePopup(e);
+					    }
 
-                                new CommandMoveObject(this,
-                                           rg,
-                                           rg.getX(),
-                                           rg.getY(),
-                                           e.X,
-                                           e.Y).Execute();
-							}
-						}
-					}
-					#endregion
-
-					#region selectUnit
-					//不是定位指令
-					if (e.Button == MouseButtons.Left && checkDirectUnit.Checked == false)
-					{
-						unSelectAllUnit();
-
-						bool isChecked = false;
-
-						//select way point
-						if (!isChecked && checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
-						{
-							foreach (ListViewItem item in listView2.Items)
-							{
-								WayPoint p = (WayPoint)WayPointsList[item];
-								if (p != null)
-								{
-									if (p.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										isChecked = true;
-										item.Selected = true;
-										p.updateListViewItem(toolStripStatusLabel1);
-										break;
-									}
-								}
-							}
-						}
-						// select regions
-						if (!isChecked && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
-						{
-							foreach (ListViewItem item in listView3.Items)
-							{
-								Region r = (Region)RegionsList[item];
-								if (r != null)
-								{
-									if (r.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										r.isSub = false;
-										isChecked = true;
-										item.Selected = true;
-									}
-									if (r.selectSub(e.X, e.Y))
-									{
-										r.isSub = true;
-										isChecked = true;
-										item.Selected = true;
-									}
-									if (isChecked)
-									{
-										r.updateListViewItem(toolStripStatusLabel1);
-										break;
-									}
-								}
-							}
-						}
-						// select event
-						if (!isChecked && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
-						{
-							foreach (ListViewItem item in listView4.Items)
-							{
-								Event ee = (Event)EventList[item];
-								if (ee != null)
-								{
-									if (ee.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										isChecked = true;
-										item.Selected = true;
-										ee.updateListViewItem(toolStripStatusLabel1);
-										break;
-									}
-								}
-							}
-						}
-						//select unit
-						if (!isChecked && tabControl1.SelectedTab == tabPageUnit &&
-							(checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
-						{
-							for (int i = listView1.Items.Count - 1; i >= 0; i--)
-							{
-								Unit unit = ((Unit)UnitList[listView1.Items[i]]);
-                                if (!toolShowLock.Checked && !unit.listItem.Checked)
-                                {
-                                    continue;
-                                }
-								if (unit.map() != null && checkShowMap.Checked ||
-									unit.spr() != null && checkShowSprite.Checked ||
-									unit.images() != null && checkShowTile.Checked)
-								{
-									//if (unit.getGobalBounds().Contains(e.X, e.Y))
-									if (unit.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										//unit.updateListViewItem();
-										isChecked = true;
-										listView1.Items[i].Selected = true;
-										if (checkAutoSelect.Checked)
-										{
-											listView1.Items[i].Checked = true;
-										}
-										unit.updateListViewItem(toolStripStatusLabel1);
-										break;
-									}
-								}
-							}
-						}
-
-
-                        last_move_object = getSelectedObject();
-                        last_last_move_object_x = last_move_object.getX();
-                        last_last_move_object_y = last_move_object.getY();
-					}
-					#endregion
-
-					#region popUnit
-					if (e.Button == MouseButtons.Right)
-					{
-						listView1.SelectedItems.Clear();
-
-						popedWayPoint = null;
-						foreach (ListViewItem item in listView3.Items)
-						{
-							item.Selected = false;
-							Region r = (Region)RegionsList[item];
-							if (r != null)
-							{
-								r.isSub = false;
-							}
-						}
-						foreach (ListViewItem item in listView4.Items)
-						{
-							item.Selected = false;
-						}
-
-						bool isChecked = false;
-						//select way point
-						if (isChecked == false && checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
-						{
-							foreach (ListViewItem item in listView2.Items)
-							{
-								WayPoint p = (WayPoint)WayPointsList[item];
-								if (p != null)
-								{
-									if (p.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										isChecked = true;
-										popedWayPoint = item;
-										break;
-									}
-								}
-							}
-						}
-						// select regions
-						if (isChecked == false && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
-						{
-							foreach (ListViewItem item in listView3.Items)
-							{
-								Region r = (Region)RegionsList[item];
-								if (r != null)
-								{
-									if (r.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										isChecked = true;
-										item.Selected = true;
-										break;
-									}
-								}
-							}
-						}
-						//select events
-						if (isChecked == false && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
-						{
-							foreach (ListViewItem item in listView4.Items)
-							{
-								Event ee = (Event)EventList[item];
-								if (ee != null)
-								{
-									if (ee.touchBounds(e.X, e.Y , ref  selectedOffset))
-									{
-										isChecked = true;
-										item.Selected = true;
-										break;
-									}
-								}
-							}
-						}
-						//select unit
-						if (isChecked == false && tabControl1.SelectedTab == tabPageUnit &&
-							(checkShowMap.Checked || checkShowSprite.Checked || checkShowTile.Checked))
-						{
-							for (int i = listView1.Items.Count - 1; i >= 0; i--)
-							{
-								Unit unit = ((Unit)UnitList[listView1.Items[i]]);
-                                if (!toolShowLock.Checked && !unit.listItem.Checked)
-                                {
-                                    continue;
-                                }
-								if (unit.map() != null && checkShowMap.Checked ||
-									unit.spr() != null && checkShowSprite.Checked ||
-									unit.images() != null && checkShowTile.Checked)
-								{
-									if (unit.touchBounds(e.X, e.Y, ref selectedOffset))
-									{
-										isChecked = true;
-										listView1.Items[i].Selected = true;
-										break;
-									}
-								}
-							}
-						}
-
-
-						//弹出菜单
-						if (listView1.SelectedItems.Count > 0 && checkShowSprite.Checked && tabControl1.SelectedTab == tabPageUnit)
-						{
-							menuUnit.Opacity = 0.8;
-							menuUnit.Show(pictureBox1, e.Location);
-						}
-						else if (listView2.SelectedItems.Count > 0 &&
-							popedWayPoint != null &&
-							popedWayPoint != listView2.SelectedItems[0] &&
-							checkShowPoint.Checked && tabControl1.SelectedTab == tabPageWP)
-						{
-							menuPath.Opacity = 0.8;
-							menuPath.Items[0].Visible = true;
-							menuPath.Items[1].Visible = true;
-							menuPath.Items[2].Visible = true;
-							menuPath.Items[3].Visible = false;
-							menuPath.Items[4].Visible = false;
-							menuPath.Show(pictureBox1, e.Location);
-						}
-						else if (listView4.SelectedItems.Count > 0 && checkShowEvent.Checked && tabControl1.SelectedTab == tabPageEvent)
-						{
-							menuEvent.Opacity = 0.8;
-							menuEvent.Show(pictureBox1, e.Location);
-						}
-						else if (popedWayPoint != null &&
-							listView2.SelectedItems.Count <= 0 ||
-							listView2.SelectedItems.Count > 0 &&
-							popedWayPoint == listView2.SelectedItems[0])
-						{
-							popedWayPoint.Selected = true;
-							menuPath.Opacity = 0.8;
-							menuPath.Items[0].Visible = false;
-							menuPath.Items[1].Visible = false;
-							menuPath.Items[2].Visible = false;
-							menuPath.Items[3].Visible = true;
-							menuPath.Items[4].Visible = true;
-							menuPath.Show(pictureBox1, e.Location);
-						}
-						else if (listView3.SelectedItems.Count > 0 && checkShowRegion.Checked && tabControl1.SelectedTab == tabPageRegion)
-						{
-							menuRegion.Opacity = 0.8;
-							menuRegion.Show(pictureBox1, e.Location);
-						}
-						else
-						{
-							menuWorld.Opacity = 0.8;
-							menuWorld.Show(pictureBox1, e.Location);
-						}
-					}
-
-
-
-
-					#endregion
                     }
 				}
 			}
@@ -1990,135 +2189,11 @@ namespace CellGameEdit.PM
                 {
                     fillTerrain(e.X, e.Y, 0);
                 }
-
                 pictureBox1.Refresh();
-
             }
             else if (e.Button == MouseButtons.Left) // 
             {
-                Unit unit = getSelectedUnit();
-                WayPoint p = getSelectedWayPoint();
-                Region r = getSelectedRegion();
-                Event ee = getSelectedEvent();
-
-				
-				if (unit != null)
-				{
-					#region unit
-					if (unit.listItem.Checked == true)
-                    {
-						if (!checkStickyToCell.Checked)
-						{
-							unit.setPos(e.X - selectedOffset.X, e.Y - selectedOffset.Y);
-						}
-						else
-						{
-							unit.setPos(e.X - e.X % CellW, e.Y - e.Y % CellH);
-						}
-
-                        last_move_object = unit;
-						unit.updateListViewItem(toolStripStatusLabel1);
-
-						if (!chkLockSize.Checked)
-						{
-							Rectangle wb = unit.getWorldBounds();
-							pictureBox1.Width = Math.Max(wb.X + wb.Width, pictureBox1.Width);
-							pictureBox1.Height = Math.Max(wb.Y + wb.Height, pictureBox1.Height);
-							numericUpDown1.Value = CellW;
-							numericUpDown2.Value = CellH;
-							numericUpDown3.Value = pictureBox1.Width;
-							numericUpDown4.Value = pictureBox1.Height;
-						}
-					}
-					#endregion
-				}
-				else  if (ee != null)
-				{
-					#region event
-                    if (!checkStickyToCell.Checked)
-                    {
-						ee.setPos(e.X - selectedOffset.X, e.Y - selectedOffset.Y);
-                    }
-                    else
-                    {
-						ee.setPos(e.X - e.X % CellW, e.Y - e.Y % CellH);
-                    }
-                    last_move_object = ee;
-					ee.updateListViewItem(toolStripStatusLabel1);
-					#endregion
-                }
-                else if (p != null)
-				{
-					#region waypoint
-                    
-                        if (!checkStickyToCell.Checked)
-                        {
-							p.setPos(e.X - selectedOffset.X, e.Y - selectedOffset.Y);
-                        }
-                        else
-						{
-							p.setPos(
-								e.X - e.X % CellW,
-								e.Y - e.Y % CellH);
-                        }
-						p.updateListViewItem(toolStripStatusLabel1);
-
-                        last_move_object = p;
-						if (!chkLockSize.Checked)
-						{
-							pictureBox1.Width = Math.Max(p.getX(), pictureBox1.Width);
-							pictureBox1.Height = Math.Max(p.getY(), pictureBox1.Height);
-							numericUpDown1.Value = CellW;
-							numericUpDown2.Value = CellH;
-							numericUpDown3.Value = pictureBox1.Width;
-							numericUpDown4.Value = pictureBox1.Height;
-						}
-					#endregion
-				}
-				else if (r != null)
-				{
-					#region region
-					if (!r.isSub)
-                    {
-                        if (!checkStickyToCell.Checked)
-                        {
-							r.setPos(e.X - selectedOffset.X, e.Y - selectedOffset.Y);
-                        }
-                        else
-                        {
-							r.setPos(
-								e.X - e.X % CellW,
-								e.Y - e.Y % CellH);
-                        }
-                        last_move_object = r;
-                    }
-                    else
-                    {
-                        if (!checkStickyToCell.Checked)
-                        {
-							r.setSizeDst(e.X, e.Y);
-                        }
-                        else
-                        {
-							r.setSizeDst(e.X - e.X % CellW, e.Y - e.Y % CellH);
-                        }
-                        
-                    }
-					r.updateListViewItem(toolStripStatusLabel1);
-					if (!chkLockSize.Checked)
-					{
-						Rectangle wb = r.getWorldBounds();
-						pictureBox1.Width = Math.Max(wb.X + wb.Width, pictureBox1.Width);
-						pictureBox1.Height = Math.Max(wb.Y + wb.Height, pictureBox1.Height);
-						numericUpDown1.Value = CellW;
-						numericUpDown2.Value = CellH;
-						numericUpDown3.Value = pictureBox1.Width;
-						numericUpDown4.Value = pictureBox1.Height;
-					}
-					#endregion
-                }
-
-
+                mouseMove(e);
                 pictureBox1.Refresh();
             }
 
@@ -2129,14 +2204,13 @@ namespace CellGameEdit.PM
         {
             listView1.Sort();
 
-			Unit unit = getSelectedUnit();
+			Unit unit = getFocusedUnit();
 			WayPoint p = getSelectedWayPoint();
 			Region r = getSelectedRegion();
 			Event ee = getSelectedEvent();
 
 			if (unit != null)
 			{
-
 				unit.updateListViewItem(toolStripStatusLabel1);
 			}
 			else if (ee != null)
@@ -2155,13 +2229,16 @@ namespace CellGameEdit.PM
 			pictureBox1.Refresh();
 
 
-            if (last_move_object != null) {
-                new CommandMoveObject(this, 
-                    last_move_object,
-                    last_last_move_object_x,
-                    last_last_move_object_y,
-                    last_move_object.getX(),
-                    last_move_object.getY());
+            foreach (WorldListViewObject o in last_move_objects)
+            {
+                if (o.lastPos.X != o.getX() || o.lastPos.Y != o.getY()) 
+                {
+                    new CommandMoveObject(this, o,
+                      o.lastPos.X,
+                      o.lastPos.Y,
+                      o.getX(),
+                      o.getY());
+                }
             }
 
         }
@@ -2217,7 +2294,7 @@ namespace CellGameEdit.PM
 
 		private void textBox1_MouseWheel(object sender, MouseEventArgs e)
 		{
-			Unit unit = getSelectedUnit();
+            Unit unit = getFocusedUnit();
 			if (unit != null)
 			{
 				unit.nextAnim(Util.getDirect(e.Delta));
@@ -2225,6 +2302,8 @@ namespace CellGameEdit.PM
 			}
 			pictureBox1.Refresh();
 		}
+
+
 
         // key adjust
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -2261,8 +2340,43 @@ namespace CellGameEdit.PM
                     case Keys.PageDown:
                         fixTerrainBushSize(-1);
                         break;
+
+                    case Keys.Delete:
+                        deleteSelectedUnits();
+                        break;
+
+                    case Keys.H:
+                        toolStripHideUnits_Click(null, null);
+                        break;
+
+                    case Keys.V:
+                        toolStripShowUnits_Click(null, null);
+                        break;
                 }
 
+                moveSelectedObjects(eX, eY);
+            }
+           
+        }
+
+
+
+
+        //show select
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
+        //show cd
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
+
+        private void moveSelectedObjects(int eX, int eY)
+        {
+            if (eX != 0 && eY != 0)
+            {
                 try
                 {
                     if (listView1.SelectedItems.Count > 0)
@@ -2358,71 +2472,67 @@ namespace CellGameEdit.PM
                     pictureBox1.Refresh();
                 }
                 catch (Exception err) { }
+
             }
-           
-        }
-        //show select
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            pictureBox1.Refresh();
-        }
-        //show cd
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            pictureBox1.Refresh();
         }
 
         //test del disposed
-        private void testDelUnit()
+        private void testDisposeUnit()
         {
+            List<ListViewItem> items = new List<ListViewItem>();
             foreach (ListViewItem item in listView1.Items)
             {
-                try
-                {
-                    Unit unit = ((Unit)UnitList[item]);
-                    if (unit.isKilled())
-                    {
-                        listView1.Items.Remove(item);
-                        UnitList.Remove(item);
-
-                        pictureBox1.Refresh();
-                    }
+                 Unit unit = ((Unit)UnitList[item]);
+                 if (unit.isKilled())
+                 {
+                     items.Add(item);
                 }
-                catch (Exception err)
+            }
+            foreach (ListViewItem item in items)
+            {
+                listView1.Items.Remove(item);
+                UnitList.Remove(item);
+            }
+        }
+        
+        private void deleteSelectedUnits()
+        { 
+            if (MessageBox.Show(this, "是否删除所有单位", "确认", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                List<ListViewItem> items = new List<ListViewItem>();
+                foreach (ListViewItem item in listView1.SelectedItems)
                 {
+                    items.Add(item);
+                }
+                foreach (ListViewItem item in items)
+                {
+                    listView1.Items.Remove(item);
+                    UnitList.Remove(item);
                 }
             }
         }
+
         //del
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
-           // if (MessageBox.Show(this, "是否删除所有单位", "确认", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                foreach (ListViewItem item in listView1.SelectedItems)
-                {
-                    if (listView1.Items.Contains(item))
-                    {
-                        listView1.Items.Remove(item);
-                        UnitList.Remove(item);
-
-                        pictureBox1.Refresh();
-                        break;
-                    }
-                }
-            }
+           
+              deleteSelectedUnits();
+              pictureBox1.Refresh();
+           
         }
         //up-back
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)
             {
-               
-                    Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
-                    unit.Priority++;
-                    listView1.SelectedItems[0].SubItems[4].Text = unit.Priority.ToString();
-                    listView1.Sort();
-                    pictureBox1.Refresh();
-                
+                foreach (ListViewItem item in listView1.SelectedItems)
+                {
+                    Unit unit = ((Unit)UnitList[item]);
+                    unit.changePriority(unit.Priority + 1);
+                    tryAddUnitGroup(unit);
+                }
+               listView1.Sort();
+               pictureBox1.Refresh();
             }
         }
         //down-upon
@@ -2430,12 +2540,14 @@ namespace CellGameEdit.PM
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
-                unit.Priority--;
-                listView1.SelectedItems[0].SubItems[4].Text = unit.Priority.ToString();
-
-                listView1.Sort();
-                pictureBox1.Refresh();
+                 foreach (ListViewItem item in listView1.SelectedItems) 
+                 {
+                     Unit unit = ((Unit)UnitList[item]);
+                     unit.changePriority(unit.Priority - 1);
+                     tryAddUnitGroup(unit);
+                 }
+                 listView1.Sort();
+                 pictureBox1.Refresh();
             }
         }
 
@@ -2875,7 +2987,7 @@ namespace CellGameEdit.PM
 
         public WorldListViewObject getSelectedObject()
         {
-            Unit unit = getSelectedUnit();
+            Unit unit = getFocusedUnit();
             WayPoint p = getSelectedWayPoint();
             Region r = getSelectedRegion();
             Event ee = getSelectedEvent();
@@ -2900,11 +3012,11 @@ namespace CellGameEdit.PM
             return null;
         }
 
-		public Unit getSelectedUnit()
+		public Unit getFocusedUnit()
 		{
-			if (listView1.SelectedItems.Count > 0)
+            if (listView1.SelectedItems.Count > 0)
 			{
-				return ((Unit)UnitList[listView1.SelectedItems[0]]);
+                return ((Unit)UnitList[listView1.SelectedItems[0]]);
 			}
 			return null;
 		}
@@ -3375,7 +3487,9 @@ namespace CellGameEdit.PM
                     }
                     return u1.getY() - u2.getY();
 
-                }catch(Exception err){}
+                }catch(Exception err){
+                    MessageBox.Show(err.Message);
+                }
                 return 0;
             }
         }
@@ -3423,6 +3537,28 @@ namespace CellGameEdit.PM
                 world.refreshUndoRedo();
             }
         }
+
+        private void toolStripHideUnits_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in listView1.SelectedItems) 
+            {
+                Unit unit = (Unit)UnitList[item];
+                unit.setHide(true);
+            }
+            pictureBox1.Refresh();
+        }
+
+        private void toolStripShowUnits_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in listView1.SelectedItems)
+            {
+                Unit unit = (Unit)UnitList[item];
+                unit.setHide(false);
+            }
+            pictureBox1.Refresh();
+        }
+
+   
 
       
 
@@ -3498,7 +3634,8 @@ namespace CellGameEdit.PM
 
 	public abstract class WorldListViewObject
 	{
-		public ListViewItem listItem;
+        public ListViewItem listItem;
+        public Point lastPos = new Point();
 
 		abstract public void updateListViewItem(ToolStripStatusLabel lb);
 
@@ -3506,7 +3643,7 @@ namespace CellGameEdit.PM
 
 		abstract public bool setPos(int x, int y);
 
-		abstract public bool touchBounds(int x, int y, ref Point offset);
+		abstract public bool touchBounds(int x, int y);
 
 		abstract public int getX();
 
@@ -3514,6 +3651,12 @@ namespace CellGameEdit.PM
 
 		abstract public Rectangle getWorldBounds();
 		
+        public void beginMove()
+        {
+            lastPos.X = getX();
+            lastPos.Y = getY();
+        }
+
 		public void movePos(int dx, int dy)
 		{
 			this.setPos(getX() + dx, getY() + dy);
@@ -3630,12 +3773,10 @@ namespace CellGameEdit.PM
             }
         }
 
-		override public bool touchBounds(int x, int y, ref Point offset)
+		override public bool touchBounds(int x, int y)
         {
             if (rect.Contains(x, y))
             {
-                offset.X = x - getX();
-				offset.Y = y - getY();
 				return true;
             }
             return false;
@@ -3878,7 +4019,7 @@ namespace CellGameEdit.PM
         {
             return point.Y;
         }
-		override public bool touchBounds(int x, int y, ref Point offset)
+		override public bool touchBounds(int x, int y)
 		{
 			Rectangle rect = new Rectangle(
 				point.X - 4,
@@ -3886,8 +4027,6 @@ namespace CellGameEdit.PM
 				8, 8);
 			if (rect.Contains(x, y))
 			{
-				offset.X = x - getX();
-				offset.Y = y - getY();
 				return true;
 			}
 			return false;
@@ -4159,7 +4298,6 @@ namespace CellGameEdit.PM
         public int Priority
         {
             get { return this.m_Priority; }
-            set { this.m_Priority = value; }
         }
 
 		public String Name
@@ -4498,7 +4636,27 @@ namespace CellGameEdit.PM
 			"Prio=" + Priority + " | "
 		;
 		}
+
+        private bool is_hide = false;
 		
+        public void setHide(bool hide) {
+            this.is_hide = hide;
+            if (hide) {
+                this.listItem.ForeColor = Color.Gray;
+            } else {
+                this.listItem.ForeColor = Color.Black;
+            }
+        }
+
+        public bool isHide() {
+            return is_hide;
+        }
+
+
+        public void changePriority(int p) {
+            m_Priority = p;
+        }
+
 		override public int getX()
 		{
 			return x;
@@ -4513,12 +4671,10 @@ namespace CellGameEdit.PM
 			this.y = y;
 			return true;
 		}
-		override public bool touchBounds(int x, int y, ref Point offset)
+		override public bool touchBounds(int x, int y)
 		{
 			if (Bounds.Contains(x - this.x, y - this.y))
 			{
-				offset.X = x - getX();
-				offset.Y = y - getY();
 				return true;
 			}
 			return false;
@@ -4600,6 +4756,10 @@ namespace CellGameEdit.PM
 			Boolean debug,
 			Boolean showLock)
 		{
+            if (isHide())
+            {
+                return;
+            }
 
             if (!showLock)
             {
@@ -4843,7 +5003,7 @@ namespace CellGameEdit.PM
         {
             return point.Y;
         }
-		override public bool touchBounds(int x, int y, ref Point offset)
+		override public bool touchBounds(int x, int y)
 		{
 // 			Rectangle rect = new Rectangle(
 // 				point.X - 4,
@@ -4851,8 +5011,6 @@ namespace CellGameEdit.PM
 // 				8, 8);
 			if (rect.Contains(x - point.X, y - point.Y))
 			{
-				offset.X = x - getX();
-				offset.Y = y - getY();
 				return true;
 			}
 			return false;

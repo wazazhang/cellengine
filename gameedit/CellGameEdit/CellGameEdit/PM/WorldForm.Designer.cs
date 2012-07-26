@@ -29,15 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorldForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageUnit = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listView1 = new CellGameEdit.PM.com.SingleListView();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
@@ -46,12 +42,15 @@
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolAddUnit = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripHideUnits = new System.Windows.Forms.ToolStripButton();
+            this.toolStripShowUnits = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.dropChangeAnimID = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tabPageWP = new System.Windows.Forms.TabPage();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
@@ -160,7 +159,6 @@
             this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -253,29 +251,18 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            listViewGroup9.Header = "ListViewGroup";
-            listViewGroup9.Name = "listViewGroup1";
-            listViewGroup10.Header = "ListViewGroup";
-            listViewGroup10.Name = "listViewGroup2";
-            listViewGroup11.Header = "ListViewGroup";
-            listViewGroup11.Name = "listViewGroup3";
-            listViewGroup12.Header = "ListViewGroup";
-            listViewGroup12.Name = "listViewGroup4";
-            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup9,
-            listViewGroup10,
-            listViewGroup11,
-            listViewGroup12});
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 28);
-            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
+            this.listView1.ShowGroups = false;
             this.listView1.Size = new System.Drawing.Size(227, 485);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
             this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
             this.listView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView1_ColumnClick);
             this.listView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView1_ItemSelectionChanged);
@@ -314,10 +301,12 @@
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolAddUnit,
+            this.toolStripButton6,
             this.toolStripSeparator9,
             this.toolStripButton3,
             this.toolStripButton4,
-            this.toolStripButton6,
+            this.toolStripHideUnits,
+            this.toolStripShowUnits,
             this.toolStripSeparator8,
             this.dropChangeAnimID,
             this.toolStripButton1});
@@ -337,6 +326,17 @@
             this.toolAddUnit.Size = new System.Drawing.Size(23, 22);
             this.toolAddUnit.Text = "toolStripButton1";
             this.toolAddUnit.Click += new System.EventHandler(this.toolAddUnit_Click_2);
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton6.Image = global::CellGameEdit.Resource1.Image54;
+            this.toolStripButton6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton6.Text = "删除单位";
+            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
             // 
             // toolStripSeparator9
             // 
@@ -365,16 +365,27 @@
             this.toolStripButton4.Text = "降低优先级";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
-            // toolStripButton6
+            // toolStripHideUnits
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = global::CellGameEdit.Resource1.Image54;
-            this.toolStripButton6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "删除单位";
-            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
+            this.toolStripHideUnits.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripHideUnits.Image = ((System.Drawing.Image)(resources.GetObject("toolStripHideUnits.Image")));
+            this.toolStripHideUnits.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripHideUnits.Name = "toolStripHideUnits";
+            this.toolStripHideUnits.Size = new System.Drawing.Size(23, 22);
+            this.toolStripHideUnits.Text = "H";
+            this.toolStripHideUnits.ToolTipText = "隐藏(快捷键H)";
+            this.toolStripHideUnits.Click += new System.EventHandler(this.toolStripHideUnits_Click);
+            // 
+            // toolStripShowUnits
+            // 
+            this.toolStripShowUnits.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripShowUnits.Image = ((System.Drawing.Image)(resources.GetObject("toolStripShowUnits.Image")));
+            this.toolStripShowUnits.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripShowUnits.Name = "toolStripShowUnits";
+            this.toolStripShowUnits.Size = new System.Drawing.Size(23, 22);
+            this.toolStripShowUnits.Text = "V";
+            this.toolStripShowUnits.ToolTipText = "显示(快捷键V)";
+            this.toolStripShowUnits.Click += new System.EventHandler(this.toolStripShowUnits_Click);
             // 
             // toolStripSeparator8
             // 
@@ -392,6 +403,15 @@
             this.dropChangeAnimID.Text = "选择动画";
             this.dropChangeAnimID.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripDropDownButton1_DropDownItemClicked);
             this.dropChangeAnimID.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton1_DropDownOpening);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // tabPageWP
             // 
@@ -838,7 +858,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Fuchsia;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(47, 45);
             this.pictureBox1.TabIndex = 0;
@@ -1501,15 +1521,6 @@
             this.删除ToolStripMenuItem1.Text = "删除";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            // 
             // WorldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1578,7 +1589,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ListView listView1;
+        private CellGameEdit.PM.com.SingleListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ToolStripButton checkShowUnitBounds;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
@@ -1701,5 +1712,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem menuItemOutputImage;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripHideUnits;
+        private System.Windows.Forms.ToolStripButton toolStripShowUnits;
     }
 }
