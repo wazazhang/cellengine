@@ -1987,8 +1987,8 @@ namespace CellGameEdit.PM
                         else
                         {
                             unit.setPos(
-                                (unit.lastPos.X + offsetX) % CellW,
-                                (unit.lastPos.Y + offsetY) % CellH);
+                                Util.cycAlign(unit.lastPos.X + offsetX, CellW),
+                                Util.cycAlign(unit.lastPos.Y + offsetY, CellH));
                         }
 
                         if (!chkLockSize.Checked)
@@ -2006,95 +2006,96 @@ namespace CellGameEdit.PM
             }
             else
             {
-                
-            WayPoint p = getSelectedWayPoint();
-            Region r = getSelectedRegion();
-            Event ee = getSelectedEvent();
 
-            if (ee != null)
-            {
-                if (!checkStickyToCell.Checked)
-                {
-                    ee.setPos(
-                                ee.lastPos.X + offsetX,
-                                ee.lastPos.Y + offsetY);
-                }
-                else
-                {
-                    ee.setPos(
-                                (ee.lastPos.X + offsetX) % CellW,
-                                (ee.lastPos.Y + offsetY) % CellH);
-                }
+                WayPoint p = getSelectedWayPoint();
+                Region r = getSelectedRegion();
+                Event ee = getSelectedEvent();
 
-                ee.updateListViewItem(toolStripStatusLabel1);
-
-            }
-            else if (p != null)
-            {
-                if (!checkStickyToCell.Checked)
-                {
-                    p.setPos(
-                                p.lastPos.X + offsetX,
-                                p.lastPos.Y + offsetY);
-                }
-                else
-                {
-                    p.setPos(
-                                (p.lastPos.X + offsetX) % CellW,
-                                (p.lastPos.Y + offsetY) % CellH);
-                }
-                p.updateListViewItem(toolStripStatusLabel1);
-
-                if (!chkLockSize.Checked)
-                {
-                    pictureBox1.Width = Math.Max(p.getX(), pictureBox1.Width);
-                    pictureBox1.Height = Math.Max(p.getY(), pictureBox1.Height);
-                    numericUpDown1.Value = CellW;
-                    numericUpDown2.Value = CellH;
-                    numericUpDown3.Value = pictureBox1.Width;
-                    numericUpDown4.Value = pictureBox1.Height;
-                }
-            }
-            else if (r != null)
-            {
-                if (!r.isSub)
+                if (ee != null)
                 {
                     if (!checkStickyToCell.Checked)
                     {
-                        r.setPos(
-                                    r.lastPos.X + offsetX,
-                                    r.lastPos.Y + offsetY);
+                        ee.setPos(
+                                    ee.lastPos.X + offsetX,
+                                    ee.lastPos.Y + offsetY);
                     }
                     else
                     {
-                        r.setPos(
-                                    (r.lastPos.X + offsetX) % CellW,
-                                    (r.lastPos.Y + offsetY) % CellH);
+                        ee.setPos(
+
+                                    Util.cycAlign(ee.lastPos.X + offsetX, CellW),
+                                    Util.cycAlign(ee.lastPos.Y + offsetY, CellH));
                     }
+
+                    ee.updateListViewItem(toolStripStatusLabel1);
+
                 }
-                else
+                else if (p != null)
                 {
                     if (!checkStickyToCell.Checked)
                     {
-                        r.setSizeDst(e.X, e.Y);
+                        p.setPos(
+                                    p.lastPos.X + offsetX,
+                                    p.lastPos.Y + offsetY);
                     }
                     else
                     {
-                        r.setSizeDst(e.X - e.X % CellW, e.Y - e.Y % CellH);
+                        p.setPos(
+                                    Util.cycAlign(p.lastPos.X + offsetX, CellW),
+                                    Util.cycAlign(p.lastPos.Y + offsetY, CellH));
+                    }
+                    p.updateListViewItem(toolStripStatusLabel1);
+
+                    if (!chkLockSize.Checked)
+                    {
+                        pictureBox1.Width = Math.Max(p.getX(), pictureBox1.Width);
+                        pictureBox1.Height = Math.Max(p.getY(), pictureBox1.Height);
+                        numericUpDown1.Value = CellW;
+                        numericUpDown2.Value = CellH;
+                        numericUpDown3.Value = pictureBox1.Width;
+                        numericUpDown4.Value = pictureBox1.Height;
                     }
                 }
-                r.updateListViewItem(toolStripStatusLabel1);
-                if (!chkLockSize.Checked)
+                else if (r != null)
                 {
-                    Rectangle wb = r.getWorldBounds();
-                    pictureBox1.Width = Math.Max(wb.X + wb.Width, pictureBox1.Width);
-                    pictureBox1.Height = Math.Max(wb.Y + wb.Height, pictureBox1.Height);
-                    numericUpDown1.Value = CellW;
-                    numericUpDown2.Value = CellH;
-                    numericUpDown3.Value = pictureBox1.Width;
-                    numericUpDown4.Value = pictureBox1.Height;
+                    if (!r.isSub)
+                    {
+                        if (!checkStickyToCell.Checked)
+                        {
+                            r.setPos(
+                                        r.lastPos.X + offsetX,
+                                        r.lastPos.Y + offsetY);
+                        }
+                        else
+                        {
+                            r.setPos(
+                                    Util.cycAlign(r.lastPos.X + offsetX, CellW),
+                                    Util.cycAlign(r.lastPos.Y + offsetY, CellH));
+                        }
+                    }
+                    else
+                    {
+                        if (!checkStickyToCell.Checked)
+                        {
+                            r.setSizeDst(e.X, e.Y);
+                        }
+                        else
+                        {
+                            r.setSizeDst(e.X - e.X % CellW, e.Y - e.Y % CellH);
+                        }
+                    }
+                    r.updateListViewItem(toolStripStatusLabel1);
+                    if (!chkLockSize.Checked)
+                    {
+                        Rectangle wb = r.getWorldBounds();
+                        pictureBox1.Width = Math.Max(wb.X + wb.Width, pictureBox1.Width);
+                        pictureBox1.Height = Math.Max(wb.Y + wb.Height, pictureBox1.Height);
+                        numericUpDown1.Value = CellW;
+                        numericUpDown2.Value = CellH;
+                        numericUpDown3.Value = pictureBox1.Width;
+                        numericUpDown4.Value = pictureBox1.Height;
+                    }
                 }
-            }
             }
             
 
@@ -2107,7 +2108,7 @@ namespace CellGameEdit.PM
             RuleY = e.Y;
 			last_mouse_down_x = e.X;
 			last_mouse_down_y = e.Y;
-
+            toolStripLableMousePos.Text = "[" + e.X + "," + e.Y + "][" + (e.X / CellW) + "," + (e.Y / CellH) + "]";
 			try
 			{
 				textBox1.Focus();
@@ -2165,7 +2166,7 @@ namespace CellGameEdit.PM
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            
+            toolStripLableMousePos.Text = "[" + e.X + "," + e.Y + "][" + (e.X / CellW) + "," + (e.Y / CellH) + "]";
             RuleX = e.X;
             RuleY = e.Y;
 
@@ -2313,21 +2314,22 @@ namespace CellGameEdit.PM
             }
             else
             {
-                int eX = 0;
-                int eY = 0;
                 textBox1.Text = "";
                 switch (e.KeyCode)
                 {
                     // 微调单位位置
-                    case Keys.Up: eY = -1; textBox1.Text += "UP"; break;
-                    case Keys.Down: eY = 1; textBox1.Text += "DOWN"; break;
-                    case Keys.Left: eX = -1; textBox1.Text += "LEFT"; break;
-                    case Keys.Right: eX = 1; textBox1.Text += "RIGHT"; break;
+                    case Keys.Up:
+                    case Keys.Down:
+                    case Keys.Left:
+                    case Keys.Right:
+                        moveSelectedObjects(e);
+                        break;
 
                     // 调整填充地形大小
                     case Keys.PageUp:
                         fixTerrainBushSize(1);
                         break;
+
                     case Keys.PageDown:
                         fixTerrainBushSize(-1);
                         break;
@@ -2345,7 +2347,6 @@ namespace CellGameEdit.PM
                         break;
                 }
 
-                moveSelectedObjects(eX, eY);
             }
            
         }
@@ -2364,19 +2365,41 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
-        private void moveSelectedObjects(int eX, int eY)
+        private void moveSelectedObjects(KeyEventArgs e)
         {
-            if (eX != 0 && eY != 0)
+            int eX = 0;
+            int eY = 0;
+
+            switch (e.KeyCode)
+            {
+                // 微调单位位置
+                case Keys.Up: 
+                    eY = -1;
+                    break;
+                case Keys.Down: 
+                    eY = 1;
+                    break;
+                case Keys.Left: 
+                    eX = -1;
+                    break;
+                case Keys.Right: 
+                    eX = 1;
+                    break;
+            }
+            if (e.Shift) {
+                eX *= CellW;
+                eY *= CellH;
+            }
+
+            if (eX != 0 || eY != 0)
             {
                 try
                 {
                     if (listView1.SelectedItems.Count > 0)
                     {
-                        #region unit
-                        if (listView1.SelectedItems[0].Checked == true)
+                        foreach (ListViewItem item in listView1.SelectedItems)
                         {
-                            Unit unit = ((Unit)UnitList[listView1.SelectedItems[0]]);
-
+                            Unit unit = ((Unit)UnitList[item]);
                             if (!checkStickyToCell.Checked)
                             {
                                 unit.movePos(eX, eY);
@@ -2385,11 +2408,7 @@ namespace CellGameEdit.PM
                             {
                                 unit.movePos(eX * CellW, eY * CellH);
                             }
-                            unit.updateListViewItem(toolStripStatusLabel1);
-
                         }
-
-                        #endregion
                     }
                     else if (listView4.SelectedItems.Count > 0)
                     {

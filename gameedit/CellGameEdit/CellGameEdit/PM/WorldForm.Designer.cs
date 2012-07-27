@@ -159,6 +159,7 @@
             this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripLableMousePos = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -873,6 +874,7 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLableMousePos,
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 540);
@@ -1521,6 +1523,12 @@
             this.删除ToolStripMenuItem1.Text = "删除";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
             // 
+            // toolStripLableMousePos
+            // 
+            this.toolStripLableMousePos.Name = "toolStripLableMousePos";
+            this.toolStripLableMousePos.Size = new System.Drawing.Size(47, 17);
+            this.toolStripLableMousePos.Text = "mouse[]";
+            // 
             // WorldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1714,5 +1722,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripHideUnits;
         private System.Windows.Forms.ToolStripButton toolStripShowUnits;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripLableMousePos;
     }
 }

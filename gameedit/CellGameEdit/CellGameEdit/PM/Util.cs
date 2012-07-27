@@ -1291,6 +1291,22 @@ namespace CellGameEdit.PM
 		return (value>=0)?(value % max):((max + value % max) % max) ;
 	}
 
+    static public int cycMod(int value, int div)
+    {
+        int d = value % div;
+        if (d == 0) {
+            return value / div;
+        } else {
+            return value / div + 1;
+        }
+    }
+
+    static public int cycAlign(int value, int range)
+    {
+        int d = value % range;
+        return value - d;
+    }
+
 	static public double toAngle(double degree)
 	{
 		//度＝弧度×180°/π ;
