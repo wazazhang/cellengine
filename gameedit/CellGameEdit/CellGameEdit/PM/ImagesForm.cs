@@ -1722,10 +1722,10 @@ namespace CellGameEdit.PM
 
         private void refreshSrcRect()
         {
-            srcPY = Math.Max(0, srcPY);
             srcPX = Math.Max(0, srcPX);
-            srcPY = Math.Min(pictureBox1.Width, srcPY);
-            srcPX = Math.Min(pictureBox1.Height , srcPX);
+            srcPY = Math.Max(0, srcPY);
+            srcPX = Math.Min(pictureBox1.Width, srcPX);
+            srcPY = Math.Min(pictureBox1.Height, srcPY);
 
             Image dstImage = getSelectedImage();
             if (toolStripRightSize.Checked && dstImage != null)
@@ -1735,10 +1735,10 @@ namespace CellGameEdit.PM
             }
             else
             {
-                srcQY = Math.Max(0, srcQY);
                 srcQX = Math.Max(0, srcQX);
-                srcQY = Math.Min(pictureBox1.Width, srcQY);
-                srcQX = Math.Min(pictureBox1.Height, srcQX);
+                srcQY = Math.Max(0, srcQY);
+                srcQX = Math.Min(pictureBox1.Width, srcQX);
+                srcQY = Math.Min(pictureBox1.Height, srcQY);
             }
 
             srcRect.X = Math.Min(srcPX, srcQX);
