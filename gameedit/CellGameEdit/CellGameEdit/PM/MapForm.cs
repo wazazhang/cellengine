@@ -716,6 +716,33 @@ namespace CellGameEdit.PM
 			return layers.YCount * this.CellH;
         }
 
+        /// <summary>
+        /// 检测该TILE是否被使用
+        /// </summary>
+        /// <param name="tileID"></param>
+        /// <returns></returns>
+        public bool checkTileUsed(int tileID)
+        {
+            for (int L = 0; L < layers.getCount(); L++)
+            {
+                MapLayer layer = layers.getLayer(L);
+
+                for (int by = 0; by < layers.YCount; by++)
+                {
+                    for (int bx = 0; bx < layers.XCount; bx++)
+                    {
+                        int tilei = layer.MatrixTile[by][bx];
+                        if (tileID == tilei)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+
 		public int XCount
 		{
 			get

@@ -861,6 +861,31 @@ namespace CellGameEdit.PM
                 return -1;
             }
         }
+
+        /// <summary>
+        /// 检测该TILE是否被使用
+        /// </summary>
+        /// <param name="tileID"></param>
+        /// <returns></returns>
+        public bool checkTileUsed(int tileID)
+        {
+            for (int anim = 0; anim < GetAnimateCount(); anim ++ )
+            {
+                ArrayList frames = getAnimateData(anim);
+                for (int frame = 0; frame < frames.Count; frame++ )
+                {
+                    Frame fdata = (Frame)frames[frame];
+                    for (int t = 0; t < fdata.SubIndex.Count; t++ )
+                    {
+                        if (tileID == (int)fdata.SubIndex[t]) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
 // src tile
         private Image srcGetImage(int index)
         {
@@ -2822,6 +2847,11 @@ namespace CellGameEdit.PM
             {
                 return null;
             }
+        }
+
+        private ArrayList getAnimateData(int animIndex)
+        {
+            return (ArrayList)AnimTable[listView2.Items[animIndex]];
         }
 
 		 private int getCurrentAnimate()

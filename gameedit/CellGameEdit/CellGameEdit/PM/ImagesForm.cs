@@ -922,6 +922,19 @@ namespace CellGameEdit.PM
 
         }
 
+        public System.Drawing.Rectangle getDstBounds()
+        {
+            return getMinSize();
+        }
+
+        public System.Drawing.Rectangle resetDstBounds()
+        {
+            System.Drawing.Rectangle dbounds = getDstBounds();
+            pictureBox2.Width = (int)(dbounds.Width * dstScaleF);
+            pictureBox2.Height = (int)(dbounds.Height * dstScaleF);
+            return dbounds;
+        }
+
         public ArrayList addDirImages()
         {
 			ArrayList ret = new ArrayList();
@@ -942,9 +955,9 @@ namespace CellGameEdit.PM
             {
 				Config.Default.LastImageOpenDir = System.IO.Path.GetDirectoryName(openFileDialog1.FileName);
 				Config.Default.Save();
-				
-				int maxW = pictureBox2.Width / dstScale;
-				int maxH = pictureBox2.Height / dstScale;
+                System.Drawing.Rectangle dbounds = getDstBounds();
+				int maxW = dbounds.Width;
+				int maxH = dbounds.Height;
 				int curX = 0;
 				int curY = maxH;
 
@@ -981,8 +994,8 @@ namespace CellGameEdit.PM
 						Console.WriteLine(err.StackTrace + "  at  " + err.Message);
 					}
 				}
-				pictureBox2.Width = maxW * dstScale;
-				pictureBox2.Height = maxH * dstScale;
+				pictureBox2.Width = (int)(maxW * dstScaleF);
+                pictureBox2.Height = (int)(maxH * dstScaleF);
             }
 
 			return ret;
@@ -997,6 +1010,8 @@ namespace CellGameEdit.PM
             }
             else
             {
+                System.Drawing.Rectangle dbounds = getDstBounds();
+
                 if (srcRect.Width != 0 && srcRect.Height != 0)
                 {
                     Image img = Image.createImage(
@@ -1006,11 +1021,10 @@ namespace CellGameEdit.PM
                         srcRect.Width,
                         srcRect.Height);
                     img.x = 0;
-                    img.y = pictureBox2.Height / dstScale;
+                    img.y = dbounds.Height;
                     addDst(img);
 
-                    pictureBox2.Width = Math.Max(pictureBox2.Width, img.getWidth() * dstScale);
-                    pictureBox2.Height += (img.getHeight() * dstScale);
+                    resetDstBounds();
                 }
             }
         }
@@ -1025,11 +1039,12 @@ namespace CellGameEdit.PM
             {
                 if (srcRect.Width != 0 && srcRect.Height != 0)
                 {
+                    System.Drawing.Rectangle dbounds = getDstBounds();
+
                     for (int y = 0; y < srcRect.Height / CellH; y++)
                     {
                         for (int x = 0; x < srcRect.Width / CellW; x++)
                         {
-
                             if (CellW != 0 && CellH != 0)
                             {
                                 Image img = Image.createImage(
@@ -1039,14 +1054,15 @@ namespace CellGameEdit.PM
                                     CellW,
                                     CellH);
                                 img.x = x * (CellW);
-                                img.y = y * (CellH) + pictureBox2.Height / dstScale;
+                                img.y = y * (CellH) + dbounds.Height;
                                 addDst(img);
                             }
 
                         }
                     }
-                    pictureBox2.Width = Math.Max(pictureBox2.Width, (srcRect.Width / CellW * CellW) ) * dstScale;
-                    pictureBox2.Height += ((srcRect.Height / CellH * CellH)) * dstScale;
+
+
+                    resetDstBounds();
 
                 }
             }
@@ -1100,11 +1116,15 @@ namespace CellGameEdit.PM
            
             img_i.x += dx;
             img_i.y += dy;
-
-            if (pictureBox2.Width < img_i.x * dstScale + img_i.getWidth() * dstScale) { 
-                pictureBox2.Width += dx * dstScale; }
-            if (pictureBox2.Height < img_i.y * dstScale + img_i.getHeight() * dstScale) {
-                pictureBox2.Height += dy * dstScale; }
+            System.Drawing.Rectangle dbounds = getDstBounds();
+            if (dbounds.Width < img_i.x + img_i.getWidth())
+            {
+                dbounds.Width += (int)(dx);
+            }
+            if (dbounds.Height < img_i.y + img_i.getHeight())
+            {
+                dbounds.Height += (int)(dy);
+            }
 
             System.Drawing.Rectangle src = new System.Drawing.Rectangle(
                 img_i.x,
@@ -1115,8 +1135,8 @@ namespace CellGameEdit.PM
 
             System.Drawing.Rectangle scope = new System.Drawing.Rectangle(
                 0, 0,
-                pictureBox2.Width / dstScale,
-                pictureBox2.Height / dstScale
+                dbounds.Width,
+                dbounds.Height
                 );
 
             if (scope.Contains(src) == false)
@@ -1149,6 +1169,7 @@ namespace CellGameEdit.PM
                     
                 }
             }
+            resetDstBounds();
 
             return true;
         }
@@ -1203,17 +1224,10 @@ namespace CellGameEdit.PM
                 {
                     img_i.x += dx;
                     img_i.y += dy;
-
-                    if (pictureBox2.Width < img_i.x * dstScale + img_i.getWidth() * dstScale) { 
-                        pictureBox2.Width += dx * dstScale; 
-                    }
-                    if (pictureBox2.Height < img_i.y * dstScale + img_i.getHeight() * dstScale) {
-                        pictureBox2.Height += dy * dstScale; 
-                    }
-
                 }
             }
 
+            resetDstBounds();
             return true;
         }
 
@@ -1222,6 +1236,8 @@ namespace CellGameEdit.PM
             Image srcImage = getDstImage(index);
             int oy = srcImage.y;
             int ox = srcImage.x;
+
+            System.Drawing.Rectangle dbounds = getDstBounds();
 
             // test size
             if (changed.getWidth() <= srcImage.getWidth() &&
@@ -1267,15 +1283,14 @@ namespace CellGameEdit.PM
                 }
                 else
                 {
-                    changed.x = pictureBox2.Width / dstScale;
+                    changed.x = dbounds.Width;
                     changed.y = oy;
                 }
             }
 
             dstImages[index] = changed;
 
-            pictureBox2.Width += changed.getWidth() * dstScale;
-            pictureBox2.Height = Math.Max(pictureBox2.Height, changed.getHeight() * dstScale);
+            resetDstBounds();
         }
 
         public void changeDstImageFromDir(int index)
@@ -1361,21 +1376,23 @@ namespace CellGameEdit.PM
 
             for (int i = 0; i < getDstImageCount(); i++)
             {
-                if (getDstImage(i) != null && getDstImage(i).killed == false)
+                Image dimg = getDstImage(i);
+
+                if (dimg != null && dimg.killed == false)
                 {
-                    g.drawImageScale(getDstImage(i), 
-						x + getDstImage(i).x * dstScale, 
-						y + getDstImage(i).y * dstScale,
-						0, dstScale);
+                    float tx = x + dimg.x * dstScaleF;
+                    float ty = y + dimg.y * dstScaleF;
+                    float tw = dimg.getWidth() * dstScaleF;
+                    float th = dimg.getHeight() * dstScaleF;
+
+                    g.drawImageScale(dimg, tx, ty, 0, dstScaleF);
                     if (toolStripButton13.Checked)
                     {
                         g.setColor(0x7fffffff);
-                        g.drawRect(x + getDstImage(i).x * dstScale, y + getDstImage(i).y * dstScale, getDstImage(i).getWidth() * dstScale, getDstImage(i).getHeight() * dstScale);
+                        g.drawRect(tx, ty, tw, th);
                     }
                     if (chkIsShowkey.Checked)
                     {
-                        int tx = x + getDstImage(i).x * dstScale;
-                        int ty = y + getDstImage(i).y * dstScale;
                         g.setColor(0xff, 0, 0, 0);
                         g.drawString((String)dstDataKeys[i], tx + 1, ty + 1, 0);
                         g.setColor(getColorKey().ToArgb());
@@ -1383,23 +1400,40 @@ namespace CellGameEdit.PM
                     }
                     if (chkIsShowTileID.Checked)
                     {
-                        int tx = x + getDstImage(i).x * dstScale;
-                        int ty = y + (getDstImage(i).y + getDstImage(i).getHeight() - (int)Graphics.font.GetHeight()) * dstScale;
+                        float fy = ty + tw - (Graphics.font.GetHeight() * dstScaleF);
                         g.setColor(0xff, 0, 0, 0);
-                        g.drawString(i.ToString(), tx + 1, ty + 1, 0);
+                        g.drawString(i.ToString(), tx + 1, fy + 1, 0);
                         g.setColor(getColorTileID().ToArgb());
-                        g.drawString(i.ToString(), tx, ty, 0);
-                    }
+                        g.drawString(i.ToString(), tx, fy, 0);
+                    } 
                     if (multiSelect.Checked)
                     {
-                        if (getDstImage(i).selected)
+                        if (dimg.selected)
                         {
                             g.setColor(0x40ffffff);
-                            g.fillRect(x + getDstImage(i).x * dstScale, y + getDstImage(i).y * dstScale, getDstImage(i).getWidth() * dstScale, getDstImage(i).getHeight() * dstScale);
+                            g.fillRect(tx, ty, tw, th);
                             g.setColor(0x7fffffff);
-                            g.drawRect(x + getDstImage(i).x * dstScale, y + getDstImage(i).y * dstScale, getDstImage(i).getWidth() * dstScale, getDstImage(i).getHeight() * dstScale);
+                            g.drawRect(tx, ty, tw, th);
                         }
                     }
+                    if (checkTileUsed.Checked)
+                    {
+                        if (!dimg.used)
+                        {
+                            g.setColor(0xff, 0xff0000);
+                            g.pen.Width = 3;
+                            g.drawLine(tx, ty, tx + tw, ty + th);
+                            g.drawLine(tx + tw, ty, tx, ty + th);
+                            g.drawRect(tx, ty, tw, th);
+
+                            g.setColor(0xff, 0x0000ff);
+                            g.pen.Width = 1;
+                            g.drawLine(tx, ty, tx + tw, ty + th);
+                            g.drawLine(tx + tw, ty, tx, ty + th);
+                            g.drawRect(tx, ty, tw, th);
+                        }
+                    }
+                   
                 }
             }
         }
@@ -1420,10 +1454,11 @@ namespace CellGameEdit.PM
 			int outH = 0;
 			for (int i = 0; i < getDstImageCount(); i++)
 			{
-				if (getDstImage(i) != null && !getDstImage(i).killed)
+                Image dimg = getDstImage(i);
+				if (dimg != null && !dimg.killed)
 				{
-					outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
-					outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
+					outW = Math.Max(outW, dimg.x + dimg.getWidth());
+					outH = Math.Max(outH, dimg.y + dimg.getHeight());
 				}
 			}
 			return new System.Drawing.Rectangle(0, 0, outW, outH);
@@ -1805,7 +1840,7 @@ namespace CellGameEdit.PM
         int dstSX;
         int dstSY;
 
-        int dstScale = 1;
+        float dstScaleF = 1;
 
 
 
@@ -1814,53 +1849,38 @@ namespace CellGameEdit.PM
         int ScopePX;
         int ScopePY;
 
-        // scope
+        // 1x
+        private void toolStripButton15_Click_2(object sender, EventArgs e)
+        {
+            dstScaleF = 1;
+            resetDstBounds();
+            pictureBox2.Refresh();
+            toolStripButton15.ToolTipText =
+                "当前缩放：" + (dstScaleF > 1 ? dstScaleF.ToString() : ("1/" + (1 / dstScaleF)));
+        }
+
+        // scope +
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            dstScale += 1;
-            if (dstScale > 8) dstScale = 8;
-
-            try
-            {
-                int outW = 0;
-                int outH = 0;
-                for (int i = 0; i < getDstImageCount(); i++)
-                {
-                    if (getDstImage(i) != null && !getDstImage(i).killed)
-                    {
-                        outW = Math.Max(outW, getDstImage(i).x + getDstImage(i).getWidth());
-                        outH = Math.Max(outH, getDstImage(i).y + getDstImage(i).getHeight());
-                    }
-                }
-
-                pictureBox2.Width = outW * dstScale;
-                pictureBox2.Height = outH * dstScale;
-                pictureBox2.Refresh();
-            }
-            catch (Exception err)
-            {
-            }
-
+            dstScaleF *= 2;
+            if (dstScaleF > 8) dstScaleF = 8;
+            resetDstBounds();
+            pictureBox2.Refresh();
+            toolStripButton15.ToolTipText =
+                "当前缩放：" + (dstScaleF > 1 ? dstScaleF.ToString() : ("1/" + (1 / dstScaleF)));
         }
 
+        // scope -
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
-
-            dstScale -= 1;
-            if (dstScale < 1) dstScale = 1;
-
-            try
-            {
-                System.Drawing.Rectangle ms = getMinSize();
-
-				pictureBox2.Width = ms.Width * dstScale;
-				pictureBox2.Height = ms.Height * dstScale;
-                pictureBox2.Refresh();
-            }
-            catch (Exception err)
-            {
-            }
+            dstScaleF /= 2;
+            if (dstScaleF < 0.125f) dstScaleF = 0.125f;
+            resetDstBounds();
+            pictureBox2.Refresh();
+            toolStripButton15.ToolTipText =
+                "当前缩放：" + (dstScaleF > 1 ? dstScaleF.ToString() : ("1/" + (1 / dstScaleF)));
         }
+
         // change image
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
@@ -1896,30 +1916,63 @@ namespace CellGameEdit.PM
 
             renderDstImage(g, 0, 0);
 
-           
-
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
             System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
 
+            float dstX = dstRect.X * dstScaleF;
+            float dstY = dstRect.Y * dstScaleF;
+            float dstW = dstRect.Width * dstScaleF;
+            float dstH = dstRect.Height * dstScaleF;
+
             if (dstRect != null)
             {
-                e.Graphics.FillRectangle(brush, dstRect.X * dstScale, dstRect.Y * dstScale, (dstRect.Width) * dstScale, (dstRect.Height) * dstScale);
-                e.Graphics.DrawRectangle(pen, dstRect.X * dstScale, dstRect.Y * dstScale, (dstRect.Width) * dstScale, (dstRect.Height) * dstScale);
+                e.Graphics.FillRectangle(brush,
+                    dstX, dstY, dstW, dstH);
+                e.Graphics.DrawRectangle(pen,
+                    dstX, dstY, dstW, dstH);
             }
 
             if (ScopeRect != null)
             {
                 pen.Color = System.Drawing.Color.FromArgb(0xff, 0, 0xff, 0);
-                e.Graphics.DrawRectangle(pen, ScopeRect.X * dstScale, ScopeRect.Y * dstScale, (ScopeRect.Width) * dstScale, (ScopeRect.Height) * dstScale);
+                e.Graphics.DrawRectangle(pen, 
+                    ScopeRect.X * dstScaleF, 
+                    ScopeRect.Y * dstScaleF, 
+                    ScopeRect.Width * dstScaleF, 
+                    ScopeRect.Height * dstScaleF);
             }
             
         }
+        
+        private void clearSelected()
+        {
+            ScopeRect.X = -1;
+            ScopeRect.Y = -1;
+            ScopeRect.Width = 1;
+            ScopeRect.Height = 1;
 
+            dstSelected = null;
+            dstSelectIndex = -1;
+
+            dstRect.X = -1;
+            dstRect.Y = -1;
+            dstRect.Width = 1;
+            dstRect.Height = 1;
+
+            dstRect.X = -1;
+            dstRect.Y = -1;
+            dstRect.Width = 1;
+            dstRect.Height = 1;
+
+            dstSelected = null;
+            dstSelectIndex = -1;
+
+        }
 
         private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
         {
-            int mouseX = e.X;
-            int mouseY = e.Y;
+            int mouseXi = (int)(e.X / dstScaleF);
+            int mouseYi = (int)(e.Y / dstScaleF);
 
             dstDown = true;
 
@@ -1937,13 +1990,13 @@ namespace CellGameEdit.PM
 
                     if (Control.ModifierKeys == Keys.Shift || Control.ModifierKeys == Keys.Control)
                     {
-                        dstPX = mouseX / dstScale;
-                        dstPY = mouseY / dstScale;
+                        dstPX = mouseXi;
+                        dstPY = mouseYi;
                     }
                     else 
                     {
-                        dstSX = mouseX / dstScale;
-                        dstSY = mouseY / dstScale;
+                        dstSX = mouseXi;
+                        dstSY = mouseYi;
                         dstPX = dstSX;
                         dstPY = dstSY;
 
@@ -1999,8 +2052,8 @@ namespace CellGameEdit.PM
                 dstRect.Width = 1;
                 dstRect.Height = 1;
 
-                dstPX = mouseX / dstScale;
-                dstPY = mouseY / dstScale;
+                dstPX = mouseXi;
+                dstPY = mouseYi;
 
                 System.Drawing.Rectangle dst = new System.Drawing.Rectangle();
                 for (int i = 0; i < getDstImageCount(); i++)
@@ -2060,8 +2113,8 @@ namespace CellGameEdit.PM
         {
            
             dstDown = false;
-            dstPX = e.X / dstScale;
-            dstPY = e.Y / dstScale;
+            dstPX = (int)(e.X / dstScaleF);
+            dstPY = (int)(e.Y / dstScaleF);
 
             pictureBox2.Refresh();
         }
@@ -2074,10 +2127,10 @@ namespace CellGameEdit.PM
                 {
                     if (IsScopeSelected)
                     {
-                        int px = (e.X / dstScale - dstPX);
-                        int py = (e.Y / dstScale - dstPY);
-                        dstPX = e.X / dstScale;
-                        dstPY = e.Y / dstScale;
+                        int px = (int)(e.X / dstScaleF - dstPX);
+                        int py = (int)(e.Y / dstScaleF - dstPY);
+                        dstPX = (int)(e.X / dstScaleF);
+                        dstPY = (int)(e.Y / dstScaleF);
 
                         //Console.WriteLine(" px="+px+" py="+py);
 
@@ -2092,8 +2145,8 @@ namespace CellGameEdit.PM
                     }
                     else
                     {
-                        dstPX = e.X / dstScale;
-                        dstPY = e.Y / dstScale;
+                        dstPX = (int)(e.X / dstScaleF);
+                        dstPY = (int)(e.Y / dstScaleF);
 
                         ScopeRect.X = Math.Min(dstSX, dstPX);
                         ScopeRect.Y = Math.Min(dstSY, dstPY);
@@ -2121,10 +2174,10 @@ namespace CellGameEdit.PM
                 {
                     if (dstSelectIndex >= 0)
                     {
-                        int px = (e.X / dstScale - dstPX);
-                        int py = (e.Y / dstScale - dstPY);
-                        dstPX = e.X / dstScale;
-                        dstPY = e.Y / dstScale;
+                        int px = (int)(e.X / dstScaleF - dstPX);
+                        int py = (int)(e.Y / dstScaleF - dstPY);
+                        dstPX = (int)(e.X / dstScaleF);
+                        dstPY = (int)(e.Y / dstScaleF);
 
                         if (moveDstImage(dstSelectIndex, px, 0))
                         {
@@ -2445,11 +2498,7 @@ namespace CellGameEdit.PM
         {
             if (dx == 0 && dy == 0) return;
 
-            System.Drawing.Rectangle region = new System.Drawing.Rectangle(
-                0, 
-                0, 
-                pictureBox2.Width, 
-                pictureBox2.Height);
+            System.Drawing.Rectangle region = getDstBounds();
 
             while (true)
             {
@@ -2479,17 +2528,16 @@ namespace CellGameEdit.PM
 
         private void btnUpAllImage_Click(object sender, EventArgs e)
         {
+            clearSelected();
             moveAllImages(0, -1);
-
             pictureBox2.Refresh();
         }
 
         private void btnLeftAllImage_Click(object sender, EventArgs e)
         {
+            clearSelected();
             moveAllImages(-1, 0);
-
             pictureBox2.Refresh();
-
         }
 
 
@@ -2651,6 +2699,62 @@ namespace CellGameEdit.PM
             {
             }
         }
+
+        /// <summary>
+        /// 检测图片使用度
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkTileUsed_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkTileUsed.Checked)
+            {
+                for (int t = getDstImageCount() - 1; t >= 0; --t)
+                {
+                    Image tile = getDstImage(t);
+                    if (!tile.killed)
+                    {
+                        tile.used = false;
+                    }
+                }
+
+                ArrayList childs = ProjectForm.getInstance().getImangesFormChilds(this);
+
+                foreach (Object ef in childs)
+                {
+                    if (ef.GetType() == typeof(SpriteForm))
+                    {
+                        SpriteForm sf = (SpriteForm)ef;
+                        for (int t = getDstImageCount() - 1; t >= 0; --t)
+                        {
+                            Image tile = getDstImage(t);
+                            if (!tile.killed && !tile.used && sf.checkTileUsed(t))
+                            {
+                                tile.used = true;
+                            }
+                        }
+                    }
+                    else if (ef.GetType() == typeof(MapForm))
+                    {
+                        MapForm mf = (MapForm)ef;
+                        for (int t = getDstImageCount() - 1; t >= 0; --t)
+                        {
+                            Image tile = getDstImage(t);
+                            if (!tile.killed && !tile.used && mf.checkTileUsed(t))
+                            {
+                                tile.used = true;
+                            }
+                        }
+                    }
+                }
+            }
+            pictureBox2.Refresh();
+           
+
+            
+        }
+
+      
 
 
   

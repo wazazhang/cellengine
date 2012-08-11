@@ -12,11 +12,12 @@ public class Image
 	}
 	private bool mutable = true;
 
+    public bool used = false;
+
 	public bool selected = false;
 	public int x = 0;
 	public int y = 0;
 
-	public bool used = false;
 	public int indexOfImages;
 	public bool killed = false;
 

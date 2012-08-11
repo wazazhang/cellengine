@@ -76,6 +76,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnChangeDstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnOutputDstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkTileUsed = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.附加数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton14 = new System.Windows.Forms.ToolStripButton();
@@ -110,6 +111,7 @@
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton15 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -506,6 +508,7 @@
             this.BtnSelectKeyColor,
             this.BtnSelectTileIDColor,
             this.toolStripColor,
+            this.toolStripButton15,
             this.toolStripButton5,
             this.toolStripButton11,
             this.btnUpAllImage,
@@ -534,6 +537,7 @@
             this.toolStripMenuItem2,
             this.btnChangeDstToolStripMenuItem,
             this.btnOutputDstToolStripMenuItem,
+            this.checkTileUsed,
             this.toolStripMenuItem3,
             this.附加数据ToolStripMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
@@ -601,6 +605,14 @@
             this.btnOutputDstToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.btnOutputDstToolStripMenuItem.Text = "导出整张";
             this.btnOutputDstToolStripMenuItem.Click += new System.EventHandler(this.btnOutputDstToolStripMenuItem_Click);
+            // 
+            // checkTileUsed
+            // 
+            this.checkTileUsed.CheckOnClick = true;
+            this.checkTileUsed.Name = "checkTileUsed";
+            this.checkTileUsed.Size = new System.Drawing.Size(178, 22);
+            this.checkTileUsed.Text = "检测图块使用度";
+            this.checkTileUsed.CheckStateChanged += new System.EventHandler(this.checkTileUsed_CheckStateChanged);
             // 
             // toolStripMenuItem3
             // 
@@ -899,7 +911,7 @@
             // comboImageConvert
             // 
             this.comboImageConvert.Name = "comboImageConvert";
-            this.comboImageConvert.Size = new System.Drawing.Size(100, 25);
+            this.comboImageConvert.Size = new System.Drawing.Size(100, 20);
             this.comboImageConvert.Text = "图片转换脚本";
             this.comboImageConvert.SelectedIndexChanged += new System.EventHandler(this.comboImageConvert_SelectedIndexChanged);
             this.comboImageConvert.TextUpdate += new System.EventHandler(this.comboImageConvert_TextUpdate);
@@ -927,6 +939,16 @@
             this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
+            // 
+            // toolStripButton15
+            // 
+            this.toolStripButton15.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton15.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton15.Image")));
+            this.toolStripButton15.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton15.Name = "toolStripButton15";
+            this.toolStripButton15.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton15.Text = "1x";
+            this.toolStripButton15.Click += new System.EventHandler(this.toolStripButton15_Click_2);
             // 
             // ImagesForm
             // 
@@ -1048,5 +1070,7 @@
         private System.Windows.Forms.ToolStripTextBox textFocus;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripButton toolStripRightSize;
+        private System.Windows.Forms.ToolStripMenuItem checkTileUsed;
+        private System.Windows.Forms.ToolStripButton toolStripButton15;
     }
 }
