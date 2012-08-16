@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<p color="ffffffff">
-  <a color="ff0000ff">{0%s}</a>
-  <d>对</d>
-  <b color="ff00ff00">{1%s}</b>
-  <d>造成了</d>
-  <c color="ffff0000">{2%d}</c>
-  <d>点伤害！</d>
-</p>
