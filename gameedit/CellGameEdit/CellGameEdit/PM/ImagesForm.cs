@@ -1107,109 +1107,125 @@ namespace CellGameEdit.PM
             return dstImages.Count;
         }
 
-      
-        public bool moveDstImage(int index,int dx,int dy)
+
+        public bool moveDstImage(int index, int dx, int dy, bool ignoreCollides)
         {
             Image img_i = getDstImage(index);
 
             if (img_i == null) return false;
-           
+
             img_i.x += dx;
             img_i.y += dy;
+
             System.Drawing.Rectangle dbounds = getDstBounds();
+
             if (dbounds.Width < img_i.x + img_i.getWidth())
             {
                 dbounds.Width += (int)(dx);
             }
+
             if (dbounds.Height < img_i.y + img_i.getHeight())
             {
                 dbounds.Height += (int)(dy);
             }
 
-            System.Drawing.Rectangle src = new System.Drawing.Rectangle(
-                img_i.x,
-                img_i.y,
-                img_i.getWidth(),
-                img_i.getHeight()
-                );
-
-            System.Drawing.Rectangle scope = new System.Drawing.Rectangle(
-                0, 0,
-                dbounds.Width,
-                dbounds.Height
-                );
-
-            if (scope.Contains(src) == false)
+            if (ignoreCollides)
             {
-                img_i.x -= dx;
-                img_i.y -= dy;
-                return false;
+                resetDstBounds();
+
+                return true;
             }
-         
-
-            for (int i = 0; i < getDstImageCount(); i++)
+            else
             {
-                Image img_d = getDstImage(i);
 
-                if (img_d != null && img_d.killed == false && i != index)
+                System.Drawing.Rectangle src = new System.Drawing.Rectangle(
+                    img_i.x,
+                    img_i.y,
+                    img_i.getWidth(),
+                    img_i.getHeight()
+                    );
+
+                System.Drawing.Rectangle scope = new System.Drawing.Rectangle(
+                    0, 0,
+                    dbounds.Width,
+                    dbounds.Height
+                    );
+
+                if (scope.Contains(src) == false)
                 {
-                    System.Drawing.Rectangle dst = new System.Drawing.Rectangle(
-                       img_d.x,
-                       img_d.y,
-                       img_d.getWidth(),
-                       img_d.getHeight()
-                       );
-
-                    if (src.IntersectsWith(dst))
-                    {
-                        img_i.x -= dx;
-                        img_i.y -= dy;
-                        return false;
-                    }
-                    
+                    img_i.x -= dx;
+                    img_i.y -= dy;
+                    return false;
                 }
-            }
-            resetDstBounds();
 
-            return true;
+
+                for (int i = 0; i < getDstImageCount(); i++)
+                {
+                    Image img_d = getDstImage(i);
+
+                    if (img_d != null && img_d.killed == false && i != index)
+                    {
+                        System.Drawing.Rectangle dst = new System.Drawing.Rectangle(
+                           img_d.x,
+                           img_d.y,
+                           img_d.getWidth(),
+                           img_d.getHeight()
+                           );
+
+                        if (src.IntersectsWith(dst))
+                        {
+                            img_i.x -= dx;
+                            img_i.y -= dy;
+                            return false;
+                        }
+
+                    }
+                }
+                resetDstBounds();
+
+                return true;
+            }
         }
 
-        public bool moveDstImages(int dx, int dy)
+        public bool moveDstImages(int dx, int dy, bool ignoreCollides)
         {
             if (dx == 0 && dy == 0) return true;
 
-            System.Drawing.Rectangle src = new System.Drawing.Rectangle();
-            System.Drawing.Rectangle dst = new System.Drawing.Rectangle();
-
-            for (int i = 0; i < getDstImageCount(); i++)
+            if (!ignoreCollides)
             {
-                Image img_i = getDstImage(i);
+                System.Drawing.Rectangle src = new System.Drawing.Rectangle();
+                System.Drawing.Rectangle dst = new System.Drawing.Rectangle();
 
-                if (img_i != null && img_i.killed == false && img_i.selected)
+                for (int i = 0; i < getDstImageCount(); i++)
                 {
-                    src.X = img_i.x + dx;
-                    src.Y = img_i.y + dy;
-                    src.Width = img_i.getWidth();
-                    src.Height = img_i.getHeight();
+                    Image img_i = getDstImage(i);
 
-                    if (src.X < 0 || src.Y < 0)
+                    if (img_i != null && img_i.killed == false && img_i.selected)
                     {
-                        return false;
-                    }
-                    for (int j = 0; j < getDstImageCount(); j++)
-                    {
-                        Image img_j = getDstImage(j);
+                        src.X = img_i.x + dx;
+                        src.Y = img_i.y + dy;
+                        src.Width = img_i.getWidth();
+                        src.Height = img_i.getHeight();
 
-                        if (i != j && img_j != null && img_j.killed == false && img_j.selected == false)
+                        if (src.X < 0 || src.Y < 0)
                         {
-                            dst.X = img_j.x;
-                            dst.Y = img_j.y;
-                            dst.Width = img_j.getWidth();
-                            dst.Height = img_j.getHeight();
+                            return false;
+                        }
+                        for (int j = 0; j < getDstImageCount(); j++)
+                        {
+                            Image img_j = getDstImage(j);
 
-                            if (src.IntersectsWith(dst))
+                            if (i != j && img_j != null && img_j.killed == false && img_j.selected == false)
                             {
-                                return false;
+                                dst.X = img_j.x;
+                                dst.Y = img_j.y;
+                                dst.Width = img_j.getWidth();
+                                dst.Height = img_j.getHeight();
+
+                                if (src.IntersectsWith(dst))
+                                {
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -2123,6 +2139,8 @@ namespace CellGameEdit.PM
         {
             if (dstDown)
             {
+                bool ignoreCollides = Control.ModifierKeys == Keys.Alt;
+
                 if (multiSelect.Checked)
                 {
                     if (IsScopeSelected)
@@ -2134,11 +2152,11 @@ namespace CellGameEdit.PM
 
                         //Console.WriteLine(" px="+px+" py="+py);
 
-                        if (moveDstImages(px, 0))
+                        if (moveDstImages(px, 0, ignoreCollides))
                         {
                             ScopeRect.X += px;
                         }
-                        if (moveDstImages(0, py))
+                        if (moveDstImages(0, py, ignoreCollides))
                         {
                             ScopeRect.Y += py;
                         }
@@ -2179,11 +2197,11 @@ namespace CellGameEdit.PM
                         dstPX = (int)(e.X / dstScaleF);
                         dstPY = (int)(e.Y / dstScaleF);
 
-                        if (moveDstImage(dstSelectIndex, px, 0))
+                        if (moveDstImage(dstSelectIndex, px, 0, ignoreCollides))
                         {
                             dstRect.X += px;
                         }
-                        if (moveDstImage(dstSelectIndex, 0, py))
+                        if (moveDstImage(dstSelectIndex, 0, py, ignoreCollides))
                         {
                             dstRect.Y += py;
                         }
