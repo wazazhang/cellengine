@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+
+  <!-- Mime types must match the desktop file associations -->
+  <mime-type type="application/vnd.codeandweb.de.tps">
+    <comment xml:lang="en">TexturePacker Sprite Sheet</comment>
+    <glob pattern="*.tps" weight="90"/>
+  </mime-type> 
+  <mime-type type="application/vnd.codeandweb.de.tpkey">
+    <comment xml:lang="en">TexturePacker License Key</comment>
+    <glob pattern="*.tpkey"/>
+  </mime-type> 
+  <mime-type type="application/vnd.codeandweb.de.pvr">
+    <comment xml:lang="en">TexturePacker Pvr image file</comment>
+    <glob pattern="*.pvr"/>
+  </mime-type>
+  <mime-type type="application/vnd.codeandweb.de.pvr.ccz">
+    <comment xml:lang="en">TexturePacker Pvr image file (ccz extension)</comment>
+    <glob pattern="*.pvr.ccz"/>
+  </mime-type>
+  <mime-type type="application/vnd.codeandweb.de.pvr.gz">
+    <comment xml:lang="en">TexturePacker Pvr image file (gzip compressed)</comment>
+    <glob pattern="*.pvr.gz"/>
+  </mime-type>
+
+</mime-info>

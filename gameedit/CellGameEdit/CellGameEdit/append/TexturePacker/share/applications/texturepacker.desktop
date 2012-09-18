@@ -1,0 +1,9 @@
+[Desktop Entry]
+Exec=TexturePacker --gui %F
+Icon=texturepacker
+Type=Application
+Terminal=false
+Name=TexturePacker
+GenericName=Sprite Sheet Creator
+MimeType=application/vnd.codeandweb.de.tps;application/vnd.codeandweb.de.tpkey;application/vnd.codeandweb.de.pvr;application/vnd.codeandweb.de.pvr.ccz;application/vnd.codeandweb.de.pvr.gz
+Categories=Development;
