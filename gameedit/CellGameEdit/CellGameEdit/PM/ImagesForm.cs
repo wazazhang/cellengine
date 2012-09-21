@@ -1040,10 +1040,12 @@ namespace CellGameEdit.PM
                 if (srcRect.Width != 0 && srcRect.Height != 0)
                 {
                     System.Drawing.Rectangle dbounds = getDstBounds();
+                    int xcount = Util.cycMod(srcRect.Width , CellW);
+                    int ycount = Util.cycMod(srcRect.Height, CellH);
 
-                    for (int y = 0; y < srcRect.Height / CellH; y++)
+                    for (int y = 0; y < ycount; y++)
                     {
-                        for (int x = 0; x < srcRect.Width / CellW; x++)
+                        for (int x = 0; x < xcount; x++)
                         {
                             if (CellW != 0 && CellH != 0)
                             {
@@ -1068,7 +1070,17 @@ namespace CellGameEdit.PM
             }
 
         }
-       
+
+        public int getDstWidth() 
+        {
+            return pictureBox2.Width;
+        }
+
+        public int getDstHeight()
+        {
+            return pictureBox2.Height;
+        }
+
         public Image getSrcImage()
         {
             return srcImage;
@@ -2099,9 +2111,7 @@ namespace CellGameEdit.PM
                                 " Y=" + dstSelected.y +
                                 " W=" + dstSelected.getWidth() +
                                 " H=" + dstSelected.getHeight() +
-								" Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\"" +
-									   " CW=" + pictureBox2.Width +
-									   " CH=" + pictureBox2.Height
+								" Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\""
                                 ;
                             toolStripColor.BackColor = color;
                             toolStripColor.Text ="当前像素颜色=\"" + color + "\"";
@@ -2212,9 +2222,7 @@ namespace CellGameEdit.PM
                                        " Y=" + dstSelected.y +
                                        " W=" + dstSelected.getWidth() +
                                        " H=" + dstSelected.getHeight() +
-                                       " Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\"" +
-                                       " CW=" + pictureBox2.Width + 
-                                       " CH=" + pictureBox2.Height
+                                       " Key=\"" + ((String)dstDataKeys[dstSelectIndex]) + "\""
                                        ;
                     }
                 }
@@ -2223,6 +2231,16 @@ namespace CellGameEdit.PM
             
         }
 
+        private void pictureBox2_SizeChanged(object sender, EventArgs e)
+        {
+            int outW = Util.ccNextPOT(pictureBox2.Width);
+            int outH = Util.ccNextPOT(pictureBox2.Height);
+            toolStripStatusLabel5.Text =
+                " SIZE=[" + pictureBox2.Width + "," + pictureBox2.Height+ "]["+outW+","+outH+"]";
+          
+        }
+
+      
         // del image
         private void toolStripButton12_Click(object sender, EventArgs e)
         {
@@ -2772,7 +2790,7 @@ namespace CellGameEdit.PM
             
         }
 
-      
+
 
 
   

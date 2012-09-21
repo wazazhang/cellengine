@@ -50,6 +50,7 @@ namespace CellGameEdit.PM
         int tagIndex = 0;
         int srcIndex = 0;
         int srcIndexR = 0;
+        float srcScale = 1;
 
         System.Drawing.Rectangle srcRect;
         System.Drawing.Rectangle srcRectR;
@@ -96,7 +97,9 @@ namespace CellGameEdit.PM
             id = name; this.Text = id;
 			super = images;
 
-			layers = new MapLayers(20, 20);
+            layers = new MapLayers(
+                Util.cycMod(images.getDstWidth(), cellw),
+                Util.cycMod(images.getDstHeight(), cellh));
 			layers.addLayer();
 
             CellW = cellw;
@@ -193,7 +196,6 @@ namespace CellGameEdit.PM
 
             trackBar1.Maximum = 0;
 
-           
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         protected MapForm(SerializationInfo info, StreamingContext context)
@@ -1433,17 +1435,18 @@ namespace CellGameEdit.PM
 
         private void renderSrc(Graphics g, int x, int y, System.Drawing.Rectangle screen)
         {
-            for (int i = 0; i < getTileCount(); i++)
+            int tc = getTileCount();
+            System.Drawing.Rectangle srect = new System.Drawing.Rectangle( );
+            for (int i = 0; i < tc; i++)
             {
-                if (getTileImage(i) != null &&
-                    screen.IntersectsWith(new System.Drawing.Rectangle(
-                        x + getTileImage(i).x, 
-                        y + getTileImage(i).y,
-                        getTileImage(i).getWidth()+1,
-                        getTileImage(i).getHeight()+1)
-                    ))
+                srect.X = x + getTileImage(i).x;
+                srect.Y = y + getTileImage(i).y;
+                srect.Width  = getTileImage(i).getWidth();
+                srect.Height = getTileImage(i).getHeight();
+
+                if (getTileImage(i) != null && screen.IntersectsWith(srect))
                 {
-                    renderSrcTile(g,i,0, x + getTileImage(i).x, y + getTileImage(i).y);
+                    renderSrcTile(g, i, 0, srect.X, srect.Y);
                 }
             }
             if (srcIndex < getTileCount())
@@ -1617,14 +1620,15 @@ namespace CellGameEdit.PM
 
             Graphics g = new Graphics(e.Graphics);
 
+            g.pushState();
+            g.scale(srcScale, srcScale);
 
             renderSrc(g, 0, 0 ,
                 new System.Drawing.Rectangle(
-                    - pictureBox1.Location.X,
-                    - pictureBox1.Location.Y,
-                    panel3.Width,
-                    panel3.Height
-                )
+                    -pictureBox1.Location.X,
+                    -pictureBox1.Location.Y,
+                   (int)( panel3.Width / srcScale),
+                   (int)( panel3.Height / srcScale))
             );
 
 
@@ -1650,15 +1654,23 @@ namespace CellGameEdit.PM
                 e.Graphics.DrawRectangle(penR, srcRectR.X, srcRectR.Y, srcRectR.Width, srcRectR.Height);
             }
 
+            g.popState();
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            int eX = (int)(e.X / srcScale);
+            int eY = (int)(e.Y / srcScale);
+
             if (toolTilesBrush.Checked)
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    srcPX = e.X / CellW * CellW;
-                    srcPY = e.Y / CellH * CellW;
+                    srcPX = (eX / CellW * CellW);
+                    srcPY = (eY / CellH * CellW);
+                    srcPX = Math.Max(srcPX, 0);
+                    srcPY = Math.Max(srcPY, 0);
+                    srcPX = Math.Min(srcPX, super.getDstWidth());
+                    srcPY = Math.Min(srcPY, super.getDstHeight());
 
                     srcRects = new System.Drawing.Rectangle(srcPX, srcPY, CellW, CellH);
                 }
@@ -1676,7 +1688,7 @@ namespace CellGameEdit.PM
                         dst.Width = getTileImage(i).getWidth();
                         dst.Height = getTileImage(i).getHeight();
 
-                        if (dst.Contains(e.X, e.Y))
+                        if (dst.Contains(eX, eY))
                         {
                             if (e.Button == MouseButtons.Left)
                             {
@@ -1724,12 +1736,18 @@ namespace CellGameEdit.PM
        
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
+            int eX = (int)(e.X / srcScale);
+            int eY = (int)(e.Y / srcScale);
             if (toolTilesBrush.Checked)
             {
                 if (srcRects!=null && e.Button==MouseButtons.Left)
                 {
-                    srcQX = e.X / CellW * CellW;
-                    srcQY = e.Y / CellH * CellW;
+                    srcQX = ((int)eX / CellW * CellW);
+                    srcQY = ((int)eY / CellH * CellW);
+                    srcQX = Math.Max(srcQX, 0);
+                    srcQY = Math.Max(srcQY, 0);
+                    srcQX = Math.Min(srcQX, super.getDstWidth());
+                    srcQY = Math.Min(srcQY, super.getDstHeight());
 
                     srcRects.X = Math.Min(srcPX, srcQX);
                     srcRects.Y = Math.Min(srcPY, srcQY);
@@ -1742,6 +1760,8 @@ namespace CellGameEdit.PM
         }
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+            int eX = (int)(e.X / srcScale);
+            int eY = (int)(e.Y / srcScale);
             if (toolTilesBrush.Checked)
             {
                 if (srcRects != null && e.Button == MouseButtons.Left)
@@ -1758,8 +1778,8 @@ namespace CellGameEdit.PM
                         {
                             if (srcRects.IntersectsWith(new System.Drawing.Rectangle(tile.x, tile.y, tile.getWidth(), tile.getHeight())))
                             {
-                                int ox = (tile.x - srcRects.X) / CellW;
-                                int oy = (tile.y - srcRects.Y) / CellH;
+                                int ox = (int)(tile.x - srcRects.X) / CellW;
+                                int oy = (int)(tile.y - srcRects.Y) / CellH;
 
                                 srcTilesIndexBrush.Add(i);
                                 srcTilesOXBrush.Add(ox);
@@ -1772,6 +1792,59 @@ namespace CellGameEdit.PM
                 }
             }
         }
+
+        private void toolStripSrcZoomIn_Click(object sender, EventArgs e)
+        {
+            if (srcScale > (1.0f / 128))
+            {
+                srcScale /= 2;
+                pictureBox1.Refresh();
+            }
+        }
+
+        private void toolStripZoomOut_Click(object sender, EventArgs e)
+        {
+            if (srcScale < 1)
+            {
+                srcScale *= 2;
+            } 
+            else 
+            {
+                srcScale = 1;
+            }
+            pictureBox1.Refresh();
+        }
+
+
+        private void toolStripSelectSrcAll_Click(object sender, EventArgs e)
+        {
+            srcRects = new System.Drawing.Rectangle(0, 0, super.getDstWidth(), super.getDstHeight());
+
+            srcTilesIndexBrush = new ArrayList();
+            srcTilesOXBrush = new ArrayList();
+            srcTilesOYBrush = new ArrayList();
+
+            for (int i = 0; i < getTileCount(); i++)
+            {
+                Image tile = getTileImage(i);
+
+                if (tile != null && tile.killed == false)
+                {
+                    if (srcRects.IntersectsWith(new System.Drawing.Rectangle(tile.x, tile.y, tile.getWidth(), tile.getHeight())))
+                    {
+                        int ox = (int)(tile.x - srcRects.X) / CellW;
+                        int oy = (int)(tile.y - srcRects.Y) / CellH;
+
+                        srcTilesIndexBrush.Add(i);
+                        srcTilesOXBrush.Add(ox);
+                        srcTilesOYBrush.Add(oy);
+                    }
+                }
+            }
+
+            pictureBox1.Refresh();
+        }
+
 
         #endregion
 
@@ -4261,8 +4334,6 @@ namespace CellGameEdit.PM
 			
 			refreshMap();
 		}
-
-
 
 		//--------------------------------------------------------------------------------------------------------
 
