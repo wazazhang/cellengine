@@ -41,7 +41,7 @@ namespace CellGameEdit.PM
 
         int dstPanelSize = 2048;
         float curMasterScale = 1;
-		int srcScale = 1;
+		float srcScaleF = 1;
 		public static javax.microedition.lcdui.Image imgScaleP =
 			new javax.microedition.lcdui.Image(Resource1.touch_marker);
         /*
@@ -80,7 +80,7 @@ namespace CellGameEdit.PM
 				Image img = srcGetImage(i);
 				if (img != null)
 				{
-					//srcIndex = i;
+					//srcIndex = i;`
 					srcImage = img;
 					srcRect.X = img.x;
 					srcRect.Y = img.y;
@@ -895,67 +895,62 @@ namespace CellGameEdit.PM
         {
             return srcTiles.Count;
         }
-        private void srcRender(Graphics g, int index, int flip, int x, int y, Boolean showimageborder)
+      
+        private void srcRenderAll(Graphics g, System.Drawing.Rectangle screen, Boolean showimageborder)
         {
-            Image img = srcGetImage(index);
-            if (img != null && !img.killed && flip < Graphics.FlipTable.Length)
+            int count = srcGetCount();
+            for (int i = 0; i < count; i++)
             {
-                g.drawImageScale(img, x, y, Graphics.FlipTable[flip], srcScale);
+                Image img = srcGetImage(i);
 
-                if (showimageborder)
+                if (img != null && !img.killed)
                 {
-                    g.setColor(0x80, 0xff, 0xff, 0xff);
-                    g.drawRect(x, y, img.getWidth(), img.getHeight());
-                }
-
-            }
-
-        }
-        private void srcRenderAll(Graphics g, int x, int y, System.Drawing.Rectangle screen, Boolean showimageborder)
-        {
-            for (int i = 0; i < srcGetCount(); i++)
-            {
-                if (srcGetImage(i) != null &&
-                    screen.IntersectsWith(new System.Drawing.Rectangle(
-                        x + srcGetImage(i).x * srcScale,
-                        y + srcGetImage(i).y * srcScale,
-                        srcGetImage(i).getWidth() * srcScale,
-                        srcGetImage(i).getHeight() * srcScale)
+                    if (img != null &&
+                        screen.IntersectsWith(new System.Drawing.Rectangle(
+                        img.x,
+                        img.y,
+                        img.getWidth(),
+                        img.getHeight())
                     ))
-                {
-                    srcRender(g, i, 0, x + srcGetImage(i).x * srcScale, y + srcGetImage(i).y * srcScale, showimageborder);
+                    {
+                        g.drawImage(img, img.x, img.y);
+                        if (showimageborder)
+                        {
+                            g.setColor(0x80, 0xff, 0xff, 0xff);
+                            g.drawRect(img.x, img.y, img.getWidth(), img.getHeight());
+                        }
+                    }
                 }
+                
             }
             
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            int eX = (int)(e.X / srcScaleF);
+            int eY = (int)(e.Y / srcScaleF);
             if (e.Button == MouseButtons.Left)
             {
                 System.Drawing.Rectangle dst = new System.Drawing.Rectangle(0, 0, 1, 1);
                 for (int i = 0; i < srcGetCount(); i++)
                 {
-                    if (srcGetImage(i) != null && srcGetImage(i).killed == false)
+                    Image img = srcGetImage(i);
+                    if (img != null && img.killed == false)
                     {
-                        dst.X = srcGetImage(i).x * srcScale;
-                        dst.Y = srcGetImage(i).y * srcScale;
-                        dst.Width = srcGetImage(i).getWidth() * srcScale;
-                        dst.Height = srcGetImage(i).getHeight() * srcScale;
+                        dst.X = img.x ;
+                        dst.Y = img.y ;
+                        dst.Width = img.getWidth() ;
+                        dst.Height = img.getHeight() ;
 
-                        if (dst.Contains(e.X, e.Y))
+                        if (dst.Contains(eX, eY))
                         {
-
                             srcRect = dst;
-                            //srcIndex = i;
-                            srcImage = srcGetImage(i);
-
+                            srcImage = img;
                             toolStripLabel1.Text =
                                 "第" + i + "号" +
-                                " 宽：" + srcGetImage(i).getWidth() +
-                                " 高：" + srcGetImage(i).getHeight();
-
-                           
+                                " 宽：" + img.getWidth() +
+                                " 高：" + img.getHeight();
                             pictureBox1.Refresh();
                             break;
                         }
@@ -965,55 +960,54 @@ namespace CellGameEdit.PM
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            int mw = 1;
+            int mh = 1;
             for (int i = srcGetCount() - 1; i >= 0; i--)
             {
-                if (srcGetImage(i) != null)
+                Image img = srcGetImage(i);
+                if (img != null && !img.killed)
                 {
-                    pictureBox1.Width = Math.Max(
-                        pictureBox1.Width,
-                        (srcGetImage(i).x + srcGetImage(i).getWidth()) * srcScale
-                        );
-                    pictureBox1.Height = Math.Max(
-                        pictureBox1.Height,
-                        (srcGetImage(i).y + srcGetImage(i).getHeight()) * srcScale
-                        );
+                    mw = Math.Max(mw, (int)((img.x + img.getWidth()) * srcScaleF));
+                    mh = Math.Max(mh, (int)((img.y + img.getHeight()) * srcScaleF));
                     //break;
                 }
             }
-
+            pictureBox1.Width = mw;
+            pictureBox1.Height = mh;
 
             Graphics g = new Graphics(e.Graphics);
-
-
-            srcRenderAll(g, 0, 0,
+            g.pushState();
+            g.scale(srcScaleF, srcScaleF);
+            srcRenderAll(g,
                 new System.Drawing.Rectangle(
                     -pictureBox1.Location.X,
                     -pictureBox1.Location.Y,
-                    (int)(panel1.Width * srcScale),
-                    (int)(panel1.Height * srcScale)
+                    (int)(panel1.Width  / srcScaleF),
+                    (int)(panel1.Height / srcScaleF)
                 ),
                 chkShowImageBorder.Checked
             );
-
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
             System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
-
             e.Graphics.FillRectangle(brush, srcRect);
-            e.Graphics.DrawRectangle(pen, srcRect.X, srcRect.Y, srcRect.Width - 1, srcRect.Height );
+            e.Graphics.DrawRectangle(pen, srcRect.X, srcRect.Y, srcRect.Width - 1, srcRect.Height);
+            g.popState();
         }
 
         // +
         private void toolStripButton31_Click(object sender, EventArgs e)
         {
-            srcScale += 1;
-            if (srcScale > 8) srcScale = 8;
+            if (srcScaleF < 32) {
+                srcScaleF *= 2;
+            }
             pictureBox1.Refresh();
         }
         // -
         private void toolStripButton32_Click(object sender, EventArgs e)
         {
-            srcScale -= 1;
-            if (srcScale < 1) srcScale = 1;
+            if (srcScaleF > (1.0 / 32.0)) {
+                srcScaleF /= 2;
+            }
             pictureBox1.Refresh();
         }
 
