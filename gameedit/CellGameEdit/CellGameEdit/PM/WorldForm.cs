@@ -17,6 +17,7 @@ using System.Runtime.Remoting;
 using Cell;
 using CellGameEdit.PM.plugin;
 using CellGameEdit.PM.util.command;
+using System.Runtime.Serialization.Formatters.Soap;
 
 namespace CellGameEdit.PM
 {
@@ -2743,11 +2744,8 @@ namespace CellGameEdit.PM
                 {
                     try
                     {
-                        Event evt = new Event(ef, et,
-                            x,
-                            y, createEventID());
-                        listView4.Items.Add(evt.listItem);
-                        EventList.Add(evt.listItem, evt);
+                        Event evt = new Event(ef, et, x, y, createEventID());
+                        addEvent(evt);
                     }
                     catch (Exception err)
                     {
@@ -2756,6 +2754,12 @@ namespace CellGameEdit.PM
                     pictureBox1.Refresh();
                 }
             }
+        }
+
+        private void addEvent(Event evt)
+        {
+            listView4.Items.Add(evt.listItem);
+            EventList.Add(evt.listItem, evt);
         }
 #endregion
 
@@ -3567,11 +3571,78 @@ namespace CellGameEdit.PM
             pictureBox1.Refresh();
         }
 
-   
 
-      
 
-     
+        private void toolStripButton7_Click_1(object sender, EventArgs e)
+        {
+            string path = Application.StartupPath + "\\clipevents\\copy.temp";
+            try
+            {
+                if (!System.IO.Directory.Exists(Application.StartupPath + "\\clipevents"))
+                {
+                    System.IO.Directory.CreateDirectory(Application.StartupPath + "\\clipevents");
+                }
+                copyAllEvents(path);
+            }
+            catch (System.Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+        private void toolStripButton8_Click_1(object sender, EventArgs e)
+        {
+            string path = Application.StartupPath + "\\clipevents\\copy.temp";
+            try
+            {
+                pasteAllEvents(path);
+            }
+            catch (System.Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+
+        public void copyAllEvents(string path)
+        {
+            SoapFormatter formatter = new SoapFormatter();
+            FileStream fs = System.IO.File.Create(path);
+            try
+            {
+                ArrayList Events = new ArrayList();
+                for (int i = 0; i < listView4.Items.Count; i++)
+                {
+                    Event evt = (Event)EventList[listView4.Items[i]];
+                    Events.Add(evt);
+                }
+                formatter.Serialize(fs, Events);
+            }
+            finally
+            {
+                fs.Close();
+            }
+        }
+
+        public void pasteAllEvents(string path)
+        {
+            SoapFormatter formatter = new SoapFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            try
+            {
+                ArrayList Events = (ArrayList)formatter.Deserialize(stream);
+                for (int i = 0; i < Events.Count; i++)
+                {
+                    Event evt = ((Event)Events[i]);
+                    addEvent(evt);
+                    evt.loadOver();
+                }
+            }
+            finally
+            {
+                stream.Close();
+            }
+        }
 
 
 

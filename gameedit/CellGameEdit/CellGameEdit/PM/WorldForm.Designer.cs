@@ -73,12 +73,14 @@
             this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
+            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.btnDeleteEventAll = new System.Windows.Forms.ToolStripButton();
             this.toolStrip6 = new System.Windows.Forms.ToolStrip();
             this.toolAddEvent = new System.Windows.Forms.ToolStripButton();
             this.btnUpdateEvents = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-            this.btnDeleteEventAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.tabPageProp = new System.Windows.Forms.TabPage();
             this.chkLockSize = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -93,6 +95,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripLableMousePos = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -159,7 +162,6 @@
             this.事件数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.事件属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripLableMousePos = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -171,8 +173,8 @@
             this.tabPageRegion.SuspendLayout();
             this.toolStrip4.SuspendLayout();
             this.tabPageEvent.SuspendLayout();
-            this.toolStrip6.SuspendLayout();
             this.toolStrip5.SuspendLayout();
+            this.toolStrip6.SuspendLayout();
             this.tabPageProp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -565,8 +567,8 @@
             // tabPageEvent
             // 
             this.tabPageEvent.Controls.Add(this.listView4);
-            this.tabPageEvent.Controls.Add(this.toolStrip6);
             this.tabPageEvent.Controls.Add(this.toolStrip5);
+            this.tabPageEvent.Controls.Add(this.toolStrip6);
             this.tabPageEvent.Location = new System.Drawing.Point(4, 21);
             this.tabPageEvent.Name = "tabPageEvent";
             this.tabPageEvent.Size = new System.Drawing.Size(233, 516);
@@ -614,12 +616,35 @@
             this.columnHeader18.Text = "Data";
             this.columnHeader18.Width = 67;
             // 
+            // toolStrip5
+            // 
+            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnDeleteEventAll});
+            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip5.Name = "toolStrip5";
+            this.toolStrip5.Size = new System.Drawing.Size(233, 25);
+            this.toolStrip5.TabIndex = 1;
+            this.toolStrip5.Text = "toolStrip5";
+            this.toolStrip5.Visible = false;
+            // 
+            // btnDeleteEventAll
+            // 
+            this.btnDeleteEventAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDeleteEventAll.Image = global::CellGameEdit.Resource1.Image55;
+            this.btnDeleteEventAll.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnDeleteEventAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDeleteEventAll.Name = "btnDeleteEventAll";
+            this.btnDeleteEventAll.Size = new System.Drawing.Size(23, 22);
+            this.btnDeleteEventAll.Text = "toolStripButton1";
+            // 
             // toolStrip6
             // 
             this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolAddEvent,
             this.btnUpdateEvents,
-            this.toolStripLabel1});
+            this.toolStripLabel1,
+            this.toolStripButton7,
+            this.toolStripButton8});
             this.toolStrip6.Location = new System.Drawing.Point(0, 0);
             this.toolStrip6.Name = "toolStrip6";
             this.toolStrip6.Size = new System.Drawing.Size(233, 25);
@@ -654,26 +679,27 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(77, 22);
             this.toolStripLabel1.Text = "按Ctrl键添加";
             // 
-            // toolStrip5
+            // toolStripButton7
             // 
-            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnDeleteEventAll});
-            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(233, 25);
-            this.toolStrip5.TabIndex = 1;
-            this.toolStrip5.Text = "toolStrip5";
-            this.toolStrip5.Visible = false;
+            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton7.Image = global::CellGameEdit.Resource1.Image45;
+            this.toolStripButton7.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton7.Text = "复制所有";
+            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click_1);
             // 
-            // btnDeleteEventAll
+            // toolStripButton8
             // 
-            this.btnDeleteEventAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeleteEventAll.Image = global::CellGameEdit.Resource1.Image55;
-            this.btnDeleteEventAll.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnDeleteEventAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDeleteEventAll.Name = "btnDeleteEventAll";
-            this.btnDeleteEventAll.Size = new System.Drawing.Size(23, 22);
-            this.btnDeleteEventAll.Text = "toolStripButton1";
+            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton8.Image = global::CellGameEdit.Resource1.Image56;
+            this.toolStripButton8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton8.Text = "粘贴所有";
+            this.toolStripButton8.Click += new System.EventHandler(this.toolStripButton8_Click_1);
             // 
             // tabPageProp
             // 
@@ -882,6 +908,12 @@
             this.statusStrip1.Size = new System.Drawing.Size(763, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripLableMousePos
+            // 
+            this.toolStripLableMousePos.Name = "toolStripLableMousePos";
+            this.toolStripLableMousePos.Size = new System.Drawing.Size(47, 17);
+            this.toolStripLableMousePos.Text = "mouse[]";
             // 
             // toolStripStatusLabel1
             // 
@@ -1523,12 +1555,6 @@
             this.删除ToolStripMenuItem1.Text = "删除";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.menuItemDeleteEvent_Click);
             // 
-            // toolStripLableMousePos
-            // 
-            this.toolStripLableMousePos.Name = "toolStripLableMousePos";
-            this.toolStripLableMousePos.Size = new System.Drawing.Size(47, 17);
-            this.toolStripLableMousePos.Text = "mouse[]";
-            // 
             // WorldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1566,10 +1592,10 @@
             this.toolStrip4.PerformLayout();
             this.tabPageEvent.ResumeLayout(false);
             this.tabPageEvent.PerformLayout();
-            this.toolStrip6.ResumeLayout(false);
-            this.toolStrip6.PerformLayout();
             this.toolStrip5.ResumeLayout(false);
             this.toolStrip5.PerformLayout();
+            this.toolStrip6.ResumeLayout(false);
+            this.toolStrip6.PerformLayout();
             this.tabPageProp.ResumeLayout(false);
             this.tabPageProp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
@@ -1723,5 +1749,7 @@
         private System.Windows.Forms.ToolStripButton toolStripHideUnits;
         private System.Windows.Forms.ToolStripButton toolStripShowUnits;
         private System.Windows.Forms.ToolStripStatusLabel toolStripLableMousePos;
+        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton toolStripButton8;
     }
 }

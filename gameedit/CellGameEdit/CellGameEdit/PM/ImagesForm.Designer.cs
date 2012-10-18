@@ -66,6 +66,7 @@
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.全选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,7 +114,10 @@
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.重铸所有图块ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -145,8 +149,8 @@
             // 
             this.splitContainer3.Panel2.AutoScroll = true;
             this.splitContainer3.Panel2.Controls.Add(this.panel2);
-            this.splitContainer3.Size = new System.Drawing.Size(992, 562);
-            this.splitContainer3.SplitterDistance = 435;
+            this.splitContainer3.Size = new System.Drawing.Size(1016, 562);
+            this.splitContainer3.SplitterDistance = 445;
             this.splitContainer3.TabIndex = 0;
             // 
             // panel1
@@ -158,7 +162,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(435, 562);
+            this.panel1.Size = new System.Drawing.Size(445, 562);
             this.panel1.TabIndex = 1;
             // 
             // panel4
@@ -169,7 +173,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 25);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(435, 515);
+            this.panel4.Size = new System.Drawing.Size(445, 515);
             this.panel4.TabIndex = 2;
             // 
             // pictureBox1
@@ -212,7 +216,7 @@
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(435, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(445, 25);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
@@ -424,7 +428,7 @@
             this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 540);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(435, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(445, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.statusStrip1_KeyDown);
@@ -449,7 +453,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(553, 562);
+            this.panel2.Size = new System.Drawing.Size(567, 562);
             this.panel2.TabIndex = 1;
             // 
             // panelDstImage
@@ -461,7 +465,7 @@
             this.panelDstImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDstImage.Location = new System.Drawing.Point(0, 25);
             this.panelDstImage.Name = "panelDstImage";
-            this.panelDstImage.Size = new System.Drawing.Size(553, 515);
+            this.panelDstImage.Size = new System.Drawing.Size(567, 515);
             this.panelDstImage.TabIndex = 2;
             // 
             // pictureBox2
@@ -486,7 +490,7 @@
             this.toolStripStatusLabel5});
             this.statusStrip2.Location = new System.Drawing.Point(0, 540);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(553, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(567, 22);
             this.statusStrip2.TabIndex = 3;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -501,6 +505,12 @@
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(83, 17);
             this.toolStripStatusLabel4.Text = "(Alt随意拖动)";
+            // 
+            // toolStripStatusLabel5
+            // 
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(131, 17);
+            this.toolStripStatusLabel5.Text = "toolStripStatusLabel5";
             // 
             // toolStrip2
             // 
@@ -531,7 +541,7 @@
             this.comboImageConvert});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(553, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(567, 25);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -540,6 +550,7 @@
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.全选ToolStripMenuItem,
+            this.导入ToolStripMenuItem,
             this.清理透明色ToolStripMenuItem,
             this.toolStripMenuItem1,
             this.从左边替换ToolStripMenuItem,
@@ -550,7 +561,8 @@
             this.btnOutputDstToolStripMenuItem,
             this.checkTileUsed,
             this.toolStripMenuItem3,
-            this.附加数据ToolStripMenuItem});
+            this.附加数据ToolStripMenuItem,
+            this.重铸所有图块ToolStripMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -961,17 +973,41 @@
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
             // 
-            // toolStripStatusLabel5
+            // 重铸所有图块ToolStripMenuItem
             // 
-            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(131, 17);
-            this.toolStripStatusLabel5.Text = "toolStripStatusLabel5";
+            this.重铸所有图块ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tilesToolStripMenuItem,
+            this.pngToolStripMenuItem});
+            this.重铸所有图块ToolStripMenuItem.Name = "重铸所有图块ToolStripMenuItem";
+            this.重铸所有图块ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.重铸所有图块ToolStripMenuItem.Text = "重铸所有图块";
+            // 
+            // tilesToolStripMenuItem
+            // 
+            this.tilesToolStripMenuItem.Name = "tilesToolStripMenuItem";
+            this.tilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tilesToolStripMenuItem.Text = "*.tiles";
+            this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
+            // 
+            // pngToolStripMenuItem
+            // 
+            this.pngToolStripMenuItem.Name = "pngToolStripMenuItem";
+            this.pngToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pngToolStripMenuItem.Text = "*.png";
+            this.pngToolStripMenuItem.Click += new System.EventHandler(this.pngToolStripMenuItem_Click);
+            // 
+            // 导入ToolStripMenuItem
+            // 
+            this.导入ToolStripMenuItem.Name = "导入ToolStripMenuItem";
+            this.导入ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.导入ToolStripMenuItem.Text = "导入";
+            this.导入ToolStripMenuItem.Click += new System.EventHandler(this.导入ToolStripMenuItem_Click);
             // 
             // ImagesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(992, 562);
+            this.ClientSize = new System.Drawing.Size(1016, 562);
             this.Controls.Add(this.splitContainer3);
             this.Location = new System.Drawing.Point(180, 3);
             this.Name = "ImagesForm";
@@ -1091,5 +1127,9 @@
         private System.Windows.Forms.ToolStripButton toolStripButton15;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
+        private System.Windows.Forms.ToolStripMenuItem 重铸所有图块ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pngToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 导入ToolStripMenuItem;
     }
 }

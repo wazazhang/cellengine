@@ -12,6 +12,8 @@ using System.Security.Permissions;
 using javax.microedition.lcdui;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using CellGameEdit.Tools;
+using Cell.IO;
 
 namespace CellGameEdit.PM
 {
@@ -244,11 +246,14 @@ namespace CellGameEdit.PM
                         {
                             ms = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(ProjectForm.workSpace + name));
                         }
-                        else
+                        else if (len > 0)
                         {
+                            /*
                             byte[] data = new byte[len];
                             images_fs.Read(data, 0, len);
                             ms = new System.IO.MemoryStream(data);
+                            */
+                            ms = ImageIO.decodePNGStream(images_fs);
                         }
                         System.Drawing.Image dimg = System.Drawing.Image.FromStream(ms);
                         ms.Close();
@@ -269,7 +274,7 @@ namespace CellGameEdit.PM
                     catch (Exception err)
                     {
                         dstImages.Add(null);
-                        Console.WriteLine(this.id + " : Tile[" + i + "] : " + err.StackTrace + "  at  " + err.Message);
+                        Console.WriteLine(this.id + " : Tile[" + i + "] : at  " + err.Message);
                     }
 
 
@@ -360,13 +365,13 @@ namespace CellGameEdit.PM
 
                             if (img != null)
                             {
-                                System.IO.MemoryStream ms = new System.IO.MemoryStream();
-
                                 System.Drawing.Image dimage = img.getDImage();
+                                System.IO.MemoryStream ms = new System.IO.MemoryStream();
                                 dimage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-
+                                ms.Position = 0;
                                 byte[] data = ms.ToArray();
                                 ms.Close();
+
                                 fs.Write(data, 0, data.Length);
                                 fs.Flush();
 
@@ -381,7 +386,7 @@ namespace CellGameEdit.PM
                         {
                             outStreamLen.Add(-1);
 
-                            Console.WriteLine(this.id + " : " + i + " : " + err.StackTrace + "  at  " + err.Message);
+                            MessageBox.Show(this.id + " : " + i + " : " + err.StackTrace + "  at  " + err.Message);
                         }
                     }
 
@@ -466,8 +471,9 @@ namespace CellGameEdit.PM
 
        
 
-        private void outputAllImages(String dir,String type,Boolean tile,Boolean group)
+        private string outputAllImages(String dir,String type,Boolean tile,Boolean group)
         {
+            string ret = "";
             try
             {
                 image_convert_script = null;
@@ -476,19 +482,21 @@ namespace CellGameEdit.PM
                 {
                     image_convert_script = System.IO.File.ReadAllLines(
                          Application.StartupPath + "\\converter\\" + image_convert_script_file);
+                    ret = image_convert_script_file;
                 }
                 string default_image_convert_script = Form1.getGobalImageConvertScriptFile();
                 if (image_convert_script == null &&
                     default_image_convert_script != null && default_image_convert_script.Length > 0)
                 {
-
                     image_convert_script = System.IO.File.ReadAllLines(
                         Application.StartupPath + "\\converter\\" + default_image_convert_script);
+                    ret = default_image_convert_script;
                 }
             }
             catch (Exception err)
             {
                 image_convert_script = null;
+                ret = "";
                 MessageBox.Show(this.id + " : " + err.Message + "\n" + err.StackTrace);
             }
 
@@ -509,7 +517,8 @@ namespace CellGameEdit.PM
 
                 //info.
 
-                if (format == null) return;
+                if (format == null) 
+                    return ret;
 
                 if (group)
                 {
@@ -517,14 +526,15 @@ namespace CellGameEdit.PM
                 }
                 if (tile)
                 {
-                    saveAllTiles(dir + "\\" + this.id + "\\", format);
+                    saveAllTiles(dir + "\\" + this.id + "\\", type, format);
                 }
             }
             catch (Exception err) { Console.WriteLine(this.id + " : " + err.StackTrace + "  at  " + err.Message); }
 
+            return ret;
         }
 
-        private void saveAllTiles(string tileDir, System.Drawing.Imaging.ImageFormat format)
+        private void saveAllTiles(string tileDir, string type, System.Drawing.Imaging.ImageFormat format)
 		{
 			if (!System.IO.Directory.Exists(tileDir))
 			{
@@ -535,7 +545,7 @@ namespace CellGameEdit.PM
 				if (getDstImage(i) == null || getDstImage(i).killed) continue;
 				try
 				{
-                    string filepath = tileDir + i + "." + format.ToString().ToLower();
+                    string filepath = tileDir + i + "." + type.ToLower();
                     getDstImage(i).getDImage().Save(filepath, format);
 
                     runImageConvertScript(image_convert_script, filepath);
@@ -691,8 +701,16 @@ namespace CellGameEdit.PM
 
 //        }
 
-        public void OutputCustom(int index, String script, System.IO.StringWriter output, String outDir,
-            String imageType, bool imageTile, bool imageTileData, bool imageGroup, bool imageGroupData)
+        public void OutputCustom(
+            int index, 
+            String script, 
+            System.IO.StringWriter output, 
+            String outDir,
+            String imageType, 
+            bool imageTile,
+            bool imageTileData, 
+            bool imageGroup, 
+            bool imageGroupData)
         {
             lock (this)
             {
@@ -797,8 +815,9 @@ namespace CellGameEdit.PM
                         }
                     }
 
+                    string convert_script = outputAllImages(outDir, ofiletype, otile, ogroup);
 
-
+                    System.Drawing.Rectangle bounds = getDstBounds();
 					string[] adata = Util.toStringMultiLine(append_data);
 					string APPEND_DATA = Util.toStringArray1D(ref adata);
                     images = Util.replaceKeywordsScript(images, SC._IMAGES, SC._END_IMAGES,
@@ -808,6 +827,8 @@ namespace CellGameEdit.PM
                             SC.COUNT, 
                             SC.OUTPUT_IMAGE_TYPE,
                             SC.OUTPUT_IMAGE_FILE,
+                            SC.ALL_WIDTH,
+                            SC.ALL_HEIGHT,
 							SC.APPEND_DATA,
                             SC.IMAGE_INFO
                         },
@@ -817,15 +838,17 @@ namespace CellGameEdit.PM
                             this.getDstImageCount().ToString(),
                             custom_output_image_type,
                             custom_output_image_file,
+                            bounds.Width.ToString(),
+                            bounds.Height.ToString(),
 							APPEND_DATA,
-                            image_convert_script_file
+                            convert_script
                         }
                         );
 
                     output.WriteLine(images);
                     //Console.WriteLine(images);
 
-                    outputAllImages(outDir, ofiletype, otile, ogroup);
+                   
 
                 }
                 catch (Exception err) { Console.WriteLine(this.id + " : " + err.StackTrace + "  at  " + err.Message); }
@@ -2788,6 +2811,154 @@ namespace CellGameEdit.PM
            
 
             
+        }
+
+        private void addAllTilesFromTilesFile(string file)
+        {
+
+            System.IO.FileStream images_fs = new System.IO.FileStream(file,
+                System.IO.FileMode.Open,
+                System.IO.FileAccess.Read);
+            try
+            {
+                while (images_fs.Position < images_fs.Length)
+                {
+                    try
+                    {
+                        System.IO.MemoryStream ms = ImageIO.decodePNGStream(images_fs);
+                        System.Drawing.Image dimg = System.Drawing.Image.FromStream(ms);
+                        ms.Close();
+                        if (dimg != null)
+                        {
+                            addDst(new Image(dimg));
+                        }
+                        else 
+                        {
+                            break;
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        break;
+                    }
+                }
+            }
+            finally
+            {
+                images_fs.Close();
+            }
+            pictureBox2.Refresh();
+        }
+
+        private void resetAllTilesFromTilesFile(string file)
+        {
+            System.IO.FileStream images_fs = new System.IO.FileStream(file,
+                System.IO.FileMode.Open,
+                System.IO.FileAccess.Read);
+            try {
+                int count = getDstImageCount();
+                for (int i = 0; i < count; i++)
+                {
+                    try
+                    {
+                        System.IO.MemoryStream ms = ImageIO.decodePNGStream(images_fs);
+                        System.Drawing.Image dimg = System.Drawing.Image.FromStream(ms);
+                        ms.Close();
+                        if (dimg != null) {
+                            changeDstImage(i, new Image(dimg));
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine(this.id + " : Tile[" + i + "] : at  " + err.Message);
+                    }
+                }
+            }
+            finally
+            {
+                images_fs.Close();
+            }
+            pictureBox2.Refresh();
+        }
+
+        private void resetAllTilesFromDir(string dir)
+        {
+            int count = getDstImageCount();
+            for (int i = 0; i < count; i++)
+            {
+                string path = dir + "\\" + i + ".png";
+                try
+                {
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.Drawing.Image dimg = System.Drawing.Image.FromFile(path);
+                        if (dimg != null)
+                        {
+                            changeDstImage(i, new Image(dimg));
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    Console.WriteLine(this.id + " : Tile[" + i + "] : at  " + err.Message);
+                }
+            }
+            
+            pictureBox2.Refresh();
+        }
+
+        private void tilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog();
+                openFileDialog1.Filter = "tiles files (*.tiles)|*.tiles|All files (*.*)|*.*";
+                openFileDialog1.InitialDirectory = ProjectForm.workSpace;
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    resetAllTilesFromTilesFile(openFileDialog1.FileName);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(this.id + " : " + err.StackTrace + "  at  " + err.Message);
+            }
+      
+        }
+
+        private void pngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                fbd.ShowNewFolderButton = false;
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    resetAllTilesFromDir(fbd.SelectedPath);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(this.id + " : " + err.StackTrace + "  at  " + err.Message);
+            }
+        }
+
+        private void 导入ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog();
+                openFileDialog1.Filter = "tiles files (*.tiles)|*.tiles|All files (*.*)|*.*";
+                openFileDialog1.InitialDirectory = ProjectForm.workSpace;
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    addAllTilesFromTilesFile(openFileDialog1.FileName);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(this.id + " : " + err.StackTrace + "  at  " + err.Message);
+            }
         }
 
 

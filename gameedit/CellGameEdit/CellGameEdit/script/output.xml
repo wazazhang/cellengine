@@ -24,6 +24,8 @@
   <IGNORE_NULL_CLIP> true
   -->
 	<images index="<IMAGES_INDEX>" name="<NAME>" size="<COUNT>" 
+		all_width="<ALL_WIDTH>" 
+		all_height="<ALL_HEIGHT>"
 		output_type="<OUTPUT_IMAGE_TYPE>"
 		output_file="<OUTPUT_IMAGE_FILE>">
 		<CLIP>

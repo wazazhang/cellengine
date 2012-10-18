@@ -107,6 +107,8 @@ namespace CellGameEdit.PM
         public static String NAME = "<NAME>";
         public static String IMAGES_INDEX = "<IMAGES_INDEX>";
         public static String COUNT = "<COUNT>";
+        public static String ALL_WIDTH = "<ALL_WIDTH>";
+        public static String ALL_HEIGHT = "<ALL_HEIGHT>";
 
 
 
