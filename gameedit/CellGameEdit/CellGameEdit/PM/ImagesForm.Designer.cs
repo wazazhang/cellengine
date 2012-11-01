@@ -70,6 +70,7 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.全选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.清理透明色ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.从左边替换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +82,9 @@
             this.checkTileUsed = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.附加数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.重铸所有图块ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton14 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
@@ -114,10 +118,6 @@
             this.clipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.重铸所有图块ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.导入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -576,6 +576,13 @@
             this.全选ToolStripMenuItem.Text = "全选";
             this.全选ToolStripMenuItem.Click += new System.EventHandler(this.全选ToolStripMenuItem_Click);
             // 
+            // 导入ToolStripMenuItem
+            // 
+            this.导入ToolStripMenuItem.Name = "导入ToolStripMenuItem";
+            this.导入ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.导入ToolStripMenuItem.Text = "导入";
+            this.导入ToolStripMenuItem.Click += new System.EventHandler(this.导入ToolStripMenuItem_Click);
+            // 
             // 清理透明色ToolStripMenuItem
             // 
             this.清理透明色ToolStripMenuItem.Name = "清理透明色ToolStripMenuItem";
@@ -648,6 +655,29 @@
             this.附加数据ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.附加数据ToolStripMenuItem.Text = "附加数据";
             this.附加数据ToolStripMenuItem.Click += new System.EventHandler(this.附加数据ToolStripMenuItem_Click);
+            // 
+            // 重铸所有图块ToolStripMenuItem
+            // 
+            this.重铸所有图块ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tilesToolStripMenuItem,
+            this.pngToolStripMenuItem});
+            this.重铸所有图块ToolStripMenuItem.Name = "重铸所有图块ToolStripMenuItem";
+            this.重铸所有图块ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.重铸所有图块ToolStripMenuItem.Text = "重铸所有图块";
+            // 
+            // tilesToolStripMenuItem
+            // 
+            this.tilesToolStripMenuItem.Name = "tilesToolStripMenuItem";
+            this.tilesToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.tilesToolStripMenuItem.Text = "*.tiles";
+            this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
+            // 
+            // pngToolStripMenuItem
+            // 
+            this.pngToolStripMenuItem.Name = "pngToolStripMenuItem";
+            this.pngToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.pngToolStripMenuItem.Text = "*.png";
+            this.pngToolStripMenuItem.Click += new System.EventHandler(this.pngToolStripMenuItem_Click);
             // 
             // toolStripButton14
             // 
@@ -972,36 +1002,6 @@
             this.导出图片ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.导出图片ToolStripMenuItem.Text = "导出图片";
             this.导出图片ToolStripMenuItem.Click += new System.EventHandler(this.导出图片ToolStripMenuItem_Click);
-            // 
-            // 重铸所有图块ToolStripMenuItem
-            // 
-            this.重铸所有图块ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tilesToolStripMenuItem,
-            this.pngToolStripMenuItem});
-            this.重铸所有图块ToolStripMenuItem.Name = "重铸所有图块ToolStripMenuItem";
-            this.重铸所有图块ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.重铸所有图块ToolStripMenuItem.Text = "重铸所有图块";
-            // 
-            // tilesToolStripMenuItem
-            // 
-            this.tilesToolStripMenuItem.Name = "tilesToolStripMenuItem";
-            this.tilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.tilesToolStripMenuItem.Text = "*.tiles";
-            this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
-            // 
-            // pngToolStripMenuItem
-            // 
-            this.pngToolStripMenuItem.Name = "pngToolStripMenuItem";
-            this.pngToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pngToolStripMenuItem.Text = "*.png";
-            this.pngToolStripMenuItem.Click += new System.EventHandler(this.pngToolStripMenuItem_Click);
-            // 
-            // 导入ToolStripMenuItem
-            // 
-            this.导入ToolStripMenuItem.Name = "导入ToolStripMenuItem";
-            this.导入ToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.导入ToolStripMenuItem.Text = "导入";
-            this.导入ToolStripMenuItem.Click += new System.EventHandler(this.导入ToolStripMenuItem_Click);
             // 
             // ImagesForm
             // 

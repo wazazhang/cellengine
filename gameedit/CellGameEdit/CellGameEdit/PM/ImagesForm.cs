@@ -2771,7 +2771,7 @@ namespace CellGameEdit.PM
                 for (int t = getDstImageCount() - 1; t >= 0; --t)
                 {
                     Image tile = getDstImage(t);
-                    if (!tile.killed)
+                    if (tile != null && !tile.killed)
                     {
                         tile.used = false;
                     }
@@ -2787,7 +2787,7 @@ namespace CellGameEdit.PM
                         for (int t = getDstImageCount() - 1; t >= 0; --t)
                         {
                             Image tile = getDstImage(t);
-                            if (!tile.killed && !tile.used && sf.checkTileUsed(t))
+                            if (tile != null && !tile.killed && !tile.used && sf.checkTileUsed(t))
                             {
                                 tile.used = true;
                             }
@@ -2799,7 +2799,7 @@ namespace CellGameEdit.PM
                         for (int t = getDstImageCount() - 1; t >= 0; --t)
                         {
                             Image tile = getDstImage(t);
-                            if (!tile.killed && !tile.used && mf.checkTileUsed(t))
+                            if (tile != null && !tile.killed && !tile.used && mf.checkTileUsed(t))
                             {
                                 tile.used = true;
                             }
