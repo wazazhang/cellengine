@@ -37,6 +37,7 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton31 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton32 = new System.Windows.Forms.ToolStripButton();
+            this.btnShowSrcTileID = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton3 = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnAppendData = new System.Windows.Forms.ToolStripMenuItem();
@@ -212,6 +213,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.btnShowFrameID = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -319,6 +321,7 @@
             this.toolStripLabel1,
             this.toolStripButton31,
             this.toolStripButton32,
+            this.btnShowSrcTileID,
             this.toolStripSeparator11,
             this.toolStripDropDownButton3});
             this.toolStrip3.Location = new System.Drawing.Point(0, 0);
@@ -354,6 +357,18 @@
             this.toolStripButton32.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton32.Text = "缩小";
             this.toolStripButton32.Click += new System.EventHandler(this.toolStripButton32_Click);
+            // 
+            // btnShowSrcTileID
+            // 
+            this.btnShowSrcTileID.CheckOnClick = true;
+            this.btnShowSrcTileID.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnShowSrcTileID.Image = global::CellGameEdit.Resource1.ImageShowTile;
+            this.btnShowSrcTileID.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnShowSrcTileID.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowSrcTileID.Name = "btnShowSrcTileID";
+            this.btnShowSrcTileID.Size = new System.Drawing.Size(23, 22);
+            this.btnShowSrcTileID.Text = "TileID";
+            this.btnShowSrcTileID.Click += new System.EventHandler(this.btnShowSrcTileID_Click);
             // 
             // toolStripSeparator11
             // 
@@ -809,7 +824,8 @@
             this.toolStripButton24,
             this.toolStripButton25,
             this.toolStripSeparator9,
-            this.frameDropDown});
+            this.frameDropDown,
+            this.btnShowFrameID});
             this.toolStrip4.Location = new System.Drawing.Point(0, 0);
             this.toolStrip4.Name = "toolStrip4";
             this.toolStrip4.Size = new System.Drawing.Size(530, 25);
@@ -2335,6 +2351,18 @@
             this.timer1.Interval = 50;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // btnShowFrameID
+            // 
+            this.btnShowFrameID.CheckOnClick = true;
+            this.btnShowFrameID.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnShowFrameID.Image = global::CellGameEdit.Resource1.ImageShowTile;
+            this.btnShowFrameID.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnShowFrameID.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowFrameID.Name = "btnShowFrameID";
+            this.btnShowFrameID.Size = new System.Drawing.Size(23, 22);
+            this.btnShowFrameID.Text = "show FrameID";
+            this.btnShowFrameID.Click += new System.EventHandler(this.btnShowFrameID_Click);
+            // 
             // SpriteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2569,9 +2597,7 @@
         private ImageFlipToolStripButton imageFlipToolStripButton1;
 		private System.Windows.Forms.ToolStripButton btnAddFrameAndSub;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton3;
-		private System.Windows.Forms.ToolStripMenuItem btnAppendData;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
@@ -2616,5 +2642,9 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem setClipShowToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem showClipToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnShowSrcTileID;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton3;
+        private System.Windows.Forms.ToolStripMenuItem btnAppendData;
+        private System.Windows.Forms.ToolStripButton btnShowFrameID;
     }
 }

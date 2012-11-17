@@ -896,7 +896,10 @@ namespace CellGameEdit.PM
             return srcTiles.Count;
         }
       
-        private void srcRenderAll(Graphics g, System.Drawing.Rectangle screen, Boolean showimageborder)
+        private void srcRenderAll(Graphics g, 
+            System.Drawing.Rectangle screen, 
+            Boolean showimageborder,
+            Boolean showTileID)
         {
             int count = srcGetCount();
             for (int i = 0; i < count; i++)
@@ -918,6 +921,10 @@ namespace CellGameEdit.PM
                         {
                             g.setColor(0x80, 0xff, 0xff, 0xff);
                             g.drawRect(img.x, img.y, img.getWidth(), img.getHeight());
+                        }
+                        if (showTileID)
+                        {
+                            g.drawStringBorder(i.ToString(), img.x, img.y, 0xffffffff, 0xff000000);
                         }
                     }
                 }
@@ -985,7 +992,8 @@ namespace CellGameEdit.PM
                     (int)(panel1.Width  / srcScaleF),
                     (int)(panel1.Height / srcScaleF)
                 ),
-                chkShowImageBorder.Checked
+                chkShowImageBorder.Checked,
+                btnShowSrcTileID.Checked
             );
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
             System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
@@ -2513,6 +2521,10 @@ namespace CellGameEdit.PM
                         frame.render(g, srcTiles, 0, 0, false,
                         chkShowCD.Checked, checkComplexMode.Checked);
                     }
+                    if (btnShowFrameID.Checked)
+                    {
+                        g.drawStringBorder(i.ToString(), 0, 0, 0xffffffff, 0xff000000);
+                    }
                     g.translate(-cx, -cy);
 
                     if (trackBar1.Value == i)
@@ -3138,6 +3150,16 @@ namespace CellGameEdit.PM
 		{
 			ClipShow.save(this);
 		}
+
+        private void btnShowSrcTileID_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
+
+        private void btnShowFrameID_Click(object sender, EventArgs e)
+        {
+            pictureBox3.Refresh();
+        }
 		//////////////////////////////////////////////////////////////////////////////////////////
 
  

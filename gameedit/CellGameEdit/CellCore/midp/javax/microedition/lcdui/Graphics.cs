@@ -295,7 +295,24 @@ public class Graphics
         }
         
     }
-	
+
+    public void drawStringBorder(string str, float x, float y, uint color, uint bcolor)
+    {
+        setColor(bcolor);
+        dg.DrawString(str, font, pen.Brush, x - 1, y - 1);
+        dg.DrawString(str, font, pen.Brush, x    , y - 1);
+        dg.DrawString(str, font, pen.Brush, x + 1, y - 1);
+
+        dg.DrawString(str, font, pen.Brush, x - 1, y);
+        dg.DrawString(str, font, pen.Brush, x + 1, y);
+
+        dg.DrawString(str, font, pen.Brush, x - 1, y + 1);
+        dg.DrawString(str, font, pen.Brush, x    , y + 1);
+        dg.DrawString(str, font, pen.Brush, x + 1, y + 1);
+
+        setColor(color);
+        dg.DrawString(str, font, pen.Brush, x, y);
+    }
 
 	public void drawString(string str, float x, float y, int anchor)
 	{
@@ -359,6 +376,10 @@ public class Graphics
 	public void setColor(int RGB)
 	{
         pen.Color = System.Drawing.Color.FromArgb(RGB);
+    }
+    public void setColor(uint ARGB)
+    {
+        pen.Color = System.Drawing.Color.FromArgb((int)ARGB);
     }
 
 	public void setColor(int red, int green, int blue)
