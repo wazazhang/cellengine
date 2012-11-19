@@ -101,6 +101,7 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.frameDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnCurFrameData = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnShowFrameID = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -213,7 +214,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnShowFrameID = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -1036,6 +1036,18 @@
             this.btnCurFrameData.Size = new System.Drawing.Size(154, 22);
             this.btnCurFrameData.Text = "当前帧附加数据";
             this.btnCurFrameData.Click += new System.EventHandler(this.btnCurFrameData_Click);
+            // 
+            // btnShowFrameID
+            // 
+            this.btnShowFrameID.CheckOnClick = true;
+            this.btnShowFrameID.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnShowFrameID.Image = global::CellGameEdit.Resource1.ImageShowTile;
+            this.btnShowFrameID.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnShowFrameID.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowFrameID.Name = "btnShowFrameID";
+            this.btnShowFrameID.Size = new System.Drawing.Size(23, 22);
+            this.btnShowFrameID.Text = "show FrameID";
+            this.btnShowFrameID.Click += new System.EventHandler(this.btnShowFrameID_Click);
             // 
             // statusStrip1
             // 
@@ -2350,18 +2362,6 @@
             // 
             this.timer1.Interval = 50;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnShowFrameID
-            // 
-            this.btnShowFrameID.CheckOnClick = true;
-            this.btnShowFrameID.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnShowFrameID.Image = global::CellGameEdit.Resource1.ImageShowTile;
-            this.btnShowFrameID.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnShowFrameID.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnShowFrameID.Name = "btnShowFrameID";
-            this.btnShowFrameID.Size = new System.Drawing.Size(23, 22);
-            this.btnShowFrameID.Text = "show FrameID";
-            this.btnShowFrameID.Click += new System.EventHandler(this.btnShowFrameID_Click);
             // 
             // SpriteForm
             // 
