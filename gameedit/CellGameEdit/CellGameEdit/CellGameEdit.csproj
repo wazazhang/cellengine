@@ -161,6 +161,18 @@
     <Compile Include="PM\CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PM\com\NumericUpDownEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PM\com\NumericUpDownEx.Designer.cs">
+      <DependentUpon>NumericUpDownEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PM\com\PictureBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PM\com\PictureBoxEx.Designer.cs">
+      <DependentUpon>PictureBoxEx.cs</DependentUpon>
+    </Compile>
     <Compile Include="PM\com\SingleListView.cs">
       <SubType>Component</SubType>
     </Compile>

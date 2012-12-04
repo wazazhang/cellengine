@@ -44,7 +44,7 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBoxMain = new System.Windows.Forms.PictureBox();
+            this.pictureBoxMain = new CellGameEdit.PM.com.PictureBoxEx(this.components);
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.RulerLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -130,15 +130,15 @@
             this.groupBoxPartComplex = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.numPartAlpha = new System.Windows.Forms.NumericUpDown();
-            this.numPartShearY = new System.Windows.Forms.NumericUpDown();
-            this.numPartRotate = new System.Windows.Forms.NumericUpDown();
+            this.numPartAlpha = new CellGameEdit.PM.com.NumericUpDownEx(this.components);
+            this.numPartShearY = new CellGameEdit.PM.com.NumericUpDownEx(this.components);
+            this.numPartRotate = new CellGameEdit.PM.com.NumericUpDownEx(this.components);
             this.label19 = new System.Windows.Forms.Label();
-            this.numPartScaleX = new System.Windows.Forms.NumericUpDown();
+            this.numPartScaleX = new CellGameEdit.PM.com.NumericUpDownEx(this.components);
             this.label18 = new System.Windows.Forms.Label();
-            this.numPartScaleY = new System.Windows.Forms.NumericUpDown();
+            this.numPartScaleY = new CellGameEdit.PM.com.NumericUpDownEx(this.components);
             this.label17 = new System.Windows.Forms.Label();
-            this.numPartShearX = new System.Windows.Forms.NumericUpDown();
+            this.numPartShearX = new CellGameEdit.PM.com.NumericUpDownEx(this.components);
             this.label16 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -214,6 +214,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolStripHelp = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -496,7 +497,8 @@
             this.toolStripSeparator6,
             this.toolStripButton27,
             this.toolStripButton28,
-            this.toolStripSeparator12});
+            this.toolStripSeparator12,
+            this.toolStripHelp});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(530, 25);
@@ -2363,6 +2365,16 @@
             this.timer1.Interval = 50;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // toolStripHelp
+            // 
+            this.toolStripHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripHelp.Image = global::CellGameEdit.Resource1.Question;
+            this.toolStripHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripHelp.Name = "toolStripHelp";
+            this.toolStripHelp.Size = new System.Drawing.Size(23, 22);
+            this.toolStripHelp.Text = "Help";
+            this.toolStripHelp.Click += new System.EventHandler(this.toolStripHelp_Click);
+            // 
             // SpriteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2485,7 +2497,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.PictureBox pictureBoxMain;
+        private CellGameEdit.PM.com.PictureBoxEx pictureBoxMain;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ListView listView3;
@@ -2611,7 +2623,6 @@
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.CheckBox checkComplexMode;
-		private System.Windows.Forms.NumericUpDown numPartAlpha;
 		private System.Windows.Forms.ColumnHeader columnHeader13;
 		private System.Windows.Forms.ColumnHeader columnHeader14;
 		private System.Windows.Forms.ColumnHeader columnHeader15;
@@ -2619,16 +2630,17 @@
 		private System.Windows.Forms.ColumnHeader columnHeader17;
 		private System.Windows.Forms.ColumnHeader columnHeader18;
 		private System.Windows.Forms.Label label20;
-		private System.Windows.Forms.NumericUpDown numPartShearY;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.NumericUpDown numPartShearX;
-		private System.Windows.Forms.NumericUpDown numPartScaleY;
-		private System.Windows.Forms.NumericUpDown numPartScaleX;
-		private System.Windows.Forms.NumericUpDown numPartRotate;
+        private System.Windows.Forms.Label label15;
+        private CellGameEdit.PM.com.NumericUpDownEx numPartAlpha;
+        private CellGameEdit.PM.com.NumericUpDownEx numPartShearX;
+        private CellGameEdit.PM.com.NumericUpDownEx numPartShearY;
+        private CellGameEdit.PM.com.NumericUpDownEx numPartScaleY;
+        private CellGameEdit.PM.com.NumericUpDownEx numPartScaleX;
+        private CellGameEdit.PM.com.NumericUpDownEx numPartRotate;
 		private System.Windows.Forms.GroupBox groupBoxPartComplex;
 		private System.Windows.Forms.ColumnHeader columnAnimBlend;
 		private System.Windows.Forms.ColumnHeader columnAnimData;
@@ -2646,5 +2658,6 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton3;
         private System.Windows.Forms.ToolStripMenuItem btnAppendData;
         private System.Windows.Forms.ToolStripButton btnShowFrameID;
+        private System.Windows.Forms.ToolStripButton toolStripHelp;
     }
 }

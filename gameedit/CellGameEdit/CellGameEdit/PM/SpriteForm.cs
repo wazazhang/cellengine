@@ -774,7 +774,8 @@ namespace CellGameEdit.PM
             }
             catch (Exception err) { }
             dstRefersh();
-            //timer1.Start();
+
+            textBox1.MouseWheel += new MouseEventHandler(this.textBox1_MouseWheel);
 
         }
         private void SpriteForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1902,80 +1903,6 @@ namespace CellGameEdit.PM
 		System.Drawing.Pen rule_pen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff));
 
 
-        // dst box
-        private void pictureBoxMain_Paint(object sender, PaintEventArgs e)
-		{
-			try
-			{
-				// pictureBox2.SizeMode = PictureBoxSizeMode.
-				
-
-				int tx = pictureBoxMain.Width / 2;
-				int ty = pictureBoxMain.Height / 2;
-
-				if (this.显示十字ToolStripMenuItem.Checked)
-				{
-					// System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
-					e.Graphics.DrawLine(cross_pen, tx, 0, tx, pictureBoxMain.Height);
-					e.Graphics.DrawLine(cross_pen, 0, ty, pictureBoxMain.Width, ty);
-				}
-
-				
-
-				{
-					Graphics g = new Graphics(e.Graphics);
-					g.pushState();
-					Frame frame = framesGetCurFrame();
-					if (frame != null)
-					{
-						g.translate(tx, ty);
-						g.scale(curMasterScale, curMasterScale);
-
-						if (showClipToolStripMenuItem.Checked)
-						{
-							g.pushState();
-							try
-							{
-								ClipShow.render(e.Graphics, 0, 0, getCurrentAnimate(), getCurrentFrame());
-							}
-							catch (Exception err) { }
-							g.popState();
-						}
-
-
-						frame.render(
-						  g,
-						  srcTiles,
-						  0,
-						  0,
-							chkShowImageBorder.Checked,
-							chkShowCD.Checked,
-							checkComplexMode.Checked);
-
-						if (keyCtrl)
-						{
-							g.drawImage(imgScaleP, 
-								edtMouseCurX - imgScaleP.getWidth() / 2,
-								edtMouseCurY - imgScaleP.getHeight() / 2);
-							g.drawImage(imgScaleP,
-								-edtMouseCurX - imgScaleP.getWidth() / 2,
-								-edtMouseCurY - imgScaleP.getHeight() / 2);
-						}
-					}
-					g.popState();
-				}
-				if (this.显示尺子ToolStripMenuItem.Checked)
-				{
-					e.Graphics.DrawLine(rule_pen, rx, 0, rx, pictureBoxMain.Height);
-					e.Graphics.DrawLine(rule_pen, 0, ry, pictureBoxMain.Width, ry);
-				}
-				//e.Graphics.DrawImage(pictureBox2.Image,0,0);
-			}
-			catch (Exception err) {
-				Console.WriteLine(err.StackTrace);
-			}
-
-		}
         private void 显示网格ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dstGridChange();
@@ -2011,6 +1938,83 @@ namespace CellGameEdit.PM
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 
+        // dst box
+        private void pictureBoxMain_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                // pictureBox2.SizeMode = PictureBoxSizeMode.
+
+
+                int tx = pictureBoxMain.Width / 2;
+                int ty = pictureBoxMain.Height / 2;
+
+                if (this.显示十字ToolStripMenuItem.Checked)
+                {
+                    // System.Drawing.Brush brush = new System.Drawing.Pen(System.Drawing.Color.FromArgb(0x80, 0xff, 0xff, 0xff)).Brush;
+                    e.Graphics.DrawLine(cross_pen, tx, 0, tx, pictureBoxMain.Height);
+                    e.Graphics.DrawLine(cross_pen, 0, ty, pictureBoxMain.Width, ty);
+                }
+
+
+
+                {
+                    Graphics g = new Graphics(e.Graphics);
+                    g.pushState();
+                    Frame frame = framesGetCurFrame();
+                    if (frame != null)
+                    {
+                        g.translate(tx, ty);
+                        g.scale(curMasterScale, curMasterScale);
+
+                        if (showClipToolStripMenuItem.Checked)
+                        {
+                            g.pushState();
+                            try
+                            {
+                                ClipShow.render(e.Graphics, 0, 0, getCurrentAnimate(), getCurrentFrame());
+                            }
+                            catch (Exception err) { }
+                            g.popState();
+                        }
+
+
+                        frame.render(
+                          g,
+                          srcTiles,
+                          0,
+                          0,
+                            chkShowImageBorder.Checked,
+                            chkShowCD.Checked,
+                            checkComplexMode.Checked);
+
+                        if (Control.ModifierKeys == Keys.Control ||
+                            Control.ModifierKeys == Keys.Shift ||
+                            Control.ModifierKeys == Keys.Alt)
+                        {
+                            g.drawImage(imgScaleP,
+                                edtMouseCurX - imgScaleP.getWidth() / 2,
+                                edtMouseCurY - imgScaleP.getHeight() / 2);
+                            g.drawImage(imgScaleP,
+                                -edtMouseCurX - imgScaleP.getWidth() / 2,
+                                -edtMouseCurY - imgScaleP.getHeight() / 2);
+                        }
+                    }
+                    g.popState();
+                }
+                if (this.显示尺子ToolStripMenuItem.Checked)
+                {
+                    e.Graphics.DrawLine(rule_pen, rx, 0, rx, pictureBoxMain.Height);
+                    e.Graphics.DrawLine(rule_pen, 0, ry, pictureBoxMain.Width, ry);
+                }
+                //e.Graphics.DrawImage(pictureBox2.Image,0,0);
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err.StackTrace);
+            }
+
+        }
         int rx;
         int ry;
 
@@ -2024,9 +2028,18 @@ namespace CellGameEdit.PM
 		float edtMouseDownRX;
 		float edtMouseDownRY;
 
+        ///////////////////////////////////////////////////////////
 		float edtMouseDownRotate;
+
 		float edtMouseDownScaleX;
-		float edtMouseDownScaleY;
+        float edtMouseDownScaleY;
+
+        float edtMouseDownShearX;
+        float edtMouseDownShearY;
+
+        float edtMouseDownAlpha;
+        ///////////////////////////////////////////////////////////
+
 		System.Drawing.RectangleF edtMouseDownTileRect;
 		
         bool isEdtDown =false;
@@ -2083,6 +2096,9 @@ namespace CellGameEdit.PM
 							edtMouseDownRotate = (float)frame.SubTRotate[i];
 							edtMouseDownScaleX = (float)frame.SubTScaleX[i];
 							edtMouseDownScaleY = (float)frame.SubTScaleY[i];
+                            edtMouseDownAlpha = (float)frame.SubTAlpha[i];
+                            edtMouseDownShearX = (float)frame.SubTShearX[i];
+                            edtMouseDownShearY = (float)frame.SubTShearY[i];
 							item.Selected = true;
 							break;
 						}
@@ -2140,7 +2156,6 @@ namespace CellGameEdit.PM
             isSub = false; 
             refreshCurPartEditBox();
         }
-
         private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
 		{
 			float x = (e.X - pictureBoxMain.Width / 2) / curMasterScale;
@@ -2156,8 +2171,19 @@ namespace CellGameEdit.PM
 					if (isFrameEditPart())
                     {
 						int dstI = dstGetCurSubIndexes()[0];
-
-						if (keyCtrl)
+                        
+                        {
+                        //    float v = y - edtMouseDownY;
+                        //    curFrame.SubTAlpha[dstI] = edtMouseDownAlpha + v / 10;
+                        }
+                        if (Control.ModifierKeys == Keys.Alt)
+                        {
+                            float rx = x - edtMouseDownX;
+                            float ry = y - edtMouseDownY;
+                            curFrame.SubTShearX[dstI] = edtMouseDownShearX + rx / 10;
+                            curFrame.SubTShearY[dstI] = edtMouseDownShearY + ry / 10;
+                        }
+                        else if (Control.ModifierKeys == Keys.Control)
 						{
 							float rx = x - (edtMouseDownTileRect.X + edtMouseDownTileRect.Width / 2);
 							float ry = y - (edtMouseDownTileRect.Y + edtMouseDownTileRect.Height / 2);
@@ -2167,11 +2193,18 @@ namespace CellGameEdit.PM
 								edtMouseDownRotate + Util.toAngle(edtCurRotate - edtSrcDegree)
 								);
 						}
-						else
-						{
-							curFrame.SubX[dstI] = (int)((x - edtMouseDownPX));
-							curFrame.SubY[dstI] = (int)((y - edtMouseDownPY));
-						}
+                        else if (Control.ModifierKeys == Keys.Shift)
+                        {
+							float rx = x - edtMouseDownX;
+                            float ry = y - edtMouseDownY;
+                            curFrame.SubTScaleX[dstI] = edtMouseDownScaleX + rx / 10;
+                            curFrame.SubTScaleY[dstI] = edtMouseDownScaleY + ry / 10;
+                        }
+                        else
+                        {
+                            curFrame.SubX[dstI] = (int)((x - edtMouseDownPX));
+                            curFrame.SubY[dstI] = (int)((y - edtMouseDownPY));
+                        }
                     }
 					if (isFrameEditCD())
 					{
@@ -2210,23 +2243,65 @@ namespace CellGameEdit.PM
 			
         }
 
-		private bool keyCtrl = false;
-
+        private void textBox1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Control ||
+                Control.ModifierKeys == Keys.Shift ||
+                Control.ModifierKeys == Keys.Alt)
+            {
+                try
+                {
+                    Frame curFrame = framesGetCurFrame();
+                    if (isFrameEditPart())
+                    {
+                        int dstI = dstGetCurSubIndexes()[0];
+                        float oldf = (float)curFrame.SubTAlpha[dstI];
+                        if (e.Delta > 0)
+                        {
+                            oldf += 0.1f;
+                            oldf = Math.Min(1, oldf);
+                        }
+                        else if (e.Delta < 0)
+                        {
+                            oldf -= 0.1f;
+                            oldf = Math.Max(0, oldf);
+                        }
+                        curFrame.SubTAlpha[dstI] = oldf;
+                        dstRefersh();
+                        refreshCurPartEditBox();
+                    }
+                }
+                catch (Exception err) { }
+            }
+        }
         //adjust frame
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-			keyCtrl = e.Control;
-
             if (e.Shift)
             {
                 switch (e.KeyCode)
                 {
-                    case Keys.Up: framesMoveAll(0, -1); textBox1.Text += "UP"; break;
-                    case Keys.Down: framesMoveAll(0,  1); textBox1.Text += "DOWN"; break;
-                    case Keys.Left: framesMoveAll(-1, 0); textBox1.Text += "LEFT"; break;
-                    case Keys.Right: framesMoveAll(1, 0); textBox1.Text += "RIGHT"; break;
+                    case Keys.Up: 
+                        framesMoveAll(0, -1); 
+                        textBox1.Text += "UP";
+                        framesRefersh();
+                        break;
+                    case Keys.Down: 
+                        framesMoveAll(0, 1);
+                        textBox1.Text += "DOWN";
+                        framesRefersh(); 
+                        break;
+                    case Keys.Left: 
+                        framesMoveAll(-1, 0);
+                        textBox1.Text += "LEFT";
+                        framesRefersh(); 
+                        break;
+                    case Keys.Right: 
+                        framesMoveAll(1, 0);
+                        textBox1.Text += "RIGHT";
+                        framesRefersh(); 
+                        break;
                 }
-                framesRefersh();
             }
             else
             {
@@ -2282,7 +2357,6 @@ namespace CellGameEdit.PM
 
 		private void textBox1_KeyUp(object sender, KeyEventArgs e)
 		{
-			keyCtrl = false;
 			dstRefersh();
 		}
 
@@ -3159,6 +3233,15 @@ namespace CellGameEdit.PM
         private void btnShowFrameID_Click(object sender, EventArgs e)
         {
             pictureBox3.Refresh();
+        }
+
+        private void toolStripHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "按住Shift移动鼠标\n  - 缩放部件\n\n" +
+                "按住Ctrl移动鼠标\n  - 旋转部件\n\n" +
+                "按住Alt移动鼠标\n  - 切变部件\n\n" +
+                "按住Shift滚动鼠标\n  - 改变部件Alpha度");
         }
 		//////////////////////////////////////////////////////////////////////////////////////////
 
